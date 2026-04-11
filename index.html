@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de Bord</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .menu {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #f0f8ff;
+            border-radius: 15px;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .menu-item {
+            width: 50px;
+            height: 50px;
+            background-color: #4169e1;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+        }
+
+        .menu-item:hover {
+            background-color: #1e90ff;
+        }
+
+        #main {
+            display: block;
+            margin-left: 100px;
+            padding: 20px;
+        }
+
+        .toolbar {
+            display: none;
+            outline: none;
+        }
+
+        .dialog {
+            display: none;
+            z-index: 3;
+            opacity: 1;
+        }
+
+        .nicescroll-rails {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="menu">
+        <a href="page1.html" class="menu-item"><i class="fas fa-folder"></i></a>
+        <a href="https://formationenligne.onlyoffice.com/rooms/shared/filter?page=1&sortBy=DateAndTime&sortOrder=descending" class="menu-item"><i class="fas fa-file-alt"></i></a>
+        <a href="https://ppruvost.github.io/Time-Timer/" class="menu-item"><i class="fas fa-stopwatch"></i></a>
+        <a href="page4.html" class="menu-item"><i class="fas fa-calendar-alt"></i></a>
+        <a href="page5.html" class="menu-item"><i class="fas fa-chart-bar"></i></a>
+        <a href="page6.html" class="menu-item"><i class="fas fa-users"></i></a>
+        <a href="page7.html" class="menu-item"><i class="fas fa-smile"></i></a>
+        <a href="https://ppruvost.github.io/roue/" class="menu-item"><i class="fas fa-dice"></i></a>
+        <a href="https://ppruvost.github.io/noise/" class="menu-item"><i class="fas fa-volume-up"></i></a>
+        <a href="page10.html" class="menu-item"><i class="fas fa-chair"></i></a>
+        <a href="page11.html" class="menu-item"><i class="fas fa-clipboard"></i></a>
+    </div>
+
+    <div id="main">
+        <div id="fullscreenMessage" style="display: block;"></div>
+        <div class="offcanvas offcanvas-end toolbar" tabindex="-1" id="sidebar" aria-labelledby="offcanvasExampleLabel"></div>
+
+        <div id="page-preloader" style="display: none;"></div>
+
+        <div id="embedViewer_modal" tabindex="-1" role="dialog" class="draggableModal ui-draggable" style="width: 500px; height: 550px; display: none; z-index: 3; opacity: 1;"></div>
+        <div id="fileViewer_modal" tabindex="-1" role="dialog" class="draggableModal ui-draggable" style="width: 500px; height: 500px; display: none; z-index: 3; opacity: 1;"></div>
+        <div id="chronometer_modal" tabindex="-1" role="dialog" class="draggableModal ui-draggable" style="width: 400px; height: 230px; z-index: 3; opacity: 1; display: none;"></div>
+        <div id="qrcode_modal" tabindex="-1" role="dialog" class="draggableModal ui-draggable" style="width: 500px; height: 500px; display: none; z-index: 3; opacity: 1;"></div>
+        <div id="qrcodeSettings_modal" tabindex="-1" role="dialog" class="draggableModal ui-draggable" style="width: 500px; height: 350px; display: none; z-index: 3; opacity: 1;"></div>
+        <div id="qrcodeLabellings_modal" tabindex="-1" aria-label="Qrcode Settings" class="grocodeSettingsLabel"></div>
+        <div id="randomDraw_modal" tabindex="-1" role="dialog" class="draggableModal ui-draggable" style="width: 500px; height: 380px; display: none; z-index: 3; opacity: 1;"></div>
+        <div id="randomDice_modal" tabindex="-1" role="dialog" class="draggableModal ui-draggable" style="width: 500px; height: 380px; display: none; z-index: 3; opacity: 1;"></div>
+        <div id="reactions_modal" tabindex="-1" role="dialog" class="draggableModal ui-draggable" style="width: 300px; height: 350px; resize: none; z-index: 3; opacity: 1; display: none;"></div>
+        <div id="trafficLight_modal" tabindex="-1" role="dialog" class="draggableModal ui-draggable" style="width: 240px; height: 315px; z-index: 3; opacity: 1; display: none;"></div>
+        <div id="soundlevel_modal" tabindex="-1" role="dialog" class="draggableModal ui-draggable" style="width: 480px; height: 220px; display: none; z-index: 3; opacity: 1;"></div>
+        <div id="classroom_modal" tabindex="-1" role="dialog" class="draggableModal ui-draggable" style="width: 1070px; height: 670px; z-index: 18; opacity: 1; display: none;"></div>
+        <div id="summerNote_modal" tabindex="-1" role="dialog" class="draggableModal ui-draggable" style="width: 500px; height: 400px; display: none; z-index: 3; opacity: 1;"></div>
+        <div id="drawing_modal" tabindex="-1" role="dialog" class="draggableModal ui-draggable" style="width: 500px; height: 400px; display: none; z-index: 3; opacity: 1;"></div>
+        <div id="equationEditor_modal" tabindex="-1" role="dialog" class="draggableModal ui-draggable" style="width: 500px; height: 400px; display: none; z-index: 3; opacity: 1;"></div>
+        <div id="moleculeEditor_modal" tabindex="-1" role="dialog" class="draggableModal ui-draggable" style="width: 650px; height: 620px; display: none; z-index: 3; opacity: 1;"></div>
+        <div id="geogebra_modal" tabindex="-1" role="dialog" class="draggableModal ui-draggable" style="width: 800px; height: 600px; display: none; z-index: 3; opacity: 1;"></div>
+        <div id="python_modal" tabindex="-1" role="dialog" class="draggableModal ui-draggable" style="width: 800px; height: 600px; display: none; z-index: 3; opacity: 1;"></div>
+        <div id="calculators_modal" tabindex="-1" role="dialog" class="draggableModal ui-draggable" style="width: 400px; height: 800px; display: none; z-index: 3; opacity: 1;"></div>
+        <div id="mindmap_modal" tabindex="-1" role="dialog" class="draggableModal ui-draggable" style="width: 800px; height: 600px; display: none; z-index: 3; opacity: 1;"></div>
+    </div>
+
+    <div class="nicescroll-rails nicescroll-rails-vr" style="padding: 0px; z-index: 1; cursor: default; display: none; height: 812px; top: 47.3438px; left: 6px; position: absolute; opacity: 1; width: 5px;">
+        <div class="nicescroll-rails nicescroll-rails-hr" style="height: 5px; z-index: 1; top: 854.641px; left: 21px; cursor: default; display: none; position: absolute; opacity: 1; width: 95px;"></div>
+    </div>
+</body>
+</html>
