@@ -1,61 +1,86 @@
-        // Variable pour suivre l'état d'affichage
-        let isSingleColumn = true;
+// État affichage
+let isSingleColumn = false;
 
-        // Fonction pour charger du contenu dans une frame
-        function loadInFrame(url, sectionIndex) {
-            event.preventDefault();
-            const container = document.getElementById('content-container');
+// Références (chargées une seule fois = rapide)
+const frame1 = document.getElementById("frame1");
+const frame2 = document.getElementById("frame2");
+const frame3 = document.getElementById("frame3");
 
-            // Si on est en mode 3 colonnes, on conserve les 3 iframes
-            if (!isSingleColumn && container.children.length === 1) {
-                container.innerHTML = `
-                    <div class="content-section">
-                        <iframe class="content-frame" src="about:blank"></iframe>
-                    </div>
-                    <div class="content-section">
-                        <iframe class="content-frame" src="about:blank"></iframe>
-                    </div>
-                    <div class="content-section">
-                        <iframe class="content-frame" src="about:blank"></iframe>
-                    </div>
-                `;
-            }
+const img1 = document.getElementById("img1");
 
-            const frames = document.getElementsByClassName('content-frame');
+/* =========================
+   CHARGEMENT CONTENU
+========================= */
+function loadInFrame(url, sectionIndex = 0) {
 
-            // Si c'est une image, on l'affiche directement dans un élément img
-            if (url.endsWith('.png') || url.endsWith('.jpg') || url.endsWith('.jpeg')) {
-                const parent = frames[sectionIndex].parentElement;
-                parent.innerHTML = '<img src="' + url + '" style="width: 100%; height: 100%; object-fit: contain;">';
-            } else {
-                frames[sectionIndex].src = url;
-            }
+    let frame = [frame1, frame2, frame3][sectionIndex];
+    let img = sectionIndex === 0 ? img1 : null;
+
+    // Reset affichage
+    if (img) img.classList.add("hidden");
+    frame.classList.add("hidden");
+
+    // Image
+    if (url.match(/\.(png|jpg|jpeg|gif)$/i)) {
+        if (img) {
+            img.src = url;
+            img.classList.remove("hidden");
         }
+    } else {
+        frame.src = url;
+        frame.classList.remove("hidden");
+    }
+}
 
-        // Fonction pour basculer entre une et trois colonnes
-        function toggleLayout() {
-            const container = document.getElementById('content-container');
-            isSingleColumn = !isSingleColumn;
+/* =========================
+   RACCOURCI URL (menu)
+========================= */
+function loadURL(url) {
+    loadInFrame(url, 0); // toujours colonne 1
+}
 
-            if (isSingleColumn) {
-                container.innerHTML = `
-                    <div class="content-section">
-                        <iframe class="content-frame" src="about:blank"></iframe>
-                    </div>
-                `;
-                container.classList.add('single-column');
-            } else {
-                container.innerHTML = `
-                    <div class="content-section">
-                        <iframe class="content-frame" src="about:blank"></iframe>
-                    </div>
-                    <div class="content-section">
-                        <iframe class="content-frame" src="about:blank"></iframe>
-                    </div>
-                    <div class="content-section">
-                        <iframe class="content-frame" src="about:blank"></iframe>
-                    </div>
-                `;
-                container.classList.remove('single-column');
-            }
-        }
+/* =========================
+   TOGGLE LAYOUT
+========================= */
+function toggleLayout() {
+    const col2 = frame2.parentElement;
+    const col3 = frame3.parentElement;
+
+    isSingleColumn = !isSingleColumn;
+
+    if (isSingleColumn) {
+        // MODE 1 COLONNE
+        col2.style.display = "none";
+        col3.style.display = "none";
+    } else {
+        // MODE 3 COLONNES
+        col2.style.display = "block";
+        col3.style.display = "block";
+
+        initThreeColumns();
+    }
+}
+
+/* =========================
+   INITIALISATION 3 COLONNES
+========================= */
+function initThreeColumns() {
+
+    // Colonne 1 → QR code
+    loadInFrame("LP MERMOZ - VIRE.png", 0);
+
+    // Colonne 2 → Noise
+    frame2.src = "https://ppruvost.github.io/noise/";
+    frame2.classList.remove("hidden");
+
+    // Colonne 3 → Timer
+    frame3.src = "https://ppruvost.github.io/Time-Timer/";
+    frame3.classList.remove("hidden");
+}
+
+/* =========================
+   INIT AU CHARGEMENT
+========================= */
+window.onload = () => {
+    initThreeColumns();
+};
