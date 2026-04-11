@@ -5,41 +5,275 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tableau de Bord Complet</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
     <style>
-        /* Style spécifique pour l'icône Erlenmeyer */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .menu {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #f0f8ff;
+            border-radius: 15px;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .menu-item {
+            width: 50px;
+            height: 50px;
+            background-color: #4169e1;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+        }
+
+        .menu-item:hover {
+            background-color: #1e90ff;
+        }
+
+        #content-container {
+            margin-left: 100px;
+            height: 100vh;
+            width: calc(100% - 100px);
+        }
+
+        .content-section {
+            height: 100%;
+            width: 100%;
+            border: none;
+            padding: 0;
+        }
+
+        .content-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .single-column #content-container {
+            display: block;
+        }
+
+        .three-columns #content-container {
+            display: flex;
+        }
+
+        .single-column .content-section,
+        .three-columns .content-section {
+            flex: 1;
+            border: 1px solid #ddd;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+
+        .single-column .content-section {
+            height: 100vh;
+            width: 100%;
+        }
+
+        /* Styles pour les icônes personnalisées */
+        .qr-code {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .qr-code::before {
+            content: "";
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background-color: white;
+            border-radius: 2px;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: center;
+            justify-content: center;
+        }
+
+        .qr-code::after {
+            content: "▪▫▪▫▪▫▪▪▫▪▫▪▪▫▪▫▪▪▫▪▫▪";
+            position: absolute;
+            font-size: 3px;
+            line-height: 4px;
+            color: #4169e1;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: center;
+            justify-content: center;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+
+        .python-icon {
+            position: relative;
+            width: 24px;
+            height: 24px;
+        }
+
+        .python-icon::before {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+        }
+
+        .python-icon::after {
+            content: "▶";
+            position: absolute;
+            color: #4169e1;
+            font-size: 10px;
+            font-weight: bold;
+            top: 5px;
+            left: 8px;
+            transform: rotate(90deg);
+        }
+
+        .geogebra-icon {
+            width: 24px;
+            height: 24px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3z"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            display: block;
+        }
+
         .erlenmeyer-icon {
             width: 24px;
             height: 24px;
             color: white;
         }
+
+        img.content-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
     </style>
 </head>
 <body>
     <div class="menu">
-        <a href="#" onclick="loadInFrame('LP MERMOZ - VIRE.png', 0)" class="menu-item qr-code" title="QR Code - Image LP MERMOZ"></a>
-        <a href="#" onclick="loadInFrame('https://ppruvost.github.io/noise/', 1)" class="menu-item" title="Bruitage"><i class="fas fa-volume-up"></i></a>
-        <a href="#" onclick="loadInFrame('https://ppruvost.github.io/Time-Timer/', 2)" class="menu-item" title="Minuteur"><i class="fas fa-stopwatch"></i></a>
-        <a href="#" onclick="loadInFrame('https://ppruvost.github.io/roue/', 3)" class="menu-item" title="Roue aléatoire"><i class="fas fa-dice"></i></a>
-        <a href="#" onclick="loadInFrame('https://console.basthon.fr/', 0)" class="menu-item python-icon" title="Python"></a>
-        <a href="#" onclick="loadInFrame('https://www.geogebra.org/classic?lang=fr', 1)" class="menu-item geogebra-icon" title="Géogebra"></a>
-        <a href="#" onclick="loadInFrame('https://formationenligne.onlyoffice.com/rooms/shared/filter?page=1&sortBy=DateAndTime&sortOrder=descending', 1)" class="menu-item" title="Documents"><i class="fas fa-file-alt"></i></a>
-        <a href="#" onclick="loadInFrame('https://lp-mermoz.notion.site/Maths-Sciences-2ac3d9a0652d8001a27cc98c97fd21cb', 2)" class="menu-item" title="Laboratoire"><i class="fas fa-users"></i></a>
-        <a href="#" onclick="loadInFrame('https://www.notion.so/lp-mermoz/Laboratoire-2cd3d9a0652d80b9a7beef5d1681016b', 0)" class="menu-item" title="QuizEval">
+        <a href="#" onclick="loadContent('LP MERMOZ - VIRE.png')" class="menu-item qr-code" title="QR Code - Image LP MERMOZ"></a>
+        <a href="#" onclick="loadContent('https://ppruvost.github.io/noise/')" class="menu-item" title="Bruitage"><i class="fas fa-volume-up"></i></a>
+        <a href="#" onclick="loadContent('https://ppruvost.github.io/Time-Timer/')" class="menu-item" title="Minuteur"><i class="fas fa-stopwatch"></i></a>
+        <a href="#" onclick="loadContent('https://ppruvost.github.io/roue/')" class="menu-item" title="Roue aléatoire"><i class="fas fa-dice"></i></a>
+        <a href="#" onclick="loadContent('https://console.basthon.fr/')" class="menu-item python-icon" title="Python"></a>
+        <a href="#" onclick="loadContent('https://www.geogebra.org/classic?lang=fr')" class="menu-item geogebra-icon" title="Géogebra"></a>
+        <a href="#" onclick="loadContent('https://formationenligne.onlyoffice.com/rooms/shared/filter?page=1&sortBy=DateAndTime&sortOrder=descending')" class="menu-item" title="Documents"><i class="fas fa-file-alt"></i></a>
+        <a href="#" onclick="loadContent('https://lp-mermoz.notion.site/Maths-Sciences-2ac3d9a0652d8001a27cc98c97fd21cb')" class="menu-item" title="QuizEval">
             <svg class="erlenmeyer-icon" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2c-1.6 0-3 .4-3 1.1l-.8 13.4c0 .5.2 1 1 1.2 1.2.6 2.5.6 3.7 0 .3-.2.5-.7.5-1.2L15 3.1c0-.7-.4-1.1-1-1.1h-2zm-4 3.1c-.3 0-.5.2-.5.5l.8 13.4c0 .3.1.5.4.6.3.1.6.1.9 0l.1-.1c.3-.1.5-.3.6-.6l.8-13.4c0-.3-.2-.5-.5-.5H8zm7 0c-.3 0-.5.2-.5.5l-.8 13.4c0 .3-.1.5-.4.6-.3.1-.6.1-.9 0l-.1-.1c-.3-.1-.5-.3-.6-.6l-.8-13.4c0-.3.2-.5.5-.5h2z"/>
                 <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 2v14H7V4h10z"/>
             </svg>
-        </a>        
+        </a>
+        <a href="#" onclick="loadContent('https://www.notion.so/lp-mermoz/Laboratoire-2cd3d9a0652d80b9a7beef5d1681016b')" class="menu-item" title="Laboratoire"><i class="fas fa-users"></i></a>
+        <a href="#" onclick="loadContent('page10.html')" class="menu-item" title="Sièges"><i class="fas fa-chair"></i></a>
         <a href="#" onclick="toggleLayout()" class="menu-item" title="Paramètres d'affichage"><i class="fas fa-cog"></i></a>
     </div>
 
-    <div id="content-container">
+    <div id="content-container" class="single-column">
         <div class="content-section">
-            <iframe class="content-frame" src="about:blank"></iframe>
+            <iframe class="content-frame" style="display: none;"></iframe>
+            <img class="content-image" style="display: none;">
         </div>
     </div>
 
-    <script src="code.js"></script>
+    <script>
+        let isSingleColumn = true;
+        let currentContent = null;
+
+        function loadContent(url) {
+            const container = document.getElementById('content-container');
+            const frame = container.querySelector('.content-frame');
+            const img = container.querySelector('.content-image');
+
+            // Cache tout le contenu
+            frame.style.display = 'none';
+            img.style.display = 'none';
+
+            // Affiche le bon contenu en fonction du type
+            if (url.endsWith('.png') || url.endsWith('.jpg') || url.endsWith('.jpeg')) {
+                img.src = url;
+                img.style.display = 'block';
+                currentContent = 'image';
+            } else {
+                frame.src = url;
+                frame.style.display = 'block';
+                currentContent = 'frame';
+            }
+        }
+
+        function toggleLayout() {
+            const container = document.getElementById('content-container');
+            isSingleColumn = !isSingleColumn;
+
+            if (isSingleColumn) {
+                container.className = 'single-column';
+                container.innerHTML = `
+                    <div class="content-section">
+                        ${currentContent === 'image' ?
+                            `<img class="content-image" src="${document.querySelector('.content-image').src}" style="width: 100%; height: 100%; object-fit: contain;">` :
+                            `<iframe class="content-frame" src="${document.querySelector('.content-frame').src}" style="width: 100%; height: 100%; border: none;"></iframe>`}
+                    </div>
+                `;
+            } else {
+                container.className = 'three-columns';
+                container.innerHTML = `
+                    <div class="content-section">
+                        ${currentContent === 'image' ?
+                            `<img class="content-image" src="${document.querySelector('.content-image')?.src || ''}" style="width: 100%; height: 100%; object-fit: contain; display: ${currentContent === 'image' ? 'block' : 'none'};">` :
+                            `<iframe class="content-frame" src="${document.querySelector('.content-frame')?.src || ''}" style="width: 100%; height: 100%; border: none; display: ${currentContent === 'frame' ? 'block' : 'none'};"></iframe>`}
+                    </div>
+                    <div class="content-section">
+                        <iframe class="content-frame" src="about:blank" style="width: 100%; height: 100%; border: none;"></iframe>
+                    </div>
+                    <div class="content-section">
+                        <iframe class="content-frame" src="about:blank" style="width: 100%; height: 100%; border: none;"></iframe>
+                    </div>
+                `;
+
+                // Réapplique le contenu actuel dans la première colonne
+                if (currentContent === 'image') {
+                    container.querySelector('.content-image').style.display = 'block';
+                } else {
+                    container.querySelector('.content-frame').style.display = 'block';
+                }
+            }
+
+            // Réattache les événements après reconstruction du DOM
+            attachEvents();
+        }
+
+        function attachEvents() {
+            // Les événements sont déjà attachés via les attributs onclick dans le HTML
+            // Cette fonction peut être utilisée pour des événements supplémentaires si nécessaire
+        }
+
+        // Charger un contenu par défaut au démarrage
+        window.addEventListener('load', function() {
+            loadContent('LP MERMOZ - VIRE.png');
+        });
+    </script>
 </body>
 </html>
