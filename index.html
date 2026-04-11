@@ -78,12 +78,53 @@ iframe, img {
 
 <body>
 
-<!-- MENU -->
 <div class="menu">
-    <div class="menu-item" onclick="loadContent('qr')"><i class="fas fa-qrcode"></i></div>
-    <div class="menu-item" onclick="loadContent('noise')"><i class="fas fa-volume-up"></i></div>
-    <div class="menu-item" onclick="loadContent('timer')"><i class="fas fa-stopwatch"></i></div>
-    <div class="menu-item" onclick="toggleLayout()"><i class="fas fa-cog"></i></div>
+
+    <!-- QR -->
+    <div class="menu-item" onclick="loadContent('qr')" title="QR Code">
+        <i class="fas fa-qrcode"></i>
+    </div>
+
+    <!-- Noise -->
+    <div class="menu-item" onclick="loadContent('noise')" title="Bruitage">
+        <i class="fas fa-volume-up"></i>
+    </div>
+
+    <!-- Timer -->
+    <div class="menu-item" onclick="loadContent('timer')" title="Minuteur">
+        <i class="fas fa-stopwatch"></i>
+    </div>
+
+    <!-- Aléatoire -->
+    <div class="menu-item" onclick="loadURL('https://ppruvost.github.io/roue/')" title="Aléatoire">
+        <i class="fas fa-dice"></i>
+    </div>
+
+    <!-- Mes cours -->
+    <div class="menu-item" onclick="loadURL('https://formationenligne.onlyoffice.com/rooms/shared/filter?page=1&sortBy=DateAndTime&sortOrder=descending')" title="Mes cours">
+        <i class="fas fa-folder-open"></i>
+    </div>
+
+    <!-- Python -->
+    <div class="menu-item" onclick="loadURL('https://console.basthon.fr/')" title="Python">
+        <i class="fas fa-code"></i>
+    </div>
+
+    <!-- QuizEval -->
+    <div class="menu-item" onclick="loadURL('https://lp-mermoz.notion.site/Maths-Sciences-2ac3d9a0652d8001a27cc98c97fd21cb')" title="QuizEval">
+        <i class="fas fa-flask"></i>
+    </div>
+
+    <!-- Labo -->
+    <div class="menu-item" onclick="loadURL('https://www.notion.so/lp-mermoz/Laboratoire-2cd3d9a0652d80b9a7beef5d1681016b')" title="Labo">
+        <i class="fas fa-users"></i>
+    </div>
+
+    <!-- Paramètres -->
+    <div class="menu-item" onclick="toggleLayout()" title="Affichage">
+        <i class="fas fa-cog"></i>
+    </div>
+
 </div>
 
 <!-- CONTENU -->
