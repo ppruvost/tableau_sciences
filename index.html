@@ -6,17 +6,32 @@
     <title>Tableau de Bord Complet</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Style spécifique pour l'icône Erlenmeyer */
+        .erlenmeyer-icon {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+    </style>
 </head>
 <body>
     <div class="menu">
         <a href="#" onclick="loadInFrame('LP MERMOZ - VIRE.png', 0)" class="menu-item qr-code" title="QR Code - Image LP MERMOZ"></a>
         <a href="#" onclick="loadInFrame('https://ppruvost.github.io/noise/', 2)" class="menu-item" title="Bruitage"><i class="fas fa-volume-up"></i></a>
-        <a href="#" onclick="loadInFrame('https://ppruvost.github.io/Time-Timer/', 2)" class="menu-item" title="Minuteur"><i class="fas fa-stopwatch"></i></a>        
+        <a href="#" onclick="loadInFrame('https://ppruvost.github.io/Time-Timer/', 2)" class="menu-item" title="Minuteur"><i class="fas fa-stopwatch"></i></a>
         <a href="#" onclick="loadInFrame('https://ppruvost.github.io/roue/', 1)" class="menu-item" title="Roue aléatoire"><i class="fas fa-dice"></i></a>
         <a href="#" onclick="loadInFrame('https://console.basthon.fr/', 0)" class="menu-item python-icon" title="Python"></a>
         <a href="#" onclick="loadInFrame('https://www.geogebra.org/classic?lang=fr', 1)" class="menu-item geogebra-icon" title="Géogebra"></a>
         <a href="#" onclick="loadInFrame('https://formationenligne.onlyoffice.com/rooms/shared/filter?page=1&sortBy=DateAndTime&sortOrder=descending', 1)" class="menu-item" title="Documents"><i class="fas fa-file-alt"></i></a>
-        <a href="#" onclick="loadInFrame('https://lp-mermoz.notion.site/Maths-Sciences-2ac3d9a0652d8001a27cc98c97fd21cb', 0)" class="menu-item" title="QuizEval"><i class="fas fa-smile"></i></a>
+
+        <!-- Lien QuizEval modifié avec icône Erlenmeyer -->
+        <a href="#" onclick="loadInFrame('https://lp-mermoz.notion.site/Maths-Sciences-2ac3d9a0652d8001a27cc98c97fd21cb', 0)" class="menu-item" title="QuizEval">
+            <svg class="erlenmeyer-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2c-1.6 0-3 .4-3 1.1l-.8 13.4c0 .5.2 1 1 1.2 1.2.6 2.5.6 3.7 0 .3-.2.5-.7.5-1.2L15 3.1c0-.7-.4-1.1-1-1.1h-2zm-4 3.1c-.3 0-.5.2-.5.5l.8 13.4c0 .3.1.5.4.6.3.1.6.1.9 0l.1-.1c.3-.1.5-.3.6-.6l.8-13.4c0-.3-.2-.5-.5-.5H8zm7 0c-.3 0-.5.2-.5.5l-.8 13.4c0 .3-.1.5-.4.6-.3.1-.6.1-.9 0l-.1-.1c-.3-.1-.5-.3-.6-.6l-.8-13.4c0-.3.2-.5.5-.5h2z"/>
+                <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 2v14H7V4h10z"/>
+            </svg>
+        </a>
 
         <a href="#" onclick="loadInFrame('https://www.notion.so/lp-mermoz/Laboratoire-2cd3d9a0652d80b9a7beef5d1681016b', 2)" class="menu-item" title="Laboratoire"><i class="fas fa-users"></i></a>
         <a href="#" onclick="loadInFrame('page10.html', 0)" class="menu-item" title="Sièges"><i class="fas fa-chair"></i></a>
