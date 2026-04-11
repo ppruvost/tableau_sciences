@@ -151,17 +151,35 @@ iframe, img {
 <script>
 let isSingle = false;
 
-/* CHARGEMENT RAPIDE */
+/* =========================
+   CHARGEMENT CONTENU (QR / Noise / Timer)
+========================= */
 function loadContent(type) {
-    if (isSingle) {
-        // mode 1 colonne → toujours colonne 1
-        applyContent(document.getElementById('frame1'), document.getElementById('img1'), type);
-    } else {
-        // mode 3 colonnes → remplace colonne 1 uniquement
-        applyContent(document.getElementById('frame1'), document.getElementById('img1'), type);
-    }
+    applyContent(
+        document.getElementById('frame1'),
+        document.getElementById('img1'),
+        type
+    );
 }
 
+/* =========================
+   CHARGEMENT URL (menu)
+========================= */
+function loadURL(url) {
+    const frame = document.getElementById('frame1');
+    const img = document.getElementById('img1');
+
+    // reset
+    img.classList.add("hidden");
+    frame.classList.remove("hidden");
+
+    // chargement rapide
+    frame.src = url;
+}
+
+/* =========================
+   LOGIQUE IMAGE / IFRAME
+========================= */
 function applyContent(frame, img, type) {
     frame.classList.add("hidden");
     img.classList.add("hidden");
@@ -180,32 +198,33 @@ function applyContent(frame, img, type) {
     }
 }
 
-/* TOGGLE LAYOUT */
+/* =========================
+   TOGGLE LAYOUT
+========================= */
 function toggleLayout() {
-    const container = document.getElementById("content-container");
+    const col2 = document.getElementById("frame2").parentElement;
+    const col3 = document.getElementById("frame3").parentElement;
 
     isSingle = !isSingle;
 
     if (isSingle) {
-        // 1 colonne
-        container.style.flexDirection = "column";
-
-        document.getElementById("frame2").parentElement.style.display = "none";
-        document.getElementById("frame3").parentElement.style.display = "none";
+        // MODE 1 COLONNE
+        col2.style.display = "none";
+        col3.style.display = "none";
     } else {
-        // 3 colonnes
-        container.style.flexDirection = "row";
+        // MODE 3 COLONNES
+        col2.style.display = "block";
+        col3.style.display = "block";
 
-        document.getElementById("frame2").parentElement.style.display = "block";
-        document.getElementById("frame3").parentElement.style.display = "block";
-
-        // CONTENU PAR DÉFAUT
         initThreeColumns();
     }
 }
 
-/* INIT 3 COLONNES */
+/* =========================
+   INIT 3 COLONNES
+========================= */
 function initThreeColumns() {
+
     // Colonne 1 → QR
     applyContent(
         document.getElementById("frame1"),
@@ -213,14 +232,20 @@ function initThreeColumns() {
         "qr"
     );
 
-    // Colonne 2 → noise
-    document.getElementById("frame2").src = "https://ppruvost.github.io/noise/";
+    // Colonne 2 → Noise
+    const f2 = document.getElementById("frame2");
+    f2.src = "https://ppruvost.github.io/noise/";
+    f2.classList.remove("hidden");
 
-    // Colonne 3 → timer
-    document.getElementById("frame3").src = "https://ppruvost.github.io/Time-Timer/";
+    // Colonne 3 → Timer
+    const f3 = document.getElementById("frame3");
+    f3.src = "https://ppruvost.github.io/Time-Timer/";
+    f3.classList.remove("hidden");
 }
 
-/* INIT */
+/* =========================
+   INIT
+========================= */
 window.onload = () => {
     initThreeColumns();
 };
