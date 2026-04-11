@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableau de Bord Multi-Fenêtres</title>
+    <title>Tableau de Bord Adaptatif</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body, html {
@@ -60,6 +60,13 @@
             height: 100%;
             border: none;
         }
+        .single-column #content-container {
+            display: block;
+        }
+        .single-column .content-section {
+            height: 33.33vh;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -69,12 +76,8 @@
         <a href="#" onclick="loadInFrame('page1.html', 2)" class="menu-item" title="Dossiers"><i class="fas fa-folder"></i></a>
         <a href="#" onclick="loadInFrame('https://formationenligne.onlyoffice.com/rooms/shared/filter?page=1&sortBy=DateAndTime&sortOrder=descending', 0)" class="menu-item" title="Documents"><i class="fas fa-file-alt"></i></a>
         <a href="#" onclick="loadInFrame('page4.html', 1)" class="menu-item" title="Calendrier"><i class="fas fa-calendar-alt"></i></a>
-        <a href="#" onclick="loadInFrame('https://lp-mermoz.notion.site/Maths-Sciences-2ac3d9a0652d8001a27cc98c97fd21cb', 2)" class="menu-item" title="QuizEval"><i class="fas fa-chart-bar"></i></a>
-        <a href="#" onclick="loadInFrame('page6.html', 0)" class="menu-item" title="Laboratoire"><i class="fas fa-users"></i></a>
-        <a href="#" onclick="loadInFrame('page7.html', 1)" class="menu-item" title="Émotions"><i class="fas fa-smile"></i></a>
-        <a href="#" onclick="loadInFrame('https://ppruvost.github.io/roue/', 2)" class="menu-item" title="Roue aléatoire"><i class="fas fa-dice"></i></a>
-        <a href="#" onclick="loadInFrame('page10.html', 0)" class="menu-item" title="Sièges"><i class="fas fa-chair"></i></a>
-        <a href="#" onclick="loadInFrame('page11.html', 1)" class="menu-item" title="Tableau"><i class="fas fa-clipboard"></i></a>
+        <a href="#" onclick="loadInFrame('page5.html', 2)" class="menu-item" title="Graphiques"><i class="fas fa-chart-bar"></i></a>
+        <a href="#" onclick="toggleLayout()" class="menu-item" title="Tableau - Basculer affichage"><i class="fas fa-clipboard"></i></a>
     </div>
 
     <div id="content-container">
@@ -90,10 +93,23 @@
     </div>
 
     <script>
+        let isSingleColumn = false;
+
         function loadInFrame(url, sectionIndex) {
             event.preventDefault();
             const frames = document.getElementsByClassName('content-frame');
             frames[sectionIndex].src = url;
+        }
+
+        function toggleLayout() {
+            isSingleColumn = !isSingleColumn;
+            const container = document.getElementById('content-container');
+
+            if (isSingleColumn) {
+                container.classList.add('single-column');
+            } else {
+                container.classList.remove('single-column');
+            }
         }
     </script>
 </body>
