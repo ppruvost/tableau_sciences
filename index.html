@@ -5,145 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tableau de Bord Complet</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: Arial, sans-serif;
-            overflow: hidden;
-        }
-        .menu {
-            position: fixed;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: #f0f8ff;
-            border-radius: 15px;
-            padding: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            z-index: 1000;
-        }
-        .menu-item {
-            width: 50px;
-            height: 50px;
-            background-color: #4169e1;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-decoration: none;
-            font-size: 20px;
-        }
-        .menu-item:hover {
-            background-color: #1e90ff;
-        }
-        #content-container {
-            margin-left: 100px;
-            height: 100vh;
-            width: calc(100% - 100px);
-            display: flex;
-            flex-direction: row;
-        }
-        .content-section {
-            flex: 1;
-            border: 1px solid #ddd;
-            padding: 5px;
-            box-sizing: border-box;
-        }
-        .content-frame {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        .single-column #content-container {
-            display: block;
-        }
-        .single-column .content-section {
-            height: 33.33vh;
-            width: 100%;
-        }
-        /* Icônes personnalisées */
-        .qr-code::before {
-            content: "□□□▢▢□▢□□▢□▢▢□□▢▢□▢□□▢□▢▢□";
-            font-size: 8px;
-            line-height: 12px;
-            text-align: center;
-            display: block;
-            width: 24px;
-            height: 24px;
-        }
-        .python-icon::before {
-            content: "▶▶";
-            font-size: 12px;
-            font-weight: bold;
-            transform: rotate(90deg);
-        }
-        .geogebra-icon {
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="24px" height="24px"><path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3z"/></svg>');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
-    </style>
-</style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="menu">
         <a href="#" onclick="loadInFrame('LP MERMOZ - VIRE.png', 0)" class="menu-item qr-code" title="QR Code - Image LP MERMOZ"></a>
-        <a href="#" onclick="loadInFrame('https://formationenligne.onlyoffice.com/rooms/shared/filter?page=1&sortBy=DateAndTime&sortOrder=descending', 1)" class="menu-item" title="Documents"><i class="fas fa-file-alt"></i></a>
-        <a href="#" onclick="loadInFrame('https://ppruvost.github.io/Time-Timer/', 2)" class="menu-item" title="Minuteur"><i class="fas fa-stopwatch"></i></a>
+        <a href="#" onclick="loadInFrame('https://ppruvost.github.io/noise/', 2)" class="menu-item" title="Bruitage"><i class="fas fa-volume-up"></i></a>
+        <a href="#" onclick="loadInFrame('https://ppruvost.github.io/Time-Timer/', 2)" class="menu-item" title="Minuteur"><i class="fas fa-stopwatch"></i></a>        
+        <a href="#" onclick="loadInFrame('https://ppruvost.github.io/roue/', 1)" class="menu-item" title="Roue aléatoire"><i class="fas fa-dice"></i></a>
         <a href="#" onclick="loadInFrame('https://console.basthon.fr/', 0)" class="menu-item python-icon" title="Python"></a>
         <a href="#" onclick="loadInFrame('https://www.geogebra.org/classic?lang=fr', 1)" class="menu-item geogebra-icon" title="Géogebra"></a>
-        <a href="#" onclick="loadInFrame('page6.html', 2)" class="menu-item" title="Utilisateurs"><i class="fas fa-users"></i></a>
-        <a href="#" onclick="loadInFrame('page7.html', 0)" class="menu-item" title="Émotions"><i class="fas fa-smile"></i></a>
-        <a href="#" onclick="loadInFrame('https://ppruvost.github.io/roue/', 1)" class="menu-item" title="Roue aléatoire"><i class="fas fa-dice"></i></a>
-        <a href="#" onclick="loadInFrame('https://ppruvost.github.io/noise/', 2)" class="menu-item" title="Bruitage"><i class="fas fa-volume-up"></i></a>
+        <a href="#" onclick="loadInFrame('https://formationenligne.onlyoffice.com/rooms/shared/filter?page=1&sortBy=DateAndTime&sortOrder=descending', 1)" class="menu-item" title="Documents"><i class="fas fa-file-alt"></i></a>
+        <a href="#" onclick="loadInFrame('https://lp-mermoz.notion.site/Maths-Sciences-2ac3d9a0652d8001a27cc98c97fd21cb', 0)" class="menu-item" title="QuizEval"><i class="fas fa-smile"></i></a>
+
+        <a href="#" onclick="loadInFrame('https://www.notion.so/lp-mermoz/Laboratoire-2cd3d9a0652d80b9a7beef5d1681016b', 2)" class="menu-item" title="Laboratoire"><i class="fas fa-users"></i></a>
         <a href="#" onclick="loadInFrame('page10.html', 0)" class="menu-item" title="Sièges"><i class="fas fa-chair"></i></a>
-        <a href="#" onclick="toggleLayout()" class="menu-item" title="Tableau - Basculer affichage"><i class="fas fa-clipboard"></i></a>
+        <a href="#" onclick="toggleLayout()" class="menu-item" title="Paramètres d'affichage"><i class="fas fa-cog"></i></a>
     </div>
 
     <div id="content-container">
         <div class="content-section">
             <iframe class="content-frame" src="about:blank"></iframe>
         </div>
-        <div class="content-section">
-            <iframe class="content-frame" src="about:blank"></iframe>
-        </div>
-        <div class="content-section">
-            <iframe class="content-frame" src="about:blank"></iframe>
-        </div>
     </div>
 
-    <script>
-        let isSingleColumn = false;
-
-        function loadInFrame(url, sectionIndex) {
-            event.preventDefault();
-            const frame = document.getElementsByClassName('content-frame')[sectionIndex];
-
-            // Si c'est une image, on l'affiche directement dans un élément img
-            if (url.endsWith('.png') || url.endsWith('.jpg') || url.endsWith('.jpeg')) {
-                frame.parentElement.innerHTML = '<img src="' + url + '" style="width: 100%; height: 100%; object-fit: contain;">';
-            } else {
-                frame.src = url;
-            }
-        }
-
-        function toggleLayout() {
-            isSingleColumn = !isSingleColumn;
-            const container = document.getElementById('content-container');
-
-            if (isSingleColumn) {
-                container.classList.add('single-column');
-            } else {
-                container.classList.remove('single-column');
-            }
-        }
-    </script>
+    <script src="code.js"></script>
 </body>
 </html>
