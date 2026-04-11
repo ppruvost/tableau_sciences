@@ -1,10 +1,10 @@
 /*
 ===========================================
-STYLES CSS POUR LE TABLEAU DE BORD
+TABLEAU DE BORD - VERSION OPTIMISÉE
 ===========================================
 */
 
-/* Style général de la page */
+/* GLOBAL */
 body, html {
     margin: 0;
     padding: 0;
@@ -13,104 +13,70 @@ body, html {
     overflow: hidden;
 }
 
-/* Style de la barre de menu latérale */
+/* MENU */
 .menu {
     position: fixed;
-    left: 20px;
+    left: 15px;
     top: 50%;
     transform: translateY(-50%);
-    background-color: #f0f8ff;
-    border-radius: 15px;
-    padding: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    background: #f0f8ff;
+    border-radius: 20px;
+    padding: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
     z-index: 1000;
 }
 
-/* Style des éléments du menu */
+/* BOUTONS MENU */
 .menu-item {
-    width: 50px;
-    height: 50px;
-    background-color: #4169e1;
+    width: 65px;
+    height: 65px;
+    background: #4169e1;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     color: white;
-    text-decoration: none;
-    font-size: 20px;
+    font-size: 26px; /* ICÔNES PLUS GRANDES */
+    cursor: pointer;
+    transition: all 0.15s ease;
 }
 
+/* HOVER + FEEDBACK */
 .menu-item:hover {
-    background-color: #1e90ff;
+    background: #1e90ff;
+    transform: scale(1.1);
 }
 
-/* Style pour l'icône Erlenmeyer */
-.erlenmeyer-icon {
-    width: 24px;
-    height: 24px;
-    color: white;
+.menu-item:active {
+    transform: scale(0.95);
 }
 
-/* Style du conteneur principal */
+/* CONTENU */
 #content-container {
-    margin-left: 100px;
+    margin-left: 110px;
     height: 100vh;
-    width: calc(100% - 100px);
     display: flex;
-    flex-direction: row;
 }
 
-/* Style des sections de contenu */
+/* COLONNES */
 .content-section {
     flex: 1;
     border: 1px solid #ddd;
-    padding: 5px;
-    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
 }
 
-/* Style des iframes */
-.content-frame {
+/* IFRAME + IMAGE */
+iframe, img {
     width: 100%;
     height: 100%;
     border: none;
 }
 
-/* Style pour le mode une seule colonne */
-.single-column #content-container {
-    display: block;
-}
-
-.single-column .content-section {
-    height: 100vh;
-    width: 100%;
-}
-
-/* Icônes personnalisées */
-.qr-code::before {
-    content: "□□□▢▢□▢□□▢□▢▢□□▢▢□▢□□▢□▢▢□";
-    font-size: 8px;
-    line-height: 12px;
-    text-align: center;
-    display: block;
-    width: 24px;
-    height: 24px;
-}
-
-.python-icon::before {
-    content: "▶▶";
-    font-size: 12px;
-    font-weight: bold;
-    transform: rotate(90deg);
-}
-
-.geogebra-icon {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="24px" height="24px"><path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3z"/></svg>');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    width: 24px;
-    height: 24px;
+/* MASQUAGE */
+.hidden {
+    display: none;
 }
