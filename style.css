@@ -1,10 +1,3 @@
-/*
-===========================================
-TABLEAU DE BORD - VERSION OPTIMISÉE
-===========================================
-*/
-
-/* GLOBAL */
 body, html {
     margin: 0;
     padding: 0;
@@ -29,7 +22,6 @@ body, html {
     z-index: 1000;
 }
 
-/* BOUTONS MENU */
 .menu-item {
     width: 65px;
     height: 65px;
@@ -39,19 +31,38 @@ body, html {
     justify-content: center;
     align-items: center;
     color: white;
-    font-size: 26px; /* ICÔNES PLUS GRANDES */
+    font-size: 26px;
     cursor: pointer;
-    transition: all 0.15s ease;
+    transition: 0.2s;
 }
 
-/* HOVER + FEEDBACK */
 .menu-item:hover {
     background: #1e90ff;
     transform: scale(1.1);
 }
 
-.menu-item:active {
-    transform: scale(0.95);
+.menu-item.active {
+    background: orange;
+}
+
+/* SOUS MENU */
+.submenu {
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    margin-left: 10px;
+}
+
+.submenu button {
+    padding: 8px;
+    border: none;
+    border-radius: 8px;
+    background: #ddd;
+    cursor: pointer;
+}
+
+.submenu button:hover {
+    background: #bbb;
 }
 
 /* CONTENU */
@@ -61,34 +72,41 @@ body, html {
     display: flex;
 }
 
-/* COLONNES */
 .content-section {
     flex: 1;
     border: 1px solid #ddd;
-    position: relative;
-    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* IFRAME + IMAGE */
+/* IFRAME */
 iframe {
     width: 100%;
     height: 100%;
     border: none;
 }
 
-/* IMAGE NON DÉFORMÉE (QR CODE OK) */
+/* IMAGE QR */
 img {
     max-width: 100%;
     max-height: 100%;
-    width: auto;
-    height: auto;
     object-fit: contain;
-
-    display: block;
     margin: auto;
 }
 
-/* MASQUAGE */
 .hidden {
     display: none;
+}
+
+/* HORLOGE */
+#clock {
+    position: fixed;
+    bottom: 10px;
+    right: 15px;
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 14px;
 }
