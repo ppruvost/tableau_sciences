@@ -5,257 +5,89 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tableau de Bord</title>
 
+<link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-<style>
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: Arial;
-    overflow: hidden;
-}
-
-/* MENU */
-.menu {
-    position: fixed;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: #f0f8ff;
-    border-radius: 20px;
-    padding: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    z-index: 1000;
-}
-
-.menu-item {
-    width: 65px;
-    height: 65px;
-    background: #4169e1;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 26px; /* ICONES PLUS GRANDES */
-    cursor: pointer;
-    transition: 0.15s;
-}
-
-.menu-item:hover {
-    background: #1e90ff;
-    transform: scale(1.1);
-}
-
-/* CONTENU */
-#content-container {
-    margin-left: 110px;
-    height: 100vh;
-    display: flex;
-}
-
-.content-section {
-    flex: 1;
-    border: 1px solid #ddd;
-    position: relative;
-}
-
-iframe, img {
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-
-.hidden {
-    display: none;
-}
-</style>
 </head>
 
 <body>
 
 <div class="menu">
 
-    <!-- QR -->
-    <div class="menu-item" onclick="loadContent('qr')" title="QR Code">
+    <div class="menu-item" onclick="loadInFrame('LP MERMOZ - VIRE.png')">
         <i class="fas fa-qrcode"></i>
     </div>
 
-    <!-- Noise -->
-    <div class="menu-item" onclick="loadContent('noise')" title="Bruitage">
+    <div class="menu-item" onclick="loadInFrame('https://ppruvost.github.io/noise/')">
         <i class="fas fa-volume-up"></i>
     </div>
 
-    <!-- Timer -->
-    <div class="menu-item" onclick="loadContent('timer')" title="Minuteur">
+    <div class="menu-item" onclick="loadInFrame('https://ppruvost.github.io/Time-Timer/')">
         <i class="fas fa-stopwatch"></i>
     </div>
 
-    <!-- Aléatoire -->
-    <div class="menu-item" onclick="loadURL('https://ppruvost.github.io/roue/')" title="Aléatoire">
+    <div class="menu-item" onclick="loadURL('https://ppruvost.github.io/roue/')">
         <i class="fas fa-dice"></i>
     </div>
 
-    <!-- Mes cours -->
     <div class="menu-item"
-     onclick="window.open('https://formationenligne.onlyoffice.com/rooms/shared/filter?page=1&sortBy=DateAndTime&sortOrder=descending','_blank')"
-     title="Mes cours">
-    <i class="fas fa-users"></i>
+        onclick="window.open('https://formationenligne.onlyoffice.com/...','_blank')">
+        <i class="fas fa-users"></i>
     </div>
 
-    <!-- Python -->
-    <div class="menu-item" onclick="loadURL('https://console.basthon.fr/')" title="Python">
+    <div class="menu-item" onclick="loadURL('https://console.basthon.fr/')">
         <i class="fas fa-code"></i>
     </div>
 
-    <!-- QuizEval -->
     <div class="menu-item"
-     onclick="window.open('https://lp-mermoz.notion.site/Maths-Sciences-2ac3d9a0652d8001a27cc98c97fd21cb','_blank')"
-     title="QuizEval">
-    <i class="fas fa-users"></i>
+        onclick="window.open('https://lp-mermoz.notion.site/...','_blank')">
+        <i class="fas fa-users"></i>
     </div>
 
-    <!-- Labo -->
     <div class="menu-item"
-     onclick="window.open('https://www.notion.so/lp-mermoz/Laboratoire-2cd3d9a0652d80b9a7beef5d1681016b','_blank')"
-     title="Labo">
-    <i class="fas fa-flask"></i>
+        onclick="window.open('https://www.notion.so/...','_blank')">
+        <i class="fas fa-flask"></i>
     </div>
 
-    <!-- Paramètres -->
-    <div class="menu-item" onclick="toggleLayout()" title="Affichage">
+    <!-- GEO GEBRA -->
+    <div class="menu-item" id="geoBtn" onclick="toggleSubmenu()">
+        <i class="fas fa-shapes"></i>
+    </div>
+
+    <div class="submenu" id="geoMenu">
+        <button onclick="loadURL('https://www.geogebra.org/classic?lang=fr')">Classic</button>
+        <button onclick="loadURL('https://www.geogebra.org/3d?lang=fr')">3D</button>
+    </div>
+
+    <!-- CALCULATRICE -->
+    <div class="menu-item" onclick="loadURL('https://www.numworks.com/fr/emulateur/graphique/')">
+        <i class="fas fa-calculator"></i>
+    </div>
+
+    <div class="menu-item" onclick="toggleLayout()">
         <i class="fas fa-cog"></i>
     </div>
 
 </div>
 
-<!-- CONTENU -->
 <div id="content-container">
-
-    <!-- COLONNE 1 -->
     <div class="content-section">
         <iframe id="frame1"></iframe>
         <img id="img1">
     </div>
 
-    <!-- COLONNE 2 -->
     <div class="content-section">
         <iframe id="frame2"></iframe>
     </div>
 
-    <!-- COLONNE 3 -->
     <div class="content-section">
         <iframe id="frame3"></iframe>
     </div>
-
 </div>
 
-<script>
-let isSingle = false;
+<!-- HORLOGE -->
+<div id="clock"></div>
 
-/* =========================
-   CHARGEMENT CONTENU (QR / Noise / Timer)
-========================= */
-function loadContent(type) {
-    applyContent(
-        document.getElementById('frame1'),
-        document.getElementById('img1'),
-        type
-    );
-}
-
-/* =========================
-   CHARGEMENT URL (menu)
-========================= */
-function loadURL(url) {
-    const frame = document.getElementById('frame1');
-    const img = document.getElementById('img1');
-
-    // reset
-    img.classList.add("hidden");
-    frame.classList.remove("hidden");
-
-    // chargement rapide
-    frame.src = url;
-}
-
-/* =========================
-   LOGIQUE IMAGE / IFRAME
-========================= */
-function applyContent(frame, img, type) {
-    frame.classList.add("hidden");
-    img.classList.add("hidden");
-
-    if (type === "qr") {
-        img.src = "LP MERMOZ - VIRE.png";
-        img.classList.remove("hidden");
-    }
-    else if (type === "noise") {
-        frame.src = "https://ppruvost.github.io/noise/";
-        frame.classList.remove("hidden");
-    }
-    else if (type === "timer") {
-        frame.src = "https://ppruvost.github.io/Time-Timer/";
-        frame.classList.remove("hidden");
-    }
-}
-
-/* =========================
-   TOGGLE LAYOUT
-========================= */
-function toggleLayout() {
-    const col2 = document.getElementById("frame2").parentElement;
-    const col3 = document.getElementById("frame3").parentElement;
-
-    isSingle = !isSingle;
-
-    if (isSingle) {
-        // MODE 1 COLONNE
-        col2.style.display = "none";
-        col3.style.display = "none";
-    } else {
-        // MODE 3 COLONNES
-        col2.style.display = "block";
-        col3.style.display = "block";
-
-        initThreeColumns();
-    }
-}
-
-/* =========================
-   INIT 3 COLONNES
-========================= */
-function initThreeColumns() {
-
-    // Colonne 1 → QR
-    applyContent(
-        document.getElementById("frame1"),
-        document.getElementById("img1"),
-        "qr"
-    );
-
-    // Colonne 2 → Noise
-    const f2 = document.getElementById("frame2");
-    f2.src = "https://ppruvost.github.io/noise/";
-    f2.classList.remove("hidden");
-
-    // Colonne 3 → Timer
-    const f3 = document.getElementById("frame3");
-    f3.src = "https://ppruvost.github.io/Time-Timer/";
-    f3.classList.remove("hidden");
-}
-
-/* =========================
-   INIT
-========================= */
-window.onload = () => {
-    initThreeColumns();
-};
-</script>
+<script src="code.js"></script>
 
 </body>
 </html>
