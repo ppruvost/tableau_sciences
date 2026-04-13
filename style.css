@@ -107,10 +107,10 @@ body, html {
 }
 
 /* =========================
-   COLONNE GAUCHE (32/55)
+   COLONNE GAUCHE (35/55)
 ========================= */
 .column-left {
-    flex: 32;
+    flex: 35;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -118,10 +118,10 @@ body, html {
 }
 
 /* =========================
-   COLONNE DROITE (23/55)
+   COLONNE DROITE (20/55)
 ========================= */
 .column-right {
-    flex: 23;
+    flex: 20;
     display: flex;
     flex-direction: column;
 }
