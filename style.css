@@ -193,26 +193,49 @@ img {
 #license {
     position: fixed;
     bottom: 10px;
-    left: 120px;
-    background: rgba(0,0,0,0.75);
-    color: white;
+    left: 10px;
+
+    background: rgba(0, 0, 0, 0.78);
+    color: #fff;
+
     padding: 10px 14px;
     border-radius: 10px;
+
     font-size: 12px;
-    max-width: 300px;
-    z-index: 999;
+    line-height: 1.4;
+
+    max-width: 280px;
+
+    z-index: 9999;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    backdrop-filter: blur(4px);
 }
 
+/* LISTE (si tu en utilises une dans la licence) */
 #license ul {
-    margin: 5px 0;
+    margin: 6px 0 0 0;
     padding-left: 18px;
 }
 
+/* LIENS */
 #license a {
-    color: #1e90ff;
+    color: #4ea1ff;
     text-decoration: none;
+    transition: opacity 0.2s ease;
 }
 
 #license a:hover {
     text-decoration: underline;
+    opacity: 0.85;
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 600px) {
+    #license {
+        font-size: 11px;
+        max-width: 220px;
+        bottom: 8px;
+        left: 8px;
+    }
 }
