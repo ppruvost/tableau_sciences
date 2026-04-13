@@ -1,3 +1,9 @@
+
+// =========================
+// INIT GLOBAL (ATTEND HTML)
+// =========================
+window.addEventListener("DOMContentLoaded", () => {
+
 // =========================
 // ÉTAT
 // =========================
@@ -10,6 +16,7 @@ const frame1 = document.getElementById("frame1");
 const frame2 = document.getElementById("frame2");
 const frame3 = document.getElementById("frame3");
 const img1 = document.getElementById("img1");
+const container = document.getElementById("content-container");
 
 // =========================
 // BOUTONS ACTIFS
@@ -36,13 +43,14 @@ function updateClock() {
     document.getElementById("clock").innerHTML =
         h + ":" + m + "<br>" + date;
 }
+
 setInterval(updateClock, 1000);
 updateClock();
 
 // =========================
 // SOUS MENU
 // =========================
-function toggleSubmenu() {
+window.toggleSubmenu = function () {
     const menu = document.getElementById("geoMenu");
     const btn = document.getElementById("geoBtn");
 
@@ -56,9 +64,6 @@ function toggleSubmenu() {
     }
 }
 
-// =========================
-// FERMETURE MENU
-// =========================
 function closeSubmenu() {
     const menu = document.getElementById("geoMenu");
     const btn = document.getElementById("geoBtn");
@@ -70,10 +75,12 @@ function closeSubmenu() {
 // =========================
 // CHARGEMENT CONTENU
 // =========================
-function loadInFrame(url, sectionIndex = 0) {
+window.loadInFrame = function (url, sectionIndex = 0) {
 
     let frame = [frame1, frame2, frame3][sectionIndex];
     let img = sectionIndex === 0 ? img1 : null;
+
+    if (!frame) return;
 
     if (img) img.classList.add("hidden");
     frame.classList.add("hidden");
@@ -94,22 +101,22 @@ function loadInFrame(url, sectionIndex = 0) {
 // =========================
 // RACCOURCI URL
 // =========================
-function loadURL(url) {
+window.loadURL = function (url) {
     loadInFrame(url, 0);
 }
 
 // =========================
-// LABO (iframe)
+// LABO
 // =========================
-function loadLabo() {
+window.loadLabo = function () {
     loadInFrame("https://ppruvost.github.io/laboratory/", 0);
 }
 
 // =========================
 // LAYOUT
 // =========================
-function toggleLayout() {
-    const container = document.getElementById("content-container");
+window.toggleLayout = function () {
+
     const rightColumn = document.querySelector(".column-right");
 
     isSingleColumn = !isSingleColumn;
@@ -130,25 +137,20 @@ function toggleLayout() {
 // =========================
 function initThreeColumns() {
 
-    // gauche
     loadInFrame("LP MERMOZ - VIRE.png", 0);
 
-    // droite haut (snomètre)
     frame2.src = "https://ppruvost.github.io/noise/";
-
-    // droite bas (timer)
     frame3.src = "https://ppruvost.github.io/Time-Timer/";
 
     frame2.classList.remove("hidden");
     frame3.classList.remove("hidden");
 
-    // sécurité image
     img1.classList.add("hidden");
 }
 
 // =========================
-// INIT
+// START
 // =========================
-window.onload = () => {
-    initThreeColumns();
-};
+initThreeColumns();
+
+});
