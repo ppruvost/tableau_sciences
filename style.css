@@ -1,4 +1,3 @@
-
 /* =========================
    GLOBAL
 ========================= */
@@ -18,17 +17,13 @@ body, html {
     left: 15px;
     top: 50%;
     transform: translateY(-50%);
-
     background: #f0f8ff;
     border-radius: 20px;
     padding: 12px;
-
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-
     display: flex;
     flex-direction: column;
     gap: 12px;
-
     z-index: 1000;
 }
 
@@ -38,20 +33,15 @@ body, html {
 .menu-item {
     width: 65px;
     height: 65px;
-
     background: #4169e1;
     border-radius: 50%;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
     color: white;
     font-size: 26px;
-
     cursor: pointer;
     transition: 0.2s;
-
     position: relative;
     user-select: none;
 }
@@ -66,32 +56,23 @@ body, html {
 }
 
 /* =========================
-   TOOLTIP + GEO + SUBMENU (VERSION CORRIGÉE)
+   TOOLTIP + GEO + SUBMENU
 ========================= */
-
-/* TOOLTIP FIXÉ */
 .menu-item::after {
     content: attr(data-title);
-
     position: absolute;
     left: 75px;
     top: 50%;
     transform: translateY(-50%);
-
     background: #333;
     color: white;
-
     padding: 6px 10px;
     border-radius: 6px;
-
     white-space: nowrap;
-
     opacity: 0;
     transition: 0.2s;
-
     pointer-events: none;
     font-size: 14px;
-
     z-index: 99999;
 }
 
@@ -99,50 +80,35 @@ body, html {
     opacity: 1;
 }
 
-/* =========================
-   GEO WRAPPER (IMPORTANT)
-========================= */
 .geo-wrapper {
     position: relative;
 }
 
-/* =========================
-   SUBMENU GEO FIX STABLE
-========================= */
 .submenu {
     display: none;
     flex-direction: column;
     gap: 8px;
-
     position: absolute;
     left: 75px;
     top: 0;
-
     background: white;
     padding: 10px;
     border-radius: 10px;
-
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-
     z-index: 5000;
-
     min-width: 120px;
 }
 
-/* IMPORTANT : affichage contrôlé par JS */
 .submenu.show {
     display: flex;
 }
 
-/* BUTTONS SUBMENU */
 .submenu button {
     padding: 8px;
     border: none;
     border-radius: 8px;
-
     background: #ddd;
     cursor: pointer;
-
     font-size: 13px;
 }
 
@@ -156,52 +122,33 @@ body, html {
 #content-container {
     margin-left: 110px;
     height: 100vh;
-
     display: flex;
 }
 
-/* =========================
-   COLONNE GAUCHE
-========================= */
 .column-left {
     flex: 35;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
     overflow: hidden;
 }
 
-/* =========================
-   COLONNE DROITE
-========================= */
 .column-right {
     flex: 20;
-
     display: flex;
     flex-direction: column;
 }
 
-/* =========================
-   HAUT DROITE
-========================= */
 .right-top {
     flex: 18;
     overflow: hidden;
 }
 
-/* =========================
-   BAS DROITE
-========================= */
 .right-bottom {
     flex: 12;
     overflow: hidden;
 }
 
-/* =========================
-   IFRAME / IMAGE
-========================= */
 iframe {
     width: 100%;
     height: 100%;
@@ -214,9 +161,6 @@ img {
     object-fit: contain;
 }
 
-/* =========================
-   HIDDEN
-========================= */
 .hidden {
     display: none;
 }
@@ -225,18 +169,15 @@ img {
    RESPONSIVE
 ========================= */
 @media (max-width: 900px) {
-
     #content-container {
         flex-direction: column;
     }
-
     .column-left,
     .column-right {
         flex: none;
         width: 100%;
         height: 33vh;
     }
-
     .right-top,
     .right-bottom {
         flex: 1;
@@ -251,19 +192,13 @@ img {
     position: fixed;
     bottom: 10px;
     left: 110px;
-
     background: rgba(0, 0, 0, 0.78);
     color: #fff;
-
     padding: 8px 12px;
     border-radius: 10px;
-
     font-size: 11px;
-
     max-width: 260px;
-
     z-index: 9999;
-
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     backdrop-filter: blur(4px);
 }
@@ -277,11 +212,7 @@ img {
     text-decoration: underline;
 }
 
-/* =========================
-   MOBILE
-========================= */
 @media (max-width: 600px) {
-
     #license-mini {
         left: 10px;
         bottom: 8px;
