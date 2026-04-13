@@ -1,3 +1,4 @@
+
 /* =========================
    GLOBAL
 ========================= */
@@ -17,38 +18,50 @@ body, html {
     left: 15px;
     top: 50%;
     transform: translateY(-50%);
+
     background: #f0f8ff;
     border-radius: 20px;
     padding: 12px;
+
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+
     display: flex;
     flex-direction: column;
     gap: 12px;
+
     z-index: 1000;
 }
 
+/* =========================
+   ICONES MENU
+========================= */
 .menu-item {
     width: 65px;
     height: 65px;
+
     background: #4169e1;
     border-radius: 50%;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     color: white;
     font-size: 26px;
+
     cursor: pointer;
     transition: 0.2s;
+
     position: relative;
+
+    user-select: none;
 }
 
-/* HOVER */
 .menu-item:hover {
     background: #1e90ff;
     transform: scale(1.1);
 }
 
-/* ACTIF */
 .menu-item.active {
     background: orange;
 }
@@ -56,17 +69,23 @@ body, html {
 /* TOOLTIP */
 .menu-item::after {
     content: attr(data-title);
+
     position: absolute;
     left: 75px;
     top: 50%;
     transform: translateY(-50%);
+
     background: #333;
     color: white;
+
     padding: 6px 10px;
     border-radius: 6px;
+
     white-space: nowrap;
+
     opacity: 0;
     transition: 0.2s;
+
     pointer-events: none;
     font-size: 14px;
 }
@@ -76,21 +95,37 @@ body, html {
 }
 
 /* =========================
-   SOUS MENU
+   SUBMENU GEO
 ========================= */
 .submenu {
     display: none;
     flex-direction: column;
     gap: 8px;
+
     margin-left: 10px;
+
+    position: absolute;
+    left: 90px;
+    top: 0;
+
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+
+    z-index: 2000;
 }
 
 .submenu button {
     padding: 8px;
     border: none;
     border-radius: 8px;
+
     background: #ddd;
     cursor: pointer;
+
+    z-index: 3000;
 }
 
 .submenu button:hover {
@@ -103,31 +138,35 @@ body, html {
 #content-container {
     margin-left: 110px;
     height: 100vh;
+
     display: flex;
 }
 
 /* =========================
-   COLONNE GAUCHE (35/55)
+   COLONNE GAUCHE
 ========================= */
 .column-left {
     flex: 35;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     overflow: hidden;
 }
 
 /* =========================
-   COLONNE DROITE (20/55)
+   COLONNE DROITE
 ========================= */
 .column-right {
     flex: 20;
+
     display: flex;
     flex-direction: column;
 }
 
 /* =========================
-   HAUT DROITE (18/30)
+   HAUT DROITE
 ========================= */
 .right-top {
     flex: 18;
@@ -135,7 +174,7 @@ body, html {
 }
 
 /* =========================
-   BAS DROITE (12/30)
+   BAS DROITE
 ========================= */
 .right-bottom {
     flex: 12;
@@ -143,7 +182,7 @@ body, html {
 }
 
 /* =========================
-   IFRAME FULL
+   IFRAME / IMAGE
 ========================= */
 iframe {
     width: 100%;
@@ -151,22 +190,22 @@ iframe {
     border: none;
 }
 
-/* IMAGE QR */
 img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
 }
 
-/* hidden helper */
+/* =========================
+   HIDDEN
+========================= */
 .hidden {
     display: none;
 }
 
 /* =========================
-   RESPONSIVE 3 COLONNES
+   RESPONSIVE
 ========================= */
-
 @media (max-width: 900px) {
 
     #content-container {
@@ -188,23 +227,22 @@ img {
 }
 
 /* =========================
-   LICENCE
+   LICENCE (CORRIGÉE)
 ========================= */
-#license {
+#license-mini {
     position: fixed;
     bottom: 10px;
-    left: 10px;
+    left: 110px;
 
     background: rgba(0, 0, 0, 0.78);
     color: #fff;
 
-    padding: 10px 14px;
+    padding: 8px 12px;
     border-radius: 10px;
 
-    font-size: 12px;
-    line-height: 1.4;
+    font-size: 11px;
 
-    max-width: 280px;
+    max-width: 260px;
 
     z-index: 9999;
 
@@ -212,30 +250,21 @@ img {
     backdrop-filter: blur(4px);
 }
 
-/* LISTE (si tu en utilises une dans la licence) */
-#license ul {
-    margin: 6px 0 0 0;
-    padding-left: 18px;
-}
-
-/* LIENS */
-#license a {
+#license-mini a {
     color: #4ea1ff;
     text-decoration: none;
-    transition: opacity 0.2s ease;
 }
 
-#license a:hover {
+#license-mini a:hover {
     text-decoration: underline;
-    opacity: 0.85;
 }
 
-/* MOBILE RESPONSIVE */
+/* MOBILE */
 @media (max-width: 600px) {
-    #license {
-        font-size: 11px;
-        max-width: 220px;
+    #license-mini {
+        left: 10px;
         bottom: 8px;
-        left: 8px;
+        font-size: 10px;
+        max-width: 200px;
     }
 }
