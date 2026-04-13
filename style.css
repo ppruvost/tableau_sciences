@@ -33,7 +33,48 @@ body, html {
     color: white;
     font-size: 26px;
     cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative; /* important pour tooltip */
+}
+
+/* Hover */
+.menu-item:hover {
+    background: #1e90ff;
+    transform: scale(1.1);
+}
+
+/* Active (sélectionné) */
+.menu-item.active {
+    background: orange;
+    transform: scale(1.05);
+}
+
+.menu-item.active i {
+    color: white;
+}
+
+/* Tooltip */
+.menu-item::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 75px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+
+    opacity: 0;
+    pointer-events: none;
     transition: 0.2s;
+}
+
+/* Affichage tooltip au survol */
+.menu-item:hover::after {
+    opacity: 1;
 }
 
 .menu-item:hover {
