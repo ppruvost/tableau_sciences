@@ -1,4 +1,3 @@
-```javascript
 // =========================
 // ÉTAT
 // =========================
@@ -111,20 +110,16 @@ function loadLabo() {
 // =========================
 function toggleLayout() {
     const container = document.getElementById("content-container");
+    const rightColumn = document.querySelector(".column-right");
 
     isSingleColumn = !isSingleColumn;
 
     if (isSingleColumn) {
         container.classList.remove("layout-3");
-
-        frame2.parentElement.style.display = "none";
-        frame3.parentElement.style.display = "none";
-
+        rightColumn.style.display = "none";
     } else {
         container.classList.add("layout-3");
-
-        frame2.parentElement.style.display = "flex";
-        frame3.parentElement.style.display = "flex";
+        rightColumn.style.display = "flex";
 
         initThreeColumns();
     }
@@ -135,13 +130,20 @@ function toggleLayout() {
 // =========================
 function initThreeColumns() {
 
+    // gauche
     loadInFrame("LP MERMOZ - VIRE.png", 0);
 
+    // droite haut (snomètre)
     frame2.src = "https://ppruvost.github.io/noise/";
+
+    // droite bas (timer)
     frame3.src = "https://ppruvost.github.io/Time-Timer/";
 
     frame2.classList.remove("hidden");
     frame3.classList.remove("hidden");
+
+    // sécurité image
+    img1.classList.add("hidden");
 }
 
 // =========================
@@ -150,4 +152,3 @@ function initThreeColumns() {
 window.onload = () => {
     initThreeColumns();
 };
-```
