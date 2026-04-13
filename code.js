@@ -52,26 +52,22 @@ function handleAction(action) {
             loadInFrame("https://ppruvost.github.io/Time-Timer/");
             return;
 
+        // 🔥 MODIFIÉ : maintenant dans iframe
         case "roue":
-            window.open("https://ppruvost.github.io/roue/", "_blank");
+            loadInFrame("https://ppruvost.github.io/roue/");
             return;
 
         case "collab":
-            window.open(
-                "https://formationenligne.onlyoffice.com/rooms/shared/filter?page=1&sortBy=DateAndTime&sortOrder=descending",
-                "_blank"
-            );
+            loadInFrame("https://formationenligne.onlyoffice.com/rooms/shared/filter?page=1&sortBy=DateAndTime&sortOrder=descending");
             return;
 
+        // 🔥 MODIFIÉ
         case "basthon":
-            window.open("https://console.basthon.fr/", "_blank");
+            loadInFrame("https://console.basthon.fr/");
             return;
 
         case "notion":
-            window.open(
-                "https://lp-mermoz.notion.site/Maths-Sciences-2ac3d9a0652d8001a27cc98c97fd21cb",
-                "_blank"
-            );
+            loadInFrame("https://lp-mermoz.notion.site/Maths-Sciences-2ac3d9a0652d8001a27cc98c97fd21cb");
             return;
 
         case "labo":
@@ -82,8 +78,9 @@ function handleAction(action) {
             loadInFrame("https://www.numworks.com/fr/emulateur/graphique/");
             return;
 
+        // 🔥 MODIFIÉ : iframe
         case "edu":
-            window.open("https://www.l-educdenormandie.fr/", "_blank");
+            loadInFrame("https://www.l-educdenormandie.fr/");
             return;
 
         case "geo":
