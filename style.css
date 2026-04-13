@@ -53,7 +53,6 @@ body, html {
     transition: 0.2s;
 
     position: relative;
-
     user-select: none;
 }
 
@@ -66,7 +65,9 @@ body, html {
     background: orange;
 }
 
-/* TOOLTIP */
+/* =========================
+   TOOLTIP (FIX COMPLET)
+========================= */
 .menu-item::after {
     content: attr(data-title);
 
@@ -88,6 +89,8 @@ body, html {
 
     pointer-events: none;
     font-size: 14px;
+
+    z-index: 99999;
 }
 
 .menu-item:hover::after {
@@ -95,17 +98,22 @@ body, html {
 }
 
 /* =========================
-   SUBMENU GEO
+   GEO WRAPPER (IMPORTANT FIX)
+========================= */
+.menu-item[data-action="geo"] {
+    position: relative;
+}
+
+/* =========================
+   SUBMENU GEO (CORRIGÉ)
 ========================= */
 .submenu {
     display: none;
     flex-direction: column;
     gap: 8px;
 
-    margin-left: 10px;
-
     position: absolute;
-    left: 90px;
+    left: 75px;
     top: 0;
 
     background: white;
@@ -114,7 +122,9 @@ body, html {
 
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 
-    z-index: 2000;
+    z-index: 3000;
+
+    min-width: 120px;
 }
 
 .submenu button {
@@ -125,7 +135,7 @@ body, html {
     background: #ddd;
     cursor: pointer;
 
-    z-index: 3000;
+    font-size: 13px;
 }
 
 .submenu button:hover {
@@ -227,7 +237,7 @@ img {
 }
 
 /* =========================
-   LICENCE (CORRIGÉE)
+   LICENCE
 ========================= */
 #license-mini {
     position: fixed;
@@ -259,8 +269,11 @@ img {
     text-decoration: underline;
 }
 
-/* MOBILE */
+/* =========================
+   MOBILE
+========================= */
 @media (max-width: 600px) {
+
     #license-mini {
         left: 10px;
         bottom: 8px;
