@@ -66,8 +66,10 @@ body, html {
 }
 
 /* =========================
-   TOOLTIP (FIX COMPLET)
+   TOOLTIP + GEO + SUBMENU (VERSION CORRIGÉE)
 ========================= */
+
+/* TOOLTIP FIXÉ */
 .menu-item::after {
     content: attr(data-title);
 
@@ -98,14 +100,14 @@ body, html {
 }
 
 /* =========================
-   GEO WRAPPER (IMPORTANT FIX)
+   GEO WRAPPER (IMPORTANT)
 ========================= */
-.menu-item[data-action="geo"] {
+.geo-wrapper {
     position: relative;
 }
 
 /* =========================
-   SUBMENU GEO (CORRIGÉ)
+   SUBMENU GEO FIX STABLE
 ========================= */
 .submenu {
     display: none;
@@ -122,11 +124,17 @@ body, html {
 
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 
-    z-index: 3000;
+    z-index: 5000;
 
     min-width: 120px;
 }
 
+/* IMPORTANT : affichage contrôlé par JS */
+.submenu.show {
+    display: flex;
+}
+
+/* BUTTONS SUBMENU */
 .submenu button {
     padding: 8px;
     border: none;
