@@ -1,3 +1,7 @@
+```css id="z3m8qk"
+/* =========================
+   GLOBAL
+========================= */
 body, html {
     margin: 0;
     padding: 0;
@@ -6,7 +10,9 @@ body, html {
     overflow: hidden;
 }
 
-/* MENU */
+/* =========================
+   MENU
+========================= */
 .menu {
     position: fixed;
     left: 15px;
@@ -34,18 +40,45 @@ body, html {
     font-size: 26px;
     cursor: pointer;
     transition: 0.2s;
+    position: relative;
 }
 
+/* HOVER */
 .menu-item:hover {
     background: #1e90ff;
     transform: scale(1.1);
 }
 
+/* ACTIF */
 .menu-item.active {
     background: orange;
 }
 
-/* SOUS MENU */
+/* TOOLTIP */
+.menu-item::after {
+    content: attr(data-title);
+    position: absolute;
+    left: 75px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #333;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: 0.2s;
+    pointer-events: none;
+    font-size: 14px;
+}
+
+.menu-item:hover::after {
+    opacity: 1;
+}
+
+/* =========================
+   SOUS MENU
+========================= */
 .submenu {
     display: none;
     flex-direction: column;
@@ -65,29 +98,53 @@ body, html {
     background: #bbb;
 }
 
-/* CONTENU */
+/* =========================
+   CONTENU
+========================= */
 #content-container {
     margin-left: 110px;
     height: 100vh;
     display: flex;
 }
 
+/* COLONNES */
 .content-section {
     flex: 1;
     border: 1px solid #ddd;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
-/* IFRAME */
+/* MODE 3 ZONES */
+.layout-3 .content-section:first-child {
+    flex: 2;
+}
+
+/* COLONNE DROITE */
+.column-right {
+    display: flex;
+    flex-direction: column;
+}
+
+/* HAUT / BAS */
+.column-right iframe {
+    flex: 1;
+}
+
+/* =========================
+   IFRAME
+========================= */
 iframe {
     width: 100%;
     height: 100%;
     border: none;
 }
 
-/* IMAGE QR */
+/* =========================
+   IMAGE
+========================= */
 img {
     max-width: 100%;
     max-height: 100%;
@@ -95,20 +152,22 @@ img {
     margin: auto;
 }
 
+/* =========================
+   UTILITAIRE
+========================= */
 .hidden {
     display: none;
 }
 
-/* HORLOGE */
+/* =========================
+   HORLOGE
+========================= */
 #clock {
     position: fixed;
     bottom: 20px;
     right: 30px;
-
-    color: white;
+    color: #333;
     text-align: right;
-
-    font-family: 'Arial', sans-serif;
 }
 
 /* HEURE */
@@ -121,6 +180,7 @@ img {
 /* DATE */
 #clock .date {
     font-size: 24px;
-    letter-spacing: 3px;
-    opacity: 0.85;
+    letter-spacing: 2px;
+    opacity: 0.8;
 }
+```
