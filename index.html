@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -12,6 +11,7 @@
 
 <body>
 
+<!-- MENU -->
 <div class="menu">
 
     <div class="menu-item" data-title="QR Code" onclick="loadInFrame('LP MERMOZ - VIRE.png')">
@@ -74,16 +74,15 @@
 <!-- CONTENU -->
 <div id="content-container">
 
+    <!-- GAUCHE (2/3) -->
     <div class="content-section">
         <iframe id="frame1"></iframe>
         <img id="img1">
     </div>
 
-    <div class="content-section">
+    <!-- DROITE (1/3 coupée en 2) -->
+    <div class="content-section column-right">
         <iframe id="frame2"></iframe>
-    </div>
-
-    <div class="content-section">
         <iframe id="frame3"></iframe>
     </div>
 
@@ -96,4 +95,3 @@
 
 </body>
 </html>
-```
