@@ -13,9 +13,10 @@ const frame2 = document.getElementById("frame2");
 const frame3 = document.getElementById("frame3");
 const img1 = document.getElementById("img1");
 const container = document.getElementById("content-container");
+const geoMenu = document.getElementById("geoMenu");
 
 // =========================
-// MENU CLICK (VERSION STABLE)
+// MENU CLICK (ULTRA STABLE)
 // =========================
 document.querySelector(".menu").addEventListener("click", (e) => {
 
@@ -25,6 +26,7 @@ document.querySelector(".menu").addEventListener("click", (e) => {
     const action = item.dataset.action;
     if (!action) return;
 
+    // active state
     document.querySelectorAll(".menu-item")
         .forEach(i => i.classList.remove("active"));
 
@@ -42,54 +44,51 @@ function handleAction(action) {
 
         case "img1":
             loadInFrame("LP MERMOZ - VIRE.png");
-            return;
+            break;
 
         case "noise":
             loadInFrame("https://ppruvost.github.io/noise/");
-            return;
+            break;
 
         case "timer":
             loadInFrame("https://ppruvost.github.io/Time-Timer/");
-            return;
+            break;
 
-        // 🔥 MODIFIÉ : maintenant dans iframe
         case "roue":
             loadInFrame("https://ppruvost.github.io/roue/");
-            return;
+            break;
 
         case "collab":
             loadInFrame("https://formationenligne.onlyoffice.com/rooms/shared/filter?page=1&sortBy=DateAndTime&sortOrder=descending");
-            return;
+            break;
 
-        // 🔥 MODIFIÉ
         case "basthon":
             loadInFrame("https://console.basthon.fr/");
-            return;
+            break;
 
         case "notion":
             loadInFrame("https://lp-mermoz.notion.site/Maths-Sciences-2ac3d9a0652d8001a27cc98c97fd21cb");
-            return;
+            break;
 
         case "labo":
             loadInFrame("https://ppruvost.github.io/laboratory/");
-            return;
+            break;
 
         case "calc":
             loadInFrame("https://www.numworks.com/fr/emulateur/graphique/");
-            return;
+            break;
 
-        // 🔥 MODIFIÉ : iframe
         case "edu":
             loadInFrame("https://www.l-educdenormandie.fr/");
-            return;
+            break;
 
         case "geo":
             toggleSubmenu();
-            return;
+            break;
 
         case "layout":
             toggleLayout();
-            return;
+            break;
     }
 }
 
@@ -113,21 +112,35 @@ setInterval(updateClock, 1000);
 updateClock();
 
 // =========================
-// SUBMENU GEO
+// SUBMENU GEO (CORRIGÉ PROPRE)
 // =========================
 window.toggleSubmenu = function () {
-    const menu = document.getElementById("geoMenu");
-    if (!menu) return;
+    if (!geoMenu) return;
 
-    const open = menu.style.display === "flex";
-    menu.style.display = open ? "none" : "flex";
+    geoMenu.classList.toggle("show");
 };
+
+// fermeture automatique si clic ailleurs
+document.addEventListener("click", (e) => {
+
+    const geoWrapper = document.querySelector(".geo-wrapper");
+    if (!geoWrapper) return;
+
+    if (!geoWrapper.contains(e.target)) {
+        geoMenu?.classList.remove("show");
+    }
+});
 
 // boutons submenu
 document.querySelectorAll(".submenu button").forEach(btn => {
     btn.addEventListener("click", () => {
+
         const url = btn.dataset.url;
-        if (url) loadInFrame(url);
+
+        if (url) {
+            loadInFrame(url);
+            geoMenu?.classList.remove("show");
+        }
     });
 });
 
@@ -144,7 +157,7 @@ function loadInFrame(url, sectionIndex = 0) {
     if (!frame) return;
 
     if (img) img.classList.add("hidden");
-    frame.classList.add("hidden");
+    frame.classList.remove("hidden");
 
     if (url.match(/\.(png|jpg|jpeg|gif)$/i)) {
 
@@ -153,9 +166,10 @@ function loadInFrame(url, sectionIndex = 0) {
             img.classList.remove("hidden");
         }
 
+        frame.src = "";
+
     } else {
         frame.src = url;
-        frame.classList.remove("hidden");
     }
 }
 
@@ -179,7 +193,7 @@ window.toggleLayout = function () {
 };
 
 // =========================
-// INIT 3 COLONNES
+// INIT
 // =========================
 function initThreeColumns() {
 
@@ -193,9 +207,7 @@ function initThreeColumns() {
     img1.classList.add("hidden");
 }
 
-// =========================
 // START
-// =========================
 initThreeColumns();
 
 });
