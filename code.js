@@ -1,15 +1,32 @@
-// État affichage
+```javascript
+// =========================
+// ÉTAT
+// =========================
 let isSingleColumn = false;
 
-// Références
+// =========================
+// RÉFÉRENCES
+// =========================
 const frame1 = document.getElementById("frame1");
 const frame2 = document.getElementById("frame2");
 const frame3 = document.getElementById("frame3");
 const img1 = document.getElementById("img1");
 
-/* =========================
-   HORLOGE
-========================= */
+// =========================
+// BOUTONS ACTIFS
+// =========================
+const menuItems = document.querySelectorAll(".menu-item");
+
+menuItems.forEach(item => {
+    item.addEventListener("click", () => {
+        menuItems.forEach(i => i.classList.remove("active"));
+        item.classList.add("active");
+    });
+});
+
+// =========================
+// HORLOGE
+// =========================
 function updateClock() {
     const now = new Date();
 
@@ -23,22 +40,37 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
-/* =========================
-   SOUS MENU
-========================= */
+// =========================
+// SOUS MENU
+// =========================
 function toggleSubmenu() {
     const menu = document.getElementById("geoMenu");
     const btn = document.getElementById("geoBtn");
 
     const open = menu.style.display === "flex";
 
-    menu.style.display = open ? "none" : "flex";
-    btn.classList.toggle("active", !open);
+    closeSubmenu();
+
+    if (!open) {
+        menu.style.display = "flex";
+        btn.classList.add("active");
+    }
 }
 
-/* =========================
-   CHARGEMENT CONTENU
-========================= */
+// =========================
+// FERMETURE MENU
+// =========================
+function closeSubmenu() {
+    const menu = document.getElementById("geoMenu");
+    const btn = document.getElementById("geoBtn");
+
+    if (menu) menu.style.display = "none";
+    if (btn) btn.classList.remove("active");
+}
+
+// =========================
+// CHARGEMENT CONTENU
+// =========================
 function loadInFrame(url, sectionIndex = 0) {
 
     let frame = [frame1, frame2, frame3][sectionIndex];
@@ -60,47 +92,49 @@ function loadInFrame(url, sectionIndex = 0) {
     closeSubmenu();
 }
 
-/* =========================
-   RACCOURCI URL
-========================= */
+// =========================
+// RACCOURCI URL
+// =========================
 function loadURL(url) {
     loadInFrame(url, 0);
 }
 
-/* =========================
-   FERMETURE MENU
-========================= */
-function closeSubmenu() {
-    const menu = document.getElementById("geoMenu");
-    const btn = document.getElementById("geoBtn");
-
-    if (menu) menu.style.display = "none";
-    if (btn) btn.classList.remove("active");
+// =========================
+// LABO (iframe)
+// =========================
+function loadLabo() {
+    loadInFrame("https://ppruvost.github.io/laboratory/", 0);
 }
 
-/* =========================
-   LAYOUT
-========================= */
+// =========================
+// LAYOUT
+// =========================
 function toggleLayout() {
-    const col2 = frame2.parentElement;
-    const col3 = frame3.parentElement;
+    const container = document.getElementById("content-container");
 
     isSingleColumn = !isSingleColumn;
 
     if (isSingleColumn) {
-        col2.style.display = "none";
-        col3.style.display = "none";
+        container.classList.remove("layout-3");
+
+        frame2.parentElement.style.display = "none";
+        frame3.parentElement.style.display = "none";
+
     } else {
-        col2.style.display = "block";
-        col3.style.display = "block";
+        container.classList.add("layout-3");
+
+        frame2.parentElement.style.display = "flex";
+        frame3.parentElement.style.display = "flex";
+
         initThreeColumns();
     }
 }
 
-/* =========================
-   INIT 3 COLONNES
-========================= */
+// =========================
+// INIT 3 COLONNES
+// =========================
 function initThreeColumns() {
+
     loadInFrame("LP MERMOZ - VIRE.png", 0);
 
     frame2.src = "https://ppruvost.github.io/noise/";
@@ -110,9 +144,10 @@ function initThreeColumns() {
     frame3.classList.remove("hidden");
 }
 
-/* =========================
-   INIT
-========================= */
+// =========================
+// INIT
+// =========================
 window.onload = () => {
     initThreeColumns();
 };
+```
