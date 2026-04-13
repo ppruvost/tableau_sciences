@@ -3,15 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Tableau de Bord</title>
 
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 </head>
 
 <body>
 
-<!-- MENU -->
+<!-- =========================
+     MENU
+========================= -->
 <div class="menu">
 
     <div class="menu-item" data-action="img1">
@@ -42,39 +46,37 @@
         <i class="fas fa-book"></i>
     </div>
 
-    <!-- LABO -->
     <div class="menu-item" data-action="labo">
         <i class="fas fa-flask"></i>
     </div>
 
-    <!-- GEO -->
-    <div class="menu-item" id="geoBtn" data-action="geo">
+    <div class="menu-item" data-action="geo">
         <i class="fas fa-shapes"></i>
     </div>
 
+    <!-- SUBMENU GEO -->
     <div class="submenu" id="geoMenu">
         <button data-url="https://www.geogebra.org/classic?lang=fr">Classic</button>
         <button data-url="https://www.geogebra.org/3d?lang=fr">3D</button>
     </div>
 
-    <!-- CALCULATRICE -->
     <div class="menu-item" data-action="calc">
         <i class="fas fa-calculator"></i>
     </div>
 
-    <!-- NOUVEAU BOUTON -->
     <div class="menu-item" data-action="edu">
         <i class="fas fa-school"></i>
     </div>
 
-    <!-- LAYOUT -->
     <div class="menu-item" data-action="layout">
         <i class="fas fa-cog"></i>
     </div>
 
 </div>
 
-<!-- CONTENU -->
+<!-- =========================
+     CONTENU
+========================= -->
 <div id="content-container">
 
     <div class="content-section column-left">
@@ -83,6 +85,7 @@
     </div>
 
     <div class="content-section column-right">
+
         <div class="right-top">
             <iframe id="frame2"></iframe>
         </div>
@@ -90,11 +93,14 @@
         <div class="right-bottom">
             <iframe id="frame3"></iframe>
         </div>
+
     </div>
 
 </div>
 
-<!-- LICENCE -->
+<!-- =========================
+     LICENCE
+========================= -->
 <div id="license-mini">
     Licence : CC BY-NC-SA 4.0 ·
     <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">
@@ -102,6 +108,9 @@
     </a>
 </div>
 
+<!-- =========================
+     SCRIPT
+========================= -->
 <script src="code.js"></script>
 
 </body>
