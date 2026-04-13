@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tableau de Bord</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+
+<div class="menu">
+
+    <div class="menu-item" onclick="loadInFrame('LP MERMOZ - VIRE.png')">
+        <i class="fas fa-qrcode"></i>
+    </div>
+
+    <div class="menu-item" onclick="loadInFrame('https://ppruvost.github.io/noise/')">
+        <i class="fas fa-volume-up"></i>
+    </div>
+
+    <div class="menu-item" onclick="loadInFrame('https://ppruvost.github.io/Time-Timer/')">
+        <i class="fas fa-stopwatch"></i>
+    </div>
+
+    <div class="menu-item" onclick="loadURL('https://ppruvost.github.io/roue/')">
+        <i class="fas fa-dice"></i>
+    </div>
+
+    <div class="menu-item"
+        onclick="window.open('https://formationenligne.onlyoffice.com/rooms/shared/filter?page=1&sortBy=DateAndTime&sortOrder=descending','_blank')">
+        <i class="fas fa-users"></i>
+    </div>
+
+    <div class="menu-item" onclick="loadURL('https://console.basthon.fr/')">
+        <i class="fas fa-code"></i>
+    </div>
+
+    <div class="menu-item"
+        onclick="window.open('https://lp-mermoz.notion.site/Maths-Sciences-2ac3d9a0652d8001a27cc98c97fd21cb','_blank')">
+        <i class="fas fa-users"></i>
+    </div>
+
+    <div class="menu-item"
+         onclick="window.location.href='https://ppruvost.github.io/laboratory/'">
+        <i class="fas fa-flask"></i>
+    </div>
+
+    <!-- GEO GEBRA -->
+    <div class="menu-item" id="geoBtn" onclick="toggleSubmenu()">
+        <i class="fas fa-shapes"></i>
+    </div>
+
+    <div class="submenu" id="geoMenu">
+        <button onclick="loadURL('https://www.geogebra.org/classic?lang=fr')">Classic</button>
+        <button onclick="loadURL('https://www.geogebra.org/3d?lang=fr')">3D</button>
+    </div>
+
+    <!-- CALCULATRICE -->
+    <div class="menu-item" onclick="loadURL('https://www.numworks.com/fr/emulateur/graphique/')">
+        <i class="fas fa-calculator"></i>
+    </div>
+
+    <div class="menu-item" onclick="toggleLayout()">
+        <i class="fas fa-cog"></i>
+    </div>
+
+</div>
+
+<div id="content-container">
+    <div class="content-section">
+        <iframe id="frame1"></iframe>
+        <img id="img1">
+    </div>
+
+    <div class="content-section">
+        <iframe id="frame2"></iframe>
+    </div>
+
+    <div class="content-section">
+        <iframe id="frame3"></iframe>
+    </div>
+</div>
+
+<!-- HORLOGE -->
+<div id="clock"></div>
+
+<script src="code.js"></script>
+
+</body>
+</html>
