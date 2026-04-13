@@ -1,117 +1,59 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Tableau de Bord</title>
-
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-</head>
-
-<body>
-
-<!-- =========================
-     MENU
-========================= -->
+<!-- MENU -->
 <div class="menu">
 
-    <div class="menu-item" data-action="img1">
+    <div class="menu-item" data-action="img1" data-title="QR Code">
         <i class="fas fa-qrcode"></i>
     </div>
 
-    <div class="menu-item" data-action="noise">
+    <div class="menu-item" data-action="noise" data-title="Bruit / Son">
         <i class="fas fa-volume-up"></i>
     </div>
 
-    <div class="menu-item" data-action="timer">
+    <div class="menu-item" data-action="timer" data-title="Timer">
         <i class="fas fa-stopwatch"></i>
     </div>
 
-    <div class="menu-item" data-action="roue">
+    <div class="menu-item" data-action="roue" data-title="Roue">
         <i class="fas fa-dice"></i>
     </div>
 
-    <div class="menu-item" data-action="collab">
+    <div class="menu-item" data-action="collab" data-title="Salle collaborative">
         <i class="fas fa-users"></i>
     </div>
 
-    <div class="menu-item" data-action="basthon">
+    <div class="menu-item" data-action="basthon" data-title="Basthon Python">
         <i class="fas fa-code"></i>
     </div>
 
-    <div class="menu-item" data-action="notion">
+    <div class="menu-item" data-action="notion" data-title="Notion">
         <i class="fas fa-book"></i>
     </div>
 
-    <div class="menu-item" data-action="labo">
+    <div class="menu-item" data-action="labo" data-title="Labo">
         <i class="fas fa-flask"></i>
     </div>
 
-    <div class="menu-item" data-action="geo">
+    <!-- GEO -->
+    <div class="menu-item" data-action="geo" id="geoBtn" data-title="GeoGebra">
         <i class="fas fa-shapes"></i>
+
+        <!-- SUBMENU collé à l’icône -->
+        <div class="submenu" id="geoMenu">
+            <button data-url="https://www.geogebra.org/classic?lang=fr">Classic</button>
+            <button data-url="https://www.geogebra.org/3d?lang=fr">3D</button>
+        </div>
     </div>
 
-    <!-- SUBMENU GEO -->
-    <div class="submenu" id="geoMenu">
-        <button data-url="https://www.geogebra.org/classic?lang=fr">Classic</button>
-        <button data-url="https://www.geogebra.org/3d?lang=fr">3D</button>
-    </div>
-
-    <div class="menu-item" data-action="calc">
+    <div class="menu-item" data-action="calc" data-title="Calculatrice">
         <i class="fas fa-calculator"></i>
     </div>
 
-    <div class="menu-item" data-action="edu">
+    <div class="menu-item" data-action="edu" data-title="Éducation Normandie">
         <i class="fas fa-school"></i>
     </div>
 
-    <div class="menu-item" data-action="layout">
+    <div class="menu-item" data-action="layout" data-title="Layout">
         <i class="fas fa-cog"></i>
     </div>
 
 </div>
-
-<!-- =========================
-     CONTENU
-========================= -->
-<div id="content-container">
-
-    <div class="content-section column-left">
-        <iframe id="frame1"></iframe>
-        <img id="img1">
-    </div>
-
-    <div class="content-section column-right">
-
-        <div class="right-top">
-            <iframe id="frame2"></iframe>
-        </div>
-
-        <div class="right-bottom">
-            <iframe id="frame3"></iframe>
-        </div>
-
-    </div>
-
-</div>
-
-<!-- =========================
-     LICENCE
-========================= -->
-<div id="license-mini">
-    Licence : CC BY-NC-SA 4.0 ·
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">
-        Voir la licence complète
-    </a>
-</div>
-
-<!-- =========================
-     SCRIPT
-========================= -->
-<script src="code.js"></script>
-
-</body>
-</html>
