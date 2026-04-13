@@ -106,34 +106,44 @@ body, html {
     display: flex;
 }
 
-/* COLONNES */
-.content-section {
-    flex: 1;
-    border: 1px solid #ddd;
+/* =========================
+   COLONNE GAUCHE (32/55)
+========================= */
+.column-left {
+    flex: 32;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
 }
 
-/* MODE 3 ZONES */
-.layout-3 .content-section:first-child {
-    flex: 2;
-}
-
-/* COLONNE DROITE */
+/* =========================
+   COLONNE DROITE (23/55)
+========================= */
 .column-right {
+    flex: 23;
     display: flex;
     flex-direction: column;
 }
 
-/* HAUT / BAS */
-.column-right iframe {
-    flex: 1;
+/* =========================
+   HAUT DROITE (18/30)
+========================= */
+.right-top {
+    flex: 18;
+    overflow: hidden;
 }
 
 /* =========================
-   IFRAME
+   BAS DROITE (12/30)
+========================= */
+.right-bottom {
+    flex: 12;
+    overflow: hidden;
+}
+
+/* =========================
+   IFRAME FULL
 ========================= */
 iframe {
     width: 100%;
@@ -141,19 +151,14 @@ iframe {
     border: none;
 }
 
-/* =========================
-   IMAGE
-========================= */
+/* IMAGE QR */
 img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
-    margin: auto;
 }
 
-/* =========================
-   UTILITAIRE
-========================= */
+/* hidden helper */
 .hidden {
     display: none;
 }
