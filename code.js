@@ -15,19 +15,22 @@ const img1 = document.getElementById("img1");
 const container = document.getElementById("content-container");
 
 // =========================
-// MENU ACTIVE STATE
+// MENU CLICK (VERSION STABLE)
 // =========================
-const menuItems = document.querySelectorAll(".menu-item");
+document.querySelector(".menu").addEventListener("click", (e) => {
 
-menuItems.forEach(item => {
-    item.addEventListener("click", () => {
-        const action = item.dataset.action;
+    const item = e.target.closest(".menu-item");
+    if (!item) return;
 
-        menuItems.forEach(i => i.classList.remove("active"));
-        item.classList.add("active");
+    const action = item.dataset.action;
+    if (!action) return;
 
-        handleAction(action);
-    });
+    document.querySelectorAll(".menu-item")
+        .forEach(i => i.classList.remove("active"));
+
+    item.classList.add("active");
+
+    handleAction(action);
 });
 
 // =========================
@@ -39,68 +42,74 @@ function handleAction(action) {
 
         case "img1":
             loadInFrame("LP MERMOZ - VIRE.png");
-            break;
+            return;
 
         case "noise":
             loadInFrame("https://ppruvost.github.io/noise/");
-            break;
+            return;
 
         case "timer":
             loadInFrame("https://ppruvost.github.io/Time-Timer/");
-            break;
+            return;
 
         case "roue":
             window.open("https://ppruvost.github.io/roue/", "_blank");
-            break;
+            return;
 
         case "collab":
-            window.open("https://formationenligne.onlyoffice.com/rooms/shared/filter?page=1&sortBy=DateAndTime&sortOrder=descending", "_blank");
-            break;
+            window.open(
+                "https://formationenligne.onlyoffice.com/rooms/shared/filter?page=1&sortBy=DateAndTime&sortOrder=descending",
+                "_blank"
+            );
+            return;
 
         case "basthon":
             window.open("https://console.basthon.fr/", "_blank");
-            break;
+            return;
 
         case "notion":
-            window.open("https://lp-mermoz.notion.site/Maths-Sciences-2ac3d9a0652d8001a27cc98c97fd21cb", "_blank");
-            break;
+            window.open(
+                "https://lp-mermoz.notion.site/Maths-Sciences-2ac3d9a0652d8001a27cc98c97fd21cb",
+                "_blank"
+            );
+            return;
 
         case "labo":
             loadInFrame("https://ppruvost.github.io/laboratory/");
-            break;
+            return;
 
         case "calc":
             loadInFrame("https://www.numworks.com/fr/emulateur/graphique/");
-            break;
+            return;
 
         case "edu":
             window.open("https://www.l-educdenormandie.fr/", "_blank");
-            break;
+            return;
 
         case "geo":
             toggleSubmenu();
-            break;
+            return;
 
         case "layout":
             toggleLayout();
-            break;
+            return;
     }
 }
 
 // =========================
-// HORLOGE (optionnel conservé)
+// HORLOGE
 // =========================
 function updateClock() {
+    const clock = document.getElementById("clock");
+    if (!clock) return;
+
     const now = new Date();
 
     const h = String(now.getHours()).padStart(2, '0');
     const m = String(now.getMinutes()).padStart(2, '0');
     const date = now.toLocaleDateString('fr-FR');
 
-    const clock = document.getElementById("clock");
-    if (clock) {
-        clock.innerHTML = `${h}:${m}<br>${date}`;
-    }
+    clock.innerHTML = `${h}:${m}<br>${date}`;
 }
 
 setInterval(updateClock, 1000);
@@ -111,16 +120,17 @@ updateClock();
 // =========================
 window.toggleSubmenu = function () {
     const menu = document.getElementById("geoMenu");
-    const open = menu.style.display === "flex";
+    if (!menu) return;
 
+    const open = menu.style.display === "flex";
     menu.style.display = open ? "none" : "flex";
-}
+};
 
 // boutons submenu
 document.querySelectorAll(".submenu button").forEach(btn => {
     btn.addEventListener("click", () => {
         const url = btn.dataset.url;
-        loadInFrame(url);
+        if (url) loadInFrame(url);
     });
 });
 
@@ -129,8 +139,10 @@ document.querySelectorAll(".submenu button").forEach(btn => {
 // =========================
 function loadInFrame(url, sectionIndex = 0) {
 
-    let frame = [frame1, frame2, frame3][sectionIndex];
-    let img = sectionIndex === 0 ? img1 : null;
+    const frames = [frame1, frame2, frame3];
+    const frame = frames[sectionIndex];
+
+    const img = sectionIndex === 0 ? img1 : null;
 
     if (!frame) return;
 
@@ -138,10 +150,12 @@ function loadInFrame(url, sectionIndex = 0) {
     frame.classList.add("hidden");
 
     if (url.match(/\.(png|jpg|jpeg|gif)$/i)) {
+
         if (img) {
             img.src = url;
             img.classList.remove("hidden");
         }
+
     } else {
         frame.src = url;
         frame.classList.remove("hidden");
@@ -165,7 +179,7 @@ window.toggleLayout = function () {
         rightColumn.style.display = "flex";
         initThreeColumns();
     }
-}
+};
 
 // =========================
 // INIT 3 COLONNES
@@ -173,6 +187,7 @@ window.toggleLayout = function () {
 function initThreeColumns() {
 
     loadInFrame("LP MERMOZ - VIRE.png", 0);
+
     frame2.src = "https://ppruvost.github.io/noise/";
     frame3.src = "https://ppruvost.github.io/Time-Timer/";
 
@@ -181,7 +196,9 @@ function initThreeColumns() {
     img1.classList.add("hidden");
 }
 
+// =========================
 // START
+// =========================
 initThreeColumns();
 
 });
