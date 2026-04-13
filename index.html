@@ -14,58 +14,61 @@
 <!-- MENU -->
 <div class="menu">
 
-    <div class="menu-item" data-title="QR Code" onclick="loadInFrame('LP MERMOZ - VIRE.png')">
+    <div class="menu-item" data-action="img1">
         <i class="fas fa-qrcode"></i>
     </div>
 
-    <div class="menu-item" data-title="Bruit / Son" onclick="loadInFrame('https://ppruvost.github.io/noise/')">
+    <div class="menu-item" data-action="noise">
         <i class="fas fa-volume-up"></i>
     </div>
 
-    <div class="menu-item" data-title="Timer" onclick="loadInFrame('https://ppruvost.github.io/Time-Timer/')">
+    <div class="menu-item" data-action="timer">
         <i class="fas fa-stopwatch"></i>
     </div>
 
-    <div class="menu-item" data-title="Roue" onclick="loadURL('https://ppruvost.github.io/roue/')">
+    <div class="menu-item" data-action="roue">
         <i class="fas fa-dice"></i>
     </div>
 
-    <div class="menu-item" data-title="Salle collaborative"
-        onclick="window.open('https://formationenligne.onlyoffice.com/rooms/shared/filter?page=1&sortBy=DateAndTime&sortOrder=descending','_blank')">
+    <div class="menu-item" data-action="collab">
         <i class="fas fa-users"></i>
     </div>
 
-    <div class="menu-item" data-title="Basthon (Python)" onclick="loadURL('https://console.basthon.fr/')">
+    <div class="menu-item" data-action="basthon">
         <i class="fas fa-code"></i>
     </div>
 
-    <div class="menu-item" data-title="Notion"
-        onclick="window.open('https://lp-mermoz.notion.site/Maths-Sciences-2ac3d9a0652d8001a27cc98c97fd21cb','_blank')">
+    <div class="menu-item" data-action="notion">
         <i class="fas fa-book"></i>
     </div>
 
     <!-- LABO -->
-    <div class="menu-item" data-title="Labo" onclick="loadLabo()">
+    <div class="menu-item" data-action="labo">
         <i class="fas fa-flask"></i>
     </div>
 
-    <!-- GEO GEBRA -->
-    <div class="menu-item" data-title="GeoGebra" id="geoBtn" onclick="toggleSubmenu()">
+    <!-- GEO -->
+    <div class="menu-item" id="geoBtn" data-action="geo">
         <i class="fas fa-shapes"></i>
     </div>
 
     <div class="submenu" id="geoMenu">
-        <button onclick="loadURL('https://www.geogebra.org/classic?lang=fr')">Classic</button>
-        <button onclick="loadURL('https://www.geogebra.org/3d?lang=fr')">3D</button>
+        <button data-url="https://www.geogebra.org/classic?lang=fr">Classic</button>
+        <button data-url="https://www.geogebra.org/3d?lang=fr">3D</button>
     </div>
 
     <!-- CALCULATRICE -->
-    <div class="menu-item" data-title="Calculatrice" onclick="loadURL('https://www.numworks.com/fr/emulateur/graphique/')">
+    <div class="menu-item" data-action="calc">
         <i class="fas fa-calculator"></i>
     </div>
 
+    <!-- NOUVEAU BOUTON -->
+    <div class="menu-item" data-action="edu">
+        <i class="fas fa-school"></i>
+    </div>
+
     <!-- LAYOUT -->
-    <div class="menu-item" data-title="Changer disposition écran" onclick="toggleLayout()">
+    <div class="menu-item" data-action="layout">
         <i class="fas fa-cog"></i>
     </div>
 
@@ -74,13 +77,11 @@
 <!-- CONTENU -->
 <div id="content-container">
 
-    <!-- COLONNE GAUCHE -->
     <div class="content-section column-left">
         <iframe id="frame1"></iframe>
         <img id="img1">
     </div>
 
-    <!-- COLONNE DROITE -->
     <div class="content-section column-right">
         <div class="right-top">
             <iframe id="frame2"></iframe>
@@ -89,19 +90,18 @@
         <div class="right-bottom">
             <iframe id="frame3"></iframe>
         </div>
+    </div>
 
 </div>
 
-<!-- =========================
-     LICENCE
-========================= -->
+<!-- LICENCE -->
 <div id="license-mini">
     Licence : CC BY-NC-SA 4.0 ·
     <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">
         Voir la licence complète
     </a>
 </div>
-    
+
 <script src="code.js"></script>
 
 </body>
