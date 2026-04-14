@@ -1,25 +1,11 @@
-*, *::before, *::after {
+* {
     box-sizing: border-box;
 }
+
 html, body {
     margin: 0;
-    padding: 0;
     height: 100%;
     font-family: Arial, sans-serif;
-}
-body {
-    display: flex;
-}
-
-/* FORME BOUTON */
-.menu button {
-    width: 42px;
-    height: 42px;
-    border-radius: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
 }
 
 /* MENU */
@@ -28,53 +14,46 @@ body {
     left: 15px;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 99999;
+    z-index: 9999;
     background: #f0f8ff;
     border-radius: 20px;
     padding: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     display: flex;
     flex-direction: column;
-    gap: 12px;    
-    max-height: 90vh;
-    overflow-y: auto;
+    gap: 12px;
 }
 
+/* BOUTONS RONDS */
 .menu-item {
     width: 65px;
     height: 65px;
-    background: #4169e1;
+    min-width: 65px;
+    min-height: 65px;
+
     border-radius: 50%;
+    background: #4169e1;
+
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+
     color: white;
     font-size: 26px;
+
     cursor: pointer;
-    transition: all 0.25s ease;
-    position: relative; /* important pour tooltip */
+    transition: 0.2s;
 }
 
-/* Hover */
 .menu-item:hover {
     background: #1e90ff;
     transform: scale(1.1);
 }
 
-/* Active (sélectionné) */
 .menu-item.active {
     background: darkorange;
 }
 
-.menu-item.active:hover {
-    transform: scale(1.1);
-}
-
-.menu-item.active i {
-    color: white;
-}
-
-/* Tooltip */
+/* TOOLTIP */
 .menu-item::after {
     content: attr(data-tooltip);
     position: absolute;
@@ -86,12 +65,8 @@ body {
     padding: 5px 10px;
     border-radius: 6px;
     font-size: 12px;
-    white-space: nowrap;
     opacity: 0;
     visibility: hidden;
-    pointer-events: none;
-    transition: 0.2s;
-    z-index: 100000;
 }
 
 .menu-item:hover::after {
@@ -99,111 +74,55 @@ body {
     visibility: visible;
 }
 
-/* SOUS MENU */
-.submenu {
-    display: none;
-    flex-direction: column;
-    gap: 8px;
-    margin-left: 10px;
-}
-
-.submenu button {
-    padding: 8px;
-    border: none;
-    border-radius: 8px;
-    background: #ddd;
-    cursor: pointer;
-}
-
-.submenu button:hover {
-    background: #bbb;
-}
-
 /* CONTENU */
-.container.full {
-    display: flex;
-    flex-direction: column;
-}
 #content-container {
-    margin-left: 130px;
-    width: calc(100vw - 130px);
-    height: 100vh;
-    min-height: 100vh;
+    position: absolute;
+    left: 110px; /* 🔥 espace menu */
+    top: 0;
+    width: calc(100% - 110px);
+    height: 100%;
+
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
-    
-    overflow: hidden;
 }
 
-/* MODE PLEIN */
-.full-mode {
-    grid-template-columns: 1fr !important;
-}
-
-/* MODE SPLIT PRINCIPAL */
-.split-mode {
-    grid-template-columns: 60% 40% !important;
-}
-
-/* PARTIE DROITE SPLIT */
-.right-split {
-    display: grid;
-    grid-template-rows: 60% 40%;
-    height: 100%;
-}
-
+/* SECTIONS */
 .content-section {
     width: 100%;
     height: 100%;
-    border: 1px solid #ddd;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
-/* IFRAME */
-.content-section iframe {
+iframe {
     width: 100%;
     height: 100%;
     border: none;
 }
 
-/* IMAGE QR */
-.content-section img {
-    max-width: 100%;
-    max-height: 100%;
+img {
+    width: 100%;
+    height: 100%;
     object-fit: contain;
-    margin: auto;
 }
 
 .hidden {
     display: none;
 }
 
+/* SPLIT */
+.split-mode {
+    grid-template-columns: 60% 40%;
+}
+
+.right-split {
+    display: grid;
+    grid-template-rows: 60% 40%;
+}
+
 /* HORLOGE */
 #clock {
     position: fixed;
     bottom: 20px;
-    right: 30px;
-
-    color: white;
-    text-align: right;
-
-    font-family: 'Arial', sans-serif;
-}
-
-/* HEURE */
-#clock .time {
-    font-size: 64px;
-    font-weight: bold;
-    letter-spacing: 2px;
-}
-
-/* DATE */
-#clock .date {
-    font-size: 24px;
-    letter-spacing: 3px;
-    opacity: 0.85;
+    left: 20px; /* 🔥 sous le menu */
+    color: black;
+    font-size: 18px;
 }
