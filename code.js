@@ -29,14 +29,17 @@ updateClock();
 function toggleMenu(menuId, btn) {
     const menu = document.getElementById(menuId);
 
-    const open = menu.style.display === "flex";
+    const isOpen = menu.classList.contains("open");
+// Ferme tous les menus
+    document.querySelectorAll(".submenu").forEach(m => {
+        m.classList.remove("open");
+        m.style.display = "none";
+    });
 
-    // Ferme tous les menus
-    document.querySelectorAll(".submenu").forEach(m => m.style.display = "none");
     document.querySelectorAll(".menu-item").forEach(b => b.classList.remove("active"));
-
-    // Ouvre celui cliqué
-    if (!open) {
+// Ouvre celui cliqué
+    if (!isOpen) {
+        menu.classList.add("open");
         menu.style.display = "flex";
         btn.classList.add("active");
     }
