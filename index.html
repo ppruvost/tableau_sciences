@@ -56,30 +56,28 @@
     <!-- GEO GEBRA -->
     <div class="menu-item" data-tooltip="GéoGébra" id="geoBtn" onclick="toggleSubmenu()">
         <i class="fas fa-shapes"></i>
-    </div>
 
-    <div class="submenu" id="geoMenu">
-        <button onclick="loadURL('https://www.geogebra.org/classic?lang=fr')">Classic</button>
-        <button onclick="loadURL('https://www.geogebra.org/3d?lang=fr')">3D</button>
+        <div class="submenu" id="geoMenu">
+            <button onclick="loadURL('https://www.geogebra.org/classic?lang=fr')">Classic</button>
+            <button onclick="loadURL('https://www.geogebra.org/3d?lang=fr')">3D</button>
+        </div>
     </div>
-
     <!-- CALCULATRICE -->
     <div class="menu-item" data-tooltip="Numworks" onclick="loadURL('https://www.numworks.com/fr/emulateur/graphique/')">
         <i class="fas fa-calculator"></i>
     </div>
 
+    <!-- ECRANS PARAMETRE-->    
     <div class="menu-item" data-tooltip="Ecran" onclick="toggleScreenMenu()">
         <i class="fas fa-cog"></i>
+
+        <div class="submenu" id="screenMenu">
+            <button onclick="modeFull()">Écran plein</button>
+            <button onclick="modeSplit()">Écran fractionné</button>
+            <button onclick="modeLicence()">Licence</button>
+        </div>
     </div>
-
-    <div class="submenu" id="screenMenu">
-        <button onclick="modeFull()">Écran plein</button>
-        <button onclick="modeSplit()">Écran fractionné</button>
-        <button onclick="modeLicence()">Licence</button>
-    </div>
-
-</div>
-
+    <!-- ECRANS SECTIONS-->
 <div id="content-container">
     <div class="content-section">
         <iframe id="frame1"></iframe>
