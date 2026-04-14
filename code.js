@@ -179,7 +179,8 @@ function toggleLayout() {
 window.onload = () => {
 
     refreshFrames();
-    initThreeColumns();
+    modeFull(); // 🔥 plein écran par défaut
+    loadInFrame("LP MERMOZ - VIRE.png", 0); // contenu initial
     updateClock();
 
     const menuItems = document.querySelectorAll(".menu-item");
