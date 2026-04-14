@@ -1,16 +1,5 @@
-/* =========================
-   ÉTAT
-========================= */
-let isSingleColumn = false;
-
-/* =========================
-   RÉFÉRENCES (IMPORTANT : LET)
-========================= */
 let frame1, frame2, frame3, img1;
 
-/* =========================
-   INIT RÉFÉRENCES
-========================= */
 function refreshFrames() {
     frame1 = document.getElementById("frame1");
     frame2 = document.getElementById("frame2");
@@ -18,9 +7,7 @@ function refreshFrames() {
     img1 = document.getElementById("img1");
 }
 
-/* =========================
-   HORLOGE
-========================= */
+/* HORLOGE FIX */
 function updateClock() {
     const now = new Date();
 
@@ -29,124 +16,60 @@ function updateClock() {
     const date = now.toLocaleDateString('fr-FR');
 
     document.getElementById("clock").innerHTML =
-        h + ":" + m + "<br>" + date;
+        `<div>${h}:${m}</div><div>${date}</div>`;
 }
+
 setInterval(updateClock, 1000);
 
-/* =========================
-   SOUS-MENUS
-========================= */
+/* MENU */
 function toggleMenu(menuId, btn) {
     const menu = document.getElementById(menuId);
-    const isOpen = menu.classList.contains("open");
 
     document.querySelectorAll(".submenu").forEach(m => {
-        m.classList.remove("open");
         m.style.display = "none";
     });
 
-    document.querySelectorAll(".menu-item").forEach(b => b.classList.remove("active"));
-
-    if (!isOpen) {
-        menu.classList.add("open");
+    if (menu.style.display === "flex") {
+        menu.style.display = "none";
+    } else {
         menu.style.display = "flex";
-        btn.classList.add("active");
     }
 }
 
-function closeAllMenus() {
-    document.querySelectorAll(".submenu").forEach(m => {
-        m.classList.remove("open");
-        m.style.display = "none";
-    });
-
-    document.querySelectorAll(".menu-item").forEach(b => b.classList.remove("active"));
-}
-
-/* =========================
-   CHARGEMENT CONTENU
-========================= */
-function loadInFrame(url, sectionIndex = 0) {
-
+/* LOAD */
+function loadInFrame(url) {
     refreshFrames();
 
-    let frame = [frame1, frame2, frame3][sectionIndex];
-    let img = sectionIndex === 0 ? img1 : null;
-
-    if (!frame) return;
-
-    if (img) img.classList.add("hidden");
-    frame.classList.add("hidden");
+    img1.classList.add("hidden");
+    frame1.classList.add("hidden");
 
     if (url.match(/\.(png|jpg|jpeg|gif)$/i)) {
-        if (img) {
-            img.src = url;
-            img.classList.remove("hidden");
-        }
+        img1.src = url;
+        img1.classList.remove("hidden");
     } else {
-        frame.src = url;
-        frame.classList.remove("hidden");
+        frame1.src = url;
+        frame1.classList.remove("hidden");
     }
-
-    closeAllMenus();
 }
 
-/* =========================
-   RACCOURCI
-========================= */
 function loadURL(url) {
-    loadInFrame(url, 0);
+    loadInFrame(url);
 }
 
-/* =========================
-   LAYOUT NORMAL (3 COLONNES)
-========================= */
-function initThreeColumns() {
-    refreshFrames();
-
-    loadInFrame("LP MERMOZ - VIRE.png", 0);
-
-    frame2.src = "https://ppruvost.github.io/noise/";
-    frame3.src = "https://ppruvost.github.io/Time-Timer/";
-
-    document.getElementById("section2").style.display = "flex";
-    document.getElementById("section3").style.display = "flex";
-
-    const section2 = document.getElementById("section2");
-    section2.classList.remove("right-split");
-}
-
-/* =========================
-   MODE PLEIN ÉCRAN
-========================= */
+/* MODES */
 function modeFull() {
-    const container = document.getElementById("content-container");
-
-    container.classList.add("full-mode");
-    container.classList.remove("split-mode");
-
-   container.style.gridTemplateColumns = "1fr"; // 🔥 sécurité
+    document.getElementById("content-container").classList.remove("split-mode");
 
     document.getElementById("section2").style.display = "none";
     document.getElementById("section3").style.display = "none";
-
-    closeAllMenus();
 }
 
-/* =========================
-   MODE SPLIT 60 / 40 + 60 / 40
-========================= */
 function modeSplit() {
-    refreshFrames();
-
     const container = document.getElementById("content-container");
-    const section2 = document.getElementById("section2");
-    const section3 = document.getElementById("section3");
-
     container.classList.add("split-mode");
-    container.classList.remove("full-mode");
 
-    section3.style.display = "none";
+    const section2 = document.getElementById("section2");
+    section2.style.display = "block";
     section2.classList.add("right-split");
 
     section2.innerHTML = `
@@ -158,39 +81,12 @@ function modeSplit() {
 
     frame2.src = "https://ppruvost.github.io/noise/";
     frame3.src = "https://ppruvost.github.io/Time-Timer/";
-
-    closeAllMenus();
 }
 
-/* =========================
-   TOGGLE MODE SIMPLE (optionnel)
-========================= */
-function toggleLayout() {
-    isSingleColumn = !isSingleColumn;
-
-    if (isSingleColumn) {
-        modeFull();
-    } else {
-        initThreeColumns();
-    }
-}
-
-/* =========================
-   INIT
-========================= */
+/* INIT */
 window.onload = () => {
-
     refreshFrames();
-    modeFull(); // 🔥 plein écran par défaut
-    loadInFrame("LP MERMOZ - VIRE.png", 0); // contenu initial
+    modeFull();
+    loadInFrame("LP MERMOZ - VIRE.png");
     updateClock();
-
-    const menuItems = document.querySelectorAll(".menu-item");
-
-    menuItems.forEach(item => {
-        item.addEventListener("click", () => {
-            menuItems.forEach(i => i.classList.remove("active"));
-            item.classList.add("active");
-        });
-    });
 };
