@@ -82,10 +82,6 @@ body, html {
     transform: scale(1.1);
 }
 
-.menu-item.active {
-    background: orange;
-}
-
 /* SOUS MENU */
 .submenu {
     display: none;
