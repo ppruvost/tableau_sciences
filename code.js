@@ -26,14 +26,20 @@ updateClock();
 /* =========================
    SOUS MENU
 ========================= */
-function toggleSubmenu() {
-    const menu = document.getElementById("geoMenu");
-    const btn = document.getElementById("geoBtn");
+function toggleMenu(menuId, btn) {
+    const menu = document.getElementById(menuId);
 
     const open = menu.style.display === "flex";
 
-    menu.style.display = open ? "none" : "flex";
-    btn.classList.toggle("active", !open);
+    // Ferme tous les menus
+    document.querySelectorAll(".submenu").forEach(m => m.style.display = "none");
+    document.querySelectorAll(".menu-item").forEach(b => b.classList.remove("active"));
+
+    // Ouvre celui cliqué
+    if (!open) {
+        menu.style.display = "flex";
+        btn.classList.add("active");
+    }
 }
 
 /* =========================
