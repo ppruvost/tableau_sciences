@@ -48,13 +48,11 @@
         <i class="fas fa-clipboard-list"></i>
     </div>
 
-
     <div class="menu-item" data-tooltip="Laboratoire" onclick="loadURL('https://ppruvost.github.io/laboratory/')">
         <i class="fas fa-flask"></i>
     </div>
 
-    <!-- GEO GEBRA -->
-    <div class="menu-item" data-tooltip="GéoGébra" id="geoBtn" onclick="toggleMenu('geoMenu', this)">
+    <div class="menu-item" data-tooltip="GéoGébra" onclick="toggleMenu('geoMenu', this)">
         <i class="fas fa-shapes"></i>
 
         <div class="submenu" id="geoMenu">
@@ -62,22 +60,22 @@
             <button onclick="loadURL('https://www.geogebra.org/3d?lang=fr')">3D</button>
         </div>
     </div>
-    <!-- CALCULATRICE -->
+
     <div class="menu-item" data-tooltip="Calculatrice Graphique" onclick="loadURL('https://www.numworks.com/fr/emulateur/graphique/')">
         <i class="fas fa-calculator"></i>
     </div>
 
-    <!-- ECRANS PARAMETRE-->    
     <div class="menu-item" data-tooltip="Ecran" onclick="toggleMenu('screenMenu', this)">
         <i class="fas fa-cog"></i>
 
         <div class="submenu" id="screenMenu">
             <button onclick="modeFull()">Écran plein</button>
             <button onclick="modeSplit()">Écran fractionné</button>
-            <button onclick="modeLicence()">Licence</button>
         </div>
     </div>
-    <!-- ECRANS SECTIONS-->
+
+</div>
+
 <div id="content-container">
 
     <div class="content-section" id="section1">
@@ -95,7 +93,6 @@
 
 </div>
 
-<!-- HORLOGE -->
 <div id="clock"></div>
 
 <script src="code.js"></script>
