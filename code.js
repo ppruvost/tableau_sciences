@@ -125,6 +125,8 @@ function modeFull() {
     container.classList.add("full-mode");
     container.classList.remove("split-mode");
 
+   container.style.gridTemplateColumns = "1fr"; // 🔥 sécurité
+
     document.getElementById("section2").style.display = "none";
     document.getElementById("section3").style.display = "none";
 
