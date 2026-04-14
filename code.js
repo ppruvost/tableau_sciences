@@ -1,11 +1,22 @@
-// État affichage
+/* =========================
+   ÉTAT
+========================= */
 let isSingleColumn = false;
 
-// Références
-const frame1 = document.getElementById("frame1");
-const frame2 = document.getElementById("frame2");
-const frame3 = document.getElementById("frame3");
-const img1 = document.getElementById("img1");
+/* =========================
+   RÉFÉRENCES (IMPORTANT : LET)
+========================= */
+let frame1, frame2, frame3, img1;
+
+/* =========================
+   INIT RÉFÉRENCES
+========================= */
+function refreshFrames() {
+    frame1 = document.getElementById("frame1");
+    frame2 = document.getElementById("frame2");
+    frame3 = document.getElementById("frame3");
+    img1 = document.getElementById("img1");
+}
 
 /* =========================
    HORLOGE
@@ -21,23 +32,21 @@ function updateClock() {
         h + ":" + m + "<br>" + date;
 }
 setInterval(updateClock, 1000);
-updateClock();
 
 /* =========================
-   SOUS MENU
+   SOUS-MENUS
 ========================= */
 function toggleMenu(menuId, btn) {
     const menu = document.getElementById(menuId);
-
     const isOpen = menu.classList.contains("open");
-// Ferme tous les menus
+
     document.querySelectorAll(".submenu").forEach(m => {
         m.classList.remove("open");
         m.style.display = "none";
     });
 
     document.querySelectorAll(".menu-item").forEach(b => b.classList.remove("active"));
-// Ouvre celui cliqué
+
     if (!isOpen) {
         menu.classList.add("open");
         menu.style.display = "flex";
@@ -45,13 +54,26 @@ function toggleMenu(menuId, btn) {
     }
 }
 
+function closeAllMenus() {
+    document.querySelectorAll(".submenu").forEach(m => {
+        m.classList.remove("open");
+        m.style.display = "none";
+    });
+
+    document.querySelectorAll(".menu-item").forEach(b => b.classList.remove("active"));
+}
+
 /* =========================
    CHARGEMENT CONTENU
 ========================= */
 function loadInFrame(url, sectionIndex = 0) {
 
+    refreshFrames();
+
     let frame = [frame1, frame2, frame3][sectionIndex];
     let img = sectionIndex === 0 ? img1 : null;
+
+    if (!frame) return;
 
     if (img) img.classList.add("hidden");
     frame.classList.add("hidden");
@@ -66,68 +88,100 @@ function loadInFrame(url, sectionIndex = 0) {
         frame.classList.remove("hidden");
     }
 
-    closeSubmenu();
+    closeAllMenus();
 }
 
 /* =========================
-   RACCOURCI URL
+   RACCOURCI
 ========================= */
 function loadURL(url) {
     loadInFrame(url, 0);
 }
 
 /* =========================
-   FERMETURE MENU
-========================= */
-function closeSubmenu() {
-    const menu = document.getElementById("geoMenu");
-    const btn = document.getElementById("geoBtn");
-
-    if (menu) menu.style.display = "none";
-    if (btn) btn.classList.remove("active");
-}
-
-/* =========================
-   LAYOUT
-========================= */
-function toggleLayout() {
-    const col2 = frame2.parentElement;
-    const col3 = frame3.parentElement;
-
-    isSingleColumn = !isSingleColumn;
-
-    if (isSingleColumn) {
-        col2.style.display = "none";
-        col3.style.display = "none";
-    } else {
-        col2.style.display = "block";
-        col3.style.display = "block";
-        initThreeColumns();
-    }
-}
-
-/* =========================
-   INIT 3 COLONNES
+   LAYOUT NORMAL (3 COLONNES)
 ========================= */
 function initThreeColumns() {
+    refreshFrames();
+
     loadInFrame("LP MERMOZ - VIRE.png", 0);
 
     frame2.src = "https://ppruvost.github.io/noise/";
     frame3.src = "https://ppruvost.github.io/Time-Timer/";
 
-    frame2.classList.remove("hidden");
-    frame3.classList.remove("hidden");
+    document.getElementById("section2").style.display = "flex";
+    document.getElementById("section3").style.display = "flex";
+
+    const section2 = document.getElementById("section2");
+    section2.classList.remove("right-split");
+}
+
+/* =========================
+   MODE PLEIN ÉCRAN
+========================= */
+function modeFull() {
+    const container = document.getElementById("content-container");
+
+    container.classList.add("full-mode");
+    container.classList.remove("split-mode");
+
+    document.getElementById("section2").style.display = "none";
+    document.getElementById("section3").style.display = "none";
+
+    closeAllMenus();
+}
+
+/* =========================
+   MODE SPLIT 60 / 40 + 60 / 40
+========================= */
+function modeSplit() {
+    refreshFrames();
+
+    const container = document.getElementById("content-container");
+    const section2 = document.getElementById("section2");
+    const section3 = document.getElementById("section3");
+
+    container.classList.add("split-mode");
+    container.classList.remove("full-mode");
+
+    section3.style.display = "none";
+    section2.classList.add("right-split");
+
+    section2.innerHTML = `
+        <iframe id="frame2"></iframe>
+        <iframe id="frame3"></iframe>
+    `;
+
+    refreshFrames();
+
+    frame2.src = "https://ppruvost.github.io/noise/";
+    frame3.src = "https://ppruvost.github.io/Time-Timer/";
+
+    closeAllMenus();
+}
+
+/* =========================
+   TOGGLE MODE SIMPLE (optionnel)
+========================= */
+function toggleLayout() {
+    isSingleColumn = !isSingleColumn;
+
+    if (isSingleColumn) {
+        modeFull();
+    } else {
+        initThreeColumns();
+    }
 }
 
 /* =========================
    INIT
 ========================= */
 window.onload = () => {
-    initThreeColumns();
 
-    // =========================
-    // BOUTON ACTIF (MENU ORANGE)
-    // =========================
+    refreshFrames();
+    initThreeColumns();
+    updateClock();
+
     const menuItems = document.querySelectorAll(".menu-item");
 
     menuItems.forEach(item => {
