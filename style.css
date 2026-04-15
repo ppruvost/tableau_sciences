@@ -53,6 +53,17 @@ html, body {
     background: darkorange;
 }
 
+/* Style par défaut des icônes */
+.menu-item i {
+    color: #444;
+    transition: color 0.3s ease;
+}
+
+/* Etat actif = icône orange */
+.menu-item.active i {
+    color: orange;
+}
+
 /* TOOLTIP */
 .menu-item::after {
     content: attr(data-tooltip);
