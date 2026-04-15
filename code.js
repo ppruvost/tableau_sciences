@@ -83,6 +83,17 @@ function modeSplit() {
     frame3.src = "https://ppruvost.github.io/Time-Timer/";
 }
 
+        /* Gestion de l'état actif du menu */
+        function setActive(element) {
+            /* Retire la classe active de tous les boutons */
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.classList.remove('active');
+            });
+ 
+            /* Ajoute la classe active au bouton cliqué */
+            element.classList.add('active');
+        }
+
 /* INIT */
 window.onload = () => {
     refreshFrames();
