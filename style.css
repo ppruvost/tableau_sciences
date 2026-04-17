@@ -50,13 +50,12 @@ html, body {
 }
 
 .menu-item.active {
-    background: darkorange;
+    background: orange;
 }
 
 /* Style par défaut des icônes */
 .menu-item i {
-    background: #3b6edc;   /* 🔵 fond bleu */
-    color: white;          /* ✅ icône blanche */
+    background: none;
 
     width: 50px;
     height: 50px;
