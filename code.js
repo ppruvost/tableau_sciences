@@ -25,15 +25,25 @@ setInterval(updateClock, 1000);
 function toggleMenu(menuId, btn) {
     const menu = document.getElementById(menuId);
 
+    // 🔴 Fermer tous les sous-menus
     document.querySelectorAll(".submenu").forEach(m => {
-        m.style.display = "none";
+        m.classList.remove("show");
     });
 
-    if (menu.style.display === "flex") {
-        menu.style.display = "none";
-    } else {
-        menu.style.display = "flex";
+    // 🔴 Désactiver tous les boutons
+    document.querySelectorAll(".menu-item").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    // ✅ Si déjà ouvert → on ferme tout
+    if (menu.classList.contains("show")) {
+        menu.classList.remove("show");
+        return;
     }
+
+    // ✅ Sinon on ouvre celui-ci
+    menu.classList.add("show");
+    btn.classList.add("active");
 }
 
 /* LOAD */
