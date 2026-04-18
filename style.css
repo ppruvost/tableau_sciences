@@ -204,12 +204,12 @@ img {
 /* panneau gauche */
 .left-panel {
     height: 100%;
-    }
+}
 
 /* panneau droit */
 .right-panel {
     display: grid;
-    grid-template-rows: 50% 50%;
+    grid-template-rows: 1fr 1fr; /* 🔥 plus fiable que 50% */
     height: 100%;
 }
 
