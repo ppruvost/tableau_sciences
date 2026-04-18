@@ -195,10 +195,6 @@ img {
 /* SPLIT */
 /* =============================== */
 
-/* =============================== */
-/* MODE SPLIT NOUVELLE VERSION */
-/* =============================== */
-
 .split-mode {
     display: grid;
     grid-template-columns: 70% 30%;
@@ -207,13 +203,13 @@ img {
 
 /* panneau gauche */
 .left-panel {
-    display: grid;
-    grid-template-rows: 50% 50%;
     height: 100%;
-}
+    }
 
 /* panneau droit */
 .right-panel {
+    display: grid;
+    grid-template-rows: 50% 50%;
     height: 100%;
 }
 
