@@ -195,13 +195,33 @@ img {
 /* SPLIT */
 /* =============================== */
 
+/* =============================== */
+/* MODE SPLIT NOUVELLE VERSION */
+/* =============================== */
+
 .split-mode {
-    grid-template-columns: 60% 40%;
+    display: grid;
+    grid-template-columns: 70% 30%;
+    height: 100%;
 }
 
-.right-split {
+/* panneau gauche */
+.left-panel {
     display: grid;
-    grid-template-rows: 60% 40%;
+    grid-template-rows: 50% 50%;
+    height: 100%;
+}
+
+/* panneau droit */
+.right-panel {
+    height: 100%;
+}
+
+/* iframe plein */
+.panel-frame {
+    width: 100%;
+    height: 100%;
+    border: none;
 }
 
 /* =============================== */
