@@ -99,10 +99,19 @@ function loadURL(url) {
 
 function modeFull() {
     const container = document.getElementById("content-container");
+
+    // Reset du layout
     container.classList.remove("split-mode");
 
-    document.getElementById("section2").style.display = "none";
-    document.getElementById("section3").style.display = "none";
+    // 🔄 Remet la structure initiale
+    container.innerHTML = `
+        <div id="section1" class="content-section">
+            <iframe id="frame1"></iframe>
+            <img id="img1" class="hidden"/>
+        </div>
+    `;
+
+    refreshFrames();
 }
 
 function modeSplit() {
