@@ -165,8 +165,9 @@ html, body {
     width: calc(100% - 110px);
     height: 100%;
 
-    display: grid;
-    grid-template-columns: 1fr;
+    overflow: hidden;
+    display: flex; /* 🔥 important pour éviter bugs internes */
+    flex-direction: column;
 }
 
 /* SECTIONS */
@@ -175,12 +176,14 @@ html, body {
     height: 100%;
 }
 
+/* iframe global */
 iframe {
     width: 100%;
     height: 100%;
     border: none;
 }
 
+/* images */
 img {
     width: 100%;
     height: 100%;
@@ -196,30 +199,37 @@ img {
 /* =============================== */
 
 .split-mode {
-    display: grid;
-    grid-template-columns: 70% 30%;
+    display: flex;
     height: 100%;
+    width: 100%; /* 🔥 sécurité */
 }
 
 /* panneau gauche */
 .left-panel {
+    flex: 7;
     height: 100%;
+    display: flex;          /* 🔥 IMPORTANT */
 }
 
 /* panneau droit */
 .right-panel {
-    display: grid;
-    grid-template-rows: 1fr 1fr; /* 🔥 plus fiable que 50% */
+    flex: 3;
+    display: flex;
+    flex-direction: column;
     height: 100%;
 }
 
 /* iframe plein */
 .panel-frame {
+    flex: 1;                /* 🔥 clé pour remplissage correct */
     width: 100%;
-    height: 100%;
     border: none;
 }
 
+/* division verticale droite */
+.right-panel iframe {
+    flex: 1;
+}
 /* =============================== */
 /* HORLOGE */
 /* =============================== */
