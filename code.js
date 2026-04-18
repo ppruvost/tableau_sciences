@@ -117,20 +117,23 @@ function modeFull() {
 function modeSplit() {
     const container = document.getElementById("content-container");
 
-    // Activer le mode split
     container.classList.add("split-mode");
 
-    // 🔥 Nouveau layout complet
     container.innerHTML = `
-        <div class="left-panel">
+        <!-- ✅ GAUCHE 70% (vide ou contenu principal) -->
+        <div class="left-panel" id="leftPanel">
+            <iframe id="frame1" class="panel-frame"></iframe>
+            <img id="img1" class="hidden"/>
+        </div>
+
+        <!-- ✅ DROITE 30% -->
+        <div class="right-panel">
             <iframe class="panel-frame" src="https://ppruvost.github.io/noise/"></iframe>
             <iframe class="panel-frame" src="https://ppruvost.github.io/Time-Timer/"></iframe>
         </div>
-
-        <div class="right-panel" id="rightPanel">
-            <!-- vide par défaut -->
-        </div>
     `;
+
+    refreshFrames();
 }
 
 /* =============================== */
