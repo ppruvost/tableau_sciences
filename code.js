@@ -1,5 +1,9 @@
 let frame1, frame2, frame3, img1;
 
+/* =============================== */
+/* REFRESH FRAMES */
+/* =============================== */
+
 function refreshFrames() {
     frame1 = document.getElementById("frame1");
     frame2 = document.getElementById("frame2");
@@ -7,7 +11,10 @@ function refreshFrames() {
     img1 = document.getElementById("img1");
 }
 
-/* HORLOGE FIX */
+/* =============================== */
+/* HORLOGE */
+/* =============================== */
+
 function updateClock() {
     const now = new Date();
 
@@ -21,38 +28,58 @@ function updateClock() {
 
 setInterval(updateClock, 1000);
 
-/* MENU */
+/* =============================== */
+/* MENU (CORRIGÉ) */
+/* =============================== */
+
 function toggleMenu(menuId, btn) {
     const menu = document.getElementById(menuId);
 
-    // 🔴 Fermer tous les sous-menus
+    const isOpen = menu.classList.contains("show");
+
+    // 🔴 Fermer TOUS les sous-menus
     document.querySelectorAll(".submenu").forEach(m => {
         m.classList.remove("show");
     });
 
-    // 🔴 Désactiver tous les boutons
+    // 🔴 Reset tous les boutons
     document.querySelectorAll(".menu-item").forEach(item => {
         item.classList.remove("active");
     });
 
     // ✅ Si déjà ouvert → on ferme tout
-    if (menu.classList.contains("show")) {
-        menu.classList.remove("show");
-        return;
-    }
+    if (isOpen) return;
 
     // ✅ Sinon on ouvre celui-ci
     menu.classList.add("show");
     btn.classList.add("active");
 }
 
-/* LOAD */
+/* 🔥 Clic extérieur = fermeture totale */
+document.addEventListener("click", (e) => {
+    if (!e.target.closest(".menu-item")) {
+        document.querySelectorAll(".submenu").forEach(m => {
+            m.classList.remove("show");
+        });
+
+        document.querySelectorAll(".menu-item").forEach(item => {
+            item.classList.remove("active");
+        });
+    }
+});
+
+/* =============================== */
+/* LOAD CONTENU */
+/* =============================== */
+
 function loadInFrame(url) {
     refreshFrames();
 
+    // 🔴 reset affichage
     img1.classList.add("hidden");
     frame1.classList.add("hidden");
 
+    // ✅ image ou iframe
     if (url.match(/\.(png|jpg|jpeg|gif)$/i)) {
         img1.src = url;
         img1.classList.remove("hidden");
@@ -66,9 +93,13 @@ function loadURL(url) {
     loadInFrame(url);
 }
 
-/* MODES */
+/* =============================== */
+/* MODES AFFICHAGE */
+/* =============================== */
+
 function modeFull() {
-    document.getElementById("content-container").classList.remove("split-mode");
+    const container = document.getElementById("content-container");
+    container.classList.remove("split-mode");
 
     document.getElementById("section2").style.display = "none";
     document.getElementById("section3").style.display = "none";
@@ -93,18 +124,10 @@ function modeSplit() {
     frame3.src = "https://ppruvost.github.io/Time-Timer/";
 }
 
-        /* Gestion de l'état actif du menu */
-        function setActive(element) {
-            /* Retire la classe active de tous les boutons */
-            document.querySelectorAll('.menu-item').forEach(item => {
-                item.classList.remove('active');
-            });
- 
-            /* Ajoute la classe active au bouton cliqué */
-            element.classList.add('active');
-        }
-
+/* =============================== */
 /* INIT */
+/* =============================== */
+
 window.onload = () => {
     refreshFrames();
     modeFull();
