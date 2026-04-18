@@ -107,21 +107,21 @@ function modeFull() {
 
 function modeSplit() {
     const container = document.getElementById("content-container");
+
+    // Activer le mode split
     container.classList.add("split-mode");
 
-    const section2 = document.getElementById("section2");
-    section2.style.display = "block";
-    section2.classList.add("right-split");
+    // 🔥 Nouveau layout complet
+    container.innerHTML = `
+        <div class="left-panel">
+            <iframe class="panel-frame" src="https://ppruvost.github.io/noise/"></iframe>
+            <iframe class="panel-frame" src="https://ppruvost.github.io/Time-Timer/"></iframe>
+        </div>
 
-    section2.innerHTML = `
-        <iframe id="frame2"></iframe>
-        <iframe id="frame3"></iframe>
+        <div class="right-panel" id="rightPanel">
+            <!-- vide par défaut -->
+        </div>
     `;
-
-    refreshFrames();
-
-    frame2.src = "https://ppruvost.github.io/noise/";
-    frame3.src = "https://ppruvost.github.io/Time-Timer/";
 }
 
 /* =============================== */
