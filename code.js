@@ -130,13 +130,13 @@ function modeSplit() {
     container.classList.add("split-mode");
 
     container.innerHTML = `
-        <!-- ✅ GAUCHE 70% (vide ou contenu principal) -->
+        <!-- GAUCHE 70% -->
         <div class="left-panel" id="leftPanel">
             <iframe id="frame1" class="panel-frame"></iframe>
             <img id="img1" class="hidden"/>
         </div>
 
-        <!-- ✅ DROITE 30% -->
+        <!-- DROITE 30% -->
         <div class="right-panel">
             <iframe class="panel-frame" src="https://ppruvost.github.io/noise/"></iframe>
             <iframe class="panel-frame" src="https://ppruvost.github.io/Time-Timer/"></iframe>
