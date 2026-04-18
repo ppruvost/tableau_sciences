@@ -52,7 +52,7 @@ function toggleMenu(menuId, btn) {
 
     // ✅ Sinon on ouvre celui-ci
     menu.classList.add("show");
-    btn.classList.add("active");
+    setActiveButton(btn);
 }
 
 /* 🔥 Clic extérieur = fermeture totale */
@@ -67,6 +67,18 @@ document.addEventListener("click", (e) => {
         });
     }
 });
+
+/* ============================== */
+/* GESTION COULEUR ORANGE MENU */
+/* ============================== */
+
+function setActiveButton(btn) {
+    document.querySelectorAll(".menu-item").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    btn.classList.add("active");
+}
 
 /* =============================== */
 /* LOAD CONTENU */
