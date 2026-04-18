@@ -79,11 +79,9 @@
         </div>
 
         <!-- ===== Sous-menu GeoGebra ===== -->
-        <div class="menu-item" data-tooltip="GéoGébra"
-            onclick="toggleMenu('geoMenu', this)">
+        <div class="menu-item" data-tooltip="GéoGébra" onclick="toggleMenu('geoMenu', this)">
             <i class="fas fa-shapes"></i>
 
-            <!-- Sous-menu déroulant -->
             <div class="submenu" id="geoMenu">
                 <button onclick="loadURL('https://www.geogebra.org/classic?lang=fr')">
                     Classic
@@ -101,11 +99,9 @@
         </div>
 
         <!-- ===== Sous-menu paramètres écran ===== -->
-        <div class="menu-item" data-tooltip="Ecran"
-            onclick="toggleMenu('screenMenu', this)">
+        <div class="menu-item" data-tooltip="Ecran" onclick="toggleMenu('screenMenu', this)">
             <i class="fas fa-cog"></i>
 
-            <!-- Sous-menu options d'affichage -->
             <div class="submenu" id="screenMenu">
                 <button onclick="modeFull()">Écran plein</button>
                 <button onclick="modeSplit()">Écran fractionné</button>
