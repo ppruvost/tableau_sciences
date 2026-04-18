@@ -100,10 +100,8 @@ function loadURL(url) {
 function modeFull() {
     const container = document.getElementById("content-container");
 
-    // Reset du layout
     container.classList.remove("split-mode");
 
-    // 🔄 Remet la structure initiale
     container.innerHTML = `
         <div id="section1" class="content-section">
             <iframe id="frame1"></iframe>
