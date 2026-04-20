@@ -16,9 +16,11 @@ setInterval(updateClock, 1000);
 /* ACTIVER UN BOUTON DU MENU */
 /* =============================== */
 function setActiveButton(btn) {
+    // Désactive tous les boutons
     document.querySelectorAll(".menu-item").forEach(item => {
         item.classList.remove("active");
     });
+    // Active le bouton cliqué
     btn.classList.add("active");
 }
 
