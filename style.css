@@ -201,22 +201,30 @@ img {
 .split-mode {
     display: flex;
     height: 100%;
-    width: 100%; /* 🔥 sécurité */
+    width: 100%;
+    overflow: hidden; /* 🔥 empêche tout débordement */
 }
 
 /* panneau gauche */
 .left-panel {
-    flex: 7;
+    width: 70%;
     height: 100%;
-    display: flex;          /* 🔥 IMPORTANT */
+    display: flex;
 }
 
 /* panneau droit */
 .right-panel {
-    flex: 3;
+    width: 30%;
     display: flex;
     flex-direction: column;
     height: 100%;
+
+    border-left: 2px solid #ccc; /* ✅ LA séparation ici */
+}
+/* évite débordement de la séparation des colonnes */
+.left-panel,
+.right-panel {
+    min-width: 0;
 }
 
 /* iframe plein */
