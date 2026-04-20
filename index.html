@@ -13,13 +13,13 @@
         <div class="menu-item" data-tooltip="Educ de Normandie" onclick="window.open('https://www.l-educdenormandie.fr/','_blank')">
             <i class="fas fa-school"></i>
         </div>
-        <div class="menu-item" data-tooltip="Son dans la classe" onclick="loadInFrame('https://ppruvost.github.io/noise/')">
+        <div class="menu-item" data-tooltip="Son dans la classe" onclick="setActiveButton(this); loadInFrame('https://ppruvost.github.io/noise/')">
             <i class="fas fa-volume-up"></i>
         </div>
-        <div class="menu-item" data-tooltip="Timer" onclick="loadInFrame('https://ppruvost.github.io/Time-Timer/')">
+        <div class="menu-item" data-tooltip="Timer" onclick="setActiveButton(this); loadInFrame('https://ppruvost.github.io/Time-Timer/')">
             <i class="fas fa-stopwatch"></i>
         </div>
-        <div class="menu-item" data-tooltip="Classe Puzzle" onclick="loadInFrame('https://ppruvost.github.io/roue/')">
+        <div class="menu-item" data-tooltip="Classe Puzzle" onclick="setActiveButton(this); loadInFrame('https://ppruvost.github.io/roue/')">
             <i class="fas fa-puzzle-piece"></i>
         </div>
         <div class="menu-item" data-tooltip="OnlyOffice" onclick="window.open('https://www.onlyoffice.com/fr','_blank')">
@@ -28,20 +28,20 @@
         <div class="menu-item" data-tooltip="Créer un schéma" onclick="window.open('https://app.diagrams.net/','_blank')">
             <i class="fas fa-project-diagram"></i>
         </div>
-        <div class="menu-item" data-tooltip="Prog Python" onclick="loadInFrame('https://console.basthon.fr/')">
+        <div class="menu-item" data-tooltip="Prog Python" onclick="setActiveButton(this); loadInFrame('https://console.basthon.fr/')">
             <i class="fas fa-code"></i>
         </div>
         <div class="menu-item" data-tooltip="GéoGébra" onclick="toggleMenu('geoMenu', this)">
             <i class="fas fa-shapes"></i>
             <div class="submenu" id="geoMenu">
-                <button onclick="loadInFrame('https://www.geogebra.org/classic?lang=fr')">Classic</button>
-                <button onclick="loadInFrame('https://www.geogebra.org/3d?lang=fr')">3D</button>
+                <button onclick="setActiveButton(this); loadInFrame('https://www.geogebra.org/classic?lang=fr')">Classic</button>
+                <button onclick="setActiveButton(this); loadInFrame('https://www.geogebra.org/3d?lang=fr')">3D</button>
             </div>
         </div>
-        <div class="menu-item" data-tooltip="Calculatrice Graphique" onclick="loadInFrame('https://www.numworks.com/fr/emulateur/graphique/')">
+        <div class="menu-item" data-tooltip="Calculatrice Graphique" onclick="setActiveButton(this); loadInFrame('https://www.numworks.com/fr/emulateur/graphique/')">
             <i class="fas fa-calculator"></i>
         </div>
-        <div class="menu-item" data-tooltip="Laboratoire" onclick="loadInFrame('https://ppruvost.github.io/laboratory/')">
+        <div class="menu-item" data-tooltip="Laboratoire" onclick="setActiveButton(this); loadInFrame('https://ppruvost.github.io/laboratory/')">
             <i class="fas fa-flask"></i>
         </div>
         <div class="menu-item" data-tooltip="QuizEval" onclick="window.open('https://lp-mermoz.notion.site/Maths-Sciences-2ac3d9a0652d8001a27cc98c97fd21cb','_blank')">
