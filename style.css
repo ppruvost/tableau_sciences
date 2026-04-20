@@ -1,253 +1,189 @@
-* {
-    box-sizing: border-box;
-}
+    * {
+        box-sizing: border-box;
+    }
 
-html, body {
-    margin: 0;
-    height: 100%;
-    font-family: Arial, sans-serif;
-}
+    html, body {
+        margin: 0;
+        height: 100%;
+        font-family: Arial, sans-serif;
+    }
 
-/* =============================== */
-/* MENU */
-/* =============================== */
+    /* =============================== */
+    /* MENU */
+    /* =============================== */
+    .menu {
+        position: fixed;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 9999;
+        background: #f0f8ff;
+        border-radius: 20px;
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
 
-.menu {
-    position: fixed;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 9999;
+    /* =============================== */
+    /* BOUTONS RONDS */
+    /* =============================== */
+    .menu-item {
+        width: 65px;
+        height: 65px;
+        border-radius: 50%;
+        background: #4169e1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 26px;
+        cursor: pointer;
+        transition: 0.25s;
+        position: relative;
+    }
 
-    background: #f0f8ff;
-    border-radius: 20px;
-    padding: 12px;
+    .menu-item:hover {
+        background: #1e90ff;
+        transform: scale(1.1);
+    }
 
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
+    .menu-item.active {
+        background: orange;
+    }
 
-/* =============================== */
-/* BOUTONS RONDS */
-/* =============================== */
+    /* =============================== */
+    /* ICÔNES */
+    /* =============================== */
+    .menu-item i {
+        font-size: 22px;
+        color: inherit;
+    }
 
-.menu-item {
-    width: 65px;
-    height: 65px;
+    /* =============================== */
+    /* SOUS-MENU */
+    /* =============================== */
+    .submenu {
+        display: none;
+        position: absolute;
+        left: 80px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: white;
+        border-radius: 10px;
+        padding: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        min-width: 140px;
+    }
 
-    border-radius: 50%;
-    background: #4169e1;
+    .submenu.show {
+        display: block;
+    }
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    .submenu button {
+        width: 100%;
+        padding: 8px;
+        margin: 4px 0;
+        border: none;
+        border-radius: 6px;
+        background: #f2f2f2;
+        cursor: pointer;
+        transition: 0.2s;
+    }
 
-    color: white;
-    font-size: 26px;
+    .submenu button:hover {
+        background: orange;
+        color: white;
+    }
 
-    cursor: pointer;
-    transition: 0.25s;
+    /* =============================== */
+    /* TOOLTIP */
+    /* =============================== */
+    .menu-item::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        left: 75px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0,0,0,0.85);
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 6px;
+        font-size: 12px;
+        opacity: 0;
+        visibility: hidden;
+        transition: 0.2s;
+        pointer-events: none;
+    }
 
-    position: relative;
-}
+    .menu-item:hover::after {
+        opacity: 1;
+        visibility: visible;
+    }
 
-.menu-item:hover {
-    background: #1e90ff;
-    transform: scale(1.1);
-}
+    /* =============================== */
+    /* CONTENU */
+    /* =============================== */
+    #content-container {
+        position: absolute;
+        left: 110px;
+        top: 0;
+        width: calc(100% - 110px);
+        height: 100%;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
 
-.menu-item.active {
-    background: orange;
-}
+    /* =============================== */
+    /* SPLIT */
+    /* =============================== */
+    .split-mode {
+        display: flex;
+        height: 100vh;
+        width: 100%;
+        overflow: hidden;
+    }
 
-/* =============================== */
-/* ICÔNES */
-/* =============================== */
+    /* =============================== */
+    /* DIVISION DROITE (NOISE + TIMER) */
+    /* =============================== */
+    .right-panel {
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        border-left: 2px solid #ccc;
+        min-width: 0;
+    }
 
-.menu-item i {
-    font-size: 22px;
-    color: inherit; /* 🔥 cohérence avec parent */
-}
+    .right-panel-top {
+        display: flex;
+        flex-direction: column;
+        height: 30%; /* Ajustement pour éviter chevauchement */
+        overflow: hidden;
+    }
 
-/* =============================== */
-/* SOUS-MENU */
-/* =============================== */
+    .right-panel-bottom {
+        display: flex;
+        flex-direction: column;
+        height: 70%; /* Complément à 100% */
+        overflow: auto;
+    }
 
-.submenu {
-    display: none;
+    .noise-container, .timer-container {
+        flex: 1;
+        border-bottom: 1px solid #ccc;
+        overflow: hidden;
+    }
 
-    position: absolute;
-    left: 80px;
-    top: 50%;
-    transform: translateY(-50%);
-
-    background: white;
-    border-radius: 10px;
-    padding: 8px;
-
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    min-width: 140px;
-}
-
-.submenu.show {
-    display: block;
-}
-
-.submenu button {
-    width: 100%;
-    padding: 8px;
-    margin: 4px 0;
-
-    border: none;
-    border-radius: 6px;
-
-    background: #f2f2f2;
-    cursor: pointer;
-
-    transition: 0.2s;
-}
-
-.submenu button:hover {
-    background: orange;
-    color: white;
-}
-
-/* =============================== */
-/* TOOLTIP */
-/* =============================== */
-
-.menu-item::after {
-    content: attr(data-tooltip);
-    position: absolute;
-
-    left: 75px;
-    top: 50%;
-    transform: translateY(-50%);
-
-    background: rgba(0,0,0,0.85);
-    color: #fff;
-
-    padding: 5px 10px;
-    border-radius: 6px;
-    font-size: 12px;
-
-    opacity: 0;
-    visibility: hidden;
-    transition: 0.2s;
-
-    pointer-events: none; /* 🔥 évite blocage hover */
-}
-
-.menu-item:hover::after {
-    opacity: 1;
-    visibility: visible;
-}
-
-/* =============================== */
-/* CONTENU */
-/* =============================== */
-
-#content-container {
-    position: absolute;
-    left: 110px;
-    top: 0;
-
-    width: calc(100% - 110px);
-    height: 100%;
-
-    overflow: hidden;
-
-    display: flex;
-    flex-direction: column;
-}
-
-/* container principal */
-.main-container {
-    height: 100%;
-}
-
-/* SECTIONS */
-.content-section {
-    width: 100%;
-    height: 100%;
-}
-
-/* iframe global */
-iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-
-/* images */
-img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-.hidden {
-    display: none;
-}
-
-/* =============================== */
-/* SPLIT */
-/* =============================== */
-
-.split-mode {
-    display: flex;
-    height: 100vh;
-    width: 100%;
-    overflow: hidden;
-}
-
-/* =============================== */
-/* DIVISION DROITE (NOISE + TIMER) */
-/* =============================== */
-
-.right-panel {
-    width: 30%;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    border-left: 2px solid #ccc;
-    min-width: 0;
-}
-
-/* Conteneur pour noise et timer */
-.right-panel-top {
-    display: flex;
-    flex-direction: column;
-    height: 50%; /* Ajustez selon vos besoins */
-}
-
-/* Conteneur pour le reste du contenu */
-.right-panel-bottom {
-    display: flex;
-    flex-direction: column;
-    height: 50%; /* Ajustez selon vos besoins */
-}
-
-/* Style pour noise */
-.noise-container {
-    flex: 1;
-    border-bottom: 1px solid #ccc;
-}
-
-/* Style pour timer */
-.timer-container {
-    flex: 1;
-}
-/* =============================== */
-/* HORLOGE */
-/* =============================== */
-
-#clock {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-
-    color: black;
-    font-size: 18px;
-}
+    /* =============================== */
+    /* HORLOGE */
+    /* =============================== */
+    #clock {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        color: black;
+        font-size: 18px;
+    }
