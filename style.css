@@ -156,6 +156,7 @@ html, body {
     border: none;
 }
 
+/* Panneau de droite */
 .right-panel {
     width: 30%;
     display: flex;
@@ -164,29 +165,29 @@ html, body {
     border-left: 2px solid #ccc;
 }
 
-/* Conteneur pour "noise" et "timer" (empilés verticalement) */
+/* Conteneur pour "noise" (en haut - 50% de la hauteur) */
 .right-panel-top {
-    display: flex;
-    flex-direction: column; /* Empilement vertical */
-    height: 30%; /* Hauteur fixe pour les deux éléments */
-}
-
-/* Styles pour "noise" (en haut) */
-.noise-container {
-    flex: 1; /* Prend la moitié de l'espace disponible */
-    border-bottom: 1px solid #ccc; /* Séparation visuelle */
+    height: 50%;
     overflow: hidden;
+    border-bottom: 1px solid #ccc; /* Séparation visuelle */
 }
 
-/* Styles pour "timer" (en bas) */
-.timer-container {
-    flex: 1; /* Prend la moitié de l'espace disponible */
+/* Conteneur pour "timer" (en bas - 50% de la hauteur) */
+.right-panel-bottom {
+    height: 50%;
     overflow: hidden;
 }
 
 /* Iframes pour noise et timer */
-.noise-container iframe,
-.timer-container iframe {
+.right-panel-top iframe,
+.right-panel-bottom iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Iframe générique pour le panneau de gauche */
+.panel-frame {
     width: 100%;
     height: 100%;
     border: none;
