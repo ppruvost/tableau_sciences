@@ -57,33 +57,39 @@
     </div>
 
     <!-- Zone de contenu -->
-    <div id="content-container">
-        <!-- Mode plein écran (par défaut) -->
-        <div class="fullscreen-mode">
-            <iframe id="main-frame"></iframe>
+<!-- Zone de contenu -->
+<div id="content-container">
+    <!-- Mode plein écran (par défaut) -->
+    <div class="fullscreen-mode">
+        <iframe id="main-frame"></iframe>
+    </div>
+
+    <!-- Mode fractionné (masqué) -->
+    <div class="split-mode" style="display: none;">
+        <!-- Panneau de gauche -->
+        <div class="left-panel">
+            <iframe class="panel-frame" id="left-frame"></iframe>
         </div>
-        <!-- Mode fractionné (masqué) -->
-        <div class="split-mode" style="display: none;">
-            <div class="left-panel">
-                <iframe class="panel-frame" id="left-frame"></iframe>
+
+        <!-- Panneau de droite -->
+        <div class="right-panel">
+            <!-- Conteneur pour "noise" (en haut) et "timer" (en bas) -->
+            <div class="right-panel-top">
+                <div class="noise-container">
+                    <iframe id="noise-frame" src="https://ppruvost.github.io/noise/"></iframe>
+                </div>
+                <div class="timer-container">
+                    <iframe id="timer-frame" src="https://ppruvost.github.io/Time-Timer/"></iframe>
+                </div>
             </div>
-            <div class="right-panel">
-                <div class="right-panel-top">
-                    <div class="noise-container">
-                        <iframe id="noise-frame" src="https://ppruvost.github.io/noise/"></iframe>
-                    </div>
-                </div>
-                <div class="right-panel-down">                
-                    <div class="timer-container">
-                        <iframe id="timer-frame" src="https://ppruvost.github.io/Time-Timer/"></iframe>
-                    </div>
-                </div>
-                <div class="right-panel-bottom">
-                    <iframe class="panel-frame" id="right-frame"></iframe>
-                </div>
+
+            <!-- Conteneur pour le reste du contenu (ex: tableau) -->
+            <div class="right-panel-bottom">
+                <iframe class="panel-frame" id="right-frame"></iframe>
             </div>
         </div>
     </div>
+</div>
 
     <!-- Horloge -->
     <div id="clock"></div>
