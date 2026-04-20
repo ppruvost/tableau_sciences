@@ -49,7 +49,7 @@ html, body {
     cursor: pointer;
     transition: 0.25s;
 
-    position: relative; /* 🔥 IMPORTANT pour submenu + tooltip */
+    position: relative;
 }
 
 .menu-item:hover {
@@ -57,7 +57,6 @@ html, body {
     transform: scale(1.1);
 }
 
-/* ✅ ACTIF (orange visible) */
 .menu-item.active {
     background: orange;
 }
@@ -67,16 +66,8 @@ html, body {
 /* =============================== */
 
 .menu-item i {
-    background: none;
-    color: white;
-
     font-size: 22px;
-    transition: 0.2s;
-}
-
-/* ⚠️ IMPORTANT : garder icône blanche */
-.menu-item.active i {
-    color: white;
+    color: inherit; /* 🔥 cohérence avec parent */
 }
 
 /* =============================== */
@@ -99,12 +90,10 @@ html, body {
     min-width: 140px;
 }
 
-/* ✅ affichage uniquement si actif */
 .submenu.show {
     display: block;
 }
 
-/* boutons sous-menu */
 .submenu button {
     width: 100%;
     padding: 8px;
@@ -146,6 +135,8 @@ html, body {
     opacity: 0;
     visibility: hidden;
     transition: 0.2s;
+
+    pointer-events: none; /* 🔥 évite blocage hover */
 }
 
 .menu-item:hover::after {
@@ -166,9 +157,11 @@ html, body {
     height: 100%;
 
     overflow: hidden;
-    display: flex; /* 🔥 important pour éviter bugs internes */
+
+    display: flex;
     flex-direction: column;
 }
+
 /* container principal */
 .main-container {
     height: 100%;
@@ -206,7 +199,7 @@ img {
     display: flex;
     height: 100vh;
     width: 100%;
-    overflow: hidden; /* 🔥 empêche tout débordement */
+    overflow: hidden;
 }
 
 /* panneau gauche */
@@ -214,6 +207,7 @@ img {
     width: 70%;
     height: 100%;
     display: flex;
+    min-width: 0;
 }
 
 /* panneau droit */
@@ -223,25 +217,22 @@ img {
     flex-direction: column;
     height: 100%;
 
-    border-left: 2px solid #ccc; /* ✅ LA séparation ici */
-}
-/* évite débordement de la séparation des colonnes */
-.left-panel,
-.right-panel {
+    border-left: 2px solid #ccc;
     min-width: 0;
 }
 
 /* iframe plein */
 .panel-frame {
-    flex: 1;                /* 🔥 clé pour remplissage correct */
+    flex: 1;
     width: 100%;
     border: none;
 }
 
-/* division verticale droite */
+/* division droite */
 .right-panel iframe {
     flex: 1;
 }
+
 /* =============================== */
 /* HORLOGE */
 /* =============================== */
