@@ -1,160 +1,91 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-    <!-- Définition de l'encodage des caractères -->
     <meta charset="UTF-8">
-
-    <!-- Permet l'adaptation sur mobile / responsive -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Titre de la page (onglet navigateur) -->
     <title>Tableau de Bord</title>
-
-    <!-- Feuille de style principale -->
     <link rel="stylesheet" href="style.css">
-
-    <!-- Librairie d'icônes Font Awesome -->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-
 <body>
-
-    <!-- ================= MENU PRINCIPAL ================= -->
-    <div class="menu">        
-
-        <!-- Lien externe vers Educ de Normandie -->
-        <div class="menu-item" data-tooltip="Educ de Normandie"
-            onclick="setActiveButton(this); window.open('https://www.l-educdenormandie.fr/','_blank')">
+    <!-- Menu principal -->
+    <div class="menu">
+        <div class="menu-item" data-tooltip="Educ de Normandie" onclick="window.open('https://www.l-educdenormandie.fr/','_blank')">
             <i class="fas fa-school"></i>
         </div>
-
-        <!-- Outil sonore -->
-        <div class="menu-item" data-tooltip="Son dans la classe"
-            onclick="setActiveButton(this); loadInFrame('https://ppruvost.github.io/noise/')">
+        <div class="menu-item" data-tooltip="Son dans la classe" onclick="loadInFrame('https://ppruvost.github.io/noise/')">
             <i class="fas fa-volume-up"></i>
         </div>
-
-        <!-- Timer -->
-        <div class="menu-item" data-tooltip="Timer"
-            onclick="setActiveButton(this); loadInFrame('https://ppruvost.github.io/Time-Timer/')">
+        <div class="menu-item" data-tooltip="Timer" onclick="loadInFrame('https://ppruvost.github.io/Time-Timer/')">
             <i class="fas fa-stopwatch"></i>
         </div>
-
-        <!-- Application "Classe Puzzle" -->
-        <div class="menu-item" data-tooltip="Classe Puzzle"
-            onclick="setActiveButton(this); loadInFrame('https://ppruvost.github.io/roue/')">
+        <div class="menu-item" data-tooltip="Classe Puzzle" onclick="loadInFrame('https://ppruvost.github.io/roue/')">
             <i class="fas fa-puzzle-piece"></i>
         </div>
-
-        <!-- Lien externe OnlyOffice -->
-        <div class="menu-item" data-tooltip="OnlyOffice"
-            onclick="setActiveButton(this); window.open('https://www.onlyoffice.com/fr','_blank')">
+        <div class="menu-item" data-tooltip="OnlyOffice" onclick="window.open('https://www.onlyoffice.com/fr','_blank')">
             <i class="fas fa-users"></i>
         </div>
-
-        <!-- Outil diagrammes -->
-        <div class="menu-item" data-tooltip="Créer un schéma"            
-            onclick="setActiveButton(this); window.open('https://app.diagrams.net/','_blank')">
+        <div class="menu-item" data-tooltip="Créer un schéma" onclick="window.open('https://app.diagrams.net/','_blank')">
             <i class="fas fa-project-diagram"></i>
         </div>
-
-        <!-- Console Python -->
-        <div class="menu-item" data-tooltip="Prog Python"
-            onclick="setActiveButton(this); loadURL('https://console.basthon.fr/')">
+        <div class="menu-item" data-tooltip="Prog Python" onclick="loadInFrame('https://console.basthon.fr/')">
             <i class="fas fa-code"></i>
-        </div>        
-
-        <!-- ===== Sous-menu GeoGebra ===== -->
+        </div>
         <div class="menu-item" data-tooltip="GéoGébra" onclick="toggleMenu('geoMenu', this)">
             <i class="fas fa-shapes"></i>
-
             <div class="submenu" id="geoMenu">
-                <button onclick="loadURL('https://www.geogebra.org/classic?lang=fr')">
-                    Classic
-                </button>
-                <button onclick="loadURL('https://www.geogebra.org/3d?lang=fr')">
-                    3D
-                </button>
+                <button onclick="loadInFrame('https://www.geogebra.org/classic?lang=fr')">Classic</button>
+                <button onclick="loadInFrame('https://www.geogebra.org/3d?lang=fr')">3D</button>
             </div>
         </div>
-
-        <!-- Calculatrice graphique Numworks -->
-        <div class="menu-item" data-tooltip="Calculatrice Graphique"
-            onclick="setActiveButton(this); loadURL('https://www.numworks.com/fr/emulateur/graphique/')">
+        <div class="menu-item" data-tooltip="Calculatrice Graphique" onclick="loadInFrame('https://www.numworks.com/fr/emulateur/graphique/')">
             <i class="fas fa-calculator"></i>
         </div>
-
-        <!-- Laboratoire interactif -->
-        <div class="menu-item" data-tooltip="Laboratoire"
-            onclick="setActiveButton(this); loadInFrame('https://ppruvost.github.io/laboratory/')">
+        <div class="menu-item" data-tooltip="Laboratoire" onclick="loadInFrame('https://ppruvost.github.io/laboratory/')">
             <i class="fas fa-flask"></i>
         </div>
-
-        <!-- Lien vers Quiz / Notion -->
-        <div class="menu-item" data-tooltip="QuizEval"
-            onclick="setActiveButton(this); window.open('https://lp-mermoz.notion.site/Maths-Sciences-2ac3d9a0652d8001a27cc98c97fd21cb','_blank')">
+        <div class="menu-item" data-tooltip="QuizEval" onclick="window.open('https://lp-mermoz.notion.site/Maths-Sciences-2ac3d9a0652d8001a27cc98c97fd21cb','_blank')">
             <i class="fas fa-clipboard-list"></i>
         </div>
-
-        <!-- ===== Sous-menu paramètres écran ===== -->
         <div class="menu-item" data-tooltip="Ecran" onclick="toggleMenu('screenMenu', this)">
             <i class="fas fa-cog"></i>
-
             <div class="submenu" id="screenMenu">
                 <button onclick="modeFull()">Écran plein</button>
                 <button onclick="modeSplit()">Écran fractionné</button>
             </div>
         </div>
-
-    </div>
-    <!-- ================= FIN MENU ================= -->
-
-
-    <!-- ================= ZONE DE CONTENU ================= -->
-    <!-- Conteneur principal -->
-<div id="content-container">
-    <!-- Mode plein écran par défaut (visible au chargement) -->
-    <div class="fullscreen-mode">
-        <iframe id="main-frame"></iframe>
     </div>
 
-    <!-- Mode fractionné (masqué par défaut) -->
-    <div class="split-mode" style="display: none;">
-        <!-- Panneau de gauche -->
-        <div class="left-panel">
-            <iframe class="panel-frame" id="left-frame"></iframe>
+    <!-- Zone de contenu -->
+    <div id="content-container">
+        <!-- Mode plein écran (par défaut) -->
+        <div class="fullscreen-mode">
+            <iframe id="main-frame"></iframe>
         </div>
-
-        <!-- Panneau de droite -->
-        <div class="right-panel">
-            <!-- Conteneur pour "noise" et "timer" -->
-            <div class="right-panel-top">
-                <div class="noise-container">
-                    <iframe id="noise-frame"></iframe>
-                </div>
-                <div class="timer-container">
-                    <div id="timer">00:00</div>
-                </div>
+        <!-- Mode fractionné (masqué) -->
+        <div class="split-mode" style="display: none;">
+            <div class="left-panel">
+                <iframe class="panel-frame" id="left-frame"></iframe>
             </div>
-
-            <!-- Conteneur pour le reste du contenu (ex: tableau) -->
-            <div class="right-panel-bottom">
-                <iframe class="panel-frame" id="right-frame"></iframe>
+            <div class="right-panel">
+                <div class="right-panel-top">
+                    <div class="noise-container">
+                        <iframe id="noise-frame" src="https://ppruvost.github.io/noise/"></iframe>
+                    </div>
+                    <div class="timer-container">
+                        <iframe id="timer-frame" src="https://ppruvost.github.io/Time-Timer/"></iframe>
+                    </div>
+                </div>
+                <div class="right-panel-bottom">
+                    <iframe class="panel-frame" id="right-frame"></iframe>
+                </div>
             </div>
         </div>
     </div>
-</div>
-    <!-- ================= FIN CONTENU ================= -->
 
-
-    <!-- Horloge affichée à l'écran -->
+    <!-- Horloge -->
     <div id="clock"></div>
 
-
-    <!-- Script JavaScript principal -->
     <script src="code.js"></script>
-
 </body>
 </html>
