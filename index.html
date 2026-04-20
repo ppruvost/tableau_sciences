@@ -113,25 +113,33 @@
 
 
     <!-- ================= ZONE DE CONTENU ================= -->
-    <div id="content-container">
-
-        <!-- Section principale (iframe + image possible) -->
-        <div class="content-section" id="section1">
-            <iframe id="frame1"></iframe>
-            <img id="img1">
-        </div>
-
-        <!-- Section secondaire (masquée au départ) -->
-        <div class="content-section" id="section2" style="display:none;">
-            <iframe id="frame2"></iframe>
-        </div>
-
-        <!-- Troisième section (masquée au départ) -->
-        <div class="content-section" id="section3" style="display:none;">
-            <iframe id="frame3"></iframe>
-        </div>
-
+    <!-- Structure principale avec division gauche/droite -->
+<div class="split-mode">
+    <!-- Panneau de gauche (contenu principal) -->
+    <div class="left-panel">
+        <iframe class="panel-frame" id="frame1"></iframe>
     </div>
+
+    <!-- Panneau de droite (noise + timer + reste du contenu) -->
+    <div class="right-panel">
+        <!-- Conteneur pour "noise" et "timer" -->
+        <div class="right-panel-top">
+            <div class="noise-container">
+                <!-- Intégrez ici le contenu pour "noise" (ex: iframe, div, etc.) -->
+                <iframe id="noise-frame"></iframe>
+            </div>
+            <div class="timer-container">
+                <!-- Intégrez ici le contenu pour "timer" (ex: div avec l'horloge) -->
+                <div id="timer">00:00</div>
+            </div>
+        </div>
+
+        <!-- Conteneur pour le reste du contenu (ex: tableau des produits chimiques) -->
+        <div class="right-panel-bottom">
+            <iframe class="panel-frame" id="frame2"></iframe>
+        </div>
+    </div>
+</div>
     <!-- ================= FIN CONTENU ================= -->
 
 
