@@ -167,14 +167,14 @@ html, body {
 
 /* Conteneur pour "noise" (en haut - 50% de la hauteur) */
 .right-panel-top {
-    height: 50%;
+    height: 60%;
     overflow: hidden;
     border-bottom: 1px solid #ccc; /* Séparation visuelle */
 }
 
 /* Conteneur pour "timer" (en bas - 50% de la hauteur) */
 .right-panel-bottom {
-    height: 50%;
+    height: 40%;
     overflow: hidden;
 }
 
