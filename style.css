@@ -169,6 +169,10 @@ html, body {
     display: flex; /* 🔥 important pour éviter bugs internes */
     flex-direction: column;
 }
+/* container principal */
+.main-container {
+    height: 100%;
+}
 
 /* SECTIONS */
 .content-section {
@@ -200,7 +204,7 @@ img {
 
 .split-mode {
     display: flex;
-    height: 100%;
+    height: 100vh;
     width: 100%;
     overflow: hidden; /* 🔥 empêche tout débordement */
 }
