@@ -1,158 +1,74 @@
-let frame1, frame2, frame3, img1;
-
-/* =============================== */
-/* REFRESH FRAMES */
-/* =============================== */
-
-function refreshFrames() {
-    frame1 = document.getElementById("frame1");
-    frame2 = document.getElementById("frame2");
-    frame3 = document.getElementById("frame3");
-    img1 = document.getElementById("img1");
-}
+let mainFrame, leftFrame, rightFrame, noiseFrame, timerFrame;
 
 /* =============================== */
 /* HORLOGE */
 /* =============================== */
-
 function updateClock() {
     const now = new Date();
-
     const h = String(now.getHours()).padStart(2, '0');
     const m = String(now.getMinutes()).padStart(2, '0');
     const date = now.toLocaleDateString('fr-FR');
-
-    document.getElementById("clock").innerHTML =
-        `<div>${h}:${m}</div><div>${date}</div>`;
+    document.getElementById("clock").innerHTML = `<div>${h}:${m}</div><div>${date}</div>`;
 }
-
 setInterval(updateClock, 1000);
 
 /* =============================== */
-/* MENU (CORRIGÉ) */
+/* MENU */
 /* =============================== */
-
 function toggleMenu(menuId, btn) {
     const menu = document.getElementById(menuId);
-
     const isOpen = menu.classList.contains("show");
 
-    // 🔴 Fermer TOUS les sous-menus
-    document.querySelectorAll(".submenu").forEach(m => {
-        m.classList.remove("show");
-    });
+    // Fermer tous les sous-menus
+    document.querySelectorAll(".submenu").forEach(m => m.classList.remove("show"));
+    document.querySelectorAll(".menu-item").forEach(item => item.classList.remove("active"));
 
-    // 🔴 Reset tous les boutons
-    document.querySelectorAll(".menu-item").forEach(item => {
-        item.classList.remove("active");
-    });
-
-    // ✅ Si déjà ouvert → on ferme tout
-    if (isOpen) return;
-
-    // ✅ Sinon on ouvre celui-ci
-    menu.classList.add("show");
-    setActiveButton(btn);
+    if (!isOpen) {
+        menu.classList.add("show");
+        btn.classList.add("active");
+    }
 }
 
-/* 🔥 Clic extérieur = fermeture totale */
+// Fermer les menus si clic à l'extérieur
 document.addEventListener("click", (e) => {
     if (!e.target.closest(".menu-item")) {
-        document.querySelectorAll(".submenu").forEach(m => {
-            m.classList.remove("show");
-        });
-
-        document.querySelectorAll(".menu-item").forEach(item => {
-            item.classList.remove("active");
-        });
+        document.querySelectorAll(".submenu").forEach(m => m.classList.remove("show"));
+        document.querySelectorAll(".menu-item").forEach(item => item.classList.remove("active"));
     }
 });
 
-/* ============================== */
-/* GESTION COULEUR ORANGE MENU */
-/* ============================== */
-
-function setActiveButton(btn) {
-    document.querySelectorAll(".menu-item").forEach(item => {
-        item.classList.remove("active");
-    });
-
-    btn.classList.add("active");
-}
-
 /* =============================== */
-/* LOAD CONTENU */
+/* CHARGEMENT DES FRAMES */
 /* =============================== */
-
 function loadInFrame(url) {
-    refreshFrames();
+    const activeMode = document.querySelector(".fullscreen-mode").style.display !== "none" ? "fullscreen" : "split";
 
-    // 🔴 reset affichage
-    img1.classList.add("hidden");
-    frame1.classList.add("hidden");
-
-    // ✅ image ou iframe
-    if (url.match(/\.(png|jpg|jpeg|gif)$/i)) {
-        img1.src = url;
-        img1.classList.remove("hidden");
+    if (activeMode === "fullscreen") {
+        document.getElementById("main-frame").src = url;
     } else {
-        frame1.src = url;
-        frame1.classList.remove("hidden");
+        document.getElementById("left-frame").src = url;
     }
 }
 
-function loadURL(url) {
-    loadInFrame(url);
-}
-
 /* =============================== */
-/* MODES AFFICHAGE */
+/* MODES D'AFFICHAGE */
 /* =============================== */
-
 function modeFull() {
-    const container = document.getElementById("content-container");
-
-    container.classList.remove("split-mode");
-
-    container.innerHTML = `
-        <div id="section1" class="content-section">
-            <iframe id="frame1"></iframe>
-            <img id="img1" class="hidden"/>
-        </div>
-    `;
-
-    refreshFrames();
+    document.querySelector(".fullscreen-mode").style.display = "block";
+    document.querySelector(".split-mode").style.display = "none";
+    loadInFrame("LP MERMOZ - VIRE.png"); // Exemple : image par défaut
 }
 
 function modeSplit() {
-    const container = document.getElementById("content-container");
-
-    container.classList.add("split-mode");
-
-    container.innerHTML = `
-        <!-- GAUCHE 70% -->
-        <div class="left-panel" id="leftPanel">
-            <iframe id="frame1" class="panel-frame"></iframe>
-            <img id="img1" class="hidden"/>
-        </div>
-
-        <!-- DROITE 30% -->
-        <div class="right-panel">
-            <iframe class="panel-frame" src="https://ppruvost.github.io/noise/"></iframe>
-            <iframe class="panel-frame" src="https://ppruvost.github.io/Time-Timer/"></iframe>
-        </div>
-    `;
-
-    refreshFrames();
+    document.querySelector(".fullscreen-mode").style.display = "none";
+    document.querySelector(".split-mode").style.display = "flex";
+    document.getElementById("left-frame").src = "LP MERMOZ - VIRE.png"; // Exemple
 }
 
 /* =============================== */
-/* INIT */
+/* INITIALISATION */
 /* =============================== */
-
 window.onload = () => {
-    refreshFrames();
-    modeFull();
-    loadInFrame("LP MERMOZ - VIRE.png");
+    modeFull(); // Démarre en mode plein écran
     updateClock();
 };
