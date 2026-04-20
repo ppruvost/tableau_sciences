@@ -164,32 +164,31 @@ html, body {
     border-left: 2px solid #ccc;
 }
 
+/* Conteneur pour "noise" et "timer" (empilés verticalement) */
 .right-panel-top {
-    height: 30%;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Empilement vertical */
+    height: 30%; /* Hauteur fixe pour les deux éléments */
 }
 
-.right-panel-bottom {
-    height: 70%;
-    display: flex;
-}
-
-.noise-container, .timer-container {
-    flex: 1;
-    border-bottom: 1px solid #ccc;
+/* Styles pour "noise" (en haut) */
+.noise-container {
+    flex: 1; /* Prend la moitié de l'espace disponible */
+    border-bottom: 1px solid #ccc; /* Séparation visuelle */
     overflow: hidden;
 }
 
-.noise-container iframe, .timer-container iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
+/* Styles pour "timer" (en bas) */
+.timer-container {
+    flex: 1; /* Prend la moitié de l'espace disponible */
+    overflow: hidden;
 }
 
-.panel-frame {
-    flex: 1;
+/* Iframes pour noise et timer */
+.noise-container iframe,
+.timer-container iframe {
     width: 100%;
+    height: 100%;
     border: none;
 }
 
