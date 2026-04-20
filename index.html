@@ -113,30 +113,36 @@
 
 
     <!-- ================= ZONE DE CONTENU ================= -->
-    <!-- Structure principale avec division gauche/droite -->
-<div class="split-mode">
-    <!-- Panneau de gauche (contenu principal) -->
-    <div class="left-panel">
-        <iframe class="panel-frame" id="frame1"></iframe>
+    <!-- Conteneur principal -->
+<div id="content-container">
+    <!-- Mode plein écran par défaut (visible au chargement) -->
+    <div class="fullscreen-mode">
+        <iframe id="main-frame"></iframe>
     </div>
 
-    <!-- Panneau de droite (noise + timer + reste du contenu) -->
-    <div class="right-panel">
-        <!-- Conteneur pour "noise" et "timer" -->
-        <div class="right-panel-top">
-            <div class="noise-container">
-                <!-- Intégrez ici le contenu pour "noise" (ex: iframe, div, etc.) -->
-                <iframe id="noise-frame"></iframe>
-            </div>
-            <div class="timer-container">
-                <!-- Intégrez ici le contenu pour "timer" (ex: div avec l'horloge) -->
-                <div id="timer">00:00</div>
-            </div>
+    <!-- Mode fractionné (masqué par défaut) -->
+    <div class="split-mode" style="display: none;">
+        <!-- Panneau de gauche -->
+        <div class="left-panel">
+            <iframe class="panel-frame" id="left-frame"></iframe>
         </div>
 
-        <!-- Conteneur pour le reste du contenu (ex: tableau des produits chimiques) -->
-        <div class="right-panel-bottom">
-            <iframe class="panel-frame" id="frame2"></iframe>
+        <!-- Panneau de droite -->
+        <div class="right-panel">
+            <!-- Conteneur pour "noise" et "timer" -->
+            <div class="right-panel-top">
+                <div class="noise-container">
+                    <iframe id="noise-frame"></iframe>
+                </div>
+                <div class="timer-container">
+                    <div id="timer">00:00</div>
+                </div>
+            </div>
+
+            <!-- Conteneur pour le reste du contenu (ex: tableau) -->
+            <div class="right-panel-bottom">
+                <iframe class="panel-frame" id="right-frame"></iframe>
+            </div>
         </div>
     </div>
 </div>
