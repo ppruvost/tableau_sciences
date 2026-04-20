@@ -13,7 +13,17 @@ function updateClock() {
 setInterval(updateClock, 1000);
 
 /* =============================== */
-/* MENU */
+/* ACTIVER UN BOUTON DU MENU */
+/* =============================== */
+function setActiveButton(btn) {
+    document.querySelectorAll(".menu-item").forEach(item => {
+        item.classList.remove("active");
+    });
+    btn.classList.add("active");
+}
+
+/* =============================== */
+/* MENU (OUVERTURE/FERMETURE) */
 /* =============================== */
 function toggleMenu(menuId, btn) {
     const menu = document.getElementById(menuId);
@@ -21,6 +31,7 @@ function toggleMenu(menuId, btn) {
 
     // Fermer tous les sous-menus
     document.querySelectorAll(".submenu").forEach(m => m.classList.remove("show"));
+    // Désactiver tous les boutons
     document.querySelectorAll(".menu-item").forEach(item => item.classList.remove("active"));
 
     if (!isOpen) {
@@ -29,7 +40,7 @@ function toggleMenu(menuId, btn) {
     }
 }
 
-// Fermer les menus si clic à l'extérieur
+/* Fermer les menus si clic à l'extérieur */
 document.addEventListener("click", (e) => {
     if (!e.target.closest(".menu-item")) {
         document.querySelectorAll(".submenu").forEach(m => m.classList.remove("show"));
