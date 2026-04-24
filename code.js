@@ -94,7 +94,7 @@ document.addEventListener("click", (e) => {
 /* =============================== */
 function modeFull() {
     document.querySelector(".fullscreen-mode").style.display = "flex";
-    document.querySelector(".split-mode").style.display = "none";
+    document.querySelector(".split-mode").style.display = "flex";
 
     const home = document.getElementById("home-message");
     const frame = document.getElementById("main-frame");
