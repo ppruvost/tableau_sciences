@@ -23,6 +23,7 @@ html, body {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    overflow-x: auto;
 }
 
 .menu-item {
