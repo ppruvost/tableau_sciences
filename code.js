@@ -93,7 +93,7 @@ document.addEventListener("click", (e) => {
 /* MODE PLEIN ÉCRAN */
 /* =============================== */
 function modeFull() {
-    document.querySelector(".fullscreen-mode").style.display = "block";
+    document.querySelector(".fullscreen-mode").style.display = "flex";
     document.querySelector(".split-mode").style.display = "none";
 
     const home = document.getElementById("home-message");
