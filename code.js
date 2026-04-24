@@ -80,10 +80,10 @@ function toggleMenu(menuId, btn) {
 }
 /* fermer si clic extérieur */
 document.addEventListener("click", (e) => {
-    const isMenuClick = e.target.closest(".menu-item");
-    const isSubmenuClick = e.target.closest(".submenu");
+    const isInsideMenu = e.target.closest(".menu");
+    const isSubmenu = e.target.closest(".submenu");
 
-    if (!isMenuClick && !isSubmenuClick) {
+    if (!isInsideMenu && !isSubmenu) {
         document.querySelectorAll(".submenu").forEach(m => m.classList.remove("show"));
         document.querySelectorAll(".menu-item").forEach(item => item.classList.remove("active"));
     }
