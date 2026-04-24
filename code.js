@@ -1,13 +1,31 @@
-let mainFrame, leftFrame, rightFrame, noiseFrame, timerFrame;
+let mainFrame, leftFrame, noiseFrame, timerFrame;
 
 /* ============================== */
-/* Message accueil */
+/* INITIALISATION */
+/* ============================== */
+window.onload = () => {
+    modeFull();
+    updateClock();
+};
+
+/* ============================== */
+/* CHARGEMENT IFRAME (CORRIGÉ) */
 /* ============================== */
 function loadInFrame(url) {
-    document.getElementById("home-message").style.display = "none";
-    const frame = document.getElementById("main-frame");
-    frame.style.display = "block";
-    frame.src = url;
+    const home = document.getElementById("home-message");
+    const mainFrame = document.getElementById("main-frame");
+    const leftFrame = document.getElementById("left-frame");
+
+    if (home) home.style.display = "none";
+
+    const isFullscreen = document.querySelector(".fullscreen-mode").style.display !== "none";
+
+    if (isFullscreen) {
+        mainFrame.style.display = "block";
+        mainFrame.src = url;
+    } else {
+        leftFrame.src = url;
+    }
 }
 
 /* =============================== */
@@ -18,32 +36,31 @@ function updateClock() {
     const h = String(now.getHours()).padStart(2, '0');
     const m = String(now.getMinutes()).padStart(2, '0');
     const date = now.toLocaleDateString('fr-FR');
-    document.getElementById("clock").innerHTML = `<div>${h}:${m}</div><div>${date}</div>`;
+
+    document.getElementById("clock").innerHTML =
+        `<div>${h}:${m}</div><div>${date}</div>`;
 }
+
 setInterval(updateClock, 1000);
 
 /* =============================== */
-/* ACTIVER UN BOUTON DU MENU */
+/* MENU ACTIF */
 /* =============================== */
 function setActiveButton(btn) {
-    // Désactive tous les boutons
     document.querySelectorAll(".menu-item").forEach(item => {
         item.classList.remove("active");
     });
-    // Active le bouton cliqué
     btn.classList.add("active");
 }
 
 /* =============================== */
-/* MENU (OUVERTURE/FERMETURE) */
+/* MENU TOGGLE */
 /* =============================== */
 function toggleMenu(menuId, btn) {
     const menu = document.getElementById(menuId);
     const isOpen = menu.classList.contains("show");
 
-    // Fermer tous les sous-menus
     document.querySelectorAll(".submenu").forEach(m => m.classList.remove("show"));
-    // Désactiver tous les boutons
     document.querySelectorAll(".menu-item").forEach(item => item.classList.remove("active"));
 
     if (!isOpen) {
@@ -52,7 +69,7 @@ function toggleMenu(menuId, btn) {
     }
 }
 
-/* Fermer les menus si clic à l'extérieur */
+/* fermer si clic extérieur */
 document.addEventListener("click", (e) => {
     if (!e.target.closest(".menu-item")) {
         document.querySelectorAll(".submenu").forEach(m => m.classList.remove("show"));
@@ -61,37 +78,38 @@ document.addEventListener("click", (e) => {
 });
 
 /* =============================== */
-/* CHARGEMENT DES FRAMES */
-/* =============================== */
-function loadInFrame(url) {
-    const activeMode = document.querySelector(".fullscreen-mode").style.display !== "none" ? "fullscreen" : "split";
-
-    if (activeMode === "fullscreen") {
-        document.getElementById("main-frame").src = url;
-    } else {
-        document.getElementById("left-frame").src = url;
-    }
-}
-
-/* =============================== */
-/* MODES D'AFFICHAGE */
+/* MODE PLEIN ÉCRAN */
 /* =============================== */
 function modeFull() {
     document.querySelector(".fullscreen-mode").style.display = "block";
     document.querySelector(".split-mode").style.display = "none";
-    loadInFrame("LP MERMOZ - VIRE.png"); // Exemple : image par défaut
+
+    const home = document.getElementById("home-message");
+    const frame = document.getElementById("main-frame");
+
+    home.style.display = "block";
+    frame.style.display = "none";
+    frame.src = "";
 }
 
+/* =============================== */
+/* MODE SPLIT */
+/* =============================== */
 function modeSplit() {
     document.querySelector(".fullscreen-mode").style.display = "none";
     document.querySelector(".split-mode").style.display = "flex";
-    document.getElementById("left-frame").src = "LP MERMOZ - VIRE.png"; // Exemple
+
+    document.getElementById("left-frame").src = "";
 }
 
 /* =============================== */
-/* INITIALISATION */
+/* (OPTION) RESET HOME */
 /* =============================== */
-window.onload = () => {
-    modeFull(); // Démarre en mode plein écran
-    updateClock();
-};
+function showHome() {
+    const home = document.getElementById("home-message");
+    const frame = document.getElementById("main-frame");
+
+    home.style.display = "block";
+    frame.style.display = "none";
+    frame.src = "";
+}
