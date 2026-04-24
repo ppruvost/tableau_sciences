@@ -1,5 +1,15 @@
 let mainFrame, leftFrame, rightFrame, noiseFrame, timerFrame;
 
+/* ============================== */
+/* Message accueil */
+/* ============================== */
+function loadInFrame(url) {
+    document.getElementById("home-message").style.display = "none";
+    const frame = document.getElementById("main-frame");
+    frame.style.display = "block";
+    frame.src = url;
+}
+
 /* =============================== */
 /* HORLOGE */
 /* =============================== */
