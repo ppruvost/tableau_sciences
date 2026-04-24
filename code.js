@@ -60,18 +60,30 @@ function toggleMenu(menuId, btn) {
     const menu = document.getElementById(menuId);
     const isOpen = menu.classList.contains("show");
 
-    document.querySelectorAll(".submenu").forEach(m => m.classList.remove("show"));
-    document.querySelectorAll(".menu-item").forEach(item => item.classList.remove("active"));
+    // Ferme tous les autres menus
+    document.querySelectorAll(".submenu").forEach(m => {
+        if (m.id !== menuId) m.classList.remove("show");
+    });
 
-    if (!isOpen) {
+    document.querySelectorAll(".menu-item").forEach(item => {
+        if (item !== btn) item.classList.remove("active");
+    });
+
+    // toggle propre
+    if (isOpen) {
+        menu.classList.remove("show");
+        btn.classList.remove("active");
+    } else {
         menu.classList.add("show");
         btn.classList.add("active");
     }
 }
-
 /* fermer si clic extérieur */
 document.addEventListener("click", (e) => {
-    if (!e.target.closest(".menu-item")) {
+    const isMenuClick = e.target.closest(".menu-item");
+    const isSubmenuClick = e.target.closest(".submenu");
+
+    if (!isMenuClick && !isSubmenuClick) {
         document.querySelectorAll(".submenu").forEach(m => m.classList.remove("show"));
         document.querySelectorAll(".menu-item").forEach(item => item.classList.remove("active"));
     }
