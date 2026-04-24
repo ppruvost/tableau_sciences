@@ -94,7 +94,7 @@ document.addEventListener("click", (e) => {
 /* =============================== */
 function modeFull() {
     document.querySelector(".fullscreen-mode").style.display = "flex";
-    document.querySelector(".split-mode").style.display = "flex";
+    document.querySelector(".split-mode").style.display = "none";
 
     const home = document.getElementById("home-message");
     const frame = document.getElementById("main-frame");
@@ -103,7 +103,6 @@ function modeFull() {
     frame.style.display = "none";
     frame.src = "";
 }
-
 /* =============================== */
 /* MODE SPLIT */
 /* =============================== */
