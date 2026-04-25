@@ -50,7 +50,13 @@ function setActiveButton(btn) {
     document.querySelectorAll(".menu-item").forEach(item => {
         item.classList.remove("active");
     });
-    btn.classList.add("active");
+
+    // Si on clique sur un bouton de sous-menu → activer le parent
+    const parentItem = btn.closest(".menu-item");
+
+    if (parentItem) {
+        parentItem.classList.add("active");
+    }
 }
 
 /* =============================== */
