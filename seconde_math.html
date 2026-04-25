@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Maths - 2nde Pro</title>
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -47,6 +48,7 @@
 
     tr:hover {
       background: #f2f2f2;
+      cursor: pointer;
     }
 
     .tag {
@@ -57,39 +59,44 @@
       white-space: nowrap;
     }
 
-    .niveau {
-      background: #e7dfd3;
-      color: #3a2d27;
-    }
-
+    .niveau { background: #e7dfd3; color: #3a2d27; }
     .cap1 { background: #d9edf7; }
     .cap2 { background: #dff0d8; }
     .cap3 { background: #f2dede; }
     .cap4 { background: #fcf8e3; }
 
-    a {
-      color: #80665b;
-      text-decoration: none;
+    /* IFRAME */
+    .frame-container {
+      max-width: 1000px;
+      margin: 20px auto;
+      height: 500px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+      background: white;
     }
 
-    a:hover {
-      text-decoration: underline;
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
     }
 
     @media (max-width: 768px) {
-      body {
-        padding: 10px;
-      }
-
-      table {
-        min-width: 600px;
-      }
+      body { padding: 10px; }
+      table { min-width: 600px; }
     }
   </style>
 </head>
+
 <body>
 
 <h1>Maths - 2nde Pro</h1>
+
+<!-- IFRAME -->
+<div class="frame-container">
+  <iframe id="contentFrame" src=""></iframe>
+</div>
 
 <div class="table-container">
   <table>
@@ -102,43 +109,51 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
+
+      <tr onclick="loadPage('https://ppruvost.github.io/automat01/')">
         <td>Automatisme_01</td>
-        <td><a href="https://ppruvost.github.io/automat01/" target="_blank">automatisme_01</a></td>
+        <td>automatisme_01</td>
         <td><span class="tag niveau">Niveau 01</span></td>
         <td><span class="tag cap1">Utilisation des pourcentages</span></td>
       </tr>
 
-      <tr>
+      <tr onclick="loadPage('https://ppruvost.github.io/automat02/')">
         <td>Automatisme_02</td>
-        <td><a href="https://ppruvost.github.io/automat02/" target="_blank">automatisme_02</a></td>
+        <td>automatisme_02</td>
         <td><span class="tag niveau">Niveau 01</span></td>
-        <td><span class="tag cap2">Expression d’un nombre en écriture décimale ou fractionnaire sous forme d’un pourcentage et réciproquement</span></td>
+        <td><span class="tag cap2">Expression des pourcentages</span></td>
       </tr>
 
-      <tr>
+      <tr onclick="loadPage('https://ppruvost.github.io/playmaths03/')">
         <td>PlayMaths_03</td>
-        <td><a href="https://ppruvost.github.io/playmaths03/" target="_blank">playmaths03</a></td>
+        <td>playmaths03</td>
         <td><span class="tag niveau">Niveau 01</span></td>
         <td><span class="tag cap3">Fonctions du premier degré</span></td>
       </tr>
 
-      <tr>
+      <tr onclick="loadPage('https://ppruvost.github.io/playmaths04/')">
         <td>PlayMaths_04</td>
-        <td><a href="https://ppruvost.github.io/playmaths04/" target="_blank">playmaths04</a></td>
+        <td>playmaths04</td>
         <td><span class="tag niveau">Niveau 01</span></td>
-        <td><span class="tag cap4">Reconnaissance du cube, du pavé droit, de la pyramide, du cylindre droit, du cône et de la boule</span></td>
+        <td><span class="tag cap4">Solides géométriques</span></td>
       </tr>
 
-      <tr>
+      <tr onclick="loadPage('https://ppruvost.github.io/playmaths05/')">
         <td>PlayMaths_05</td>
-        <td><a href="https://ppruvost.github.io/playmaths05/" target="_blank">playmaths05</a></td>
+        <td>playmaths05</td>
         <td><span class="tag niveau">Niveau 01</span></td>
-        <td><span class="tag cap1">Écriture d’un nombre en notation scientifique</span></td>
+        <td><span class="tag cap1">Notation scientifique</span></td>
       </tr>
+
     </tbody>
   </table>
 </div>
+
+<script>
+  function loadPage(url) {
+    document.getElementById('contentFrame').src = url;
+  }
+</script>
 
 </body>
 </html>
