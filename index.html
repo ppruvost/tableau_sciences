@@ -34,8 +34,8 @@
         <div class="menu-item" data-tooltip="GéoGébra" onclick="toggleMenu('geoMenu', this)">
             <i class="fas fa-shapes"></i>
             <div class="submenu" id="geoMenu">
-                <button onclick="setActiveButton(this); loadInFrame('https://www.geogebra.org/classic?lang=fr')">Classic</button>
-                <button onclick="setActiveButton(this); loadInFrame('https://www.geogebra.org/3d?lang=fr')">3D</button>
+                <button onclick="event.stopPropagation(); setActiveButton(this); loadInFrame('https://www.geogebra.org/classic?lang=fr')">Classic</button>
+                <button onclick="event.stopPropagation(); setActiveButton(this); loadInFrame('https://www.geogebra.org/3d?lang=fr')">3D</button>
             </div>
         </div>
         <div class="menu-item" data-tooltip="Calculatrice Graphique" onclick="setActiveButton(this); loadInFrame('https://www.numworks.com/fr/emulateur/graphique/')">
@@ -50,8 +50,8 @@
         <div class="menu-item" data-tooltip="Ecran" onclick="toggleMenu('screenMenu', this)">
             <i class="fas fa-cog"></i>
             <div class="submenu" id="screenMenu">
-                <button onclick="modeFull()">Écran plein</button>
-                <button onclick="modeSplit()">Écran fractionné</button>
+                <button onclick="event.stopPropagation(); modeFull()">Écran plein</button>
+                <button onclick="event.stopPropagation(); modeSplit()">Écran fractionné</button>
             </div>
         </div>
     </div>
