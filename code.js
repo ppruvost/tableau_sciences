@@ -107,7 +107,7 @@ function modeFull() {
 
     home.style.display = "block";
     frame.style.display = "none";
-    frame.src = "";
+    frame.innerHTML = "";
 }
 /* =============================== */
 /* MODE SPLIT */
