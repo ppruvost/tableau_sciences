@@ -22,7 +22,7 @@ function loadInFrame(url) {
 
     if (isFullscreen) {
         mainFrame.style.display = "block";
-        mainFrame.src = url;
+        mainFrame.innerHTML = `<iframe src="${url}" style="width:100%; height:100%; border:none;"></iframe>`;
     } else {
         leftFrame.src = url;
     }
@@ -129,4 +129,60 @@ function showHome() {
     home.style.display = "block";
     frame.style.display = "none";
     frame.src = "";
+}
+
+/* =============================== */
+/* GEOGEBRA DIRECT (SANS IFRAME) */
+/* =============================== */
+
+function loadGeoGebraClassic() {
+    const home = document.getElementById("home-message");
+    const container = document.getElementById("main-frame");
+
+    home.style.display = "none";
+    container.style.display = "block";
+    container.innerHTML = "";
+
+    const params = {
+        appName: "classic",
+        width: window.innerWidth - 120,
+        height: window.innerHeight - 20,
+        showToolBar: true,
+        showAlgebraInput: true,
+        showMenuBar: true,
+        enableRightClick: true,
+        enableShiftDragZoom: true,
+        showResetIcon: true,
+        useBrowserForJS: true,
+        language: "fr"
+    };
+
+    const applet = new GGBApplet(params, true);
+    applet.inject("main-frame");
+}
+
+function loadGeoGebra3D() {
+    const home = document.getElementById("home-message");
+    const container = document.getElementById("main-frame");
+
+    home.style.display = "none";
+    container.style.display = "block";
+    container.innerHTML = "";
+
+    const params = {
+        appName: "3d",
+        width: window.innerWidth - 120,
+        height: window.innerHeight - 20,
+        showToolBar: true,
+        showAlgebraInput: true,
+        showMenuBar: true,
+        enableRightClick: true,
+        enableShiftDragZoom: true,
+        showResetIcon: true,
+        useBrowserForJS: true,
+        language: "fr"
+    };
+
+    const applet = new GGBApplet(params, true);
+    applet.inject("main-frame");
 }
