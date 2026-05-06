@@ -34,7 +34,7 @@
         <div class="menu-item" data-tooltip="GéoGébra" onclick="toggleMenu('geoMenu', this)">
             <i class="fas fa-shapes"></i>
             <div class="submenu" id="geoMenu">
-                <button onclick="event.stopPropagation(); setActiveButton(this); loadInFrame('https://www.geogebra.org/classic?lang=fr')">Classic</button>
+                <button onclick="event.stopPropagation(); setActiveButton(this); loadGeoGebraClassic()">Classic</button>
                 <button onclick="event.stopPropagation(); setActiveButton(this); loadInFrame('https://www.geogebra.org/3d?lang=fr')">3D</button>
             </div>
         </div>
@@ -91,7 +91,7 @@
         </p>
     </div>
 
-    <iframe id="main-frame" style="display:none;"></iframe>
+    <div id="main-frame" style="display:none;"></div>
 </div>
 
     <!-- Mode fractionné (masqué) -->
@@ -119,6 +119,7 @@
     <!-- Horloge -->
     <div id="clock"></div>
 
+    <script src="https://www.geogebra.org/apps/deployggb.js"></script>
     <script src="code.js"></script>
 </body>
 </html>
