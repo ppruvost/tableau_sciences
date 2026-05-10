@@ -22,7 +22,7 @@ function loadInFrame(url) {
 
     if (isFullscreen) {
         mainFrame.style.display = "block";
-        mainFrame.innerHTML = `<iframe src="${url}" style="width:100%; height:100%; border:none;"></iframe>`;
+        mainFrame.innerHTML = `<iframe src="${url}" allow="camera; microphone" style="width:100%; height:100%; border:none;"></iframe>`;
     } else {
         leftFrame.src = url;
     }
