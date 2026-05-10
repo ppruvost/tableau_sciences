@@ -52,9 +52,25 @@ L’approche retenue dans ce projet privilégie une logique d’apprentissage in
 
 La grille d’évaluation des compétences utilisée dans ce projet s’appuie sur le **référentiel de mathématiques et de sciences** applicable en **baccalauréat professionnel**, ainsi que sur les pratiques d’évaluation par compétences mises en œuvre dans l’**Académie de Normandie**. Elle s’inscrit dans une démarche d’évaluation formative et progressive des acquis des élèves.
 
----
+## 3. Crédits photos et contenus visuels
 
-## 3. Outils externes utilisés ou intégrés conceptuellement
+Sauf mention contraire, l’ensemble des photographies, captures d’écran, illustrations,
+schémas et éléments visuels intégrés dans ce projet sont la propriété de Patrick PRUVOST
+et ont été réalisés dans le cadre de ses activités pédagogiques.
+
+Ces éléments visuels sont protégés par le <strong>droit d’auteur</strong> en vigueur en droit français et européen.
+Leur utilisation, reproduction ou diffusion est autorisée uniquement dans le cadre défini par les licences
+associées au projet (GPL v3 pour le code source et CC BY-NC-SA 4.0 pour les contenus pédagogiques),
+sauf indication contraire explicite.
+
+Toute réutilisation en dehors de ce cadre nécessite l’autorisation préalable de l’auteur,
+conformément au Code de la propriété intellectuelle et aux dispositions européennes relatives au droit d’auteur.
+
+Les images issues de sources externes (le cas échéant) restent la propriété de leurs auteurs respectifs
+et sont utilisées dans le respect des licences ou autorisations applicables.
+
+
+## 4. Outils externes utilisés ou intégrés conceptuellement
 
 * [https://www.l-educdenormandie.fr/](https://www.l-educdenormandie.fr/)
   Ressources institutionnelles et environnement éducatif de l'académie de Normandie.
@@ -74,7 +90,7 @@ La grille d’évaluation des compétences utilisée dans ce projet s’appuie s
 
 ---
 
-## 4. Nature juridique du projet
+## 5. Nature juridique du projet
 
 Ce projet constitue une création originale indépendante. Le code source est distribué sous licence **GNU GPL v3**, garantissant la liberté d’utilisation, de modification et de redistribution, sous condition de maintien de la même licence.
 
@@ -82,7 +98,7 @@ Les contenus pédagogiques sont distribués sous licence **Creative Commons CC B
 
 ---
 
-## 5. Protection juridique (droit européen)
+## 6. Protection juridique (droit européen)
 
 L’ensemble du projet est protégé par le droit d’auteur de l’Union européenne. L’auteur conserve l’intégralité de ses droits moraux et patrimoniaux, notamment :
 
@@ -95,7 +111,7 @@ Les licences GPL v3 et CC BY-NC-SA 4.0 constituent des cadres d’autorisation d
 
 ---
 
-## 6. Textes officiels des licences
+## 7. Textes officiels des licences
 
 ### GNU GPL v3
 
