@@ -40,9 +40,9 @@ Méthode d’apprentissage coopératif développée par **Elliot Aronson** (1971
 
 Visualisation scientifique basée sur les données de **PubChem**, base de données chimique maintenue par le National Center for Biotechnology Information (NCBI), relevant des National Institutes of Health (NIH).
 
-### Évaluation interactive (QuizEval)
+### Évaluation interactive (PlayMaths ARCADE)
 
-Le module d’évaluation interactive (**QuizEval**) s’inspire des principes généraux des outils de quiz pédagogiques de type **Kahoot!**, notamment dans l’objectif de proposer une évaluation formative, dynamique et engageante.
+Le module d’évaluation interactive (**PlayMaths ARCADE**) s’inspire des principes généraux des outils de quiz pédagogiques de type **Kahoot!**, notamment dans l’objectif de proposer une évaluation formative, dynamique et engageante.
 
 Cette inspiration porte uniquement sur le format pédagogique de questionnement interactif et de feedback immédiat, sans reprise de code source, sans reproduction de l’interface, et sans mécanisme de compétition ou de comparaison entre élèves.
 
