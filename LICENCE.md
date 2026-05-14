@@ -12,7 +12,7 @@ Les licences accordées constituent des autorisations d’usage et ne limitent p
 
 ## 1. Auteur du projet
 
-**P. PRUVOST**
+**P. Pruvost**
 Lycée Jean Mermoz, Vire
 Académie de Normandie
 
@@ -52,22 +52,21 @@ L’approche retenue dans ce projet privilégie une logique d’apprentissage in
 
 La grille d’évaluation des compétences utilisée dans ce projet s’appuie sur le **référentiel de mathématiques et de sciences** applicable en **baccalauréat professionnel**, ainsi que sur les pratiques d’évaluation par compétences mises en œuvre dans l’**Académie de Normandie**. Elle s’inscrit dans une démarche d’évaluation formative et progressive des acquis des élèves.
 
-## 3. Crédits photos et contenus visuels
+## 3. Crédits photos, pictogrammes et contenus visuels
 
-Sauf mention contraire, l’ensemble des photographies, captures d’écran, illustrations,
-schémas et éléments visuels intégrés dans ce projet sont la propriété de Patrick PRUVOST
-et ont été réalisés dans le cadre de ses activités pédagogiques.
+Sauf mention contraire, l’ensemble des photographies, captures d’écran, illustrations, schémas et éléments visuels intégrés dans ce projet sont la propriété de Patrick Pruvost et ont été réalisés dans le cadre de ses activités pédagogiques.
 
-Ces éléments visuels sont protégés par le <strong>droit d’auteur</strong> en vigueur en droit français et européen.
-Leur utilisation, reproduction ou diffusion est autorisée uniquement dans le cadre défini par les licences
-associées au projet (GPL v3 pour le code source et CC BY-NC-SA 4.0 pour les contenus pédagogiques),
-sauf indication contraire explicite.
+Les pictogrammes de sécurité utilisés dans ce projet proviennent de l’INRS (Institut National de Recherche et de Sécurité) https://www.inrs.fr/media.html?refINRS=outil10 et sont reproduits dans un objectif d’information, de prévention et de pédagogie, conformément à leur usage destiné à la sensibilisation aux risques professionnels.
 
-Toute réutilisation en dehors de ce cadre nécessite l’autorisation préalable de l’auteur,
-conformément au Code de la propriété intellectuelle et aux dispositions européennes relatives au droit d’auteur.
+Ces pictogrammes restent la propriété de leurs auteurs et de l’INRS. Leur utilisation respecte les conditions applicables aux ressources mises à disposition par cet organisme.
 
-Les images issues de sources externes (le cas échéant) restent la propriété de leurs auteurs respectifs
-et sont utilisées dans le respect des licences ou autorisations applicables.
+Les autres éléments visuels originaux (photographies, schémas, captures et illustrations spécifiques) sont protégés par le <strong>droit d’auteur</strong> en vigueur en droit français et européen.
+
+Leur utilisation, reproduction ou diffusion est autorisée uniquement dans le cadre défini par les licences associées au projet (GPL v3 pour le code source et CC BY-NC-SA 4.0 pour les contenus pédagogiques), sauf indication contraire explicite.
+
+Toute réutilisation en dehors de ce cadre nécessite l’autorisation préalable de l’auteur, conformément au Code de la propriété intellectuelle et aux dispositions européennes relatives au droit d’auteur.
+
+Les images, pictogrammes ou illustrations issus de sources externes restent la propriété de leurs auteurs respectifs et sont utilisés dans le respect des licences, droits d’usage ou autorisations applicables.
 
 
 ## 4. Outils externes utilisés ou intégrés conceptuellement
