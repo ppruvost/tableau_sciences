@@ -101,19 +101,19 @@
     <div class="split-mode" style="display: none;">
         <!-- Panneau de gauche -->
         <div class="left-panel">
-            <iframe class="panel-frame" id="left-frame" allow="camera; microphone"></iframe>
+            <iframe class="panel-frame" id="left-frame" allow="microphone *; camera *" permissionspolicy="microphone=*, camera=*"></iframe>
         </div>
 
         <!-- Panneau de droite -->
         <div class="right-panel">
             <!-- Conteneur pour "noise" (en haut) -->
             <div class="right-panel-top">
-                <iframe id="noise-frame" src="https://ppruvost.github.io/noise/" allow="camera; microphone"></iframe>
+                <iframe id="noise-frame" src="https://ppruvost.github.io/noise/" allow="microphone *; camera *" permissionspolicy="microphone=*, camera=*"></iframe>
             </div>
 
             <!-- Conteneur pour "timer" (en bas) -->
             <div class="right-panel-bottom">
-                <iframe id="timer-frame" src="https://ppruvost.github.io/Time-Timer/" allow="camera; microphone"></iframe>
+                <iframe id="timer-frame" src="https://ppruvost.github.io/Time-Timer/" allow="microphone *; camera *" permissionspolicy="microphone=*, camera=*"></iframe>
             </div>
         </div>
     </div>
