@@ -9,7 +9,7 @@ window.onload = () => {
 };
 
 /* ============================== */
-/* CHARGEMENT IFRAME (CORRIGÉ) */
+/* CHARGEMENT IFRAME */
 /* ============================== */
 function loadInFrame(url) {
     const home = document.getElementById("home-message");
@@ -18,13 +18,35 @@ function loadInFrame(url) {
 
     if (home) home.style.display = "none";
 
-    const isFullscreen = document.querySelector(".fullscreen-mode").style.display !== "none";
+    const isFullscreen =
+        document.querySelector(".fullscreen-mode").style.display !== "none";
 
     if (isFullscreen) {
+
         mainFrame.style.display = "block";
-        mainFrame.innerHTML = `<iframe src="${url}" allow="camera; microphone" style="width:100%; height:100%; border:none;"></iframe>`;
+
+        mainFrame.innerHTML = `
+            <iframe
+                src="${url}"
+                allow="microphone *; camera *"
+                permissionspolicy="microphone=*, camera=*"
+                style="width:100%; height:100%; border:none;">
+            </iframe>
+        `;
+
     } else {
+
         leftFrame.src = url;
+
+        leftFrame.setAttribute(
+            "allow",
+            "microphone *; camera *"
+        );
+
+        leftFrame.setAttribute(
+            "permissionspolicy",
+            "microphone=*, camera=*"
+        );
     }
 }
 
