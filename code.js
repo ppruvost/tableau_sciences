@@ -211,14 +211,17 @@ function loadGeoGebra3D() {
 // ===============================
 // MODALE POUR MISTRAL AI
 // ===============================
+
 // Ouvre la modale Mistral AI
-function openMistralModal() {
+function openMistralModal(event) {
+    event.stopPropagation(); // Empêche la propagation du clic
     document.getElementById('mistralModal').style.display = 'flex';
     setActiveButton(event.currentTarget);
 }
 
 // Ferme la modale Mistral AI
-function closeMistralModal() {
+function closeMistralModal(event) {
+    event.stopPropagation(); // Empêche la propagation du clic
     document.getElementById('mistralModal').style.display = 'none';
 }
 
