@@ -208,3 +208,23 @@ function loadGeoGebra3D() {
     const applet = new GGBApplet(params, true);
     applet.inject("main-frame");
 }
+// ===============================
+// MODALE POUR MISTRAL AI
+// ===============================
+// Ouvre la modale Mistral AI
+function openMistralModal() {
+    document.getElementById('mistralModal').style.display = 'flex';
+    setActiveButton(event.currentTarget);
+}
+
+// Ferme la modale Mistral AI
+function closeMistralModal() {
+    document.getElementById('mistralModal').style.display = 'none';
+}
+
+// Met en surbrillance le bouton actif
+function setActiveButton(button) {
+    const items = document.querySelectorAll('.menu-item');
+    items.forEach(item => item.classList.remove('active'));
+    button.classList.add('active');
+}
