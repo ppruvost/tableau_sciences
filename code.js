@@ -224,10 +224,3 @@ function closeMistralModal(event) {
     event.stopPropagation(); // Empêche la propagation du clic
     document.getElementById('mistralModal').style.display = 'none';
 }
-
-// Met en surbrillance le bouton actif
-function setActiveButton(button) {
-    const items = document.querySelectorAll('.menu-item');
-    items.forEach(item => item.classList.remove('active'));
-    button.classList.add('active');
-}
