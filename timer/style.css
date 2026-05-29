@@ -1,0 +1,27 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f7f7f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  text-align: center;
+  background: white;
+  padding: 20px 40px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+canvas {
+  margin-top: 20px;
+  border-radius: 50%;
+}
+
+#timeText {
+  font-size: 1.8em;
+  margin-top: 10px;
+  font-weight: bold;
+}
