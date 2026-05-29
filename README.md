@@ -1,4 +1,4 @@
-# Tableau de Bord Pédagogique
+# Mermoz Sciences Project
 
 ## Présentation
 
@@ -20,7 +20,7 @@ Le tableau de bord propose un accès rapide aux outils suivants :
 - Son dans la classe
 - Timer pédagogique
 - Classe Puzzle
-- OnlyOffice
+- Le Chat IA
 - Création de sch́mas (draw.io)
 - Programmation Python (Basthon)
 - GeoGebra (Classic + 3D)
@@ -79,20 +79,9 @@ Ce mode est particulièrement utile pour la gestion de classe.
 
 ---
 
-## Structure du projet
-
-```text
-/
-├── index.html
-├── style.css
-├── code.js
-├── licence.html
-└── images/
-    └── CC_europeen.png
-
 ## Installation
 
-Aucune installation complexe n’est nécessaire.
+Aucune installation n’est nécessaire, c'est 100% web.
 
 ## Utilisation locale
 Télécharger ou cloner le projet
@@ -127,7 +116,7 @@ Ce projet vise à :
 - valoriser le droit à l’erreur dans les apprentissages
 
 ## Auteur
-Patrick PRUVOST
+Patrick Pruvost
 Mon prof de maths-Sciences
 LP Jean Mermoz – Vire
 Académie de Normandie
