@@ -1,1 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sonomètre Pédagogique</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Ajout de Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Ajout de marked.js pour convertir le Markdown en HTML -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        /* Style pour le lien vers le README */
+        .readme-link {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .readme-link a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .readme-link a:hover {
+            text-decoration: underline;
+        }
 
+        /* Style pour la référence de la norme */
+        .norm-reference {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            margin-top: 10px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sonomètre</h1>
+
+        <!-- Barre de niveau sonore -->
+        <div class="meter">
+            <div class="bar" id="soundBar"></div>
+        </div>
+
+        <!-- Valeur numérique -->
+        <p>Niveau sonore : <span id="value">0</span></p>
+
+        <!-- Emoji selon le niveau -->
+        <div id="emoji" style="font-size: 60px; margin-top: 10px;">😊</div>
+
+        <!-- Boutons -->
+        <button id="startButton">Démarrer</button>
+        <button id="stopButton">Arrêter</button>
+
+        <!-- Référence à la norme IEC 61672-1 Classe 2 -->
+        <p class="norm-reference" id="normReference"></p>
+
+        <!-- Graphique -->
+        <canvas id="soundChart" width="400" height="200" style="margin-top: 20px;"></canvas>
+
+        <!-- Lien vers le README sous le graphique -->
+        <div class="readme-link">
+            <a href="#" onclick="showReadme(); return false;">En savoir plus sur cet outil pédagogique</a>
+        </div>
+    </div>
+
+    <!-- Son d'alarme (optimisé iOS) -->
+    <audio id="alarmSound"
+        src="https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3"
+        preload="auto"
+        playsinline
+        muted>
+    </audio>
+
+    <!-- Script principal -->
+    <script src="script.js"></script>
+
+    <!-- Script pour afficher le README -->
+    <script>
+        function showReadme() {
+            fetch('README.md')
+                .then(response => response.text())
+                .then(text => {
+                    const htmlContent = marked.parse(text);
+                    const readmeWindow = window.open('', '_blank');
+                    readmeWindow.document.write(`
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <title>À propos du Sonomètre Pédagogique</title>
+                            <style>
+                                body {
+                                    font-family: 'Arial', sans-serif;
+                                    line-height: 1.6;
+                                    margin: 0;
+                                    padding: 20px;
+                                    color: #333;
+                                    max-width: 800px;
+                                    margin: 0 auto;
+                                    background-color: #f9f9f9;
+                                }
+                                h1 {
+                                    color: #4CAF50;
+                                    text-align: center;
+                                    border-bottom: 2px solid #4CAF50;
+                                    padding-bottom: 10px;
+                                }
+                                h2 {
+                                    color: #333;
+                                    margin-top: 25px;
+                                }
+                                p {
+                                    margin-bottom: 15px;
+                                }
+                                a {
+                                    color: #4CAF50;
+                                    text-decoration: none;
+                                }
+                                a:hover {
+                                    text-decoration: underline;
+                                }
+                                ul, ol {
+                                    margin-bottom: 20px;
+                                    padding-left: 20px;
+                                }
+                                li {
+                                    margin-bottom: 10px;
+                                }
+                                .container {
+                                    background-color: white;
+                                    padding: 25px;
+                                    border-radius: 8px;
+                                    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="container">
+                                ${htmlContent}
+                            </div>
+                        </body>
+                        </html>
+                    `);
+                    readmeWindow.document.close();
+                })
+                .catch(err => {
+                    console.error('Erreur lors du chargement du README:', err);
+                    alert("Impossible de charger le README. Veuillez vérifier que le fichier README.md existe.");
+                });
+        }
+    </script>
+</body>
+</html>
