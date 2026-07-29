@@ -1,161 +1,605 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mermoz Lab</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+```
+<title>Mermoz Lab</title>
+
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="stylesheet" href="style.css">
+
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
+
+<!-- =====================================================
+     CHARTE GRAPHIQUE DU LOGO MERMOZ LAB
+     Inspirée de l'identité visuelle SciLab
+====================================================== -->
+<style>
+
+    /* Conteneur général du logo */
+    .mermoz-logo {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        margin: 10px auto 28px;
+        padding: 16px 28px;
+
+        background: #050505;
+
+        border: 3px solid #111;
+        border-radius: 8px;
+
+        box-shadow:
+            0 8px 20px rgba(0, 0, 0, 0.35),
+            inset 0 0 12px rgba(255, 255, 255, 0.04);
+
+        font-family:
+            "Arial Black",
+            Arial,
+            sans-serif;
+
+        font-size: clamp(2.2rem, 6vw, 4.8rem);
+        font-weight: 900;
+
+        letter-spacing: -2px;
+
+        line-height: 1;
+
+        user-select: none;
+
+        transition:
+            transform 0.25s ease,
+            box-shadow 0.25s ease;
+    }
+
+    /* Effet discret au survol */
+    .mermoz-logo:hover {
+        transform: translateY(-3px) scale(1.02);
+
+        box-shadow:
+            0 12px 28px rgba(0, 0, 0, 0.45),
+            0 0 14px rgba(230, 30, 45, 0.18);
+    }
+
+    /* Partie blanche : MERMOZ */
+    .mermoz-logo .mermoz {
+        color: #ffffff;
+
+        text-shadow:
+            1px 1px 0 #777,
+            2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+
+    /* Partie rouge : LAB */
+    .mermoz-logo .lab {
+        color: #e31b2f;
+
+        margin-left: 8px;
+
+        text-shadow:
+            1px 1px 0 #85000d,
+            0 0 7px rgba(227, 27, 47, 0.35);
+    }
+
+    /* Adaptation aux petits écrans */
+    @media screen and (max-width: 600px) {
+
+        .mermoz-logo {
+            padding: 13px 18px;
+
+            font-size: clamp(2rem, 12vw, 3.2rem);
+
+            letter-spacing: -1px;
+
+            border-width: 2px;
+        }
+
+        .mermoz-logo .lab {
+            margin-left: 5px;
+        }
+    }
+
+</style>
+```
+
 </head>
+
 <body>
-    <!-- Menu principal -->
+
+```
+<!-- =====================================================
+     MENU PRINCIPAL
+====================================================== -->
+
 <div class="menu">
-    <div class="menu-item" data-tooltip="Educ de Normandie" onclick="window.open('https://www.l-educdenormandie.fr/','_blank')">
+
+    <div
+        class="menu-item"
+        data-tooltip="Educ de Normandie"
+        onclick="window.open(
+            'https://www.l-educdenormandie.fr/',
+            '_blank'
+        )"
+    >
         <i class="fas fa-school"></i>
     </div>
-    
-    <div class="menu-item" data-tooltip="Son dans la classe" onclick="setActiveButton(this); loadInFrame('./noise/index.html')">
+
+    <div
+        class="menu-item"
+        data-tooltip="Son dans la classe"
+        onclick="setActiveButton(this); loadInFrame('./noise/index.html')"
+    >
         <i class="fas fa-volume-up"></i>
     </div>
-    
-    <div class="menu-item" data-tooltip="Timer" onclick="setActiveButton(this); loadInFrame('./timer/index.html')">
+
+    <div
+        class="menu-item"
+        data-tooltip="Timer"
+        onclick="setActiveButton(this); loadInFrame('./timer/index.html')"
+    >
         <i class="fas fa-stopwatch"></i>
     </div>
-    
-    <div class="menu-item" data-tooltip="Classe Puzzle" onclick="setActiveButton(this); loadInFrame('https://ppruvost.github.io/roue/')">
+
+    <div
+        class="menu-item"
+        data-tooltip="Classe Puzzle"
+        onclick="
+            setActiveButton(this);
+            loadInFrame('https://ppruvost.github.io/roue/')
+        "
+    >
         <i class="fas fa-puzzle-piece"></i>
     </div>
-    
-    <div class="menu-item" data-tooltip="Créer un schéma" onclick="window.open('https://app.diagrams.net/','_blank')">
+
+    <div
+        class="menu-item"
+        data-tooltip="Créer un schéma"
+        onclick="
+            window.open(
+                'https://app.diagrams.net/',
+                '_blank'
+            )
+        "
+    >
         <i class="fas fa-project-diagram"></i>
     </div>
 
-    <div class="menu-item" data-tooltip="Prog Python" onclick="setActiveButton(this); loadInFrame('https://console.basthon.fr/')">
+    <div
+        class="menu-item"
+        data-tooltip="Prog Python"
+        onclick="
+            setActiveButton(this);
+            loadInFrame('https://console.basthon.fr/')
+        "
+    >
         <i class="fas fa-code"></i>
     </div>
 
-    <div class="menu-item" data-tooltip="GéoGébra" onclick="toggleMenu('geoMenu', this)">
+    <div
+        class="menu-item"
+        data-tooltip="GéoGébra"
+        onclick="toggleMenu('geoMenu', this)"
+    >
+
         <i class="fas fa-shapes"></i>
+
         <div class="submenu" id="geoMenu">
-            <button onclick="event.stopPropagation(); setActiveButton(this); loadGeoGebraClassic()">Classic</button>
-            <button onclick="event.stopPropagation(); setActiveButton(this); loadInFrame('https://www.geogebra.org/3d?lang=fr')">3D</button>
+
+            <button
+                onclick="
+                    event.stopPropagation();
+                    setActiveButton(this);
+                    loadGeoGebraClassic()
+                "
+            >
+                Classic
+            </button>
+
+            <button
+                onclick="
+                    event.stopPropagation();
+                    setActiveButton(this);
+                    loadInFrame(
+                        'https://www.geogebra.org/3d?lang=fr'
+                    )
+                "
+            >
+                3D
+            </button>
+
         </div>
+
     </div>
 
-        <div class="menu-item" data-tooltip="Calculatrice Graphique" onclick="setActiveButton(this); loadInFrame('./numworks/emulator.html')">
-            <i class="fas fa-calculator"></i>
-        </div>
-
-        <div class="menu-item" data-tooltip="MathiLab" onclick="setActiveButton(this); window.open('https://ppruvost.github.io/MathiLab/')">
-    <i class="fas fa-chart-line"></i>
-    </div>
-    
-        <div class="menu-item" data-tooltip="SciLab" onclick="setActiveButton(this); loadInFrame('https://ppruvost.github.io/laboratory/')">
-            <i class="fas fa-flask"></i>
-        </div>
-
-        <div class="menu-item" data-tooltip="PlayLab" onclick="setActiveButton(this); loadInFrame('https://ppruvost.github.io/playmaths-arcade/')">
-            <i class="fas fa-clipboard-list"></i>
-        </div>        
-
-        <div class="menu-item"
-             data-tooltip="Notation"
-             onclick="setActiveButton(this); loadInFrame('./notation/index.html')">
-            <i class="fas fa-sort-numeric-up"></i>
-        </div>
-        <div class="menu-item" data-tooltip="Ecran" onclick="toggleMenu('screenMenu', this)">
-            <i class="fas fa-cog"></i>
-            <div class="submenu" id="screenMenu">
-                <button onclick="event.stopPropagation(); modeFull()">Écran plein</button>
-                <button onclick="event.stopPropagation(); modeSplit()">Écran fractionné</button>
-            </div>
-        </div>
-        <div class="licence-logo" style="margin:20px 0; text-align:center;">
-            <a href="#"
-               onclick="setActiveButton(this); loadInFrame('licence.html'); return false;"
-               title="Voir la licence complète">
-                <img 
-                    src="images/CC_europeen.png" 
-                    alt="Logo Creative Commons Européen"
-                    style="max-width:120px; height:auto; border:none;"
-                >
-            </a>
-        </div>        
+    <div
+        class="menu-item"
+        data-tooltip="Calculatrice Graphique"
+        onclick="
+            setActiveButton(this);
+            loadInFrame('./numworks/emulator.html')
+        "
+    >
+        <i class="fas fa-calculator"></i>
     </div>
 
-<!-- Zone de contenu -->
+    <div
+        class="menu-item"
+        data-tooltip="MathiLab"
+        onclick="
+            setActiveButton(this);
+            window.open(
+                'https://ppruvost.github.io/MathiLab/'
+            )
+        "
+    >
+        <i class="fas fa-chart-line"></i>
+    </div>
+
+    <div
+        class="menu-item"
+        data-tooltip="SciLab"
+        onclick="
+            setActiveButton(this);
+            loadInFrame(
+                'https://ppruvost.github.io/laboratory/'
+            )
+        "
+    >
+        <i class="fas fa-flask"></i>
+    </div>
+
+    <div
+        class="menu-item"
+        data-tooltip="PlayLab"
+        onclick="
+            setActiveButton(this);
+            loadInFrame(
+                'https://ppruvost.github.io/playmaths-arcade/'
+            )
+        "
+    >
+        <i class="fas fa-clipboard-list"></i>
+    </div>
+
+    <div
+        class="menu-item"
+        data-tooltip="Notation"
+        onclick="
+            setActiveButton(this);
+            loadInFrame('./notation/index.html')
+        "
+    >
+        <i class="fas fa-sort-numeric-up"></i>
+    </div>
+
+    <div
+        class="menu-item"
+        data-tooltip="Écran"
+        onclick="toggleMenu('screenMenu', this)"
+    >
+
+        <i class="fas fa-cog"></i>
+
+        <div class="submenu" id="screenMenu">
+
+            <button
+                onclick="
+                    event.stopPropagation();
+                    modeFull()
+                "
+            >
+                Écran plein
+            </button>
+
+            <button
+                onclick="
+                    event.stopPropagation();
+                    modeSplit()
+                "
+            >
+                Écran fractionné
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Logo Creative Commons -->
+
+    <div
+        class="licence-logo"
+        style="
+            margin: 20px 0;
+            text-align: center;
+        "
+    >
+
+        <a
+            href="#"
+            onclick="
+                setActiveButton(this);
+                loadInFrame('licence.html');
+                return false;
+            "
+            title="Voir la licence complète"
+        >
+
+            <img
+                src="images/CC_europeen.png"
+                alt="Logo Creative Commons Européen"
+                style="
+                    max-width: 120px;
+                    height: auto;
+                    border: none;
+                "
+            >
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     ZONE DE CONTENU
+====================================================== -->
+
 <div id="content-container">
-    <!-- Mode plein écran (par défaut) -->
+
+    <!-- Mode plein écran -->
+
     <div class="fullscreen-mode">
-    <div id="home-message">
-        <h2>Bienvenue dans le projet SciLab</h2>
-        <div class="logo">
-      <span class="sci">Sci</span><span class="Lab">Lab</span>
+
+        <div id="home-message">
+
+            <h2>
+                Bienvenue dans le projet Mermoz Lab
+            </h2>
+
+
+            <!-- =========================================
+                 LOGO MERMOZ LAB
+            ========================================== -->
+
+            <div
+                class="mermoz-logo"
+                aria-label="Mermoz Lab"
+            >
+
+                <span class="mermoz">
+                    Mermoz
+                </span>
+
+                <span class="lab">
+                    Lab
+                </span>
+
+            </div>
+
+
+            <p>
+
+                <strong>
+                    « Apprendre les mathématiques en jouant,
+                    c'est relever des défis concrets,
+                    gagner en confiance et avancer ensemble
+                    vers la réussite. »
+                </strong>
+
+                <br><br>
+
+                Le <strong>Mermoz Lab</strong>
+                est un tableau de bord qui réunit les
+                principaux outils numériques nécessaires
+                au programme de mathématiques et de sciences
+                en BAC Pro.
+
+                <br><br>
+
+                <strong>
+                    Ses objectifs sont de :
+                </strong>
+
+                <br><br>
+
+                • renforcer les pratiques de la démarche
+                d’investigation ;
+
+                <br>
+
+                • améliorer la motivation et la réussite
+                des élèves en mathématiques et en sciences ;
+
+                <br>
+
+                • développer les stratégies,
+                les automatismes et la manipulation
+                pour mieux comprendre ;
+
+                <br>
+
+                • favoriser la socialisation
+                et l’apprentissage collaboratif
+                à travers le jeu ;
+
+                <br>
+
+                • développer la confiance en soi
+                et le plaisir d’apprendre.
+
+                <br><br>
+
+                <strong>
+                    Apprendre, c’est essayer.
+                    Apprendre, c’est aussi se tromper.
+                    Et c’est une excellente chose.
+                </strong>
+
+                <br><br>
+
+                En mathématiques comme en sciences,
+                les erreurs ne sont pas des obstacles :
+                elles sont des étapes.
+                Elles permettent de comprendre,
+                d’ajuster ses méthodes
+                et de progresser.
+
+                <br><br>
+
+                <strong>
+                    Prends de la hauteur.
+                    Ose essayer.
+                    Ose te tromper.
+                    Ose recommencer.
+                </strong>
+
+                <br><br>
+
+                Chaque défi relevé,
+                chaque erreur corrigée,
+                chaque tentative
+                te rapproche de tes objectifs.
+
+                <br><br>
+
+                Comme Jean Mermoz,
+
+                <strong>
+                    explore,
+                    innove,
+                    dépasse-toi
+                    et avance avec ton équipe.
+                </strong>
+
+                <br><br>
+
+                Ce tableau de bord est là
+                pour t’accompagner :
+
+                <strong>
+                    découvrir,
+                    expérimenter,
+                    collaborer
+                    et relever ensemble
+                    les défis scientifiques
+                    et mathématiques
+                    qui t’attendent.
+                </strong>
+
+                <br><br>
+
+                <strong>
+                    Mon prof de Maths-Sciences
+                </strong>
+
+                <br>
+
+                LP Jean Mermoz – Vire
+
+                <br>
+
+                Académie de Normandie
+
+            </p>
+
+        </div>
+
+
+        <!-- Zone de chargement des applications -->
+
+        <div
+            id="main-frame"
+            style="display: none;"
+        ></div>
+
     </div>
-        <p>        
 
-        <strong>« Apprendre les mathématiques en jouant, c'est relever des défis concrets, gagner en confiance et avancer ensemble vers la réussite. »</strong><br><br>
 
-        Le <strong>SciLab</strong> est un tableau de bord qui réunit les principaux outils numériques nécessaires au programme de mathématiques et de sciences en BAC Pro.<br><br>
+    <!-- =================================================
+         MODE FRACTIONNÉ
+    ================================================== -->
 
-        <strong>Ses objectifs sont de :</strong><br><br>
+    <div
+        class="split-mode"
+        style="display: none;"
+    >
 
-        • renforcer les pratiques de la démarche d’investigation ;<br>
-        • améliorer la motivation et la réussite des élèves en mathématiques et en sciences ;<br>       
-        • développer les stratégies, les automatismes et la manipulation pour mieux comprendre ;<br>
-        • favoriser la socialisation et l’apprentissage collaboratif à travers le jeu ;<br>
-        • développer la confiance en soi et le plaisir d’apprendre.<br><br>
+        <!-- Panneau gauche -->
 
-        <strong>Apprendre, c’est essayer. Apprendre, c’est aussi se tromper. Et c’est une excellente chose.</strong><br><br>
-
-        En mathématiques comme en sciences, les erreurs ne sont pas des obstacles : elles sont des étapes. Elles permettent de comprendre, d’ajuster ses méthodes et de progresser.<br><br>
-
-        <strong>Prends de la hauteur. Ose essayer. Ose te tromper. Ose recommencer.</strong><br><br>
-
-        Chaque défi relevé, chaque erreur corrigée, chaque tentative te rapproche de tes objectifs.<br><br>
-
-        Comme Jean Mermoz, <strong>explore, innove, dépasse-toi et avance avec ton équipe.</strong><br><br>
-
-        Ce tableau de bord est là pour t’accompagner : <strong>découvrir, expérimenter, collaborer et relever ensemble les défis scientifiques et mathématiques qui t’attendent.</strong><br><br>
-
-        <strong>Mon prof de Maths-Sciences</strong><br>
-        LP Jean Mermoz – Vire<br>
-        Académie de Normandie
-
-        </p>
-
-    </div>
-
-    <div id="main-frame" style="display:none;"></div>
-</div>
-
-    <!-- Mode fractionné (masqué) -->
-    <div class="split-mode" style="display: none;">
-        <!-- Panneau de gauche -->
         <div class="left-panel">
-            <iframe class="panel-frame" id="left-frame" allow="microphone *; camera *" permissionspolicy="microphone=*, camera=*"></iframe>
+
+            <iframe
+                class="panel-frame"
+                id="left-frame"
+                allow="microphone *; camera *"
+                permissionspolicy="
+                    microphone=*,
+                    camera=*
+                "
+            ></iframe>
+
         </div>
 
-        <!-- Panneau de droite -->
+
+        <!-- Panneau droit -->
+
         <div class="right-panel">
-            <!-- Conteneur pour "noise" (en haut) -->
+
             <div class="right-panel-top">
-                <iframe id="noise-frame" src="https://ppruvost.github.io/noise/" allow="microphone *; camera *" permissionspolicy="microphone=*, camera=*"></iframe>
+
+                <iframe
+                    id="noise-frame"
+                    src="https://ppruvost.github.io/noise/"
+                    allow="microphone *; camera *"
+                    permissionspolicy="
+                        microphone=*,
+                        camera=*
+                    "
+                ></iframe>
+
             </div>
 
-            <!-- Conteneur pour "timer" (en bas) -->
+
             <div class="right-panel-bottom">
-                <iframe id="timer-frame" src="https://ppruvost.github.io/Time-Timer/" allow="microphone *; camera *" permissionspolicy="microphone=*, camera=*"></iframe>
+
+                <iframe
+                    id="timer-frame"
+                    src="https://ppruvost.github.io/Time-Timer/"
+                    allow="microphone *; camera *"
+                    permissionspolicy="
+                        microphone=*,
+                        camera=*
+                    "
+                ></iframe>
+
             </div>
+
         </div>
+
     </div>
+
 </div>
 
-    <!-- Horloge -->
-    <div id="clock"></div>
 
-    <script src="https://www.geogebra.org/apps/deployggb.js"></script>
-    <script src="code.js"></script>
+<!-- Horloge -->
+
+<div id="clock"></div>
+
+
+<!-- Scripts -->
+
+<script src="https://www.geogebra.org/apps/deployggb.js"></script>
+
+<script src="code.js"></script>
+```
+
 </body>
 </html>
