@@ -146,7 +146,7 @@ export function initIncertitudeInstrumentale({
    couleur par défaut définie dans tp.css, recolorée par domaine)
    ============================================================ */
 
-function dessinerHistogramme(conteneurId, valeurs, options = {}) {
+export function dessinerHistogramme(conteneurId, valeurs, options = {}) {
   const conteneur = document.getElementById(conteneurId);
   if (!conteneur) return;
 
