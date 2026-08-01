@@ -8,33 +8,31 @@
 }
 
 /* =========================
-   CHARTE GRAPHIQUE — UNE COULEUR PAR DOMAINE DE TP
+   CHARTE GRAPHIQUE — UNE COULEUR PAR DOMAINE DE TD
    Source unique de vérité pour toutes les teintes de domaine,
    réutilisée ci-dessous par .tp-card et par le bandeau du viewer.
    Chaque tp-<domaine>/css/style.css doit utiliser exactement ces
    mêmes teintes pour rester cohérent avec cette page d'accueil.
 ========================= */
 :root {
-    --domaine-electricite-1: #F59E0B;
-    --domaine-electricite-2: #B45309;
+    --domaine-statistiques-1: #6A3DBD;
+    --domaine-statistiques-2: #472785;
 
-    --domaine-mecanique-1: #4B5563;
-    --domaine-mecanique-2: #1F2937;
+    --domaine-algebre-1: #4B5563;
+    --domaine-algebre-2: #1F2937;
 
-    --domaine-chimie-1: #1B6CA8;
-    --domaine-chimie-2: #0D4F8A;
+    --domaine-geometrie-1: #1B6CA8;
+    --domaine-geometrie-2: #0D4F8A;
 
-    --domaine-acoustique-1: #0891B2;
-    --domaine-acoustique-2: #0E7490;
+    --domaine-algorithme-1: #8B5CF6;
+    --domaine-algorithme-2: #6D28D9;
 
-    --domaine-thermique-1: #C1440E;
-    --domaine-thermique-2: #7A2E0E;
+    --domaine-automatisme-1: #C1440E;
+    --domaine-automatisme-2: #7A2E0E;
 
-    --domaine-optique-1: #8B5CF6;
-    --domaine-optique-2: #6D28D9;
+    --domaine-bonus-1: #10B981;
+    --domaine-bonus-2: #059669;
 
-    --domaine-signaux-1: #10B981;
-    --domaine-signaux-2: #059669;
 }
 
 body {
@@ -132,43 +130,6 @@ th {
     font-weight: bold;
 }
 
-/* =========================
-   PICTOGRAMMES + VISUELS (LOUPE UNIFIÉE)
-========================= */
-
-.picto-container,
-.image-container {
-    display: inline-block;
-    position: relative;
-    margin: 0 4px;
-}
-
-/* style commun images */
-.picto,
-.table-image {
-    max-width: 100%;
-    height: auto;
-    cursor: pointer;
-    transition: transform 0.25s ease;
-}
-
-/* tailles différentes */
-.picto {
-    width: 40px;
-}
-
-.table-image {
-    width: 60px;
-    border-radius: 6px;
-}
-
-/* effet loupe commun */
-.picto-container:hover .picto,
-.image-container:hover .table-image {
-    transform: scale(2.5);
-    position: relative;
-    z-index: 20;
-}
 /* =========================
    IFRAME EXTERNE
 ========================= */
@@ -279,7 +240,7 @@ th {
 }
 
 /* =========================
-   PAGE DOMAINES TP
+   PAGE DOMAINES TD
 ========================= */
 
 .tp-title {
@@ -325,41 +286,32 @@ th {
     box-shadow: 0 12px 22px rgba(0,0,0,0.25);
 }
 
-/* Couleurs — une teinte par domaine, cf. bloc :root ci-dessus.
-   TP Chimie reste bleu (identité déjà établie dans
-   tp-chimie/css/style.css) ; TP Acoustique passe au cyan pour éviter
-   le doublon avec le bleu désormais réservé à la chimie. */
-
-.electricite {
-    background: linear-gradient(135deg, var(--domaine-electricite-1), var(--domaine-electricite-2));
+.statistiques {
+    background: linear-gradient(135deg, var(--domaine-statistiques-1), var(--domaine-statistiques-2));
 }
 
-.mecanique {
-    background: linear-gradient(135deg, var(--domaine-mecanique-1), var(--domaine-mecanique-2));
+.algebre {
+    background: linear-gradient(135deg, var(--domaine-algebre-1), var(--domaine-algebre-2));
 }
 
-.chimie {
-    background: linear-gradient(135deg, var(--domaine-chimie-1), var(--domaine-chimie-2));
+.geometrie {
+    background: linear-gradient(135deg, var(--domaine-geometrie-1), var(--domaine-geometrie-2));
 }
 
-.acoustique {
-    background: linear-gradient(135deg, var(--domaine-acoustique-1), var(--domaine-acoustique-2));
+.algorithme {
+    background: linear-gradient(135deg, var(--domaine-algorithme-1), var(--domaine-algorithme-2));
 }
 
-.thermique {
-    background: linear-gradient(135deg, var(--domaine-thermique-1), var(--domaine-thermique-2));
+.automatisme {
+    background: linear-gradient(135deg, var(--domaine-automatisme-1), var(--domaine-automatisme-2));
 }
 
-.optique {
-    background: linear-gradient(135deg, var(--domaine-optique-1), var(--domaine-optique-2));
-}
-
-.signaux {
-    background: linear-gradient(135deg, var(--domaine-signaux-1), var(--domaine-signaux-2));
+.bonus {
+    background: linear-gradient(135deg, var(--domaine-bonus-1), var(--domaine-bonus-2));
 }
 
 /* =========================
-   RESPONSIVE DOMAINES TP
+   RESPONSIVE DOMAINES TD
 ========================= */
 
 @media (max-width: 768px) {
@@ -381,7 +333,7 @@ th {
 }
 
 /* =====================================
-   TP VIEWER
+   TD VIEWER
 ===================================== */
 
 .tp-viewer {
@@ -426,16 +378,15 @@ th {
 
 /* Bandeau du viewer teinté selon le domaine ouvert, si le JS
    (js/app.js) pose un attribut data-domaine="..." sur #tpViewer au
-   moment de l'ouverture (ex. lors du clic sur la carte "TP Chimie",
-   ajouter tpViewer.dataset.domaine = "chimie"). Sans cet attribut,
+   moment de l'ouverture (ex. lors du clic sur la carte "TD geometrie",
+   ajouter tpViewer.dataset.domaine = "geometrie"). Sans cet attribut,
    le bandeau garde sa couleur neutre par défaut ci-dessus. */
-.tp-viewer[data-domaine="electricite"] .viewer-topbar { background: linear-gradient(135deg, var(--domaine-electricite-2), var(--domaine-electricite-1)); }
-.tp-viewer[data-domaine="mecanique"]   .viewer-topbar { background: linear-gradient(135deg, var(--domaine-mecanique-2), var(--domaine-mecanique-1)); }
-.tp-viewer[data-domaine="chimie"]      .viewer-topbar { background: linear-gradient(135deg, var(--domaine-chimie-2), var(--domaine-chimie-1)); }
+.tp-viewer[data-domaine="statistiques"] .viewer-topbar { background: linear-gradient(135deg, var(--domaine-statistiques-2), var(--domaine-statistiques-1)); }
+.tp-viewer[data-domaine="algebre"]   .viewer-topbar { background: linear-gradient(135deg, var(--domaine-algebre-2), var(--domaine-algebre-1)); }
+.tp-viewer[data-domaine="geometrie"]      .viewer-topbar { background: linear-gradient(135deg, var(--domaine-geometrie-2), var(--domaine-geometrie-1)); }
 .tp-viewer[data-domaine="acoustique"]  .viewer-topbar { background: linear-gradient(135deg, var(--domaine-acoustique-2), var(--domaine-acoustique-1)); }
-.tp-viewer[data-domaine="thermique"]   .viewer-topbar { background: linear-gradient(135deg, var(--domaine-thermique-2), var(--domaine-thermique-1)); }
-.tp-viewer[data-domaine="optique"]     .viewer-topbar { background: linear-gradient(135deg, var(--domaine-optique-2), var(--domaine-optique-1)); }
-.tp-viewer[data-domaine="signaux"] .viewer-topbar { background: linear-gradient(135deg, var(--domaine-signaux-2), var(--domaine-signaux-1)); }
+.tp-viewer[data-domaine="automatisme"]   .viewer-topbar { background: linear-gradient(135deg, var(--domaine-automatisme-2), var(--domaine-automatisme-1)); }
+.tp-viewer[data-domaine="bonus"]     .viewer-topbar { background: linear-gradient(135deg, var(--domaine-bonus-2), var(--domaine-bonus-1)); }
 
 .viewer-topbar h2 {
     color: white;
