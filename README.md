@@ -25,12 +25,12 @@ Le tableau de bord propose un accès rapide aux outils suivants :
 - Programmation Python (Basthon)
 - GeoGebra (Classic + 3D)
 - Calculatrice graphique NumWorks
-- Laboratoire virtuel
-- PlayMaths Arcade
+- SciLab (laboratoire virtuel)
+- MathiLab (mathématiques appliqués en Bac Pro)
+- PlayLab (PlayMaths Arcade)
 - Outil de notation
 - Gestion de l’affichage (plein écran / écran fractionné)
 - Consultation de la licence Creative Commons
-
 ---
 
 ## Modes d’affichage
