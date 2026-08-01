@@ -1,0 +1,33 @@
+name: Import laboratory (one-off, sans historique)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout tableau_sciences
+        uses: actions/checkout@v4
+
+      - name: Clone laboratory (shallow, sans .git)
+        run: |
+          git clone --depth 1 https://github.com/ppruvost/laboratory.git /tmp/laboratory
+          rm -rf /tmp/laboratory/.git
+
+      - name: Copier dans /laboratory
+        run: |
+          mkdir -p laboratory
+          rm -rf laboratory/*
+          cp -r /tmp/laboratory/. laboratory/
+
+      - name: Commit et push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add laboratory
+          git diff --cached --quiet && echo "Rien à committer" || git commit -m "Import laboratory (contenu actuel, sans historique)"
+          git push
