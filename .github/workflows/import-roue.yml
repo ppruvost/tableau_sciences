@@ -1,0 +1,33 @@
+name: Import roue (one-off, sans historique)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout tableau_sciences
+        uses: actions/checkout@v4
+
+      - name: Clone roue (shallow, sans .git)
+        run: |
+          git clone --depth 1 https://github.com/ppruvost/roue.git /tmp/roue
+          rm -rf /tmp/roue/.git
+
+      - name: Copier dans /roue
+        run: |
+          mkdir -p roue
+          rm -rf lroue/*
+          cp -r /tmp/roue/. roue/
+
+      - name: Commit et push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add roue
+          git diff --cached --quiet && echo "Rien à committer" || git commit -m "Import roue (contenu actuel, sans historique)"
+          git push
