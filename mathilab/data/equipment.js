@@ -992,6 +992,24 @@ const laboratoryEquipment = [
         lieu: "Salle B27 - Etagères B1 / B2",
         image:"assets/img/equipments/armoir.jpg",
         noticeUtilisation: "assets/notice/armoire_securite.pdf"
+    },
+    {
+        domaine: "Mathématiques",
+        nom: "Calculatrice graphique (fonctions statistiques)",
+        categorie: ["Statistiques"],
+        description: "Calcul de moyenne, écart type, médiane et quartiles d'une série statistique",
+        lieu: "Salle B27",
+        image: "",
+        noticeUtilisation: ""
+    },
+    {
+        domaine: "Mathématiques",
+        nom: "Ordinateur + tableur",
+        categorie: ["Statistiques"],
+        description: "Organisation, représentation et calcul d'indicateurs sur une série statistique à l'aide d'un tableur",
+        lieu: "Salle B27",
+        image: "",
+        noticeUtilisation: ""
     }
 ];
 
