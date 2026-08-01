@@ -14,17 +14,24 @@
 const FILIERES_PRO = {
     "2nde": [
         { id: "remi", label: "Réalisation d’Ensembles Mécaniques et Industriels" },
-        { id: "mcc",  label: "Métiers de la couture et de la confection" }
+        { id: "gatl", label: "Gestion Administrative, du Transport et de la Logistique" },
+		{ id: "mcc",  label: "Métiers de la couture et de la confection" }
     ],
     "1ere": [
         { id: "tci",  label: "Technicien en chaudronnerie industrielle" },
         { id: "trpm", label: "Technicien en réalisation de produits mécaniques — option réalisation et maintenance des outillages" },
-        { id: "mcc",  label: "Métiers de la couture et de la confection" }
+        { id: "mcc",  label: "Métiers de la couture et de la confection" },
+		{ id: "agora",  label: "Assistance à la Gestion des Organisations et de leurs Activités" },
+		{ id: "log",  label: "Métiers de la logistique" }
+		
+		
     ],
     "tle": [
         { id: "tci",  label: "Technicien en chaudronnerie industrielle" },
         { id: "trpm", label: "Technicien en réalisation de produits mécaniques — option réalisation et maintenance des outillages" },
-        { id: "mcc",  label: "Métiers de la couture et de la confection" }
+        { id: "mcc",  label: "Métiers de la couture et de la confection" },
+		{ id: "agora",  label: "Assistance à la Gestion des Organisations et de leurs Activités" },
+		{ id: "log",  label: "Métiers de la logistique" }
     ]
 };
 
