@@ -76,7 +76,7 @@ export function imgSrc(
         chemin.startsWith("tp-chimie/") ||
         chemin.startsWith("tp-optique/") ||
         chemin.startsWith("tp-acoustique/") ||
-        chemin.startsWith("tp-electricite/") ||
+        chemin.startsWith("tp-statistiques/") ||
         chemin.startsWith("tp-mecanique/") ||
        chemin.startsWith("tp-thermique/") ||
         chemin.startsWith("tp-signaux/")
