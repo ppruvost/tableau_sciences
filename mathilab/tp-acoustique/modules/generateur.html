@@ -1,0 +1,244 @@
+<div class="card">
+
+    <h2>
+        Générateur de fréquences
+    </h2>
+
+    <p>
+        Créer et analyser un signal sonore pur.
+    </p>
+
+    <div class="result">
+
+        <p id="explorationMessage">
+            Mission : écouter un son grave, un son médium et un son aigu avant d'accéder à l'analyse.
+        </p>
+
+    </div>
+
+    <div class="controls">
+
+        <label>
+            Fréquence :
+        </label>
+
+        <input
+            type="range"
+            id="freqSlider"
+            min="20"
+            max="5000"
+            value="440">
+
+        <span id="freqValue">
+            440 Hz
+        </span>
+
+    </div>
+
+    <div class="controls">
+
+        <label>
+            Volume :
+        </label>
+
+        <input
+            type="range"
+            id="gainSlider"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0.3">
+
+        <span id="gainValue">
+            30 %
+        </span>
+
+    </div>
+
+    <div class="presets">
+
+        <button data-f="120">
+            grave.wav
+            <br>
+            120 Hz
+        </button>
+
+        <button data-f="700">
+            morse-beep.wav
+            <br>
+            700 Hz
+        </button>
+
+        <button data-f="1500">
+            aigu.wav
+            <br>
+            1500 Hz
+        </button>
+
+    </div>
+
+    <div class="buttons">
+
+        <button id="playBtn">
+            ▶ Jouer
+        </button>
+
+        <button id="stopBtn">
+            ■ Stop
+        </button>
+
+        <button id="exportBtn">
+            ⬇ Export WAV
+        </button>
+
+    </div>
+
+    <div class="infos">
+
+        <p id="periodInfo">
+            Période :
+        </p>
+
+        <p id="soundType">
+            Type :
+        </p>
+
+    </div>
+
+    <h3>
+        Oscillogramme
+    </h3>
+
+    <canvas
+        id="waveCanvas"
+        width="900"
+        height="250">
+    </canvas>
+
+    <h3>
+        Spectre fréquentiel FFT
+    </h3>
+
+    <canvas
+        id="fftCanvas"
+        width="900"
+        height="250">
+    </canvas>
+
+    <!-- ANALYSE PEDAGOGIQUE -->
+
+    <div
+        id="analyseGenerateur"
+        class="analyse hidden">
+
+        <h3>
+            Analyse des observations
+        </h3>
+
+        <p>
+            Tu as exploré différentes fréquences sonores à l'aide du générateur.
+        </p>
+
+        <p>
+            <strong>Observation des sons graves</strong><br>
+            Les sons graves correspondent à des fréquences faibles.
+            Les vibrations sont plus lentes et la période est relativement grande.
+        </p>
+
+        <p>
+            <strong>Observation des sons aigus</strong><br>
+            Les sons aigus correspondent à des fréquences élevées.
+            Les vibrations sont plus rapides et la période devient plus courte.
+        </p>
+
+        <p>
+            <strong>Analyse de l'oscillogramme</strong><br>
+            Lorsque la fréquence augmente, les oscillations se rapprochent.
+            On observe davantage de cycles sur une même durée.
+        </p>
+
+        <p>
+            <strong>Qu’est-ce que le spectre fréquentiel (FFT) ?</strong><br>
+            La transformation de Fourier rapide (sigle anglais : FFT ou fast Fourier transform)
+            est un algorithme de calcul.
+            Le spectre FFT est une représentation qui permet de visualiser
+            les fréquences contenues dans un son.
+        </p>
+
+        <p>
+            Contrairement à l’oscillogramme (qui montre l’évolution du signal dans le temps),
+            le spectre FFT montre les fréquences présentes dans le son.
+        </p>
+
+        <p>
+            Chaque barre du spectre représente une fréquence :
+            plus la barre est haute, plus cette fréquence est présente dans le son.
+        </p>
+
+        <p>
+            <strong>Dans le cas d’un son pur :</strong><br>
+            On observe un seul pic principal.
+            Cela signifie que le son est composé d’une seule fréquence dominante.
+        </p>
+
+        <p>
+            <strong>Dans le cas de sons complexes :</strong><br>
+            Plusieurs pics apparaissent.
+            Le son est alors une combinaison de plusieurs fréquences.
+        </p>
+
+        <p>
+            <strong>Conclusion :</strong><br>
+            Le spectre FFT permet de “décomposer” un son et d’analyser sa structure fréquentielle.
+        </p>
+        
+        <p>
+            <strong>Analyse du spectre FFT</strong><br>
+            Le spectre met en évidence la fréquence principale du signal.
+            Pour un son pur, un seul pic dominant apparaît.
+        </p>
+
+        <p>
+            <strong>Lien entre fréquence et période</strong><br>
+            La fréquence et la période sont liées par la relation :
+        </p>
+
+        
+        <p><strong>f = 1 / T</strong></p>
+
+
+        <p>
+            Lorsque la fréquence augmente, la période diminue.
+        </p>
+
+        <div class="bilan">
+
+            <h4>
+                Je retiens
+            </h4>
+
+            <p>
+                ✔ La fréquence s'exprime en Hertz (Hz).
+            </p>
+
+            <p>
+                ✔ Plus la fréquence est élevée, plus le son est aigu.
+            </p>
+
+            <p>
+                ✔ Plus la fréquence est faible, plus le son est grave.
+            </p>
+
+            <p>
+                ✔ Un son pur possède une fréquence dominante unique.
+            </p>
+
+            <p>
+                ✔ La période diminue lorsque la fréquence augmente.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>

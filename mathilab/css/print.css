@@ -1,0 +1,42 @@
+/* ════════════════════════════════════════════════════════════════
+   print.css
+   Impression GÉNÉRALE de la page TP (masquage de la navigation, des
+   boutons, mise à plat des sections repliées, etc.). Chargé dans le
+   shell SPA comme les autres fichiers CSS (global.css, reset.css,
+   tp.css, animations.css, compte-rendu.css, balance-erreurs.css).
+
+   ⚠️ Ce fichier NE concerne PAS l'impression du compte-rendu élève :
+   celle-ci passe par un iframe isolé (js/compte-rendu.js) qui charge
+   sa PROPRE trame (css/compte-rendu.css, partie B) — les deux
+   contextes d'impression sont volontairement indépendants.
+   ════════════════════════════════════════════════════════════════ */
+
+@media print {
+  .site-header,
+  .progress,
+  .btn,
+  .nav-tp,
+  .filtre-reactifs,
+  .tabs-header {
+    display: none !important;
+  }
+
+  .section.fermee .section-corps {
+    display: block !important;
+  }
+
+  .section {
+    box-shadow: none;
+    border: 1px solid #CCC;
+    break-inside: avoid;
+    animation: none;
+  }
+
+  body {
+    font-size: 11pt;
+  }
+
+  .autoeval-print input[type="radio"] {
+    transform: scale(1.2);
+  }
+}

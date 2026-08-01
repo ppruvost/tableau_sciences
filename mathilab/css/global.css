@@ -1,0 +1,147 @@
+/* ════════════════════════════════════════════════════════════════
+   global.css
+   FONDATIONS DU THÈME SCILAB — variables uniquement.
+   Aucune classe de mise en page ici (voir tp.css pour les composants).
+   Tous les autres fichiers CSS du projet doivent utiliser ces
+   variables plutôt que des couleurs/tailles en dur.
+   ════════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Fira+Code:wght@400;500&family=Lato:wght@300;400;700&display=swap');
+
+:root {
+
+  /* ── 1. Couleurs de marque (inspirées des réactions chimiques) ── */
+  --bleu-cuivre:   #1B6CA8;   /* CuSO₄ en solution — couleur principale */
+  --bleu-fonce:    #0D4F8A;   /* fin de dégradé, logo, titres imprimés */
+  --bleu-clair-bg: #EAF2F8;   /* fonds de badges / bandeaux clairs */
+  --bleu-tres-clair: #EBF5FB;/* fonds de blocs info très clairs */
+  --bleu-prevention: #0D6EFD;/* bloc "prévention" (bleu distinct, Bootstrap-like) */
+  --vert-acide:    #00875A;  /* virage BBT basique */
+  --rouge-ph:      #C0392B;  /* hélianthine acide */
+  --violet-kmno4:  #6C3483;  /* KMnO₄ */
+  --ambre-fer:     #CA6F1E;  /* Fe²⁺ en solution */
+
+  /* ── 2. Neutres labo ── */
+  --blanc-paillasse: #F8F9FA;
+  --gris-ardoise:    #2C3E50;
+  --gris-moyen:      #566573;
+  --gris-texte-clair:#6B7280;  /* texte secondaire sur fond clair / impression */
+  --gris-clair:      #D5D8DC;
+  --gris-bordure-print: #CBD5E1;
+  --noir-crayon:     #1A1A2E;
+  --blanc:           #FFFFFF;
+
+  /* ── 3. Danger / CLP (pictogrammes réglementaires) ── */
+  --clp-rouge:   #E74C3C;
+  --clp-orange:  #E67E22;
+  --clp-jaune:   #F1C40F;
+  --clp-vert:    #27AE60;
+
+  /* Blocs danger / prévention (distincts des couleurs CLP officielles) */
+  --danger-bg:     #FFF5F5;
+  --danger-bordure:#D9534F;
+  --danger-texte:  #B02A37;
+  --prevention-bg: #F4F8FF;
+
+  /* ── 4. États sémantiques unifiés (résultats, écarts, qualité) ── */
+  --etat-succes-bg:    #D4EDDA;
+  --etat-succes-fg:    #155724;
+  --etat-succes-accent:#10B981;
+  --etat-attention-bg: #FFF3CD;
+  --etat-attention-fg: #856404;
+  --etat-erreur-bg:    #F8D7DA;
+  --etat-erreur-fg:    #721C24;
+
+  /* ── 5. Blocs de message (info / résultat / erreur) ── */
+  --resultat-bg:     #ECFDF5;
+  --resultat-bordure:#6EE7B7;
+  --resultat-accent: #10B981;
+  --resultat-titre:  #059669;
+  --resultat-valeur: #065F46;
+  --erreur-bg:       #FEF2F2;
+  --info-bg:         #EFF6FF;
+
+  /* ── 6. EPI (équipements de protection individuelle) ── */
+  --epi-lunettes-bg: #D6EAF8; --epi-lunettes-fg: #1565C0;
+  --epi-gants-bg:    #D5F5E3; --epi-gants-fg:    #1E8449;
+  --epi-blouse-bg:   #E8DAEF; --epi-blouse-fg:   #6C3483;
+  --epi-hotte-bg:    #FDEBD0; --epi-hotte-fg:    #D35400;
+
+  /* ── 7. Sections de TP par type (fond pastel + icône colorée) ── */
+  --section-securite-bg:  #FDEDEC; --section-securite-fg:  var(--clp-rouge);
+  --section-objectif-bg:  #EBF5FB; --section-objectif-fg:  var(--bleu-cuivre);
+  --section-materiel-bg:  #FDFEFE; --section-materiel-fg:  var(--gris-moyen);
+  --section-reactifs-bg:  #FEF9E7; --section-reactifs-fg:  var(--ambre-fer);
+  --section-protocole-bg: #EAFAF1; --section-protocole-fg: var(--vert-acide);
+  --section-resultats-bg: #F5EEF8; --section-resultats-fg: var(--violet-kmno4);
+  --section-bilan-bg:     #EBF5FB; --section-bilan-fg:     var(--bleu-cuivre);
+
+  /* ── 8. Niveaux pédagogiques (Bac Pro) ── */
+  --niveau-seconde-bg:   var(--epi-gants-bg);   --niveau-seconde-fg:   var(--epi-gants-fg);
+  --niveau-premiere-bg:  var(--epi-lunettes-bg);--niveau-premiere-fg:  #1A5276;
+  --niveau-terminale-bg: var(--epi-blouse-bg);  --niveau-terminale-fg: var(--violet-kmno4);
+
+  /* ── 9. Typographie ── */
+  --font-titre: 'Space Grotesk', sans-serif;
+  --font-corps: 'Lato', sans-serif;
+  --font-code:  'Fira Code', monospace;
+
+  --fs-xs:  0.75rem;
+  --fs-sm:  0.85rem;
+  --fs-base:1rem;
+  --fs-md:  1.1rem;
+  --fs-lg:  1.35rem;
+  --fs-xl:  1.75rem;
+
+  /* ── 10. Espacements (échelle unique du projet) ── */
+  --gap-xs: 0.4rem;
+  --gap-sm: 0.8rem;
+  --gap-md: 1.6rem;
+  --gap-lg: 3.2rem;
+  --gap-xl: 6.4rem;
+
+  /* ── 11. Rayons ── */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 16px;
+  --r-pill: 999px;
+
+  /* ── 12. Ombres ── */
+  --ombre-carte:  0 2px 8px rgba(0, 0, 0, .10);
+  --ombre-lourde: 0 8px 32px rgba(0, 0, 0, .15);
+  --ombre-modale: 0 20px 50px rgba(0, 0, 0, .35);
+
+  /* ── 13. Largeurs / conteneurs ── */
+  --largeur-page:      1200px;
+  --largeur-contenu:   1000px;
+  --largeur-modale:    460px;
+  --largeur-sidebar:   300px;
+
+  /* ── 14. Points de rupture (référence — utilisés dans responsive.css) ──
+     mobile   : ≤ 500px
+     tablette : ≤ 760px
+     labo     : ≤ 900px
+     compact  : ≤ 1024px
+  */
+  --bp-mobile:   500px;
+  --bp-tablette: 760px;
+  --bp-labo:     900px;
+  --bp-compact:  1024px;
+
+  /* ── 15. Z-index ── */
+  --z-header:  100;
+  --z-tooltip: 50;
+  --z-modale:  5000;
+
+  /* ── 16. Durées d'animation ── */
+  --duree-rapide: .15s;
+  --duree-normale:.2s;
+  --duree-lente:  .3s;
+}
+
+/* ────────────────────────────────────────────────────────────────
+   Le reset navigateur, la typographie de base et les préférences
+   d'accessibilité (focus visible) vivent désormais dans reset.css.
+   Ordre de chargement : global.css → reset.css → tp.css →
+   compte-rendu.css / balance-erreurs.css → print.css → animations.css.
+   ──────────────────────────────────────────────────────────────── */
