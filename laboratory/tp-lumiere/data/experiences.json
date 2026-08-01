@@ -1,0 +1,17 @@
+[
+  {
+    "title":"Synthèse additive",
+    "material":"3 lampes RGB",
+    "goal":"Créer du blanc"
+  },
+  {
+    "title":"Filtres colorés",
+    "material":"Filtres cyan, magenta, jaune",
+    "goal":"Observer la synthèse soustractive"
+  },
+  {
+    "title":"Télécommande infrarouge",
+    "material":"Smartphone + télécommande",
+    "goal":"Voir l’infrarouge avec la caméra"
+  }
+]

@@ -1,0 +1,261 @@
+<section class="fft-module">
+
+<h1>
+A12 – Analyse vibratoire FFT en atelier
+</h1>
+
+<p class="intro">
+
+Observer un signal machine,
+transformer le signal temporel
+en spectre fréquentiel
+et identifier le défaut.
+
+</p>
+
+<div class="parametres">
+
+<div>
+
+<label>Vitesse rotation (tr/min)</label>
+
+<input
+id="rpm"
+type="range"
+min="600"
+max="3600"
+step="50"
+value="1500">
+
+<span id="rpmValue">1500</span>
+
+</div>
+
+<div>
+
+<label>Défaut simulé</label>
+
+<select id="defaut">
+
+<option value="balourd">
+Balourd
+</option>
+
+<option value="desalignement">
+Désalignement
+</option>
+
+<option value="jeu">
+Jeu mécanique
+</option>
+
+<option value="roulement">
+Roulement
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div class="graphiques">
+
+<div>
+
+<h3>Signal temporel</h3>
+
+<canvas id="signalCanvas"></canvas>
+
+</div>
+
+<div>
+
+<h3>Spectre FFT</h3>
+
+<canvas id="fftCanvas"></canvas>
+
+</div>
+
+</div>
+
+<div class="resultat">
+
+<p>
+
+Fréquence rotation :
+
+<strong id="freqRot">
+25
+</strong> Hz
+
+</p>
+
+<p>
+
+Diagnostic probable :
+
+<strong id="diag">
+
+Balourd
+
+</strong>
+
+</p>
+
+</div>
+
+<div class="quiz">
+
+<h2>Diagnostic atelier</h2>
+
+<p>
+
+Le pic principal apparaît à 1× rotation.
+
+</p>
+
+<select id="quizRep">
+
+<option value="">
+Choisir
+</option>
+
+<option>
+Balourd
+</option>
+
+<option>
+Roulement
+</option>
+
+<option>
+Engrenage
+</option>
+
+</select>
+
+<button id="corrigerBtn">
+
+Corriger
+
+</button>
+
+<p id="quizResult"></p>
+
+</div>
+
+<!-- ==========================
+     MISSION ELEVES
+========================== -->
+
+<div class="result">
+
+    <p id="explorationFFT">
+
+        Mission :
+        tester au moins trois défauts différents,
+        observer les pics du spectre FFT,
+        comparer les signatures vibratoires,
+        puis débloquer l'analyse.
+
+    </p>
+
+</div>
+
+<!-- ==========================
+     ANALYSE PEDAGOGIQUE
+========================== -->
+
+<div
+id="analyseFFT"
+class="analyse hidden">
+
+    <h3>
+        Analyse des observations
+    </h3>
+
+    <p>
+        Tu as étudié l'analyse vibratoire d'une machine
+        à l'aide d'une Transformée de Fourier Rapide (FFT).
+    </p>
+
+    <p>
+        <strong>Signal temporel</strong>
+        <br>
+        Le premier graphique représente l'évolution de la vibration dans le temps.
+        Ce signal contient souvent plusieurs fréquences mélangées.
+    </p>
+
+    <p>
+        <strong>Spectre fréquentiel</strong>
+        <br>
+        La FFT permet de transformer un signal temporel en spectre fréquentiel.
+        Les pics observés correspondent aux fréquences dominantes présentes dans la machine.
+    </p>
+
+    <p>
+        <strong>Balourd</strong>
+        <br>
+        Un balourd génère généralement un pic dominant à 1× la fréquence de rotation.
+    </p>
+
+    <p>
+        <strong>Désalignement</strong>
+        <br>
+        Un désalignement produit souvent des pics à 1× et 2× la fréquence de rotation.
+    </p>
+
+    <p>
+        <strong>Jeu mécanique</strong>
+        <br>
+        Les jeux mécaniques génèrent plusieurs harmoniques :
+        1×, 2×, 3× rotation et parfois davantage.
+    </p>
+
+    <p>
+        <strong>Défaut de roulement</strong>
+        <br>
+        Les roulements défectueux produisent des fréquences plus élevées,
+        souvent éloignées de la fréquence de rotation.
+    </p>
+
+    <p>
+        <strong>Maintenance prédictive</strong>
+        <br>
+        L'analyse FFT permet de détecter les défauts avant la panne,
+        de réduire les arrêts de production
+        et d'améliorer la fiabilité des équipements.
+    </p>
+
+    <div class="bilan">
+
+        <h4>
+            Je retiens
+        </h4>
+
+        <p>
+            ✔ La FFT transforme un signal temporel en spectre fréquentiel.
+        </p>
+
+        <p>
+            ✔ Chaque défaut possède une signature vibratoire caractéristique.
+        </p>
+
+        <p>
+            ✔ Les pics du spectre permettent d'identifier les défauts.
+        </p>
+
+        <p>
+            ✔ La maintenance prédictive repose sur l'analyse vibratoire.
+        </p>
+
+        <p>
+            ✔ La FFT est un outil majeur du diagnostic industriel.
+        </p>
+
+    </div>
+
+</div>
+
+</section>

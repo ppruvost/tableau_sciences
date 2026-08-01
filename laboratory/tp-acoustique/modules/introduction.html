@@ -1,0 +1,179 @@
+<div class="card">
+
+    <h2>Introduction</h2>
+
+    <img
+        src="assets/images/chaine-son.svg"
+        alt="chaine sonore">
+
+    <p>
+        Un son nécessite :
+    </p>
+
+    <ul>
+        <li>un émetteur</li>
+        <li>un milieu</li>
+        <li>un récepteur</li>
+    </ul>
+
+    <hr>
+
+    <h3>Visualisation dynamique de la propagation du son</h3>
+
+    <p>
+        Observer comment le son se propage selon le milieu traversé.
+    </p>
+
+    <div class="controls">
+
+        <label>
+            Milieu :
+        </label>
+
+        <select id="milieu">
+            <option value="air">Air</option>
+            <option value="vide">Vide</option>
+        </select>
+
+        <button id="startAnim">
+            Lancer l'expérience
+        </button>
+
+    </div>
+
+    <div class="scene">
+
+        <!-- MARTEAU -->
+        <div class="bloc">
+
+            <img
+                id="marteau"
+                src="assets/images/marteau.png"
+                alt="marteau">
+
+            <p>Objet percuteur</p>
+
+        </div>
+
+        <!-- DIAPASON -->
+        <div class="bloc">
+
+            <img
+                id="diapason"
+                src="assets/images/diapason.png"
+                alt="diapason">
+
+            <p>Émetteur</p>
+
+        </div>
+
+        <!-- MILIEU -->
+        <div
+            class="bloc milieuBloc"
+            id="milieuBloc">
+
+            <div id="milieuTxt">
+                AIR
+            </div>
+
+            <img
+                id="ondeImg"
+                src="assets/images/onde.png"
+                alt="onde sonore">
+
+            <p>Milieu de propagation</p>
+
+        </div>
+
+        <!-- CROIX VIDE -->
+        <div
+            class="bloc"
+            id="croixBloc">
+
+            <img
+                src="assets/images/red_cross.png"
+                id="crossImg"
+                alt="croix">
+
+            <p>Pas de propagation</p>
+
+        </div>
+
+        <!-- OREILLE -->
+        <div class="bloc">
+
+            <img
+                id="oreille"
+                src="assets/images/oreille.jpeg"
+                alt="oreille">
+
+            <p id="receiverText">
+                Récepteur
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="result">
+
+        <p id="message">
+            Choisir un milieu puis lancer.
+        </p>
+
+    </div>
+
+    <!-- ANALYSE PEDAGOGIQUE -->
+    <div id="analyseBloc" class="analyse hidden">
+
+        <h3>Analyse des résultats</h3>
+
+        <p>
+            Tu as maintenant observé la propagation du son dans deux
+            situations différentes.
+        </p>
+
+        <p>
+            <strong>Observation 1 : dans l'air</strong><br>
+            Le son se propage depuis le diapason jusqu'au récepteur.
+            Les vibrations produites par le diapason sont transmises
+            par les molécules d'air.
+        </p>
+
+        <p>
+            <strong>Observation 2 : dans le vide</strong><br>
+            Aucun son ne peut être transmis car il n'y a aucune matière
+            pour transporter les vibrations.
+        </p>
+
+        <p>
+            <strong>Interprétation :</strong><br>
+            Le son est une onde mécanique. Une onde mécanique a besoin
+            d'un milieu matériel pour se propager.
+        </p>
+
+        <div class="bilan">
+
+            <h4>Je retiens</h4>
+
+            <p>
+                ✔ Le son se propage dans les solides, les liquides
+                et les gaz.
+            </p>
+
+            <p>
+                ✔ Le son ne se propage pas dans le vide.
+            </p>
+
+            <p>
+                ✔ La présence d'un milieu matériel est indispensable
+                à la propagation d'une onde sonore.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="./js/introduction.js"></script>
