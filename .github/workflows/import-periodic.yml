@@ -6,6 +6,7 @@ on:
 jobs:
   import:
     runs-on: ubuntu-latest
+
     permissions:
       contents: write
 
@@ -22,12 +23,19 @@ jobs:
         run: |
           mkdir -p periodic
           rm -rf periodic/*
+          rm -rf periodic/.[!.]* periodic/..?* 2>/dev/null || true
           cp -r /tmp/periodic/. periodic/
 
       - name: Commit et push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add laboratory
-          git diff --cached --quiet && echo "Rien à committer" || git commit -m "Import periodic (contenu actuel, sans historique)"
-          git push
+
+          git add periodic
+
+          if git diff --cached --quiet; then
+            echo "Rien à committer"
+          else
+            git commit -m "Import periodic (contenu actuel, sans historique)"
+            git push
+          fi
