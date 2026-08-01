@@ -345,9 +345,43 @@ td.saisie {
 /* ── Graphique (js/graphique.js) ──────────────────────────────── */
 .graphique-courbe { stroke: var(--domaine-accent); stroke-width: 2; }
 .graphique-point   { fill: var(--domaine-accent); }
+.graphique-axe     { stroke: var(--gris-moyen); stroke-width: 1; }
+.graphique-label   { font-size: 11px; fill: var(--gris-moyen); }
 
 /* ── Histogramme (js/incertitudes.js) ─────────────────────────── */
-.histogramme-barre { fill: var(--domaine-accent); fill-opacity: .75; }
+.histogramme-barre     { fill: var(--domaine-accent); fill-opacity: .75; }
+.histogramme-axe       { stroke: var(--gris-moyen); stroke-width: 1; }
+.histogramme-label     { font-size: 11px; fill: var(--gris-moyen); }
+.histogramme-effectif  { font-size: 11px; font-weight: 700; fill: var(--gris-ardoise); }
+
+/* ── Boîte à moustaches (js/statistiques.js) ──────────────────── */
+.boite-corps      { fill: rgba(var(--domaine-accent-rgb), .18); stroke: var(--domaine-accent); stroke-width: 1.5; }
+.boite-mediane     { stroke: var(--domaine-accent-fonce); stroke-width: 2; }
+.boite-moustache   { stroke: var(--domaine-accent); stroke-width: 1.5; }
+.boite-axe         { stroke: var(--gris-moyen); stroke-width: 1; }
+.boite-label       { font-size: 11px; fill: var(--gris-ardoise); }
+
+/* ── Diagramme en bâtons / colonnes (js/statistiques.js) ──────── */
+.diagramme-barre           { fill: var(--domaine-accent); fill-opacity: .8; }
+.diagramme-barre-label     { font-size: 11px; fill: var(--gris-moyen); }
+.diagramme-barre-effectif  { font-size: 11px; font-weight: 700; fill: var(--gris-ardoise); }
+.diagramme-axe             { stroke: var(--gris-moyen); stroke-width: 1; }
+
+/* ── Diagramme en secteurs (js/statistiques.js) ────────────────
+   8 teintes dérivées de la seule couleur d'accent du domaine (pas de
+   couleur codée en dur par domaine), du plus opaque au plus clair. */
+.secteur-0 { fill: var(--domaine-accent); fill-opacity: 1;   }
+.secteur-1 { fill: var(--domaine-accent-fonce); fill-opacity: 1; }
+.secteur-2 { fill: var(--domaine-accent); fill-opacity: .75; }
+.secteur-3 { fill: var(--domaine-accent); fill-opacity: .55; }
+.secteur-4 { fill: var(--domaine-accent-fonce); fill-opacity: .7; }
+.secteur-5 { fill: var(--domaine-accent); fill-opacity: .38; }
+.secteur-6 { fill: var(--domaine-accent-fonce); fill-opacity: .45; }
+.secteur-7 { fill: var(--domaine-accent); fill-opacity: .22; }
+.diagramme-secteur { stroke: #fff; stroke-width: 1.5; }
+.secteur-legende { display: flex; flex-wrap: wrap; gap: .6rem 1rem; justify-content: center; margin-top: var(--gap-sm); font-size: .85rem; }
+.secteur-legende-item { display: inline-flex; align-items: center; gap: .35rem; }
+.secteur-legende-puce { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
 
 /* ── Cartouches de compétence (APP/REA/ANA/VAL/COM) ───────────────
    tp.css les colore en bleu par défaut (.cartouche) : recolorées
