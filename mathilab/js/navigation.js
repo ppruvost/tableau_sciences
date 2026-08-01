@@ -1,14 +1,6 @@
 /* ==========================================================
    NAVIGATION.JS UNIVERSEL
-   Laboratory
-   Compatible :
-   tp-chimie
-   tp-acoustique
-   tp-optique
-   tp-electricite
-   tp-mecanique
-   tp-thermique
-   tp-signaux
+   Laboratory / MathiLab
    ========================================================== */
 
 const content = document.getElementById("content");
@@ -22,13 +14,12 @@ let isLoading = false;
 function getCurrentDomain() {
     const path = window.location.pathname;
     const domaines = [
-        "tp-chimie",
-        "tp-acoustique",
-        "tp-optique",
-        "tp-electricite",
-        "tp-mecanique",
-        "tp-thermique",
-        "tp-signaux"
+        "tp-algebre",
+        "tp-geometrie",
+        "tp-algorithme",
+        "tp-statistiques",
+        "tp-automatisme",
+        "tp-bonus"
     ];
 
     for (const domaine of domaines) {
@@ -38,7 +29,7 @@ function getCurrentDomain() {
     }
 
     console.warn("Domaine non détecté");
-    return "tp-chimie";
+    return "tp-statistiques";
 }
 
 /* ==========================================================
@@ -47,16 +38,14 @@ function getCurrentDomain() {
 
 function getDefaultModule(domaine) {
     const defaultModules = {
-        "tp-chimie": "tp01-solutions",
-        "tp-thermique": "tp01-capteurs-temperature",
-        "tp-electricite": "tp01-puissance-energie",
-        "tp-acoustique": "tp01-caracteriser-un-son",
-        "tp-optique": "tp01-sources-lumineuses",        
-        "tp-mecanique": "tp01-decrire-mouvement",
-      "tp-signaux": "tp01-onde-electromagnetique"
-        
+        "tp-algebre": "tp01-",
+        "tp-geometrie": "tp01-",
+        "tp-statistiques": "tp01-organiser-une-serie-statistique",
+        "tp-algorithme": "tp01-",
+        "tp-automatisme": "tp01-",        
+        "tp-bonus": "tp01-"       
     };
-    return defaultModules[domaine] || "tp01-solutions"; // Fallback
+    return defaultModules[domaine] || "tp01-organiser-une-serie-statistique"; // Fallback
 }
 
 /* ==========================================================
@@ -188,7 +177,7 @@ async function loadModule(moduleName) {
    ========================================================== */
 
 function saveProgress(domaine, moduleName) {
-    localStorage.setItem(`laboratory_${domaine}`, moduleName);
+    localStorage.setItem(`mathilab_${domaine}`, moduleName);
 }
 
 /* ==========================================================
