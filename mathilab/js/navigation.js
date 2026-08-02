@@ -1,6 +1,14 @@
 /* ==========================================================
    NAVIGATION.JS UNIVERSEL
    Laboratory / MathiLab
+   Compatible :
+   tp-chimie
+   tp-acoustique
+   tp-optique
+   tp-statistiques
+   tp-mecanique
+   tp-thermique
+   tp-signaux
    ========================================================== */
 
 const content = document.getElementById("content");
@@ -14,12 +22,13 @@ let isLoading = false;
 function getCurrentDomain() {
     const path = window.location.pathname;
     const domaines = [
-        "tp-algebre",
-        "tp-geometrie",
-        "tp-algorithme",
+        "tp-chimie",
+        "tp-acoustique",
+        "tp-optique",
         "tp-statistiques",
-        "tp-automatisme",
-        "tp-bonus"
+        "tp-mecanique",
+        "tp-thermique",
+        "tp-signaux"
     ];
 
     for (const domaine of domaines) {
@@ -29,7 +38,7 @@ function getCurrentDomain() {
     }
 
     console.warn("Domaine non détecté");
-    return "tp-statistiques";
+    return "tp-chimie";
 }
 
 /* ==========================================================
@@ -38,14 +47,16 @@ function getCurrentDomain() {
 
 function getDefaultModule(domaine) {
     const defaultModules = {
-        "tp-algebre": "tp01-",
-        "tp-geometrie": "tp01-",
+        "tp-chimie": "tp01-solutions",
+        "tp-thermique": "tp01-capteurs-temperature",
         "tp-statistiques": "tp01-organiser-une-serie-statistique",
-        "tp-algorithme": "tp01-",
-        "tp-automatisme": "tp01-",        
-        "tp-bonus": "tp01-"       
+        "tp-acoustique": "tp01-caracteriser-un-son",
+        "tp-optique": "tp01-sources-lumineuses",        
+        "tp-mecanique": "tp01-decrire-mouvement",
+      "tp-signaux": "tp01-onde-electromagnetique"
+        
     };
-    return defaultModules[domaine] || "tp01-organiser-une-serie-statistique"; // Fallback
+    return defaultModules[domaine] || "tp01-solutions"; // Fallback
 }
 
 /* ==========================================================
@@ -177,7 +188,7 @@ async function loadModule(moduleName) {
    ========================================================== */
 
 function saveProgress(domaine, moduleName) {
-    localStorage.setItem(`mathilab_${domaine}`, moduleName);
+    localStorage.setItem(`laboratory_${domaine}`, moduleName);
 }
 
 /* ==========================================================
