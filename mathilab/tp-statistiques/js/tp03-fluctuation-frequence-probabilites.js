@@ -30,6 +30,11 @@ const CONTEXTES_PRO = {
     problematique: "Un suivi sur un petit nombre de livraisons suffit-il pour juger de la fiabilité réelle d'un transporteur ?",
   },
 
+  '2nde-mcc': {
+    contexte: "Un atelier de confection annonce un taux de pièces nécessitant une retouche de p %. Sur un contrôle qualité portant sur un petit lot de pièces confectionnées, la fréquence de retouches observée n'est presque jamais exactement égale à p.",
+    problematique: "Un contrôle sur un petit lot de pièces suffit-il pour juger de la qualité réelle d'une production textile ?",
+  },
+
 };
 
 export function init() {
