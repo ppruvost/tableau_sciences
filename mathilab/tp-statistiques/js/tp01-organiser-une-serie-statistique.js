@@ -30,6 +30,11 @@ const CONTEXTES_PRO = {
     problematique: "Comment organiser et représenter une série de délais ou de quantités logistiques pour en tirer une information utile au suivi de l'activité ?",
   },
 
+  '2nde-mcc': {
+    contexte: "En atelier de confection, on relève par exemple les longueurs de pièces de tissu découpées ou les temps de montage d'un vêtement pour plusieurs pièces produites. Ces relevés forment une série statistique à organiser.",
+    problematique: "Comment organiser et représenter une série de mesures de production textile pour en tirer une information utile au contrôle qualité ?",
+  },
+
 };
 
 export function init() {
