@@ -40,3 +40,52 @@ export function etendueFrequences(frequences) {
   if (!frequences || !frequences.length) return null;
   return Math.max(...frequences) - Math.min(...frequences);
 }
+
+/* ============================================================
+   TABLEAU CROISÉ D'EFFECTIFS (1ère / Tle)
+   ============================================================ */
+
+/**
+ * À partir d'un tableau croisé 2×2 d'effectifs
+ *   [[n(A∩B), n(A∩B̄)],
+ *    [n(Ā∩B), n(Ā∩B̄)]]
+ * calcule les marges, le total, et les probabilités usuelles :
+ * P(A), P(B), P(A∩B), P(A∪B), P(Ā), la fréquence conditionnelle et
+ * la probabilité conditionnelle PA(B) = P(A∩B) / P(A).
+ */
+export function analyserTableauCroise(nAB, nAnonB, nnonAB, nnonAnonB) {
+
+  const total = nAB + nAnonB + nnonAB + nnonAnonB;
+  if (total <= 0) return null;
+
+  const nA = nAB + nAnonB;
+  const nNonA = nnonAB + nnonAnonB;
+  const nB = nAB + nnonAB;
+  const nNonB = nAnonB + nnonAnonB;
+
+  const pA = nA / total;
+  const pB = nB / total;
+  const pAinterB = nAB / total;
+  const pAuB = pA + pB - pAinterB;
+  const pNonA = nNonA / total;
+
+  const pAsachantB = nB > 0 ? nAB / nB : null; // fréquence conditionnelle (parmi B)
+  const pBsachantA = nA > 0 ? nAB / nA : null; // probabilité conditionnelle PA(B)
+
+  return {
+    total, nA, nNonA, nB, nNonB, nAB,
+    pA, pB, pAinterB, pAuB, pNonA,
+    pAsachantB, pBsachantA,
+  };
+}
+
+/**
+ * Deux événements A et B (probabilités pA, pB, pAinterB connues) sont
+ * indépendants si P(A∩B) = P(A) × P(B). Renvoie l'écart entre les
+ * deux membres (proche de 0 : indépendance plausible) et le produit
+ * P(A) × P(B) pour affichage.
+ */
+export function verifierIndependance(pA, pB, pAinterB) {
+  const produit = pA * pB;
+  return { produit, ecart: pAinterB - produit };
+}
