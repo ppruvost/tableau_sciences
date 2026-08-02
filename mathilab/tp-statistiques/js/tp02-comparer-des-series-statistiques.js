@@ -28,6 +28,11 @@ const CONTEXTES_PRO = {
     problematique: "Quel transporteur choisir entre deux séries de délais de livraison : celui qui est le plus rapide en moyenne, ou celui qui est le plus régulier ?",
   },
 
+  '2nde-mcc': {
+    contexte: "En atelier de confection, deux méthodes de montage d'une même pièce peuvent donner des temps de production qui varient d'une pièce à l'autre. Comparer les deux séries de temps permet de choisir la méthode la plus fiable.",
+    problematique: "Quelle méthode de montage choisir entre deux séries de temps de production : celle qui est la plus rapide en moyenne, ou celle qui est la plus régulière ?",
+  },
+
 };
 
 export function init() {
