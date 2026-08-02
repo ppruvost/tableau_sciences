@@ -211,12 +211,13 @@ closeViewer?.addEventListener("click", () => {
     tpFrame.src = "";
 });
 
-document.getElementById("openAlgebre")    ?.addEventListener("click", () => openTP("tp-algebre/index.html"));
-document.getElementById("openGeometrie") ?.addEventListener("click", () => openTP("tp-goemetrie/index.html"));
-document.getElementById("openAlgorithme")    ?.addEventListener("click", () => openTP("tp-algorithme/index.html"));
+document.getElementById("openChimie")    ?.addEventListener("click", () => openTP("tp-chimie/index.html"));
+document.getElementById("openAcoustique") ?.addEventListener("click", () => openTP("tp-acoustique/index.html"));
+document.getElementById("openOptique")    ?.addEventListener("click", () => openTP("tp-optique/index.html"));
 document.getElementById("openStatistiques")?.addEventListener("click", () => openTP("tp-statistiques/index.html"));
-document.getElementById("openAutomatisme")  ?.addEventListener("click", () => openTP("tp-automatisme/index.html"));
-document.getElementById("openBonus")  ?.addEventListener("click", () => openTP("tp-bonus/index.html"));
+document.getElementById("openMecanique")  ?.addEventListener("click", () => openTP("tp-mecanique/index.html"));
+document.getElementById("openThermique")  ?.addEventListener("click", () => openTP("tp-thermique/index.html"));
+document.getElementById("openSignaux")  ?.addEventListener("click", () => openTP("tp-signaux/index.html"));
 
 // =====================================================
 // PROGRESS BAR
