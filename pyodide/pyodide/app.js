@@ -1,19 +1,19 @@
-let pyodideReady = null;
+let pyodidePromise = null;
 let pyodide = null;
 
-async function loadPyodideOnce() {
-  if (!pyodideReady) {
-    pyodideReady = loadPyodide({
+async function getPyodide() {
+  if (!pyodidePromise) {
+    pyodidePromise = loadPyodide({
       indexURL: "./pyodide/",
     });
   }
-  pyodide = await pyodideReady;
+  pyodide = await pyodidePromise;
   return pyodide;
 }
 
 function setOutput(text) {
-  const out = document.getElementById("output");
-  out.textContent = text;
+  const output = document.getElementById("output");
+  if (output) output.textContent = text;
 }
 
 function setStatus(text) {
@@ -21,44 +21,47 @@ function setStatus(text) {
   if (status) status.textContent = text;
 }
 
-async function runPythonCode(code) {
-  if (!code.trim()) {
+async function runCode() {
+  const editor = document.getElementById("code");
+  if (!editor) return;
+
+  const code = editor.value.trim();
+  if (!code) {
     setOutput("");
     return;
   }
 
-  await loadPyodideOnce();
-
   try {
+    setStatus("Chargement...");
+    await getPyodide();
+    setStatus("Exécution...");
     const result = await pyodide.runPythonAsync(code);
     setOutput(result === undefined ? "" : String(result));
   } catch (err) {
     setOutput(String(err));
+  } finally {
+    setStatus("Prêt.");
   }
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const editor = document.getElementById("code");
   const runButton = document.getElementById("run");
+  const editor = document.getElementById("code");
 
-  if (!editor || !runButton) return;
-
-  setStatus("Chargement de Pyodide...");
-  await loadPyodideOnce();
+  setStatus("Chargement...");
+  await getPyodide();
   setStatus("Prêt.");
 
-  runButton.addEventListener("click", async () => {
-    setStatus("Exécution...");
-    await runPythonCode(editor.value);
-    setStatus("Prêt.");
-  });
+  if (runButton) {
+    runButton.addEventListener("click", runCode);
+  }
 
-  editor.addEventListener("keydown", async (e) => {
-    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
-      e.preventDefault();
-      setStatus("Exécution...");
-      await runPythonCode(editor.value);
-      setStatus("Prêt.");
-    }
-  });
+  if (editor) {
+    editor.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        runCode();
+      }
+    });
+  }
 });
