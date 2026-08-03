@@ -64,6 +64,26 @@ function construireSectionResultats() {
   return { titre: 'Tableau de résultats', items };
 }
 
+// Une section par fiche puzzle (.fiche-puzzle), lue génériquement :
+// titre = data-titre de la fiche, texte = réponse du groupe expert.
+function construireSectionsPuzzle() {
+
+  return [...document.querySelectorAll('.fiche-puzzle')].map(fiche => ({
+    titre: `Fiche puzzle — ${fiche.dataset.titre || ''}`,
+    texte: valeur(fiche.querySelector('.zone-eleve textarea')),
+  }));
+}
+
+// Synthèse de la séance 2 (groupes puzzle mélangés).
+function construireSectionSynthesePuzzle() {
+
+  const zone = document.getElementById('puzzle-synthese');
+
+  if (!zone) return null;
+
+  return { titre: 'Synthèse puzzle (Séance 2)', texte: valeur(zone) };
+}
+
 /**
  * @param {Object} params
  * @param {string} params.titre - Titre du TP (ex. "Puissance et énergie électrique")
@@ -81,6 +101,8 @@ export function initImpressionCompteRendu({ titre, tp }) {
       construireSectionResultats(),
       ...construireSectionsQuestions(),
       construireSectionResume(),
+      ...construireSectionsPuzzle(),
+      construireSectionSynthesePuzzle(),
     ].filter(Boolean);
 
     genererCompteRendu({
