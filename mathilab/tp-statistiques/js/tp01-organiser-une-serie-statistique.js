@@ -1,189 +1,775 @@
-/**
- * tp-statistiques/js/tp01-organiser-une-serie-statistique.js
- *
- * Contrôleur du TP S1 « Organiser et représenter une série
- * statistique ». Chargé par navigation.js juste après l'injection du
- * fragment tp-statistiques/modules/tp01-organiser-une-serie-statistique.html
- * dans #content.
- */
+<!--
+  Fragment SPA chargé dynamiquement par navigation.js.
+  Tous les chemins sont relatifs à la racine du site.
+  Aucun <script> dans ce fragment.
+-->
 
-import { $, arrondir, initSections, initTabs } from '../../js/utils.js';
-import { initContextePro } from '../../js/contexte-pro.js';
-import FILIERES_PRO from '../../data/filieres.js';
-import { initRadarCompetences } from '../../js/radar.js';
-import { initImpressionCompteRendu } from './compte-rendu-statistiques.js';
-import { dessinerHistogramme } from '../../js/incertitudes.js';
-import { dessinerGraphiqueLigne } from '../../js/graphique.js';
-import { regrouperEnClasses, classeModale, dessinerDiagrammeBarres, dessinerDiagrammeSecteurs } from '../../js/statistiques.js';
+<section>
 
-const CONTEXTES_PRO = {
+<header class="tp-header">
 
-  '2nde-remi': {
-    contexte: "En atelier de réalisation mécanique, un contrôle qualité relève régulièrement une cote de pièce usinée ou un temps de cycle machine. Ces mesures répétées forment une série statistique qu'il faut organiser avant de pouvoir l'analyser.",
-    problematique: "Comment organiser et représenter une série de mesures d'atelier pour en tirer une information utile au contrôle qualité ?",
-  },
+  <div class="tp-header-logo">
+    <div class="logo">
+      <span class="sci">Mathi</span><span class="Lab">Lab</span>
+    </div>
+  </div>
 
-  '2nde-gatl': {
-    contexte: "Dans un service de gestion administrative, transport et logistique, on relève par exemple des délais de livraison, des temps de traitement de commandes ou des quantités de colis expédiés chaque jour. Ces relevés forment une série statistique à organiser avant de pouvoir la commenter.",
-    problematique: "Comment organiser et représenter une série de délais ou de quantités logistiques pour en tirer une information utile au suivi de l'activité ?",
-  },
+  <div class="tp-header-centre">
 
-  '2nde-mcc': {
-    contexte: "En atelier de confection, on relève par exemple les longueurs de pièces de tissu découpées ou les temps de montage d'un vêtement pour plusieurs pièces produites. Ces relevés forment une série statistique à organiser.",
-    problematique: "Comment organiser et représenter une série de mesures de production textile pour en tirer une information utile au contrôle qualité ?",
-  },
+    <h1>Organiser et représenter une série statistique</h1>
 
-};
+    <div class="tp-meta">
 
-export function init() {
+      <div class="tp-row">
+        <span class="tag">2nde</span>
+        <span class="tag">Statistique et probabilités</span>
+        <span class="tag">Regroupement en classes - </span><span class="tag">Représentations - </span><span class="tag">Lecture d'informations</span>
+      </div>
 
-  initContextePro({
-    filieres: FILIERES_PRO,
-    contextes: CONTEXTES_PRO,
-  });
+    </div>
 
-  initRegroupementClasses();
-  initSerieQualitative();
-  initSerieChronologique();
+  </div>
 
-  initSections();
-  initTabs();
-  initRadarCompetences();
+  <div class="tp-header-numero">
+    <span class="tp-numero-txt">S1</span>
+  </div>
 
-  initImpressionCompteRendu({
-    titre: 'Organiser et représenter une série statistique',
-    tp: 'S1',
-  });
-}
+</header>
 
-// =================================================================
-// Onglet 1 — Regroupement en classes
-// =================================================================
-function initRegroupementClasses() {
+<div class="progress">
+  <div id="bar"></div>
+</div>
 
-  const btnAjouter = $('rc-ajouter');
-  const inputValeur = $('rc-valeur');
-  const inputNbClasses = $('rc-nb-classes');
-  const tbody = $('rc-tbody-valeurs');
+<main id="content">
 
-  if (!btnAjouter || !tbody) return;
+<div class="section" data-type="objectif">
 
-  const valeurs = [];
+  <div class="section-titre">
+    <div class="picto-section">🎯</div>
+    <h2>Capacités évaluées</h2>
+    <span class="chevron">▼</span>
+  </div>
 
-  btnAjouter.addEventListener('click', () => {
+  <div class="section-corps">
 
-    const v = parseFloat(inputValeur.value);
-    if (Number.isNaN(v)) return;
+    <ul>
+      <li>Recueillir et organiser des données statistiques.</li>
+      <li>Regrouper par classes une série statistique.</li>
+      <li>Organiser des données statistiques en choisissant un mode de représentation adapté, à l'aide des fonctions statistiques d'une calculatrice ou d'un tableur.</li>
+      <li>Extraire des informations d'une représentation d'une série statistique (diagramme en secteurs, en bâtons, en colonnes, à lignes brisées).</li>
+      <li><em>Domaine transversal — Co-intervention :</em> reconnaître qu'une même série de mesures peut être analysée avec les outils des sciences physiques et chimiques (moyenne, écart type) et avec ceux des mathématiques (médiane, quartiles, représentations graphiques).</li>
+    </ul>
 
-    valeurs.push(v);
-    redessiner();
+  </div>
 
-    inputValeur.value = '';
-    inputValeur.focus();
-  });
+</div>
 
-  inputNbClasses.addEventListener('input', redessiner);
+<div class="section" data-type="contexte-pro">
 
-  function redessiner() {
+  <div class="section-titre">
+    <div class="picto-section">🏭</div>
+    <h2>Contexte professionnel</h2>
+    <span class="chevron">▼</span>
+  </div>
 
-    tbody.innerHTML = valeurs
-      .map((v, i) => `<tr><td>${i + 1}</td><td>${v}</td></tr>`)
-      .join('');
+  <div class="section-corps">
 
-    const nClasses = Math.min(Math.max(parseInt(inputNbClasses.value, 10) || 5, 2), 10);
+    <div class="info">
+      Dans vos TP de sciences physiques et chimiques (SciLab), vous
+      répétez souvent une même mesure : niveau sonore d'une machine,
+      volume versé lors d'un titrage, température relevée au cours
+      d'un chauffage... Chaque série de mesures est une <strong>série
+      statistique</strong>. Avant de la résumer par une moyenne, il
+      faut d'abord savoir l'organiser et la représenter clairement.
+    </div>
 
-    dessinerHistogramme('rc-histogramme', valeurs, { nClasses });
+    <div class="filiere-select-bloc">
+      <label for="select-filiere-pro">Votre filière professionnelle :</label>
+      <select id="select-filiere-pro">
+        <option value="">-- Sélectionner une filière --</option>
+      </select>
+    </div>
 
-    const classes = regrouperEnClasses(valeurs, nClasses);
-    const tbodyClasses = $('rc-tbody-classes');
-    const zoneModale = $('rc-classe-modale');
+    <div id="contexte-pro-resultat" class="contexte-pro-resultat">
+      <p>Sélectionner votre filière professionnelle pour afficher le contexte et la problématique associée.</p>
+    </div>
 
-    if (tbodyClasses) {
-      tbodyClasses.innerHTML = classes
-        .map(c => `<tr><td>[${arrondir(c.debut, 1)} ; ${arrondir(c.fin, 1)}[</td><td>${c.effectif}</td></tr>`)
-        .join('');
-    }
+  </div>
 
-    if (zoneModale) {
-      if (valeurs.length < 2) {
-        zoneModale.textContent = 'Ajouter au moins deux valeurs pour déterminer la classe modale.';
-      } else {
-        const modale = classeModale(classes);
-        zoneModale.innerHTML = modale
-          ? `<strong>Classe modale : [${arrondir(modale.debut, 1)} ; ${arrondir(modale.fin, 1)}[ (effectif ${modale.effectif})</strong>`
-          : '';
-      }
-    }
-  }
-}
+</div>
 
-// =================================================================
-// Onglet 2 — Série qualitative (bâtons + secteurs)
-// =================================================================
-function initSerieQualitative() {
+<div class="section" data-type="preparation">
 
-  const btnAjouter = $('ql-ajouter');
-  const inputCategorie = $('ql-categorie');
-  const inputEffectif = $('ql-effectif');
-  const tbody = $('ql-tbody');
+  <div class="section-titre">
+    <div class="picto-section">📊</div>
+    <h2>Activités</h2>
+    <span class="chevron">▼</span>
+  </div>
 
-  if (!btnAjouter || !tbody) return;
+  <div class="section-corps">
 
-  const donnees = [];
+    <div class="toolbar">
+      <a class="btn btn-secondaire" href="../../numworks/emulator.html" target="_blank" rel="noopener">
+        🧮 Ouvrir la calculatrice NumWorks
+      </a>
+    </div>
 
-  btnAjouter.addEventListener('click', () => {
+    <div id="s01-message-filiere" class="info" style="display:none;"></div>
 
-    const label = inputCategorie.value.trim();
-    const effectif = parseInt(inputEffectif.value, 10);
+    <div class="tabs-container">
 
-    if (!label || Number.isNaN(effectif) || effectif < 0) return;
+      <div class="tabs-header">
+        <button class="tab-btn actif" data-tab="regrouper-classes">Regrouper une série en classes</button>
+        <button class="tab-btn" data-tab="representer-qualitative">Représenter une série qualitative</button>
+        <button class="tab-btn" data-tab="representer-chronologique">Représenter une évolution (lignes brisées)</button>
+      </div>
 
-    donnees.push({ label, effectif });
-    redessiner();
+      <!-- ============================ -->
+      <!-- REGROUPEMENT EN CLASSES      -->
+      <!-- ============================ -->
 
-    inputCategorie.value = '';
-    inputEffectif.value = '';
-    inputCategorie.focus();
-  });
+      <div class="tab-panel actif" id="regrouper-classes">
 
-  function redessiner() {
+        <h3>Regrouper une série quantitative en classes</h3>
 
-    tbody.innerHTML = donnees
-      .map(d => `<tr><td>${d.label}</td><td>${d.effectif}</td></tr>`)
-      .join('');
+        <div class="info">
+          Reprendre une série de mesures obtenue au laboratoire (par
+          exemple les niveaux sonores en dB relevés en TP d'acoustique,
+          ou les volumes équivalents en mL relevés par les binômes lors
+          d'un titrage en TP de chimie). Saisir chaque valeur : elles
+          sont automatiquement regroupées en classes de même amplitude
+          et représentées par un diagramme en colonnes.
+        </div>
 
-    dessinerDiagrammeBarres('ql-barres', donnees, { yLabel: 'Effectif' });
-    dessinerDiagrammeSecteurs('ql-secteurs', donnees);
-  }
-}
+        <div class="form-row">
 
-// =================================================================
-// Onglet 3 — Série chronologique (lignes brisées)
-// =================================================================
-function initSerieChronologique() {
+          <div class="form-group">
+            <label for="rc-valeur">Valeur mesurée</label>
+            <input id="rc-valeur" type="number" step="0.1">
+          </div>
 
-  const btnAjouter = $('lb-ajouter');
-  const inputPeriode = $('lb-periode');
-  const inputValeur = $('lb-valeur');
+          <div class="form-group">
+            <label for="rc-nb-classes">Nombre de classes souhaité</label>
+            <input id="rc-nb-classes" type="number" step="1" min="2" max="10" value="5">
+          </div>
 
-  if (!btnAjouter) return;
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button id="rc-ajouter" type="button" class="btn btn-primaire">
+              + Ajouter la valeur
+            </button>
+          </div>
 
-  const points = [];
+        </div>
 
-  btnAjouter.addEventListener('click', () => {
+        <div class="table-responsive">
+          <table class="tableau-resultats">
+            <thead>
+              <tr>
+                <th>N°</th>
+                <th>Valeur</th>
+              </tr>
+            </thead>
+            <tbody id="rc-tbody-valeurs">
+            </tbody>
+          </table>
+        </div>
 
-    const x = parseFloat(inputPeriode.value);
-    const y = parseFloat(inputValeur.value);
+        <h4 style="margin-top:var(--gap-lg);">Diagramme en colonnes (série regroupée par classes)</h4>
 
-    if (Number.isNaN(x) || Number.isNaN(y)) return;
+        <div id="rc-histogramme"></div>
 
-    points.push({ x, y });
-    points.sort((a, b) => a.x - b.x);
+        <h4 style="margin-top:var(--gap-lg);">Tableau des classes et effectifs</h4>
 
-    dessinerGraphiqueLigne('lb-graphique', points, { xLabel: 'Période', yLabel: 'Valeur' });
+        <div class="table-responsive">
+          <table class="tableau-resultats">
+            <thead>
+              <tr>
+                <th>Classe</th>
+                <th>Effectif</th>
+              </tr>
+            </thead>
+            <tbody id="rc-tbody-classes">
+            </tbody>
+          </table>
+        </div>
 
-    inputPeriode.value = '';
-    inputValeur.value = '';
-    inputPeriode.focus();
-  });
-}
+        <div id="rc-classe-modale" class="resultat-calcul"></div>
+
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+
+        <ol class="etapes">
+          <li>Relever ou reprendre une série d'au moins 10 mesures issues d'un TP de sciences (acoustique, chimie, thermique...).</li>
+          <li>Saisir chaque valeur une à une dans le tableau ci-dessus.</li>
+          <li>Choisir un nombre de classes adapté à l'étendue de la série (ni trop peu, ni trop de classes).</li>
+          <li>Lire le diagramme en colonnes obtenu et identifier la classe modale (celle qui contient le plus de valeurs).</li>
+        </ol>
+
+      </div>
+
+      <!-- ============================ -->
+      <!-- SÉRIE QUALITATIVE            -->
+      <!-- ============================ -->
+
+      <div class="tab-panel" id="representer-qualitative">
+
+        <h3>Représenter une série qualitative (contrôle qualité)</h3>
+
+        <div class="info">
+          Un contrôle qualité d'atelier ne relève pas toujours un
+          nombre : il classe des pièces par catégorie (type de défaut,
+          conformité...). Saisir l'effectif de chaque catégorie
+          observée pour obtenir un diagramme en bâtons et un diagramme
+          en secteurs.
+        </div>
+
+        <div class="form-row">
+
+          <div class="form-group">
+            <label for="ql-categorie">Catégorie observée</label>
+            <input id="ql-categorie" type="text" placeholder="ex. pièce conforme">
+          </div>
+
+          <div class="form-group">
+            <label for="ql-effectif">Effectif</label>
+            <input id="ql-effectif" type="number" step="1" min="0">
+          </div>
+
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button id="ql-ajouter" type="button" class="btn btn-primaire">
+              + Ajouter la catégorie
+            </button>
+          </div>
+
+        </div>
+
+        <div class="table-responsive">
+          <table class="tableau-resultats">
+            <thead>
+              <tr>
+                <th>Catégorie</th>
+                <th>Effectif</th>
+              </tr>
+            </thead>
+            <tbody id="ql-tbody">
+            </tbody>
+          </table>
+        </div>
+
+        <div class="tp-row" style="gap:var(--gap-lg);flex-wrap:wrap;align-items:flex-start;">
+          <div style="flex:1;min-width:260px;">
+            <h4>Diagramme en bâtons</h4>
+            <div id="ql-barres"></div>
+          </div>
+          <div style="flex:1;min-width:220px;">
+            <h4>Diagramme en secteurs</h4>
+            <div id="ql-secteurs"></div>
+          </div>
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+
+        <ol class="etapes">
+          <li>Choisir une situation de contrôle qualité de votre filière (défauts d'usinage en REMI, retards ou anomalies de livraison en GATL, non-conformités de couture en MCC...).</li>
+          <li>Recenser chaque catégorie possible et compter son effectif.</li>
+          <li>Comparer les deux représentations obtenues : laquelle met le mieux en évidence la catégorie la plus fréquente ?</li>
+        </ol>
+
+      </div>
+
+      <!-- ============================ -->
+      <!-- ÉVOLUTION — LIGNES BRISÉES   -->
+      <!-- ============================ -->
+
+      <div class="tab-panel" id="representer-chronologique">
+
+        <h3>Représenter une évolution dans le temps</h3>
+
+        <div class="info">
+          Une production journalière, une température relevée heure
+          par heure, une consommation électrique suivie sur une
+          semaine : ces séries chronologiques se représentent par un
+          diagramme à lignes brisées, qui met en évidence une
+          évolution plutôt qu'une répartition.
+        </div>
+
+        <div class="form-row">
+
+          <div class="form-group">
+            <label for="lb-periode">Période (jour, heure...)</label>
+            <input id="lb-periode" type="number" step="1">
+          </div>
+
+          <div class="form-group">
+            <label for="lb-valeur">Valeur relevée</label>
+            <input id="lb-valeur" type="number" step="0.1">
+          </div>
+
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button id="lb-ajouter" type="button" class="btn btn-primaire">
+              + Ajouter le point
+            </button>
+          </div>
+
+        </div>
+
+        <div id="lb-graphique"></div>
+
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+
+        <ol class="etapes">
+          <li>Choisir une grandeur suivie régulièrement dans le temps (production, température, consommation...).</li>
+          <li>Saisir chaque couple (période ; valeur) dans l'ordre chronologique.</li>
+          <li>Décrire l'évolution observée : hausse, baisse, stabilité, valeur exceptionnelle.</li>
+        </ol>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="resultats">
+
+  <div class="section-titre">
+    <div class="picto-section">📋</div>
+    <h2>Tableau de résultats</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="table-responsive">
+
+      <table class="tableau-resultats">
+
+        <thead>
+          <tr>
+            <th>Grandeur</th>
+            <th>Résultat</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td>Classe modale de la série regroupée</td>
+            <td><input type="text" placeholder="ex. [12 ; 14["></td>
+          </tr>
+
+          <tr>
+            <td>Catégorie la plus fréquente (série qualitative)</td>
+            <td><input type="text" placeholder="catégorie"></td>
+          </tr>
+
+          <tr>
+            <td>Tendance observée (série chronologique)</td>
+            <td><input type="text" placeholder="hausse / baisse / stable"></td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="lien-metiers">
+
+  <div class="section-titre">
+    <div class="picto-section">🔗</div>
+    <h2>Mathématiques et sciences : un même langage</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p>
+      Les mesures que vous collectez en TP de chimie, d'acoustique ou
+      de thermique (SciLab) sont exactement les séries statistiques
+      étudiées ici en mathématiques : ce sont les mêmes nombres,
+      regardés avec deux points de vue complémentaires.
+    </p>
+
+    <ul style="padding-left:1.5rem;line-height:2">
+      <li>En sciences, vous calculez déjà une <strong>moyenne</strong> et un <strong>écart type</strong> pour exprimer un résultat de mesure avec son incertitude.</li>
+      <li>En mathématiques, ces mêmes séries se regroupent en classes, se représentent (diagrammes, histogrammes) et se résument avec d'autres indicateurs (médiane, quartiles), qui seront étudiés au TD suivant.</li>
+      <li>Dans votre futur métier, savoir organiser et lire une série de données (contrôle qualité, production, mesures) est une compétence directement transférable d'une discipline à l'autre.</li>
+    </ul>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="puzzle">
+
+  <div class="section-titre">
+    <div class="picto-section">🧩</div>
+    <h2>Activités Puzzle</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="info">
+      Organisation en <strong>classe puzzle</strong> : en séance 1, chaque
+      groupe devient expert d'une seule fiche ci-dessous. En séance 2, les
+      groupes sont mélangés (une couleur = un membre de chaque groupe
+      expert) pour comparer les méthodes et se les expliquer mutuellement.
+    </div>
+
+    <div class="toolbar">
+      <a class="btn btn-secondaire" href="../../roue/index.html" target="_blank" rel="noopener">
+        🎡 Ouvrir la roue (tirage des groupes)
+      </a>
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Temps d'utilisation d'une machine">
+
+      <h3>Fiche A — Temps d'utilisation d'une machine</h3>
+
+      <p>Une entreprise suit l'utilisation d'une machine de production sur une semaine. On relève le nombre d'heures d'utilisation par jour :</p>
+
+      <div class="table-responsive">
+        <table class="tableau-resultats">
+          <thead><tr><th>Jour</th><th>Lundi</th><th>Mardi</th><th>Mercredi</th><th>Jeudi</th><th>Vendredi</th></tr></thead>
+          <tbody><tr><td>Heures</td><td>6</td><td>8</td><td>7</td><td>5</td><td>9</td></tr></tbody>
+        </table>
+      </div>
+
+      <ol>
+        <li>Calculer la durée totale et la durée moyenne d'utilisation par jour.</li>
+        <li>Construire le diagramme en bâtons de cette série.</li>
+        <li>Identifier le jour le plus et le moins utilisé.</li>
+      </ol>
+
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+
+      <div class="zone-eleve">
+        <textarea rows="6" placeholder="Réponses du groupe expert : durée totale, durée moyenne, jour le plus/moins utilisé, description du diagramme..."></textarea>
+      </div>
+
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Absences des employés">
+
+      <h3>Fiche B — Suivi des absences des employés</h3>
+
+      <p>Une entreprise analyse les absences de ses 20 employés sur le mois dernier. Nombre d'absences (en jours) de chaque employé :</p>
+
+      <p style="font-family:monospace;">0, 1, 0, 2, 1, 3, 0, 2, 1, 0, 2, 0, 1, 0, 2, 3, 1, 0, 1, 2</p>
+
+      <ol>
+        <li>Organiser ces données dans un tableau de fréquences (nombre de jours d'absence, effectif, fréquence en %).</li>
+        <li>Calculer le nombre total d'absences et le nombre moyen d'absences par employé.</li>
+        <li>Identifier le nombre d'absences le plus fréquent (le mode), et construire un diagramme en secteurs.</li>
+      </ol>
+
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+
+      <div class="zone-eleve">
+        <textarea rows="6" placeholder="Réponses du groupe expert : tableau de fréquences, total, moyenne, mode, description du diagramme en secteurs..."></textarea>
+      </div>
+
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Enquête taille des élèves — regroupement en classes">
+
+      <h3>Fiche C — Enquête taille des élèves (regroupement en classes)</h3>
+
+      <p>Une enquête a mesuré la taille (en cm) de 20 élèves de 15 à 17 ans :</p>
+
+      <p style="font-family:monospace;">173, 169, 174, 179, 169, 166, 179, 172, 166, 172, 170, 170, 175, 162, 169, 169, 162, 175, 164, 171</p>
+
+      <ol>
+        <li>Regrouper cette série en 4 classes de même amplitude (par exemple à partir de 162 cm).</li>
+        <li>Compléter un tableau classes / effectifs / fréquences.</li>
+        <li>Construire le diagramme en colonnes correspondant.</li>
+      </ol>
+
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+
+      <div class="zone-eleve">
+        <textarea rows="6" placeholder="Réponses du groupe expert : classes choisies, tableau des effectifs, description du diagramme en colonnes..."></textarea>
+      </div>
+
+    </div>
+
+    <h3 style="margin-top:var(--gap-lg);">Synthèse puzzle (séance 2)</h3>
+
+    <div class="info">
+      En groupe mélangé, chaque expert présente sa fiche aux autres. Comparer les trois façons de représenter une série (bâtons, secteurs, colonnes) : laquelle convient le mieux à chaque type de données ?
+    </div>
+
+    <div class="zone-eleve">
+      <textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs et différences entre les fiches..."></textarea>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="bilan">
+
+  <div class="section-titre">
+    <div class="picto-section">📝</div>
+    <h2>Trace écrite - Compte rendu</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <h3>Identification</h3>
+
+    <div class="form-row">
+
+      <div class="form-group">
+        <label for="nom-eleve">Nom</label>
+        <input id="nom-eleve" type="text" placeholder="Nom">
+      </div>
+
+      <div class="form-group">
+        <label for="prenom-eleve">Prénom</label>
+        <input id="prenom-eleve" type="text" placeholder="Prénom">
+      </div>
+
+      <div class="form-group">
+        <label for="classe-eleve">Classe</label>
+        <input id="classe-eleve" type="text" placeholder="Classe">
+      </div>
+
+      <div class="form-group">
+        <label for="date-eleve">Date</label>
+        <input id="date-eleve" type="date">
+      </div>
+
+    </div>
+
+    <h3 style="margin-top:var(--gap-md);">Résumé du TD</h3>
+
+    <div class="zone-eleve">
+      <textarea id="resume-tp" rows="6" placeholder="Résumer le regroupement en classes et les représentations construites..."></textarea>
+    </div>
+
+    <h3 style="margin-top:var(--gap-md);">Questions</h3>
+
+    <div class="questions-bloc" data-tp="organiser-serie-statistique">
+
+    <ol class="questions-tp">
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Expliquer la démarche suivie pour regrouper une série de mesures en classes.
+          </strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question1" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            À partir du diagramme en colonnes obtenu, identifier la classe modale et justifier.
+          </strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question2" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Comparer le diagramme en bâtons et le diagramme en secteurs de la série qualitative étudiée : quelles informations chacun met-il le mieux en évidence ?
+          </strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question3" rows="5" placeholder="Votre analyse..."></textarea>
+        </div>
+      </li>
+
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique posée en début de TD :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="organiser-serie-statistique"></p>
+        <div class="zone-eleve">
+          <textarea id="question4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea>
+        </div>
+      </li>
+
+    </ol>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="auto-evaluation">
+
+  <div class="section-titre">
+    <div class="picto-section">📡</div>
+    <h2>Auto-évaluation des compétences</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p class="info">
+      À la fin du TD, évaluez votre niveau de maîtrise pour chaque
+      compétence.
+    </p>
+
+    <div class="table-responsive">
+
+      <table class="tableau-resultats autoeval-table">
+
+        <thead>
+          <tr>
+            <th>Domaine</th>
+            <th>Sigle</th>
+            <th>Je suis capable de...</th>
+            <th>0</th>
+            <th>1</th>
+            <th>2</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr data-comp="APP">
+            <td>S'approprier</td>
+            <td>APP</td>
+            <td>Recueillir et organiser une série statistique.</td>
+            <td><input type="radio" name="APP" value="0"></td>
+            <td><input type="radio" name="APP" value="1"></td>
+            <td><input type="radio" name="APP" value="2"></td>
+          </tr>
+
+          <tr data-comp="REA">
+            <td>Réaliser</td>
+            <td>REA</td>
+            <td>Regrouper une série en classes et construire un diagramme adapté.</td>
+            <td><input type="radio" name="REA" value="0"></td>
+            <td><input type="radio" name="REA" value="1"></td>
+            <td><input type="radio" name="REA" value="2"></td>
+          </tr>
+
+          <tr data-comp="ANA">
+            <td>Analyser / Raisonner</td>
+            <td>ANA</td>
+            <td>Extraire des informations d'une représentation graphique.</td>
+            <td><input type="radio" name="ANA" value="0"></td>
+            <td><input type="radio" name="ANA" value="1"></td>
+            <td><input type="radio" name="ANA" value="2"></td>
+          </tr>
+
+          <tr data-comp="VAL">
+            <td>Valider</td>
+            <td>VAL</td>
+            <td>Choisir le mode de représentation adapté à une série de données.</td>
+            <td><input type="radio" name="VAL" value="0"></td>
+            <td><input type="radio" name="VAL" value="1"></td>
+            <td><input type="radio" name="VAL" value="2"></td>
+          </tr>
+
+          <tr data-comp="COM">
+            <td>Communiquer</td>
+            <td>COM</td>
+            <td>Lire et commenter un diagramme à l'oral ou à l'écrit.</td>
+            <td><input type="radio" name="COM" value="0"></td>
+            <td><input type="radio" name="COM" value="1"></td>
+            <td><input type="radio" name="COM" value="2"></td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <div class="radar-actions" style="margin-top:var(--gap-lg);">
+      <button id="btn-radar" class="btn btn-primaire">
+        📊 Générer mon radar de compétences
+      </button>
+      <div id="radar-resultat" style="margin-top:var(--gap-md);"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="impression_tp">
+
+  <div class="section-titre">
+    <div class="picto-section">📒</div>
+    <h2>Impression du compte-rendu</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p class="info">
+      À la fin du TD, imprimer votre travail en PDF.
+      Envoyer à l'enseignant votre compte rendu en pièce jointe par la messagerie de l'ENT.
+    </p>
+
+    <div class="toolbar">
+      <button id="btn-imprimer" class="btn btn-primaire">
+        🖨 Imprimer le compte-rendu
+      </button>
+    </div>
+
+    <div class="info" style="margin-top:var(--gap-md);">
+      L'impression récupère automatiquement :
+      <ul>
+        <li>le tableau de résultats ;</li>
+        <li>les réponses aux questions ;</li>
+        <li>l'auto-évaluation des compétences.</li>
+      </ul>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="nav-tp">
+
+  <button class="btn btn-secondaire" onclick="location.href='../index.html'">
+    🏠 Accueil
+  </button>
+
+  <button class="btn btn-primaire" onclick="loadTP('tp02-comparer-des-series-statistiques')">
+    S2 →
+  </button>
+
+</div>
+
+</main>
+
+<div id="cr-print-container" style="display:none;"></div>
+
+</section>
