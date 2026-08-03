@@ -1,647 +1,995 @@
 <!doctype html>
-
 <html lang="fr">
+
 <head>
+
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Mermoz Lab — Découvrir Python</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
 
-  <!-- Police adaptée à la lecture -->
+  <title>Mermoz Lab — PythonLab</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Police Lexend -->
+
   <link
-    href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&family=Source+Code+Pro:wght@400;500;600;700&display=swap"
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&family=Source+Code+Pro:wght@400;500;600&display=swap"
     rel="stylesheet"
   >
 
-  <!-- Icônes -->
+
+  <!-- Font Awesome -->
 
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
   >
 
+
   <style>
-    /* =========================================================
-       MERMOZ LAB — CHARTE GRAPHIQUE
-       ========================================================= */
+
+    /* =====================================================
+       VARIABLES — MERMOZ LAB
+       ===================================================== */
 
     :root {
-      --noir: #080b12;
-      --noir-clair: #101620;
-      --bleu-nuit: #151d2b;
 
-      --blanc: #ffffff;
-      --gris-clair: #d8dee9;
-      --gris: #8e99aa;
+      --fond:
+        #09111d;
 
-      --rouge: #e63946;
-      --rouge-clair: #ff5864;
+      --fond-secondaire:
+        #101a29;
 
-      --cyan: #26d9e8;
-      --cyan-fonce: #119eae;
+      --fond-code:
+        #070b12;
 
-      --vert: #39d98a;
-      --jaune: #ffd166;
+      --blanc:
+        #f4f6f8;
 
-      --ombre: 0 20px 60px rgba(0, 0, 0, 0.45);
-      --rayon: 22px;
+      --gris:
+        #9da8b8;
+
+      --gris-clair:
+        #d8dee8;
+
+      --rouge:
+        #ef4554;
+
+      --rouge-fonce:
+        #c92338;
+
+      --cyan:
+        #38d7e8;
+
+      --vert:
+        #52d99a;
+
+      --bordure:
+        rgba(255, 255, 255, 0.10);
+
     }
+
+
+    /* =====================================================
+       BASE
+       ===================================================== */
 
     * {
-      box-sizing: border-box;
+
+      box-sizing:
+        border-box;
+
     }
+
 
     html {
-      scroll-behavior: smooth;
+
+      scroll-behavior:
+        smooth;
+
     }
+
 
     body {
-      min-height: 100vh;
-      margin: 0;
-      overflow-x: hidden;
 
-      font-family: "Lexend", Arial, sans-serif;
-      color: var(--blanc);
+      min-height:
+        100vh;
+
+      margin:
+        0;
+
+      color:
+        var(--blanc);
+
+      font-family:
+        "Lexend",
+        Arial,
+        sans-serif;
 
       background:
-        radial-gradient(
-          circle at 10% 10%,
-          rgba(38, 217, 232, 0.13),
-          transparent 30%
-        ),
-        radial-gradient(
-          circle at 90% 85%,
-          rgba(230, 57, 70, 0.14),
-          transparent 35%
-        ),
+
         linear-gradient(
-          135deg,
-          #070a10 0%,
-          #101827 50%,
-          #080b12 100%
-        );
-    }
-
-    /* Grille scientifique en arrière-plan */
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-
-      opacity: 0.05;
-
-      background-image:
-        linear-gradient(
-          rgba(255, 255, 255, 0.7) 1px,
+          rgba(66, 94, 128, 0.08) 1px,
           transparent 1px
         ),
+
         linear-gradient(
           90deg,
-          rgba(255, 255, 255, 0.7) 1px,
+          rgba(66, 94, 128, 0.08) 1px,
           transparent 1px
-        );
+        ),
 
-      background-size: 45px 45px;
+        var(--fond);
+
+      background-size:
+        32px 32px;
+
     }
 
-    /* =========================================================
-       EN-TÊTE
-       ========================================================= */
 
-    .topbar {
-      width: 100%;
-      min-height: 76px;
+    /* =====================================================
+       BARRE SUPÉRIEURE
+       ===================================================== */
 
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    header {
 
-      padding: 12px clamp(18px, 5vw, 70px);
+      height:
+        70px;
 
-      background: rgba(8, 11, 18, 0.88);
-      backdrop-filter: blur(14px);
+      display:
+        flex;
 
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
+      align-items:
+        center;
 
-    .logo {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
+      justify-content:
+        space-between;
 
-      color: var(--blanc);
-      text-decoration: none;
-    }
+      padding:
+        0 28px;
 
-    .logo-mark {
-      width: 48px;
-      height: 48px;
-
-      display: grid;
-      place-items: center;
-
-      border-radius: 14px;
-
-      color: var(--blanc);
-      font-size: 1.35rem;
-
-      background:
-        linear-gradient(
-          135deg,
-          var(--rouge),
-          #a90f28
-        );
-
-      box-shadow:
-        0 8px 25px rgba(230, 57, 70, 0.35);
-    }
-
-    .logo-text {
-      font-size: 1.45rem;
-      font-weight: 800;
-      letter-spacing: -0.7px;
-    }
-
-    .logo-text .lab {
-      color: var(--rouge);
-    }
-
-    .badge-python {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-
-      padding: 9px 15px;
-
-      color: var(--cyan);
-      font-size: 0.8rem;
-      font-weight: 700;
-
-      border: 1px solid rgba(38, 217, 232, 0.3);
-      border-radius: 999px;
-
-      background: rgba(38, 217, 232, 0.07);
-    }
-
-    /* =========================================================
-       CONTENU
-       ========================================================= */
-
-    main {
-      width: min(1120px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: clamp(45px, 8vw, 90px) 0 60px;
-    }
-
-    .hero {
-      max-width: 850px;
-      margin: 0 auto 45px;
-
-      text-align: center;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-
-      margin-bottom: 18px;
-      padding: 8px 14px;
-
-      color: var(--cyan);
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-
-      border: 1px solid rgba(38, 217, 232, 0.22);
-      border-radius: 999px;
-
-      background: rgba(38, 217, 232, 0.06);
-    }
-
-    h1 {
-      margin: 0;
-
-      font-size: clamp(2.2rem, 6vw, 4.6rem);
-      line-height: 1.08;
-      letter-spacing: -2px;
-    }
-
-    h1 span {
-      color: var(--rouge);
-    }
-
-    .intro {
-      max-width: 700px;
-      margin: 23px auto 0;
-
-      color: var(--gris-clair);
-      font-size: clamp(1rem, 2vw, 1.15rem);
-      line-height: 1.8;
-    }
-
-    /* =========================================================
-       CARTE PYTHON
-       ========================================================= */
-
-    .lab-card {
-      position: relative;
-
-      overflow: hidden;
-
-      padding: clamp(20px, 4vw, 38px);
-
-      border:
-        1px solid rgba(255, 255, 255, 0.1);
-
-      border-radius: var(--rayon);
-
-      background:
-        linear-gradient(
-          145deg,
-          rgba(24, 32, 47, 0.97),
-          rgba(10, 14, 23, 0.98)
-        );
-
-      box-shadow: var(--ombre);
-    }
-
-    .lab-card::before {
-      content: "";
-
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-
-      height: 4px;
-
-      background:
-        linear-gradient(
-          90deg,
-          var(--cyan),
-          var(--rouge),
-          var(--cyan)
-        );
-    }
-
-    .card-header {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-
-      margin-bottom: 26px;
-    }
-
-    .card-icon {
-      width: 55px;
-      height: 55px;
-
-      flex: 0 0 55px;
-
-      display: grid;
-      place-items: center;
-
-      color: var(--cyan);
-      font-size: 1.55rem;
-
-      border-radius: 16px;
-
-      background: rgba(38, 217, 232, 0.1);
-
-      border:
-        1px solid rgba(38, 217, 232, 0.2);
-    }
-
-    .card-header h2 {
-      margin: 0;
-
-      font-size: clamp(1.2rem, 3vw, 1.65rem);
-    }
-
-    .card-header p {
-      margin: 5px 0 0;
-
-      color: var(--gris);
-      font-size: 0.88rem;
-    }
-
-    /* =========================================================
-       ÉDITEUR
-       ========================================================= */
-
-    .editor-label {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      margin-bottom: 10px;
-
-      color: var(--gris-clair);
-      font-size: 0.82rem;
-      font-weight: 600;
-    }
-
-    .editor-label span:last-child {
-      color: var(--vert);
-      font-size: 0.72rem;
-    }
-
-    .code-window {
-      overflow: hidden;
-
-      border:
-        1px solid rgba(255, 255, 255, 0.1);
-
-      border-radius: 16px;
-
-      background: #070a10;
-    }
-
-    .window-bar {
-      height: 42px;
-
-      display: flex;
-      align-items: center;
-
-      padding: 0 15px;
-
-      background: #111722;
+      border-top:
+        3px solid var(--cyan);
 
       border-bottom:
-        1px solid rgba(255, 255, 255, 0.07);
-    }
-
-    .dots {
-      display: flex;
-      gap: 7px;
-    }
-
-    .dot {
-      width: 10px;
-      height: 10px;
-
-      border-radius: 50%;
-    }
-
-    .dot.red {
-      background: #ff5f57;
-    }
-
-    .dot.yellow {
-      background: #febc2e;
-    }
-
-    .dot.green {
-      background: #28c840;
-    }
-
-    .file-name {
-      margin-left: 15px;
-
-      color: var(--gris);
-      font-family: "Source Code Pro", monospace;
-      font-size: 0.75rem;
-    }
-
-    .code-content {
-      padding: 22px;
-
-      color: #e7edf5;
-
-      font-family: "Source Code Pro", monospace;
-      font-size: 0.92rem;
-      line-height: 1.8;
-
-      white-space: pre-wrap;
-    }
-
-    .keyword {
-      color: #ff6b8a;
-    }
-
-    .function {
-      color: #61dafb;
-    }
-
-    .string {
-      color: #a8e063;
-    }
-
-    /* =========================================================
-       BOUTON
-       ========================================================= */
-
-    .actions {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-
-      margin-top: 25px;
-    }
-
-    #run {
-      min-height: 54px;
-
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 11px;
-
-      padding: 0 27px;
-
-      color: var(--blanc);
-
-      font-family: "Lexend", sans-serif;
-      font-size: 0.95rem;
-      font-weight: 700;
-
-      cursor: pointer;
-
-      border: none;
-      border-radius: 14px;
+        1px solid var(--bordure);
 
       background:
+        rgba(8, 15, 25, 0.95);
+
+    }
+
+
+    .logo {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        12px;
+
+      font-size:
+        1.25rem;
+
+      font-weight:
+        800;
+
+    }
+
+
+    .logo-icon {
+
+      width:
+        42px;
+
+      height:
+        42px;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      color:
+        white;
+
+      border-radius:
+        12px;
+
+      background:
+
         linear-gradient(
           135deg,
           var(--rouge),
-          #bd1934
+          #a9102a
         );
 
       box-shadow:
-        0 10px 28px rgba(230, 57, 70, 0.32);
 
-      transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease,
-        filter 0.2s ease;
+        0 7px 22px
+        rgba(239, 69, 84, 0.35);
+
     }
 
-    #run:hover {
-      transform: translateY(-3px);
 
-      filter: brightness(1.08);
+    .logo span {
+
+      color:
+        var(--rouge);
+
+    }
+
+
+    .python-badge {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        8px;
+
+      padding:
+        8px 15px;
+
+      color:
+        var(--cyan);
+
+      font-size:
+        0.72rem;
+
+      font-weight:
+        700;
+
+      border:
+
+        1px solid
+        rgba(56, 215, 232, 0.30);
+
+      border-radius:
+        30px;
+
+      background:
+        rgba(56, 215, 232, 0.05);
+
+    }
+
+
+    /* =====================================================
+       CONTENU
+       ===================================================== */
+
+    main {
+
+      width:
+        min(
+          1100px,
+          calc(100% - 32px)
+        );
+
+      margin:
+        auto;
+
+      padding:
+        70px 0;
+
+    }
+
+
+    /* =====================================================
+       TITRE
+       ===================================================== */
+
+    .hero {
+
+      text-align:
+        center;
+
+      margin-bottom:
+        40px;
+
+    }
+
+
+    .badge {
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      gap:
+        8px;
+
+      padding:
+        8px 15px;
+
+      color:
+        var(--cyan);
+
+      font-size:
+        0.72rem;
+
+      font-weight:
+        800;
+
+      letter-spacing:
+        1.5px;
+
+      border:
+
+        1px solid
+        rgba(56, 215, 232, 0.25);
+
+      border-radius:
+        30px;
+
+      background:
+        rgba(56, 215, 232, 0.06);
+
+    }
+
+
+    h1 {
+
+      margin:
+        20px 0;
+
+      font-size:
+        clamp(
+          2.7rem,
+          7vw,
+          5rem
+        );
+
+      line-height:
+        1.05;
+
+    }
+
+
+    h1 span {
+
+      color:
+        var(--rouge);
+
+    }
+
+
+    .hero p {
+
+      max-width:
+        650px;
+
+      margin:
+        auto;
+
+      color:
+        var(--gris-clair);
+
+      line-height:
+        1.8;
+
+    }
+
+
+    /* =====================================================
+       CARTE PYTHON
+       ===================================================== */
+
+    .python-lab {
+
+      padding:
+        28px;
+
+      border:
+
+        1px solid
+        var(--bordure);
+
+      border-top:
+
+        2px solid
+        var(--cyan);
+
+      border-radius:
+        22px;
+
+      background:
+
+        linear-gradient(
+          145deg,
+          #172231,
+          #0c1420
+        );
 
       box-shadow:
-        0 15px 35px rgba(230, 57, 70, 0.42);
+
+        0 25px 70px
+        rgba(0, 0, 0, 0.35);
+
     }
 
-    #run:active {
-      transform: translateY(0);
+
+    .lab-header {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        15px;
+
+      margin-bottom:
+        25px;
+
     }
 
-    #run:focus-visible {
-      outline:
-        3px solid rgba(38, 217, 232, 0.75);
 
-      outline-offset: 4px;
+    .lab-icon {
+
+      width:
+        55px;
+
+      height:
+        55px;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      color:
+        var(--cyan);
+
+      font-size:
+        1.5rem;
+
+      border-radius:
+        16px;
+
+      background:
+        rgba(56, 215, 232, 0.10);
+
     }
 
-    .hint {
-      color: var(--gris);
-      font-size: 0.78rem;
-      text-align: right;
+
+    .lab-header h2 {
+
+      margin:
+        0;
+
     }
 
-    /* =========================================================
-       CONSOLE
-       ========================================================= */
 
-    .output-title {
-      display: flex;
-      align-items: center;
-      gap: 9px;
+    .lab-header p {
 
-      margin: 30px 0 10px;
+      margin:
+        5px 0;
 
-      color: var(--gris-clair);
-      font-size: 0.84rem;
-      font-weight: 700;
+      color:
+        var(--gris);
+
+      font-size:
+        0.75rem;
+
     }
 
-    .output-title i {
-      color: var(--vert);
+
+    /* =====================================================
+       ÉDITEUR PYTHON
+       ===================================================== */
+
+    .section-title {
+
+      display:
+        flex;
+
+      justify-content:
+        space-between;
+
+      align-items:
+        center;
+
+      margin:
+        25px 0 10px;
+
+      color:
+        var(--gris-clair);
+
+      font-size:
+        0.78rem;
+
+      font-weight:
+        700;
+
     }
 
-    #output {
-      min-height: 125px;
-      margin: 0;
-      padding: 22px;
 
-      overflow-x: auto;
+    .ready {
 
-      color: #c8f7dc;
+      color:
+        var(--vert);
+
+      font-size:
+        0.70rem;
+
+    }
+
+
+    .editor {
+
+      overflow:
+        hidden;
+
+      border:
+
+        1px solid
+        #26384e;
+
+      border-radius:
+        15px;
+
+      background:
+        var(--fond-code);
+
+    }
+
+
+    .editor-bar {
+
+      height:
+        42px;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      padding:
+        0 15px;
+
+      border-bottom:
+
+        1px solid
+        #202d3e;
+
+      background:
+        #111a27;
+
+    }
+
+
+    .dots {
+
+      display:
+        flex;
+
+      gap:
+        7px;
+
+    }
+
+
+    .dot {
+
+      width:
+        9px;
+
+      height:
+        9px;
+
+      border-radius:
+        50%;
+
+    }
+
+
+    .red {
+
+      background:
+        #ff5f57;
+
+    }
+
+
+    .yellow {
+
+      background:
+        #ffbd2e;
+
+    }
+
+
+    .green {
+
+      background:
+        #28c840;
+
+    }
+
+
+    .filename {
+
+      margin-left:
+        15px;
+
+      color:
+        var(--gris);
 
       font-family:
         "Source Code Pro",
-        Consolas,
         monospace;
 
-      font-size: 0.9rem;
-      line-height: 1.7;
+      font-size:
+        0.72rem;
 
-      white-space: pre-wrap;
+    }
+
+
+    /* =====================================================
+       VRAIE ZONE D'ÉCRITURE
+       ===================================================== */
+
+    #code {
+
+      display:
+        block;
+
+      width:
+        100%;
+
+      min-height:
+        250px;
+
+      padding:
+        22px;
+
+      resize:
+        vertical;
+
+      color:
+        #e7edf5;
+
+      font-family:
+        "Source Code Pro",
+        monospace;
+
+      font-size:
+        0.95rem;
+
+      line-height:
+        1.8;
 
       border:
-        1px solid rgba(57, 217, 138, 0.18);
+        none;
 
-      border-radius: 16px;
+      outline:
+        none;
 
       background:
+        transparent;
+
+      tab-size:
+        4;
+
+    }
+
+
+    #code:focus {
+
+      background:
+        rgba(56, 215, 232, 0.02);
+
+    }
+
+
+    /* =====================================================
+       BOUTONS
+       ===================================================== */
+
+    .buttons {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        14px;
+
+      margin:
+        22px 0;
+
+    }
+
+
+    button {
+
+      min-height:
+        52px;
+
+      padding:
+        0 24px;
+
+      color:
+        white;
+
+      font-family:
+        "Lexend",
+        sans-serif;
+
+      font-weight:
+        700;
+
+      cursor:
+        pointer;
+
+      border:
+        none;
+
+      border-radius:
+        13px;
+
+      transition:
+        0.2s;
+
+    }
+
+
+    #run {
+
+      background:
+
         linear-gradient(
-          145deg,
-          #07110d,
-          #090d12
+          135deg,
+          var(--rouge),
+          var(--rouge-fonce)
         );
 
       box-shadow:
-        inset 0 0 30px
-        rgba(57, 217, 138, 0.025);
+
+        0 10px 28px
+        rgba(239, 69, 84, 0.30);
+
     }
 
-    /* =========================================================
+
+    #run:hover {
+
+      transform:
+        translateY(-2px);
+
+      filter:
+        brightness(1.12);
+
+    }
+
+
+    #clear {
+
+      color:
+        var(--gris-clair);
+
+      border:
+
+        1px solid
+        #344257;
+
+      background:
+        #151e2c;
+
+    }
+
+
+    #clear:hover {
+
+      border-color:
+        var(--cyan);
+
+    }
+
+
+    .shortcut {
+
+      margin-left:
+        auto;
+
+      color:
+        var(--gris);
+
+      font-size:
+        0.70rem;
+
+    }
+
+
+    /* =====================================================
+       CONSOLE
+       ===================================================== */
+
+    #output {
+
+      min-height:
+        190px;
+
+      margin:
+        0;
+
+      padding:
+        22px;
+
+      overflow:
+        auto;
+
+      color:
+        #c7f7dd;
+
+      font-family:
+        "Source Code Pro",
+        monospace;
+
+      font-size:
+        0.9rem;
+
+      line-height:
+        1.7;
+
+      white-space:
+        pre-wrap;
+
+      border:
+
+        1px solid
+        rgba(82, 217, 154, 0.30);
+
+      border-radius:
+        15px;
+
+      background:
+        #06110e;
+
+    }
+
+
+    /* =====================================================
        PIED DE PAGE
-       ========================================================= */
+       ===================================================== */
 
     footer {
-      padding: 25px;
 
-      color: var(--gris);
-      font-size: 0.76rem;
-      text-align: center;
+      padding:
+        25px;
+
+      color:
+        var(--gris);
+
+      font-size:
+        0.72rem;
+
+      text-align:
+        center;
 
       border-top:
-        1px solid rgba(255, 255, 255, 0.07);
+
+        1px solid
+        var(--bordure);
+
     }
 
-    footer strong {
-      color: var(--blanc);
+
+    footer span {
+
+      color:
+        var(--rouge);
+
+      font-weight:
+        800;
+
     }
 
-    footer .lab {
-      color: var(--rouge);
-    }
 
-    /* =========================================================
-       RESPONSIVE
-       ========================================================= */
+    /* =====================================================
+       MOBILE
+       ===================================================== */
 
-    @media (max-width: 650px) {
+    @media (
+      max-width: 650px
+    ) {
 
-      .topbar {
-        min-height: 66px;
+      header {
+
+        padding:
+          0 15px;
+
       }
 
-      .logo-mark {
-        width: 40px;
-        height: 40px;
 
-        font-size: 1.1rem;
+      .python-badge span {
+
+        display:
+          none;
+
       }
 
-      .logo-text {
-        font-size: 1.15rem;
+
+      main {
+
+        padding:
+          45px 0;
+
       }
 
-      .badge-python {
-        padding: 7px 10px;
 
-        font-size: 0.65rem;
+      .python-lab {
+
+        padding:
+          18px;
+
       }
 
-      .badge-python span {
-        display: none;
+
+      .buttons {
+
+        flex-wrap:
+          wrap;
+
       }
 
-      h1 {
-        letter-spacing: -1px;
-      }
-
-      .actions {
-        flex-direction: column;
-        align-items: stretch;
-      }
 
       #run {
-        width: 100%;
+
+        width:
+          100%;
+
       }
 
-      .hint {
-        text-align: center;
+
+      #clear {
+
+        flex:
+          1;
+
       }
 
-      .code-content {
-        padding: 17px;
 
-        font-size: 0.78rem;
+      .shortcut {
+
+        width:
+          100%;
+
+        margin:
+          0;
+
+        text-align:
+          center;
+
       }
 
     }
@@ -650,233 +998,298 @@
 
 </head>
 
+
 <body>
-
-  <!-- =======================================================
-       EN-TÊTE MERMOZ LAB
-       ======================================================= -->
-
-  <header class="topbar">
-
-```
-<a
-  class="logo"
-  href="#"
-  aria-label="Accueil Mermoz Lab"
->
-
-  <div class="logo-mark">
-    <i class="fa-solid fa-flask"></i>
-  </div>
-
-  <div class="logo-text">
-    Mermoz <span class="lab">Lab</span>
-  </div>
-
-</a>
-
-<div class="badge-python">
-  <i class="fa-brands fa-python"></i>
-  <span>Python dans le navigateur</span>
-</div>
-```
-
-  </header>
-
-  <!-- =======================================================
-       CONTENU PRINCIPAL
-       ======================================================= -->
-
-  <main>
-
-```
-<section class="hero">
-
-  <div class="eyebrow">
-    <i class="fa-solid fa-code"></i>
-    Programmation
-  </div>
-
-  <h1>
-    Découvrir <span>Python</span><br>
-    avec Pyodide
-  </h1>
-
-  <p class="intro">
-    Écris, expérimente et exécute du code Python directement
-    dans ton navigateur. Aucun logiciel à installer.
-  </p>
-
-</section>
 
 
 <!-- =====================================================
-     LABORATOIRE PYTHON
+     EN-TÊTE
      ===================================================== -->
 
-<section
-  class="lab-card"
-  aria-labelledby="lab-title"
->
+<header>
 
-  <div class="card-header">
+  <div class="logo">
 
-    <div class="card-icon">
-      <i class="fa-brands fa-python"></i>
-    </div>
+    <div class="logo-icon">
 
-    <div>
-
-      <h2 id="lab-title">
-        PythonLab
-      </h2>
-
-      <p>
-        Exécution locale avec Pyodide
-      </p>
+      <i class="fa-solid fa-flask"></i>
 
     </div>
+
+    Mermoz <span>Lab</span>
 
   </div>
 
 
-  <!-- ÉDITEUR -->
+  <div class="python-badge">
 
-  <div class="editor-label">
-
-    <span>
-      <i class="fa-solid fa-file-code"></i>
-      Programme Python
-    </span>
+    <i class="fa-brands fa-python"></i>
 
     <span>
-      ● Prêt à exécuter
+      Python dans le navigateur
     </span>
 
   </div>
 
+</header>
 
-  <div class="code-window">
 
-    <div class="window-bar">
+<!-- =====================================================
+     CONTENU
+     ===================================================== -->
 
-      <div class="dots">
+<main>
 
-        <span class="dot red"></span>
-        <span class="dot yellow"></span>
-        <span class="dot green"></span>
+
+  <section class="hero">
+
+    <div class="badge">
+
+      <i class="fa-solid fa-code"></i>
+
+      PROGRAMMATION
+
+    </div>
+
+
+    <h1>
+
+      Découvrir
+      <span>Python</span>
+
+      <br>
+
+      avec Pyodide
+
+    </h1>
+
+
+    <p>
+
+      Écris ton programme dans l'éditeur,
+      puis exécute-le pour observer
+      le résultat dans la console.
+
+      <br>
+
+      Aucun logiciel à installer.
+
+    </p>
+
+  </section>
+
+
+  <!-- ===================================================
+       PYTHON LAB
+       =================================================== -->
+
+  <section class="python-lab">
+
+
+    <div class="lab-header">
+
+      <div class="lab-icon">
+
+        <i class="fa-brands fa-python"></i>
 
       </div>
 
-      <span class="file-name">
-        programme.py
+
+      <div>
+
+        <h2>
+
+          PythonLab
+
+        </h2>
+
+
+        <p>
+
+          Exécution locale avec Pyodide
+
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================================
+         ÉDITEUR
+         ================================================= -->
+
+    <div class="section-title">
+
+      <span>
+
+        <i class="fa-solid fa-file-code"></i>
+
+        Éditeur Python
+
+      </span>
+
+
+      <span class="ready">
+
+        ● Prêt à écrire
+
       </span>
 
     </div>
 
 
-    <div class="code-content"><span class="keyword">print</span>(<span class="string">"Bienvenue dans Mermoz Lab !"</span>)
-```
-
-<span class="keyword">for</span> nombre <span class="keyword">in</span> range(1, 6): <span class="function">print</span>(nombre)</div>
-
-```
-  </div>
+    <div class="editor">
 
 
-  <!-- ACTION -->
+      <div class="editor-bar">
 
-  <div class="actions">
+        <div class="dots">
 
-    <!--
-      IMPORTANT :
-      L'identifiant "run" est conservé
-      pour assurer la compatibilité avec app.js
-    -->
+          <span class="dot red"></span>
 
-    <button
-      id="run"
-      type="button"
-      aria-label="Exécuter le programme Python"
-    >
+          <span class="dot yellow"></span>
 
-      <i class="fa-solid fa-play"></i>
+          <span class="dot green"></span>
 
-      Exécuter le programme
-
-    </button>
+        </div>
 
 
-    <div class="hint">
+        <span class="filename">
 
-      <i class="fa-solid fa-bolt"></i>
+          programme.py
 
-      Python s'exécute directement
-      dans ton navigateur
+        </span>
+
+      </div>
+
+
+      <!-- ===============================================
+           ZONE MODIFIABLE
+           =============================================== -->
+
+      <textarea
+        id="code"
+        spellcheck="false"
+        aria-label="Éditeur de code Python"
+      >print("Bienvenue dans Mermoz Lab !")
+
+for nombre in range(1, 6):
+    print(nombre)</textarea>
+
 
     </div>
 
-  </div>
+
+    <!-- =================================================
+         BOUTONS
+         ================================================= -->
+
+    <div class="buttons">
 
 
-  <!-- CONSOLE -->
+      <button
+        id="run"
+        type="button"
+      >
 
-  <div class="output-title">
+        <i class="fa-solid fa-play"></i>
 
-    <i class="fa-solid fa-terminal"></i>
+        Exécuter le programme
 
-    Console Python
-
-  </div>
+      </button>
 
 
-  <!--
-    IMPORTANT :
-    L'identifiant "output" est conservé
-    pour assurer la compatibilité avec app.js
-  -->
+      <button
+        id="clear"
+        type="button"
+      >
 
-  <pre
-    id="output"
-    aria-live="polite"
-  >Prêt.</pre>
+        <i class="fa-solid fa-eraser"></i>
 
-</section>
-```
+        Effacer
 
-  </main>
+      </button>
 
-  <!-- =======================================================
-       PIED DE PAGE
-       ======================================================= -->
 
-  <footer>
+      <div class="shortcut">
 
-```
-<strong>
-  Mermoz <span class="lab">Lab</span>
-</strong>
+        <i class="fa-solid fa-keyboard"></i>
 
-— Le Lab : "Learn • Apply • Build" permet d'Apprendre • Mettre en pratique • Construire.
-```
+        Ctrl + Entrée
 
-  </footer>
+      </div>
 
-  <!-- =======================================================
-       PYODIDE
-       ======================================================= -->
 
-  <script src="./pyodide/pyodide.js"></script>
+    </div>
 
-  <!--
-    Le fichier app.js utilise les identifiants :
-    - run
-    - output
 
-    Ils sont conservés dans cette version.
-  -->
+    <!-- =================================================
+         CONSOLE
+         ================================================= -->
 
-  <script src="./pyodide/app.js"></script>
+    <div class="section-title">
+
+      <span>
+
+        <i class="fa-solid fa-terminal"></i>
+
+        Console Python
+
+      </span>
+
+
+      <span class="ready">
+
+        ● Résultat
+
+      </span>
+
+    </div>
+
+
+    <pre
+      id="output"
+      aria-live="polite"
+    >Prêt.</pre>
+
+
+  </section>
+
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+
+<footer>
+
+  <strong>
+
+    Mermoz <span>Lab</span>
+
+  </strong>
+
+  — “Learn • Apply • Build”
+
+  permet d’apprendre,
+  de mettre en pratique
+  et de construire.
+
+</footer>
+
+
+<!-- =====================================================
+     PYODIDE
+     ===================================================== -->
+
+<script src="./pyodide/pyodide.js"></script>
+
+<script src="./pyodide/app.js"></script>
+
 
 </body>
+
 </html>
