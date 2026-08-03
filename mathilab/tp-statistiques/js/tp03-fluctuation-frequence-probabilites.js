@@ -1,178 +1,754 @@
-/**
- * tp-statistiques/js/tp03-fluctuation-frequence-probabilites.js
- *
- * Contrôleur du TP S3 « Fluctuation d'une fréquence, probabilités ».
- * Chargé par navigation.js juste après l'injection du fragment
- * tp-statistiques/modules/tp03-fluctuation-frequence-probabilites.html
- * dans #content.
- */
+<!--
+  Fragment SPA chargé dynamiquement par navigation.js.
+  Tous les chemins sont relatifs à la racine du site.
+  Aucun <script> dans ce fragment.
+-->
 
-import { $, arrondir, initSections, initTabs } from '../../js/utils.js';
-import { initContextePro } from '../../js/contexte-pro.js';
-import FILIERES_PRO from '../../data/filieres.js';
-import { initRadarCompetences } from '../../js/radar.js';
-import { initImpressionCompteRendu } from './compte-rendu-statistiques.js';
-import { dessinerGraphiqueLigne } from '../../js/graphique.js';
-import { dessinerDiagrammeBarres } from '../../js/statistiques.js';
-import { simulerEchantillon, etendueFrequences } from '../../js/probabilites.js';
+<section>
 
-const CONTEXTES_PRO = {
+<header class="tp-header">
 
-  '2nde-remi': {
-    contexte: "Un atelier annonce un taux de pièces non conformes de p %. Sur un contrôle qualité portant sur un petit lot de pièces, la fréquence observée de pièces non conformes n'est presque jamais exactement égale à p.",
-    problematique: "Un contrôle sur un petit échantillon suffit-il pour juger de la qualité réelle d'une production ?",
-  },
+  <div class="tp-header-logo">
+    <div class="logo">
+      <span class="sci">Mathi</span><span class="Lab">Lab</span>
+    </div>
+  </div>
 
-  '2nde-gatl': {
-    contexte: "Un transporteur annonce un taux de retard de livraison de p %. Sur un échantillon de quelques commandes suivies, la fréquence de retard observée varie d'une semaine à l'autre.",
-    problematique: "Un suivi sur un petit nombre de livraisons suffit-il pour juger de la fiabilité réelle d'un transporteur ?",
-  },
+  <div class="tp-header-centre">
 
-  '2nde-mcc': {
-    contexte: "Un atelier de confection annonce un taux de pièces nécessitant une retouche de p %. Sur un contrôle qualité portant sur un petit lot de pièces confectionnées, la fréquence de retouches observée n'est presque jamais exactement égale à p.",
-    problematique: "Un contrôle sur un petit lot de pièces suffit-il pour juger de la qualité réelle d'une production textile ?",
-  },
+    <h1>Fluctuation d'une fréquence, probabilités</h1>
 
-};
+    <div class="tp-meta">
 
-export function init() {
+      <div class="tp-row">
+        <span class="tag">2nde</span>
+        <span class="tag">Statistique et probabilités</span>
+        <span class="tag">Simulation - </span><span class="tag">Fluctuation d'échantillonnage - </span><span class="tag">Probabilité simple</span>
+      </div>
 
-  initContextePro({
-    filieres: FILIERES_PRO,
-    contextes: CONTEXTES_PRO,
-  });
+    </div>
 
-  initFluctuationEchantillons();
-  initStabilisationN();
-  initArbreDenombrement();
+  </div>
 
-  initSections();
-  initTabs();
-  initRadarCompetences();
+  <div class="tp-header-numero">
+    <span class="tp-numero-txt">S3</span>
+  </div>
 
-  initImpressionCompteRendu({
-    titre: "Fluctuation d'une fréquence, probabilités",
-    tp: 'S3',
-  });
-}
+</header>
 
-// =================================================================
-// Onglet 1 — Fluctuation sur plusieurs échantillons de taille n
-// =================================================================
-function initFluctuationEchantillons() {
+<div class="progress">
+  <div id="bar"></div>
+</div>
 
-  const btnTirer = $('fl-tirer');
-  const btnReinit = $('fl-reinitialiser');
-  const inputP = $('fl-p');
-  const inputN = $('fl-n');
-  const tbody = $('fl-tbody');
+<main id="content">
 
-  if (!btnTirer || !tbody) return;
+<div class="section" data-type="objectif">
 
-  let echantillons = [];
+  <div class="section-titre">
+    <div class="picto-section">🎯</div>
+    <h2>Capacités évaluées</h2>
+    <span class="chevron">▼</span>
+  </div>
 
-  btnTirer.addEventListener('click', () => {
+  <div class="section-corps">
 
-    const p = parseFloat(inputP.value) / 100;
-    const n = parseInt(inputN.value, 10);
+    <ul>
+      <li>Expérimenter pour observer la fluctuation des fréquences (jets de dés, lancers de pièces, contrôles qualité...).</li>
+      <li>Réaliser une simulation informatique de prise d'échantillons aléatoires de taille n, extraits d'une population où la fréquence p relative à un caractère est connue.</li>
+      <li>Déterminer l'étendue des fréquences d'une série d'échantillons de taille n fixée.</li>
+      <li>Estimer la probabilité d'un événement à partir des fréquences ; observer la stabilisation relative des fréquences vers la probabilité de l'événement quand n augmente.</li>
+      <li>Calculer la probabilité d'un événement dans le cas d'une situation aléatoire simple ; dénombrer à l'aide de tableaux à double entrée ou d'arbres.</li>
+      <li><em>Domaine transversal — Co-intervention :</em> le vocabulaire « effectif », « fréquence », « échantillon » réinvestit exactement celui déjà rencontré dans les séries statistiques des TP S1 et S2.</li>
+    </ul>
 
-    if (Number.isNaN(p) || p <= 0 || p >= 1 || Number.isNaN(n) || n < 1) return;
+  </div>
 
-    echantillons.push(simulerEchantillon(n, p));
-    redessiner();
-  });
+</div>
 
-  btnReinit.addEventListener('click', () => {
-    echantillons = [];
-    redessiner();
-  });
+<div class="section" data-type="contexte-pro">
 
-  function redessiner() {
+  <div class="section-titre">
+    <div class="picto-section">🏭</div>
+    <h2>Contexte professionnel</h2>
+    <span class="chevron">▼</span>
+  </div>
 
-    tbody.innerHTML = echantillons
-      .map((e, i) => `<tr><td>Essai ${i + 1}</td><td>${e.effectifSucces}</td><td>${arrondir(e.frequence, 3)}</td></tr>`)
-      .join('');
+  <div class="section-corps">
 
-    const donneesBarres = echantillons.map((e, i) => ({
-      label: `E${i + 1}`,
-      effectif: Math.round(e.frequence * 100),
-    }));
+    <div class="info">
+      Sur une chaîne de production ou dans un service logistique, on
+      connaît souvent une probabilité globale (taux de pièces non
+      conformes, taux de retard de livraison) mais chaque contrôle
+      réalisé sur un petit échantillon donne une fréquence qui varie
+      d'un contrôle à l'autre. Simuler nombre de tirages permet de
+      comprendre ce phénomène de fluctuation.
+    </div>
 
-    dessinerDiagrammeBarres('fl-barres', donneesBarres, { yLabel: 'Fréquence (%)' });
+    <div class="filiere-select-bloc">
+      <label for="select-filiere-pro">Votre filière professionnelle :</label>
+      <select id="select-filiere-pro">
+        <option value="">-- Sélectionner une filière --</option>
+      </select>
+    </div>
 
-    const zoneEtendue = $('fl-etendue');
-    if (echantillons.length < 2) {
-      zoneEtendue.textContent = 'Tirer au moins deux échantillons pour calculer l\'étendue des fréquences.';
-    } else {
-      const etendue = etendueFrequences(echantillons.map(e => e.frequence));
-      zoneEtendue.innerHTML = `<strong>Étendue des fréquences observées : ${arrondir(etendue, 3)}</strong>`;
-    }
-  }
-}
+    <div id="contexte-pro-resultat" class="contexte-pro-resultat">
+      <p>Sélectionner votre filière professionnelle pour afficher le contexte et la problématique associée.</p>
+    </div>
 
-// =================================================================
-// Onglet 2 — Stabilisation quand n augmente
-// =================================================================
-function initStabilisationN() {
+  </div>
 
-  const btnAugmenter = $('st-augmenter');
-  const btnReinit = $('st-reinitialiser');
-  const inputP = $('st-p');
+</div>
 
-  if (!btnAugmenter) return;
+<div class="section" data-type="preparation">
 
-  let n = 5;
-  let points = [];
+  <div class="section-titre">
+    <div class="picto-section">📊</div>
+    <h2>Activités</h2>
+    <span class="chevron">▼</span>
+  </div>
 
-  btnAugmenter.addEventListener('click', () => {
+  <div class="section-corps">
 
-    const p = parseFloat(inputP.value) / 100;
-    if (Number.isNaN(p) || p <= 0 || p >= 1) return;
+    <div class="toolbar">
+      <a class="btn btn-secondaire" href="../../numworks/emulator.html" target="_blank" rel="noopener">
+        🧮 Ouvrir la calculatrice NumWorks
+      </a>
+    </div>
 
-    n *= 2;
-    const echantillon = simulerEchantillon(n, p);
-    points.push({ x: n, y: echantillon.frequence });
+    <div class="tabs-container">
 
-    dessinerGraphiqueLigne('st-graphique', points, { xLabel: 'Taille de l\'échantillon n', yLabel: 'Fréquence' });
-  });
+      <div class="tabs-header">
+        <button class="tab-btn actif" data-tab="fluctuation-echantillons">Observer la fluctuation d'une fréquence</button>
+        <button class="tab-btn" data-tab="stabilisation-n">Stabilisation quand n augmente</button>
+        <button class="tab-btn" data-tab="arbre-denombrement">Dénombrer avec un arbre</button>
+      </div>
 
-  btnReinit.addEventListener('click', () => {
-    n = 5;
-    points = [];
-    $('st-graphique').innerHTML = '';
-  });
-}
+      <!-- ============================================= -->
+      <!-- FLUCTUATION SUR PLUSIEURS ÉCHANTILLONS         -->
+      <!-- ============================================= -->
 
-// =================================================================
-// Onglet 3 — Arbre à deux niveaux
-// =================================================================
-function initArbreDenombrement() {
+      <div class="tab-panel actif" id="fluctuation-echantillons">
 
-  const btnCalculer = $('ar-calculer');
-  const inputP = $('ar-p');
-  const tbody = $('ar-tbody');
+        <h3>Fluctuation de la fréquence sur des échantillons de même taille</h3>
 
-  if (!btnCalculer || !tbody) return;
+        <div class="info">
+          On connaît une probabilité p (par exemple le taux de pièces
+          non conformes annoncé par l'atelier). Tirer plusieurs
+          échantillons de même taille n et observer que la fréquence
+          obtenue varie d'un échantillon à l'autre, autour de p.
+        </div>
 
-  btnCalculer.addEventListener('click', () => {
+        <div class="form-row">
 
-    const p = parseFloat(inputP.value) / 100;
-    if (Number.isNaN(p) || p <= 0 || p >= 1) return;
+          <div class="form-group">
+            <label for="fl-p">Probabilité p (en %)</label>
+            <input id="fl-p" type="number" step="1" min="1" max="99" value="10">
+          </div>
 
-    const q = 1 - p;
+          <div class="form-group">
+            <label for="fl-n">Taille de l'échantillon n</label>
+            <input id="fl-n" type="number" step="1" min="5" max="500" value="20">
+          </div>
 
-    const chemins = [
-      { c1: 'Succès', c2: 'Succès', proba: p * p },
-      { c1: 'Succès', c2: 'Échec', proba: p * q },
-      { c1: 'Échec', c2: 'Succès', proba: q * p },
-      { c1: 'Échec', c2: 'Échec', proba: q * q },
-    ];
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button id="fl-tirer" type="button" class="btn btn-primaire">
+              🎲 Tirer un échantillon
+            </button>
+          </div>
 
-    tbody.innerHTML = chemins
-      .map(c => `<tr><td>${c.c1}</td><td>${c.c2}</td><td>${c.c1} puis ${c.c2}</td><td>${arrondir(c.proba, 4)}</td></tr>`)
-      .join('');
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button id="fl-reinitialiser" type="button" class="btn btn-secondaire">
+              ↺ Recommencer
+            </button>
+          </div>
 
-    const somme = chemins.reduce((s, c) => s + c.proba, 0);
-    $('ar-verification').innerHTML = `<strong>Somme des 4 probabilités : ${arrondir(somme, 4)} (doit valoir 1)</strong>`;
-  });
-}
+        </div>
+
+        <div class="table-responsive">
+          <table class="tableau-resultats">
+            <thead>
+              <tr>
+                <th>Essai</th>
+                <th>Effectif de succès</th>
+                <th>Fréquence observée</th>
+              </tr>
+            </thead>
+            <tbody id="fl-tbody">
+            </tbody>
+          </table>
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Fréquences observées (diagramme en bâtons)</h4>
+
+        <div id="fl-barres"></div>
+
+        <div id="fl-etendue" class="resultat-calcul"></div>
+
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+
+        <ol class="etapes">
+          <li>Choisir une probabilité p correspondant à une situation professionnelle connue (taux de non-conformité, taux de retard...).</li>
+          <li>Choisir une taille d'échantillon n et tirer au moins 8 échantillons.</li>
+          <li>Comparer les fréquences obtenues : sont-elles toutes égales à p ?</li>
+          <li>Déterminer l'étendue de la série des fréquences observées.</li>
+        </ol>
+
+      </div>
+
+      <!-- ============================================= -->
+      <!-- STABILISATION QUAND N AUGMENTE                -->
+      <!-- ============================================= -->
+
+      <div class="tab-panel" id="stabilisation-n">
+
+        <h3>Stabilisation de la fréquence quand n augmente</h3>
+
+        <div class="info">
+          Avec la même probabilité p, simuler un échantillon de plus
+          en plus grand et observer que la fréquence obtenue se
+          rapproche de p au fur et à mesure que n augmente.
+        </div>
+
+        <div class="form-row">
+
+          <div class="form-group">
+            <label for="st-p">Probabilité p (en %)</label>
+            <input id="st-p" type="number" step="1" min="1" max="99" value="10">
+          </div>
+
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button id="st-augmenter" type="button" class="btn btn-primaire">
+              📈 Simuler un échantillon plus grand
+            </button>
+          </div>
+
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button id="st-reinitialiser" type="button" class="btn btn-secondaire">
+              ↺ Recommencer
+            </button>
+          </div>
+
+        </div>
+
+        <div class="info" id="st-info">
+          Cliquer sur « Simuler un échantillon plus grand » : chaque
+          clic double la taille de l'échantillon (10, puis 20, 40,
+          80...) et affiche la nouvelle fréquence observée.
+        </div>
+
+        <div id="st-graphique"></div>
+
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+
+        <ol class="etapes">
+          <li>Fixer une probabilité p.</li>
+          <li>Simuler successivement des échantillons de taille croissante (au moins 6 clics).</li>
+          <li>Observer sur le graphique comment la fréquence évolue lorsque n devient grand.</li>
+        </ol>
+
+      </div>
+
+      <!-- ============================================= -->
+      <!-- ARBRE / TABLEAU DE DÉNOMBREMENT                -->
+      <!-- ============================================= -->
+
+      <div class="tab-panel" id="arbre-denombrement">
+
+        <h3>Dénombrer à l'aide d'un arbre à deux niveaux</h3>
+
+        <div class="info">
+          Deux contrôles successifs et indépendants sont réalisés (par
+          exemple deux pièces prélevées l'une après l'autre, avec
+          remise). Chaque contrôle a deux issues possibles : succès
+          (probabilité p) ou échec (probabilité 1 − p). L'arbre
+          ci-dessous liste les quatre chemins possibles et leur
+          probabilité, obtenue en multipliant les probabilités le long
+          du chemin.
+        </div>
+
+        <div class="form-row">
+
+          <div class="form-group">
+            <label for="ar-p">Probabilité p de succès (en %)</label>
+            <input id="ar-p" type="number" step="1" min="1" max="99" value="10">
+          </div>
+
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button id="ar-calculer" type="button" class="btn btn-primaire">
+              🌳 Construire l'arbre
+            </button>
+          </div>
+
+        </div>
+
+        <div class="table-responsive">
+          <table class="tableau-resultats">
+            <thead>
+              <tr>
+                <th>1er contrôle</th>
+                <th>2ᵉ contrôle</th>
+                <th>Chemin</th>
+                <th>Probabilité</th>
+              </tr>
+            </thead>
+            <tbody id="ar-tbody">
+              <tr><td colspan="4">Renseigner p puis cliquer sur « Construire l'arbre ».</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="ar-verification" class="resultat-calcul"></div>
+
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+
+        <ol class="etapes">
+          <li>Choisir une probabilité p correspondant à votre filière.</li>
+          <li>Lire dans le tableau la probabilité de chacun des 4 chemins possibles.</li>
+          <li>Vérifier que la somme des 4 probabilités vaut 1 (l'univers est certain).</li>
+          <li>En déduire la probabilité d'obtenir exactement un succès sur les deux contrôles.</li>
+        </ol>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="resultats">
+
+  <div class="section-titre">
+    <div class="picto-section">📋</div>
+    <h2>Tableau de résultats</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="table-responsive">
+
+      <table class="tableau-resultats">
+
+        <thead>
+          <tr>
+            <th>Grandeur</th>
+            <th>Résultat</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td>Étendue des fréquences observées (taille n fixée)</td>
+            <td><input type="text" placeholder="ex. 0,05"></td>
+          </tr>
+
+          <tr>
+            <td>Fréquence observée pour le plus grand échantillon simulé</td>
+            <td><input type="text" placeholder="fréquence"></td>
+          </tr>
+
+          <tr>
+            <td>Probabilité d'exactement un succès sur deux contrôles</td>
+            <td><input type="text" placeholder="probabilité"></td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="lien-metiers">
+
+  <div class="section-titre">
+    <div class="picto-section">🔗</div>
+    <h2>Mathématiques et sciences : un même langage</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p>
+      Le vocabulaire de ce TP prolonge directement celui des TP S1 et
+      S2 : un échantillon simulé est une série statistique, sa
+      fréquence observée s'obtient exactement comme les effectifs et
+      fréquences déjà calculés en sciences.
+    </p>
+
+    <ul style="padding-left:1.5rem;line-height:2">
+      <li>En sciences, une mesure répétée plusieurs fois donne des valeurs qui fluctuent autour d'une valeur « vraie » : c'est le même phénomène que la fluctuation d'échantillonnage étudiée ici.</li>
+      <li>Plus un échantillon (ou une série de mesures) est grand, plus le résultat observé se stabilise : c'est vrai pour une fréquence comme pour une moyenne de mesures.</li>
+      <li>Dans un métier, décider si un taux de non-conformité ou de retard est normal suppose de savoir qu'un échantillon, même bien choisi, ne donne jamais exactement la vraie probabilité.</li>
+    </ul>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="puzzle">
+
+  <div class="section-titre">
+    <div class="picto-section">🧩</div>
+    <h2>Activités Puzzle</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="info">
+      Organisation en <strong>classe puzzle</strong> : chaque groupe
+      expert calcule une fréquence dans un contexte professionnel
+      différent, puis les groupes puzzle mélangés comparent les
+      démarches. <em>Fiches à adapter avec vos propres relevés de
+      classe si vous en disposez (contrôle qualité réel, données
+      d'atelier...).</em>
+    </div>
+
+    <div class="toolbar">
+      <a class="btn btn-secondaire" href="../../roue/index.html" target="_blank" rel="noopener">
+        🎡 Ouvrir la roue (tirage des groupes)
+      </a>
+    </div>
+
+    <div class="fiche-puzzle" data-titre="REMI — pièces non conformes">
+
+      <h3>Fiche A — REMI : pièces non conformes</h3>
+
+      <p>Un atelier annonce un taux de pièces non conformes de 8 %. Sur un contrôle qualité, 4 pièces sur 50 prélevées se révèlent non conformes.</p>
+
+      <ol>
+        <li>Calculer la fréquence de pièces non conformes observée sur cet échantillon.</li>
+        <li>Comparer cette fréquence au taux annoncé de 8 %. Cet écart est-il surprenant ?</li>
+      </ol>
+
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+
+      <div class="zone-eleve">
+        <textarea rows="6" placeholder="Réponses du groupe expert : fréquence calculée, comparaison au taux annoncé..."></textarea>
+      </div>
+
+    </div>
+
+    <div class="fiche-puzzle" data-titre="GATL — retards de livraison">
+
+      <h3>Fiche B — GATL : retards de livraison</h3>
+
+      <p>Un transporteur annonce un taux de retard de 10 %. Sur un suivi de 40 livraisons, 6 sont arrivées en retard.</p>
+
+      <ol>
+        <li>Calculer la fréquence de retard observée sur ce suivi.</li>
+        <li>Comparer cette fréquence au taux annoncé de 10 %. Cet écart est-il surprenant ?</li>
+      </ol>
+
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+
+      <div class="zone-eleve">
+        <textarea rows="6" placeholder="Réponses du groupe expert : fréquence calculée, comparaison au taux annoncé..."></textarea>
+      </div>
+
+    </div>
+
+    <div class="fiche-puzzle" data-titre="MCC — retouches">
+
+      <h3>Fiche C — MCC : pièces nécessitant une retouche</h3>
+
+      <p>Un atelier de confection annonce un taux de retouche de 15 %. Sur un contrôle de 60 pièces confectionnées, 9 nécessitent une retouche.</p>
+
+      <ol>
+        <li>Calculer la fréquence de retouche observée sur ce contrôle.</li>
+        <li>Comparer cette fréquence au taux annoncé de 15 %. Cet écart est-il surprenant ?</li>
+      </ol>
+
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+
+      <div class="zone-eleve">
+        <textarea rows="6" placeholder="Réponses du groupe expert : fréquence calculée, comparaison au taux annoncé..."></textarea>
+      </div>
+
+    </div>
+
+    <h3 style="margin-top:var(--gap-lg);">Synthèse puzzle (séance 2)</h3>
+
+    <div class="info">
+      En groupe mélangé, comparer les trois écarts entre fréquence
+      observée et taux annoncé. Le phénomène observé (fluctuation
+      d'échantillonnage) est-il le même dans les trois filières,
+      malgré des contextes différents ?
+    </div>
+
+    <div class="zone-eleve">
+      <textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs entre les trois contextes..."></textarea>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="bilan">
+
+  <div class="section-titre">
+    <div class="picto-section">📝</div>
+    <h2>Trace écrite - Compte rendu</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <h3>Identification</h3>
+
+    <div class="form-row">
+
+      <div class="form-group">
+        <label for="nom-eleve">Nom</label>
+        <input id="nom-eleve" type="text" placeholder="Nom">
+      </div>
+
+      <div class="form-group">
+        <label for="prenom-eleve">Prénom</label>
+        <input id="prenom-eleve" type="text" placeholder="Prénom">
+      </div>
+
+      <div class="form-group">
+        <label for="classe-eleve">Classe</label>
+        <input id="classe-eleve" type="text" placeholder="Classe">
+      </div>
+
+      <div class="form-group">
+        <label for="date-eleve">Date</label>
+        <input id="date-eleve" type="date">
+      </div>
+
+    </div>
+
+    <h3 style="margin-top:var(--gap-md);">Résumé du TD</h3>
+
+    <div class="zone-eleve">
+      <textarea id="resume-tp" rows="6" placeholder="Résumer la fluctuation observée et la stabilisation de la fréquence..."></textarea>
+    </div>
+
+    <h3 style="margin-top:var(--gap-md);">Questions</h3>
+
+    <div class="questions-bloc" data-tp="fluctuation-frequence-probabilites">
+
+    <ol class="questions-tp">
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Définir les mots « expérience aléatoire », « issue », « événement » et « probabilité ».
+          </strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question1" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Donner l'étendue des fréquences obtenues sur vos échantillons de taille n fixée, et la probabilité d'exactement un succès sur deux contrôles (arbre).
+          </strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question2" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Expliquer, à partir du graphique de stabilisation, pourquoi une fréquence observée sur un petit échantillon peut être trompeuse.
+          </strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question3" rows="5" placeholder="Votre analyse..."></textarea>
+        </div>
+      </li>
+
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique posée en début de TD :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="fluctuation-frequence-probabilites"></p>
+        <div class="zone-eleve">
+          <textarea id="question4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea>
+        </div>
+      </li>
+
+    </ol>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="auto-evaluation">
+
+  <div class="section-titre">
+    <div class="picto-section">📡</div>
+    <h2>Auto-évaluation des compétences</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p class="info">
+      À la fin du TD, évaluez votre niveau de maîtrise pour chaque
+      compétence.
+    </p>
+
+    <div class="table-responsive">
+
+      <table class="tableau-resultats autoeval-table">
+
+        <thead>
+          <tr>
+            <th>Domaine</th>
+            <th>Sigle</th>
+            <th>Je suis capable de...</th>
+            <th>0</th>
+            <th>1</th>
+            <th>2</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr data-comp="APP">
+            <td>S'approprier</td>
+            <td>APP</td>
+            <td>Utiliser le vocabulaire des probabilités (issue, événement, univers).</td>
+            <td><input type="radio" name="APP" value="0"></td>
+            <td><input type="radio" name="APP" value="1"></td>
+            <td><input type="radio" name="APP" value="2"></td>
+          </tr>
+
+          <tr data-comp="REA">
+            <td>Réaliser</td>
+            <td>REA</td>
+            <td>Simuler un échantillon et calculer une fréquence, une étendue de fréquences.</td>
+            <td><input type="radio" name="REA" value="0"></td>
+            <td><input type="radio" name="REA" value="1"></td>
+            <td><input type="radio" name="REA" value="2"></td>
+          </tr>
+
+          <tr data-comp="ANA">
+            <td>Analyser / Raisonner</td>
+            <td>ANA</td>
+            <td>Interpréter la stabilisation d'une fréquence quand n augmente.</td>
+            <td><input type="radio" name="ANA" value="0"></td>
+            <td><input type="radio" name="ANA" value="1"></td>
+            <td><input type="radio" name="ANA" value="2"></td>
+          </tr>
+
+          <tr data-comp="VAL">
+            <td>Valider</td>
+            <td>VAL</td>
+            <td>Calculer une probabilité simple à l'aide d'un arbre ou d'un tableau.</td>
+            <td><input type="radio" name="VAL" value="0"></td>
+            <td><input type="radio" name="VAL" value="1"></td>
+            <td><input type="radio" name="VAL" value="2"></td>
+          </tr>
+
+          <tr data-comp="COM">
+            <td>Communiquer</td>
+            <td>COM</td>
+            <td>Expliquer avec esprit critique un résultat issu d'une simulation aléatoire.</td>
+            <td><input type="radio" name="COM" value="0"></td>
+            <td><input type="radio" name="COM" value="1"></td>
+            <td><input type="radio" name="COM" value="2"></td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <div class="radar-actions" style="margin-top:var(--gap-lg);">
+      <button id="btn-radar" class="btn btn-primaire">
+        📊 Générer mon radar de compétences
+      </button>
+      <div id="radar-resultat" style="margin-top:var(--gap-md);"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="impression_tp">
+
+  <div class="section-titre">
+    <div class="picto-section">📒</div>
+    <h2>Impression du compte-rendu</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p class="info">
+      À la fin du TD, imprimer votre travail en PDF.
+      Envoyer à l'enseignant votre compte rendu en pièce jointe par la messagerie de l'ENT.
+    </p>
+
+    <div class="toolbar">
+      <button id="btn-imprimer" class="btn btn-primaire">
+        🖨 Imprimer le compte-rendu
+      </button>
+    </div>
+
+    <div class="info" style="margin-top:var(--gap-md);">
+      L'impression récupère automatiquement :
+      <ul>
+        <li>le tableau de résultats ;</li>
+        <li>les réponses aux questions ;</li>
+        <li>l'auto-évaluation des compétences.</li>
+      </ul>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="nav-tp">
+
+  <button class="btn btn-secondaire" onclick="loadTP('tp02-comparer-des-series-statistiques')">
+    ← S2
+  </button>
+
+  <button class="btn btn-secondaire" onclick="location.href='../index.html'">
+    🏠 Accueil
+  </button>
+
+</div>
+
+</main>
+
+<div id="cr-print-container" style="display:none;"></div>
+
+</section>
