@@ -12,8 +12,6 @@ import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-statistiques.js';
-import { initMateriel } from '../../js/materiel.js';
-import laboratoryEquipment from '../../data/equipment.js';
 import { indicateursCompletes, mode, dessinerBoiteMoustaches } from '../../js/statistiques.js';
 
 const CONTEXTES_PRO = {
@@ -36,12 +34,6 @@ const CONTEXTES_PRO = {
 };
 
 export function init() {
-
-  initMateriel({
-    equipementId: 'materiel-equipements',
-    equipment: laboratoryEquipment,
-    categorie: 'Statistiques',
-  });
 
   initContextePro({
     filieres: FILIERES_PRO,
