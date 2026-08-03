@@ -1,1627 +1,496 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="fr">
 
 <head>
 
-  <meta charset="utf-8">
+```
+<meta charset="UTF-8">
 
-  <meta
+<meta
     name="viewport"
-    content="width=device-width, initial-scale=1"
-  >
+    content="width=device-width, initial-scale=1.0"
+>
 
-  <title>PyLab</title>
+<title>PyLab — Python dans le navigateur</title>
 
+<!-- Font Awesome -->
 
-  <!-- =====================================================
-       POLICES
-       ===================================================== -->
-
-  <link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
-  >
-
-  <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
-  >
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&family=Source+Code+Pro:wght@400;500;600&display=swap"
-    rel="stylesheet"
-  >
-
-
-  <!-- =====================================================
-       FONT AWESOME
-       ===================================================== -->
-
-  <link
+<link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-  >
-
-
-  <style>
-
-    /* =====================================================
-       MERMOZ LAB — VARIABLES
-       ===================================================== */
-
-    :root {
-
-      --fond:
-        #09111d;
-
-      --fond-secondaire:
-        #101a29;
-
-      --fond-code:
-        #070b12;
-
-      --blanc:
-        #f4f6f8;
-
-      --gris:
-        #9da8b8;
-
-      --gris-clair:
-        #d8dee8;
-
-      --rouge:
-        #ef4554;
-
-      --rouge-fonce:
-        #c92338;
-
-      --cyan:
-        #38d7e8;
-
-      --vert:
-        #52d99a;
-
-      --orange:
-        #ffbd2e;
-
-      --bordure:
-        rgba(255, 255, 255, 0.10);
-
-    }
-
-
-    /* =====================================================
-       BASE
-       ===================================================== */
-
-    * {
-
-      box-sizing:
-        border-box;
-
-    }
-
-
-    html {
-
-      scroll-behavior:
-        smooth;
-
-    }
-
-
-    body {
-
-      min-height:
-        100vh;
-
-      margin:
-        0;
-
-      color:
-        var(--blanc);
-
-      font-family:
-        "Lexend",
-        Arial,
-        sans-serif;
-
-      background:
-
-        linear-gradient(
-          rgba(66, 94, 128, 0.08) 1px,
-          transparent 1px
-        ),
-
-        linear-gradient(
-          90deg,
-          rgba(66, 94, 128, 0.08) 1px,
-          transparent 1px
-        ),
-
-        var(--fond);
-
-      background-size:
-        32px 32px;
-
-    }
-
-
-    /* =====================================================
-       EN-TÊTE
-       ===================================================== */
-
-    header {
-
-      min-height:
-        70px;
-
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      justify-content:
-        space-between;
-
-      gap:
-        20px;
-
-      padding:
-        0 28px;
-
-      border-top:
-        3px solid var(--cyan);
-
-      border-bottom:
-        1px solid var(--bordure);
-
-      background:
-        rgba(8, 15, 25, 0.96);
-
-      backdrop-filter:
-        blur(12px);
-
-    }
-
-
-    .logo {
-
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      gap:
-        12px;
-
-      color:
-        var(--blanc);
-
-      font-size:
-        1.25rem;
-
-      font-weight:
-        800;
-
-      text-decoration:
-        none;
-
-    }
-
-
-    .logo-icon {
-
-      width:
-        42px;
-
-      height:
-        42px;
-
-      display:
-        grid;
-
-      place-items:
-        center;
-
-      color:
-        white;
-
-      border-radius:
-        12px;
-
-      background:
-
-        linear-gradient(
-          135deg,
-          var(--rouge),
-          #a9102a
-        );
-
-      box-shadow:
-
-        0 7px 22px
-        rgba(239, 69, 84, 0.35);
-
-    }
-
-
-    .logo .lab {
-
-      color:
-        var(--rouge);
-
-    }
-
-
-    .python-badge {
-
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      gap:
-        8px;
-
-      padding:
-        8px 15px;
-
-      color:
-        var(--cyan);
-
-      font-size:
-        0.72rem;
-
-      font-weight:
-        700;
-
-      white-space:
-        nowrap;
-
-      border:
-
-        1px solid
-        rgba(56, 215, 232, 0.30);
-
-      border-radius:
-        30px;
-
-      background:
-        rgba(56, 215, 232, 0.05);
-
-    }
-
-
-    /* =====================================================
-       CONTENU PRINCIPAL
-       ===================================================== */
-
-    main {
-
-      width:
-        min(
-          1100px,
-          calc(100% - 32px)
-        );
-
-      margin:
-        auto;
-
-      padding:
-        70px 0;
-
-    }
-
-
-    /* =====================================================
-       PRÉSENTATION
-       ===================================================== */
-
-    .hero {
-
-      text-align:
-        center;
-
-      margin-bottom:
-        40px;
-
-    }
-
-
-    .badge {
-
-      display:
-        inline-flex;
-
-      align-items:
-        center;
-
-      gap:
-        8px;
-
-      padding:
-        8px 15px;
-
-      color:
-        var(--cyan);
-
-      font-size:
-        0.72rem;
-
-      font-weight:
-        800;
-
-      letter-spacing:
-        1.5px;
-
-      border:
-
-        1px solid
-        rgba(56, 215, 232, 0.25);
-
-      border-radius:
-        30px;
-
-      background:
-        rgba(56, 215, 232, 0.06);
-
-    }
-
-
-    h1 {
-
-      margin:
-        20px 0;
-
-      font-size:
-        clamp(
-          2.7rem,
-          7vw,
-          5rem
-        );
-
-      line-height:
-        1.05;
-
-      letter-spacing:
-        -2px;
-
-    }
-
-
-    h1 span {
-
-      color:
-        var(--rouge);
-
-    }
-
-
-    .hero p {
-
-      max-width:
-        680px;
-
-      margin:
-        auto;
-
-      color:
-        var(--gris-clair);
-
-      font-size:
-        1rem;
-
-      line-height:
-        1.8;
-
-    }
-
-
-    /* =====================================================
-       LABORATOIRE PYTHON
-       ===================================================== */
-
-    .python-lab {
-
-      padding:
-        28px;
-
-      border:
-
-        1px solid
-        var(--bordure);
-
-      border-top:
-
-        2px solid
-        var(--cyan);
-
-      border-radius:
-        22px;
-
-      background:
-
-        linear-gradient(
-          145deg,
-          #172231,
-          #0c1420
-        );
-
-      box-shadow:
-
-        0 25px 70px
-        rgba(0, 0, 0, 0.35);
-
-    }
-
-
-    .lab-header {
-
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      gap:
-        15px;
-
-      margin-bottom:
-        25px;
-
-    }
-
-
-    .lab-icon {
-
-      width:
-        55px;
-
-      height:
-        55px;
-
-      flex:
-        0 0 55px;
-
-      display:
-        grid;
-
-      place-items:
-        center;
-
-      color:
-        var(--cyan);
-
-      font-size:
-        1.5rem;
-
-      border-radius:
-        16px;
-
-      background:
-        rgba(56, 215, 232, 0.10);
-
-      border:
-
-        1px solid
-        rgba(56, 215, 232, 0.15);
-
-    }
-
-
-    .lab-header h2 {
-
-      margin:
-        0;
-
-      font-size:
-        1.45rem;
-
-    }
-
-
-    .lab-header p {
-
-      margin:
-        5px 0 0;
-
-      color:
-        var(--gris);
-
-      font-size:
-        0.75rem;
-
-    }
-
-
-    /* =====================================================
-       TITRES DES ZONES
-       ===================================================== */
-
-    .section-title {
-
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      justify-content:
-        space-between;
-
-      gap:
-        15px;
-
-      margin:
-        25px 0 10px;
-
-      color:
-        var(--gris-clair);
-
-      font-size:
-        0.78rem;
-
-      font-weight:
-        700;
-
-    }
-
-
-    /* =====================================================
-       STATUT UTILISÉ PAR APP.JS
-       ===================================================== */
-
-    #status {
-
-      color:
-        var(--vert);
-
-      font-size:
-        0.70rem;
-
-      font-weight:
-        700;
-
-    }
-
-
-    #status::before {
-
-      content:
-        "●";
-
-      margin-right:
-        6px;
-
-    }
-
-
-    /* =====================================================
-       ÉDITEUR
-       ===================================================== */
-
-    .editor {
-
-      overflow:
-        hidden;
-
-      border:
-
-        1px solid
-        #26384e;
-
-      border-radius:
-        15px;
-
-      background:
-        var(--fond-code);
-
-    }
-
-
-    .editor-bar {
-
-      height:
-        42px;
-
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      padding:
-        0 15px;
-
-      border-bottom:
-
-        1px solid
-        #202d3e;
-
-      background:
-        #111a27;
-
-    }
-
-
-    .dots {
-
-      display:
-        flex;
-
-      gap:
-        7px;
-
-    }
-
-
-    .dot {
-
-      width:
-        9px;
-
-      height:
-        9px;
-
-      border-radius:
-        50%;
-
-    }
-
-
-    .dot-red {
-
-      background:
-        #ff5f57;
-
-    }
-
-
-    .dot-yellow {
-
-      background:
-        #ffbd2e;
-
-    }
-
-
-    .dot-green {
-
-      background:
-        #28c840;
-
-    }
-
-
-    .filename {
-
-      margin-left:
-        15px;
-
-      color:
-        var(--gris);
-
-      font-family:
-        "Source Code Pro",
-        monospace;
-
-      font-size:
-        0.72rem;
-
-    }
-
-
-    /* =====================================================
-       ZONE D'ÉCRITURE PYTHON
-       ===================================================== */
-
-    #code {
-
-      display:
-        block;
-
-      width:
-        100%;
-
-      min-height:
-        280px;
-
-      padding:
-        22px;
-
-      resize:
-        vertical;
-
-      color:
-        #e7edf5;
-
-      caret-color:
-        var(--cyan);
-
-      font-family:
-        "Source Code Pro",
-        Consolas,
-        monospace;
-
-      font-size:
-        0.95rem;
-
-      line-height:
-        1.8;
-
-      border:
-        none;
-
-      outline:
-        none;
-
-      background:
-        transparent;
-
-      tab-size:
-        4;
-
-    }
-
-
-    #code::selection {
-
-      color:
-        white;
-
-      background:
-        rgba(56, 215, 232, 0.25);
-
-    }
-
-
-    #code:focus {
-
-      background:
-        rgba(56, 215, 232, 0.02);
-
-    }
-
-
-    /* =====================================================
-       BOUTONS
-       ===================================================== */
-
-    .buttons {
-
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      gap:
-        14px;
-
-      margin:
-        22px 0;
-
-    }
-
-
-    button {
-
-      min-height:
-        52px;
-
-      display:
-        inline-flex;
-
-      align-items:
-        center;
-
-      justify-content:
-        center;
-
-      gap:
-        9px;
-
-      padding:
-        0 24px;
-
-      color:
-        white;
-
-      font-family:
-        "Lexend",
-        sans-serif;
-
-      font-size:
-        0.82rem;
-
-      font-weight:
-        700;
-
-      cursor:
-        pointer;
-
-      border:
-        none;
-
-      border-radius:
-        13px;
-
-      transition:
-
-        transform 0.2s ease,
-
-        filter 0.2s ease,
-
-        border-color 0.2s ease;
-
-    }
-
-
-    #run {
-
-      background:
-
-        linear-gradient(
-          135deg,
-          var(--rouge),
-          var(--rouge-fonce)
-        );
-
-      box-shadow:
-
-        0 10px 28px
-        rgba(239, 69, 84, 0.30);
-
-    }
-
-
-    #run:hover:not(:disabled) {
-
-      transform:
-        translateY(-2px);
-
-      filter:
-        brightness(1.12);
-
-    }
-
-
-    #run:disabled {
-
-      cursor:
-        wait;
-
-      opacity:
-        0.65;
-
-    }
-
-
-    #clear {
-
-      color:
-        var(--gris-clair);
-
-      border:
-
-        1px solid
-        #344257;
-
-      background:
-        #151e2c;
-
-    }
-
-
-    #clear:hover {
-
-      color:
-        white;
-
-      border-color:
-        var(--cyan);
-
-    }
-
-
-    .shortcut {
-
-      margin-left:
-        auto;
-
-      color:
-        var(--gris);
-
-      font-size:
-        0.70rem;
-
-      white-space:
-        nowrap;
-
-    }
-
-
-    /* =====================================================
-       CONSOLE PYTHON
-       ===================================================== */
-
-    #output {
-
-      min-height:
-        190px;
-
-      margin:
-        0;
-
-      padding:
-        22px;
-
-      overflow:
-        auto;
-
-      color:
-        #c7f7dd;
-
-      font-family:
-        "Source Code Pro",
-        Consolas,
-        monospace;
-
-      font-size:
-        0.9rem;
-
-      line-height:
-        1.7;
-
-      white-space:
-        pre-wrap;
-
-      border:
-
-        1px solid
-        rgba(82, 217, 154, 0.30);
-
-      border-radius:
-        15px;
-
-      background:
-        #06110e;
-
-    }
-
-
-    /* =====================================================
-       PIED DE PAGE
-       ===================================================== */
-
-    footer {
-
-      padding:
-        25px;
-
-      color:
-        var(--gris);
-
-      font-size:
-        0.72rem;
-
-      line-height:
-        1.7;
-
-      text-align:
-        center;
-
-      border-top:
-
-        1px solid
-        var(--bordure);
-
-    }
-
-
-    footer .lab {
-
-      color:
-        var(--rouge);
-
-      font-weight:
-        800;
-
-    }
-
-
-    /* =====================================================
-       ACCESSIBILITÉ
-       ===================================================== */
-
-    button:focus-visible,
-
-    #code:focus-visible {
-
-      outline:
-
-        2px solid
-        var(--cyan);
-
-      outline-offset:
-        3px;
-
-    }
-
-
-    /* =====================================================
-       VERSION MOBILE
-       ===================================================== */
-
-    @media (
-      max-width: 650px
-    ) {
-
-      header {
-
-        min-height:
-          64px;
-
-        padding:
-          0 15px;
-
-      }
-
-
-      .logo {
-
-        font-size:
-          1.05rem;
-
-      }
-
-
-      .logo-icon {
-
-        width:
-          38px;
-
-        height:
-          38px;
-
-      }
-
-
-      .python-badge span {
-
-        display:
-          none;
-
-      }
-
-
-      main {
-
-        padding:
-          45px 0;
-
-      }
-
-
-      .python-lab {
-
-        padding:
-          18px;
-
-      }
-
-
-      h1 {
-
-        letter-spacing:
-          -1px;
-
-      }
-
-
-      .buttons {
-
-        flex-wrap:
-          wrap;
-
-      }
-
-
-      #run {
-
-        width:
-          100%;
-
-      }
-
-
-      #clear {
-
-        flex:
-          1;
-
-      }
-
-
-      .shortcut {
-
-        width:
-          100%;
-
-        margin:
-          0;
-
-        text-align:
-          center;
-
-      }
-
-
-      #code {
-
-        min-height:
-          240px;
-
-        padding:
-          17px;
-
-        font-size:
-          0.82rem;
-
-      }
-
-
-      #output {
-
-        min-height:
-          170px;
-
-        padding:
-          17px;
-
-        font-size:
-          0.80rem;
-
-      }
-
-    }
-
-  </style>
+>
+
+<!-- Feuille de style -->
+
+<link
+    rel="stylesheet"
+    href="style.css"
+>
+```
 
 </head>
 
-
 <body>
 
-
 <!-- =====================================================
-     EN-TÊTE MERMOZ LAB
+     MENU LATÉRAL
      ===================================================== -->
 
-<header>
+<nav
+    class="menu"
+    aria-label="Menu principal PyLab"
+>
 
-  <a
-    class="logo"
-    href="#"
-    aria-label="Accueil Mermoz Lab"
-  >
+```
+<!-- ACCUEIL -->
 
-    <div class="logo-icon">
+<button
+    class="menu-item active"
+    id="homeButton"
+    type="button"
+    data-tooltip="Accueil"
+    aria-label="Afficher l'accueil"
+>
 
-      <i class="fa-solid fa-flask"></i>
+    <i class="fas fa-home"></i>
+
+</button>
+
+
+<!-- PYLAB -->
+
+<button
+    class="menu-item"
+    id="pythonButton"
+    type="button"
+    data-tooltip="PyLab"
+    aria-label="Ouvrir PyLab"
+>
+
+    <i class="fab fa-python"></i>
+
+</button>
+
+
+<!-- EXEMPLES -->
+
+<div class="menu-wrapper">
+
+    <button
+        class="menu-item"
+        id="examplesButton"
+        type="button"
+        data-tooltip="Exemples Python"
+        aria-label="Afficher les exemples"
+    >
+
+        <i class="fas fa-book-open"></i>
+
+    </button>
+
+
+    <div
+        class="submenu"
+        id="examplesMenu"
+    >
+
+        <button
+            type="button"
+            data-example="bonjour"
+        >
+
+            Bonjour
+
+        </button>
+
+
+        <button
+            type="button"
+            data-example="boucle"
+        >
+
+            Boucle
+
+        </button>
+
+
+        <button
+            type="button"
+            data-example="calcul"
+        >
+
+            Calcul
+
+        </button>
 
     </div>
 
-    <span>
-
-      Mermoz
-
-      <span class="lab">
-        Lab
-      </span>
-
-    </span>
-
-  </a>
+</div>
 
 
-  <div class="python-badge">
+<!-- EFFACER -->
 
-    <i class="fa-brands fa-python"></i>
+<button
+    class="menu-item"
+    id="menuClear"
+    type="button"
+    data-tooltip="Effacer"
+    aria-label="Effacer le programme"
+>
 
-    <span>
-      Python dans le navigateur
-    </span>
+    <i class="fas fa-eraser"></i>
 
-  </div>
+</button>
+```
 
-</header>
-
+</nav>
 
 <!-- =====================================================
      CONTENU
      ===================================================== -->
 
-<main>
+<div id="content-container">
+
+```
+<!-- =================================================
+     PAGE D'ACCUEIL
+     ================================================= -->
+
+<section
+    id="home-message"
+    class="page active-page"
+>
 
 
-  <!-- ===================================================
-       PRÉSENTATION
-       =================================================== -->
+    <div class="home-icon">
 
-  <section class="hero">
-
-    <div class="badge">
-
-      <i class="fa-solid fa-code"></i>
-
-      PROGRAMMATION
+        <i class="fab fa-python"></i>
 
     </div>
 
 
     <h1>
 
-      Découvrir
+        Bienvenue dans
 
-      <span>
-        Python
-      </span>
-
-      <br>
-
-      avec Pyodide
+        <span>
+            PyLab
+        </span>
 
     </h1>
 
 
+    <h2>
+
+        Programmer, expérimenter
+        et apprendre avec Python
+
+    </h2>
+
+
     <p>
 
-      Écris ton programme dans l’éditeur,
-      puis exécute-le pour observer
-      le résultat dans la console.
-
-      <br>
-
-      Aucun logiciel à installer.
+        PyLab permet d’écrire et d’exécuter
+        des programmes Python directement
+        dans le navigateur.
 
     </p>
 
-  </section>
+
+    <p>
+
+        Aucun logiciel n’est nécessaire.
+
+        Écris ton programme,
+        clique sur <strong>Exécuter</strong>
+        et observe immédiatement
+        le résultat.
+
+    </p>
 
 
-  <!-- ===================================================
-       PYTHONLAB
-       =================================================== -->
+    <div class="home-actions">
 
-  <section
-    class="python-lab"
-    aria-label="Laboratoire Python"
-  >
+        <button
+            id="startButton"
+            class="start-button"
+            type="button"
+        >
 
+            <i class="fas fa-play"></i>
 
-    <!-- EN-TÊTE DU LABORATOIRE -->
+            Commencer à programmer
 
-    <div class="lab-header">
-
-      <div class="lab-icon">
-
-        <i class="fa-brands fa-python"></i>
-
-      </div>
-
-
-      <div>
-
-        <h2>
-          PythonLab
-        </h2>
-
-        <p>
-          Exécution locale avec Pyodide
-        </p>
-
-      </div>
+        </button>
 
     </div>
 
 
-    <!-- =================================================
-         ÉDITEUR
-         ================================================= -->
+    <p class="signature">
 
-    <div class="section-title">
+        <strong>PyLab</strong>
 
-      <span>
+        — « Learn • Apply • Build »
 
-        <i class="fa-solid fa-file-code"></i>
+        <br>
 
-        Éditeur Python
+        Apprendre,
+        mettre en pratique
+        et construire.
 
-      </span>
-
-
-      <!--
-        IMPORTANT :
-        Cet identifiant est utilisé
-        par pyodide/app.js
-      -->
-
-      <span
-        id="status"
-      >
-
-        Chargement de Python...
-
-      </span>
-
-    </div>
+    </p>
 
 
-    <div class="editor">
+</section>
 
 
-      <!-- BARRE DE L'ÉDITEUR -->
+<!-- =================================================
+     PAGE PYLAB
+     ================================================= -->
 
-      <div class="editor-bar">
+<section
+    id="python-page"
+    class="page"
+>
 
-        <div class="dots">
 
-          <span class="dot dot-red"></span>
+    <!-- EN-TÊTE -->
 
-          <span class="dot dot-yellow"></span>
+    <div class="page-header">
 
-          <span class="dot dot-green"></span>
+
+        <div>
+
+            <h1>
+
+                <i class="fab fa-python"></i>
+
+                PyLab
+
+            </h1>
+
+
+            <p>
+
+                Écris, exécute et teste
+                tes programmes Python.
+
+            </p>
 
         </div>
 
 
-        <span class="filename">
+        <!--
+            Utilisé par pyodide/pyodide-app.js
+        -->
 
-          programme.py
+        <span id="status">
+
+            Chargement de Python...
 
         </span>
 
-      </div>
+
+    </div>
 
 
-      <!--
-        IMPORTANT :
-        id="code"
-        est utilisé par app.js
-      -->
+    <!-- =================================================
+         ESPACE DE PROGRAMMATION
+         ================================================= -->
 
-      <textarea
-        id="code"
-        spellcheck="false"
-        autocomplete="off"
-        autocapitalize="off"
-        aria-label="Écris ton programme Python ici"
-      >print("Bienvenue dans Mermoz Lab !")
+    <div class="lab-grid">
+
+
+        <!-- ÉDITEUR -->
+
+        <section class="editor-panel">
+
+
+            <div class="panel-title">
+
+
+                <span>
+
+                    <i class="fas fa-file-code"></i>
+
+                    Éditeur Python
+
+                </span>
+
+
+                <span class="file-name">
+
+                    programme.py
+
+                </span>
+
+
+            </div>
+
+
+            <!--
+                Utilisé par pyodide/pyodide-app.js
+            -->
+
+            <textarea
+                id="code"
+                spellcheck="false"
+                autocomplete="off"
+                autocapitalize="off"
+                aria-label="Écris ton programme Python ici"
+            >print("Bienvenue dans PyLab !")
+```
 
 for nombre in range(1, 6):
-    print(nombre)</textarea>
+print(nombre)</textarea>
+
+```
+            <!-- ACTIONS -->
+
+            <div class="editor-actions">
+
+
+                <!--
+                    Utilisé par pyodide/pyodide-app.js
+                -->
+
+                <button
+                    id="run"
+                    class="run-button"
+                    type="button"
+                    disabled
+                >
+
+                    <i class="fas fa-play"></i>
+
+                    Exécuter
+
+                </button>
+
+
+                <button
+                    id="clear"
+                    class="clear-button"
+                    type="button"
+                >
+
+                    <i class="fas fa-eraser"></i>
+
+                    Effacer
+
+                </button>
+
+
+                <span class="shortcut">
+
+                    <i class="fas fa-keyboard"></i>
+
+                    Ctrl + Entrée
+
+                </span>
+
+
+            </div>
+
+
+        </section>
+
+
+        <!-- RÉSULTAT -->
+
+        <section class="result-panel">
+
+
+            <div class="panel-title result-title">
+
+
+                <span>
+
+                    <i class="fas fa-terminal"></i>
+
+                    Résultat
+
+                </span>
+
+
+                <span class="result-indicator">
+
+                    ● Console Python
+
+                </span>
+
+
+            </div>
+
+
+            <!--
+                Utilisé par pyodide/pyodide-app.js
+            -->
+
+            <pre
+                id="output"
+                aria-live="polite"
+            >Chargement de Python...</pre>
+
+
+        </section>
 
 
     </div>
 
 
-    <!-- =================================================
-         BOUTONS
-         ================================================= -->
+    <!-- AIDE -->
 
-    <div class="buttons">
+    <section class="help-card">
 
 
-      <!--
-        IMPORTANT :
-        id="run"
-        est utilisé par app.js
-      -->
-
-      <button
-        id="run"
-        type="button"
-        disabled
-      >
-
-        <i class="fa-solid fa-play"></i>
-
-        Exécuter le programme
-
-      </button>
+        <i class="fas fa-lightbulb"></i>
 
 
-      <!--
-        Ce bouton est géré
-        par le script HTML ci-dessous
-      -->
+        <div>
 
-      <button
-        id="clear"
-        type="button"
-      >
+            <strong>
 
-        <i class="fa-solid fa-eraser"></i>
+                Astuce
 
-        Effacer
-
-      </button>
+            </strong>
 
 
-      <div class="shortcut">
+            <p>
 
-        <i class="fa-solid fa-keyboard"></i>
+                Utilise les exemples du menu
+                pour découvrir progressivement
+                les instructions Python.
 
-        Ctrl + Entrée
+            </p>
 
-      </div>
-
-
-    </div>
-
-
-    <!-- =================================================
-         CONSOLE
-         ================================================= -->
-
-    <div class="section-title">
-
-      <span>
-
-        <i class="fa-solid fa-terminal"></i>
-
-        Console Python
-
-      </span>
+        </div>
 
 
-      <span
-        style="color: var(--vert);"
-      >
-
-        ● Résultat
-
-      </span>
-
-    </div>
+    </section>
 
 
-    <!--
-      IMPORTANT :
-      id="output"
-      est utilisé par app.js
-    -->
+</section>
+```
 
-    <pre
-      id="output"
-      aria-live="polite"
-    >Chargement de Python...</pre>
-
-
-  </section>
-
-
-</main>
-
+</div>
 
 <!-- =====================================================
-     PIED DE PAGE
+     SCRIPTS
      ===================================================== -->
 
-<footer>
-
-  <strong>
-
-    Mermoz
-
-    <span class="lab">
-      Lab
-    </span>
-
-  </strong>
-
-  — « Learn • Apply • Build »
-
-  permet d’apprendre,
-  de mettre en pratique
-  et de construire.
-
-</footer>
-
-
-<!-- =====================================================
-     PYODIDE
-     ===================================================== -->
-
-<!--
-  Charge le moteur Pyodide.
--->
+<!-- Moteur Python Pyodide -->
 
 <script src="./pyodide/pyodide.js"></script>
 
+<!-- Exécution Python -->
 
-<!--
-  Charge ton fichier JavaScript existant.
--->
+<script src="./pyodide/pyodide-app.js"></script>
 
-<script src="./pyodide/app.js"></script>
+<!-- Interface PyLab -->
 
-
-<!-- =====================================================
-     BOUTON EFFACER
-     ===================================================== -->
-
-<script>
-
-  document.addEventListener(
-
-    "DOMContentLoaded",
-
-    () => {
-
-      const clearButton =
-
-        document.getElementById(
-          "clear"
-        );
-
-
-      const editor =
-
-        document.getElementById(
-          "code"
-        );
-
-
-      const output =
-
-        document.getElementById(
-          "output"
-        );
-
-
-      if (clearButton) {
-
-        clearButton.addEventListener(
-
-          "click",
-
-          () => {
-
-            if (editor) {
-
-              editor.value = "";
-
-              editor.focus();
-
-            }
-
-
-            if (output) {
-
-              output.textContent =
-                "Console effacée.";
-
-            }
-
-          }
-
-        );
-
-      }
-
-    }
-
-  );
-
-</script>
-
+<script src="./app.js"></script>
 
 </body>
 
