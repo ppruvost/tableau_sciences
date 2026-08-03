@@ -374,6 +374,17 @@ td.saisie {
 .nuage-axe     { stroke: var(--gris-moyen); stroke-width: 1; }
 .nuage-label   { font-size: 11px; fill: var(--gris-moyen); }
 
+/* ── Fiches "Activités Puzzle" (classe puzzle) ─────────────────── */
+.fiche-puzzle {
+  border: 1px solid var(--gris-clair, #D5DBDB);
+  border-left: 4px solid var(--domaine-accent);
+  border-radius: 8px;
+  padding: var(--gap-md);
+  margin-bottom: var(--gap-lg);
+}
+.fiche-puzzle h3 { margin-top: 0; color: var(--domaine-accent-fonce); }
+.fiche-puzzle .form-row { margin-top: var(--gap-sm); }
+
 /* ── Diagramme en secteurs (js/statistiques.js) ────────────────
    8 teintes dérivées de la seule couleur d'accent du domaine (pas de
    couleur codée en dur par domaine), du plus opaque au plus clair. */
