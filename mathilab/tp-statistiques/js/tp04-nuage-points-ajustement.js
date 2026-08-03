@@ -13,8 +13,6 @@ import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-statistiques.js';
-import { initMateriel } from '../../js/materiel.js';
-import laboratoryEquipment from '../../data/equipment.js';
 import { regressionLineaire, coefficientDetermination, dessinerNuageAjustement } from '../../js/ajustement.js';
 
 // Contexte professionnel commun à un même métier, décliné en une
@@ -61,12 +59,6 @@ Object.entries(PROFILS).forEach(([id, p]) => {
 });
 
 export function init() {
-
-  initMateriel({
-    equipementId: 'materiel-equipements',
-    equipment: laboratoryEquipment,
-    categorie: 'Statistiques',
-  });
 
   initContextePro({
     filieres: FILIERES_PRO,
