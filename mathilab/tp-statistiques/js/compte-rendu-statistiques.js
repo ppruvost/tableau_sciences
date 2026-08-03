@@ -2,11 +2,9 @@
  * tp-statistiques/js/compte-rendu-statistiques.js
  *
  * Construit la configuration attendue par le module partagé
- * js/compte-rendu.js (genererCompteRendu) à partir du DOM du TP de
+ * js/compte-rendu.js (genererCompteRendu) à partir du DOM du TD de
  * statistiques actuellement affiché, et câble le bouton #btn-imprimer
- * dessus. Le matériel (Équipements) est récupéré tout seul par
- * compte-rendu.js via les cases à cocher #materiel-equipements —
- * rien à faire ici pour cette partie.
+ * dessus.
  */
 
 import { genererCompteRendu } from '../../js/compte-rendu.js';
@@ -31,14 +29,14 @@ function construireSectionsQuestions() {
   }));
 }
 
-// Résumé du TP, en texte libre.
+// Résumé du TD, en texte libre.
 function construireSectionResume() {
 
   const zone = document.getElementById('resume-tp');
 
   if (!zone) return null;
 
-  return { titre: 'Résumé du TP', texte: valeur(zone) };
+  return { titre: 'Résumé du TD', texte: valeur(zone) };
 }
 
 // Tableau de résultats de la section [data-type="resultats"], lu
@@ -91,6 +89,7 @@ export function initImpressionCompteRendu({ titre, tp }) {
       tp,
       sections,
       noteFinale: true,
+      plateforme: 'MathiLab',
     });
   });
 }
