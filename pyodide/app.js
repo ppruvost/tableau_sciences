@@ -10,67 +10,57 @@ document.addEventListener(
 ```
     /* =================================================
        ÉLÉMENTS HTML
-       ================================================= */
+    ================================================= */
 
     const homeButton =
         document.getElementById(
             "homeButton"
         );
 
-
     const pythonButton =
         document.getElementById(
             "pythonButton"
         );
-
 
     const startButton =
         document.getElementById(
             "startButton"
         );
 
-
     const homePage =
         document.getElementById(
             "home-message"
         );
-
 
     const pythonPage =
         document.getElementById(
             "python-page"
         );
 
-
     const clearButton =
         document.getElementById(
             "clear"
         );
-
 
     const menuClear =
         document.getElementById(
             "menuClear"
         );
 
-
     const editor =
         document.getElementById(
             "code"
         );
-
 
     const output =
         document.getElementById(
             "output"
         );
 
-
     const examplesButton =
         document.getElementById(
             "examplesButton"
         );
-
 
     const examplesMenu =
         document.getElementById(
@@ -80,79 +70,67 @@ document.addEventListener(
 
     /* =================================================
        AFFICHER PYLAB
-       ================================================= */
+    ================================================= */
 
     function showPython() {
-
 
         homePage.classList.remove(
             "active-page"
         );
 
-
         pythonPage.classList.add(
             "active-page"
         );
-
 
         homeButton.classList.remove(
             "active"
         );
 
-
         pythonButton.classList.add(
             "active"
         );
-
 
     }
 
 
     /* =================================================
        AFFICHER ACCUEIL
-       ================================================= */
+    ================================================= */
 
     function showHome() {
-
 
         pythonPage.classList.remove(
             "active-page"
         );
 
-
         homePage.classList.add(
             "active-page"
         );
-
 
         pythonButton.classList.remove(
             "active"
         );
 
-
         homeButton.classList.add(
             "active"
         );
-
 
     }
 
 
     /* =================================================
        BOUTONS DE NAVIGATION
-       ================================================= */
+    ================================================= */
 
     homeButton.addEventListener(
         "click",
         showHome
     );
 
-
     pythonButton.addEventListener(
         "click",
         showPython
     );
-
 
     startButton.addEventListener(
         "click",
@@ -162,10 +140,9 @@ document.addEventListener(
 
     /* =================================================
        EFFACER
-       ================================================= */
+    ================================================= */
 
     function clearProgram() {
-
 
         if (editor) {
 
@@ -175,14 +152,12 @@ document.addEventListener(
 
         }
 
-
         if (output) {
 
             output.textContent =
                 "Console effacée.";
 
         }
-
 
     }
 
@@ -192,17 +167,13 @@ document.addEventListener(
         clearProgram
     );
 
-
     menuClear.addEventListener(
         "click",
         () => {
 
-
             showPython();
 
-
             clearProgram();
-
 
         }
     );
@@ -210,46 +181,37 @@ document.addEventListener(
 
     /* =================================================
        SOUS-MENU EXEMPLES
-       ================================================= */
+    ================================================= */
 
     examplesButton.addEventListener(
         "click",
         event => {
 
-
             event.stopPropagation();
-
 
             examplesMenu.classList.toggle(
                 "show"
             );
 
-
         }
     );
-
 
     document.addEventListener(
         "click",
         () => {
 
-
             examplesMenu.classList.remove(
                 "show"
             );
 
-
         }
     );
-
 
     examplesMenu.addEventListener(
         "click",
         event => {
 
-
             event.stopPropagation();
-
 
         }
     );
@@ -257,32 +219,21 @@ document.addEventListener(
 
     /* =================================================
        PROGRAMMES D'EXEMPLE
-       ================================================= */
+    ================================================= */
 
     const examples = {
 
-
-        bonjour:
+        bonjour: `print("Bonjour !")
 ```
-
-`print("Bonjour !")
 
 print("Bienvenue dans PyLab !")`,
 
 ```
-        boucle:
-```
-
-`for nombre in range(1, 11):
-
-```
+        boucle: `for nombre in range(1, 11):
 print(nombre)`,
 
-
-        calcul:
+        calcul: `nombre1 = 12
 ```
-
-`nombre1 = 12
 
 nombre2 = 8
 
@@ -296,7 +247,7 @@ print("Résultat :", somme)`
 
     /* =================================================
        CHARGER UN EXEMPLE
-       ================================================= */
+    ================================================= */
 
     document.querySelectorAll(
         "[data-example]"
@@ -304,15 +255,12 @@ print("Résultat :", somme)`
 
         button => {
 
-
             button.addEventListener(
                 "click",
                 () => {
 
-
                     const exampleName =
                         button.dataset.example;
-
 
                     if (
                         examples[exampleName]
@@ -325,21 +273,16 @@ print("Résultat :", somme)`
 
                     }
 
-
                     showPython();
-
 
                     examplesMenu.classList.remove(
                         "show"
                     );
 
-
                     editor.focus();
-
 
                 }
             );
-
 
         }
 
@@ -349,12 +292,11 @@ print("Résultat :", somme)`
     /* =================================================
        RACCOURCI :
        CTRL + ENTRÉE
-       ================================================= */
+    ================================================= */
 
     editor.addEventListener(
         "keydown",
         event => {
-
 
             if (
 
@@ -364,15 +306,12 @@ print("Résultat :", somme)`
 
             ) {
 
-
                 event.preventDefault();
-
 
                 const runButton =
                     document.getElementById(
                         "run"
                     );
-
 
                 if (
 
@@ -386,13 +325,10 @@ print("Résultat :", somme)`
 
                 }
 
-
             }
-
 
         }
     );
-
 
 }
 ```
