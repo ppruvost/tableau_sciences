@@ -1,0 +1,1508 @@
+/* =========================================================
+PYLAB
+CHARTE CLAIRE TABLEAU SCIENCES
+========================================================= */
+
+/* =========================================================
+BASE
+========================================================= */
+
+* {
+
+  box-sizing: border-box;
+
+}
+
+html,
+body {
+
+```
+width: 100%;
+
+height: 100%;
+
+margin: 0;
+
+overflow: hidden;
+
+font-family:
+    Arial,
+    sans-serif;
+
+font-size: 18px;
+
+color:
+    #172033;
+
+background:
+    #f7fbff;
+```
+
+}
+
+/* =========================================================
+MENU LATÉRAL
+========================================================= */
+
+.menu {
+
+```
+position: fixed;
+
+left: 15px;
+
+top: 50%;
+
+z-index: 9999;
+
+padding: 12px;
+
+display: flex;
+
+flex-direction: column;
+
+gap: 12px;
+
+overflow: visible;
+
+transform:
+    translateY(-50%);
+
+background:
+    #f0f8ff;
+
+border:
+
+    1px solid
+    #d5e8f8;
+
+border-radius:
+    20px;
+
+box-shadow:
+
+    0 5px 18px
+    rgba(50, 90, 130, 0.16);
+```
+
+}
+
+.menu-wrapper {
+
+```
+position: relative;
+```
+
+}
+
+.menu-item {
+
+```
+width: 65px;
+
+height: 65px;
+
+padding: 0;
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+color: white;
+
+font-size: 26px;
+
+cursor: pointer;
+
+position: relative;
+
+border: none;
+
+border-radius: 50%;
+
+background:
+    #4169e1;
+
+transition:
+    0.25s;
+```
+
+}
+
+.menu-item:hover {
+
+```
+background:
+    #1e90ff;
+
+transform:
+    scale(1.1);
+```
+
+}
+
+.menu-item.active {
+
+```
+background:
+    #e69f00;
+```
+
+}
+
+.menu-item i {
+
+```
+font-size: 24px;
+```
+
+}
+
+/* =========================================================
+SOUS-MENU
+========================================================= */
+
+.submenu {
+
+```
+display: none;
+
+position: absolute;
+
+left: 80px;
+
+top: 50%;
+
+min-width: 180px;
+
+padding: 10px;
+
+transform:
+    translateY(-50%);
+
+background:
+    white;
+
+border:
+
+    1px solid
+    #d7e1eb;
+
+border-radius:
+    10px;
+
+box-shadow:
+
+    0 4px 12px
+    rgba(0, 0, 0, 0.20);
+```
+
+}
+
+.submenu.show {
+
+```
+display: block;
+```
+
+}
+
+.submenu button {
+
+```
+width: 100%;
+
+min-height: 45px;
+
+padding: 10px 14px;
+
+margin: 4px 0;
+
+color:
+    #24354a;
+
+font-size: 17px;
+
+cursor: pointer;
+
+border: none;
+
+border-radius:
+    7px;
+
+background:
+    #edf5fb;
+
+transition:
+    0.2s;
+```
+
+}
+
+.submenu button:hover {
+
+```
+color: white;
+
+background:
+    #e69f00;
+```
+
+}
+
+/* =========================================================
+INFO-BULLES
+========================================================= */
+
+.menu-item::after {
+
+```
+content:
+    attr(data-tooltip);
+
+position: absolute;
+
+left: 75px;
+
+top: 50%;
+
+padding: 8px 12px;
+
+transform:
+    translateY(-50%);
+
+color:
+    white;
+
+font-size: 15px;
+
+white-space: nowrap;
+
+opacity: 0;
+
+visibility: hidden;
+
+pointer-events: none;
+
+border-radius:
+    7px;
+
+background:
+    rgba(0, 0, 0, 0.85);
+
+transition:
+    0.2s;
+```
+
+}
+
+.menu-item:hover::after {
+
+```
+opacity: 1;
+
+visibility: visible;
+```
+
+}
+
+/* =========================================================
+CONTENU
+========================================================= */
+
+#content-container {
+
+```
+position: absolute;
+
+left: 110px;
+
+top: 0;
+
+width:
+    calc(100% - 110px);
+
+height: 100%;
+
+overflow-y: auto;
+
+overflow-x: hidden;
+
+background:
+
+    linear-gradient(
+        135deg,
+        #f8fcff,
+        #edf6fc
+    );
+```
+
+}
+
+.page {
+
+```
+display: none;
+
+min-height: 100%;
+
+padding: 35px;
+```
+
+}
+
+.page.active-page {
+
+```
+display: flex;
+
+flex-direction: column;
+```
+
+}
+
+/* =========================================================
+ACCUEIL
+========================================================= */
+
+#home-message {
+
+```
+align-items: center;
+
+justify-content: center;
+
+max-width: 950px;
+
+margin: auto;
+
+text-align: center;
+```
+
+}
+
+.home-icon {
+
+```
+width: 105px;
+
+height: 105px;
+
+margin-bottom: 22px;
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+color:
+    white;
+
+font-size:
+    52px;
+
+border-radius:
+    50%;
+
+background:
+    #4169e1;
+
+box-shadow:
+
+    0 10px 25px
+    rgba(65, 105, 225, 0.25);
+```
+
+}
+
+#home-message h1 {
+
+```
+margin:
+    0 0 18px;
+
+color:
+    #243b73;
+
+font-size:
+
+    clamp(
+        2.8rem,
+        6vw,
+        4.8rem
+    );
+```
+
+}
+
+#home-message h1 span {
+
+```
+color:
+    #4169e1;
+```
+
+}
+
+#home-message h2 {
+
+```
+margin:
+    0 0 28px;
+
+color:
+    #405c78;
+
+font-size:
+
+    clamp(
+        1.35rem,
+        2vw,
+        1.7rem
+    );
+
+font-weight:
+    normal;
+```
+
+}
+
+#home-message p {
+
+```
+max-width:
+    750px;
+
+margin:
+    10px auto;
+
+color:
+    #354d65;
+
+font-size:
+    1.1rem;
+
+line-height:
+    1.75;
+```
+
+}
+
+.home-actions {
+
+```
+margin:
+    30px 0;
+```
+
+}
+
+.start-button {
+
+```
+min-height:
+    58px;
+
+padding:
+    15px 30px;
+
+color:
+    white;
+
+font-size:
+    1.05rem;
+
+font-weight:
+    bold;
+
+cursor:
+    pointer;
+
+border:
+    none;
+
+border-radius:
+    12px;
+
+background:
+    #4169e1;
+
+box-shadow:
+
+    0 6px 15px
+    rgba(65, 105, 225, 0.25);
+
+transition:
+    0.25s;
+```
+
+}
+
+.start-button:hover {
+
+```
+background:
+    #1e90ff;
+
+transform:
+    translateY(-2px);
+```
+
+}
+
+.signature {
+
+```
+margin-top:
+    28px !important;
+
+color:
+    #596f84 !important;
+
+font-size:
+    0.95rem !important;
+```
+
+}
+
+/* =========================================================
+EN-TÊTE PYLAB
+========================================================= */
+
+.page-header {
+
+```
+display: flex;
+
+align-items: center;
+
+justify-content: space-between;
+
+gap: 20px;
+
+padding:
+    24px 28px;
+
+margin-bottom:
+    25px;
+
+background:
+    white;
+
+border:
+
+    1px solid
+    #d7e5f0;
+
+border-left:
+
+    7px solid
+    #4169e1;
+
+border-radius:
+    14px;
+
+box-shadow:
+
+    0 4px 15px
+    rgba(40, 70, 100, 0.08);
+```
+
+}
+
+.page-header h1 {
+
+```
+margin: 0;
+
+color:
+    #243b73;
+
+font-size:
+    2.2rem;
+```
+
+}
+
+.page-header h1 i {
+
+```
+margin-right:
+    10px;
+
+color:
+    #4169e1;
+```
+
+}
+
+.page-header p {
+
+```
+margin:
+    9px 0 0;
+
+color:
+    #526b83;
+
+font-size:
+    1rem;
+```
+
+}
+
+/* =========================================================
+STATUT PYODIDE
+========================================================= */
+
+#status {
+
+```
+padding:
+    11px 16px;
+
+color:
+    #176b4d;
+
+font-size:
+    0.9rem;
+
+font-weight:
+    bold;
+
+white-space:
+    nowrap;
+
+border:
+
+    1px solid
+    #9bd7bf;
+
+border-radius:
+    22px;
+
+background:
+    #e6f5ed;
+```
+
+}
+
+#status::before {
+
+```
+content:
+    "●";
+
+margin-right:
+    6px;
+```
+
+}
+
+/* =========================================================
+GRILLE
+========================================================= */
+
+.lab-grid {
+
+```
+flex: 1;
+
+min-height: 0;
+
+display: grid;
+
+grid-template-columns:
+
+    minmax(450px, 1fr)
+    minmax(380px, 0.9fr);
+
+gap:
+    24px;
+```
+
+}
+
+/* =========================================================
+PANNEAUX
+========================================================= */
+
+.editor-panel,
+.result-panel {
+
+```
+min-height: 0;
+
+display: flex;
+
+flex-direction: column;
+
+overflow: hidden;
+
+background:
+    white;
+
+border:
+
+    1px solid
+    #d5e2ec;
+
+border-radius:
+    15px;
+
+box-shadow:
+
+    0 5px 18px
+    rgba(35, 65, 95, 0.10);
+```
+
+}
+
+.panel-title {
+
+```
+min-height:
+    62px;
+
+padding:
+    0 20px;
+
+display: flex;
+
+align-items: center;
+
+justify-content: space-between;
+
+gap:
+    15px;
+
+color:
+    #243b73;
+
+font-size:
+    1rem;
+
+font-weight:
+    bold;
+
+border-bottom:
+
+    1px solid
+    #dbe6ef;
+
+background:
+    #edf5fb;
+```
+
+}
+
+.panel-title i {
+
+```
+margin-right:
+    8px;
+
+color:
+    #4169e1;
+```
+
+}
+
+.file-name {
+
+```
+padding:
+    7px 11px;
+
+color:
+    #465f77;
+
+font-family:
+    Consolas,
+    monospace;
+
+font-size:
+    0.85rem;
+
+border-radius:
+    6px;
+
+background:
+    white;
+```
+
+}
+
+/* =========================================================
+ÉDITEUR
+========================================================= */
+
+#code {
+
+```
+width: 100%;
+
+flex: 1;
+
+min-height:
+    390px;
+
+padding:
+    24px;
+
+resize:
+    none;
+
+color:
+    #172033;
+
+font-family:
+
+    Consolas,
+    "Courier New",
+    monospace;
+
+font-size:
+    18px;
+
+line-height:
+    1.75;
+
+border:
+    none;
+
+outline:
+    none;
+
+background:
+    white;
+
+tab-size:
+    4;
+```
+
+}
+
+#code:focus {
+
+```
+background:
+    #f8fcff;
+```
+
+}
+
+/* =========================================================
+ACTIONS
+========================================================= */
+
+.editor-actions {
+
+```
+min-height:
+    82px;
+
+padding:
+    14px 18px;
+
+display: flex;
+
+align-items: center;
+
+gap:
+    14px;
+
+border-top:
+
+    1px solid
+    #dbe6ef;
+
+background:
+    #f5f9fc;
+```
+
+}
+
+.editor-actions button {
+
+```
+min-height:
+    48px;
+
+padding:
+    0 22px;
+
+color:
+    white;
+
+font-size:
+    0.95rem;
+
+font-weight:
+    bold;
+
+cursor:
+    pointer;
+
+border:
+    none;
+
+border-radius:
+    9px;
+
+transition:
+    0.2s;
+```
+
+}
+
+.run-button {
+
+```
+background:
+    #4169e1;
+```
+
+}
+
+.run-button:hover:not(:disabled) {
+
+```
+background:
+    #1e90ff;
+
+transform:
+    translateY(-2px);
+```
+
+}
+
+.run-button:disabled {
+
+```
+cursor:
+    wait;
+
+opacity:
+    0.55;
+```
+
+}
+
+.clear-button {
+
+```
+color:
+    #34495e !important;
+
+border:
+
+    1px solid
+    #bdcbd7 !important;
+
+background:
+    white;
+```
+
+}
+
+.clear-button:hover {
+
+```
+color:
+    white !important;
+
+border-color:
+    #e69f00 !important;
+
+background:
+    #e69f00;
+```
+
+}
+
+.shortcut {
+
+```
+margin-left:
+    auto;
+
+color:
+    #526b83;
+
+font-size:
+    0.85rem;
+```
+
+}
+
+/* =========================================================
+RÉSULTAT — PASTEL VERT DOUX
+========================================================= */
+
+.result-panel {
+
+```
+background:
+    #eaf5ef;
+
+border-color:
+    #b8d9c7;
+```
+
+}
+
+.result-title {
+
+```
+color:
+    #245c45;
+
+border-bottom-color:
+    #c8dfd2;
+
+background:
+    #dcefe4;
+```
+
+}
+
+.result-title i {
+
+```
+color:
+    #27805d;
+```
+
+}
+
+.result-indicator {
+
+```
+color:
+    #176b4d;
+
+font-size:
+    0.82rem;
+```
+
+}
+
+/* =========================================================
+CONSOLE — SEULE ZONE SOMBRE
+========================================================= */
+
+#output {
+
+```
+flex: 1;
+
+min-height:
+    390px;
+
+margin:
+    20px;
+
+padding:
+    22px;
+
+overflow:
+    auto;
+
+color:
+    #e0f6e9;
+
+font-family:
+
+    Consolas,
+    "Courier New",
+    monospace;
+
+font-size:
+    17px;
+
+line-height:
+    1.75;
+
+white-space:
+    pre-wrap;
+
+border:
+
+    2px solid
+    #4e9274;
+
+border-radius:
+    12px;
+
+background:
+    #17231f;
+
+box-shadow:
+
+    inset 0 0 15px
+    rgba(0, 0, 0, 0.25);
+```
+
+}
+
+/* =========================================================
+AIDE
+========================================================= */
+
+.help-card {
+
+```
+margin-top:
+    24px;
+
+padding:
+    20px 24px;
+
+display: flex;
+
+align-items: center;
+
+gap:
+    18px;
+
+color:
+    #4f4a27;
+
+font-size:
+    1rem;
+
+border:
+
+    1px solid
+    #e1d39b;
+
+border-radius:
+    13px;
+
+background:
+    #fff7d6;
+```
+
+}
+
+.help-card > i {
+
+```
+color:
+    #a56f00;
+
+font-size:
+    2rem;
+```
+
+}
+
+.help-card strong {
+
+```
+color:
+    #765600;
+```
+
+}
+
+.help-card p {
+
+```
+margin:
+    6px 0 0;
+
+line-height:
+    1.6;
+```
+
+}
+
+/* =========================================================
+SCROLLBARS
+========================================================= */
+
+#content-container::-webkit-scrollbar,
+#output::-webkit-scrollbar {
+
+```
+width:
+    11px;
+```
+
+}
+
+#content-container::-webkit-scrollbar-thumb {
+
+```
+border-radius:
+    10px;
+
+background:
+    #b8cad9;
+```
+
+}
+
+#output::-webkit-scrollbar-thumb {
+
+```
+border-radius:
+    10px;
+
+background:
+    #4e9274;
+```
+
+}
+
+/* =========================================================
+TABLETTE
+========================================================= */
+
+@media (max-width: 1100px) {
+
+```
+.lab-grid {
+
+    grid-template-columns:
+        1fr;
+
+}
+
+
+.editor-panel {
+
+    min-height:
+        500px;
+
+}
+
+
+.result-panel {
+
+    min-height:
+        450px;
+
+}
+```
+
+}
+
+/* =========================================================
+MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+```
+.menu {
+
+    top: auto;
+
+    bottom: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    padding: 8px;
+
+    flex-direction: row;
+
+    justify-content:
+        space-around;
+
+    transform:
+        none;
+
+    border-radius:
+        0;
+
+}
+
+
+.menu-item {
+
+    width:
+        48px;
+
+    height:
+        48px;
+
+}
+
+
+.menu-item i {
+
+    font-size:
+        19px;
+
+}
+
+
+.menu-item::after {
+
+    display:
+        none;
+
+}
+
+
+.submenu {
+
+    left:
+        50%;
+
+    top:
+        auto;
+
+    bottom:
+        62px;
+
+    transform:
+        translateX(-50%);
+
+}
+
+
+#content-container {
+
+    left: 0;
+
+    width: 100%;
+
+    height:
+
+        calc(
+            100% - 70px
+        );
+
+}
+
+
+.page {
+
+    padding:
+        18px;
+
+}
+
+
+.home-icon {
+
+    width:
+        80px;
+
+    height:
+        80px;
+
+    font-size:
+        40px;
+
+}
+
+
+#home-message h1 {
+
+    font-size:
+        2.6rem;
+
+}
+
+
+.page-header {
+
+    align-items:
+        flex-start;
+
+    flex-direction:
+        column;
+
+}
+
+
+.page-header h1 {
+
+    font-size:
+        1.8rem;
+
+}
+
+
+.lab-grid {
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+}
+
+
+#code {
+
+    min-height:
+        330px;
+
+    font-size:
+        17px;
+
+}
+
+
+#output {
+
+    min-height:
+        280px;
+
+    font-size:
+        16px;
+
+}
+
+
+.editor-actions {
+
+    flex-wrap:
+        wrap;
+
+}
+
+
+.run-button {
+
+    flex:
+        1;
+
+}
+
+
+.shortcut {
+
+    width:
+        100%;
+
+    margin-left:
+        0;
+
+    text-align:
+        center;
+
+}
+
+
+.help-card {
+
+    align-items:
+        flex-start;
+
+}
+```
+
+}
