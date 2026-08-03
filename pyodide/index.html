@@ -13,7 +13,9 @@
   <title>Mermoz Lab — PythonLab</title>
 
 
-  <!-- Police Lexend -->
+  <!-- =====================================================
+       POLICES
+       ===================================================== -->
 
   <link
     rel="preconnect"
@@ -32,7 +34,9 @@
   >
 
 
-  <!-- Font Awesome -->
+  <!-- =====================================================
+       FONT AWESOME
+       ===================================================== -->
 
   <link
     rel="stylesheet"
@@ -43,7 +47,7 @@
   <style>
 
     /* =====================================================
-       VARIABLES — MERMOZ LAB
+       MERMOZ LAB — VARIABLES
        ===================================================== */
 
     :root {
@@ -77,6 +81,9 @@
 
       --vert:
         #52d99a;
+
+      --orange:
+        #ffbd2e;
 
       --bordure:
         rgba(255, 255, 255, 0.10);
@@ -142,12 +149,12 @@
 
 
     /* =====================================================
-       BARRE SUPÉRIEURE
+       EN-TÊTE
        ===================================================== */
 
     header {
 
-      height:
+      min-height:
         70px;
 
       display:
@@ -159,6 +166,9 @@
       justify-content:
         space-between;
 
+      gap:
+        20px;
+
       padding:
         0 28px;
 
@@ -169,7 +179,10 @@
         1px solid var(--bordure);
 
       background:
-        rgba(8, 15, 25, 0.95);
+        rgba(8, 15, 25, 0.96);
+
+      backdrop-filter:
+        blur(12px);
 
     }
 
@@ -185,11 +198,17 @@
       gap:
         12px;
 
+      color:
+        var(--blanc);
+
       font-size:
         1.25rem;
 
       font-weight:
         800;
+
+      text-decoration:
+        none;
 
     }
 
@@ -230,7 +249,7 @@
     }
 
 
-    .logo span {
+    .logo .lab {
 
       color:
         var(--rouge);
@@ -261,6 +280,9 @@
       font-weight:
         700;
 
+      white-space:
+        nowrap;
+
       border:
 
         1px solid
@@ -276,7 +298,7 @@
 
 
     /* =====================================================
-       CONTENU
+       CONTENU PRINCIPAL
        ===================================================== */
 
     main {
@@ -297,7 +319,7 @@
 
 
     /* =====================================================
-       TITRE
+       PRÉSENTATION
        ===================================================== */
 
     .hero {
@@ -366,6 +388,9 @@
       line-height:
         1.05;
 
+      letter-spacing:
+        -2px;
+
     }
 
 
@@ -380,13 +405,16 @@
     .hero p {
 
       max-width:
-        650px;
+        680px;
 
       margin:
         auto;
 
       color:
         var(--gris-clair);
+
+      font-size:
+        1rem;
 
       line-height:
         1.8;
@@ -395,7 +423,7 @@
 
 
     /* =====================================================
-       CARTE PYTHON
+       LABORATOIRE PYTHON
        ===================================================== */
 
     .python-lab {
@@ -457,6 +485,9 @@
       height:
         55px;
 
+      flex:
+        0 0 55px;
+
       display:
         grid;
 
@@ -475,6 +506,11 @@
       background:
         rgba(56, 215, 232, 0.10);
 
+      border:
+
+        1px solid
+        rgba(56, 215, 232, 0.15);
+
     }
 
 
@@ -483,13 +519,16 @@
       margin:
         0;
 
+      font-size:
+        1.45rem;
+
     }
 
 
     .lab-header p {
 
       margin:
-        5px 0;
+        5px 0 0;
 
       color:
         var(--gris);
@@ -501,7 +540,7 @@
 
 
     /* =====================================================
-       ÉDITEUR PYTHON
+       TITRES DES ZONES
        ===================================================== */
 
     .section-title {
@@ -509,11 +548,14 @@
       display:
         flex;
 
+      align-items:
+        center;
+
       justify-content:
         space-between;
 
-      align-items:
-        center;
+      gap:
+        15px;
 
       margin:
         25px 0 10px;
@@ -530,7 +572,11 @@
     }
 
 
-    .ready {
+    /* =====================================================
+       STATUT UTILISÉ PAR APP.JS
+       ===================================================== */
+
+    #status {
 
       color:
         var(--vert);
@@ -538,8 +584,26 @@
       font-size:
         0.70rem;
 
+      font-weight:
+        700;
+
     }
 
+
+    #status::before {
+
+      content:
+        "●";
+
+      margin-right:
+        6px;
+
+    }
+
+
+    /* =====================================================
+       ÉDITEUR
+       ===================================================== */
 
     .editor {
 
@@ -610,7 +674,7 @@
     }
 
 
-    .red {
+    .dot-red {
 
       background:
         #ff5f57;
@@ -618,7 +682,7 @@
     }
 
 
-    .yellow {
+    .dot-yellow {
 
       background:
         #ffbd2e;
@@ -626,7 +690,7 @@
     }
 
 
-    .green {
+    .dot-green {
 
       background:
         #28c840;
@@ -653,7 +717,7 @@
 
 
     /* =====================================================
-       VRAIE ZONE D'ÉCRITURE
+       ZONE D'ÉCRITURE PYTHON
        ===================================================== */
 
     #code {
@@ -665,7 +729,7 @@
         100%;
 
       min-height:
-        250px;
+        280px;
 
       padding:
         22px;
@@ -676,8 +740,12 @@
       color:
         #e7edf5;
 
+      caret-color:
+        var(--cyan);
+
       font-family:
         "Source Code Pro",
+        Consolas,
         monospace;
 
       font-size:
@@ -697,6 +765,17 @@
 
       tab-size:
         4;
+
+    }
+
+
+    #code::selection {
+
+      color:
+        white;
+
+      background:
+        rgba(56, 215, 232, 0.25);
 
     }
 
@@ -735,6 +814,18 @@
       min-height:
         52px;
 
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      gap:
+        9px;
+
       padding:
         0 24px;
 
@@ -744,6 +835,9 @@
       font-family:
         "Lexend",
         sans-serif;
+
+      font-size:
+        0.82rem;
 
       font-weight:
         700;
@@ -758,7 +852,12 @@
         13px;
 
       transition:
-        0.2s;
+
+        transform 0.2s ease,
+
+        filter 0.2s ease,
+
+        border-color 0.2s ease;
 
     }
 
@@ -781,13 +880,24 @@
     }
 
 
-    #run:hover {
+    #run:hover:not(:disabled) {
 
       transform:
         translateY(-2px);
 
       filter:
         brightness(1.12);
+
+    }
+
+
+    #run:disabled {
+
+      cursor:
+        wait;
+
+      opacity:
+        0.65;
 
     }
 
@@ -810,6 +920,9 @@
 
     #clear:hover {
 
+      color:
+        white;
+
       border-color:
         var(--cyan);
 
@@ -827,11 +940,14 @@
       font-size:
         0.70rem;
 
+      white-space:
+        nowrap;
+
     }
 
 
     /* =====================================================
-       CONSOLE
+       CONSOLE PYTHON
        ===================================================== */
 
     #output {
@@ -853,6 +969,7 @@
 
       font-family:
         "Source Code Pro",
+        Consolas,
         monospace;
 
       font-size:
@@ -893,6 +1010,9 @@
       font-size:
         0.72rem;
 
+      line-height:
+        1.7;
+
       text-align:
         center;
 
@@ -904,7 +1024,7 @@
     }
 
 
-    footer span {
+    footer .lab {
 
       color:
         var(--rouge);
@@ -916,7 +1036,26 @@
 
 
     /* =====================================================
-       MOBILE
+       ACCESSIBILITÉ
+       ===================================================== */
+
+    button:focus-visible,
+
+    #code:focus-visible {
+
+      outline:
+
+        2px solid
+        var(--cyan);
+
+      outline-offset:
+        3px;
+
+    }
+
+
+    /* =====================================================
+       VERSION MOBILE
        ===================================================== */
 
     @media (
@@ -925,8 +1064,30 @@
 
       header {
 
+        min-height:
+          64px;
+
         padding:
           0 15px;
+
+      }
+
+
+      .logo {
+
+        font-size:
+          1.05rem;
+
+      }
+
+
+      .logo-icon {
+
+        width:
+          38px;
+
+        height:
+          38px;
 
       }
 
@@ -951,6 +1112,14 @@
 
         padding:
           18px;
+
+      }
+
+
+      h1 {
+
+        letter-spacing:
+          -1px;
 
       }
 
@@ -992,6 +1161,34 @@
 
       }
 
+
+      #code {
+
+        min-height:
+          240px;
+
+        padding:
+          17px;
+
+        font-size:
+          0.82rem;
+
+      }
+
+
+      #output {
+
+        min-height:
+          170px;
+
+        padding:
+          17px;
+
+        font-size:
+          0.80rem;
+
+      }
+
     }
 
   </style>
@@ -1003,12 +1200,16 @@
 
 
 <!-- =====================================================
-     EN-TÊTE
+     EN-TÊTE MERMOZ LAB
      ===================================================== -->
 
 <header>
 
-  <div class="logo">
+  <a
+    class="logo"
+    href="#"
+    aria-label="Accueil Mermoz Lab"
+  >
 
     <div class="logo-icon">
 
@@ -1016,9 +1217,17 @@
 
     </div>
 
-    Mermoz <span>Lab</span>
+    <span>
 
-  </div>
+      Mermoz
+
+      <span class="lab">
+        Lab
+      </span>
+
+    </span>
+
+  </a>
 
 
   <div class="python-badge">
@@ -1041,6 +1250,10 @@
 <main>
 
 
+  <!-- ===================================================
+       PRÉSENTATION
+       =================================================== -->
+
   <section class="hero">
 
     <div class="badge">
@@ -1055,7 +1268,10 @@
     <h1>
 
       Découvrir
-      <span>Python</span>
+
+      <span>
+        Python
+      </span>
 
       <br>
 
@@ -1066,7 +1282,7 @@
 
     <p>
 
-      Écris ton programme dans l'éditeur,
+      Écris ton programme dans l’éditeur,
       puis exécute-le pour observer
       le résultat dans la console.
 
@@ -1080,11 +1296,16 @@
 
 
   <!-- ===================================================
-       PYTHON LAB
+       PYTHONLAB
        =================================================== -->
 
-  <section class="python-lab">
+  <section
+    class="python-lab"
+    aria-label="Laboratoire Python"
+  >
 
+
+    <!-- EN-TÊTE DU LABORATOIRE -->
 
     <div class="lab-header">
 
@@ -1098,16 +1319,11 @@
       <div>
 
         <h2>
-
           PythonLab
-
         </h2>
 
-
         <p>
-
           Exécution locale avec Pyodide
-
         </p>
 
       </div>
@@ -1130,9 +1346,17 @@
       </span>
 
 
-      <span class="ready">
+      <!--
+        IMPORTANT :
+        Cet identifiant est utilisé
+        par pyodide/app.js
+      -->
 
-        ● Prêt à écrire
+      <span
+        id="status"
+      >
+
+        Chargement de Python...
 
       </span>
 
@@ -1142,15 +1366,17 @@
     <div class="editor">
 
 
+      <!-- BARRE DE L'ÉDITEUR -->
+
       <div class="editor-bar">
 
         <div class="dots">
 
-          <span class="dot red"></span>
+          <span class="dot dot-red"></span>
 
-          <span class="dot yellow"></span>
+          <span class="dot dot-yellow"></span>
 
-          <span class="dot green"></span>
+          <span class="dot dot-green"></span>
 
         </div>
 
@@ -1164,14 +1390,18 @@
       </div>
 
 
-      <!-- ===============================================
-           ZONE MODIFIABLE
-           =============================================== -->
+      <!--
+        IMPORTANT :
+        id="code"
+        est utilisé par app.js
+      -->
 
       <textarea
         id="code"
         spellcheck="false"
-        aria-label="Éditeur de code Python"
+        autocomplete="off"
+        autocapitalize="off"
+        aria-label="Écris ton programme Python ici"
       >print("Bienvenue dans Mermoz Lab !")
 
 for nombre in range(1, 6):
@@ -1188,9 +1418,16 @@ for nombre in range(1, 6):
     <div class="buttons">
 
 
+      <!--
+        IMPORTANT :
+        id="run"
+        est utilisé par app.js
+      -->
+
       <button
         id="run"
         type="button"
+        disabled
       >
 
         <i class="fa-solid fa-play"></i>
@@ -1199,6 +1436,11 @@ for nombre in range(1, 6):
 
       </button>
 
+
+      <!--
+        Ce bouton est géré
+        par le script HTML ci-dessous
+      -->
 
       <button
         id="clear"
@@ -1239,7 +1481,9 @@ for nombre in range(1, 6):
       </span>
 
 
-      <span class="ready">
+      <span
+        style="color: var(--vert);"
+      >
 
         ● Résultat
 
@@ -1248,10 +1492,16 @@ for nombre in range(1, 6):
     </div>
 
 
+    <!--
+      IMPORTANT :
+      id="output"
+      est utilisé par app.js
+    -->
+
     <pre
       id="output"
       aria-live="polite"
-    >Prêt.</pre>
+    >Chargement de Python...</pre>
 
 
   </section>
@@ -1261,18 +1511,22 @@ for nombre in range(1, 6):
 
 
 <!-- =====================================================
-     FOOTER
+     PIED DE PAGE
      ===================================================== -->
 
 <footer>
 
   <strong>
 
-    Mermoz <span>Lab</span>
+    Mermoz
+
+    <span class="lab">
+      Lab
+    </span>
 
   </strong>
 
-  — “Learn • Apply • Build”
+  — « Learn • Apply • Build »
 
   permet d’apprendre,
   de mettre en pratique
@@ -1285,9 +1539,88 @@ for nombre in range(1, 6):
      PYODIDE
      ===================================================== -->
 
+<!--
+  Charge le moteur Pyodide.
+-->
+
 <script src="./pyodide/pyodide.js"></script>
 
+
+<!--
+  Charge ton fichier JavaScript existant.
+-->
+
 <script src="./pyodide/app.js"></script>
+
+
+<!-- =====================================================
+     BOUTON EFFACER
+     ===================================================== -->
+
+<script>
+
+  document.addEventListener(
+
+    "DOMContentLoaded",
+
+    () => {
+
+      const clearButton =
+
+        document.getElementById(
+          "clear"
+        );
+
+
+      const editor =
+
+        document.getElementById(
+          "code"
+        );
+
+
+      const output =
+
+        document.getElementById(
+          "output"
+        );
+
+
+      if (clearButton) {
+
+        clearButton.addEventListener(
+
+          "click",
+
+          () => {
+
+            if (editor) {
+
+              editor.value = "";
+
+              editor.focus();
+
+            }
+
+
+            if (output) {
+
+              output.textContent =
+                "Console effacée.";
+
+            }
+
+          }
+
+        );
+
+      }
+
+    }
+
+  );
+
+</script>
 
 
 </body>
