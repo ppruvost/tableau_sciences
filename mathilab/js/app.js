@@ -17,11 +17,6 @@ window.loadInFrame = function (url, element = null) {
 };
 
 // =====================================================
-// INIT TABLES
-// =====================================================
-renderGlasswareTable(glassware);
-
-// =====================================================
 // TP VIEWER
 // =====================================================
 const tpViewer    = document.getElementById("tpViewer");
@@ -57,4 +52,4 @@ window.updateProgress = function () {
     if (bar) bar.style.width = progress + "%";
 };
 
-console.log("Laboratory chargé avec succès");
+console.log("MathiLab chargé avec succès");
