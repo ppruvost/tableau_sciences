@@ -124,7 +124,7 @@ function _ouvrirModalIdentification() {
       <input type="text" id="cr-classe" value="${val('classe')}" placeholder="ex. 1 Bac Pro MELEC">
       <div class="cr-erreur-champ" id="err-classe">La classe est requise.</div>
 
-      <label for="cr-date">Date du TP</label>
+      <label for="cr-date">Date du ${_config.plateforme === 'MathiLab' ? 'TD' : 'TP'}</label>
       <input type="date" id="cr-date" value="${valDate()}">
 
       <div class="cr-modal-actions">
@@ -188,7 +188,7 @@ function _construireTrameHTML(identite) {
          <h3>Graphique</h3>
          <img class="cr-graphique"
               src="${_config.canvas.toDataURL('image/png')}"
-              alt="Graphique du TP">
+              alt="Graphique du ${_config.plateforme === 'MathiLab' ? 'TD' : 'TP'}">
        </div>`
     : '';
 
@@ -221,16 +221,18 @@ function _construireTrameHTML(identite) {
     </div>`
     : '';
 
+  const estMathiLab = _config.plateforme === 'MathiLab';
+
   return `
     <div class="cr-entete">
       <div class="cr-logo">
-        ${_logoSVG()}
-        <div class="cr-logo-texte">Sci<span>Lab</span></div>
+        ${_logoSVG(estMathiLab)}
+        <div class="cr-logo-texte">${estMathiLab ? 'Mathi' : 'Sci'}<span>Lab</span></div>
       </div>
 
       <div class="cr-entete-droite">
         Compte-rendu généré le ${new Date().toLocaleDateString('fr-FR')}<br>
-        Bac Pro — Sciences physiques et chimiques
+        ${estMathiLab ? 'Bac Pro — Mathématiques' : 'Bac Pro — Sciences physiques et chimiques'}
       </div>
     </div>
 
@@ -244,7 +246,7 @@ function _construireTrameHTML(identite) {
       <div><div class="cr-label">Nom</div><div class="cr-valeur">${_echapper(identite.nom)}</div></div>
       <div><div class="cr-label">Prénom</div><div class="cr-valeur">${_echapper(identite.prenom)}</div></div>
       <div><div class="cr-label">Classe</div><div class="cr-valeur">${_echapper(identite.classe)}</div></div>
-      <div><div class="cr-label">Date du TP</div><div class="cr-valeur">${dateFr}</div></div>
+      <div><div class="cr-label">Date du ${estMathiLab ? 'TD' : 'TP'}</div><div class="cr-valeur">${dateFr}</div></div>
     </div>
 
     ${materielHTML}
@@ -254,7 +256,7 @@ function _construireTrameHTML(identite) {
     ${noteFinaleHTML}
 
     <div class="cr-pied">
-      <span>SciLab — Travaux pratiques</span>
+      <span>${estMathiLab ? 'MathiLab — Travaux dirigés' : 'SciLab — Travaux pratiques'}</span>
       <span>${_echapper(_config.tp || '')} · ${_echapper(_config.domaine || '')}</span>
     </div>
   `;
@@ -513,7 +515,23 @@ function _echapper(s) {
   return d.innerHTML;
 }
 
-function _logoSVG() {
+function _logoSVG(estMathiLab) {
+  if (estMathiLab) {
+    return `<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="10" y="4" width="28" height="40" rx="4"
+            fill="#1B6CA8" stroke="#0D4F8A" stroke-width="1.6" stroke-linejoin="round"/>
+      <rect x="14" y="8.5" width="20" height="9" rx="1.5" fill="#fff"/>
+      <rect x="14.5" y="21" width="5.6" height="4.3" rx="1" fill="#fff"/>
+      <rect x="21.2" y="21" width="5.6" height="4.3" rx="1" fill="#fff"/>
+      <rect x="27.9" y="21" width="5.6" height="4.3" rx="1" fill="#fff"/>
+      <rect x="14.5" y="26.3" width="5.6" height="4.3" rx="1" fill="#fff"/>
+      <rect x="21.2" y="26.3" width="5.6" height="4.3" rx="1" fill="#fff"/>
+      <rect x="27.9" y="26.3" width="5.6" height="4.3" rx="1" fill="#fff"/>
+      <rect x="14.5" y="31.6" width="5.6" height="4.3" rx="1" fill="#fff"/>
+      <rect x="21.2" y="31.6" width="5.6" height="4.3" rx="1" fill="#fff"/>
+      <rect x="27.9" y="31.6" width="5.6" height="4.3" rx="1" fill="#fff"/>
+    </svg>`;
+  }
   return `<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M19 6h10v9.5l8.5 16.4c1.6 3.1-.6 6.8-4.1 6.8H14.6c-3.5 0-5.7-3.7-4.1-6.8L19 15.5V6z"
           fill="#1B6CA8" stroke="#0D4F8A" stroke-width="1.6" stroke-linejoin="round"/>
