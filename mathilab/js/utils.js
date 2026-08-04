@@ -1,8 +1,3 @@
-/**
- * utils.js
- * Bibliothèque commune des TP de Chimie
- * ------------------------------------------------------------
-
 /* ============================================================
    HELPERS DOM
    ============================================================ */
@@ -73,6 +68,7 @@ export function imgSrc(
     // Chemin absolu du projet
     if (
         chemin.startsWith("assets/") ||
+        chemin.startsWith("tp-algorithme/") ||
         chemin.startsWith("tp-chimie/") ||
         chemin.startsWith("tp-optique/") ||
         chemin.startsWith("tp-acoustique/") ||
