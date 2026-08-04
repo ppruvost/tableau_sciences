@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const examplesButton = document.getElementById("examplesButton");
     const examplesMenu = document.getElementById("examplesMenu");
     const runButton = document.getElementById("run");
+    const exportButton = document.getElementById("export");
     const status = document.getElementById("status");
 
     /* =================================================
@@ -396,6 +397,84 @@ json.dumps(_images)
     if (runButton) {
         runButton.addEventListener("click", runProgram);
     }
+
+   /* =================================================
+   EXPORTER LE SCRIPT PYTHON
+   ================================================= */
+
+function exportPythonScript() {
+
+    // Vérifie que l'éditeur est disponible
+    if (!editor) return;
+
+    // Récupère le contenu de l'Éditeur Python
+    const pythonCode = editor.value;
+
+    // Empêche l'export d'un fichier vide
+    if (!pythonCode.trim()) {
+
+        if (output) {
+            output.textContent =
+                "Impossible d'exporter le script.\n\n" +
+                "L'Éditeur Python est vide.";
+        }
+
+        editor.focus();
+
+        return;
+    }
+
+    // Création du fichier Python
+    const pythonFile = new Blob(
+        [pythonCode],
+        {
+            type: "text/x-python;charset=utf-8"
+        }
+    );
+
+    // Création d'une URL temporaire
+    const fileURL = URL.createObjectURL(pythonFile);
+
+    // Création d'un lien de téléchargement invisible
+    const downloadLink = document.createElement("a");
+
+    downloadLink.href = fileURL;
+
+    // Nom du fichier téléchargé
+    downloadLink.download = "programme.py";
+
+    // Ajout temporaire dans la page
+    document.body.appendChild(downloadLink);
+
+    // Déclenchement du téléchargement
+    downloadLink.click();
+
+    // Suppression du lien temporaire
+    document.body.removeChild(downloadLink);
+
+    // Libération de l'URL temporaire
+    setTimeout(() => {
+        URL.revokeObjectURL(fileURL);
+    }, 100);
+
+    // Message dans la console PyLab
+    if (output) {
+        output.textContent =
+            "✓ Script Python exporté avec succès.\n\n" +
+            "Fichier : programme.py";
+    }
+}
+
+/* =================================================
+   BOUTON EXPORTER LE SCRIPT
+================================================= */
+
+if (exportButton) {
+    exportButton.addEventListener(
+        "click",
+        exportPythonScript
+    );
+}
 
     /* =================================================
        DÉMARRAGE AUTOMATIQUE
