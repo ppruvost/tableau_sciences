@@ -704,48 +704,89 @@ body {
 
 
 /* =====================================================
-   LOGO PYLAB — PAGE D'ACCUEIL
+   LOGO PYLAB
 ===================================================== */
 
-.home-logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    width: 100%;
-    margin: 0 auto 25px;
-}
-
+/* Conteneur général du logo */
 .pylab-logo {
-    display: block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
-    width: min(330px, 75vw);
-    height: auto;
+    margin: 10px auto 28px;
+    padding: 16px 28px;
 
-    object-fit: contain;
+    background: #050505;
 
-    /* Animation légère au chargement */
-    animation: logoAppear 0.7s ease-out;
+    border: 3px solid #111;
+    border-radius: 8px;
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.35),
+        inset 0 0 12px rgba(255, 255, 255, 0.04);
+
+    font-family:
+        "Arial Black",
+        Arial,
+        sans-serif;
+
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    font-weight: 900;
+
+    letter-spacing: -2px;
+
+    line-height: 1;
+
+    user-select: none;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
-/* Apparition progressive du logo */
-@keyframes logoAppear {
-    from {
-        opacity: 0;
-        transform: translateY(-12px) scale(0.96);
-    }
+/* Effet discret au survol */
+.pylab-logo:hover {
+    transform: translateY(-3px) scale(1.02);
 
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+    box-shadow:
+        0 12px 28px rgba(0, 0, 0, 0.45),
+        0 0 14px rgba(227, 27, 47, 0.18);
+}
+
+/* Partie blanche : PY */
+.pylab-logo .py {
+    color: #ffffff;
+
+    text-shadow:
+        1px 1px 0 #777,
+        2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+/* Partie rouge : LAB */
+.pylab-logo .lab {
+    color: #e31b2f;
+
+    margin-left: 7px;
+
+    text-shadow:
+        1px 1px 0 #85000d,
+        0 0 7px rgba(227, 27, 47, 0.35);
 }
 
 /* Adaptation aux petits écrans */
-@media (max-width: 600px) {
+@media screen and (max-width: 600px) {
 
     .pylab-logo {
-        width: min(260px, 80vw);
+        padding: 13px 20px;
+
+        font-size: clamp(2.2rem, 14vw, 3.6rem);
+
+        letter-spacing: -1px;
+
+        border-width: 2px;
     }
 
+    .pylab-logo .lab {
+        margin-left: 5px;
+    }
 }
