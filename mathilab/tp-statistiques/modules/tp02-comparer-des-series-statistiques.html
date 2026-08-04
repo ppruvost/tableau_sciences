@@ -98,33 +98,21 @@
 
 </div>
 
-<div class="section" data-type="materiel">
-
-  <div class="section-titre">
-    <div class="picto-section">🧮</div>
-    <h2>Matériel nécessaire</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <h3>Équipements</h3>
-    <div id="materiel-equipements" class="grille-materiel">
-    </div>
-
-  </div>
-
-</div>
-
 <div class="section" data-type="preparation">
 
   <div class="section-titre">
     <div class="picto-section">📊</div>
-    <h2>Manipulations</h2>
+    <h2>Activités</h2>
     <span class="chevron">▼</span>
   </div>
 
   <div class="section-corps">
+
+    <div class="toolbar">
+      <a class="btn btn-secondaire" href="../../numworks/emulator.html" target="_blank" rel="noopener">
+        🧮 Ouvrir la calculatrice NumWorks
+      </a>
+    </div>
 
     <div class="tabs-container">
 
@@ -399,6 +387,125 @@
 
 </div>
 
+<div class="section" data-type="puzzle">
+
+  <div class="section-titre">
+    <div class="picto-section">🧩</div>
+    <h2>Activités Puzzle</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="info">
+      Organisation en <strong>classe puzzle</strong> : les quatre fiches
+      ci-dessous portent sur la <strong>même série</strong> (l'enquête
+      taille de la fiche C du TD S1). Chaque groupe expert calcule une
+      catégorie d'indicateurs, puis les groupes puzzle mélangés
+      reconstituent l'analyse complète de la série.
+    </div>
+
+    <div class="toolbar">
+      <a class="btn btn-secondaire" href="../../roue/index.html" target="_blank" rel="noopener">
+        🎡 Ouvrir la roue (tirage des groupes)
+      </a>
+    </div>
+
+    <div class="info">
+      Série étudiée — taille (en cm) de 20 élèves : 173, 169, 174, 179,
+      169, 166, 179, 172, 166, 172, 170, 170, 175, 162, 169, 169, 162,
+      175, 164, 171.
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Indicateurs de position">
+
+      <h3>Fiche A — Indicateurs de position</h3>
+
+      <p>À l'aide de la calculatrice ou d'un tableur, déterminer pour la série ci-dessus :</p>
+
+      <ol>
+        <li>La moyenne.</li>
+        <li>La médiane.</li>
+        <li>Le mode (la valeur la plus fréquente).</li>
+      </ol>
+
+      <p class="info">Expliquer avec vos mots ce que représente chacun de ces trois indicateurs.</p>
+
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+
+      <div class="zone-eleve">
+        <textarea rows="6" placeholder="Réponses du groupe expert : moyenne, médiane, mode, explications..."></textarea>
+      </div>
+
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Indicateurs de dispersion">
+
+      <h3>Fiche B — Indicateurs de dispersion</h3>
+
+      <p>À l'aide de la calculatrice ou d'un tableur, déterminer pour la même série :</p>
+
+      <ol>
+        <li>La valeur minimale, la valeur maximale et l'étendue.</li>
+        <li>L'écart type.</li>
+        <li>Le premier quartile Q1 et le troisième quartile Q3, puis l'écart interquartile Q3 − Q1.</li>
+      </ol>
+
+      <p class="info">Expliquer à quoi sert chacun de ces indicateurs de dispersion.</p>
+
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+
+      <div class="zone-eleve">
+        <textarea rows="6" placeholder="Réponses du groupe expert : étendue, écart type, Q1, Q3, écart interquartile, explications..."></textarea>
+      </div>
+
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Boîte à moustaches">
+
+      <h3>Fiche C — Construire la boîte à moustaches</h3>
+
+      <p>À partir du minimum, de Q1, de la médiane, de Q3 et du maximum de la série (à demander au groupe de la fiche B si besoin, ou à recalculer), construire la boîte à moustaches de la série.</p>
+
+      <ol>
+        <li>Placer les 5 valeurs sur un axe gradué.</li>
+        <li>Tracer la boîte (de Q1 à Q3) et les moustaches (du minimum à Q1, de Q3 au maximum).</li>
+        <li>Que peut-on dire de la répartition des tailles à partir de cette boîte à moustaches ?</li>
+      </ol>
+
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+
+      <div class="zone-eleve">
+        <textarea rows="6" placeholder="Réponses du groupe expert : description de la boîte à moustaches construite, interprétation..."></textarea>
+      </div>
+
+    </div>
+
+    <h3 style="margin-top:var(--gap-lg);">Synthèse puzzle (séance 2)</h3>
+
+    <div class="info">
+      En groupe mélangé, rassembler les résultats des trois fiches (position,
+      dispersion, boîte à moustaches) pour rédiger une analyse complète de
+      la série des tailles.
+    </div>
+
+    <div class="zone-eleve">
+      <textarea id="puzzle-synthese" rows="6" placeholder="Synthèse commune : indicateurs de position, de dispersion, et lecture de la boîte à moustaches..."></textarea>
+    </div>
+
+  </div>
+
+</div>
+
 <div class="section" data-type="bilan">
 
   <div class="section-titre">
@@ -435,7 +542,7 @@
 
     </div>
 
-    <h3 style="margin-top:var(--gap-md);">Résumé du TP</h3>
+    <h3 style="margin-top:var(--gap-md);">Résumé du TD</h3>
 
     <div class="zone-eleve">
       <textarea id="resume-tp" rows="6" placeholder="Résumer les indicateurs calculés et la comparaison des deux séries..."></textarea>
@@ -485,7 +592,7 @@
 
       <li class="question-problematique">
         <div class="question-entete">
-          <strong>Répondre à la problématique posée en début de TP :</strong>
+          <strong>Répondre à la problématique posée en début de TD :</strong>
           <span class="cartouche" data-comp="VAL">VAL</span>
         </div>
         <p class="problematique-rappel" data-activite="comparer-series-statistiques"></p>
@@ -513,7 +620,7 @@
   <div class="section-corps">
 
     <p class="info">
-      À la fin du TP, évaluez votre niveau de maîtrise pour chaque
+      À la fin du TD, évaluez votre niveau de maîtrise pour chaque
       compétence.
     </p>
 
@@ -607,7 +714,7 @@
   <div class="section-corps">
 
     <p class="info">
-      À la fin du TP, imprimer votre travail en PDF.
+      À la fin du TD, imprimer votre travail en PDF.
       Envoyer à l'enseignant votre compte rendu en pièce jointe par la messagerie de l'ENT.
     </p>
 
