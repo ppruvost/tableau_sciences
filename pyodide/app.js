@@ -237,7 +237,7 @@ matplotlib.use("Agg")
 print("Python", sys.version.split()[0])
 print("NumPy", numpy.__version__)
 print("Matplotlib", matplotlib.__version__)
-print("Math", math.__version__)
+print("Math")
 `);
 
                 pyodideReady = instance;
