@@ -99,33 +99,21 @@
 
 </div>
 
-<div class="section" data-type="materiel">
-
-  <div class="section-titre">
-    <div class="picto-section">🧮</div>
-    <h2>Matériel nécessaire</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <h3>Équipements</h3>
-    <div id="materiel-equipements" class="grille-materiel">
-    </div>
-
-  </div>
-
-</div>
-
 <div class="section" data-type="preparation">
 
   <div class="section-titre">
     <div class="picto-section">📊</div>
-    <h2>Manipulations</h2>
+    <h2>Activités</h2>
     <span class="chevron">▼</span>
   </div>
 
   <div class="section-corps">
+
+    <div class="toolbar">
+      <a class="btn btn-secondaire" href="../../numworks/emulator.html" target="_blank" rel="noopener">
+        🧮 Ouvrir la calculatrice NumWorks
+      </a>
+    </div>
 
     <div class="tabs-container">
 
@@ -408,6 +396,114 @@
 
 </div>
 
+<div class="section" data-type="puzzle">
+
+  <div class="section-titre">
+    <div class="picto-section">🧩</div>
+    <h2>Activités Puzzle</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="info">
+      Organisation en <strong>classe puzzle</strong> : chaque groupe
+      expert calcule une fréquence dans un contexte professionnel
+      différent, puis les groupes puzzle mélangés comparent les
+      démarches. <em>Fiches à adapter avec vos propres relevés de
+      classe si vous en disposez (contrôle qualité réel, données
+      d'atelier...).</em>
+    </div>
+
+    <div class="toolbar">
+      <a class="btn btn-secondaire" href="../../roue/index.html" target="_blank" rel="noopener">
+        🎡 Ouvrir la roue (tirage des groupes)
+      </a>
+    </div>
+
+    <div class="fiche-puzzle" data-titre="REMI — pièces non conformes">
+
+      <h3>Fiche A — REMI : pièces non conformes</h3>
+
+      <p>Un atelier annonce un taux de pièces non conformes de 8 %. Sur un contrôle qualité, 4 pièces sur 50 prélevées se révèlent non conformes.</p>
+
+      <ol>
+        <li>Calculer la fréquence de pièces non conformes observée sur cet échantillon.</li>
+        <li>Comparer cette fréquence au taux annoncé de 8 %. Cet écart est-il surprenant ?</li>
+      </ol>
+
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+
+      <div class="zone-eleve">
+        <textarea rows="6" placeholder="Réponses du groupe expert : fréquence calculée, comparaison au taux annoncé..."></textarea>
+      </div>
+
+    </div>
+
+    <div class="fiche-puzzle" data-titre="GATL — retards de livraison">
+
+      <h3>Fiche B — GATL : retards de livraison</h3>
+
+      <p>Un transporteur annonce un taux de retard de 10 %. Sur un suivi de 40 livraisons, 6 sont arrivées en retard.</p>
+
+      <ol>
+        <li>Calculer la fréquence de retard observée sur ce suivi.</li>
+        <li>Comparer cette fréquence au taux annoncé de 10 %. Cet écart est-il surprenant ?</li>
+      </ol>
+
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+
+      <div class="zone-eleve">
+        <textarea rows="6" placeholder="Réponses du groupe expert : fréquence calculée, comparaison au taux annoncé..."></textarea>
+      </div>
+
+    </div>
+
+    <div class="fiche-puzzle" data-titre="MCC — retouches">
+
+      <h3>Fiche C — MCC : pièces nécessitant une retouche</h3>
+
+      <p>Un atelier de confection annonce un taux de retouche de 15 %. Sur un contrôle de 60 pièces confectionnées, 9 nécessitent une retouche.</p>
+
+      <ol>
+        <li>Calculer la fréquence de retouche observée sur ce contrôle.</li>
+        <li>Comparer cette fréquence au taux annoncé de 15 %. Cet écart est-il surprenant ?</li>
+      </ol>
+
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+
+      <div class="zone-eleve">
+        <textarea rows="6" placeholder="Réponses du groupe expert : fréquence calculée, comparaison au taux annoncé..."></textarea>
+      </div>
+
+    </div>
+
+    <h3 style="margin-top:var(--gap-lg);">Synthèse puzzle (séance 2)</h3>
+
+    <div class="info">
+      En groupe mélangé, comparer les trois écarts entre fréquence
+      observée et taux annoncé. Le phénomène observé (fluctuation
+      d'échantillonnage) est-il le même dans les trois filières,
+      malgré des contextes différents ?
+    </div>
+
+    <div class="zone-eleve">
+      <textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs entre les trois contextes..."></textarea>
+    </div>
+
+  </div>
+
+</div>
+
 <div class="section" data-type="bilan">
 
   <div class="section-titre">
@@ -444,7 +540,7 @@
 
     </div>
 
-    <h3 style="margin-top:var(--gap-md);">Résumé du TP</h3>
+    <h3 style="margin-top:var(--gap-md);">Résumé du TD</h3>
 
     <div class="zone-eleve">
       <textarea id="resume-tp" rows="6" placeholder="Résumer la fluctuation observée et la stabilisation de la fréquence..."></textarea>
@@ -494,7 +590,7 @@
 
       <li class="question-problematique">
         <div class="question-entete">
-          <strong>Répondre à la problématique posée en début de TP :</strong>
+          <strong>Répondre à la problématique posée en début de TD :</strong>
           <span class="cartouche" data-comp="VAL">VAL</span>
         </div>
         <p class="problematique-rappel" data-activite="fluctuation-frequence-probabilites"></p>
@@ -522,7 +618,7 @@
   <div class="section-corps">
 
     <p class="info">
-      À la fin du TP, évaluez votre niveau de maîtrise pour chaque
+      À la fin du TD, évaluez votre niveau de maîtrise pour chaque
       compétence.
     </p>
 
@@ -616,7 +712,7 @@
   <div class="section-corps">
 
     <p class="info">
-      À la fin du TP, imprimer votre travail en PDF.
+      À la fin du TD, imprimer votre travail en PDF.
       Envoyer à l'enseignant votre compte rendu en pièce jointe par la messagerie de l'ENT.
     </p>
 
