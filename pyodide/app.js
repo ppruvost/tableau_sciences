@@ -208,7 +208,7 @@ plt.show()`
                     // adapte ce chemin à l’emplacement réel de ton dossier pyodide
                     // Exemple GitHub Pages :
                     // "/tableau_sciences/pyodide/"
-                    indexURL: "/tableau_sciences/pyodide/"
+                    indexURL: "./pyodide/pyodide/"
                 });
 
                 console.log("PyLab : Pyodide Core chargé.");
