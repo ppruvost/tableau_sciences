@@ -24,8 +24,8 @@
     --domaine-chimie-1: #1B6CA8;
     --domaine-chimie-2: #0D4F8A;
 
-    --domaine-acoustique-1: #0891B2;
-    --domaine-acoustique-2: #0E7490;
+    --domaine-algorithme-1: #0891B2;
+    --domaine-algorithme-2: #0E7490;
 
     --domaine-thermique-1: #C1440E;
     --domaine-thermique-2: #7A2E0E;
@@ -342,8 +342,8 @@ th {
     background: linear-gradient(135deg, var(--domaine-chimie-1), var(--domaine-chimie-2));
 }
 
-.acoustique {
-    background: linear-gradient(135deg, var(--domaine-acoustique-1), var(--domaine-acoustique-2));
+.algorithme {
+    background: linear-gradient(135deg, var(--domaine-algorithme-1), var(--domaine-algorithme-2));
 }
 
 .thermique {
@@ -432,7 +432,7 @@ th {
 .tp-viewer[data-domaine="statistiques"] .viewer-topbar { background: linear-gradient(135deg, var(--domaine-statistiques-2), var(--domaine-statistiques-1)); }
 .tp-viewer[data-domaine="mecanique"]   .viewer-topbar { background: linear-gradient(135deg, var(--domaine-mecanique-2), var(--domaine-mecanique-1)); }
 .tp-viewer[data-domaine="chimie"]      .viewer-topbar { background: linear-gradient(135deg, var(--domaine-chimie-2), var(--domaine-chimie-1)); }
-.tp-viewer[data-domaine="acoustique"]  .viewer-topbar { background: linear-gradient(135deg, var(--domaine-acoustique-2), var(--domaine-acoustique-1)); }
+.tp-viewer[data-domaine="algorithme"]  .viewer-topbar { background: linear-gradient(135deg, var(--domaine-algorithme-2), var(--domaine-algorithme-1)); }
 .tp-viewer[data-domaine="thermique"]   .viewer-topbar { background: linear-gradient(135deg, var(--domaine-thermique-2), var(--domaine-thermique-1)); }
 .tp-viewer[data-domaine="optique"]     .viewer-topbar { background: linear-gradient(135deg, var(--domaine-optique-2), var(--domaine-optique-1)); }
 .tp-viewer[data-domaine="signaux"] .viewer-topbar { background: linear-gradient(135deg, var(--domaine-signaux-2), var(--domaine-signaux-1)); }
