@@ -36,10 +36,10 @@ document.addEventListener("DOMContentLoaded", () => {
     ================================================= */
 
     function showPython() {
-        homePage.classList.remove("active-page");
-        pythonPage.classList.add("active-page");
-        homeButton.classList.remove("active");
-        pythonButton.classList.add("active");
+        if (homePage) homePage.classList.remove("active-page");
+        if (pythonPage) pythonPage.classList.add("active-page");
+        if (homeButton) homeButton.classList.remove("active");
+        if (pythonButton) pythonButton.classList.add("active");
     }
 
     /* =================================================
@@ -47,27 +47,19 @@ document.addEventListener("DOMContentLoaded", () => {
     ================================================= */
 
     function showHome() {
-        pythonPage.classList.remove("active-page");
-        homePage.classList.add("active-page");
-        pythonButton.classList.remove("active");
-        homeButton.classList.add("active");
+        if (pythonPage) pythonPage.classList.remove("active-page");
+        if (homePage) homePage.classList.add("active-page");
+        if (pythonButton) pythonButton.classList.remove("active");
+        if (homeButton) homeButton.classList.add("active");
     }
 
     /* =================================================
        BOUTONS DE NAVIGATION
     ================================================= */
 
-    if (homeButton) {
-        homeButton.addEventListener("click", showHome);
-    }
-
-    if (pythonButton) {
-        pythonButton.addEventListener("click", showPython);
-    }
-
-    if (startButton) {
-        startButton.addEventListener("click", showPython);
-    }
+    if (homeButton) homeButton.addEventListener("click", showHome);
+    if (pythonButton) pythonButton.addEventListener("click", showPython);
+    if (startButton) startButton.addEventListener("click", showPython);
 
     /* =================================================
        STATUT DE CHARGEMENT
@@ -88,7 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
             editor.value = "";
             editor.focus();
         }
-
         if (output) {
             output.textContent = "Console effacée.";
         }
@@ -166,7 +157,7 @@ plt.show()`
         button.addEventListener("click", () => {
             const exampleName = button.dataset.example;
 
-            if (examples[exampleName]) {
+            if (examples[exampleName] && editor) {
                 editor.value = examples[exampleName];
             }
 
@@ -176,7 +167,7 @@ plt.show()`
                 examplesMenu.classList.remove("show");
             }
 
-            editor.focus();
+            if (editor) editor.focus();
         });
     });
 
@@ -188,7 +179,6 @@ plt.show()`
         editor.addEventListener("keydown", event => {
             if (event.ctrlKey && event.key === "Enter") {
                 event.preventDefault();
-
                 if (runButton && !runButton.disabled) {
                     runButton.click();
                 }
@@ -201,9 +191,7 @@ plt.show()`
     ================================================= */
 
     async function initPyodide() {
-        if (pyodidePromise) {
-            return pyodidePromise;
-        }
+        if (pyodidePromise) return pyodidePromise;
 
         pyodidePromise = (async () => {
             try {
@@ -216,36 +204,27 @@ plt.show()`
                 console.log("PyLab : chargement de Pyodide Core...");
 
                 const instance = await loadPyodide({
-                    indexURL: "./pyodide/"
+                    // IMPORTANT :
+                    // adapte ce chemin à l’emplacement réel de ton dossier pyodide
+                    // Exemple GitHub Pages :
+                    // "/tableau_sciences/pyodide/"
+                    indexURL: "/tableau_sciences/pyodide/"
                 });
 
                 console.log("PyLab : Pyodide Core chargé.");
 
-                setStatus("Chargement de NumPy...", "status-loading");
+                setStatus("Chargement de NumPy et Matplotlib...", "status-loading");
 
                 if (output) {
                     output.textContent =
-                        "Python est chargé.\n\nChargement de NumPy...";
+                        "Python est chargé.\n\nChargement de NumPy et Matplotlib...";
                 }
 
-                console.log("PyLab : chargement de NumPy...");
+                console.log("PyLab : chargement de NumPy et Matplotlib...");
 
-                await instance.loadPackage("numpy");
+                await instance.loadPackage(["numpy", "matplotlib"]);
 
-                console.log("PyLab : NumPy chargé.");
-
-                setStatus("Chargement de Matplotlib...", "status-loading");
-
-                if (output) {
-                    output.textContent =
-                        "Python est chargé.\nNumPy est chargé.\n\nChargement de Matplotlib...";
-                }
-
-                console.log("PyLab : chargement de Matplotlib...");
-
-                await instance.loadPackage("matplotlib");
-
-                console.log("PyLab : Matplotlib chargé.");
+                console.log("PyLab : NumPy et Matplotlib chargés.");
 
                 await instance.runPythonAsync(`
 import sys
@@ -287,11 +266,6 @@ print("Matplotlib", matplotlib.__version__)
                 if (output) {
                     output.textContent =
                         "Impossible de démarrer PyLab.\n\n" +
-                        "Vérifie :\n" +
-                        "• le fichier pyodide.js ;\n" +
-                        "• le fichier pyodide.asm.wasm ;\n" +
-                        "• le fichier python_stdlib.zip ;\n" +
-                        "• l'accès aux paquets NumPy et Matplotlib.\n\n" +
                         "Détail :\n" +
                         error;
                 }
@@ -312,8 +286,7 @@ print("Matplotlib", matplotlib.__version__)
     ================================================= */
 
     async function runProgram() {
-        if (!pyodideReady) return;
-        if (!editor || !output) return;
+        if (!pyodideReady || !editor || !output) return;
 
         runButton.disabled = true;
         output.textContent = "";
@@ -353,8 +326,8 @@ print("Matplotlib", matplotlib.__version__)
 
     /* =================================================
        DÉMARRAGE AUTOMATIQUE
-       PYODIDE + NUMPY + MATPLOTLIB
     ================================================= */
 
     initPyodide();
+
 });
