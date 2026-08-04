@@ -246,6 +246,13 @@ import sys
 import numpy
 import matplotlib
 import math
+import warnings
+
+# Filtre l'avertissement inoffensif émis par plt.show() avec le
+# backend "Agg" (rendu non interactif, cf. plus bas). Sans ce
+# filtre, il apparaît dans la console à chaque exécution qui
+# utilise Matplotlib.
+warnings.filterwarnings("ignore", message=".*non-interactive.*")
 
 # Rendu "headless" fiable : les figures sont capturées en PNG
 # côté JS après exécution plutôt que dessinées directement dans
@@ -332,12 +339,22 @@ print("Matplotlib", matplotlib.__version__)
             // Récupère les éventuelles figures Matplotlib ouvertes par le
             // programme (plt.show() ne peut rien afficher lui-même avec le
             // backend "Agg" : on les convertit ici en images PNG).
+            //
+            // CORRECTIF : json.dumps(_images) doit être la dernière
+            // instruction de haut niveau et une EXPRESSION NUE (pas à
+            // l'intérieur du try/except) pour que runPythonAsync()
+            // renvoie effectivement une valeur à JavaScript. Avant ce
+            // correctif, la dernière instruction de haut niveau était le
+            // try/except lui-même : Pyodide renvoyait alors "undefined"
+            // à JS, d'où l'erreur systématique
+            // "SyntaxError: 'undefined' is not valid JSON" à CHAQUE
+            // exécution, même sans graphique.
             const figuresJson = await pyodideReady.runPythonAsync(`
 import io, base64, json
 
+_images = []
 try:
     import matplotlib.pyplot as plt
-    _images = []
     for _num in plt.get_fignums():
         _fig = plt.figure(_num)
         _buf = io.BytesIO()
@@ -345,9 +362,10 @@ try:
         _buf.seek(0)
         _images.append(base64.b64encode(_buf.read()).decode("ascii"))
     plt.close("all")
-    json.dumps(_images)
 except ImportError:
-    json.dumps([])
+    pass
+
+json.dumps(_images)
 `);
 
             const images = JSON.parse(figuresJson);
