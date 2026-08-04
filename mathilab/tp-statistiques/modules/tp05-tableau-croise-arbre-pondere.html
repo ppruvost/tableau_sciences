@@ -56,7 +56,7 @@
   <div class="section-corps">
 
     <p class="info">
-      Ce TP est commun aux classes de 1ère et de Terminale : sélectionner
+      Ce TD est commun aux classes de 1ère et de Terminale : sélectionner
       votre filière et votre niveau ci-dessous fait apparaître les
       onglets correspondant à votre programme.
     </p>
@@ -106,33 +106,21 @@
 
 </div>
 
-<div class="section" data-type="materiel">
-
-  <div class="section-titre">
-    <div class="picto-section">🧮</div>
-    <h2>Matériel nécessaire</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <h3>Équipements</h3>
-    <div id="materiel-equipements" class="grille-materiel">
-    </div>
-
-  </div>
-
-</div>
-
 <div class="section" data-type="preparation">
 
   <div class="section-titre">
     <div class="picto-section">📊</div>
-    <h2>Manipulations</h2>
+    <h2>Activités</h2>
     <span class="chevron">▼</span>
   </div>
 
   <div class="section-corps">
+
+    <div class="toolbar">
+      <a class="btn btn-secondaire" href="../../numworks/emulator.html" target="_blank" rel="noopener">
+        🧮 Ouvrir la calculatrice NumWorks
+      </a>
+    </div>
 
     <div id="s05-message-niveau" class="info">
       Sélectionner votre filière ci-dessus : l'onglet « Arbre pondéré et
@@ -364,6 +352,140 @@
 
 </div>
 
+<div class="section" data-type="puzzle">
+
+  <div class="section-titre">
+    <div class="picto-section">🧩</div>
+    <h2>Activités Puzzle</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="info">
+      Organisation en <strong>classe puzzle</strong> : chaque groupe
+      expert calcule une probabilité conditionnelle dans un contexte
+      logistique différent. En séance 2, les groupes puzzle mélangés
+      comparent les quatre méthodes, identiques malgré des contextes
+      différents.
+    </div>
+
+    <div class="toolbar">
+      <a class="btn btn-secondaire" href="../../roue/index.html" target="_blank" rel="noopener">
+        🎡 Ouvrir la roue (tirage des groupes)
+      </a>
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Contrôle qualité en entrepôt">
+
+      <h3>Fiche A — Contrôle qualité en entrepôt</h3>
+
+      <p>Un lot de 200 colis est contrôlé. 30 colis sont défectueux. Parmi les défectueux, 18 proviennent du fournisseur A. Le fournisseur A a livré en tout 80 colis.</p>
+
+      <ol>
+        <li>Compléter le tableau croisé d'effectifs (fournisseur A / non A × défectueux / non défectueux).</li>
+        <li>Quelle est la probabilité qu'un colis choisi au hasard soit défectueux ?</li>
+        <li>Quelle est la probabilité qu'un colis soit défectueux sachant qu'il provient du fournisseur A ?</li>
+      </ol>
+
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+
+      <div class="zone-eleve">
+        <textarea rows="6" placeholder="Réponses du groupe expert : tableau croisé, P(D), probabilité conditionnelle..."></textarea>
+      </div>
+
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Retards de livraison">
+
+      <h3>Fiche B — Retards de livraison</h3>
+
+      <p>Une entreprise de transport analyse 300 livraisons. 60 concernent des clients en zone urbaine (le reste en zone rurale). Au total, 45 livraisons ont eu du retard, dont 15 en zone urbaine.</p>
+
+      <ol>
+        <li>Compléter le tableau croisé d'effectifs (zone urbaine / rurale × retard / pas de retard).</li>
+        <li>Quelle est la probabilité qu'une livraison choisie au hasard soit à la fois urbaine et en retard ?</li>
+        <li>Quelle est la probabilité qu'une livraison ait du retard sachant qu'elle est en zone urbaine ?</li>
+      </ol>
+
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+
+      <div class="zone-eleve">
+        <textarea rows="6" placeholder="Réponses du groupe expert : tableau croisé, P(U∩R), probabilité conditionnelle..."></textarea>
+      </div>
+
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Choix de palettes">
+
+      <h3>Fiche C — Choix de palettes</h3>
+
+      <p>Un magasin reçoit 120 palettes de marchandises : 50 sont des palettes de produits alimentaires, le reste des palettes de produits d'entretien. Sur l'ensemble, 24 palettes présentent un défaut d'emballage, dont 10 alimentaires.</p>
+
+      <ol>
+        <li>Compléter le tableau croisé d'effectifs (alimentaire / entretien × défectueux / non défectueux).</li>
+        <li>Quelle est la probabilité qu'une palette choisie au hasard soit défectueuse ?</li>
+        <li>Quelle est la probabilité qu'une palette soit défectueuse sachant que c'est une palette alimentaire ? Que remarque-t-on ?</li>
+      </ol>
+
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+
+      <div class="zone-eleve">
+        <textarea rows="6" placeholder="Réponses du groupe expert : tableau croisé, P(D), probabilité conditionnelle, remarque..."></textarea>
+      </div>
+
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Flotte de camions">
+
+      <h3>Fiche D — Flotte de camions</h3>
+
+      <p>Une société possède 40 camions : 25 fonctionnent au diesel et 15 au gaz naturel. 6 camions sont actuellement en panne, dont 4 fonctionnent au diesel.</p>
+
+      <ol>
+        <li>Compléter le tableau croisé d'effectifs (diesel / gaz naturel × en panne / en état).</li>
+        <li>Quelle est la probabilité qu'un camion choisi au hasard soit en panne ?</li>
+        <li>Quelle est la probabilité qu'un camion soit en panne sachant qu'il fonctionne au diesel ?</li>
+      </ol>
+
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+
+      <div class="zone-eleve">
+        <textarea rows="6" placeholder="Réponses du groupe expert : tableau croisé, P(P), probabilité conditionnelle..."></textarea>
+      </div>
+
+    </div>
+
+    <h3 style="margin-top:var(--gap-lg);">Synthèse puzzle (séance 2)</h3>
+
+    <div class="info">
+      En groupe mélangé, vérifier que les quatre experts ont suivi la
+      même méthode (tableau croisé, puis P<sub>A</sub>(B) =
+      P(A∩B) / P(A)) malgré des contextes différents. Dans quel(s)
+      contexte(s) la probabilité conditionnelle est-elle très
+      différente de la probabilité globale ? Que peut-on en conclure ?
+    </div>
+
+    <div class="zone-eleve">
+      <textarea id="puzzle-synthese" rows="6" placeholder="Synthèse commune : méthode partagée, comparaison des quatre contextes..."></textarea>
+    </div>
+
+  </div>
+
+</div>
+
 <div class="section" data-type="bilan">
 
   <div class="section-titre">
@@ -400,7 +522,7 @@
 
     </div>
 
-    <h3 style="margin-top:var(--gap-md);">Résumé du TP</h3>
+    <h3 style="margin-top:var(--gap-md);">Résumé du TD</h3>
 
     <div class="zone-eleve">
       <textarea id="resume-tp" rows="6" placeholder="Résumer le tableau croisé, la probabilité conditionnelle et/ou l'arbre pondéré construits..."></textarea>
@@ -450,7 +572,7 @@
 
       <li class="question-problematique">
         <div class="question-entete">
-          <strong>Répondre à la problématique posée en début de TP :</strong>
+          <strong>Répondre à la problématique posée en début de TD :</strong>
           <span class="cartouche" data-comp="VAL">VAL</span>
         </div>
         <p class="problematique-rappel" data-activite="tableau-croise-arbre-pondere"></p>
@@ -478,7 +600,7 @@
   <div class="section-corps">
 
     <p class="info">
-      À la fin du TP, évaluez votre niveau de maîtrise pour chaque
+      À la fin du TD, évaluez votre niveau de maîtrise pour chaque
       compétence.
     </p>
 
@@ -572,7 +694,7 @@
   <div class="section-corps">
 
     <p class="info">
-      À la fin du TP, imprimer votre travail en PDF.
+      À la fin du TD, imprimer votre travail en PDF.
       Envoyer à l'enseignant votre compte rendu en pièce jointe par la messagerie de l'ENT.
     </p>
 
