@@ -1,8 +1,8 @@
 /* =========================================================
-PYLAB
-INTERFACE UTILISATEUR + MOTEUR PYTHON (PYODIDE)
-PYODIDE CORE + NUMPY + MATPLOTLIB
-========================================================= */
+   PYLAB
+   INTERFACE UTILISATEUR + MOTEUR PYTHON (PYODIDE)
+   PYODIDE CORE + NUMPY + MATPLOTLIB
+   ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -188,6 +188,20 @@ plt.show()`
 
     /* =================================================
        INITIALISATION DE PYODIDE CORE
+
+       CORRECTIF : indexURL pointait vers "./pyodide/pyodide/"
+       alors que la page (pyodide/index.html) se trouve déjà
+       dans le dossier "pyodide/". indexURL est résolu par
+       rapport à l'URL de la PAGE, pas par rapport au script
+       pyodide.js — donc "./pyodide/pyodide/" ajoutait un
+       niveau "pyodide/" de trop et pointait vers un dossier
+       inexistant :
+       .../tableau_sciences/pyodide/pyodide/pyodide/...
+       au lieu de :
+       .../tableau_sciences/pyodide/pyodide/...
+       (là où se trouve réellement pyodide.asm.mjs, à côté
+       du fichier pyodide.js chargé par le <script> de
+       index.html).
     ================================================= */
 
     async function initPyodide() {
@@ -204,10 +218,8 @@ plt.show()`
                 console.log("PyLab : chargement de Pyodide Core...");
 
                 const instance = await loadPyodide({
-                    // IMPORTANT :
-                    // adapte ce chemin à l’emplacement réel de ton dossier pyodide
-                    // Exemple GitHub Pages :
-                    // "/tableau_sciences/pyodide/"
+                    // Chemin corrigé : un seul niveau "pyodide/" à partir
+                    // de la page, cohérent avec <script src="./pyodide/pyodide.js">
                     indexURL: "./pyodide/"
                 });
 
@@ -230,6 +242,11 @@ plt.show()`
 import sys
 import numpy
 import matplotlib
+
+# Rendu "headless" fiable : les figures sont capturées en PNG
+# côté JS après exécution plutôt que dessinées directement dans
+# la page (évite les soucis de backend interactif dans le navigateur).
+matplotlib.use("Agg")
 
 print("Python", sys.version.split()[0])
 print("NumPy", numpy.__version__)
@@ -303,10 +320,44 @@ print("Matplotlib", matplotlib.__version__)
             }
         });
 
+        let imagesCount = 0;
+
         try {
             await pyodideReady.runPythonAsync(editor.value);
 
-            if (!output.textContent.trim()) {
+            // Récupère les éventuelles figures Matplotlib ouvertes par le
+            // programme (plt.show() ne peut rien afficher lui-même avec le
+            // backend "Agg" : on les convertit ici en images PNG).
+            const figuresJson = await pyodideReady.runPythonAsync(`
+import io, base64, json
+
+try:
+    import matplotlib.pyplot as plt
+    _images = []
+    for _num in plt.get_fignums():
+        _fig = plt.figure(_num)
+        _buf = io.BytesIO()
+        _fig.savefig(_buf, format="png", bbox_inches="tight")
+        _buf.seek(0)
+        _images.append(base64.b64encode(_buf.read()).decode("ascii"))
+    plt.close("all")
+    json.dumps(_images)
+except ImportError:
+    json.dumps([])
+`);
+
+            const images = JSON.parse(figuresJson);
+            imagesCount = images.length;
+
+            images.forEach(b64 => {
+                const img = document.createElement("img");
+                img.src = "data:image/png;base64," + b64;
+                img.alt = "Graphique généré par le programme Python";
+                img.className = "plot-image";
+                output.appendChild(img);
+            });
+
+            if (!output.textContent.trim() && imagesCount === 0) {
                 output.textContent = "Programme exécuté (aucune sortie texte).";
             }
         } catch (error) {
