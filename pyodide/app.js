@@ -189,25 +189,6 @@ plt.show()`
 
     /* =================================================
        INITIALISATION DE PYODIDE
-
-       CORRECTIF STABLE : indexURL pointe désormais vers le
-       CDN officiel jsDelivr (distribution "full"), qui
-       contient tous les paquets scientifiques (numpy,
-       matplotlib, etc.) avec leurs fichiers .whl et
-       pyodide-lock.json.
-
-       Auparavant, le dossier local "pyodide/pyodide/" ne
-       contenait que la distribution "pyodide-core", une
-       version minimale du runtime sans aucun paquet
-       scientifique (prévue pour Node.js avec CDN de secours
-       automatique, absent en navigateur). C'est pour cela que
-       loadPackage(["numpy", "matplotlib"]) échouait avec
-       "ModuleNotFoundError: No module named 'numpy'".
-
-       Avec le CDN, plus besoin d'héberger ni de maintenir de
-       fichiers volumineux dans le dépôt : la version utilisée
-       doit juste correspondre exactement au numéro de version
-       Pyodide (ici 314.0.3).
     ================================================= */
 
     async function initPyodide() {
@@ -249,15 +230,8 @@ import matplotlib
 import math
 import warnings
 
-# Filtre l'avertissement inoffensif émis par plt.show() avec le
-# backend "Agg" (rendu non interactif, cf. plus bas). Sans ce
-# filtre, il apparaît dans la console à chaque exécution qui
-# utilise Matplotlib.
 warnings.filterwarnings("ignore", message=".*non-interactive.*")
 
-# Rendu "headless" fiable : les figures sont capturées en PNG
-# côté JS après exécution plutôt que dessinées directement dans
-# la page (évite les soucis de backend interactif dans le navigateur).
 matplotlib.use("Agg")
 
 print("Python", sys.version.split()[0])
@@ -337,19 +311,6 @@ print("Matplotlib", matplotlib.__version__)
         try {
             await pyodideReady.runPythonAsync(editor.value);
 
-            // Récupère les éventuelles figures Matplotlib ouvertes par le
-            // programme (plt.show() ne peut rien afficher lui-même avec le
-            // backend "Agg" : on les convertit ici en images PNG).
-            //
-            // CORRECTIF : json.dumps(_images) doit être la dernière
-            // instruction de haut niveau et une EXPRESSION NUE (pas à
-            // l'intérieur du try/except) pour que runPythonAsync()
-            // renvoie effectivement une valeur à JavaScript. Avant ce
-            // correctif, la dernière instruction de haut niveau était le
-            // try/except lui-même : Pyodide renvoyait alors "undefined"
-            // à JS, d'où l'erreur systématique
-            // "SyntaxError: 'undefined' is not valid JSON" à CHAQUE
-            // exécution, même sans graphique.
             const figuresJson = await pyodideReady.runPythonAsync(`
 import io, base64, json
 
@@ -398,83 +359,71 @@ json.dumps(_images)
         runButton.addEventListener("click", runProgram);
     }
 
-   /* =================================================
-   EXPORTER LE SCRIPT PYTHON
-   ================================================= */
+    /* =================================================
+       EXPORTER LE SCRIPT PYTHON
+    ================================================= */
 
-function exportPythonScript() {
+    function exportPythonScript() {
 
-    // Vérifie que l'éditeur est disponible
-    if (!editor) return;
+        if (!editor) return;
 
-    // Récupère le contenu de l'Éditeur Python
-    const pythonCode = editor.value;
+        const pythonCode = editor.value;
 
-    // Empêche l'export d'un fichier vide
-    if (!pythonCode.trim()) {
+        if (!pythonCode.trim()) {
+
+            if (output) {
+                output.textContent =
+                    "Impossible d'exporter le script.\n\n" +
+                    "L'Éditeur Python est vide.";
+            }
+
+            editor.focus();
+
+            return;
+        }
+
+        const pythonFile = new Blob(
+            [pythonCode],
+            {
+                type: "text/x-python;charset=utf-8"
+            }
+        );
+
+        const fileURL = URL.createObjectURL(pythonFile);
+
+        const downloadLink = document.createElement("a");
+
+        downloadLink.href = fileURL;
+
+        downloadLink.download = "programme.py";
+
+        document.body.appendChild(downloadLink);
+
+        downloadLink.click();
+
+        document.body.removeChild(downloadLink);
+
+        setTimeout(() => {
+            URL.revokeObjectURL(fileURL);
+        }, 100);
 
         if (output) {
             output.textContent =
-                "Impossible d'exporter le script.\n\n" +
-                "L'Éditeur Python est vide.";
+                "✓ Script Python exporté avec succès.\n\n" +
+                "Fichier : programme.py";
         }
-
-        editor.focus();
-
-        return;
     }
 
-    // Création du fichier Python
-    const pythonFile = new Blob(
-        [pythonCode],
-        {
-            type: "text/x-python;charset=utf-8"
-        }
-    );
+    /* =================================================
+       BOUTON EXPORTER LE SCRIPT
+    ================================================= */
 
-    // Création d'une URL temporaire
-    const fileURL = URL.createObjectURL(pythonFile);
-
-    // Création d'un lien de téléchargement invisible
-    const downloadLink = document.createElement("a");
-
-    downloadLink.href = fileURL;
-
-    // Nom du fichier téléchargé
-    downloadLink.download = "programme.py";
-
-    // Ajout temporaire dans la page
-    document.body.appendChild(downloadLink);
-
-    // Déclenchement du téléchargement
-    downloadLink.click();
-
-    // Suppression du lien temporaire
-    document.body.removeChild(downloadLink);
-
-    // Libération de l'URL temporaire
-    setTimeout(() => {
-        URL.revokeObjectURL(fileURL);
-    }, 100);
-
-    // Message dans la console PyLab
-    if (output) {
-        output.textContent =
-            "✓ Script Python exporté avec succès.\n\n" +
-            "Fichier : programme.py";
+    if (exportButton) {
+        exportButton.addEventListener(
+            "click",
+            exportPythonScript
+        );
     }
-}
-
-/* =================================================
-   BOUTON EXPORTER LE SCRIPT
-================================================= */
-
-if (exportButton) {
-    exportButton.addEventListener(
-        "click",
-        exportPythonScript
-    );
-}
 
     /* =================================================
        DÉMARRAGE AUTOMATIQUE
