@@ -2,6 +2,7 @@
    NAVIGATION.JS UNIVERSEL
    Laboratory / MathiLab
    Compatible :
+   tp-algorithme
    tp-chimie
    tp-acoustique
    tp-optique
@@ -22,6 +23,7 @@ let isLoading = false;
 function getCurrentDomain() {
     const path = window.location.pathname;
     const domaines = [
+        "tp-algorithme",
         "tp-chimie",
         "tp-acoustique",
         "tp-optique",
@@ -47,6 +49,7 @@ function getCurrentDomain() {
 
 function getDefaultModule(domaine) {
     const defaultModules = {
+        "tp-algorithme": "td01-simuler-une-experience-aleatoire",
         "tp-chimie": "tp01-solutions",
         "tp-thermique": "tp01-capteurs-temperature",
         "tp-statistiques": "tp01-organiser-une-serie-statistique",
