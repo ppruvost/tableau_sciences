@@ -1,230 +1,844 @@
 /* =========================================================
-   PYLAB
-   INTERFACE UTILISATEUR + MOTEUR PYTHON (PYODIDE)
-   ========================================================= */
+PYLAB
+INTERFACE UTILISATEUR + MOTEUR PYTHON (PYODIDE)
+PYODIDE CORE + NUMPY + MATPLOTLIB
+========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* =================================================
-       ÉLÉMENTS HTML
-    ================================================= */
+```
+/* =================================================
+   ÉLÉMENTS HTML
+================================================= */
 
-    const homeButton     = document.getElementById("homeButton");
-    const pythonButton   = document.getElementById("pythonButton");
-    const startButton    = document.getElementById("startButton");
-    const homePage       = document.getElementById("home-message");
-    const pythonPage     = document.getElementById("python-page");
-    const clearButton    = document.getElementById("clear");
-    const menuClear      = document.getElementById("menuClear");
-    const editor         = document.getElementById("code");
-    const output         = document.getElementById("output");
-    const examplesButton = document.getElementById("examplesButton");
-    const examplesMenu   = document.getElementById("examplesMenu");
-    const runButton      = document.getElementById("run");
-    const status         = document.getElementById("status");
+const homeButton =
+    document.getElementById("homeButton");
 
-    /* =================================================
-       AFFICHER PYLAB
-    ================================================= */
+const pythonButton =
+    document.getElementById("pythonButton");
 
-    function showPython() {
-        homePage.classList.remove("active-page");
-        pythonPage.classList.add("active-page");
-        homeButton.classList.remove("active");
-        pythonButton.classList.add("active");
+const startButton =
+    document.getElementById("startButton");
+
+const homePage =
+    document.getElementById("home-message");
+
+const pythonPage =
+    document.getElementById("python-page");
+
+const clearButton =
+    document.getElementById("clear");
+
+const menuClear =
+    document.getElementById("menuClear");
+
+const editor =
+    document.getElementById("code");
+
+const output =
+    document.getElementById("output");
+
+const examplesButton =
+    document.getElementById("examplesButton");
+
+const examplesMenu =
+    document.getElementById("examplesMenu");
+
+const runButton =
+    document.getElementById("run");
+
+const status =
+    document.getElementById("status");
+
+
+/* =================================================
+   VARIABLES PYODIDE
+================================================= */
+
+let pyodideReady = null;
+
+let pyodidePromise = null;
+
+
+/* =================================================
+   AFFICHER PYLAB
+================================================= */
+
+function showPython() {
+
+    homePage.classList.remove(
+        "active-page"
+    );
+
+    pythonPage.classList.add(
+        "active-page"
+    );
+
+    homeButton.classList.remove(
+        "active"
+    );
+
+    pythonButton.classList.add(
+        "active"
+    );
+
+}
+
+
+/* =================================================
+   AFFICHER ACCUEIL
+================================================= */
+
+function showHome() {
+
+    pythonPage.classList.remove(
+        "active-page"
+    );
+
+    homePage.classList.add(
+        "active-page"
+    );
+
+    pythonButton.classList.remove(
+        "active"
+    );
+
+    homeButton.classList.add(
+        "active"
+    );
+
+}
+
+
+/* =================================================
+   BOUTONS DE NAVIGATION
+================================================= */
+
+if (homeButton) {
+
+    homeButton.addEventListener(
+        "click",
+        showHome
+    );
+
+}
+
+
+if (pythonButton) {
+
+    pythonButton.addEventListener(
+        "click",
+        showPython
+    );
+
+}
+
+
+if (startButton) {
+
+    startButton.addEventListener(
+        "click",
+        showPython
+    );
+
+}
+
+
+/* =================================================
+   STATUT DE CHARGEMENT
+================================================= */
+
+function setStatus(
+    text,
+    state
+) {
+
+    if (!status) {
+        return;
     }
 
-    /* =================================================
-       AFFICHER ACCUEIL
-    ================================================= */
+    status.textContent =
+        text;
 
-    function showHome() {
-        pythonPage.classList.remove("active-page");
-        homePage.classList.add("active-page");
-        pythonButton.classList.remove("active");
-        homeButton.classList.add("active");
+    status.className =
+        state;
+
+}
+
+
+/* =================================================
+   EFFACER
+================================================= */
+
+function clearProgram() {
+
+    if (editor) {
+
+        editor.value = "";
+
+        editor.focus();
+
     }
 
-    /* =================================================
-       BOUTONS DE NAVIGATION
-    ================================================= */
 
-    homeButton.addEventListener("click", showHome);
-    pythonButton.addEventListener("click", showPython);
-    startButton.addEventListener("click", showPython);
+    if (output) {
 
-    /* =================================================
-       EFFACER
-    ================================================= */
+        output.textContent =
+            "Console effacée.";
 
-    function clearProgram() {
-        if (editor) {
-            editor.value = "";
-            editor.focus();
+    }
+
+}
+
+
+if (clearButton) {
+
+    clearButton.addEventListener(
+        "click",
+        clearProgram
+    );
+
+}
+
+
+if (menuClear) {
+
+    menuClear.addEventListener(
+        "click",
+        () => {
+
+            showPython();
+
+            clearProgram();
+
         }
-        if (output) {
-            output.textContent = "Console effacée.";
+    );
+
+}
+
+
+/* =================================================
+   SOUS-MENU EXEMPLES
+================================================= */
+
+if (
+    examplesButton &&
+    examplesMenu
+) {
+
+    examplesButton.addEventListener(
+        "click",
+        event => {
+
+            event.stopPropagation();
+
+            examplesMenu.classList.toggle(
+                "show"
+            );
+
         }
-    }
+    );
 
-    clearButton.addEventListener("click", clearProgram);
 
-    menuClear.addEventListener("click", () => {
-        showPython();
-        clearProgram();
-    });
+    document.addEventListener(
+        "click",
+        () => {
 
-    /* =================================================
-       SOUS-MENU EXEMPLES
-    ================================================= */
+            examplesMenu.classList.remove(
+                "show"
+            );
 
-    examplesButton.addEventListener("click", event => {
-        event.stopPropagation();
-        examplesMenu.classList.toggle("show");
-    });
+        }
+    );
 
-    document.addEventListener("click", () => {
-        examplesMenu.classList.remove("show");
-    });
 
-    examplesMenu.addEventListener("click", event => {
-        event.stopPropagation();
-    });
+    examplesMenu.addEventListener(
+        "click",
+        event => {
 
-    /* =================================================
-       PROGRAMMES D'EXEMPLE
-       (indentation Python corrigée : les corps de boucle
-       doivent être indentés, sinon Pyodide lève une
-       IndentationError et l'exemple semble "ne pas marcher")
-    ================================================= */
+            event.stopPropagation();
 
-    const examples = {
+        }
+    );
 
-        bonjour:
+}
+
+
+/* =================================================
+   PROGRAMMES D'EXEMPLE
+================================================= */
+
+const examples = {
+
+
+    bonjour:
+```
+
 `print("Bonjour !")
 print("Bienvenue dans PyLab !")`,
 
-        boucle:
+```
+    boucle:
+```
+
 `for nombre in range(1, 11):
     print(nombre)`,
 
-        calcul:
+```
+    calcul:
+```
+
 `nombre1 = 12
 nombre2 = 8
+
 somme = nombre1 + nombre2
-print("Résultat :", somme)`
 
-    };
+print("Résultat :", somme)`,
 
-    /* =================================================
-       CHARGER UN EXEMPLE
-    ================================================= */
+```
+    graphique:
+```
 
-    document.querySelectorAll("[data-example]").forEach(button => {
-        button.addEventListener("click", () => {
-            const exampleName = button.dataset.example;
+`import numpy as np
+import matplotlib.pyplot as plt
 
-            if (examples[exampleName]) {
-                editor.value = examples[exampleName];
-            }
+x = np.linspace(
+0,
+10,
+200
+)
 
-            showPython();
-            examplesMenu.classList.remove("show");
-            editor.focus();
-        });
-    });
+y = np.sin(x)
 
-    /* =================================================
-       RACCOURCI : CTRL + ENTRÉE
-    ================================================= */
+plt.figure(
+figsize=(8, 4)
+)
 
-    editor.addEventListener("keydown", event => {
-        if (event.ctrlKey && event.key === "Enter") {
-            event.preventDefault();
+plt.plot(
+x,
+y,
+linewidth=2,
+label="sin(x)"
+)
 
-            if (runButton && !runButton.disabled) {
-                runButton.click();
-            }
+plt.title(
+"Fonction sinus"
+)
+
+plt.xlabel(
+"x"
+)
+
+plt.ylabel(
+"sin(x)"
+)
+
+plt.grid(
+True
+)
+
+plt.legend()
+
+plt.show()`
+
+```
+};
+
+
+/* =================================================
+   CHARGER UN EXEMPLE
+================================================= */
+
+document
+    .querySelectorAll(
+        "[data-example]"
+    )
+    .forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    const exampleName =
+                        button.dataset.example;
+
+
+                    if (
+                        examples[
+                            exampleName
+                        ]
+                    ) {
+
+                        editor.value =
+                            examples[
+                                exampleName
+                            ];
+
+                    }
+
+
+                    showPython();
+
+
+                    if (
+                        examplesMenu
+                    ) {
+
+                        examplesMenu
+                            .classList
+                            .remove(
+                                "show"
+                            );
+
+                    }
+
+
+                    editor.focus();
+
+                }
+            );
+
         }
-    });
+    );
 
-    /* =================================================
-       INITIALISATION DE PYODIDE
 
-       C'est la pièce qui manquait au projet : sans elle,
-       le bouton "Exécuter" restait désactivé pour toujours
-       et le statut affichait indéfiniment
-       "Chargement de Python...".
-    ================================================= */
+/* =================================================
+   RACCOURCI :
+   CTRL + ENTRÉE
+================================================= */
 
-    let pyodideReady = null;
+if (editor) {
 
-    function setStatus(text, state) {
-        status.textContent = text;
-        status.className = state; // "status-loading" | "status-ready" | "status-error"
+    editor.addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.ctrlKey &&
+                event.key === "Enter"
+            ) {
+
+                event.preventDefault();
+
+
+                if (
+                    runButton &&
+                    !runButton.disabled
+                ) {
+
+                    runButton.click();
+
+                }
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =================================================
+   INITIALISATION DE PYODIDE CORE
+================================================= */
+
+async function initPyodide() {
+
+    /*
+    Empêche plusieurs chargements simultanés
+    si la fonction est appelée plusieurs fois.
+    */
+
+    if (
+        pyodidePromise
+    ) {
+
+        return pyodidePromise;
+
     }
 
-    async function initPyodide() {
-        setStatus("Chargement de Python...", "status-loading");
 
-        try {
-            // loadPyodide() est fourni par ./pyodide/pyodide.js
-            pyodideReady = await loadPyodide({ indexURL: "./pyodide/" });
+    pyodidePromise =
+        (async () => {
 
-            setStatus("Python prêt", "status-ready");
-            output.textContent = "Python est prêt. Écris ton programme et clique sur Exécuter.";
-            runButton.disabled = false;
-        } catch (error) {
-            setStatus("Erreur de chargement", "status-error");
+            try {
+
+                /* =============================
+                   PYODIDE CORE
+                ============================= */
+
+                setStatus(
+                    "Chargement de Python...",
+                    "status-loading"
+                );
+
+
+                if (output) {
+
+                    output.textContent =
+                        "Chargement de Pyodide Core...";
+
+                }
+
+
+                console.log(
+                    "PyLab : chargement de Pyodide Core..."
+                );
+
+
+                const instance =
+                    await loadPyodide({
+
+                        indexURL:
+                            "./pyodide/"
+
+                    });
+
+
+                console.log(
+                    "PyLab : Pyodide Core chargé."
+                );
+
+
+                /* =============================
+                   NUMPY
+                ============================= */
+
+                setStatus(
+                    "Chargement de NumPy...",
+                    "status-loading"
+                );
+
+
+                if (output) {
+
+                    output.textContent =
+                        "Python est chargé.\n\n" +
+                        "Chargement de NumPy...";
+
+                }
+
+
+                console.log(
+                    "PyLab : chargement de NumPy..."
+                );
+
+
+                await instance.loadPackage(
+                    "numpy"
+                );
+
+
+                console.log(
+                    "PyLab : NumPy chargé."
+                );
+
+
+                /* =============================
+                   MATPLOTLIB
+                ============================= */
+
+                setStatus(
+                    "Chargement de Matplotlib...",
+                    "status-loading"
+                );
+
+
+                if (output) {
+
+                    output.textContent =
+                        "Python est chargé.\n" +
+                        "NumPy est chargé.\n\n" +
+                        "Chargement de Matplotlib...";
+
+                }
+
+
+                console.log(
+                    "PyLab : chargement de Matplotlib..."
+                );
+
+
+                await instance.loadPackage(
+                    "matplotlib"
+                );
+
+
+                console.log(
+                    "PyLab : Matplotlib chargé."
+                );
+
+
+                /* =============================
+                   VÉRIFICATION PYTHON
+                ============================= */
+
+                await instance.runPythonAsync(
+```
+
+`import sys
+import numpy
+import matplotlib
+
+print(
+"Python",
+sys.version.split()[0]
+)
+
+print(
+"NumPy",
+numpy.**version**
+)
+
+print(
+"Matplotlib",
+matplotlib.**version**
+)`
+
+```
+                );
+
+
+                /* =============================
+                   PYLAB PRÊT
+                ============================= */
+
+                pyodideReady =
+                    instance;
+
+
+                setStatus(
+                    "Python et Matplotlib prêts",
+                    "status-ready"
+                );
+
+
+                if (output) {
+
+                    output.textContent =
+
+                        "PyLab est prêt.\n\n" +
+
+                        "✓ Python chargé\n" +
+
+                        "✓ NumPy chargé\n" +
+
+                        "✓ Matplotlib chargé\n\n" +
+
+                        "Écris ton programme puis " +
+
+                        "clique sur Exécuter.";
+
+                }
+
+
+                if (runButton) {
+
+                    runButton.disabled =
+                        false;
+
+                }
+
+
+                console.log(
+                    "PyLab : Python, NumPy et Matplotlib sont prêts."
+                );
+
+
+                return instance;
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Erreur de chargement PyLab :",
+                    error
+                );
+
+
+                pyodidePromise =
+                    null;
+
+
+                setStatus(
+                    "Erreur de chargement",
+                    "status-error"
+                );
+
+
+                if (output) {
+
+                    output.textContent =
+
+                        "Impossible de démarrer PyLab.\n\n" +
+
+                        "Vérifie :\n" +
+
+                        "• le fichier pyodide.js ;\n" +
+
+                        "• le fichier pyodide.asm.wasm ;\n" +
+
+                        "• le fichier python_stdlib.zip ;\n" +
+
+                        "• l'accès aux paquets NumPy et Matplotlib.\n\n" +
+
+                        "Détail :\n" +
+
+                        error;
+
+                }
+
+
+                if (runButton) {
+
+                    runButton.disabled =
+                        true;
+
+                }
+
+
+                throw error;
+
+            }
+
+        })();
+
+
+    return pyodidePromise;
+
+}
+
+
+/* =================================================
+   EXÉCUTER LE PROGRAMME
+================================================= */
+
+async function runProgram() {
+
+    if (
+        !pyodideReady
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        !editor ||
+        !output
+    ) {
+
+        return;
+
+    }
+
+
+    runButton.disabled =
+        true;
+
+
+    output.textContent =
+        "";
+
+
+    /* =============================================
+       REDIRECTION DE LA CONSOLE PYTHON
+    ============================================= */
+
+    pyodideReady.setStdout({
+
+        batched:
+            text => {
+
+                output.textContent +=
+                    text + "\n";
+
+            }
+
+    });
+
+
+    pyodideReady.setStderr({
+
+        batched:
+            text => {
+
+                output.textContent +=
+                    text + "\n";
+
+            }
+
+    });
+
+
+    try {
+
+        await pyodideReady
+            .runPythonAsync(
+
+                editor.value
+
+            );
+
+
+        if (
+            !output.textContent
+                .trim()
+        ) {
+
             output.textContent =
-                "Impossible de charger Python.\n" +
-                "Vérifie que le dossier ./pyodide/ contient bien la distribution Pyodide " +
-                "(pyodide.js, pyodide.asm.js, pyodide.asm.wasm, python_stdlib.zip...).\n\n" +
-                "Détail : " + error;
+
+                "Programme exécuté " +
+
+                "(aucune sortie texte).";
+
         }
+
     }
 
-    /* =================================================
-       EXÉCUTER LE PROGRAMME
-    ================================================= */
+    catch (error) {
 
-    async function runProgram() {
-        if (!pyodideReady) {
-            return;
-        }
+        output.textContent +=
 
-        runButton.disabled = true;
-        output.textContent = "";
+            "\n" +
 
-        // Redirige stdout / stderr de Python vers la console PyLab
-        pyodideReady.setStdout({
-            batched: text => {
-                output.textContent += text + "\n";
-            }
-        });
+            error;
 
-        pyodideReady.setStderr({
-            batched: text => {
-                output.textContent += text + "\n";
-            }
-        });
-
-        try {
-            await pyodideReady.runPythonAsync(editor.value);
-
-            if (!output.textContent.trim()) {
-                output.textContent = "Programme exécuté (aucune sortie).";
-            }
-        } catch (error) {
-            // error contient déjà la trace Python (SyntaxError, NameError, etc.)
-            output.textContent += "\n" + error;
-        } finally {
-            runButton.disabled = false;
-        }
     }
 
-    runButton.addEventListener("click", runProgram);
+    finally {
 
-    initPyodide();
+        runButton.disabled =
+            false;
+
+    }
+
+}
+
+
+/* =================================================
+   BOUTON EXÉCUTER
+================================================= */
+
+if (runButton) {
+
+    runButton.addEventListener(
+        "click",
+        runProgram
+    );
+
+}
+
+
+/* =================================================
+   DÉMARRAGE AUTOMATIQUE
+   PYODIDE + NUMPY + MATPLOTLIB
+================================================= */
+
+initPyodide();
+```
 
 });
