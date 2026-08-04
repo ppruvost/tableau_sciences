@@ -701,3 +701,51 @@ body {
         align-items: flex-start;
     }
 }
+
+
+/* =====================================================
+   LOGO PYLAB — PAGE D'ACCUEIL
+===================================================== */
+
+.home-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    margin: 0 auto 25px;
+}
+
+.pylab-logo {
+    display: block;
+
+    width: min(330px, 75vw);
+    height: auto;
+
+    object-fit: contain;
+
+    /* Animation légère au chargement */
+    animation: logoAppear 0.7s ease-out;
+}
+
+/* Apparition progressive du logo */
+@keyframes logoAppear {
+    from {
+        opacity: 0;
+        transform: translateY(-12px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Adaptation aux petits écrans */
+@media (max-width: 600px) {
+
+    .pylab-logo {
+        width: min(260px, 80vw);
+    }
+
+}
