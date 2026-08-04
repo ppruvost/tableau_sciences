@@ -521,6 +521,20 @@ body {
 }
 
 /* =========================================================
+   GRAPHIQUES MATPLOTLIB DANS LA CONSOLE
+   ========================================================= */
+
+#output .plot-image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 14px 0;
+    border: 1px solid #4e6f9e;
+    border-radius: 8px;
+    background: white;
+}
+
+/* =========================================================
    AIDE
    ========================================================= */
 
