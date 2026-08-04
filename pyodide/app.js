@@ -63,6 +63,26 @@ document.addEventListener("DOMContentLoaded", () => {
     if (startButton) startButton.addEventListener("click", showPython);
 
     /* =================================================
+       CODE PRÉ-REMPLI DEPUIS UNE AUTRE PAGE (ex. MathiLab)
+       ?code=<base64 de l'UTF-8> ouvre PyLab directement sur
+       l'onglet Python avec ce programme déjà chargé dans l'éditeur.
+       Sans ce paramètre, comportement inchangé.
+    ================================================= */
+
+    try {
+        const params = new URLSearchParams(window.location.search);
+        const codeParam = params.get("code");
+
+        if (codeParam && editor) {
+            const decode = s => decodeURIComponent(escape(atob(s)));
+            editor.value = decode(codeParam);
+            showPython();
+        }
+    } catch (e) {
+        console.warn("Paramètre ?code= illisible :", e);
+    }
+
+    /* =================================================
        STATUT DE CHARGEMENT
     ================================================= */
 
