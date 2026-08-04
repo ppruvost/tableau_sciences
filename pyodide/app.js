@@ -249,7 +249,7 @@ print("Math")
                         "PyLab est prêt.\n\n" +
                         "✓ Python chargé\n" +
                         "✓ NumPy chargé\n" +
-                        "✓ Matplotlib chargé\n\n" +
+                        "✓ Matplotlib chargé\n" +
                         "✓ Math chargé\n\n" +
                         "Écris ton programme puis clique sur Exécuter.";
                 }
