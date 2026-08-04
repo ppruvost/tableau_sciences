@@ -242,7 +242,7 @@ print("Math", math.__version__)
 
                 pyodideReady = instance;
 
-                setStatus("Python et Matplotlib prêts", "status-ready");
+                setStatus("Python et Imports prêts", "status-ready");
 
                 if (output) {
                     output.textContent =
@@ -250,6 +250,7 @@ print("Math", math.__version__)
                         "✓ Python chargé\n" +
                         "✓ NumPy chargé\n" +
                         "✓ Matplotlib chargé\n\n" +
+                        "✓ Math chargé\n\n" +
                         "Écris ton programme puis clique sur Exécuter.";
                 }
 
@@ -257,7 +258,7 @@ print("Math", math.__version__)
                     runButton.disabled = false;
                 }
 
-                console.log("PyLab : Python, NumPy et Matplotlib sont prêts.");
+                console.log("PyLab : Python, NumPy, Matplotlib et Math sont prêts.");
 
                 return instance;
             } catch (error) {
