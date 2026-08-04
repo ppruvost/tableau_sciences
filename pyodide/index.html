@@ -1,184 +1,575 @@
 <!DOCTYPE html>
+
 <html lang="fr">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PyLab — Python dans le navigateur</title>
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+```
+<meta charset="UTF-8">
 
-    <!-- Feuille de style -->
-    <link rel="stylesheet" href="style.css">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+    PyLab — Python dans le navigateur
+</title>
+
+
+<!-- =============================================
+     FONT AWESOME
+============================================== -->
+
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+>
+
+
+<!-- =============================================
+     FEUILLE DE STYLE
+============================================== -->
+
+<link
+    rel="stylesheet"
+    href="style.css"
+>
+```
+
 </head>
+
 <body>
 
 <!-- =====================================================
      MENU LATÉRAL
-     ===================================================== -->
-<nav class="menu" aria-label="Menu principal PyLab">
+====================================================== -->
 
-    <!-- ACCUEIL -->
-    <button class="menu-item active" id="homeButton" type="button" data-tooltip="Accueil" aria-label="Afficher l'accueil">
-        <i class="fas fa-home"></i>
+<nav
+    class="menu"
+    aria-label="Menu principal PyLab"
+>
+
+```
+<!-- =============================================
+     ACCUEIL
+============================================== -->
+
+<button
+    class="menu-item active"
+    id="homeButton"
+    type="button"
+    data-tooltip="Accueil"
+    aria-label="Afficher l'accueil"
+>
+
+    <i class="fas fa-home"></i>
+
+</button>
+
+
+<!-- =============================================
+     PYLAB
+============================================== -->
+
+<button
+    class="menu-item"
+    id="pythonButton"
+    type="button"
+    data-tooltip="PyLab"
+    aria-label="Ouvrir PyLab"
+>
+
+    <i class="fab fa-python"></i>
+
+</button>
+
+
+<!-- =============================================
+     EXEMPLES
+============================================== -->
+
+<div
+    class="menu-wrapper"
+>
+
+
+    <button
+        class="menu-item"
+        id="examplesButton"
+        type="button"
+        data-tooltip="Exemples Python"
+        aria-label="Afficher les exemples"
+    >
+
+        <i class="fas fa-book-open"></i>
+
     </button>
 
-    <!-- PYLAB -->
-    <button class="menu-item" id="pythonButton" type="button" data-tooltip="PyLab" aria-label="Ouvrir PyLab">
-        <i class="fab fa-python"></i>
-    </button>
 
-    <!-- EXEMPLES -->
-    <div class="menu-wrapper">
-        <button class="menu-item" id="examplesButton" type="button" data-tooltip="Exemples Python" aria-label="Afficher les exemples">
-            <i class="fas fa-book-open"></i>
+    <div
+        class="submenu"
+        id="examplesMenu"
+    >
+
+        <button
+            type="button"
+            data-example="bonjour"
+        >
+            Bonjour
         </button>
 
-        <div class="submenu" id="examplesMenu">
-            <button type="button" data-example="bonjour">Bonjour</button>
-            <button type="button" data-example="boucle">Boucle</button>
-            <button type="button" data-example="calcul">Calcul</button>
-        </div>
+
+        <button
+            type="button"
+            data-example="boucle"
+        >
+            Boucle
+        </button>
+
+
+        <button
+            type="button"
+            data-example="calcul"
+        >
+            Calcul
+        </button>
+
+
+        <button
+            type="button"
+            data-example="graphique"
+        >
+
+            <i class="fas fa-chart-line"></i>
+
+            Graphique
+
+        </button>
+
     </div>
 
-    <!-- EFFACER -->
-    <button class="menu-item" id="menuClear" type="button" data-tooltip="Effacer" aria-label="Effacer le programme">
-        <i class="fas fa-eraser"></i>
-    </button>
+</div>
+
+
+<!-- =============================================
+     EFFACER
+============================================== -->
+
+<button
+    class="menu-item"
+    id="menuClear"
+    type="button"
+    data-tooltip="Effacer"
+    aria-label="Effacer le programme"
+>
+
+    <i class="fas fa-eraser"></i>
+
+</button>
+```
 
 </nav>
 
 <!-- =====================================================
      CONTENU
-     ===================================================== -->
-<div id="content-container">
+====================================================== -->
 
-    <!-- =================================================
-         PAGE D'ACCUEIL
-         ================================================= -->
-    <section id="home-message" class="page active-page">
+<div
+    id="content-container"
+>
 
-        <div class="home-icon">
-            <i class="fab fa-python"></i>
+```
+<!-- =================================================
+     PAGE D'ACCUEIL
+================================================== -->
+
+<section
+    id="home-message"
+    class="page active-page"
+>
+
+
+    <div
+        class="home-icon"
+    >
+
+        <i class="fab fa-python"></i>
+
+    </div>
+
+
+    <h1>
+
+        Bienvenue dans
+
+        <span>
+            PyLab, un projet basé sur Pyodide
+        </span>
+
+    </h1>
+
+
+    <h2>
+
+        Programmer, expérimenter
+        et apprendre avec Python
+
+    </h2>
+
+
+    <p>
+
+        PyLab permet d'écrire et d'exécuter
+        des programmes Python directement
+        dans le navigateur.
+
+    </p>
+
+
+    <p>
+
+        Aucun logiciel n'est nécessaire.
+
+        Écris ton programme,
+        clique sur
+
+        <strong>
+            Exécuter
+        </strong>
+
+        et observe immédiatement
+        le résultat.
+
+    </p>
+
+
+    <div
+        class="home-actions"
+    >
+
+        <button
+            id="startButton"
+            class="start-button"
+            type="button"
+        >
+
+            <i class="fas fa-play"></i>
+
+            Commencer à programmer
+
+        </button>
+
+    </div>
+
+
+    <p
+        class="signature"
+    >
+
+        <strong>
+            PyLab
+        </strong>
+
+        — « Learn • Apply • Build »
+
+        <br>
+
+        Apprendre,
+        mettre en pratique
+        et construire.
+
+    </p>
+
+
+</section>
+
+
+<!-- =================================================
+     PAGE PYLAB
+================================================== -->
+
+<section
+    id="python-page"
+    class="page"
+>
+
+
+    <!-- =========================================
+         EN-TÊTE
+    ========================================== -->
+
+    <div
+        class="page-header"
+    >
+
+
+        <div>
+
+            <h1>
+
+                <i class="fab fa-python"></i>
+
+                PyLab
+
+            </h1>
+
+
+            <p>
+
+                Écris,
+                exécute
+                et teste
+                tes programmes Python.
+
+            </p>
+
         </div>
 
-        <h1>Bienvenue dans <span>PyLab, un projet basé sur pyodide</span></h1>
 
-        <h2>Programmer, expérimenter et apprendre avec Python</h2>
+        <!-- Utilisé par app.js -->
 
-        <p>PyLab permet d'écrire et d'exécuter des programmes Python directement dans le navigateur.</p>
+        <span
+            id="status"
+            class="status-loading"
+            aria-live="polite"
+        >
 
-        <p>Aucun logiciel n'est nécessaire. Écris ton programme, clique sur <strong>Exécuter</strong> et observe immédiatement le résultat.</p>
+            Chargement de Python...
 
-        <div class="home-actions">
-            <button id="startButton" class="start-button" type="button">
-                <i class="fas fa-play"></i>
-                Commencer à programmer
-            </button>
-        </div>
+        </span>
 
-        <p class="signature">
-            <strong>PyLab</strong> — « Learn • Apply • Build »
-            <br>
-            Apprendre, mettre en pratique et construire.
-        </p>
 
-    </section>
+    </div>
 
-    <!-- =================================================
-         PAGE PYLAB
-         ================================================= -->
-    <section id="python-page" class="page">
 
-        <!-- EN-TÊTE -->
-        <div class="page-header">
-            <div>
-                <h1><i class="fab fa-python"></i> PyLab</h1>
-                <p>Écris, exécute et teste tes programmes Python.</p>
+    <!-- =========================================
+         ESPACE DE PROGRAMMATION
+    ========================================== -->
+
+    <div
+        class="lab-grid"
+    >
+
+
+        <!-- =====================================
+             ÉDITEUR
+        ====================================== -->
+
+        <section
+            class="editor-panel"
+        >
+
+
+            <div
+                class="panel-title"
+            >
+
+                <span>
+
+                    <i class="fas fa-file-code"></i>
+
+                    Éditeur Python
+
+                </span>
+
+
+                <span
+                    class="file-name"
+                >
+
+                    programme.py
+
+                </span>
+
             </div>
+
 
             <!-- Utilisé par app.js -->
-            <span id="status" class="status-loading">Chargement de Python...</span>
-        </div>
 
-        <!-- =================================================
-             ESPACE DE PROGRAMMATION
-             ================================================= -->
-        <div class="lab-grid">
-
-            <!-- ÉDITEUR -->
-            <section class="editor-panel">
-
-                <div class="panel-title">
-                    <span><i class="fas fa-file-code"></i> Éditeur Python</span>
-                    <span class="file-name">programme.py</span>
-                </div>
-
-                <!-- Utilisé par app.js -->
-                <textarea id="code" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Écris ton programme Python ici">print("Bienvenue dans PyLab !")
+            <textarea
+                id="code"
+                spellcheck="false"
+                autocomplete="off"
+                autocapitalize="off"
+                aria-label="Écris ton programme Python ici"
+            >print("Bienvenue dans PyLab !")
+```
 
 for nombre in range(1, 6):
-    print(nombre)</textarea>
+print(nombre)</textarea>
 
-                <!-- ACTIONS -->
-                <div class="editor-actions">
+```
+            <!-- =================================
+                 ACTIONS
+            ================================== -->
 
-                    <!-- Utilisé par app.js -->
-                    <button id="run" class="run-button" type="button" disabled>
-                        <i class="fas fa-play"></i>
-                        Exécuter
-                    </button>
+            <div
+                class="editor-actions"
+            >
 
-                    <button id="clear" class="clear-button" type="button">
-                        <i class="fas fa-eraser"></i>
-                        Effacer
-                    </button>
-
-                    <span class="shortcut">
-                        <i class="fas fa-keyboard"></i>
-                        Ctrl + Entrée
-                    </span>
-
-                </div>
-
-            </section>
-
-            <!-- RÉSULTAT -->
-            <section class="result-panel">
-
-                <div class="panel-title result-title">
-                    <span><i class="fas fa-terminal"></i> Résultat</span>
-                    <span class="result-indicator">● Console Python</span>
-                </div>
 
                 <!-- Utilisé par app.js -->
-                <pre id="output" aria-live="polite">Chargement de Python...</pre>
 
-            </section>
+                <button
+                    id="run"
+                    class="run-button"
+                    type="button"
+                    disabled
+                >
+
+                    <i class="fas fa-play"></i>
+
+                    Exécuter
+
+                </button>
+
+
+                <button
+                    id="clear"
+                    class="clear-button"
+                    type="button"
+                >
+
+                    <i class="fas fa-eraser"></i>
+
+                    Effacer
+
+                </button>
+
+
+                <span
+                    class="shortcut"
+                >
+
+                    <i class="fas fa-keyboard"></i>
+
+                    Ctrl + Entrée
+
+                </span>
+
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =====================================
+             RÉSULTAT
+        ====================================== -->
+
+        <section
+            class="result-panel"
+        >
+
+
+            <div
+                class="panel-title result-title"
+            >
+
+
+                <span>
+
+                    <i class="fas fa-terminal"></i>
+
+                    Résultat
+
+                </span>
+
+
+                <span
+                    class="result-indicator"
+                >
+
+                    ● Console Python
+
+                </span>
+
+
+            </div>
+
+
+            <!-- Utilisé par app.js -->
+
+            <pre
+                id="output"
+                aria-live="polite"
+            >Chargement de Python et Matplotlib...</pre>
+
+
+        </section>
+
+
+    </div>
+
+
+    <!-- =========================================
+         AIDE
+    ========================================== -->
+
+    <section
+        class="help-card"
+    >
+
+        <i class="fas fa-lightbulb"></i>
+
+
+        <div>
+
+            <strong>
+                Astuce
+            </strong>
+
+
+            <p>
+
+                Utilise les exemples du menu
+                pour découvrir progressivement
+                les instructions Python.
+
+                L'exemple « Graphique »
+                utilise NumPy et Matplotlib,
+                chargés automatiquement
+                au démarrage de PyLab.
+
+            </p>
 
         </div>
 
-        <!-- AIDE -->
-        <section class="help-card">
-            <i class="fas fa-lightbulb"></i>
-            <div>
-                <strong>Astuce</strong>
-                <p>Utilise les exemples du menu pour découvrir progressivement les instructions Python.</p>
-            </div>
-        </section>
 
     </section>
+
+
+</section>
+```
+
 </div>
 
 <!-- =====================================================
      SCRIPTS
-     ===================================================== -->
+====================================================== -->
 
-<!-- Moteur Python Pyodide (bibliothèque vendorisée dans ./pyodide/) -->
-<script src="./pyodide/pyodide.js"></script>
+<!-- =====================================================
+     MOTEUR PYTHON PYODIDE CORE
 
-<!-- Interface PyLab + exécution Python -->
-<script src="./app.js"></script>
+     Le fichier doit être présent ici :
+
+     pylab/pyodide/pyodide.js
+====================================================== -->
+
+<script
+    src="./pyodide/pyodide.js"
+></script>
+
+<!-- =====================================================
+     INTERFACE PYLAB
+====================================================== -->
+
+<script
+    src="./app.js"
+></script>
 
 </body>
+
 </html>
