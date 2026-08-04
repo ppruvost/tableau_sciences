@@ -1,7 +1,7 @@
 /* =========================================================
    PYLAB
    INTERFACE UTILISATEUR + MOTEUR PYTHON (PYODIDE)
-   PYODIDE CORE + NUMPY + MATPLOTLIB
+   PYODIDE FULL (via CDN jsDelivr) + NUMPY + MATPLOTLIB
    ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -187,21 +187,26 @@ plt.show()`
     }
 
     /* =================================================
-       INITIALISATION DE PYODIDE CORE
+       INITIALISATION DE PYODIDE
 
-       CORRECTIF : indexURL pointait vers "./pyodide/pyodide/"
-       alors que la page (pyodide/index.html) se trouve déjà
-       dans le dossier "pyodide/". indexURL est résolu par
-       rapport à l'URL de la PAGE, pas par rapport au script
-       pyodide.js — donc "./pyodide/pyodide/" ajoutait un
-       niveau "pyodide/" de trop et pointait vers un dossier
-       inexistant :
-       .../tableau_sciences/pyodide/pyodide/pyodide/...
-       au lieu de :
-       .../tableau_sciences/pyodide/pyodide/...
-       (là où se trouve réellement pyodide.asm.mjs, à côté
-       du fichier pyodide.js chargé par le <script> de
-       index.html).
+       CORRECTIF STABLE : indexURL pointe désormais vers le
+       CDN officiel jsDelivr (distribution "full"), qui
+       contient tous les paquets scientifiques (numpy,
+       matplotlib, etc.) avec leurs fichiers .whl et
+       pyodide-lock.json.
+
+       Auparavant, le dossier local "pyodide/pyodide/" ne
+       contenait que la distribution "pyodide-core", une
+       version minimale du runtime sans aucun paquet
+       scientifique (prévue pour Node.js avec CDN de secours
+       automatique, absent en navigateur). C'est pour cela que
+       loadPackage(["numpy", "matplotlib"]) échouait avec
+       "ModuleNotFoundError: No module named 'numpy'".
+
+       Avec le CDN, plus besoin d'héberger ni de maintenir de
+       fichiers volumineux dans le dépôt : la version utilisée
+       doit juste correspondre exactement au numéro de version
+       Pyodide (ici 314.0.3).
     ================================================= */
 
     async function initPyodide() {
@@ -212,18 +217,16 @@ plt.show()`
                 setStatus("Chargement de Python...", "status-loading");
 
                 if (output) {
-                    output.textContent = "Chargement de Pyodide Core...";
+                    output.textContent = "Chargement de Pyodide...";
                 }
 
-                console.log("PyLab : chargement de Pyodide Core...");
+                console.log("PyLab : chargement de Pyodide...");
 
                 const instance = await loadPyodide({
-                    // Chemin corrigé : un seul niveau "pyodide/" à partir
-                    // de la page, cohérent avec <script src="./pyodide/pyodide.js">
-                    indexURL: "./pyodide/"
+                    indexURL: "https://cdn.jsdelivr.net/pyodide/v314.0.3/full/"
                 });
 
-                console.log("PyLab : Pyodide Core chargé.");
+                console.log("PyLab : Pyodide chargé.");
 
                 setStatus("Chargement de NumPy et Matplotlib...", "status-loading");
 
@@ -242,6 +245,7 @@ plt.show()`
 import sys
 import numpy
 import matplotlib
+import math
 
 # Rendu "headless" fiable : les figures sont capturées en PNG
 # côté JS après exécution plutôt que dessinées directement dans
