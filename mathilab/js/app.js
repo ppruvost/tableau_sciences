@@ -35,7 +35,7 @@ closeViewer?.addEventListener("click", () => {
 });
 
 document.getElementById("openChimie")    ?.addEventListener("click", () => openTP("tp-chimie/index.html"));
-document.getElementById("openAcoustique") ?.addEventListener("click", () => openTP("tp-acoustique/index.html"));
+document.getElementById("openAlgorithme") ?.addEventListener("click", () => openTP("tp-algorithme/index.html"));
 document.getElementById("openStatistiques")?.addEventListener("click", () => openTP("tp-statistiques/index.html"));
 document.getElementById("openMecanique")  ?.addEventListener("click", () => openTP("tp-mecanique/index.html"));
 document.getElementById("openSignaux")  ?.addEventListener("click", () => openTP("tp-signaux/index.html"));
