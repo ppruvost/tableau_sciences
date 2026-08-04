@@ -1,4 +1,4 @@
-# Mermoz Sciences Project
+# Mermoz Lab
 
 ## Présentation
 
