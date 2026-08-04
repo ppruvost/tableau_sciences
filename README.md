@@ -22,7 +22,7 @@ Le tableau de bord propose un accès rapide aux outils suivants :
 - Classe Puzzle
 - Le Chat IA
 - Création de sch́mas (draw.io)
-- Programmation Python (Basthon)
+- PyLab (basé sur pyodide)
 - GeoGebra (Classic + 3D)
 - Calculatrice graphique NumWorks
 - SciLab (laboratoire virtuel)
