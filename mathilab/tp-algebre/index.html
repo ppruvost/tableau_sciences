@@ -1,183 +1,47 @@
 <!DOCTYPE html>
-
 <html lang="fr">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
-
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
 <title>
-    MathiLab — Algèbre - Analyse
+Algèbre - Analyse
 </title>
-
-<link
-    rel="stylesheet"
-    href="css/style.css"
->
-
+<link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
-
-<header class="page-header">
-
-<div class="logo">
-
-    <span class="mathi">
-        Mathi
-    </span>
-
-    <span class="lab">
-        Lab
-    </span>
-
-</div>
-
+<header>
 <h1>
-    Algèbre - Analyse
+    <span>Algèbre - Analyse :</span>
+    <span>Comment modéliser et étudier des phénomènes discrets ou continus issus de nos ateliers ?</span>
 </h1>
-
-<p>
-    Modéliser, résoudre, représenter et interpréter
-    des situations professionnelles.
-</p>
-
 <div class="progress">
-
     <div id="bar"></div>
-
 </div>
-
 </header>
-
-<nav class="tp-navigation">
-
+<nav>
 <button
-    class="tp-button actif"
-    type="button"
-    data-module="tp01-resolution-probleme-premier-degre"
->
-
-    <strong>
-        TD01
-    </strong>
-
-    <span>
-        Résolution d'un problème du premier degré
-    </span>
-
-    <small>
-        2nde Bac Pro
-    </small>
-
+data-module="tp01-suites-geometriques">
+A1. Suites géométriques
 </button>
-
-
 <button
-    class="tp-button"
-    type="button"
-    data-module="tp02-suites-numeriques"
->
-
-    <strong>
-        TD02
-    </strong>
-
-    <span>
-        Suites numériques
-    </span>
-
-    <small>
-        1ère Bac Pro
-    </small>
-
+data-module="tp02-fonctions-polynomes-degre3">
+A2. Fonctions polynômes de degré 3
 </button>
-
-
 <button
-    class="tp-button"
-    type="button"
-    data-module="tp03-resolution-graphique"
->
-
-    <strong>
-        TD03
-    </strong>
-
-    <span>
-        Résolution graphique
-    </span>
-
-    <small>
-        1ère Bac Pro
-    </small>
-
+data-module="tp03-fonctions-exponentielles-logarithme">
+A3. Fonctions exponentielles et logarithme décimal
 </button>
-
-
 <button
-    class="tp-button"
-    type="button"
-    data-module="tp04-fonctions-polynomes-degre-2"
->
-
-    <strong>
-        TD04
-    </strong>
-
-    <span>
-        Fonctions polynômes de degré 2
-    </span>
-
-    <small>
-        1ère Bac Pro
-    </small>
-
+data-module="tp04-calculs-commerciaux-financiers">
+A4. Calculs commerciaux et financiers
 </button>
-
-
-<button
-    class="tp-button"
-    type="button"
-    data-module="tp05-derivee-variations"
->
-
-    <strong>
-        TD05
-    </strong>
-
-    <span>
-        Dérivée et variations
-    </span>
-
-    <small>
-        1ère Bac Pro
-    </small>
-
-</button>
-
 </nav>
-
 <main id="content">
-
 <div class="card">
-
-    Chargement du TD...
-
+Chargement...
 </div>
-
 </main>
-
-<script
-    type="module"
-    src="../js/navigation.js"
-></script>
-
+<script type="module" src="../js/navigation.js"></script>
 </body>
-
 </html>
