@@ -139,13 +139,18 @@ document.addEventListener("DOMContentLoaded", () => {
     /* =================================================
        PROGRAMMES D'EXEMPLE
     ================================================= */
-
+   
+        /* ==============exemple message=================== */
     const examples = {
         bonjour: `print("Bonjour !")
 print("Bienvenue dans PyLab !")`,
 
+         /* ==============exemple boucle=================== */
+
         boucle: `for nombre in range(1, 11):
     print(nombre)`,
+
+         /* ==============exemple calcul=================== */
 
         calcul: `nombre1 = 12
 nombre2 = 8
@@ -153,6 +158,18 @@ nombre2 = 8
 somme = nombre1 + nombre2
 
 print("Résultat :", somme)`,
+       
+            /* ==============exemple liste=================== */
+        liste: `valeurs = [10, 20, 30, 40]
+effectifs = [1, 2, 3, 4]
+
+liste = numpy.repeat(valeurs, effectifs)
+print("Moyenne :", round(numpy.mean(liste), 2))
+print("Médiane :", numpy.median(liste))
+print("Variance :", round(numpy.var(liste), 2))
+print("Écart-type :", round(numpy.std(liste), 2))`,
+
+         /* ==============exemple graphique=================== */
 
         graphique: `import numpy as np
 import matplotlib.pyplot as plt
@@ -169,6 +186,8 @@ plt.grid(True)
 plt.legend()
 plt.show()`
     };
+
+
 
     /* =================================================
        CHARGER UN EXEMPLE
