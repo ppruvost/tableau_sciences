@@ -1,3 +1,6 @@
+/**
+ * tp-statistiques/js/tp02-comparer-des-series-statistiques.js
+ */
 import FILIERES_PRO from '../../data/filieres.js';
 import { initContextePro } from '../../js/contexte-pro.js';
 import {regrouperEnClasses, classeModale, dessinerDiagrammeBarres, dessinerDiagrammeSecteurs } from '../../js/statistiques.js';
