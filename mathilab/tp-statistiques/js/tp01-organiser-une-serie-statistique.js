@@ -3,8 +3,7 @@
 * ============================================================
 * MATHILAB — STATISTIQUES
 * TP S1 : Organiser et représenter une série statistique
-* Fichier :
-* tp-statistiques/js/tp01-organiser-une-serie-statistique.js
+* mathilab/tp-statistiques/js/tp01-organiser-une-serie-statistique.js
 * ============================================================
   */
 
@@ -34,449 +33,646 @@ initOngletsParFiliere
 } from '../../js/onglets-filiere.js';
 
 /* ============================================================
-CONTEXTES PROFESSIONNELS
+CONTEXTES PROFESSIONNELS — S1
 ============================================================ */
 
 const CONTEXTES_S1 = {
 
-```
 '2nde-remi': {
 
-    contexte:
-        "En atelier REMI, chaque pièce usinée est mesurée " +
-        "(cote, diamètre, épaisseur). Ces mesures répétées " +
-        "forment une série statistique qu'il faut savoir " +
-        "organiser avant de l'interpréter.",
+```
+contexte:
+  "Dans un atelier de maintenance industrielle, plusieurs mesures " +
+  "peuvent être relevées sur une machine : niveau sonore, température, " +
+  "durée d'utilisation ou nombre de pièces produites. Ces données doivent " +
+  "être organisées afin de faciliter leur lecture.",
 
-    problematique:
-        "Comment regrouper une série de cotes mesurées en " +
-        "atelier pour en tirer une lecture claire de la " +
-        "qualité de production ?"
+problematique:
+  "Comment organiser et représenter les mesures réalisées sur une machine " +
+  "afin d'en extraire rapidement des informations utiles ?"
+```
 
 },
-
 
 '2nde-mcc': {
 
-    contexte:
-        "En atelier de confection, un contrôle qualité relève " +
-        "un défaut ou son absence sur chaque pièce cousue : " +
-        "c'est une série qualitative, différente d'une série " +
-        "de mesures chiffrées.",
+```
+contexte:
+  "Dans un atelier de confection, le contrôle qualité permet de relever " +
+  "des informations sur les pièces fabriquées : temps de montage, " +
+  "catégories de défauts ou nombre de pièces conformes.",
 
-    problematique:
-        "Comment représenter les résultats d'un contrôle " +
-        "qualité en confection pour identifier le défaut " +
-        "le plus fréquent ?"
+problematique:
+  "Comment organiser les données d'un contrôle qualité et choisir une " +
+  "représentation permettant d'identifier rapidement les résultats importants ?"
+```
 
 },
 
-
 '2nde-gatl': {
 
-    contexte:
-        "En logistique, les délais de livraison et les volumes " +
-        "traités jour après jour forment des séries statistiques, " +
-        "quantitatives ou chronologiques selon ce que l'on étudie.",
+```
+contexte:
+  "Dans le domaine du transport et de la logistique, les entreprises " +
+  "suivent les délais de livraison, les volumes transportés et les " +
+  "différents types d'incidents rencontrés.",
 
-    problematique:
-        "Comment organiser une série de délais de livraison " +
-        "pour évaluer la régularité d'un transporteur ?"
-
-}
+problematique:
+  "Comment organiser et représenter les données de transport afin de " +
+  "faciliter leur analyse et leur exploitation ?"
 ```
 
+}
+
 };
+
+/* ============================================================
+OUTILS
+============================================================ */
+
+/**
+
+* Transforme une valeur en nombre.
+*
+* @param {HTMLInputElement} champ
+* @returns {number|null}
+  */
+  function lireNombre(champ) {
+
+if (!champ) {
+return null;
+}
+
+const valeur = parseFloat(champ.value);
+
+return Number.isFinite(valeur)
+? valeur
+: null;
+
+}
+
+/**
+
+* Affiche un message temporaire.
+*
+* @param {string} message
+  */
+  function afficherMessage(message) {
+
+const zone =
+document.getElementById(
+'s01-message-filiere'
+);
+
+if (!zone) {
+return;
+}
+
+zone.textContent =
+message;
+
+zone.style.display =
+'block';
+
+}
+
+/**
+
+* Vide le message.
+  */
+  function effacerMessage() {
+
+const zone =
+document.getElementById(
+'s01-message-filiere'
+);
+
+if (!zone) {
+return;
+}
+
+zone.textContent =
+'';
+
+zone.style.display =
+'none';
+
+}
+
+/**
+
+* Évite l'injection de HTML dans les tableaux.
+*
+* @param {*} valeur
+* @returns {string}
+  */
+  function echapperHTML(valeur) {
+
+return String(valeur)
+.replaceAll('&', '&')
+.replaceAll('<', '<')
+.replaceAll('>', '>')
+.replaceAll('"', '"')
+.replaceAll("'", ''');
+
+}
+
+/**
+
+* Formate un nombre.
+*
+* @param {number} valeur
+* @returns {string}
+  */
+  function formaterNombre(valeur) {
+
+if (!Number.isFinite(valeur)) {
+return '';
+}
+
+if (Number.isInteger(valeur)) {
+return String(valeur);
+}
+
+return valeur
+.toFixed(2)
+.replace('.', ',');
+
+}
 
 /* ============================================================
 ONGLET 1
 REGROUPER UNE SÉRIE EN CLASSES
 ============================================================ */
 
-const valeursClasses = [];
+const serieQuantitative = [];
 
-/* ------------------------------------------------------------
-Afficher les valeurs
------------------------------------------------------------- */
+/**
 
-function rendreTableauValeurs(
-tbodyId,
-valeurs
+* Actualise la liste des valeurs,
+* le tableau des classes
+* et le diagramme en colonnes.
+  */
+  function actualiserRegroupement() {
+
+const tbodyValeurs =
+document.getElementById(
+'rc-tbody-valeurs'
+);
+
+const tbodyClasses =
+document.getElementById(
+'rc-tbody-classes'
+);
+
+const zoneHistogramme =
+document.getElementById(
+'rc-histogramme'
+);
+
+const zoneModale =
+document.getElementById(
+'rc-classe-modale'
+);
+
+const champNombreClasses =
+document.getElementById(
+'rc-nb-classes'
+);
+
+/* ----------------------------------------
+TABLEAU DES VALEURS
+---------------------------------------- */
+
+if (tbodyValeurs) {
+
+```
+if (
+  serieQuantitative.length === 0
+) {
+
+  tbodyValeurs.innerHTML =
+    '<tr>' +
+      '<td colspan="2">' +
+        'Aucune valeur saisie.' +
+      '</td>' +
+    '</tr>';
+
+} else {
+
+  tbodyValeurs.innerHTML =
+    serieQuantitative
+      .map(
+        (valeur, index) =>
+
+          '<tr>' +
+            '<td>' +
+              (index + 1) +
+            '</td>' +
+
+            '<td>' +
+              formaterNombre(valeur) +
+            '</td>' +
+          '</tr>'
+      )
+      .join('');
+
+}
+```
+
+}
+
+/* ----------------------------------------
+PAS ASSEZ DE VALEURS
+---------------------------------------- */
+
+if (
+serieQuantitative.length < 2
 ) {
 
 ```
-const tbody = document.getElementById(
-    tbodyId
+if (tbodyClasses) {
+
+  tbodyClasses.innerHTML =
+    '<tr>' +
+      '<td colspan="2">' +
+        'Saisir au moins deux valeurs.' +
+      '</td>' +
+    '</tr>';
+
+}
+
+if (zoneHistogramme) {
+
+  zoneHistogramme.innerHTML =
+    '<p class="info">' +
+      'Le diagramme apparaîtra après la saisie ' +
+      'd’au moins deux valeurs.' +
+    '</p>';
+
+}
+
+if (zoneModale) {
+
+  zoneModale.innerHTML =
+    '';
+
+}
+
+return;
+```
+
+}
+
+/* ----------------------------------------
+NOMBRE DE CLASSES
+---------------------------------------- */
+
+let nombreClasses =
+parseInt(
+champNombreClasses?.value,
+10
 );
 
-if (!tbody) {
-    return;
-}
+if (
+!Number.isInteger(nombreClasses)
+) {
 
-
-if (valeurs.length === 0) {
-
-    tbody.innerHTML = `
-        <tr>
-            <td colspan="2">
-                Aucune valeur saisie.
-            </td>
-        </tr>
-    `;
-
-    return;
+```
+nombreClasses =
+  5;
+```
 
 }
 
+nombreClasses =
+Math.max(
+2,
+Math.min(
+10,
+nombreClasses
+)
+);
 
-tbody.innerHTML = valeurs
+if (champNombreClasses) {
+
+```
+champNombreClasses.value =
+  nombreClasses;
+```
+
+}
+
+/* ----------------------------------------
+REGROUPEMENT
+---------------------------------------- */
+
+let classes;
+
+try {
+
+```
+classes =
+  regrouperEnClasses(
+    serieQuantitative,
+    nombreClasses
+  );
+```
+
+} catch (erreur) {
+
+```
+console.error(
+  'Erreur de regroupement :',
+  erreur
+);
+
+if (tbodyClasses) {
+
+  tbodyClasses.innerHTML =
+    '<tr>' +
+      '<td colspan="2">' +
+        'Impossible de regrouper cette série.' +
+      '</td>' +
+    '</tr>';
+
+}
+
+return;
+```
+
+}
+
+if (
+!Array.isArray(classes) ||
+classes.length === 0
+) {
+
+```
+if (tbodyClasses) {
+
+  tbodyClasses.innerHTML =
+    '<tr>' +
+      '<td colspan="2">' +
+        'Aucune classe disponible.' +
+      '</td>' +
+    '</tr>';
+
+}
+
+return;
+```
+
+}
+
+/* ----------------------------------------
+TABLEAU CLASSES / EFFECTIFS
+---------------------------------------- */
+
+if (tbodyClasses) {
+
+```
+tbodyClasses.innerHTML =
+  classes
     .map(
-        (valeur, index) => `
-            <tr>
-                <td>${index + 1}</td>
-                <td>${valeur}</td>
-            </tr>
-        `
+      classe => {
+
+        const libelle =
+          classe.libelle ??
+          classe.classe ??
+          classe.nom ??
+          '';
+
+        const effectif =
+          classe.effectif ??
+          classe.n ??
+          classe.nombre ??
+          0;
+
+        return (
+
+          '<tr>' +
+
+            '<td>' +
+              echapperHTML(
+                libelle
+              ) +
+            '</td>' +
+
+            '<td>' +
+              effectif +
+            '</td>' +
+
+          '</tr>'
+
+        );
+
+      }
     )
     .join('');
 ```
 
 }
 
-/* ------------------------------------------------------------
-Actualiser le regroupement
------------------------------------------------------------- */
+/* ----------------------------------------
+DIAGRAMME EN COLONNES
+---------------------------------------- */
 
-function actualiserRegroupementClasses() {
+if (zoneHistogramme) {
 
 ```
-rendreTableauValeurs(
-    'rc-tbody-valeurs',
-    valeursClasses
-);
+zoneHistogramme.innerHTML =
+  '';
 
+try {
 
-const champNbClasses =
-    document.getElementById(
-        'rc-nb-classes'
-    );
-
-
-let nbClasses = parseInt(
-    champNbClasses?.value,
-    10
-);
-
-
-/*
- * Valeur de sécurité.
- */
-
-if (
-    Number.isNaN(nbClasses) ||
-    nbClasses < 2
-) {
-
-    nbClasses = 5;
-
-}
-
-
-const classesModaleDiv =
-    document.getElementById(
-        'rc-classe-modale'
-    );
-
-
-const tbodyClasses =
-    document.getElementById(
-        'rc-tbody-classes'
-    );
-
-
-const histogramme =
-    document.getElementById(
-        'rc-histogramme'
-    );
-
-
-/*
- * Il faut au moins deux valeurs.
- */
-
-if (valeursClasses.length < 2) {
-
-    if (tbodyClasses) {
-
-        tbodyClasses.innerHTML = `
-            <tr>
-                <td colspan="2">
-                    Saisir au moins 2 valeurs.
-                </td>
-            </tr>
-        `;
-
-    }
-
-
-    if (classesModaleDiv) {
-
-        classesModaleDiv.textContent = '';
-
-    }
-
-
-    if (histogramme) {
-
-        histogramme.innerHTML = '';
-
-    }
-
-
-    return;
-
-}
-
-
-/*
- * Création des classes.
- */
-
-const classes = regrouperEnClasses(
-    valeursClasses,
-    nbClasses
-);
-
-
-/*
- * Affichage du tableau.
- */
-
-if (tbodyClasses) {
-
-    tbodyClasses.innerHTML = classes
-        .map(
-            classe => `
-                <tr>
-                    <td>
-                        [
-                        ${classe.debut.toFixed(1)}
-                        ;
-                        ${classe.fin.toFixed(1)}
-                        [
-                    </td>
-
-                    <td>
-                        ${classe.effectif}
-                    </td>
-                </tr>
-            `
-        )
-        .join('');
-
-}
-
-
-/*
- * Dessin du diagramme.
- */
-
-dessinerDiagrammeBarres(
-
+  dessinerDiagrammeBarres(
     'rc-histogramme',
-
-    classes.map(
-        classe => ({
-
-            label:
-                `[${classe.debut.toFixed(1)} ; ` +
-                `${classe.fin.toFixed(1)}[`,
-
-            effectif:
-                classe.effectif
-
-        })
-    ),
-
+    classes,
     {
-        yLabel: 'Effectif'
+      titre:
+        'Répartition des mesures',
+
+      axeX:
+        'Classes',
+
+      axeY:
+        'Effectif'
     }
+  );
 
-);
+} catch (erreur) {
 
+  console.error(
+    'Erreur du diagramme :',
+    erreur
+  );
 
-/*
- * Recherche de la classe modale.
- */
-
-const modale = classeModale(
-    classes
-);
-
-
-if (
-    classesModaleDiv &&
-    modale
-) {
-
-    classesModaleDiv.textContent =
-        `Classe modale : ` +
-        `[${modale.debut.toFixed(1)} ; ` +
-        `${modale.fin.toFixed(1)}[` +
-        ` (effectif : ${modale.effectif})`;
+  zoneHistogramme.innerHTML =
+    '<p class="info">' +
+      'Le diagramme ne peut pas être affiché.' +
+    '</p>';
 
 }
 ```
 
 }
 
-/* ------------------------------------------------------------
-Initialiser l'onglet 1
------------------------------------------------------------- */
+/* ----------------------------------------
+CLASSE MODALE
+---------------------------------------- */
 
-function initRegroupementClasses() {
+if (zoneModale) {
 
 ```
-const bouton =
-    document.getElementById(
-        'rc-ajouter'
+try {
+
+  const modale =
+    classeModale(
+      classes
     );
 
+
+  if (modale) {
+
+    const libelle =
+      modale.libelle ??
+      modale.classe ??
+      modale.nom ??
+      String(modale);
+
+
+    zoneModale.innerHTML =
+
+      '<strong>' +
+        'Classe modale : ' +
+      '</strong>' +
+
+      echapperHTML(
+        libelle
+      );
+
+  } else {
+
+    zoneModale.innerHTML =
+      'Aucune classe modale.';
+
+  }
+
+} catch (erreur) {
+
+  console.error(
+    'Erreur classe modale :',
+    erreur
+  );
+
+  zoneModale.innerHTML =
+    '';
+
+}
+```
+
+}
+
+}
+
+/**
+
+* Initialise l'activité
+* « Regrouper en classes ».
+  */
+  function initRegroupementClasses() {
+
+const bouton =
+document.getElementById(
+'rc-ajouter'
+);
 
 const champValeur =
-    document.getElementById(
-        'rc-valeur'
-    );
-
-
-const champNbClasses =
-    document.getElementById(
-        'rc-nb-classes'
-    );
-
-
-if (
-    !bouton ||
-    !champValeur
-) {
-
-    console.warn(
-        'MathiLab S1 : éléments du regroupement introuvables.'
-    );
-
-    return;
-
-}
-
-
-/*
- * Évite un double écouteur
- * lors d'un rechargement du TP.
- */
-
-if (
-    bouton.dataset.initialise ===
-    'true'
-) {
-
-    return;
-
-}
-
-
-bouton.dataset.initialise =
-    'true';
-
-
-/*
- * Ajouter une valeur.
- */
-
-bouton.addEventListener(
-
-    'click',
-
-    () => {
-
-        const valeur = parseFloat(
-            champValeur.value
-        );
-
-
-        if (
-            Number.isNaN(valeur)
-        ) {
-
-            champValeur.focus();
-
-            return;
-
-        }
-
-
-        valeursClasses.push(
-            valeur
-        );
-
-
-        champValeur.value = '';
-
-
-        champValeur.focus();
-
-
-        actualiserRegroupementClasses();
-
-    }
-
+document.getElementById(
+'rc-valeur'
 );
 
-
-/*
- * Touche Entrée.
- */
-
-champValeur.addEventListener(
-
-    'keydown',
-
-    evenement => {
-
-        if (
-            evenement.key ===
-            'Enter'
-        ) {
-
-            evenement.preventDefault();
-
-            bouton.click();
-
-        }
-
-    }
-
+const champClasses =
+document.getElementById(
+'rc-nb-classes'
 );
 
+function ajouterValeur() {
 
-/*
- * Modification du nombre de classes.
- */
-
-champNbClasses?.addEventListener(
-
-    'input',
-
-    actualiserRegroupementClasses
-
-);
-
-
-/*
- * Affichage initial.
- */
-
-actualiserRegroupementClasses();
 ```
+const valeur =
+  lireNombre(
+    champValeur
+  );
+
+
+if (
+  valeur === null
+) {
+
+  afficherMessage(
+    'Saisir une valeur numérique.'
+  );
+
+  champValeur?.focus();
+
+  return;
+
+}
+
+
+effacerMessage();
+
+
+serieQuantitative.push(
+  valeur
+);
+
+
+champValeur.value =
+  '';
+
+champValeur.focus();
+
+
+actualiserRegroupement();
+```
+
+}
+
+bouton?.addEventListener(
+'click',
+ajouterValeur
+);
+
+champValeur?.addEventListener(
+'keydown',
+evenement => {
+
+```
+  if (
+    evenement.key ===
+    'Enter'
+  ) {
+
+    evenement.preventDefault();
+
+    ajouterValeur();
+
+  }
+
+}
+```
+
+);
+
+champClasses?.addEventListener(
+'change',
+actualiserRegroupement
+);
+
+actualiserRegroupement();
 
 }
 
@@ -485,248 +681,341 @@ ONGLET 2
 SÉRIE QUALITATIVE
 ============================================================ */
 
-const categoriesQualitatives = [];
+const serieQualitative = [];
 
-/* ------------------------------------------------------------
-Actualiser la série qualitative
------------------------------------------------------------- */
+/**
 
-function actualiserSerieQualitative() {
+* Actualise le tableau
+* et les deux diagrammes.
+  */
+  function actualiserSerieQualitative() {
 
-```
 const tbody =
-    document.getElementById(
-        'ql-tbody'
-    );
+document.getElementById(
+'ql-tbody'
+);
 
+const zoneBarres =
+document.getElementById(
+'ql-barres'
+);
+
+const zoneSecteurs =
+document.getElementById(
+'ql-secteurs'
+);
+
+/* ----------------------------------------
+TABLEAU
+---------------------------------------- */
 
 if (tbody) {
 
-    if (
-        categoriesQualitatives.length === 0
-    ) {
+```
+if (
+  serieQualitative.length === 0
+) {
 
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="2">
-                    Aucune catégorie saisie.
-                </td>
-            </tr>
-        `;
+  tbody.innerHTML =
+    '<tr>' +
+      '<td colspan="2">' +
+        'Aucune catégorie saisie.' +
+      '</td>' +
+    '</tr>';
 
-    }
+} else {
 
-    else {
+  tbody.innerHTML =
+    serieQualitative
+      .map(
+        donnee =>
 
-        tbody.innerHTML =
-            categoriesQualitatives
-                .map(
-                    categorie => `
-                        <tr>
-                            <td>
-                                ${categorie.label}
-                            </td>
+          '<tr>' +
 
-                            <td>
-                                ${categorie.effectif}
-                            </td>
-                        </tr>
-                    `
-                )
-                .join('');
+            '<td>' +
+              echapperHTML(
+                donnee.categorie
+              ) +
+            '</td>' +
 
-    }
+            '<td>' +
+              donnee.effectif +
+            '</td>' +
+
+          '</tr>'
+      )
+      .join('');
+
+}
+```
 
 }
 
+/* ----------------------------------------
+AUCUNE DONNÉE
+---------------------------------------- */
 
-/*
- * Les fonctions de dessin reçoivent
- * une liste vide au départ.
- */
+if (
+serieQualitative.length === 0
+) {
 
-dessinerDiagrammeBarres(
+```
+if (zoneBarres) {
 
+  zoneBarres.innerHTML =
+    '<p class="info">' +
+      'Ajouter des catégories pour afficher ' +
+      'le diagramme.' +
+    '</p>';
+
+}
+
+if (zoneSecteurs) {
+
+  zoneSecteurs.innerHTML =
+    '<p class="info">' +
+      'Ajouter des catégories pour afficher ' +
+      'le diagramme.' +
+    '</p>';
+
+}
+
+return;
+```
+
+}
+
+/* ----------------------------------------
+DIAGRAMME EN BÂTONS
+---------------------------------------- */
+
+if (zoneBarres) {
+
+```
+zoneBarres.innerHTML =
+  '';
+
+try {
+
+  dessinerDiagrammeBarres(
     'ql-barres',
-
-    categoriesQualitatives,
-
+    serieQualitative,
     {
-        yLabel: 'Effectif'
+      titre:
+        'Répartition des catégories',
+
+      axeX:
+        'Catégories',
+
+      axeY:
+        'Effectifs'
     }
+  );
 
-);
+} catch (erreur) {
 
+  console.error(
+    'Erreur diagramme en bâtons :',
+    erreur
+  );
 
-dessinerDiagrammeSecteurs(
+  zoneBarres.innerHTML =
+    '<p class="info">' +
+      'Le diagramme en bâtons ne peut pas être affiché.' +
+    '</p>';
 
-    'ql-secteurs',
-
-    categoriesQualitatives
-
-);
+}
 ```
 
 }
 
-/* ------------------------------------------------------------
-Initialiser l'onglet 2
------------------------------------------------------------- */
+/* ----------------------------------------
+DIAGRAMME EN SECTEURS
+---------------------------------------- */
 
-function initSerieQualitative() {
+if (zoneSecteurs) {
 
 ```
-const bouton =
-    document.getElementById(
-        'ql-ajouter'
-    );
+zoneSecteurs.innerHTML =
+  '';
 
+try {
+
+  dessinerDiagrammeSecteurs(
+    'ql-secteurs',
+    serieQualitative,
+    {
+      titre:
+        'Répartition des catégories'
+    }
+  );
+
+} catch (erreur) {
+
+  console.error(
+    'Erreur diagramme en secteurs :',
+    erreur
+  );
+
+  zoneSecteurs.innerHTML =
+    '<p class="info">' +
+      'Le diagramme en secteurs ne peut pas être affiché.' +
+    '</p>';
+
+}
+```
+
+}
+
+}
+
+/**
+
+* Initialise l'activité
+* « Série qualitative ».
+  */
+  function initSerieQualitative() {
+
+const bouton =
+document.getElementById(
+'ql-ajouter'
+);
 
 const champCategorie =
-    document.getElementById(
-        'ql-categorie'
-    );
-
+document.getElementById(
+'ql-categorie'
+);
 
 const champEffectif =
-    document.getElementById(
-        'ql-effectif'
-    );
+document.getElementById(
+'ql-effectif'
+);
+
+function ajouterCategorie() {
+
+```
+const categorie =
+  champCategorie
+    ?.value
+    .trim();
+
+
+const effectif =
+  lireNombre(
+    champEffectif
+  );
 
 
 if (
-    !bouton ||
-    !champCategorie ||
-    !champEffectif
+  !categorie
 ) {
 
-    console.warn(
-        'MathiLab S1 : éléments de la série qualitative introuvables.'
-    );
+  afficherMessage(
+    'Saisir le nom de la catégorie.'
+  );
 
-    return;
+  champCategorie?.focus();
+
+  return;
 
 }
 
 
 if (
-    bouton.dataset.initialise ===
-    'true'
+  effectif === null ||
+  effectif < 0 ||
+  !Number.isInteger(effectif)
 ) {
 
-    return;
+  afficherMessage(
+    'Saisir un effectif entier positif ou nul.'
+  );
+
+  champEffectif?.focus();
+
+  return;
 
 }
 
 
-bouton.dataset.initialise =
-    'true';
+effacerMessage();
 
 
-bouton.addEventListener(
+const categorieExistante =
+  serieQualitative.find(
+    donnee =>
 
-    'click',
+      donnee.categorie
+        .toLowerCase() ===
 
-    () => {
-
-        const label =
-            champCategorie.value.trim();
-
-
-        const effectif =
-            parseInt(
-                champEffectif.value,
-                10
-            );
+      categorie
+        .toLowerCase()
+  );
 
 
-        if (
-            !label ||
-            Number.isNaN(effectif) ||
-            effectif < 0
-        ) {
+if (
+  categorieExistante
+) {
 
-            return;
+  categorieExistante.effectif +=
+    effectif;
 
-        }
+} else {
 
+  serieQualitative.push({
 
-        categoriesQualitatives.push({
+    categorie:
+      categorie,
 
-            label:
-                label,
+    effectif:
+      effectif
 
-            effectif:
-                effectif
+  });
 
-        });
-
-
-        champCategorie.value = '';
-
-        champEffectif.value = '';
+}
 
 
-        champCategorie.focus();
+champCategorie.value =
+  '';
 
+champEffectif.value =
+  '';
 
-        actualiserSerieQualitative();
-
-    }
-
-);
-
-
-/*
- * Validation avec Entrée.
- */
-
-champCategorie.addEventListener(
-
-    'keydown',
-
-    evenement => {
-
-        if (
-            evenement.key ===
-            'Enter'
-        ) {
-
-            evenement.preventDefault();
-
-            bouton.click();
-
-        }
-
-    }
-
-);
-
-
-champEffectif.addEventListener(
-
-    'keydown',
-
-    evenement => {
-
-        if (
-            evenement.key ===
-            'Enter'
-        ) {
-
-            evenement.preventDefault();
-
-            bouton.click();
-
-        }
-
-    }
-
-);
+champCategorie.focus();
 
 
 actualiserSerieQualitative();
 ```
+
+}
+
+bouton?.addEventListener(
+'click',
+ajouterCategorie
+);
+
+champEffectif?.addEventListener(
+'keydown',
+evenement => {
+
+```
+  if (
+    evenement.key ===
+    'Enter'
+  ) {
+
+    evenement.preventDefault();
+
+    ajouterCategorie();
+
+  }
+
+}
+```
+
+);
+
+actualiserSerieQualitative();
 
 }
 
@@ -735,612 +1024,518 @@ ONGLET 3
 ÉVOLUTION CHRONOLOGIQUE
 ============================================================ */
 
-const pointsChronologiques = [];
+const serieChronologique = [];
 
-/* ------------------------------------------------------------
-Dessiner les lignes brisées
------------------------------------------------------------- */
+/**
 
-function dessinerLignesBrisees(
-conteneurId,
-points
-) {
+* Dessine un graphique
+* à lignes brisées en SVG.
+  */
+  function dessinerLignesBrisees() {
 
-```
 const conteneur =
-    document.getElementById(
-        conteneurId
-    );
-
+document.getElementById(
+'lb-graphique'
+);
 
 if (!conteneur) {
-
-    return;
-
+return;
 }
 
-
-if (points.length < 2) {
-
-    conteneur.innerHTML = `
-        <p class="info">
-            Ajouter au moins 2 points
-            pour tracer le graphique.
-        </p>
-    `;
-
-    return;
-
-}
-
-
-/*
- * Tri chronologique.
- */
-
-const tries = [...points]
-    .sort(
-        (a, b) =>
-            a.periode -
-            b.periode
-    );
-
-
-const largeur = 480;
-
-const hauteur = 240;
-
-
-const marge = {
-
-    haut: 20,
-
-    bas: 35,
-
-    gauche: 50,
-
-    droite: 20
-
-};
-
-
-const largeurUtile =
-    largeur -
-    marge.gauche -
-    marge.droite;
-
-
-const hauteurUtile =
-    hauteur -
-    marge.haut -
-    marge.bas;
-
-
-const xMin =
-    tries[0].periode;
-
-
-const xMax =
-    tries[
-        tries.length - 1
-    ].periode;
-
-
-const yMin =
-    Math.min(
-        ...tries.map(
-            point =>
-                point.valeur
-        )
-    );
-
-
-const yMax =
-    Math.max(
-        ...tries.map(
-            point =>
-                point.valeur
-        )
-    );
-
-
-const etendueX =
-    (xMax - xMin) || 1;
-
-
-const etendueY =
-    (yMax - yMin) || 1;
-
-
-const x = periode =>
-
-    marge.gauche +
-
-    (
-        (periode - xMin) /
-        etendueX
-    )
-
-    *
-
-    largeurUtile;
-
-
-const y = valeur =>
-
-    marge.haut +
-
-    hauteurUtile -
-
-    (
-        (valeur - yMin) /
-        etendueY
-    )
-
-    *
-
-    hauteurUtile;
-
-
-const pointsSvg =
-    tries
-        .map(
-            point =>
-                `${x(
-                    point.periode
-                ).toFixed(1)},${y(
-                    point.valeur
-                ).toFixed(1)}`
-        )
-        .join(' ');
-
-
-const marqueurs =
-    tries
-        .map(
-            point => `
-                <circle
-                    class="diagramme-barre"
-                    cx="${x(
-                        point.periode
-                    ).toFixed(1)}"
-                    cy="${y(
-                        point.valeur
-                    ).toFixed(1)}"
-                    r="4">
-                </circle>
-            `
-        )
-        .join('');
-
-
-conteneur.innerHTML = `
-
-    <svg
-
-        viewBox="
-            0 0
-            ${largeur}
-            ${hauteur}
-        "
-
-        width="100%"
-
-        style="
-            max-width:${largeur}px;
-            display:block;
-            margin:0 auto;
-        "
-
-    >
-
-        <line
-
-            class="diagramme-axe"
-
-            x1="${marge.gauche}"
-
-            y1="${marge.haut}"
-
-            x2="${marge.gauche}"
-
-            y2="${
-                hauteur -
-                marge.bas
-            }"
-
-        />
-
-
-        <line
-
-            class="diagramme-axe"
-
-            x1="${marge.gauche}"
-
-            y1="${
-                hauteur -
-                marge.bas
-            }"
-
-            x2="${
-                largeur -
-                marge.droite
-            }"
-
-            y2="${
-                hauteur -
-                marge.bas
-            }"
-
-        />
-
-
-        <polyline
-
-            points="${pointsSvg}"
-
-            fill="none"
-
-            stroke="var(--domaine-accent)"
-
-            stroke-width="3"
-
-        />
-
-
-        ${marqueurs}
-
-    </svg>
-
-`;
+if (
+serieChronologique.length === 0
+) {
+
+```
+conteneur.innerHTML =
+  '<p class="info">' +
+    'Ajouter des points pour afficher ' +
+    'l’évolution.' +
+  '</p>';
+
+return;
 ```
 
 }
 
-/* ------------------------------------------------------------
-Initialiser l'onglet 3
------------------------------------------------------------- */
+const donnees =
+[...serieChronologique]
+.sort(
+(a, b) =>
+a.periode -
+b.periode
+);
 
-function initSerieChronologique() {
+const largeur =
+800;
+
+const hauteur =
+420;
+
+const margeGauche =
+70;
+
+const margeDroite =
+30;
+
+const margeHaut =
+40;
+
+const margeBas =
+70;
+
+const periodes =
+donnees.map(
+point =>
+point.periode
+);
+
+const valeurs =
+donnees.map(
+point =>
+point.valeur
+);
+
+let minimumX =
+Math.min(
+...periodes
+);
+
+let maximumX =
+Math.max(
+...periodes
+);
+
+let minimumY =
+Math.min(
+...valeurs
+);
+
+let maximumY =
+Math.max(
+...valeurs
+);
+
+if (
+minimumX === maximumX
+) {
 
 ```
+minimumX -= 1;
+
+maximumX += 1;
+```
+
+}
+
+if (
+minimumY === maximumY
+) {
+
+```
+minimumY -= 1;
+
+maximumY += 1;
+```
+
+}
+
+const largeurGraphique =
+largeur -
+margeGauche -
+margeDroite;
+
+const hauteurGraphique =
+hauteur -
+margeHaut -
+margeBas;
+
+const x =
+valeur =>
+
+```
+  margeGauche +
+
+  (
+    (valeur - minimumX) /
+
+    (maximumX - minimumX)
+  )
+
+  *
+
+  largeurGraphique;
+```
+
+const y =
+valeur =>
+
+```
+  hauteur -
+
+  margeBas -
+
+  (
+    (valeur - minimumY) /
+
+    (maximumY - minimumY)
+  )
+
+  *
+
+  hauteurGraphique;
+```
+
+const points =
+donnees
+.map(
+point =>
+
+```
+      `${x(point.periode)},${y(point.valeur)}`
+  )
+  .join(' ');
+```
+
+const cercles =
+donnees
+.map(
+point =>
+
+```
+      '<circle ' +
+
+        `cx="${x(point.periode)}" ` +
+
+        `cy="${y(point.valeur)}" ` +
+
+        'r="5" ' +
+
+        'class="point-chronologique"' +
+
+      '></circle>'
+
+  )
+  .join('');
+```
+
+const etiquettes =
+donnees
+.map(
+point =>
+
+```
+      '<text ' +
+
+        `x="${x(point.periode)}" ` +
+
+        `y="${hauteur - 35}" ` +
+
+        'text-anchor="middle" ' +
+
+        'class="etiquette-chronologique"' +
+
+      '>' +
+
+        echapperHTML(
+          point.periode
+        ) +
+
+      '</text>'
+
+  )
+  .join('');
+```
+
+conteneur.innerHTML =
+
+```
+'<svg ' +
+
+  'viewBox="0 0 800 420" ' +
+
+  'width="100%" ' +
+
+  'role="img" ' +
+
+  'aria-label="Diagramme à lignes brisées"' +
+
+'>' +
+
+
+  '<line ' +
+
+    `x1="${margeGauche}" ` +
+
+    `y1="${margeHaut}" ` +
+
+    `x2="${margeGauche}" ` +
+
+    `y2="${hauteur - margeBas}" ` +
+
+    'class="axe-graphique"' +
+
+  '></line>' +
+
+
+  '<line ' +
+
+    `x1="${margeGauche}" ` +
+
+    `y1="${hauteur - margeBas}" ` +
+
+    `x2="${largeur - margeDroite}" ` +
+
+    `y2="${hauteur - margeBas}" ` +
+
+    'class="axe-graphique"' +
+
+  '></line>' +
+
+
+  '<polyline ' +
+
+    `points="${points}" ` +
+
+    'fill="none" ' +
+
+    'class="ligne-chronologique"' +
+
+  '></polyline>' +
+
+
+  cercles +
+
+
+  etiquettes +
+
+
+  '<text ' +
+
+    `x="${largeur / 2}" ` +
+
+    'y="25" ' +
+
+    'text-anchor="middle" ' +
+
+    'class="titre-graphique"' +
+
+  '>' +
+
+    'Évolution de la grandeur mesurée' +
+
+  '</text>' +
+
+
+  '<text ' +
+
+    `x="${largeur / 2}" ` +
+
+    `y="${hauteur - 8}" ` +
+
+    'text-anchor="middle"' +
+
+  '>' +
+
+    'Période' +
+
+  '</text>' +
+
+
+'</svg>';
+```
+
+}
+
+/**
+
+* Initialise l'activité
+* « Évolution chronologique ».
+  */
+  function initEvolutionChronologique() {
+
 const bouton =
-    document.getElementById(
-        'lb-ajouter'
-    );
-
+document.getElementById(
+'lb-ajouter'
+);
 
 const champPeriode =
-    document.getElementById(
-        'lb-periode'
-    );
-
+document.getElementById(
+'lb-periode'
+);
 
 const champValeur =
-    document.getElementById(
-        'lb-valeur'
-    );
-
-
-if (
-    !bouton ||
-    !champPeriode ||
-    !champValeur
-) {
-
-    console.warn(
-        'MathiLab S1 : éléments de la série chronologique introuvables.'
-    );
-
-    return;
-
-}
-
-
-if (
-    bouton.dataset.initialise ===
-    'true'
-) {
-
-    return;
-
-}
-
-
-bouton.dataset.initialise =
-    'true';
-
-
-bouton.addEventListener(
-
-    'click',
-
-    () => {
-
-        const periode =
-            parseFloat(
-                champPeriode.value
-            );
-
-
-        const valeur =
-            parseFloat(
-                champValeur.value
-            );
-
-
-        if (
-            Number.isNaN(periode) ||
-            Number.isNaN(valeur)
-        ) {
-
-            return;
-
-        }
-
-
-        pointsChronologiques.push({
-
-            periode:
-                periode,
-
-            valeur:
-                valeur
-
-        });
-
-
-        champPeriode.value = '';
-
-        champValeur.value = '';
-
-
-        champPeriode.focus();
-
-
-        dessinerLignesBrisees(
-
-            'lb-graphique',
-
-            pointsChronologiques
-
-        );
-
-    }
-
+document.getElementById(
+'lb-valeur'
 );
 
+function ajouterPoint() {
 
-/*
- * Touche Entrée.
- */
-
-champPeriode.addEventListener(
-
-    'keydown',
-
-    evenement => {
-
-        if (
-            evenement.key ===
-            'Enter'
-        ) {
-
-            evenement.preventDefault();
-
-            bouton.click();
-
-        }
-
-    }
-
-);
-
-
-champValeur.addEventListener(
-
-    'keydown',
-
-    evenement => {
-
-        if (
-            evenement.key ===
-            'Enter'
-        ) {
-
-            evenement.preventDefault();
-
-            bouton.click();
-
-        }
-
-    }
-
-);
-
-
-dessinerLignesBrisees(
-
-    'lb-graphique',
-
-    pointsChronologiques
-
-);
 ```
+const periode =
+  lireNombre(
+    champPeriode
+  );
+
+
+const valeur =
+  lireNombre(
+    champValeur
+  );
+
+
+if (
+  periode === null
+) {
+
+  afficherMessage(
+    'Saisir une période.'
+  );
+
+  champPeriode?.focus();
+
+  return;
+
+}
+
+
+if (
+  valeur === null
+) {
+
+  afficherMessage(
+    'Saisir une valeur.'
+  );
+
+  champValeur?.focus();
+
+  return;
+
+}
+
+
+effacerMessage();
+
+
+const pointExistant =
+  serieChronologique.find(
+    point =>
+
+      point.periode ===
+      periode
+  );
+
+
+if (
+  pointExistant
+) {
+
+  pointExistant.valeur =
+    valeur;
+
+} else {
+
+  serieChronologique.push({
+
+    periode:
+      periode,
+
+    valeur:
+      valeur
+
+  });
+
+}
+
+
+champPeriode.value =
+  '';
+
+champValeur.value =
+  '';
+
+champPeriode.focus();
+
+
+dessinerLignesBrisees();
+```
+
+}
+
+bouton?.addEventListener(
+'click',
+ajouterPoint
+);
+
+champValeur?.addEventListener(
+'keydown',
+evenement => {
+
+```
+  if (
+    evenement.key ===
+    'Enter'
+  ) {
+
+    evenement.preventDefault();
+
+    ajouterPoint();
+
+  }
+
+}
+```
+
+);
+
+dessinerLignesBrisees();
 
 }
 
 /* ============================================================
-INITIALISATION GÉNÉRALE
+INITIALISATION
 ============================================================ */
 
-function initialiserTP() {
+function initialiserTP01() {
 
-```
-/*
- * Évite une double initialisation
- * du même fragment.
- */
-
-const conteneurOnglets =
-    document.querySelector(
-        '.tabs-container'
-    );
-
-
-if (!conteneurOnglets) {
-
-    return;
-
-}
-
-
-if (
-    conteneurOnglets.dataset.tpInitialise ===
-    'true'
-) {
-
-    return;
-
-}
-
-
-conteneurOnglets.dataset.tpInitialise =
-    'true';
-
-
-console.log(
-    'MathiLab S1 : initialisation du TP'
-);
-
-
-/* ========================================================
-   ONGLETS
-   ======================================================== */
-
-initOngletsParFiliere({
-
-    /*
-     * Ce TP est commun à toutes les filières.
-     *
-     * Une configuration vide signifie :
-     * aucune restriction.
-     */
-
-    mapping: {},
-
-
-    selectId:
-        'select-filiere-pro',
-
-
-    messageId:
-        's01-message-filiere'
-
-});
-
-
-/* ========================================================
-   CONTEXTE PROFESSIONNEL
-   ======================================================== */
+initOngletsParFiliere();
 
 initContextePro({
 
-    filieres:
-        FILIERES_PRO,
+```
+filieres:
+  FILIERES_PRO,
 
-    contextes:
-        CONTEXTES_S1
+contextes:
+  CONTEXTES_S1
+```
 
 });
-
-
-/* ========================================================
-   ACTIVITÉS
-   ======================================================== */
 
 initRegroupementClasses();
 
 initSerieQualitative();
 
-initSerieChronologique();
-
-
-/* ========================================================
-   COMPÉTENCES
-   ======================================================== */
+initEvolutionChronologique();
 
 initRadarCompetences();
 
-
-/* ========================================================
-   IMPRESSION
-   ======================================================== */
-
 initImpressionCompteRendu({
 
-    titre:
-        "Organiser et représenter " +
-        "une série statistique",
+```
+titre:
+  'Organiser et représenter une série statistique',
 
-    tp:
-        'S1'
+tp:
+  'S1'
+```
 
 });
-
-
-console.log(
-    'MathiLab S1 : TP prêt'
-);
-```
 
 }
 
 /* ============================================================
-LANCEMENT
+DÉMARRAGE
 ============================================================ */
 
-/*
-
-* Le fragment HTML est chargé dynamiquement
-* par navigation.js.
-*
-* Le module est normalement importé après
-* l'insertion du fragment dans le DOM.
-  */
-
-function lancerInitialisation() {
-
-```
-const onglets =
-    document.querySelector(
-        '.tabs-container'
-    );
-
-
-if (onglets) {
-
-    initialiserTP();
-
-    return;
-
-}
-
-
-/*
- * Sécurité pour les chargements SPA :
- * nouvelle tentative au prochain cycle
- * du navigateur.
- */
-
-requestAnimationFrame(
-
-    initialiserTP
-
-);
-```
-
-}
-
-lancerInitialisation();
+initialiserTP01();
