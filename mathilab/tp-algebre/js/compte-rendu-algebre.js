@@ -1,73 +1,57 @@
 /**
  * tp-algebre/js/compte-rendu-algebre.js
- * Identique en structure à tp-statistiques/js/compte-rendu-statistiques.js.
+ * Construit et imprime le compte-rendu (identification, tableau de résultats,
+ * réponses aux questions, auto-évaluation) pour un TP d'algèbre.
  */
-import { genererCompteRendu } from '../../js/compte-rendu.js';
 
-function texte(el) { return (el?.textContent || '').trim(); }
-function valeur(el) { return (el?.value || '').trim(); }
-
-function construireSectionsQuestions() {
-  return [...document.querySelectorAll('.questions-tp > li')].map(li => ({
-    titre: texte(li.querySelector('.question-entete strong')),
-    notation: true,
-    competence: texte(li.querySelector('.cartouche')),
-    texte: valeur(li.querySelector('.zone-eleve textarea')),
-  }));
+function texteChamp(id) {
+  const el = document.getElementById(id);
+  return el ? el.value : '';
 }
 
-function construireSectionResume() {
-  const zone = document.getElementById('resume-tp');
-  if (!zone) return null;
-  return { titre: 'Résumé du TD', texte: valeur(zone) };
-}
+function construireCompteRendu(titre, tp) {
+  const nom = texteChamp('nom-eleve');
+  const prenom = texteChamp('prenom-eleve');
+  const classe = texteChamp('classe-eleve');
+  const date = texteChamp('date-eleve');
 
-function construireSectionResultats() {
-  const lignes = document.querySelectorAll('[data-type="resultats"] table tbody tr');
-  if (!lignes.length) return null;
-  const items = [...lignes].map(tr => {
-    const cellules = [...tr.children];
-    const label = texte(cellules[0]);
-    const valeurs = cellules.slice(1).map(td => {
-      const input = td.querySelector('input');
-      return input ? valeur(input) : texte(td);
-    }).filter(Boolean);
-    return { label, valeur: valeurs.join(' — ') || '—' };
-  });
-  return { titre: 'Tableau de résultats', items };
-}
+  const tableauResultats = document.querySelector('[data-type="resultats"] table')?.outerHTML || '';
 
-function construireSectionsPuzzle() {
-  return [...document.querySelectorAll('.fiche-puzzle')].map(fiche => ({
-    titre: `Fiche puzzle — ${fiche.dataset.titre || ''}`,
-    texte: valeur(fiche.querySelector('.zone-eleve textarea')),
-  }));
-}
+  const questions = Array.from(document.querySelectorAll('.questions-tp > li')).map((li) => {
+    const enonce = li.querySelector('.question-entete strong')?.textContent.trim() || '';
+    const reponse = li.querySelector('textarea')?.value || '';
+    return `<p><strong>${enonce}</strong></p><p>${reponse.replace(/\n/g, '<br>')}</p>`;
+  }).join('');
 
-function construireSectionSynthesePuzzle() {
-  const zone = document.getElementById('puzzle-synthese');
-  if (!zone) return null;
-  return { titre: 'Synthèse puzzle (Séance 2)', texte: valeur(zone) };
+  const autoeval = Array.from(document.querySelectorAll('.autoeval-table tbody tr')).map((tr) => {
+    const libelle = tr.children[2]?.textContent.trim() || '';
+    const coche = tr.querySelector('input[type="radio"]:checked');
+    return `<li>${libelle} : ${coche ? coche.value : 'non renseigné'}</li>`;
+  }).join('');
+
+  return `
+    <h1>${titre} (${tp})</h1>
+    <p>${nom} ${prenom} — ${classe} — ${date}</p>
+    <h2>Résumé du TD</h2>
+    <p>${texteChamp('resume-tp').replace(/\n/g, '<br>')}</p>
+    <h2>Tableau de résultats</h2>
+    ${tableauResultats}
+    <h2>Questions</h2>
+    ${questions}
+    <h2>Auto-évaluation des compétences</h2>
+    <ul>${autoeval}</ul>
+  `;
 }
 
 export function initImpressionCompteRendu({ titre, tp }) {
   const bouton = document.getElementById('btn-imprimer');
-  if (!bouton) return;
+  const conteneur = document.getElementById('cr-print-container');
+  if (!bouton || !conteneur) return;
+
   bouton.addEventListener('click', () => {
-    const sections = [
-      construireSectionResultats(),
-      ...construireSectionsQuestions(),
-      construireSectionResume(),
-      ...construireSectionsPuzzle(),
-      construireSectionSynthesePuzzle(),
-    ].filter(Boolean);
-    genererCompteRendu({
-      titre,
-      domaine: 'Algèbre - Analyse',
-      tp,
-      sections,
-      noteFinale: true,
-      plateforme: 'MathiLab',
-    });
+    conteneur.innerHTML = construireCompteRendu(titre, tp);
+    conteneur.style.display = 'block';
+    window.print();
+    conteneur.style.display = 'none';
   });
 }
