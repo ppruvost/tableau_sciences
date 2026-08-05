@@ -1,0 +1,30 @@
+/* ── Tokens globaux, composants TP, impression ────────────────── */
+@import url("../../css/global.css");
+@import url("../../css/tp.css");
+@import url("../../css/print.css");
+
+/* ── Overrides communs à tous les domaines (header, nav, cartes,
+   tableaux, EPI, radar, graphique...) — paramétrés par les variables
+   de couleur ci-dessous ── */
+@import url("../../css/domaine.css");
+
+/* ════════════════════════════════════════════════════════════════
+   IDENTITÉ DU DOMAINE ALGÈBRE - ANALYSE (MathiLab)
+   ════════════════════════════════════════════════════════════════ */
+:root {
+  --domaine-accent:       #1B8A5A;
+  --domaine-accent-fonce: #12613F;
+  --domaine-accent-rgb:   27, 138, 90;
+}
+
+/* Tout le reste vient de tp.css et css/domaine.css — pas de
+   duplication propre à ce domaine. */
+
+.resultat-calcul {
+  color: var(--domaine-accent-fonce);
+}
+
+.questions-tp .question-entete::before,
+.etapes li::before {
+  background: var(--domaine-accent);
+}
