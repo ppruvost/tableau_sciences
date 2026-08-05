@@ -34,11 +34,10 @@ closeViewer?.addEventListener("click", () => {
     tpFrame.src = "";
 });
 
-document.getElementById("openChimie")    ?.addEventListener("click", () => openTP("tp-chimie/index.html"));
-document.getElementById("openAlgorithme") ?.addEventListener("click", () => openTP("tp-algorithme/index.html"));
 document.getElementById("openStatistiques")?.addEventListener("click", () => openTP("tp-statistiques/index.html"));
 document.getElementById("openAlgebre")  ?.addEventListener("click", () => openTP("tp-algebre/index.html"));
-document.getElementById("openSignaux")  ?.addEventListener("click", () => openTP("tp-signaux/index.html"));
+document.getElementById("openGeometrie")    ?.addEventListener("click", () => openTP("tp-geometrie/index.html"));
+document.getElementById("openAlgorithme") ?.addEventListener("click", () => openTP("tp-algorithme/index.html"));
 
 // =====================================================
 // PROGRESS BAR
