@@ -1083,12 +1083,11 @@ function initSerieChronologique() {
 function initialiserTP() {
 
     console.log(
-        'MathiLab S1 : initialisation du TP'
+        'MathiLab S1 : initialisation du TD'
     );
 
 
     /* --------------------------------------------------------
-       CORRECTION PRINCIPALE :
        activation des boutons d'onglets
     -------------------------------------------------------- */
 
