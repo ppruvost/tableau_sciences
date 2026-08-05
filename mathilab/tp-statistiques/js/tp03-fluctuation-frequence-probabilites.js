@@ -130,6 +130,7 @@ function initArbreDenombrement() {
   });
 }
 
+initOngletsParFiliere();
 initContextePro({ filieres: FILIERES_PRO, contextes: CONTEXTES_S3 });
 initFluctuation();
 initStabilisation();
