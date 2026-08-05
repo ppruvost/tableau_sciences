@@ -1,777 +1,179 @@
-<!--
-  Fragment SPA chargé dynamiquement par navigation.js.
-  Tous les chemins sont relatifs à la racine du site.
-  Aucun <script> dans ce fragment.
-  TP commun 1ère / Tle : la progression entre les deux niveaux se
-  fait par le sélecteur de filière (qui distingue "1ère" et "Tle")
-  et par l'onglet « Ajustement non affine », réservé à la Tle et
-  affiché dynamiquement par le contrôleur JS.
--->
-
-<section>
-
-<header class="tp-header">
-
-  <div class="tp-header-logo">
-    <div class="logo">
-      <span class="sci">Mathi</span><span class="Lab">Lab</span>
-    </div>
-  </div>
-
-  <div class="tp-header-centre">
-
-    <h1>Nuage de points et ajustement</h1>
-
-    <div class="tp-meta">
-
-      <div class="tp-row">
-        <span class="tag">1ère</span>
-        <span class="tag">Tle</span>
-        <span class="tag">Statistique et probabilités</span>
-        <span class="tag">Nuage de points - </span><span class="tag">Ajustement affine - </span><span class="tag">Coefficient de détermination</span>
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="tp-header-numero">
-    <span class="tp-numero-txt">S4</span>
-  </div>
-
-</header>
-
-<div class="progress">
-  <div id="bar"></div>
-</div>
-
-<main id="content">
-
-<div class="section" data-type="objectif">
-
-  <div class="section-titre">
-    <div class="picto-section">🎯</div>
-    <h2>Capacités évaluées</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <p class="info">
-      Ce TD est commun aux classes de 1ère et de Terminale : sélectionner
-      votre filière et votre niveau ci-dessous fait apparaître les
-      onglets correspondant à votre programme.
-    </p>
-
-    <ul>
-      <li><strong>1ère —</strong> Représenter un nuage de points associé à une série statistique à deux variables quantitatives, à l'aide d'outils numériques.</li>
-      <li><strong>1ère —</strong> Réaliser un ajustement affine (méthode des moindres carrés), interpoler ou extrapoler des valeurs inconnues.</li>
-      <li><strong>1ère —</strong> Déterminer le coefficient de détermination R² et évaluer la pertinence d'un ajustement affine.</li>
-      <li><strong>Tle —</strong> Choisir un modèle adapté (pas nécessairement affine) pour ajuster un nuage de points, à l'aide d'un changement de variable (par exemple z = log(y)).</li>
-      <li><em>Domaine transversal — Co-intervention :</em> ce module est mis en œuvre dans les domaines Mécanique et Électricité de SciLab, chaque fois qu'une grandeur physique dépend d'une autre (distance/temps, résistance/intensité...).</li>
-    </ul>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="contexte-pro">
-
-  <div class="section-titre">
-    <div class="picto-section">🏭</div>
-    <h2>Contexte professionnel</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="info">
-      Deux grandeurs liées par le processus de fabrication (épaisseur
-      et temps de découpe, vitesse et usure d'outil, longueur et temps
-      de traitement...) varient souvent l'une avec l'autre. Un
-      ajustement permet de modéliser cette liaison et de prévoir une
-      valeur non mesurée.
-    </div>
-
-    <div class="filiere-select-bloc">
-      <label for="select-filiere-pro">Votre niveau et votre filière professionnelle :</label>
-      <select id="select-filiere-pro">
-        <option value="">-- Sélectionner --</option>
-      </select>
-    </div>
-
-    <div id="contexte-pro-resultat" class="contexte-pro-resultat">
-      <p>Sélectionner votre niveau et votre filière professionnelle pour afficher le contexte et la problématique associée.</p>
-    </div>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="preparation">
-
-  <div class="section-titre">
-    <div class="picto-section">📊</div>
-    <h2>Activités</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="toolbar">
-      <a class="btn btn-secondaire" href="../../numworks/emulator.html" target="_blank" rel="noopener">
-        🧮 Ouvrir la calculatrice NumWorks
-      </a>
-    </div>
-
-    <div id="s04-message-niveau" class="info">
-      Sélectionner votre filière ci-dessus : l'onglet « Ajustement non
-      affine » n'apparaît qu'au niveau Terminale.
-    </div>
-
-    <div class="tabs-container">
-
-      <div class="tabs-header">
-        <button class="tab-btn actif" data-tab="nuage-ajustement-affine">Nuage de points et ajustement affine</button>
-        <button class="tab-btn" data-tab="interpoler-extrapoler">Interpoler / extrapoler</button>
-        <button class="tab-btn" data-tab="ajustement-non-affine" data-niveau="tle" style="display:none;">Ajustement non affine (Tle)</button>
-      </div>
-
-      <!-- ============================================= -->
-      <!-- NUAGE DE POINTS ET AJUSTEMENT AFFINE           -->
-      <!-- ============================================= -->
-
-      <div class="tab-panel actif" id="nuage-ajustement-affine">
-
-        <h3>Construire le nuage de points et la droite d'ajustement</h3>
-
-        <div class="info">
-          Saisir une série de couples (x ; y) mesurés (par exemple :
-          épaisseur de tôle et temps de découpe). La droite
-          d'ajustement et son équation s'affichent automatiquement dès
-          que 3 points au moins sont saisis.
-        </div>
-
-        <div class="form-row">
-
-          <div class="form-group">
-            <label for="na-x">x</label>
-            <input id="na-x" type="number" step="0.1">
-          </div>
-
-          <div class="form-group">
-            <label for="na-y">y</label>
-            <input id="na-y" type="number" step="0.1">
-          </div>
-
-          <div class="form-group">
-            <label>&nbsp;</label>
-            <button id="na-ajouter" type="button" class="btn btn-primaire">
-              + Ajouter le point
-            </button>
-          </div>
-
-        </div>
-
-        <div class="table-responsive">
-          <table class="tableau-resultats">
-            <thead>
-              <tr><th>N°</th><th>x</th><th>y</th></tr>
-            </thead>
-            <tbody id="na-tbody"></tbody>
-          </table>
-        </div>
-
-        <div id="na-nuage"></div>
-
-        <div id="na-equation" class="resultat-calcul"></div>
-
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>Choisir deux grandeurs quantitatives liées de votre filière (voir contexte professionnel).</li>
-          <li>Saisir au moins 5 couples de valeurs mesurées.</li>
-          <li>Lire l'équation de la droite d'ajustement et le coefficient de détermination R².</li>
-          <li>Un R² proche de 1 indique-t-il nécessairement un lien de cause à effet entre les deux grandeurs ?</li>
-        </ol>
-
-      </div>
-
-      <!-- ============================================= -->
-      <!-- INTERPOLER / EXTRAPOLER                        -->
-      <!-- ============================================= -->
-
-      <div class="tab-panel" id="interpoler-extrapoler">
-
-        <h3>Utiliser l'ajustement pour interpoler ou extrapoler</h3>
-
-        <div class="info">
-          À partir de la droite d'ajustement construite dans l'onglet
-          précédent, estimer une valeur de y pour un x donné —
-          interpolation si x est compris dans l'intervalle des valeurs
-          mesurées, extrapolation sinon.
-        </div>
-
-        <div class="form-row">
-
-          <div class="form-group">
-            <label for="ie-x">Valeur de x à estimer</label>
-            <input id="ie-x" type="number" step="0.1">
-          </div>
-
-          <div class="form-group">
-            <label>&nbsp;</label>
-            <button id="ie-estimer" type="button" class="btn btn-primaire">
-              Estimer y
-            </button>
-          </div>
-
-        </div>
-
-        <div id="ie-resultat" class="resultat-calcul">
-          Construire d'abord l'ajustement dans l'onglet précédent (au moins 3 points).
-        </div>
-
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>Choisir une valeur de x à l'intérieur de l'intervalle mesuré (interpolation) puis une valeur en dehors (extrapolation).</li>
-          <li>Comparer la fiabilité attendue des deux estimations.</li>
-        </ol>
-
-      </div>
-
-      <!-- ============================================= -->
-      <!-- AJUSTEMENT NON AFFINE (TLE UNIQUEMENT)         -->
-      <!-- ============================================= -->
-
-      <div class="tab-panel" id="ajustement-non-affine">
-
-        <h3>Ajustement non affine par changement de variable</h3>
-
-        <div class="info">
-          Certaines évolutions ne sont pas linéaires (croissance ou
-          décroissance de plus en plus rapide). Poser z = log(y)
-          permet de se ramener à un ajustement affine entre x et z :
-          si z ≈ A x + K, alors y ≈ 10<sup>K</sup> × 10<sup>A x</sup>
-          (modèle exponentiel).
-        </div>
-
-        <div class="form-row">
-
-          <div class="form-group">
-            <label for="na2-x">x</label>
-            <input id="na2-x" type="number" step="0.1">
-          </div>
-
-          <div class="form-group">
-            <label for="na2-y">y (strictement positif)</label>
-            <input id="na2-y" type="number" step="0.1" min="0.0001">
-          </div>
-
-          <div class="form-group">
-            <label>&nbsp;</label>
-            <button id="na2-ajouter" type="button" class="btn btn-primaire">
-              + Ajouter le point
-            </button>
-          </div>
-
-        </div>
-
-        <div class="table-responsive">
-          <table class="tableau-resultats">
-            <thead>
-              <tr><th>N°</th><th>x</th><th>y</th><th>z = log₁₀(y)</th></tr>
-            </thead>
-            <tbody id="na2-tbody"></tbody>
-          </table>
-        </div>
-
-        <div id="na2-nuage"></div>
-
-        <div id="na2-equation" class="resultat-calcul"></div>
-
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>Saisir au moins 5 couples (x ; y) avec y strictement positif.</li>
-          <li>Observer le coefficient de détermination calculé sur les données transformées (x ; z) : un R² proche de 1 valide le modèle exponentiel choisi.</li>
-          <li>Écrire le modèle obtenu sous la forme y = 10<sup>K</sup> × 10<sup>A x</sup>.</li>
-        </ol>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="resultats">
-
-  <div class="section-titre">
-    <div class="picto-section">📋</div>
-    <h2>Tableau de résultats</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="table-responsive">
-
-      <table class="tableau-resultats">
-
-        <thead>
-          <tr>
-            <th>Grandeur</th>
-            <th>Résultat</th>
-          </tr>
-        </thead>
-
-        <tbody>
-
-          <tr>
-            <td>Équation de la droite d'ajustement affine</td>
-            <td><input type="text" placeholder="y = a x + b"></td>
-          </tr>
-
-          <tr>
-            <td>Coefficient de détermination R²</td>
-            <td><input type="text" placeholder="valeur de R²"></td>
-          </tr>
-
-          <tr>
-            <td>Valeur estimée par interpolation ou extrapolation</td>
-            <td><input type="text" placeholder="valeur estimée"></td>
-          </tr>
-
-        </tbody>
-
-      </table>
-
-    </div>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="lien-metiers">
-
-  <div class="section-titre">
-    <div class="picto-section">🔗</div>
-    <h2>Mathématiques et sciences : un même langage</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <p>
-      Ce module est directement mis en œuvre dans les TP de mécanique
-      et d'électricité de SciLab : chaque fois que vous tracez une
-      grandeur en fonction d'une autre (distance en fonction du temps,
-      tension en fonction de l'intensité...) et que vous en déduisez
-      une relation, vous réalisez un ajustement affine.
-    </p>
-
-    <ul style="padding-left:1.5rem;line-height:2">
-      <li>La <strong>droite d'ajustement</strong> construite ici est la même démarche que la modélisation d'une loi physique par une droite (loi d'Ohm, mouvement uniforme...).</li>
-      <li>Le <strong>coefficient de détermination</strong> permet d'évaluer objectivement si le modèle choisi (affine ou non) rend bien compte des mesures, plutôt que de se fier uniquement à l'œil.</li>
-      <li>Dans un métier, prévoir une valeur non mesurée (temps de découpe pour une nouvelle épaisseur, durée de vie d'un outil à une vitesse donnée) repose exactement sur cette démarche d'ajustement et d'extrapolation.</li>
-    </ul>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="puzzle">
-
-  <div class="section-titre">
-    <div class="picto-section">🧩</div>
-    <h2>Activités Puzzle</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="info">
-      Organisation en <strong>classe puzzle</strong> : chaque groupe
-      expert réalise un ajustement affine dans un contexte différent
-      (le même travail mathématique, appliqué à trois métiers). En
-      séance 2, les groupes puzzle mélangés comparent les trois
-      démarches et vérifient qu'elles suivent toutes la même méthode.
-    </div>
-
-    <div class="toolbar">
-      <a class="btn btn-secondaire" href="../../roue/index.html" target="_blank" rel="noopener">
-        🎡 Ouvrir la roue (tirage des groupes)
-      </a>
-      <a class="btn btn-secondaire" href="../../numworks/emulator.html" target="_blank" rel="noopener">
-        🧮 Ouvrir la calculatrice NumWorks
-      </a>
-    </div>
-
-    <div class="fiche-puzzle" data-titre="Sport — entraînement et performance">
-
-      <h3>Fiche A — Sport : entraînement et performance</h3>
-
-      <p>On étudie la relation entre le temps d'entraînement hebdomadaire (en heures) et le temps mis pour courir un 10 km (en minutes), pour 10 coureurs :</p>
-
-      <div class="table-responsive">
-        <table class="tableau-resultats">
-          <thead><tr><th>Coureur</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th><th>I</th><th>J</th></tr></thead>
-          <tbody>
-            <tr><td>Entraînement (h)</td><td>2,5</td><td>4,0</td><td>1,5</td><td>3,0</td><td>5,0</td><td>3,5</td><td>2,0</td><td>4,5</td><td>1,0</td><td>3,8</td></tr>
-            <tr><td>Temps 10 km (min)</td><td>54</td><td>50</td><td>60</td><td>52</td><td>47</td><td>51</td><td>58</td><td>48</td><td>62</td><td>49</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <ol>
-        <li>Construire le nuage de points (x = temps d'entraînement, y = temps de course).</li>
-        <li>Déterminer l'équation de la droite d'ajustement affine et le coefficient de détermination R².</li>
-        <li>Estimer le temps de course pour un entraînement de 3,3 h.</li>
-      </ol>
-
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-      </div>
-
-      <div class="zone-eleve">
-        <textarea rows="6" placeholder="Réponses du groupe expert : équation de la droite, R², estimation..."></textarea>
-      </div>
-
-    </div>
-
-    <div class="fiche-puzzle" data-titre="Logistique — colis et temps de préparation">
-
-      <h3>Fiche B — Logistique : colis et temps de préparation</h3>
-
-      <p>Dans un entrepôt, on relève le nombre de colis par commande et le temps de préparation associé (en minutes) :</p>
-
-      <div class="table-responsive">
-        <table class="tableau-resultats">
-          <thead><tr><th>Commande</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th></tr></thead>
-          <tbody>
-            <tr><td>Nombre de colis</td><td>3</td><td>5</td><td>2</td><td>7</td><td>6</td><td>4</td><td>8</td><td>5</td></tr>
-            <tr><td>Temps (min)</td><td>6</td><td>10</td><td>5</td><td>14</td><td>13</td><td>8</td><td>15</td><td>11</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <ol>
-        <li>Construire le nuage de points (x = nombre de colis, y = temps de préparation).</li>
-        <li>Déterminer l'équation de la droite d'ajustement affine et le coefficient de détermination R².</li>
-        <li>Estimer le temps de préparation d'une commande de 10 colis (interpolation ou extrapolation ?).</li>
-      </ol>
-
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-      </div>
-
-      <div class="zone-eleve">
-        <textarea rows="6" placeholder="Réponses du groupe expert : équation de la droite, R², estimation..."></textarea>
-      </div>
-
-    </div>
-
-    <div class="fiche-puzzle" data-titre="Couture — taille et consommation de tissu">
-
-      <h3>Fiche C — Couture : taille et consommation de tissu</h3>
-
-      <p>Dans un atelier de confection, on relève la taille de la cliente (en cm) et la quantité de tissu nécessaire pour une robe (en m) :</p>
-
-      <div class="table-responsive">
-        <table class="tableau-resultats">
-          <thead><tr><th>Taille (cm)</th><th>150</th><th>155</th><th>160</th><th>165</th><th>170</th><th>175</th><th>180</th></tr></thead>
-          <tbody><tr><td>Tissu (m)</td><td>2,2</td><td>2,3</td><td>2,4</td><td>2,5</td><td>2,6</td><td>2,7</td><td>2,8</td></tr></tbody>
-        </table>
-      </div>
-
-      <ol>
-        <li>Construire le nuage de points (x = taille, y = quantité de tissu).</li>
-        <li>Déterminer l'équation de la droite d'ajustement affine et le coefficient de détermination R².</li>
-        <li>Interpoler la quantité de tissu pour une taille de 162 cm, puis extrapoler pour 185 cm.</li>
-      </ol>
-
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-      </div>
-
-      <div class="zone-eleve">
-        <textarea rows="6" placeholder="Réponses du groupe expert : équation de la droite, R², interpolation, extrapolation..."></textarea>
-      </div>
-
-    </div>
-
-    <h3 style="margin-top:var(--gap-lg);">Synthèse puzzle (séance 2)</h3>
-
-    <div class="info">
-      En groupe mélangé, comparer les trois ajustements obtenus : dans
-      quel contexte le modèle affine est-il le plus fiable (R² le plus
-      proche de 1) ? La méthode utilisée était-elle la même dans les
-      trois cas ?
-    </div>
-
-    <div class="zone-eleve">
-      <textarea id="puzzle-synthese" rows="6" placeholder="Synthèse commune : comparaison des trois ajustements, méthode partagée..."></textarea>
-    </div>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="bilan">
-
-  <div class="section-titre">
-    <div class="picto-section">📝</div>
-    <h2>Trace écrite - Compte rendu</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <h3>Identification</h3>
-
-    <div class="form-row">
-
-      <div class="form-group">
-        <label for="nom-eleve">Nom</label>
-        <input id="nom-eleve" type="text" placeholder="Nom">
-      </div>
-
-      <div class="form-group">
-        <label for="prenom-eleve">Prénom</label>
-        <input id="prenom-eleve" type="text" placeholder="Prénom">
-      </div>
-
-      <div class="form-group">
-        <label for="classe-eleve">Classe</label>
-        <input id="classe-eleve" type="text" placeholder="Classe">
-      </div>
-
-      <div class="form-group">
-        <label for="date-eleve">Date</label>
-        <input id="date-eleve" type="date">
-      </div>
-
-    </div>
-
-    <h3 style="margin-top:var(--gap-md);">Résumé du TD</h3>
-
-    <div class="zone-eleve">
-      <textarea id="resume-tp" rows="6" placeholder="Résumer l'ajustement construit et son utilisation..."></textarea>
-    </div>
-
-    <h3 style="margin-top:var(--gap-md);">Questions</h3>
-
-    <div class="questions-bloc" data-tp="nuage-points-ajustement">
-
-    <ol class="questions-tp">
-
-      <li>
-        <div class="question-entete">
-          <strong>
-            Donner l'équation de la droite d'ajustement obtenue et le coefficient de détermination associé.
-          </strong>
-          <span class="cartouche" data-comp="APP">APP</span>
-        </div>
-        <div class="zone-eleve">
-          <textarea id="question1" rows="4" placeholder="Votre réponse..."></textarea>
-        </div>
-      </li>
-
-      <li>
-        <div class="question-entete">
-          <strong>
-            Utiliser l'équation pour estimer une valeur par interpolation, puis une valeur par extrapolation.
-          </strong>
-          <span class="cartouche" data-comp="REA">REA</span>
-        </div>
-        <div class="zone-eleve">
-          <textarea id="question2" rows="4" placeholder="Votre réponse..."></textarea>
-        </div>
-      </li>
-
-      <li>
-        <div class="question-entete">
-          <strong>
-            Le coefficient de détermination obtenu permet-il d'affirmer qu'il existe un lien de cause à effet entre les deux grandeurs étudiées ? Justifier.
-          </strong>
-          <span class="cartouche" data-comp="ANA">ANA</span>
-        </div>
-        <div class="zone-eleve">
-          <textarea id="question3" rows="5" placeholder="Votre analyse..."></textarea>
-        </div>
-      </li>
-
-      <li class="question-problematique">
-        <div class="question-entete">
-          <strong>Répondre à la problématique posée en début de TD :</strong>
-          <span class="cartouche" data-comp="VAL">VAL</span>
-        </div>
-        <p class="problematique-rappel" data-activite="nuage-points-ajustement"></p>
-        <div class="zone-eleve">
-          <textarea id="question4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea>
-        </div>
-      </li>
-
-    </ol>
-
-    </div>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="auto-evaluation">
-
-  <div class="section-titre">
-    <div class="picto-section">📡</div>
-    <h2>Auto-évaluation des compétences</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <p class="info">
-      À la fin du TD, évaluez votre niveau de maîtrise pour chaque
-      compétence.
-    </p>
-
-    <div class="table-responsive">
-
-      <table class="tableau-resultats autoeval-table">
-
-        <thead>
-          <tr>
-            <th>Domaine</th>
-            <th>Sigle</th>
-            <th>Je suis capable de...</th>
-            <th>0</th>
-            <th>1</th>
-            <th>2</th>
-          </tr>
-        </thead>
-
-        <tbody>
-
-          <tr data-comp="APP">
-            <td>S'approprier</td>
-            <td>APP</td>
-            <td>Représenter un nuage de points associé à deux variables quantitatives.</td>
-            <td><input type="radio" name="APP" value="0"></td>
-            <td><input type="radio" name="APP" value="1"></td>
-            <td><input type="radio" name="APP" value="2"></td>
-          </tr>
-
-          <tr data-comp="REA">
-            <td>Réaliser</td>
-            <td>REA</td>
-            <td>Déterminer une droite d'ajustement et l'utiliser pour interpoler ou extrapoler.</td>
-            <td><input type="radio" name="REA" value="0"></td>
-            <td><input type="radio" name="REA" value="1"></td>
-            <td><input type="radio" name="REA" value="2"></td>
-          </tr>
-
-          <tr data-comp="ANA">
-            <td>Analyser / Raisonner</td>
-            <td>ANA</td>
-            <td>Évaluer la pertinence d'un ajustement à l'aide du coefficient de détermination.</td>
-            <td><input type="radio" name="ANA" value="0"></td>
-            <td><input type="radio" name="ANA" value="1"></td>
-            <td><input type="radio" name="ANA" value="2"></td>
-          </tr>
-
-          <tr data-comp="VAL">
-            <td>Valider</td>
-            <td>VAL</td>
-            <td>Distinguer corrélation et causalité entre deux grandeurs.</td>
-            <td><input type="radio" name="VAL" value="0"></td>
-            <td><input type="radio" name="VAL" value="1"></td>
-            <td><input type="radio" name="VAL" value="2"></td>
-          </tr>
-
-          <tr data-comp="COM">
-            <td>Communiquer</td>
-            <td>COM</td>
-            <td>Présenter et justifier un modèle d'ajustement à l'oral ou à l'écrit.</td>
-            <td><input type="radio" name="COM" value="0"></td>
-            <td><input type="radio" name="COM" value="1"></td>
-            <td><input type="radio" name="COM" value="2"></td>
-          </tr>
-
-        </tbody>
-
-      </table>
-
-    </div>
-
-    <div class="radar-actions" style="margin-top:var(--gap-lg);">
-      <button id="btn-radar" class="btn btn-primaire">
-        📊 Générer mon radar de compétences
-      </button>
-      <div id="radar-resultat" style="margin-top:var(--gap-md);"></div>
-    </div>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="impression_tp">
-
-  <div class="section-titre">
-    <div class="picto-section">📒</div>
-    <h2>Impression du compte-rendu</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <p class="info">
-      À la fin du TD, imprimer votre travail en PDF.
-      Envoyer à l'enseignant votre compte rendu en pièce jointe par la messagerie de l'ENT.
-    </p>
-
-    <div class="toolbar">
-      <button id="btn-imprimer" class="btn btn-primaire">
-        🖨 Imprimer le compte-rendu
-      </button>
-    </div>
-
-    <div class="info" style="margin-top:var(--gap-md);">
-      L'impression récupère automatiquement :
-      <ul>
-        <li>le tableau de résultats ;</li>
-        <li>les réponses aux questions ;</li>
-        <li>l'auto-évaluation des compétences.</li>
-      </ul>
-    </div>
-
-  </div>
-
-</div>
-
-<div class="nav-tp">
-
-  <button class="btn btn-secondaire" onclick="loadTP('tp03-fluctuation-frequence-probabilites')">
-    ← S3
-  </button>
-
-  <button class="btn btn-secondaire" onclick="location.href='../index.html'">
-    🏠 Accueil
-  </button>
-
-  <button class="btn btn-primaire" onclick="loadTP('tp05-tableau-croise-arbre-pondere')">
-    S5 →
-  </button>
-
-</div>
-
-</main>
-
-<div id="cr-print-container" style="display:none;"></div>
-
-</section>
+import { initContextePro, getFiliereSelectionnee } from '../../js/contexte-pro.js';
+import { initRadarCompetences } from './radar.js';
+import { initImpressionCompteRendu } from './compte-rendu-statistiques.js';
+import FILIERES_PRO from '../../data/filieres.js';
+
+const CONTEXTES_S4 = {
+  '1ere-tci': { contexte: "L'épaisseur d'une tôle et le temps de découpe nécessaire sont deux grandeurs liées par le processus de chaudronnerie.", problematique: "Comment prévoir le temps de découpe d'une épaisseur non encore testée ?" },
+  'tle-tci': { contexte: "Certaines relations d'usure d'outil ne sont pas linéaires en fonction de la vitesse de coupe.", problematique: "Quel modèle choisir lorsque la relation entre deux grandeurs n'est pas affine ?" },
+  '1ere-trpm': { contexte: "La vitesse de coupe et la durée de vie d'un outillage sont deux grandeurs liées lors de la réalisation d'un produit mécanique.", problematique: "Comment estimer la durée de vie d'un outillage pour une vitesse de coupe non testée ?" },
+  'tle-trpm': { contexte: "Certaines relations d'usure d'outillage (durée de vie selon la vitesse) ne sont pas linéaires.", problematique: "Quel modèle non affine choisir pour ajuster la durée de vie d'un outillage ?" },
+  '1ere-mcc': { contexte: "La taille d'une cliente et la quantité de tissu nécessaire à une robe varient ensemble de façon à peu près proportionnelle.", problematique: "Comment estimer la quantité de tissu nécessaire pour une taille non mesurée ?" },
+  'tle-mcc': { contexte: "Certaines relations de production (temps de finition selon la complexité d'un modèle) ne sont pas linéaires.", problematique: "Quel modèle non affine choisir pour ajuster un nuage de points en confection ?" },
+  '1ere-agora': { contexte: "Le nombre de dossiers traités et le temps de traitement associé sont deux grandeurs liées dans un service administratif.", problematique: "Comment estimer le temps de traitement d'un volume de dossiers inhabituel ?" },
+  'tle-agora': { contexte: "Certaines évolutions administratives (délai de traitement selon la charge) ne sont pas strictement linéaires.", problematique: "Quel modèle non affine choisir pour ajuster un délai de traitement administratif ?" },
+  '1ere-log': { contexte: "Le nombre de colis d'une commande et le temps de préparation associé sont deux grandeurs liées en entrepôt.", problematique: "Comment estimer le temps de préparation d'une commande de taille inhabituelle ?" },
+  'tle-log': { contexte: "Certaines évolutions logistiques (délai selon la distance) ne sont pas strictement linéaires.", problematique: "Quel modèle non affine choisir pour ajuster une évolution logistique ?" },
+};
+
+/* ---------- Régression linéaire (moindres carrés) ---------- */
+function regressionLineaire(points) {
+  const n = points.length;
+  const sx = points.reduce((s, p) => s + p.x, 0);
+  const sy = points.reduce((s, p) => s + p.y, 0);
+  const sxy = points.reduce((s, p) => s + p.x * p.y, 0);
+  const sxx = points.reduce((s, p) => s + p.x * p.x, 0);
+  const syy = points.reduce((s, p) => s + p.y * p.y, 0);
+
+  const a = (n * sxy - sx * sy) / (n * sxx - sx * sx);
+  const b = (sy - a * sx) / n;
+
+  const moyY = sy / n;
+  const ssTot = points.reduce((s, p) => s + (p.y - moyY) ** 2, 0);
+  const ssRes = points.reduce((s, p) => s + (p.y - (a * p.x + b)) ** 2, 0);
+  const r2 = ssTot === 0 ? 1 : 1 - ssRes / ssTot;
+
+  return { a, b, r2 };
+}
+
+function dessinerNuage(conteneurId, points, regression) {
+  const conteneur = document.getElementById(conteneurId);
+  if (!conteneur) return;
+  if (points.length < 3) {
+    conteneur.innerHTML = '<p class="info">Saisir au moins 3 points pour tracer le nuage.</p>';
+    return;
+  }
+  const largeur = 480, hauteur = 260;
+  const marge = { haut: 16, bas: 30, gauche: 44, droite: 16 };
+  const largeurUtile = largeur - marge.gauche - marge.droite;
+  const hauteurUtile = hauteur - marge.haut - marge.bas;
+
+  const xMin = Math.min(...points.map(p => p.x)), xMax = Math.max(...points.map(p => p.x));
+  const yMin = Math.min(...points.map(p => p.y)), yMax = Math.max(...points.map(p => p.y));
+  const etX = (xMax - xMin) || 1, etY = (yMax - yMin) || 1;
+
+  const x = v => marge.gauche + ((v - xMin) / etX) * largeurUtile;
+  const y = v => marge.haut + hauteurUtile - ((v - yMin) / etY) * hauteurUtile;
+
+  const pointsSvg = points.map(p => `<circle cx="${x(p.x).toFixed(1)}" cy="${y(p.y).toFixed(1)}" r="3.5" class="diagramme-barre" />`).join('');
+
+  let droite = '';
+  if (regression) {
+    const y1 = regression.a * xMin + regression.b;
+    const y2 = regression.a * xMax + regression.b;
+    droite = `<line x1="${x(xMin).toFixed(1)}" y1="${y(y1).toFixed(1)}" x2="${x(xMax).toFixed(1)}" y2="${y(y2).toFixed(1)}" stroke="var(--domaine-accent)" stroke-width="2" />`;
+  }
+
+  conteneur.innerHTML = `
+    <svg viewBox="0 0 ${largeur} ${hauteur}" width="100%" style="max-width:${largeur}px;display:block;margin:0 auto;">
+      <line class="diagramme-axe" x1="${marge.gauche}" y1="${marge.haut}" x2="${marge.gauche}" y2="${hauteur - marge.bas}" />
+      <line class="diagramme-axe" x1="${marge.gauche}" y1="${hauteur - marge.bas}" x2="${largeur - marge.droite}" y2="${hauteur - marge.bas}" />
+      ${droite}
+      ${pointsSvg}
+    </svg>`;
+}
+
+/* ---------- Onglet 1 : nuage + ajustement affine ---------- */
+const pointsAffine = [];
+let regressionCourante = null;
+
+function actualiserNuageAffine() {
+  document.getElementById('na-tbody').innerHTML = pointsAffine
+    .map((p, i) => `<tr><td>${i + 1}</td><td>${p.x}</td><td>${p.y}</td></tr>`).join('');
+
+  const equationDiv = document.getElementById('na-equation');
+  if (pointsAffine.length < 3) {
+    equationDiv.textContent = '';
+    regressionCourante = null;
+    dessinerNuage('na-nuage', pointsAffine, null);
+    return;
+  }
+  regressionCourante = regressionLineaire(pointsAffine);
+  equationDiv.textContent = `y = ${regressionCourante.a.toFixed(3)} x + ${regressionCourante.b.toFixed(3)}   —   R² = ${regressionCourante.r2.toFixed(3)}`;
+  dessinerNuage('na-nuage', pointsAffine, regressionCourante);
+}
+
+function initNuageAffine() {
+  document.getElementById('na-ajouter')?.addEventListener('click', () => {
+    const x = parseFloat(document.getElementById('na-x').value);
+    const y = parseFloat(document.getElementById('na-y').value);
+    if (Number.isNaN(x) || Number.isNaN(y)) return;
+    pointsAffine.push({ x, y });
+    document.getElementById('na-x').value = '';
+    document.getElementById('na-y').value = '';
+    actualiserNuageAffine();
+  });
+  actualiserNuageAffine();
+}
+
+/* ---------- Onglet 2 : interpoler / extrapoler ---------- */
+function initInterpolerExtrapoler() {
+  document.getElementById('ie-estimer')?.addEventListener('click', () => {
+    const div = document.getElementById('ie-resultat');
+    if (!regressionCourante) {
+      div.textContent = "Construire d'abord l'ajustement dans l'onglet précédent (au moins 3 points).";
+      return;
+    }
+    const x = parseFloat(document.getElementById('ie-x').value);
+    if (Number.isNaN(x)) return;
+    const y = regressionCourante.a * x + regressionCourante.b;
+    const xs = pointsAffine.map(p => p.x);
+    const type = (x >= Math.min(...xs) && x <= Math.max(...xs)) ? 'interpolation' : 'extrapolation';
+    div.textContent = `Pour x = ${x} : y ≈ ${y.toFixed(2)} (${type})`;
+  });
+}
+
+/* ---------- Onglet 3 : ajustement non affine (Tle) — z = log10(y) ---------- */
+const pointsNonAffine = [];
+
+function actualiserNonAffine() {
+  document.getElementById('na2-tbody').innerHTML = pointsNonAffine
+    .map((p, i) => `<tr><td>${i + 1}</td><td>${p.x}</td><td>${p.y}</td><td>${Math.log10(p.y).toFixed(3)}</td></tr>`).join('');
+
+  const equationDiv = document.getElementById('na2-equation');
+  if (pointsNonAffine.length < 3) { equationDiv.textContent = ''; document.getElementById('na2-nuage').innerHTML = ''; return; }
+
+  const pointsZ = pointsNonAffine.map(p => ({ x: p.x, y: Math.log10(p.y) }));
+  const reg = regressionLineaire(pointsZ);
+  const K = reg.b, A = reg.a;
+  equationDiv.textContent = `z = ${A.toFixed(3)} x + ${K.toFixed(3)}  →  y ≈ 10^${K.toFixed(3)} × 10^(${A.toFixed(3)} x)   —   R² (sur x,z) = ${reg.r2.toFixed(3)}`;
+  dessinerNuage('na2-nuage', pointsZ, reg);
+}
+
+function initNonAffine() {
+  document.getElementById('na2-ajouter')?.addEventListener('click', () => {
+    const x = parseFloat(document.getElementById('na2-x').value);
+    const y = parseFloat(document.getElementById('na2-y').value);
+    if (Number.isNaN(x) || Number.isNaN(y) || y <= 0) return;
+    pointsNonAffine.push({ x, y });
+    document.getElementById('na2-x').value = '';
+    document.getElementById('na2-y').value = '';
+    actualiserNonAffine();
+  });
+  actualiserNonAffine();
+}
+
+/* ---------- Affichage de l'onglet Tle selon le niveau choisi ---------- */
+function gererNiveauAffiche() {
+  const filiere = getFiliereSelectionnee();
+  const estTle = filiere?.niveau === 'Tle';
+  document.querySelectorAll('[data-niveau="tle"]').forEach(el => {
+    el.style.display = estTle ? '' : 'none';
+  });
+  const message = document.getElementById('s04-message-niveau');
+  if (message) {
+    message.textContent = estTle
+      ? "Onglet « Ajustement non affine » disponible pour le niveau Terminale."
+      : "Sélectionner votre filière ci-dessus : l'onglet « Ajustement non affine » n'apparaît qu'au niveau Terminale.";
+  }
+}
+
+document.getElementById('select-filiere-pro')?.addEventListener('change', gererNiveauAffiche);
+
+initContextePro({ filieres: FILIERES_PRO, contextes: CONTEXTES_S4 });
+initNuageAffine();
+initInterpolerExtrapoler();
+initNonAffine();
+gererNiveauAffiche();
+initRadarCompetences();
+initImpressionCompteRendu({ titre: "Nuage de points et ajustement", tp: 'S4' });
