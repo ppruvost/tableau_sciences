@@ -7,7 +7,7 @@
    tp-acoustique
    tp-optique
    tp-statistiques
-   tp-mecanique
+   tp-algebre
    tp-thermique
    tp-signaux
    ========================================================== */
