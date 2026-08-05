@@ -116,11 +116,46 @@
 
     <div class="tabs-container">
 
-      <div class="tabs-header">
-        <button class="tab-btn actif" data-tab="regrouper-classes">Regrouper une série en classes</button>
-        <button class="tab-btn" data-tab="representer-qualitative">Représenter une série qualitative</button>
-        <button class="tab-btn" data-tab="representer-chronologique">Représenter une évolution (lignes brisées)</button>
-      </div>
+      <div
+  class="tabs-header"
+  role="tablist"
+  aria-label="Activités statistiques"
+>
+
+  <button
+    type="button"
+    class="tab-btn actif"
+    data-tab="regrouper-classes"
+    role="tab"
+    aria-selected="true"
+  >
+    Regrouper une série en classes
+  </button>
+
+
+  <button
+    type="button"
+    class="tab-btn"
+    data-tab="representer-qualitative"
+    role="tab"
+    aria-selected="false"
+  >
+    Représenter une série qualitative
+  </button>
+
+
+  <button
+    type="button"
+    class="tab-btn"
+    data-tab="representer-chronologique"
+    role="tab"
+    aria-selected="false"
+  >
+    Représenter une évolution
+    (lignes brisées)
+  </button>
+
+</div>
 
       <!-- ============================ -->
       <!-- REGROUPEMENT EN CLASSES      -->
