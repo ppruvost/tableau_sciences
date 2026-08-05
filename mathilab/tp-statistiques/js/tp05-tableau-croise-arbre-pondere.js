@@ -1,7 +1,12 @@
-import { initContextePro, getFiliereSelectionnee } from '../../js/contexte-pro.js';
-import { initRadarCompetences } from './radar.js';
-import { initImpressionCompteRendu } from './compte-rendu-statistiques.js';
+/**
+ * tp-statistiques/js/tp05-tableau-croise-arbre-pondere.js
+ */
 import FILIERES_PRO from '../../data/filieres.js';
+import { initContextePro } from '../../js/contexte-pro.js';
+import {regrouperEnClasses, classeModale, dessinerDiagrammeBarres, dessinerDiagrammeSecteurs } from '../../js/statistiques.js';
+import { initRadarCompetences } from '../../js/radar.js';
+import { initImpressionCompteRendu } from './compte-rendu-statistiques.js';
+import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 
 const CONTEXTES_S5 = {
   '1ere-tci': { contexte: "Un contrôle qualité croise souvent le poste de chaudronnerie et la conformité de la pièce produite.", problematique: "La conformité d'une pièce dépend-elle du poste qui l'a produite ?" },
