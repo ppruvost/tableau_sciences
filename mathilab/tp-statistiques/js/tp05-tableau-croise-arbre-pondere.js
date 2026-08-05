@@ -95,6 +95,7 @@ function gererNiveauAffiche() {
 
 document.getElementById('select-filiere-pro')?.addEventListener('change', gererNiveauAffiche);
 
+initOngletsParFiliere();
 initContextePro({ filieres: FILIERES_PRO, contextes: CONTEXTES_S5 });
 initTableauCroise();
 initArbrePondere();
