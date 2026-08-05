@@ -117,6 +117,8 @@ function initComparaison() {
   actualiserComparaison();
 }
 
+
+initOngletsParFiliere();
 initContextePro({ filieres: FILIERES_PRO, contextes: CONTEXTES_S2 });
 initIndicateursSerie();
 initComparaison();
