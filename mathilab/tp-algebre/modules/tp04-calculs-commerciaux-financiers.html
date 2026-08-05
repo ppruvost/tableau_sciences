@@ -1,0 +1,678 @@
+<!--
+  Fragment SPA chargé dynamiquement par navigation.js.
+  Tous les chemins sont relatifs à la racine du site.
+  Aucun <script> dans ce fragment.
+-->
+
+<section>
+
+<header class="tp-header">
+
+  <div class="tp-header-logo">
+    <div class="logo">
+      <span class="sci">Mathi</span><span class="Lab">Lab</span>
+    </div>
+  </div>
+
+  <div class="tp-header-centre">
+
+    <h1>Calculs commerciaux et financiers</h1>
+
+    <div class="tp-meta">
+
+      <div class="tp-row">
+        <span class="tag">Tle</span>
+        <span class="tag">Algèbre - Analyse</span>
+        <span class="tag">Intérêts composés - </span><span class="tag">Amortissement d'un emprunt - </span><span class="tag">Taux équivalents</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="tp-header-numero">
+    <span class="tp-numero-txt">A4</span>
+  </div>
+
+</header>
+
+<div class="progress">
+  <div id="bar"></div>
+</div>
+
+<main id="content">
+
+<div class="section" data-type="objectif">
+
+  <div class="section-titre">
+    <div class="picto-section">🎯</div>
+    <h2>Capacités évaluées</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="info">
+      Ce module est uniquement au programme des spécialités de baccalauréat
+      professionnel ne comportant pas d'enseignement de physique-chimie.
+    </div>
+
+    <ul>
+      <li>Calculer le montant du capital obtenu après n périodes d'un placement à intérêts composés.</li>
+      <li>Déterminer la durée n de placement d'un capital initial c0 à un taux t donné, pour obtenir un capital donné.</li>
+      <li>Compléter un tableau d'amortissement : remboursement par annuités constantes, remboursement par amortissement constant.</li>
+      <li>Calculer le coût d'un emprunt.</li>
+      <li>Calculer un taux mensuel équivalent à un taux annuel donné, et un taux moyen.</li>
+    </ul>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="contexte-pro">
+
+  <div class="section-titre">
+    <div class="picto-section">🏭</div>
+    <h2>Contexte professionnel</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="info">
+      Investir dans du matériel professionnel suppose souvent de recourir à un
+      emprunt, ou de placer une trésorerie disponible. Comparer deux offres de
+      financement nécessite de savoir calculer un capital final, une durée de
+      placement, ou le coût réel d'un emprunt.
+    </div>
+
+    <div class="filiere-select-bloc">
+      <label for="select-filiere-pro">Votre filière professionnelle :</label>
+      <select id="select-filiere-pro">
+        <option value="">-- Sélectionner une filière --</option>
+      </select>
+    </div>
+
+    <div id="contexte-pro-resultat" class="contexte-pro-resultat">
+      <p>Sélectionner votre filière professionnelle pour afficher le contexte et la problématique associée.</p>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="preparation">
+
+  <div class="section-titre">
+    <div class="picto-section">💶</div>
+    <h2>Activités</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="toolbar">
+      <a class="btn btn-secondaire" href="../../numworks/emulator.html" target="_blank" rel="noopener">
+        🧮 Ouvrir la calculatrice NumWorks
+      </a>
+    </div>
+
+    <div class="tabs-container">
+
+      <div class="tabs-header">
+        <button class="tab-btn actif" data-tab="interets-composes">Intérêts composés</button>
+        <button class="tab-btn" data-tab="amortissement">Tableau d'amortissement d'un emprunt</button>
+      </div>
+
+      <!-- ============================ -->
+      <!-- INTÉRÊTS COMPOSÉS            -->
+      <!-- ============================ -->
+
+      <div class="tab-panel actif" id="interets-composes">
+
+        <h3>Capital obtenu après n périodes à intérêts composés</h3>
+
+        <div class="info">
+          Saisir le capital initial c0, le taux par période t et le nombre de
+          périodes n : le capital final cn = c0 (1 + t)ⁿ se calcule automatiquement.
+        </div>
+
+        <div class="form-row">
+          <div class="form-group"><label for="ic-c0">Capital initial c0 (€)</label><input id="ic-c0" type="number" step="10" value="5000"></div>
+          <div class="form-group"><label for="ic-t">Taux par période t (ex. 0,03 pour 3 %)</label><input id="ic-t" type="number" step="0.001" value="0.03"></div>
+          <div class="form-group"><label for="ic-n">Nombre de périodes n</label><input id="ic-n" type="number" step="1" min="1" value="5"></div>
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button id="ic-calculer" type="button" class="btn btn-primaire">▶ Calculer cn</button>
+          </div>
+        </div>
+
+        <div id="ic-resultat" class="info"></div>
+
+        <h4 style="margin-top:var(--gap-lg);">Déterminer la durée pour atteindre un capital cible</h4>
+
+        <div class="form-row">
+          <div class="form-group"><label for="ic-cible">Capital cible (€)</label><input id="ic-cible" type="number" step="10" value="6500"></div>
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button id="ic-duree" type="button" class="btn btn-secondaire">Calculer la durée nécessaire</button>
+          </div>
+        </div>
+
+        <div id="ic-resultat-duree" class="info"></div>
+
+        <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
+
+        <ol class="etapes">
+          <li>Identifier le capital initial c0 et le taux par période t de la situation.</li>
+          <li>Appliquer la formule cn = c0 (1 + t)ⁿ pour calculer le capital après n périodes.</li>
+          <li>Pour trouver la durée nécessaire, utiliser le logarithme : n = log(cible / c0) / log(1 + t).</li>
+        </ol>
+
+      </div>
+
+      <!-- ============================ -->
+      <!-- AMORTISSEMENT                -->
+      <!-- ============================ -->
+
+      <div class="tab-panel" id="amortissement">
+
+        <h3>Construire un tableau d'amortissement</h3>
+
+        <div class="info">
+          Saisir le capital emprunté, le taux annuel et la durée de l'emprunt, puis
+          choisir le mode de remboursement : le tableau d'amortissement et le coût
+          total de l'emprunt se calculent automatiquement.
+        </div>
+
+        <div class="form-row">
+          <div class="form-group"><label for="am-capital">Capital emprunté (€)</label><input id="am-capital" type="number" step="100" value="10000"></div>
+          <div class="form-group"><label for="am-taux">Taux annuel (ex. 0,04 pour 4 %)</label><input id="am-taux" type="number" step="0.001" value="0.04"></div>
+          <div class="form-group"><label for="am-duree">Durée (nombre d'années)</label><input id="am-duree" type="number" step="1" min="1" max="20" value="5"></div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="am-mode">Mode de remboursement</label>
+            <select id="am-mode">
+              <option value="annuites-constantes">Annuités constantes</option>
+              <option value="amortissement-constant">Amortissement constant</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button id="am-generer" type="button" class="btn btn-primaire">▶ Générer le tableau</button>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="tableau-resultats">
+            <thead>
+              <tr>
+                <th>Période</th>
+                <th>Capital début</th>
+                <th>Intérêt</th>
+                <th>Amortissement</th>
+                <th>Annuité</th>
+                <th>Capital fin</th>
+              </tr>
+            </thead>
+            <tbody id="am-tbody"></tbody>
+          </table>
+        </div>
+
+        <div id="am-cout" class="info"></div>
+
+        <h4 style="margin-top:var(--gap-lg);">Taux mensuel et taux moyen</h4>
+
+        <div class="form-row">
+          <div class="form-group"><label for="tm-annuel">Taux annuel</label><input id="tm-annuel" type="number" step="0.001" value="0.04"></div>
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button id="tm-calculer" type="button" class="btn btn-secondaire">Calculer le taux mensuel équivalent</button>
+          </div>
+        </div>
+
+        <div id="tm-resultat" class="info"></div>
+
+        <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
+
+        <ol class="etapes">
+          <li>Distinguer les deux modes : annuités constantes (annuité fixe, amortissement variable) et amortissement constant (amortissement fixe, annuité variable).</li>
+          <li>Compléter chaque ligne du tableau à partir du capital restant dû en début de période.</li>
+          <li>Le coût de l'emprunt est la somme de tous les intérêts versés sur la durée.</li>
+        </ol>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="resultats">
+
+  <div class="section-titre">
+    <div class="picto-section">📋</div>
+    <h2>Tableau de résultats</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="table-responsive">
+
+      <table class="tableau-resultats">
+
+        <thead>
+          <tr>
+            <th>Grandeur</th>
+            <th>Résultat</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td>Capital obtenu après n périodes</td>
+            <td><input type="text" placeholder="valeur en €"></td>
+          </tr>
+
+          <tr>
+            <td>Coût total de l'emprunt étudié</td>
+            <td><input type="text" placeholder="valeur en €"></td>
+          </tr>
+
+          <tr>
+            <td>Mode de remboursement le plus favorable</td>
+            <td><input type="text" placeholder="annuités constantes ou amortissement constant"></td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="lien-metiers">
+
+  <div class="section-titre">
+    <div class="picto-section">🔗</div>
+    <h2>Mathématiques et sciences : un même langage</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p>
+      Un capital placé ou emprunté à intérêts composés évolue exactement comme une
+      suite géométrique de raison (1 + t) : cn = c0 (1 + t)ⁿ prolonge la formule
+      un = u0 × qⁿ étudiée précédemment.
+    </p>
+
+    <ul style="padding-left:1.5rem;line-height:2">
+      <li>Le <strong>taux par période</strong> joue le rôle de la raison q d'une suite géométrique.</li>
+      <li>Déterminer une <strong>durée de placement</strong> revient à résoudre une équation du type qⁿ = a, comme dans le TP sur les fonctions exponentielles.</li>
+      <li>Un <strong>tableau d'amortissement</strong> permet de suivre, période après période, le capital restant dû d'un emprunt.</li>
+    </ul>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="puzzle">
+
+  <div class="section-titre">
+    <div class="picto-section">🧩</div>
+    <h2>Activités Puzzle</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="toolbar">
+      <a class="btn btn-secondaire" href="../../numworks/emulator.html" target="_blank" rel="noopener">
+        🧮 Ouvrir la calculatrice NumWorks
+      </a>
+    </div>
+
+    <div class="info">
+      Situation étudiée — un artisan emprunte 8 000 € sur 4 ans au taux annuel de 3,5 %
+      pour financer un équipement.
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Intérêts composés">
+
+      <h3>Fiche A — Intérêts composés</h3>
+
+      <p>À l'aide de la calculatrice ou d'un tableur :</p>
+
+      <ol>
+        <li>Calculer le montant qui serait obtenu si cette somme avait été placée (et non empruntée) 4 ans au même taux.</li>
+        <li>Déterminer au bout de combien d'années ce placement doublerait.</li>
+      </ol>
+
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+
+      <div class="zone-eleve">
+        <textarea rows="6" placeholder="Réponses du groupe expert : capital obtenu, durée de doublement..."></textarea>
+      </div>
+
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Tableau d'amortissement à annuités constantes">
+
+      <h3>Fiche B — Annuités constantes</h3>
+
+      <p>Pour l'emprunt de l'artisan :</p>
+
+      <ol>
+        <li>Construire le tableau d'amortissement par annuités constantes.</li>
+        <li>Calculer le coût total de l'emprunt.</li>
+      </ol>
+
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+
+      <div class="zone-eleve">
+        <textarea rows="6" placeholder="Réponses du groupe expert : tableau, coût total de l'emprunt..."></textarea>
+      </div>
+
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Tableau d'amortissement constant">
+
+      <h3>Fiche C — Amortissement constant</h3>
+
+      <p>Pour le même emprunt :</p>
+
+      <ol>
+        <li>Construire le tableau d'amortissement par amortissement constant.</li>
+        <li>Calculer le coût total de l'emprunt et le comparer à celui de la fiche B.</li>
+      </ol>
+
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+
+      <div class="zone-eleve">
+        <textarea rows="6" placeholder="Réponses du groupe expert : tableau, coût total, comparaison avec la fiche B..."></textarea>
+      </div>
+
+    </div>
+
+    <h3 style="margin-top:var(--gap-lg);">Synthèse puzzle (séance 2)</h3>
+
+    <div class="info">
+      En groupe mélangé, rassembler les résultats des trois fiches (intérêts
+      composés, annuités constantes, amortissement constant) pour conseiller
+      l'artisan sur le mode de remboursement le plus adapté.
+    </div>
+
+    <div class="zone-eleve">
+      <textarea id="puzzle-synthese" rows="6" placeholder="Synthèse commune : intérêts composés, comparaison des deux modes d'amortissement, conseil à l'artisan..."></textarea>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="bilan">
+
+  <div class="section-titre">
+    <div class="picto-section">📝</div>
+    <h2>Trace écrite - Compte rendu</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <h3>Identification</h3>
+
+    <div class="form-row">
+
+      <div class="form-group">
+        <label for="nom-eleve">Nom</label>
+        <input id="nom-eleve" type="text" placeholder="Nom">
+      </div>
+
+      <div class="form-group">
+        <label for="prenom-eleve">Prénom</label>
+        <input id="prenom-eleve" type="text" placeholder="Prénom">
+      </div>
+
+      <div class="form-group">
+        <label for="classe-eleve">Classe</label>
+        <input id="classe-eleve" type="text" placeholder="Classe">
+      </div>
+
+      <div class="form-group">
+        <label for="date-eleve">Date</label>
+        <input id="date-eleve" type="date">
+      </div>
+
+    </div>
+
+    <h3 style="margin-top:var(--gap-md);">Résumé du TD</h3>
+
+    <div class="zone-eleve">
+      <textarea id="resume-tp" rows="6" placeholder="Résumer le calcul du capital à intérêts composés et la construction du tableau d'amortissement..."></textarea>
+    </div>
+
+    <h3 style="margin-top:var(--gap-md);">Questions</h3>
+
+    <div class="questions-bloc" data-tp="calculs-commerciaux-financiers">
+
+    <ol class="questions-tp">
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Donner la formule du capital obtenu après n périodes d'un placement à intérêts composés.
+          </strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question1" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Compléter le tableau d'amortissement de l'emprunt étudié et calculer son coût total.
+          </strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question2" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Comparer le coût de l'emprunt selon le mode de remboursement choisi et expliquer l'écart observé.
+          </strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question3" rows="5" placeholder="Votre analyse..."></textarea>
+        </div>
+      </li>
+
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique posée en début de TD :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="calculs-commerciaux-financiers"></p>
+        <div class="zone-eleve">
+          <textarea id="question4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea>
+        </div>
+      </li>
+
+    </ol>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="auto-evaluation">
+
+  <div class="section-titre">
+    <div class="picto-section">📡</div>
+    <h2>Auto-évaluation des compétences</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p class="info">
+      À la fin du TD, évaluez votre niveau de maîtrise pour chaque
+      compétence.
+    </p>
+
+    <div class="table-responsive">
+
+      <table class="tableau-resultats autoeval-table">
+
+        <thead>
+          <tr>
+            <th>Domaine</th>
+            <th>Sigle</th>
+            <th>Je suis capable de...</th>
+            <th>0</th>
+            <th>1</th>
+            <th>2</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr data-comp="APP">
+            <td>S'approprier</td>
+            <td>APP</td>
+            <td>Identifier une situation de placement ou d'emprunt à intérêts composés.</td>
+            <td><input type="radio" name="APP" value="0"></td>
+            <td><input type="radio" name="APP" value="1"></td>
+            <td><input type="radio" name="APP" value="2"></td>
+          </tr>
+
+          <tr data-comp="REA">
+            <td>Réaliser</td>
+            <td>REA</td>
+            <td>Calculer un capital à intérêts composés et compléter un tableau d'amortissement.</td>
+            <td><input type="radio" name="REA" value="0"></td>
+            <td><input type="radio" name="REA" value="1"></td>
+            <td><input type="radio" name="REA" value="2"></td>
+          </tr>
+
+          <tr data-comp="ANA">
+            <td>Analyser / Raisonner</td>
+            <td>ANA</td>
+            <td>Comparer deux modes de remboursement d'un emprunt à partir de leur coût total.</td>
+            <td><input type="radio" name="ANA" value="0"></td>
+            <td><input type="radio" name="ANA" value="1"></td>
+            <td><input type="radio" name="ANA" value="2"></td>
+          </tr>
+
+          <tr data-comp="VAL">
+            <td>Valider</td>
+            <td>VAL</td>
+            <td>Justifier un choix de financement dans une situation professionnelle.</td>
+            <td><input type="radio" name="VAL" value="0"></td>
+            <td><input type="radio" name="VAL" value="1"></td>
+            <td><input type="radio" name="VAL" value="2"></td>
+          </tr>
+
+          <tr data-comp="COM">
+            <td>Communiquer</td>
+            <td>COM</td>
+            <td>Argumenter une comparaison de financements à l'oral ou à l'écrit.</td>
+            <td><input type="radio" name="COM" value="0"></td>
+            <td><input type="radio" name="COM" value="1"></td>
+            <td><input type="radio" name="COM" value="2"></td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <div class="radar-actions" style="margin-top:var(--gap-lg);">
+      <button id="btn-radar" class="btn btn-primaire">
+        📊 Générer mon radar de compétences
+      </button>
+      <div id="radar-resultat" style="margin-top:var(--gap-md);"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="impression_tp">
+
+  <div class="section-titre">
+    <div class="picto-section">📒</div>
+    <h2>Impression du compte-rendu</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p class="info">
+      À la fin du TD, imprimer votre travail en PDF.
+      Envoyer à l'enseignant votre compte rendu en pièce jointe par la messagerie de l'ENT.
+    </p>
+
+    <div class="toolbar">
+      <button id="btn-imprimer" class="btn btn-primaire">
+        🖨 Imprimer le compte-rendu
+      </button>
+    </div>
+
+    <div class="info" style="margin-top:var(--gap-md);">
+      L'impression récupère automatiquement :
+      <ul>
+        <li>le tableau de résultats ;</li>
+        <li>les réponses aux questions ;</li>
+        <li>l'auto-évaluation des compétences.</li>
+      </ul>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="nav-tp">
+
+  <button class="btn btn-secondaire" onclick="loadTP('tp03-fonctions-exponentielles-logarithme')">
+    ← A3
+  </button>
+
+  <button class="btn btn-primaire" onclick="location.href='../index.html'">
+    🏠 Accueil
+  </button>
+
+</div>
+
+</main>
+
+<div id="cr-print-container" style="display:none;"></div>
+
+</section>
