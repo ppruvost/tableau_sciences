@@ -1,7 +1,12 @@
-import { initContextePro, getFiliereSelectionnee } from '../../js/contexte-pro.js';
-import { initRadarCompetences } from './radar.js';
-import { initImpressionCompteRendu } from './compte-rendu-statistiques.js';
+/**
+ * tp-statistiques/js/tp04-nuage-points-ajustement.js
+ */
 import FILIERES_PRO from '../../data/filieres.js';
+import { initContextePro } from '../../js/contexte-pro.js';
+import {regrouperEnClasses, classeModale, dessinerDiagrammeBarres, dessinerDiagrammeSecteurs } from '../../js/statistiques.js';
+import { initRadarCompetences } from '../../js/radar.js';
+import { initImpressionCompteRendu } from './compte-rendu-statistiques.js';
+import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 
 const CONTEXTES_S4 = {
   '1ere-tci': { contexte: "L'épaisseur d'une tôle et le temps de découpe nécessaire sont deux grandeurs liées par le processus de chaudronnerie.", problematique: "Comment prévoir le temps de découpe d'une épaisseur non encore testée ?" },
