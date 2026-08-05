@@ -28,7 +28,7 @@ function getCurrentDomain() {
         "tp-acoustique",
         "tp-optique",
         "tp-statistiques",
-        "tp-mecanique",
+        "tp-algebre",
         "tp-thermique",
         "tp-signaux"
     ];
@@ -40,7 +40,7 @@ function getCurrentDomain() {
     }
 
     console.warn("Domaine non détecté");
-    return "tp-chimie";
+    return "tp-statistiques";
 }
 
 /* ==========================================================
@@ -55,7 +55,7 @@ function getDefaultModule(domaine) {
         "tp-statistiques": "tp01-organiser-une-serie-statistique",
         "tp-acoustique": "tp01-caracteriser-un-son",
         "tp-optique": "tp01-sources-lumineuses",        
-        "tp-mecanique": "tp01-decrire-mouvement",
+        "tp-algebre": "tp01-resolution-probleme-premier-degre",
       "tp-signaux": "tp01-onde-electromagnetique"
         
     };
