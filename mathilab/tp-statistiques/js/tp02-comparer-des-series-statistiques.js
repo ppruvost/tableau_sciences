@@ -1,8 +1,9 @@
-import { initContextePro } from '../../js/contexte-pro.js';
-import { indicateursCompletes, dessinerBoiteMoustaches, mode } from '../../js/statistiques.js';
-import { initRadarCompetences } from './radar.js';
-import { initImpressionCompteRendu } from './compte-rendu-statistiques.js';
 import FILIERES_PRO from '../../data/filieres.js';
+import { initContextePro } from '../../js/contexte-pro.js';
+import {regrouperEnClasses, classeModale, dessinerDiagrammeBarres, dessinerDiagrammeSecteurs } from '../../js/statistiques.js';
+import { initRadarCompetences } from '../../js/radar.js';
+import { initImpressionCompteRendu } from './compte-rendu-statistiques.js';
+import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 
 const CONTEXTES_S2 = {
   '2nde-remi': {
