@@ -16,6 +16,35 @@ export function dureePourCapital(c0, t, capitalCible) {
   return Math.log(capitalCible / c0) / Math.log(1 + t);
 }
 
+/* ---------- Intérêts simples et taux proportionnels (1ère) ---------- */
+
+// Capital disponible après n périodes d'un placement à intérêt simple : cn = c0 (1 + t n).
+export function capitalInteretsSimples(c0, t, n) {
+  return c0 * (1 + t * n);
+}
+
+// Taux proportionnel à un taux annuel, pour un nombre de périodes par an donné (12 pour un taux mensuel, 360 pour un taux journalier...).
+export function tauxProportionnel(tauxAnnuel, periodesParAn) {
+  return tauxAnnuel / periodesParAn;
+}
+
+/* ---------- Coûts (1ère) ---------- */
+
+// Coût marginal exact : Cm(x) = C(x + 1) - C(x).
+export function coutMarginalExact(fonctionCout, x) {
+  return fonctionCout(x + 1) - fonctionCout(x);
+}
+
+// Coût marginal approché, pour une production importante : Cm(x) ≈ C'(x).
+export function coutMarginalApproche(fonctionCoutDerivee, x) {
+  return fonctionCoutDerivee(x);
+}
+
+// Coût moyen unitaire : C(x) / x.
+export function coutMoyen(fonctionCout, x) {
+  return x === 0 ? null : fonctionCout(x) / x;
+}
+
 /* ---------- Tableaux d'amortissement d'un emprunt ---------- */
 
 // Amortissement par annuités constantes : chaque échéance (intérêt + amortissement) est identique.
