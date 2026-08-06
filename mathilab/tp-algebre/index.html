@@ -12,31 +12,113 @@ Algèbre - Analyse
 <body>
 <header>
 <h1>
-    <span>Algèbre - Analyse :</span>
-    <span>Comment modéliser et étudier des phénomènes discrets ou continus issus de nos ateliers ?</span>
+    <span>Algèbre - Analyse :</span>    
 </h1>
 <div class="progress">
     <div id="bar"></div>
 </div>
 </header>
-<nav>
-<button
-data-module="tp01-suites-geometriques">
-A1. Suites géométriques
-</button>
-<button
-data-module="tp02-fonctions-polynomes-degre3">
-A2. Fonctions polynômes de degré 3
-</button>
-<button
-data-module="tp03-fonctions-exponentielles-logarithme">
-A3. Fonctions exponentielles et logarithme décimal
-</button>
-<button
-data-module="tp04-calculs-commerciaux-financiers">
-A4. Calculs commerciaux et financiers
-</button>
+
+<nav class="nav-par-theme">
+
+  <section class="theme-bloc" data-theme="premier-degre">
+    <h2>📐 Résolution de problèmes et fonctions du premier degré</h2>
+    <div class="theme-row">
+      <button data-module="2nde/tp01-resolution-premier-degre">
+        <span class="badge-niveau">2nde</span>
+        Résolution d'un problème du premier degré
+      </button>
+    </div>
+  </section>
+
+  <section class="theme-bloc" data-theme="fonctions-generalites">
+    <h2>📈 Fonctions</h2>
+    <div class="theme-row">
+      <button data-module="2nde/tp02-fonctions">
+        <span class="badge-niveau">2nde</span>
+        Fonctions <em>(module en préparation)</em>
+      </button>
+    </div>
+  </section>
+
+  <section class="theme-bloc" data-theme="resolution-graphique">
+    <h2>🔀 Résolution graphique d'équations et d'inéquations</h2>
+    <div class="theme-row">
+      <button data-module="1ere/tp02-resolution-graphique">
+        <span class="badge-niveau">1ère</span>
+        Résoudre graphiquement f(x) = g(x) et f(x) ⩾ g(x)
+      </button>
+    </div>
+  </section>
+
+  <section class="theme-bloc" data-theme="suites">
+    <h2>🔢 Suites numériques</h2>
+    <div class="theme-row">
+      <button data-module="1ere/tp01-suites-arithmetiques">
+        <span class="badge-niveau">1ère</span>
+        Suites arithmétiques
+      </button>
+      <button data-module="tle/tp01-suites-geometriques">
+        <span class="badge-niveau">Tle</span>
+        Suites géométriques
+      </button>
+    </div>
+  </section>
+
+  <section class="theme-bloc" data-theme="polynomes">
+    <h2>🧮 Fonctions polynômes</h2>
+    <div class="theme-row">
+      <button data-module="1ere/tp03-polynomes-degre2">
+        <span class="badge-niveau">1ère</span>
+        Fonctions polynômes de degré 2 (forme factorisée)
+      </button>
+      <button data-module="tle/tp02-fonctions-polynomes-degre3">
+        <span class="badge-niveau">Tle</span>
+        Fonctions polynômes de degré 3
+      </button>
+    </div>
+  </section>
+
+  <section class="theme-bloc" data-theme="derivation">
+    <h2>📉 Dérivation et étude des variations</h2>
+    <div class="theme-row">
+      <button data-module="1ere/tp04-derivation-variations">
+        <span class="badge-niveau">1ère</span>
+        Nombre dérivé, tangente, variations et fonction inverse
+      </button>
+    </div>
+  </section>
+
+  <section class="theme-bloc" data-theme="exponentielle-log">
+    <h2>📊 Fonctions exponentielles et logarithme décimal</h2>
+    <div class="theme-row">
+      <button data-module="tle/tp03-fonctions-exponentielles-logarithme">
+        <span class="badge-niveau">Tle</span>
+        Fonctions exponentielles de base q et logarithme décimal
+      </button>
+    </div>
+  </section>
+
+  <section class="theme-bloc" data-theme="commercial-financier">
+    <h2>💶 Calculs commerciaux et financiers</h2>
+    <div class="theme-row">
+      <button data-module="2nde/tp03-calculs-commerciaux-financiers">
+        <span class="badge-niveau">2nde</span>
+        Calculs commerciaux et financiers <em>(module en préparation)</em>
+      </button>
+      <button data-module="1ere/tp05-calculs-commerciaux-financiers">
+        <span class="badge-niveau">1ère</span>
+        Intérêts simples, coût marginal, coût moyen
+      </button>
+      <button data-module="tle/tp04-calculs-commerciaux-financiers">
+        <span class="badge-niveau">Tle</span>
+        Intérêts composés, tableaux d'amortissement
+      </button>
+    </div>
+  </section>
+
 </nav>
+
 <main id="content">
 <div class="card">
 Chargement...
