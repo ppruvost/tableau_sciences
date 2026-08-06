@@ -40,6 +40,24 @@ export function sensVariationGeometrique(u0, q) {
   return { sens: 'constante', explication: 'u0 = 0 : tous les termes de la suite sont nuls.' };
 }
 
+/* ---------- Suites arithmétiques (1ère) ---------- */
+
+// Renvoie les termes u0, u1, ..., u_{n-1} d'une suite arithmétique de premier terme u0 et de raison r.
+export function calculerTermesSuiteArithmetique(u0, r, nombreTermes) {
+  const termes = [];
+  for (let n = 0; n < nombreTermes; n++) {
+    termes.push({ n, valeur: u0 + n * r });
+  }
+  return termes;
+}
+
+// Détermine et explicite le sens de variation d'une suite arithmétique à l'aide de sa raison r.
+export function sensVariationArithmetique(r) {
+  if (r > 0) return { sens: 'croissante', explication: 'r > 0 : chaque terme est obtenu en ajoutant un nombre positif au précédent.' };
+  if (r < 0) return { sens: 'décroissante', explication: 'r < 0 : chaque terme est obtenu en ajoutant un nombre négatif au précédent.' };
+  return { sens: 'constante', explication: 'r = 0 : tous les termes de la suite sont égaux.' };
+}
+
 /* ---------- Tracé SVG : nuage de points (n ; un) ---------- */
 
 // series : tableau de { label, couleur, points: [{n, valeur}, ...] }
@@ -203,17 +221,137 @@ export function dessinerCourbe(containerId, series, options = {}) {
     });
   });
 
-  if (series.length > 1) {
-    series.forEach((s, indexSerie) => {
-      const couleur = s.couleur || couleursParDefaut[indexSerie % couleursParDefaut.length];
-      const y = marge.haut + indexSerie * 16;
+  const libellesUniques = [...new Map(series.map((s, i) => [s.label, s.couleur || couleursParDefaut[i % couleursParDefaut.length]])).entries()];
+  if (libellesUniques.length > 1) {
+    libellesUniques.forEach(([label, couleur], indexLegende) => {
+      const y = marge.haut + indexLegende * 16;
       svg += `<line x1="${largeur - 140}" y1="${y}" x2="${largeur - 124}" y2="${y}" stroke="${couleur}" stroke-width="2"/>`;
-      svg += `<text x="${largeur - 118}" y="${y + 4}" font-size="11" fill="#334155">${s.label}</text>`;
+      svg += `<text x="${largeur - 118}" y="${y + 4}" font-size="11" fill="#334155">${label}</text>`;
     });
   }
 
   svg += '</svg>';
   conteneur.innerHTML = svg;
+}
+
+/* ---------- Équations et inéquations du premier degré (2nde) ---------- */
+
+// Résout a x + b = c (a != 0) : x = (c - b) / a.
+export function resoudreEquationPremierDegre(a, b, c) {
+  if (a === 0) return null;
+  return (c - b) / a;
+}
+
+// Résout a x + b (comparateur) c, avec comparateur parmi '>', '>=', '<', '<='.
+// Renvoie le seuil et le comparateur à utiliser pour x (le sens s'inverse si a < 0).
+export function resoudreInequationPremierDegre(a, b, comparateur, c) {
+  if (a === 0) return null;
+  const seuil = (c - b) / a;
+  const inverse = { '>=': '<=', '<=': '>=', '>': '<', '<': '>' };
+  const operateur = a < 0 ? inverse[comparateur] : comparateur;
+  return { seuil, operateur };
+}
+
+// Traduit un couple { seuil, operateur } en notation d'intervalle de ℝ.
+export function intervalleDepuisOperateur(seuil, operateur) {
+  switch (operateur) {
+    case '>=': return `[${seuil} ; +∞[`;
+    case '>': return `]${seuil} ; +∞[`;
+    case '<=': return `]−∞ ; ${seuil}]`;
+    case '<': return `]−∞ ; ${seuil}[`;
+    default: return '';
+  }
+}
+
+/* ---------- Résolution graphique de f(x) = g(x) et f(x) >= g(x) (1ère) ---------- */
+
+// Recherche par balayage des abscisses où fn1(x) - fn2(x) change de signe (approximation des solutions de fn1(x) = fn2(x)).
+export function trouverIntersections(fn1, fn2, xMin, xMax, nbEchantillons = 400) {
+  const pas = (xMax - xMin) / nbEchantillons;
+  const solutions = [];
+  let xPrecedent = xMin;
+  let ecartPrecedent = fn1(xMin) - fn2(xMin);
+  for (let i = 1; i <= nbEchantillons; i++) {
+    const x = xMin + i * pas;
+    const ecart = fn1(x) - fn2(x);
+    if (ecartPrecedent === 0) {
+      solutions.push(xPrecedent);
+    } else if (ecart === 0) {
+      solutions.push(x);
+    } else if ((ecartPrecedent < 0 && ecart > 0) || (ecartPrecedent > 0 && ecart < 0)) {
+      // interpolation linéaire entre les deux échantillons pour affiner la racine de (fn1 - fn2)
+      const xApprox = xPrecedent + (0 - ecartPrecedent) * (x - xPrecedent) / (ecart - ecartPrecedent);
+      solutions.push(xApprox);
+    }
+    xPrecedent = x;
+    ecartPrecedent = ecart;
+  }
+  return solutions;
+}
+
+// Détermine, par balayage, les intervalles sur lesquels fn1(x) >= fn2(x).
+export function intervallesInequation(fn1, fn2, xMin, xMax, nbEchantillons = 400) {
+  const bornes = [xMin, ...trouverIntersections(fn1, fn2, xMin, xMax, nbEchantillons), xMax]
+    .sort((a, b) => a - b);
+  const intervalles = [];
+  for (let i = 0; i < bornes.length - 1; i++) {
+    const milieu = (bornes[i] + bornes[i + 1]) / 2;
+    if (fn1(milieu) >= fn2(milieu)) {
+      intervalles.push([bornes[i], bornes[i + 1]]);
+    }
+  }
+  // fusion des intervalles contigus
+  return intervalles.reduce((acc, courant) => {
+    const dernier = acc[acc.length - 1];
+    if (dernier && Math.abs(dernier[1] - courant[0]) < 1e-6) {
+      dernier[1] = courant[1];
+      return acc;
+    }
+    acc.push(courant);
+    return acc;
+  }, []);
+}
+
+/* ---------- Fonctions polynômes de degré 2 (1ère) ---------- */
+
+// f(x) = a (x - x1)(x - x2), forme factorisée.
+export function fonctionPolynomeFactorisee(a, x1, x2) {
+  return (x) => a * (x - x1) * (x - x2);
+}
+
+// Sommet, axe de symétrie et ordonnée à l'origine d'une parabole donnée sous forme factorisée.
+export function caracteristiquesParabole(a, x1, x2) {
+  const axeSymetrie = (x1 + x2) / 2;
+  const sommet = { x: axeSymetrie, y: fonctionPolynomeFactorisee(a, x1, x2)(axeSymetrie) };
+  const ordonneeOrigine = fonctionPolynomeFactorisee(a, x1, x2)(0);
+  return { axeSymetrie, sommet, ordonneeOrigine, signeA: a > 0 ? 'positif' : 'négatif' };
+}
+
+// Deuxième racine d'un polynôme a x^2 + b x + c connaissant une racine x1 (relation somme des racines = -b/a).
+export function deuxiemeRacine(a, b, x1) {
+  return -b / a - x1;
+}
+
+/* ---------- Dérivation d'un polynôme de degré <= 2, tangente, fonction inverse (1ère) ---------- */
+
+export function evaluerPolynomeDegre2([a, b, c], x) {
+  return a * x ** 2 + b * x + c;
+}
+
+// Dérivée de a x^2 + b x + c : f'(x) = 2a x + b.
+export function deriveePolynomeDegre2([a, b]) {
+  return [2 * a, b];
+}
+
+// Équation réduite y = m x + p de la tangente à la courbe de f au point d'abscisse x0.
+export function equationTangente(f, fPrime, x0) {
+  const m = fPrime(x0);
+  const p = f(x0) - m * x0;
+  return { m, p, fn: (x) => m * x + p };
+}
+
+export function fonctionInverse() {
+  return (x) => 1 / x;
 }
 
 /* ---------- Fonctions exponentielles de base q et logarithme décimal ---------- */
