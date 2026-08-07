@@ -9,7 +9,16 @@ import { initRadarCompetences } from '../../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-algebre-1ere.js';
 import { initOngletsParFiliere } from '../../../js/onglets-filiere.js';
 
-const CONTEXTES_P5 = {};
+const CONTEXTES_P5 = {
+  '1ere-log': {
+  contexte: "Le prix d'achat d'un lot de marchandises auprès d'un fournisseur fait l'objet de remises, de frais de transport et de taxes avant d'être intégré au coût de revient logistique.",
+  problematique: "Quel est le coût de revient réel d'un lot de marchandises après application des remises commerciales, des frais d'approche et de la TVA ?",
+  },
+  '1ere-agora': {
+  contexte: "La facturation d'une prestation ou d'un produit par une structure administrative implique le calcul de remises, de la TVA et, le cas échéant, d'intérêts de retard de paiement.",
+  problematique: "Quel est le montant net à payer par le client après application des réductions commerciales, de la TVA et des éventuelles pénalités de retard ?",
+  },
+};
 
 function formater(v) {
   return typeof v === 'number' ? v.toFixed(2) : v;
