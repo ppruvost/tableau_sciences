@@ -1,1216 +1,229 @@
-/* =========================================================
-MATHILAB
-ALGÈBRE - ANALYSE
-========================================================= */
+/* ── Tokens globaux, composants TP, impression ────────────────── */
+@import url("../../css/global.css");
+@import url("../../css/tp.css");
+@import url("../../css/print.css");
 
+/* ── Overrides communs à tous les domaines (header, nav, cartes,
+   tableaux, EPI, radar, graphique...) — paramétrés par les variables
+   de couleur ci-dessous ── */
+@import url("../../css/domaine.css");
+
+/* ════════════════════════════════════════════════════════════════
+   IDENTITÉ DU DOMAINE ALGÈBRE – ANALYSE (MathiLab)
+   L'ordre d'écriture n'a pas d'importance pour la résolution des
+   var() : ces valeurs s'appliquent à css/domaine.css même si celui-ci
+   est importé plus haut dans ce fichier.
+   ════════════════════════════════════════════════════════════════ */
 :root {
-
-```
---bleu:
-    #1769aa;
-
---bleu-clair:
-    #eaf4fc;
-
---rouge:
-    #d62828;
-
---vert:
-    #238636;
-
---orange:
-    #e67e22;
-
---texte:
-    #20252b;
-
---gris:
-    #68727d;
-
---fond:
-    #f4f7fa;
-
---blanc:
-    #ffffff;
-
---bordure:
-    #d4dce4;
-
---ombre:
-    0 3px 12px
-    rgba(0, 0, 0, 0.10);
-
---rayon:
-    10px;
-
---gap-sm:
-    10px;
-
---gap-md:
-    18px;
-
---gap-lg:
-    30px;
-```
-
+  --domaine-accent:       #3949AB;
+  --domaine-accent-fonce: #1A237E;
+  --domaine-accent-rgb:   57, 73, 171;
 }
 
-/* =========================================================
-BASE
-========================================================= */
-
-* {
-
-  box-sizing:
-  border-box;
-
-}
-
-html {
-
-```
-scroll-behavior:
-    smooth;
-```
-
-}
-
-body {
-
-```
-margin:
-    0;
-
-min-height:
-    100vh;
-
-color:
-    var(--texte);
-
-background:
-    var(--fond);
-
-font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
-
-font-size:
-    17px;
-
-line-height:
-    1.55;
-```
-
-}
-
-/* =========================================================
-EN-TÊTE
-========================================================= */
-
-.page-header {
-
-```
-padding:
-    25px
-    20px
-    20px;
-
-text-align:
-    center;
-
-color:
-    white;
-
-background:
-    linear-gradient(
-        135deg,
-        #155a8a,
-        #2176ae
-    );
-```
-
-}
-
-.page-header h1 {
-
-```
-margin:
-    12px
-    0
-    5px;
-
-font-size:
-    clamp(
-        1.8rem,
-        4vw,
-        2.7rem
-    );
-```
-
-}
-
-.page-header p {
-
-```
-max-width:
-    850px;
-
-margin:
-    auto;
-
-font-size:
-    1.1rem;
-```
-
-}
-
-/* =========================================================
-LOGO
-========================================================= */
-
-.logo {
-
-```
-display:
-    inline-block;
-
-padding:
-    8px
-    18px;
-
-color:
-    white;
-
-background:
-    #111;
-
-border:
-    2px solid
-    white;
-
-border-radius:
-    7px;
-
-font-size:
-    1.7rem;
-
-font-weight:
-    800;
-```
-
-}
-
-.mathi {
-
-```
-color:
-    white;
-```
-
-}
-
-.lab {
-
-```
-color:
-    #ef4444;
-```
-
-}
-
-/* =========================================================
-PROGRESSION
-========================================================= */
-
-.progress {
-
-```
-width:
-    min(
-        900px,
-        90%
-    );
-
-height:
-    9px;
-
-margin:
-    22px
-    auto
-    0;
-
-overflow:
-    hidden;
-
-background:
-    rgba(
-        255,
-        255,
-        255,
-        0.30
-    );
-
-border-radius:
-    20px;
-```
-
-}
-
-#bar {
-
-```
-width:
-    20%;
-
-height:
-    100%;
-
-background:
-    #ffffff;
-
-transition:
-    width
-    0.35s
-    ease;
-```
-
-}
-
-/* =========================================================
-NAVIGATION DES TP
-========================================================= */
-
-.tp-navigation {
-
-```
-display:
-    grid;
-
-grid-template-columns:
-    repeat(
-        5,
-        minmax(
-            170px,
-            1fr
-        )
-    );
-
-gap:
-    12px;
-
-padding:
-    18px;
-
-overflow-x:
-    auto;
-
-background:
-    white;
-
-border-bottom:
-    1px solid
-    var(--bordure);
-```
-
-}
-
-.tp-button {
-
-```
-display:
-    flex;
-
-flex-direction:
-    column;
-
-align-items:
-    center;
-
-justify-content:
-    center;
-
-min-width:
-    180px;
-
-min-height:
-    105px;
-
-padding:
-    14px;
-
-color:
-    var(--texte);
-
-background:
-    white;
-
-border:
-    2px solid
-    var(--bordure);
-
-border-radius:
-    var(--rayon);
-
-cursor:
-    pointer;
-
-font:
-    inherit;
-
-text-align:
-    center;
-
-transition:
-    transform
-    0.2s,
-    border-color
-    0.2s,
-    background
-    0.2s;
-```
-
-}
-
-.tp-button:hover {
-
-```
-transform:
-    translateY(-3px);
-
-border-color:
-    var(--bleu);
-
-background:
-    var(--bleu-clair);
-```
-
-}
-
-.tp-button.actif {
-
-```
-color:
-    white;
-
-background:
-    var(--bleu);
-
-border-color:
-    var(--bleu);
-```
-
-}
-
-.tp-button strong {
-
-```
-font-size:
-    1.25rem;
-```
-
-}
-
-.tp-button span {
-
-```
-margin:
-    5px
-    0;
-
-font-weight:
-    700;
-```
-
-}
-
-.tp-button small {
-
-```
-font-size:
-    0.9rem;
-```
-
-}
-
-/* =========================================================
-CONTENU
-========================================================= */
-
-#content {
-
-```
-width:
-    min(
-        1200px,
-        calc(
-            100% - 30px
-        )
-    );
-
-margin:
-    25px
-    auto
-    60px;
-```
-
-}
-
-.card,
-.section {
-
-```
-margin-bottom:
-    20px;
-
-padding:
-    22px;
-
-background:
-    white;
-
-border:
-    1px solid
-    var(--bordure);
-
-border-radius:
-    var(--rayon);
-
-box-shadow:
-    var(--ombre);
-```
-
-}
-
-.tp-header {
-
-```
-display:
-    grid;
-
-grid-template-columns:
-    150px
-    1fr
-    100px;
-
-align-items:
-    center;
-
-gap:
-    20px;
-```
-
-}
-
-.tp-header-centre {
-
-```
-text-align:
-    center;
-```
-
-}
-
-.tp-header-centre h1 {
-
-```
-margin:
-    0;
-
-color:
-    var(--bleu);
-
-font-size:
-    1.8rem;
-```
-
-}
-
-.tp-numero-txt {
-
-```
-display:
-    flex;
-
-align-items:
-    center;
-
-justify-content:
-    center;
-
-width:
-    75px;
-
-height:
-    75px;
-
-margin:
-    auto;
-
-color:
-    white;
-
-background:
-    var(--bleu);
-
-border-radius:
-    50%;
-
-font-size:
-    1.5rem;
-
-font-weight:
-    800;
-```
-
-}
-
-.tp-row {
-
-```
-display:
-    flex;
-
-flex-wrap:
-    wrap;
-
-justify-content:
-    center;
-
-gap:
-    8px;
-
-margin-top:
-    12px;
-```
-
-}
-
-.tag {
-
-```
-padding:
-    4px
-    10px;
-
-color:
-    var(--bleu);
-
-background:
-    var(--bleu-clair);
-
-border-radius:
-    20px;
-
-font-size:
-    0.9rem;
-
-font-weight:
-    700;
-```
-
-}
-
-/* =========================================================
-SECTIONS
-========================================================= */
-
-.section {
-
-```
-padding:
-    0;
-
-overflow:
-    hidden;
-```
-
-}
-
-.section-titre {
-
-```
-display:
-    flex;
-
-align-items:
-    center;
-
-gap:
-    12px;
-
-padding:
-    15px
-    20px;
-
-background:
-    var(--bleu-clair);
-
-cursor:
-    pointer;
-```
-
-}
-
-.section-titre h2 {
-
-```
-flex:
-    1;
-
-margin:
-    0;
-
-color:
-    var(--bleu);
-
-font-size:
-    1.3rem;
-```
-
-}
-
-.picto-section {
-
-```
-font-size:
-    1.5rem;
-```
-
-}
-
-.chevron {
-
-```
-transition:
-    transform
-    0.25s;
-```
-
-}
-
-.section.fermee
-.chevron {
-
-```
-transform:
-    rotate(-90deg);
-```
-
-}
-
-.section-corps {
-
-```
-padding:
-    22px;
-```
-
-}
-
-.section.fermee
-.section-corps {
-
-```
-display:
-    none;
-```
-
-}
-
-/* =========================================================
-FORMULAIRES
-========================================================= */
-
-.form-row {
-
-```
-display:
-    flex;
-
-flex-wrap:
-    wrap;
-
-gap:
-    15px;
-
-margin:
-    18px
-    0;
-```
-
-}
-
-.form-group {
-
-```
-display:
-    flex;
-
-flex:
-    1;
-
-flex-direction:
-    column;
-
-min-width:
-    150px;
-```
-
-}
-
-label {
-
-```
-margin-bottom:
-    6px;
-
-font-weight:
-    700;
-```
-
-}
-
-input,
-select,
-textarea {
-
-```
-width:
-    100%;
-
-padding:
-    11px;
-
-color:
-    var(--texte);
-
-background:
-    white;
-
-border:
-    1px solid
-    #aeb8c2;
-
-border-radius:
-    6px;
-
-font:
-    inherit;
-```
-
-}
-
-textarea {
-
-```
-resize:
-    vertical;
-```
-
-}
-
-/* =========================================================
-BOUTONS
-========================================================= */
-
-.btn {
-
-```
-display:
-    inline-flex;
-
-align-items:
-    center;
-
-justify-content:
-    center;
-
-min-height:
-    45px;
-
-padding:
-    10px
-    18px;
-
-border:
-    none;
-
-border-radius:
-    7px;
-
-cursor:
-    pointer;
-
-font:
-    inherit;
-
-font-weight:
-    700;
-
-text-decoration:
-    none;
-```
-
-}
-
-.btn-primaire {
-
-```
-color:
-    white;
-
-background:
-    var(--bleu);
-```
-
-}
-
-.btn-secondaire {
-
-```
-color:
-    var(--texte);
-
-background:
-    #e9eef3;
-```
-
-}
-
-.btn:hover {
-
-```
-filter:
-    brightness(
-        0.95
-    );
-```
-
-}
-
-/* =========================================================
-ONGLETS
-========================================================= */
-
-.tabs-header {
-
-```
-display:
-    flex;
-
-flex-wrap:
-    wrap;
-
-gap:
-    8px;
-
-margin-bottom:
-    15px;
-```
-
-}
-
-.tab-btn {
-
-```
-padding:
-    10px
-    15px;
-
-color:
-    var(--texte);
-
-background:
-    #e9eef3;
-
-border:
-    none;
-
-border-radius:
-    6px;
-
-cursor:
-    pointer;
-
-font:
-    inherit;
-
-font-weight:
-    700;
-```
-
-}
-
-.tab-btn.actif {
-
-```
-color:
-    white;
-
-background:
-    var(--bleu);
-```
-
-}
-
-.tab-panel {
-
-```
-display:
-    none;
-```
-
-}
-
-.tab-panel.actif {
-
-```
-display:
-    block;
-```
-
-}
-
-/* =========================================================
-BLOCS
-========================================================= */
-
-.info {
-
-```
-margin:
-    15px
-    0;
-
-padding:
-    14px;
-
-background:
-    #eef7ff;
-
-border-left:
-    5px solid
-    var(--bleu);
-
-border-radius:
-    5px;
-```
-
-}
-
+/* Tout le reste (header, nav, cartes, formulaires, tableaux, EPI,
+   radar, cartouches, quiz, problématique, champ-erreur...) vient de
+   tp.css et css/domaine.css — plus aucune duplication propre à ce
+   domaine. */
+
+/* ── Résultats de calcul guidé (.resultat-calcul) ──────────────────
+   tp.css colore ce bloc en vert-acide fixe (section 14, calcul-guide),
+   sans override par domaine dans domaine.css : recoloré ici dans la
+   teinte du domaine Algèbre pour rester cohérent avec le reste de la
+   charte (bandeau, onglets, boutons, cartouches...). */
 .resultat-calcul {
-
-```
-min-height:
-    55px;
-
-margin-top:
-    15px;
-
-padding:
-    15px;
-
-background:
-    #f4faf5;
-
-border-left:
-    5px solid
-    var(--vert);
-
-border-radius:
-    5px;
-```
-
+  color: var(--domaine-accent-fonce);
 }
 
-.toolbar {
-
-```
-display:
-    flex;
-
-flex-wrap:
-    wrap;
-
-gap:
-    10px;
-
-margin:
-    15px
-    0;
-```
-
+/* ── Numéros de question (.questions-tp .question-entete::before) ──
+   tp.css colore ce médaillon en bleu-cuivre fixe (section 17),
+   sans override par domaine dans domaine.css : recoloré ici dans la
+   teinte du domaine Algèbre. Même chose pour les étapes de protocole
+   numérotées (.etapes li::before), soumises au même codage en dur. */
+.questions-tp .question-entete::before,
+.etapes li::before {
+  background: var(--domaine-accent);
 }
 
-/* =========================================================
-TABLEAUX
-========================================================= */
+/* ════════════════════════════════════════════════════════════════
+   COMPLÉMENTS PROPRES À CE DOMAINE
+   (résolution pas à pas, droite graduée, quiz d'intervalles)
+   ════════════════════════════════════════════════════════════════ */
 
-.table-responsive {
-
-```
-overflow-x:
-    auto;
-```
-
+/* Déroulé des étapes de résolution (équation / inéquation) */
+.etapes-resolution {
+  list-style: none;
+  margin: 12px 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-table {
-
-```
-width:
-    100%;
-
-border-collapse:
-    collapse;
-```
-
+.etapes-resolution li {
+  background: #f8f9fc;
+  border-left: 4px solid var(--domaine-accent);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-family: "Cambria Math", Cambria, serif;
+  font-size: 1.05rem;
 }
 
-th,
-td {
-
-```
-padding:
-    11px;
-
-border:
-    1px solid
-    var(--bordure);
-
-text-align:
-    left;
-```
-
+.etapes-resolution .etape-resultat {
+  border-left-color: var(--domaine-accent-fonce);
+  background: rgba(var(--domaine-accent-rgb), 0.08);
+  font-weight: bold;
 }
 
-th {
-
-```
-color:
-    white;
-
-background:
-    var(--bleu);
-```
-
+/* Notation d'intervalle mise en évidence */
+.intervalle-notation {
+  display: inline-block;
+  font-family: "Cambria Math", Cambria, serif;
+  font-size: 1.15rem;
+  font-weight: bold;
+  color: var(--domaine-accent-fonce);
+  background: rgba(var(--domaine-accent-rgb), 0.08);
+  border-radius: 6px;
+  padding: 4px 10px;
+  margin-top: 6px;
 }
 
-.autoeval-table
-td:nth-child(
-n + 4
-) {
-
-```
-text-align:
-    center;
-```
-
+/* Droite graduée SVG (résolution d'inéquation) */
+.droite-graduee-svg {
+  display: block;
+  margin: 10px auto 0;
+  max-width: 520px;
+  width: 100%;
 }
 
-/* =========================================================
-PUZZLE
-========================================================= */
-
-.fiche-puzzle {
-
-```
-margin:
-    20px
-    0;
-
-padding:
-    20px;
-
-background:
-    #fffdf5;
-
-border:
-    1px solid
-    #e5d59b;
-
-border-radius:
-    var(--rayon);
-```
-
+.droite-graduee-axe {
+  stroke: #64748b;
+  stroke-width: 2;
 }
 
-.fiche-puzzle h3 {
-
-```
-margin-top:
-    0;
-
-color:
-    #8a5a00;
-```
-
+.droite-graduee-trait {
+  stroke: var(--domaine-accent);
+  stroke-width: 5;
+  stroke-linecap: round;
 }
 
-/* =========================================================
-RESPONSIVE
-========================================================= */
-
-@media (
-max-width:
-850px
-) {
-
-```
-.tp-header {
-
-    grid-template-columns:
-        1fr;
-
+.droite-graduee-point {
+  fill: white;
+  stroke: var(--domaine-accent);
+  stroke-width: 3;
 }
 
-.tp-header-logo,
-.tp-header-numero {
-
-    text-align:
-        center;
-
-}
-```
-
+.droite-graduee-point.plein {
+  fill: var(--domaine-accent);
 }
 
-@media (
-max-width:
-600px
-) {
-
-```
-body {
-
-    font-size:
-        16px;
-
+.droite-graduee-etiquette {
+  font-size: 13px;
+  fill: #334155;
+  text-anchor: middle;
 }
 
-#content {
-
-    width:
-        calc(
-            100% - 16px
-        );
-
+/* Feedback de vérification générique (mise en équation, quiz) */
+.feedback-verification {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: .92rem;
+  display: none;
 }
 
-.section-corps {
-
-    padding:
-        15px;
-
+.feedback-verification.succes {
+  display: block;
+  background: #e8f5e9;
+  color: #1b5e20;
+  border: 1px solid #388e3c;
 }
 
-.form-group {
-
-    min-width:
-        100%;
-
+.feedback-verification.erreur {
+  display: block;
+  background: #fdecea;
+  color: #b71c1c;
+  border: 1px solid #e53935;
 }
-```
 
+/* Quiz d'association intervalles */
+.quiz-intervalle-liste {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.quiz-intervalle-item {
+  background: #f8f9fc;
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.quiz-intervalle-enonce {
+  font-family: "Cambria Math", Cambria, serif;
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+}
+
+.quiz-intervalle-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.quiz-intervalle-options button {
+  font-family: "Cambria Math", Cambria, serif;
+  border: 2px solid #cbd5e1;
+  background: white;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: .15s;
+}
+
+.quiz-intervalle-options button:hover {
+  border-color: var(--domaine-accent);
+}
+
+.quiz-intervalle-options button.bonne-reponse {
+  border-color: #388e3c;
+  background: #e8f5e9;
+  color: #1b5e20;
+}
+
+.quiz-intervalle-options button.mauvaise-reponse {
+  border-color: #e53935;
+  background: #fdecea;
+  color: #b71c1c;
+}
+
+.quiz-intervalle-score {
+  margin-top: 10px;
+  font-weight: bold;
+  color: var(--domaine-accent-fonce);
+}
+
+/* Générateur d'intervalle interactif */
+.generateur-intervalle .form-row {
+  align-items: center;
+}
+
+.toggle-borne {
+  display: inline-flex;
+  border: 2px solid #cbd5e1;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.toggle-borne button {
+  border: none;
+  background: white;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: .85rem;
+}
+
+.toggle-borne button.actif {
+  background: var(--domaine-accent);
+  color: white;
 }
