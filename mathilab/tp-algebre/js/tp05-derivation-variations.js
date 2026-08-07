@@ -12,17 +12,21 @@ import { initImpressionCompteRendu } from './compte-rendu-algebre-1ere.js';
 import { initOngletsParFiliere } from '../../../js/onglets-filiere.js';
 
 const CONTEXTES_P4 = {
-  '2nde-remi': {
-    contexte: "La position d'un chariot sur une machine-outil évolue avec le temps selon une loi que l'on peut approcher localement par sa tangente.",
-    problematique: "Quelle est la vitesse instantanée du chariot à un instant donné, et quand cette vitesse est-elle nulle ?",
+  '1ere-tci': {
+    contexte: "L'effort de cintrage exercé sur une tôle lors d'une opération de chaudronnerie évolue avec l'angle de pliage selon une loi que l'on peut approcher localement par sa tangente.",
+    problematique: "Quel est le taux de variation de l'effort de cintrage pour un angle de pliage donné, et pour quel angle cet effort est-il minimal ?",
   },
-  '2nde-mcc': {
-    contexte: "La tension d'un fil lors du tissage évolue avec la vitesse de la machine selon une loi que l'on peut approcher localement par sa tangente.",
-    problematique: "Comment évolue la tension du fil à un instant donné, et pour quelle vitesse est-elle extrémale ?",
+  '1ere-trpm': {
+    contexte: "La force de coupe exercée par l'outil lors d'une opération d'usinage évolue avec la vitesse d'avance selon une loi que l'on peut approcher localement par sa tangente.",
+    problematique: "Comment évolue la force de coupe pour une vitesse d'avance donnée, et pour quelle vitesse cette force est-elle minimale ?",
   },
-  '2nde-gatl': {
-    contexte: "Le coût de stockage d'un entrepôt évolue avec le volume stocké selon une loi que l'on peut approcher localement par sa tangente.",
-    problematique: "Pour quel volume stocké le coût est-il minimal ?",
+  '1ere-mcc': {
+    contexte: "Le coût de production d'une pièce en cuir évolue avec la quantité fabriquée en série selon une loi que l'on peut approcher localement par sa tangente.",
+    problematique: "Comment évolue le coût de production pour une quantité donnée, et pour quelle quantité fabriquée ce coût est-il minimal ?",
+  },
+  '1ere-agora': {
+    contexte: "Le bénéfice réalisé par une entreprise évolue avec la quantité de produits vendus selon une loi que l'on peut approcher localement par sa tangente.",
+    problematique: "Comment évolue le bénéfice pour une quantité vendue donnée, et pour quelle quantité ce bénéfice est-il maximal ?",
   },
 };
 
