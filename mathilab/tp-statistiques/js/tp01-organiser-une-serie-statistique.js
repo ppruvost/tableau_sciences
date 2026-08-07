@@ -1,5 +1,4 @@
 /**
-
 * ============================================================
 * MATHILAB — STATISTIQUES
 * TP S1 : Organiser et représenter une série statistique
@@ -40,7 +39,6 @@ const CONTEXTES_S1 = {
 
 '2nde-remi': {
 
-```
 contexte:
   "Dans un atelier de maintenance industrielle, plusieurs mesures " +
   "peuvent être relevées sur une machine : niveau sonore, température, " +
@@ -50,13 +48,11 @@ contexte:
 problematique:
   "Comment organiser et représenter les mesures réalisées sur une machine " +
   "afin d'en extraire rapidement des informations utiles ?"
-```
 
 },
 
 '2nde-mcc': {
 
-```
 contexte:
   "Dans un atelier de confection, le contrôle qualité permet de relever " +
   "des informations sur les pièces fabriquées : temps de montage, " +
@@ -65,13 +61,11 @@ contexte:
 problematique:
   "Comment organiser les données d'un contrôle qualité et choisir une " +
   "représentation permettant d'identifier rapidement les résultats importants ?"
-```
 
 },
 
 '2nde-gatl': {
 
-```
 contexte:
   "Dans le domaine du transport et de la logistique, les entreprises " +
   "suivent les délais de livraison, les volumes transportés et les " +
@@ -80,7 +74,6 @@ contexte:
 problematique:
   "Comment organiser et représenter les données de transport afin de " +
   "faciliter leur analyse et leur exploitation ?"
-```
 
 }
 
@@ -246,7 +239,6 @@ TABLEAU DES VALEURS
 
 if (tbodyValeurs) {
 
-```
 if (
   serieQuantitative.length === 0
 ) {
@@ -278,7 +270,6 @@ if (
       .join('');
 
 }
-```
 
 }
 
@@ -290,7 +281,6 @@ if (
 serieQuantitative.length < 2
 ) {
 
-```
 if (tbodyClasses) {
 
   tbodyClasses.innerHTML =
@@ -320,7 +310,6 @@ if (zoneModale) {
 }
 
 return;
-```
 
 }
 
@@ -338,10 +327,8 @@ if (
 !Number.isInteger(nombreClasses)
 ) {
 
-```
 nombreClasses =
   5;
-```
 
 }
 
@@ -356,10 +343,8 @@ nombreClasses
 
 if (champNombreClasses) {
 
-```
 champNombreClasses.value =
   nombreClasses;
-```
 
 }
 
@@ -371,17 +356,14 @@ let classes;
 
 try {
 
-```
 classes =
   regrouperEnClasses(
     serieQuantitative,
     nombreClasses
   );
-```
 
 } catch (erreur) {
 
-```
 console.error(
   'Erreur de regroupement :',
   erreur
@@ -399,7 +381,6 @@ if (tbodyClasses) {
 }
 
 return;
-```
 
 }
 
@@ -408,7 +389,6 @@ if (
 classes.length === 0
 ) {
 
-```
 if (tbodyClasses) {
 
   tbodyClasses.innerHTML =
@@ -421,7 +401,6 @@ if (tbodyClasses) {
 }
 
 return;
-```
 
 }
 
@@ -431,7 +410,6 @@ TABLEAU CLASSES / EFFECTIFS
 
 if (tbodyClasses) {
 
-```
 tbodyClasses.innerHTML =
   classes
     .map(
@@ -470,7 +448,6 @@ tbodyClasses.innerHTML =
       }
     )
     .join('');
-```
 
 }
 
@@ -480,7 +457,6 @@ DIAGRAMME EN COLONNES
 
 if (zoneHistogramme) {
 
-```
 zoneHistogramme.innerHTML =
   '';
 
@@ -514,7 +490,6 @@ try {
     '</p>';
 
 }
-```
 
 }
 
@@ -524,7 +499,6 @@ CLASSE MODALE
 
 if (zoneModale) {
 
-```
 try {
 
   const modale =
@@ -570,7 +544,6 @@ try {
     '';
 
 }
-```
 
 }
 
@@ -600,7 +573,6 @@ document.getElementById(
 
 function ajouterValeur() {
 
-```
 const valeur =
   lireNombre(
     champValeur
@@ -637,7 +609,6 @@ champValeur.focus();
 
 
 actualiserRegroupement();
-```
 
 }
 
@@ -650,7 +621,6 @@ champValeur?.addEventListener(
 'keydown',
 evenement => {
 
-```
   if (
     evenement.key ===
     'Enter'
@@ -663,7 +633,6 @@ evenement => {
   }
 
 }
-```
 
 );
 
@@ -711,7 +680,6 @@ TABLEAU
 
 if (tbody) {
 
-```
 if (
   serieQualitative.length === 0
 ) {
@@ -747,7 +715,6 @@ if (
       .join('');
 
 }
-```
 
 }
 
@@ -759,7 +726,6 @@ if (
 serieQualitative.length === 0
 ) {
 
-```
 if (zoneBarres) {
 
   zoneBarres.innerHTML =
@@ -781,7 +747,6 @@ if (zoneSecteurs) {
 }
 
 return;
-```
 
 }
 
@@ -791,7 +756,6 @@ DIAGRAMME EN BÂTONS
 
 if (zoneBarres) {
 
-```
 zoneBarres.innerHTML =
   '';
 
@@ -825,7 +789,6 @@ try {
     '</p>';
 
 }
-```
 
 }
 
@@ -835,7 +798,6 @@ DIAGRAMME EN SECTEURS
 
 if (zoneSecteurs) {
 
-```
 zoneSecteurs.innerHTML =
   '';
 
@@ -863,7 +825,6 @@ try {
     '</p>';
 
 }
-```
 
 }
 
@@ -893,7 +854,6 @@ document.getElementById(
 
 function ajouterCategorie() {
 
-```
 const categorie =
   champCategorie
     ?.value
@@ -985,7 +945,6 @@ champCategorie.focus();
 
 
 actualiserSerieQualitative();
-```
 
 }
 
@@ -998,7 +957,6 @@ champEffectif?.addEventListener(
 'keydown',
 evenement => {
 
-```
   if (
     evenement.key ===
     'Enter'
@@ -1011,7 +969,6 @@ evenement => {
   }
 
 }
-```
 
 );
 
@@ -1046,15 +1003,13 @@ if (
 serieChronologique.length === 0
 ) {
 
-```
-conteneur.innerHTML =
+ conteneur.innerHTML =
   '<p class="info">' +
     'Ajouter des points pour afficher ' +
     'l’évolution.' +
   '</p>';
 
 return;
-```
 
 }
 
@@ -1120,11 +1075,9 @@ if (
 minimumX === maximumX
 ) {
 
-```
 minimumX -= 1;
 
 maximumX += 1;
-```
 
 }
 
@@ -1132,11 +1085,9 @@ if (
 minimumY === maximumY
 ) {
 
-```
 minimumY -= 1;
 
 maximumY += 1;
-```
 
 }
 
@@ -1153,7 +1104,6 @@ margeBas;
 const x =
 valeur =>
 
-```
   margeGauche +
 
   (
@@ -1165,12 +1115,10 @@ valeur =>
   *
 
   largeurGraphique;
-```
 
 const y =
 valeur =>
 
-```
   hauteur -
 
   margeBas -
@@ -1184,25 +1132,21 @@ valeur =>
   *
 
   hauteurGraphique;
-```
 
 const points =
 donnees
 .map(
 point =>
 
-```
       `${x(point.periode)},${y(point.valeur)}`
   )
   .join(' ');
-```
 
 const cercles =
 donnees
 .map(
 point =>
 
-```
       '<circle ' +
 
         `cx="${x(point.periode)}" ` +
@@ -1217,14 +1161,12 @@ point =>
 
   )
   .join('');
-```
 
 const etiquettes =
 donnees
 .map(
 point =>
 
-```
       '<text ' +
 
         `x="${x(point.periode)}" ` +
@@ -1245,11 +1187,9 @@ point =>
 
   )
   .join('');
-```
 
 conteneur.innerHTML =
 
-```
 '<svg ' +
 
   'viewBox="0 0 800 420" ' +
@@ -1343,7 +1283,6 @@ conteneur.innerHTML =
 
 
 '</svg>';
-```
 
 }
 
@@ -1371,7 +1310,6 @@ document.getElementById(
 
 function ajouterPoint() {
 
-```
 const periode =
   lireNombre(
     champPeriode
@@ -1471,7 +1409,6 @@ champValeur?.addEventListener(
 'keydown',
 evenement => {
 
-```
   if (
     evenement.key ===
     'Enter'
@@ -1484,7 +1421,6 @@ evenement => {
   }
 
 }
-```
 
 );
 
@@ -1502,13 +1438,11 @@ initOngletsParFiliere();
 
 initContextePro({
 
-```
 filieres:
   FILIERES_PRO,
 
 contextes:
   CONTEXTES_S1
-```
 
 });
 
@@ -1522,13 +1456,11 @@ initRadarCompetences();
 
 initImpressionCompteRendu({
 
-```
 titre:
   'Organiser et représenter une série statistique',
 
 tp:
   'S1'
-```
 
 });
 
