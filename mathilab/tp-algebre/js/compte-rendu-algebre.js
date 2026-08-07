@@ -1,57 +1,96 @@
 /**
- * /js/compte-rendu-algebre-tle.js
- * Construit et imprime le compte-rendu (identification, tableau de résultats,
- * réponses aux questions, auto-évaluation) pour un TP d'algèbre.
+ * tp-algebre/js/compte-rendu-algebre.js
+ *
+ * Construit la configuration attendue par le module partagé
+ * js/compte-rendu.js (genererCompteRendu) à partir du DOM du TD
+ * d'algèbre actuellement affiché, et câble le bouton #btn-imprimer
+ * dessus.
  */
 
-function texteChamp(id) {
-  const el = document.getElementById(id);
-  return el ? el.value : '';
+import { genererCompteRendu } from '../../js/compte-rendu.js';
+
+function texte(el) {
+  return (el?.textContent || '').trim();
 }
 
-function construireCompteRendu(titre, tp) {
-  const nom = texteChamp('nom-eleve');
-  const prenom = texteChamp('prenom-eleve');
-  const classe = texteChamp('classe-eleve');
-  const date = texteChamp('date-eleve');
-
-  const tableauResultats = document.querySelector('[data-type="resultats"] table')?.outerHTML || '';
-
-  const questions = Array.from(document.querySelectorAll('.questions-tp > li')).map((li) => {
-    const enonce = li.querySelector('.question-entete strong')?.textContent.trim() || '';
-    const reponse = li.querySelector('textarea')?.value || '';
-    return `<p><strong>${enonce}</strong></p><p>${reponse.replace(/\n/g, '<br>')}</p>`;
-  }).join('');
-
-  const autoeval = Array.from(document.querySelectorAll('.autoeval-table tbody tr')).map((tr) => {
-    const libelle = tr.children[2]?.textContent.trim() || '';
-    const coche = tr.querySelector('input[type="radio"]:checked');
-    return `<li>${libelle} : ${coche ? coche.value : 'non renseigné'}</li>`;
-  }).join('');
-
-  return `
-    <h1>${titre} (${tp})</h1>
-    <p>${nom} ${prenom} — ${classe} — ${date}</p>
-    <h2>Résumé du TD</h2>
-    <p>${texteChamp('resume-tp').replace(/\n/g, '<br>')}</p>
-    <h2>Tableau de résultats</h2>
-    ${tableauResultats}
-    <h2>Questions</h2>
-    ${questions}
-    <h2>Auto-évaluation des compétences</h2>
-    <ul>${autoeval}</ul>
-  `;
+function valeur(el) {
+  return (el?.value || '').trim();
 }
 
+// Une section "notation" (question + compétence + zone de réponse)
+// par <li> de .questions-tp, au format attendu par compte-rendu.js.
+function construireSectionsQuestions() {
+  return [...document.querySelectorAll('.questions-tp > li')].map(li => ({
+    titre: texte(li.querySelector('.question-entete strong')),
+    notation: true,
+    competence: texte(li.querySelector('.cartouche')),
+    texte: valeur(li.querySelector('.zone-eleve textarea')),
+  }));
+}
+
+// Résumé du TD, en texte libre.
+function construireSectionResume() {
+  const zone = document.getElementById('resume-tp');
+  if (!zone) return null;
+  return { titre: 'Résumé du TD', texte: valeur(zone) };
+}
+
+// Récapitulatif des outils interactifs travaillés (équation résolue,
+// inéquation résolue, intervalle généré, énoncé traduit), lu
+// génériquement pour ne dépendre d'aucun onglet en particulier.
+function construireSectionOutils() {
+  const items = [];
+
+  const eqEtapes = document.querySelectorAll('#eq-etapes li');
+  if (eqEtapes.length) {
+    items.push({
+      label: 'Équation résolue',
+      valeur: [...eqEtapes].map(li => texte(li)).join(' — '),
+    });
+  }
+
+  const inNotation = document.getElementById('in-notation');
+  if (inNotation && texte(inNotation)) {
+    items.push({ label: 'Solution de l\'inéquation', valeur: texte(inNotation) });
+  }
+
+  const giResultat = document.getElementById('gi-resultat');
+  if (giResultat && texte(giResultat)) {
+    items.push({ label: 'Intervalle généré', valeur: texte(giResultat) });
+  }
+
+  const pbEquation = document.getElementById('pb-equation');
+  if (pbEquation && valeur(pbEquation)) {
+    items.push({ label: 'Équation proposée (problème)', valeur: valeur(pbEquation) });
+  }
+
+  if (!items.length) return null;
+  return { titre: 'Outils travaillés', items };
+}
+
+/**
+ * @param {Object} params
+ * @param {string} params.titre - Titre du TD (ex. "Résoudre un problème du premier degré")
+ * @param {string} params.tp    - Identifiant du TD (ex. "S1")
+ */
 export function initImpressionCompteRendu({ titre, tp }) {
   const bouton = document.getElementById('btn-imprimer');
-  const conteneur = document.getElementById('cr-print-container');
-  if (!bouton || !conteneur) return;
+  if (!bouton) return;
 
   bouton.addEventListener('click', () => {
-    conteneur.innerHTML = construireCompteRendu(titre, tp);
-    conteneur.style.display = 'block';
-    window.print();
-    conteneur.style.display = 'none';
+    const sections = [
+      construireSectionOutils(),
+      ...construireSectionsQuestions(),
+      construireSectionResume(),
+    ].filter(Boolean);
+
+    genererCompteRendu({
+      titre,
+      domaine: 'Algèbre – Analyse',
+      tp,
+      sections,
+      noteFinale: true,
+      plateforme: 'MathiLab',
+    });
   });
 }
