@@ -24,6 +24,10 @@ const CONTEXTES_P3 = {
     contexte: "Le coût de production d'une petite série de vêtements en atelier évolue en fonction du nombre de pièces confectionnées selon une fonction polynôme de degré 2.",
     problematique: "Pour quelle quantité de pièces produites le coût de production reste-t-il dans une plage acceptable pour assurer la rentabilité de l'atelier ?",
   },
+  '1ere-log': {
+  contexte: "Le coût global d'une tournée de livraison (carburant, temps, usure du véhicule) évolue en fonction du nombre de points de livraison desservis selon une fonction polynôme de degré 2.",
+  problematique: "Pour quel nombre de points de livraison le coût global de la tournée reste-t-il dans une plage acceptable, garantissant la rentabilité de la tournée ?",
+  },
   '1ere-agora': {
     contexte: "Le résultat financier (coût de gestion ou marge dégagée) d'une structure administrative évolue en fonction du nombre de dossiers traités selon une fonction polynôme de degré 2.",
     problematique: "Pour quel nombre de dossiers traités le résultat financier reste-t-il dans une plage acceptable pour l'équilibre budgétaire de la structure ?",
