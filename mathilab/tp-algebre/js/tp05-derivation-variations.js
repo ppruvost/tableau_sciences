@@ -24,6 +24,10 @@ const CONTEXTES_P4 = {
     contexte: "Le coût de production d'une pièce en cuir évolue avec la quantité fabriquée en série selon une loi que l'on peut approcher localement par sa tangente.",
     problematique: "Comment évolue le coût de production pour une quantité donnée, et pour quelle quantité fabriquée ce coût est-il minimal ?",
   },
+  '1ere-log': {
+  contexte: "Le coût de stockage dans un entrepôt logistique évolue avec la quantité de marchandises stockées selon une loi que l'on peut approcher localement par sa tangente.",
+  problematique: "Comment évolue le coût de stockage pour une quantité stockée donnée, et pour quelle quantité ce coût est-il minimal ?",
+  },
   '1ere-agora': {
     contexte: "Le bénéfice réalisé par une entreprise évolue avec la quantité de produits vendus selon une loi que l'on peut approcher localement par sa tangente.",
     problematique: "Comment évolue le bénéfice pour une quantité vendue donnée, et pour quelle quantité ce bénéfice est-il maximal ?",
