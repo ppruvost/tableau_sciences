@@ -12,17 +12,21 @@ import { initImpressionCompteRendu } from './compte-rendu-algebre-1ere.js';
 import { initOngletsParFiliere } from '../../../js/onglets-filiere.js';
 
 const CONTEXTES_P3 = {
-  '2nde-remi': {
-    contexte: "La trajectoire d'un copeau lors d'un usinage, ou la surface d'une pièce en fonction d'une dimension, se modélise par une fonction polynôme de degré 2.",
-    problematique: "Pour quelles dimensions la surface (ou la contrainte étudiée) reste-t-elle dans une plage acceptable ?",
+  '1ere-trpm': {
+    contexte: "Lors d'une opération d'usinage sur tour ou fraiseuse, le volume de matière enlevée sur une pièce mécanique évolue en fonction d'une dimension de passe selon une fonction polynôme de degré 2.",
+    problematique: "Pour quelles dimensions de passe le volume de matière enlevée reste-t-il dans une plage acceptable, garantissant la tenue mécanique de la pièce ?",
   },
-  '2nde-mcc': {
-    contexte: "La quantité de tissu nécessaire à une découpe évolue avec une dimension du patron selon une loi polynomiale de degré 2.",
-    problematique: "Pour quelles dimensions du patron la quantité de tissu reste-t-elle dans une plage acceptable ?",
+  '1ere-tci': {
+    contexte: "Lors du façonnage d'une pièce chaudronnée (cuve, coude, réservoir), la surface de tôle développée nécessaire évolue en fonction d'une dimension de la pièce selon une fonction polynôme de degré 2.",
+    problematique: "Pour quelles dimensions la surface de tôle nécessaire reste-t-elle dans une plage acceptable, limitant les chutes et le coût de matière première ?",
   },
-  '2nde-gatl': {
-    contexte: "Le volume optimal de chargement d'un véhicule en fonction d'une dimension de la caisse se modélise par une fonction polynôme de degré 2.",
-    problematique: "Pour quelles dimensions le volume de chargement reste-t-il positif et exploitable ?",
+  '1ere-mcc': {
+    contexte: "Le coût de production d'une petite série de vêtements en atelier évolue en fonction du nombre de pièces confectionnées selon une fonction polynôme de degré 2.",
+    problematique: "Pour quelle quantité de pièces produites le coût de production reste-t-il dans une plage acceptable pour assurer la rentabilité de l'atelier ?",
+  },
+  '1ere-agora': {
+    contexte: "Le résultat financier (coût de gestion ou marge dégagée) d'une structure administrative évolue en fonction du nombre de dossiers traités selon une fonction polynôme de degré 2.",
+    problematique: "Pour quel nombre de dossiers traités le résultat financier reste-t-il dans une plage acceptable pour l'équilibre budgétaire de la structure ?",
   },
 };
 
