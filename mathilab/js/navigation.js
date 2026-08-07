@@ -2,14 +2,11 @@
    NAVIGATION.JS UNIVERSEL
    Laboratory / MathiLab
    Compatible :
-   tp-algorithme
-   tp-chimie
-   tp-acoustique
-   tp-optique
    tp-statistiques
    tp-algebre
-   tp-thermique
-   tp-signaux
+   tp-geometrie
+   tp-algorithme
+
    ========================================================== */
 
 const content = document.getElementById("content");
@@ -23,14 +20,10 @@ let isLoading = false;
 function getCurrentDomain() {
     const path = window.location.pathname;
     const domaines = [
-        "tp-algorithme",
-        "tp-chimie",
-        "tp-acoustique",
-        "tp-optique",
         "tp-statistiques",
         "tp-algebre",
-        "tp-thermique",
-        "tp-signaux"
+        "tp-geometrie",
+        "tp-algorithme"
     ];
 
     for (const domaine of domaines) {
@@ -48,15 +41,12 @@ function getCurrentDomain() {
    ========================================================== */
 
 function getDefaultModule(domaine) {
-    const defaultModules = {
-        "tp-algorithme": "td01-simuler-une-experience-aleatoire",
-        "tp-chimie": "tp01-solutions",
-        "tp-thermique": "tp01-capteurs-temperature",
+    const defaultModules = {        
+        
         "tp-statistiques": "tp01-organiser-une-serie-statistique",
-        "tp-acoustique": "tp01-caracteriser-un-son",
-        "tp-optique": "tp01-sources-lumineuses",        
         "tp-algebre": "tp01-resolution-probleme-premier-degre",
-      "tp-signaux": "tp01-onde-electromagnetique"
+        "tp-geometrie": "tp01-",        
+        "tp-algorithme": "td01-simuler-une-experience-aleatoire"
         
     };
     return defaultModules[domaine] || "tp01-solutions"; // Fallback
