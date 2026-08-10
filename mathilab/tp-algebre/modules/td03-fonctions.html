@@ -118,28 +118,21 @@
     <!-- ============================================================
          NIVEAU 1ère / Tle
          ============================================================ -->
+    <!-- ============================================================
+         ONGLETS À PLAT (aucune imbrication de tabs-container, pattern
+         identique au modèle de référence tp-statistiques)
+         ============================================================ -->
     <div class="tabs-container">
 
       <div class="tabs-header">
-        <button class="tab-btn actif" data-tab="niveau-1ere">1ère</button>
-        <button class="tab-btn" data-tab="niveau-tle">Tle</button>
+        <button class="tab-btn actif" data-tab="resolution-graphique">1ère · Résolution graphique</button>
+        <button class="tab-btn" data-tab="polynomes-degre2">1ère · Polynômes de degré 2</button>
+        <button class="tab-btn" data-tab="derivation-variations">1ère · Dérivation et variations</button>
+        <button class="tab-btn" data-tab="fonction-cube">Tle · La fonction cube</button>
+        <button class="tab-btn" data-tab="polynome-degre3">Tle · Polynôme de degré 3</button>
       </div>
 
-      <!-- ============================ -->
-      <!-- NIVEAU 1ère                  -->
-      <!-- ============================ -->
-
-      <div class="tab-panel actif" id="niveau-1ere">
-
-        <div class="tabs-container">
-
-          <div class="tabs-header">
-            <button class="tab-btn actif" data-tab="resolution-graphique">Résolution graphique</button>
-            <button class="tab-btn" data-tab="polynomes-degre2">Polynômes de degré 2</button>
-            <button class="tab-btn" data-tab="derivation-variations">Dérivation et variations</button>
-          </div>
-
-          <!-- ---------- RÉSOLUTION GRAPHIQUE ---------- -->
+          <!-- ---------- RÉSOLUTION GRAPHIQUE (1ère) ---------- -->
           <div class="tab-panel actif" id="resolution-graphique">
 
             <h3>Résoudre graphiquement f(x) = g(x) et f(x) ⩾ g(x)</h3>
@@ -313,25 +306,8 @@
 
           </div>
 
-        </div>
-
-      </div>
-
-      <!-- ============================ -->
-      <!-- NIVEAU Tle                   -->
-      <!-- ============================ -->
-
-      <div class="tab-panel" id="niveau-tle">
-
-        <div class="tabs-container">
-
-          <div class="tabs-header">
-            <button class="tab-btn actif" data-tab="fonction-cube">La fonction cube</button>
-            <button class="tab-btn" data-tab="polynome-degre3">Étudier un polynôme de degré 3</button>
-          </div>
-
-          <!-- ---------- FONCTION CUBE ---------- -->
-          <div class="tab-panel actif" id="fonction-cube">
+          <!-- ---------- FONCTION CUBE (Tle) ---------- -->
+          <div class="tab-panel" id="fonction-cube">
 
             <h3>Dérivée, variations et représentation graphique de f(x) = x³</h3>
 
@@ -434,10 +410,6 @@
             </ol>
 
           </div>
-
-        </div>
-
-      </div>
 
     </div>
 
