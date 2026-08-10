@@ -1,0 +1,739 @@
+<!--
+  Fragment SPA chargé dynamiquement par navigation.js.
+  Tous les chemins sont relatifs à la racine du site.
+  Aucun <script> dans ce fragment.
+-->
+
+<section>
+
+<header class="tp-header">
+
+  <div class="tp-header-logo">
+    <div class="logo">
+      <span class="sci">Mathi</span><span class="Lab">Lab</span>
+    </div>
+  </div>
+
+  <div class="tp-header-centre">
+
+    <h1>Étudier des fonctions</h1>
+
+    <div class="tp-meta">
+
+      <div class="tp-row">
+        <span class="tag">1ère</span>
+        <span class="tag">Tle</span>
+        <span class="tag">Algèbre - Analyse</span>
+        <span class="tag">Résolution graphique - </span><span class="tag">Polynômes degré 2 - </span><span class="tag">Dérivation - </span><span class="tag">Polynômes degré 3</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="tp-header-numero">
+    <span class="tp-numero-txt">TD03</span>
+  </div>
+
+</header>
+
+<div class="progress">
+  <div id="bar"></div>
+</div>
+
+<main id="content">
+
+<div class="section" data-type="objectif">
+
+  <div class="section-titre">
+    <div class="picto-section">🎯</div>
+    <h2>Capacités évaluées</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p class="info">
+      Ce TD couvre l'étude des fonctions sur l'ensemble du cycle. Sélectionner
+      l'onglet de niveau correspondant à votre classe, puis l'activité souhaitée.
+    </p>
+
+    <ul>
+      <li><strong>1ère — Résolution graphique :</strong> résoudre graphiquement f(x) = g(x) et f(x) ⩾ g(x).</li>
+      <li><strong>1ère — Polynômes de degré 2 :</strong> étudier une parabole donnée sous forme factorisée, déterminer axe de symétrie, sommet, signe.</li>
+      <li><strong>1ère — Dérivation :</strong> calculer un nombre dérivé, l'équation d'une tangente, dresser un tableau de variations, étudier la fonction inverse.</li>
+      <li><strong>Tle — Polynômes de degré 3 :</strong> étudier la fonction cube, calculer une dérivée, dresser un tableau de variations, dénombrer les solutions de f(x) = c.</li>
+    </ul>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="contexte-pro">
+
+  <div class="section-titre">
+    <div class="picto-section">🏭</div>
+    <h2>Contexte professionnel</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="info">
+      Sélectionner votre filière professionnelle pour afficher un contexte et une
+      problématique adaptés à votre spécialité.
+    </div>
+
+    <div class="filiere-select-bloc">
+      <label for="select-filiere-pro">Votre filière professionnelle :</label>
+      <select id="select-filiere-pro">
+        <option value="">-- Sélectionner une filière --</option>
+      </select>
+    </div>
+
+    <div id="contexte-pro-resultat" class="contexte-pro-resultat">
+      <p>Sélectionner votre filière professionnelle pour afficher le contexte et la problématique associée.</p>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="preparation">
+
+  <div class="section-titre">
+    <div class="picto-section">📈</div>
+    <h2>Activités</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="toolbar">
+      <a class="btn btn-secondaire" href="../../numworks/emulator.html" target="_blank" rel="noopener">
+        🧮 Ouvrir la calculatrice NumWorks
+      </a>
+    </div>
+
+    <!-- ============================================================
+         NIVEAU 1ère / Tle
+         ============================================================ -->
+    <div class="tabs-container">
+
+      <div class="tabs-header">
+        <button class="tab-btn actif" data-tab="niveau-1ere">1ère</button>
+        <button class="tab-btn" data-tab="niveau-tle">Tle</button>
+      </div>
+
+      <!-- ============================ -->
+      <!-- NIVEAU 1ère                  -->
+      <!-- ============================ -->
+
+      <div class="tab-panel actif" id="niveau-1ere">
+
+        <div class="tabs-container">
+
+          <div class="tabs-header">
+            <button class="tab-btn actif" data-tab="resolution-graphique">Résolution graphique</button>
+            <button class="tab-btn" data-tab="polynomes-degre2">Polynômes de degré 2</button>
+            <button class="tab-btn" data-tab="derivation-variations">Dérivation et variations</button>
+          </div>
+
+          <!-- ---------- RÉSOLUTION GRAPHIQUE ---------- -->
+          <div class="tab-panel actif" id="resolution-graphique">
+
+            <h3>Résoudre graphiquement f(x) = g(x) et f(x) ⩾ g(x)</h3>
+
+            <div class="info">
+              Choisir le type de chaque fonction (droite ou parabole simple) et ses
+              coefficients : les deux courbes se tracent sur le même repère et les
+              solutions se lisent automatiquement.
+            </div>
+
+            <div class="tp-row" style="gap:var(--gap-lg);flex-wrap:wrap;align-items:flex-start;">
+
+              <div style="flex:1;min-width:260px;">
+                <h4>Fonction f</h4>
+                <div class="form-group">
+                  <label for="rg-type-f">Type</label>
+                  <select id="rg-type-f">
+                    <option value="affine">Affine : ax + b</option>
+                    <option value="carre">Carrée : ax²</option>
+                  </select>
+                </div>
+                <div class="form-row">
+                  <div class="form-group"><label for="rg-f-coef1">a</label><input id="rg-f-coef1" type="number" step="0.1" value="1"></div>
+                  <div class="form-group" id="rg-f-coef2-groupe"><label for="rg-f-coef2">b</label><input id="rg-f-coef2" type="number" step="0.1" value="0"></div>
+                </div>
+              </div>
+
+              <div style="flex:1;min-width:260px;">
+                <h4>Fonction g</h4>
+                <div class="form-group">
+                  <label for="rg-type-g">Type</label>
+                  <select id="rg-type-g">
+                    <option value="affine" selected>Affine : ax + b</option>
+                    <option value="carre">Carrée : ax²</option>
+                  </select>
+                </div>
+                <div class="form-row">
+                  <div class="form-group"><label for="rg-g-coef1">a</label><input id="rg-g-coef1" type="number" step="0.1" value="-0.5"></div>
+                  <div class="form-group" id="rg-g-coef2-groupe"><label for="rg-g-coef2">b</label><input id="rg-g-coef2" type="number" step="0.1" value="3"></div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="form-row">
+              <div class="form-group"><label for="rg-xmin">x min</label><input id="rg-xmin" type="number" step="0.5" value="-5"></div>
+              <div class="form-group"><label for="rg-xmax">x max</label><input id="rg-xmax" type="number" step="0.5" value="5"></div>
+              <div class="form-group">
+                <label>&nbsp;</label>
+                <button id="rg-resoudre" type="button" class="btn btn-primaire">▶ Tracer et résoudre</button>
+              </div>
+            </div>
+
+            <div id="rg-courbe"></div>
+
+            <h4 style="margin-top:var(--gap-lg);">Résoudre f(x) = g(x)</h4>
+            <div id="rg-solutions-egalite" class="info"></div>
+
+            <h4 style="margin-top:var(--gap-lg);">Résoudre f(x) ⩾ g(x)</h4>
+            <div id="rg-solutions-inegalite" class="info"></div>
+
+            <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
+            <ol class="etapes">
+              <li>Tracer les deux courbes représentatives de f et g sur le même repère.</li>
+              <li>Les solutions de f(x) = g(x) sont les abscisses des points d'intersection.</li>
+              <li>Les solutions de f(x) ⩾ g(x) sont les abscisses où la courbe de f est au-dessus (ou confondue) de celle de g.</li>
+            </ol>
+
+          </div>
+
+          <!-- ---------- POLYNÔMES DEGRÉ 2 ---------- -->
+          <div class="tab-panel" id="polynomes-degre2">
+
+            <h3>Étudier une parabole sous forme factorisée f(x) = a(x − x1)(x − x2)</h3>
+
+            <div class="info">
+              Saisir le coefficient a et les deux racines x1, x2 : axe de symétrie,
+              sommet, ordonnée à l'origine et signe de f(x) se déterminent
+              automatiquement.
+            </div>
+
+            <div class="form-row">
+              <div class="form-group"><label for="ep-a">a</label><input id="ep-a" type="number" step="0.1" value="1"></div>
+              <div class="form-group"><label for="ep-x1">Racine x1</label><input id="ep-x1" type="number" step="0.5" value="-2"></div>
+              <div class="form-group"><label for="ep-x2">Racine x2</label><input id="ep-x2" type="number" step="0.5" value="4"></div>
+              <div class="form-group">
+                <label>&nbsp;</label>
+                <button id="ep-calculer" type="button" class="btn btn-primaire">▶ Étudier la parabole</button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="tableau-resultats">
+                <thead><tr><th>Élément</th><th>Résultat</th></tr></thead>
+                <tbody id="ep-tbody"></tbody>
+              </table>
+            </div>
+
+            <div id="ep-courbe"></div>
+
+            <h4 style="margin-top:var(--gap-lg);">Retrouver une racine manquante</h4>
+
+            <div class="info">
+              À partir de f(x) = ax² + bx + c et d'une racine connue x1, retrouver la
+              seconde racine x2 grâce à la relation x1 + x2 = −b/a.
+            </div>
+
+            <div class="form-row">
+              <div class="form-group"><label for="rm-a">a</label><input id="rm-a" type="number" step="0.1" value="1"></div>
+              <div class="form-group"><label for="rm-b">b</label><input id="rm-b" type="number" step="0.1" value="-2"></div>
+              <div class="form-group"><label for="rm-c">c</label><input id="rm-c" type="number" step="0.1" value="-8"></div>
+              <div class="form-group"><label for="rm-x1">Racine connue x1</label><input id="rm-x1" type="number" step="0.5" value="4"></div>
+              <div class="form-group">
+                <label>&nbsp;</label>
+                <button id="rm-calculer" type="button" class="btn btn-secondaire">Trouver x2</button>
+              </div>
+            </div>
+
+            <div id="rm-resultat" class="info"></div>
+
+          </div>
+
+          <!-- ---------- DÉRIVATION ET VARIATIONS ---------- -->
+          <div class="tab-panel" id="derivation-variations">
+
+            <h3>Nombre dérivé, tangente et tableau de variations</h3>
+
+            <div class="info">
+              Saisir les coefficients a, b, c de f(x) = ax² + bx + c et une valeur x0 :
+              le nombre dérivé f'(x0), l'équation de la tangente et le tableau de
+              variations se calculent automatiquement.
+            </div>
+
+            <div class="form-row">
+              <div class="form-group"><label for="tg-a">a</label><input id="tg-a" type="number" step="0.1" value="1"></div>
+              <div class="form-group"><label for="tg-b">b</label><input id="tg-b" type="number" step="0.1" value="-4"></div>
+              <div class="form-group"><label for="tg-c">c</label><input id="tg-c" type="number" step="0.1" value="3"></div>
+              <div class="form-group"><label for="tg-x0">x0</label><input id="tg-x0" type="number" step="0.5" value="1"></div>
+              <div class="form-group">
+                <label>&nbsp;</label>
+                <button id="tg-calculer" type="button" class="btn btn-primaire">▶ Calculer</button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="tableau-resultats">
+                <thead><tr><th>Élément</th><th>Résultat</th></tr></thead>
+                <tbody id="tg-tbody"></tbody>
+              </table>
+            </div>
+
+            <h4 style="margin-top:var(--gap-lg);">Tableau de variations</h4>
+
+            <div class="table-responsive">
+              <table class="tableau-resultats">
+                <thead><tr><th>x</th><th>f(x)</th><th>Nature</th></tr></thead>
+                <tbody id="tg-tbody-variations"></tbody>
+              </table>
+            </div>
+
+            <div id="tg-courbe"></div>
+
+            <h4 style="margin-top:var(--gap-lg);">La fonction inverse</h4>
+
+            <div class="info">
+              La fonction inverse x ↦ 1/x n'est pas définie en 0. Observer sa courbe
+              sur les deux intervalles ]−∞ ; 0[ et ]0 ; +∞[.
+            </div>
+
+            <div id="fi-courbe"></div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ============================ -->
+      <!-- NIVEAU Tle                   -->
+      <!-- ============================ -->
+
+      <div class="tab-panel" id="niveau-tle">
+
+        <div class="tabs-container">
+
+          <div class="tabs-header">
+            <button class="tab-btn actif" data-tab="fonction-cube">La fonction cube</button>
+            <button class="tab-btn" data-tab="polynome-degre3">Étudier un polynôme de degré 3</button>
+          </div>
+
+          <!-- ---------- FONCTION CUBE ---------- -->
+          <div class="tab-panel actif" id="fonction-cube">
+
+            <h3>Dérivée, variations et représentation graphique de f(x) = x³</h3>
+
+            <div class="info">
+              La fonction cube est le cas le plus simple de fonction polynôme de degré 3 :
+              f(x) = x³, avec f'(x) = 3x². Observer ce qui se passe en x = 0, où la
+              dérivée s'annule.
+            </div>
+
+            <div class="table-responsive">
+              <table class="tableau-resultats">
+                <thead><tr><th>Élément</th><th>Expression</th></tr></thead>
+                <tbody>
+                  <tr><td>f(x)</td><td>x³</td></tr>
+                  <tr><td>f'(x)</td><td>3x²</td></tr>
+                  <tr><td>Signe de f'(x)</td><td>f'(x) ⩾ 0 pour tout x (f'(0) = 0, mais f' ne change pas de signe)</td></tr>
+                  <tr><td>Variations</td><td>f est strictement croissante sur ℝ</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h4 style="margin-top:var(--gap-lg);">Représentation graphique</h4>
+
+            <div id="fc-courbe"></div>
+
+            <div class="zone-eleve">
+              <textarea id="fc-observation" rows="4" placeholder="f'(0) = 0 : pourquoi f n'admet-elle pourtant pas d'extremum local en x = 0 ?"></textarea>
+            </div>
+
+          </div>
+
+          <!-- ---------- POLYNÔME DE DEGRÉ 3 ---------- -->
+          <div class="tab-panel" id="polynome-degre3">
+
+            <h3>Étudier f(x) = a x³ + b x² + c x + d</h3>
+
+            <div class="info">
+              Saisir les coefficients a, b, c, d du polynôme ainsi que l'intervalle
+              d'étude : la dérivée, ses racines éventuelles, le tableau de variations et
+              la courbe se construisent automatiquement.
+            </div>
+
+            <div class="form-row">
+              <div class="form-group"><label for="pd-a">a</label><input id="pd-a" type="number" step="0.1" value="1"></div>
+              <div class="form-group"><label for="pd-b">b</label><input id="pd-b" type="number" step="0.1" value="-3"></div>
+              <div class="form-group"><label for="pd-c">c</label><input id="pd-c" type="number" step="0.1" value="0"></div>
+              <div class="form-group"><label for="pd-d">d</label><input id="pd-d" type="number" step="0.1" value="2"></div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group"><label for="pd-xmin">x min</label><input id="pd-xmin" type="number" step="0.5" value="-3"></div>
+              <div class="form-group"><label for="pd-xmax">x max</label><input id="pd-xmax" type="number" step="0.5" value="3"></div>
+              <div class="form-group">
+                <label>&nbsp;</label>
+                <button id="pd-calculer" type="button" class="btn btn-primaire">▶ Étudier la fonction</button>
+              </div>
+            </div>
+
+            <h4 style="margin-top:var(--gap-lg);">Dérivée et points critiques</h4>
+
+            <div class="table-responsive">
+              <table class="tableau-resultats">
+                <thead><tr><th>Élément</th><th>Résultat</th></tr></thead>
+                <tbody id="pd-tbody-derivee"></tbody>
+              </table>
+            </div>
+
+            <h4 style="margin-top:var(--gap-lg);">Tableau de variations</h4>
+
+            <div class="table-responsive">
+              <table class="tableau-resultats">
+                <thead><tr><th>x</th><th>f(x)</th><th>Nature</th></tr></thead>
+                <tbody id="pd-tbody-variations"></tbody>
+              </table>
+            </div>
+
+            <h4 style="margin-top:var(--gap-lg);">Représentation graphique</h4>
+
+            <div id="pd-courbe"></div>
+
+            <h4 style="margin-top:var(--gap-lg);">Nombre de solutions de f(x) = c</h4>
+
+            <div class="form-row">
+              <div class="form-group"><label for="pd-cible">Valeur de c</label><input id="pd-cible" type="number" step="0.1" value="2"></div>
+              <div class="form-group">
+                <label>&nbsp;</label>
+                <button id="pd-compter-solutions" type="button" class="btn btn-secondaire">Compter les solutions</button>
+              </div>
+            </div>
+
+            <div id="pd-solutions" class="info"></div>
+
+            <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
+
+            <ol class="etapes">
+              <li>Calculer la dérivée f'(x) = 3a x² + 2b x + c.</li>
+              <li>Résoudre f'(x) = 0 pour trouver les éventuels points critiques.</li>
+              <li>Étudier le signe de f'(x) pour dresser le tableau de variations.</li>
+              <li>Utiliser le tableau de variations pour dénombrer les solutions de f(x) = c selon la position de c par rapport aux extremums locaux.</li>
+            </ol>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="resultats">
+
+  <div class="section-titre">
+    <div class="picto-section">📋</div>
+    <h2>Tableau de résultats</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="table-responsive">
+      <table class="tableau-resultats">
+        <thead><tr><th>Grandeur</th><th>Résultat</th></tr></thead>
+        <tbody>
+          <tr><td>Solution(s) de f(x) = g(x) (résolution graphique)</td><td><input type="text" placeholder="valeur(s) de x"></td></tr>
+          <tr><td>Signe / sommet de la parabole étudiée</td><td><input type="text" placeholder="votre réponse"></td></tr>
+          <tr><td>Sens de variation de f (dérivation)</td><td><input type="text" placeholder="votre réponse"></td></tr>
+          <tr><td>Nombre de solutions de f(x) = c (polynôme degré 3)</td><td><input type="text" placeholder="0, 1, 2 ou 3"></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="lien-metiers">
+
+  <div class="section-titre">
+    <div class="picto-section">🔗</div>
+    <h2>Mathématiques et sciences : un même langage</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p>
+      En enseignement professionnel, un coût de production, un rendement ou une
+      contrainte mécanique s'expriment souvent par une fonction d'une variable
+      (quantité, dimension, temps...). Étudier cette fonction — la représenter, la
+      dériver, dresser son tableau de variations — permet de repérer les réglages
+      optimaux de la situation étudiée.
+    </p>
+
+    <ul style="padding-left:1.5rem;line-height:2">
+      <li>La <strong>résolution graphique</strong> permet de comparer deux offres ou deux méthodes sans résoudre algébriquement.</li>
+      <li>Le <strong>sommet d'une parabole</strong> correspond souvent à un optimum (coût minimal, rendement maximal).</li>
+      <li>La <strong>dérivée</strong> renseigne sur le sens de variation, et un <strong>extremum local</strong> correspond à un changement de signe de la dérivée.</li>
+    </ul>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="puzzle">
+
+  <div class="section-titre">
+    <div class="picto-section">🧩</div>
+    <h2>Activités Puzzle</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="toolbar">
+      <a class="btn btn-secondaire" href="../../numworks/emulator.html" target="_blank" rel="noopener">
+        🧮 Ouvrir la calculatrice NumWorks
+      </a>
+    </div>
+
+    <div class="info">
+      Fonction étudiée — le coût de fabrication (en centaines d'euros) d'une série de
+      pièces est modélisé, pour x compris entre 0 et 6 (en centaines de pièces), par
+      f(x) = x³ − 9x² + 24x + 10.
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Dérivée">
+      <h3>Fiche A — Calculer la dérivée</h3>
+      <ol>
+        <li>Calculer f'(x).</li>
+        <li>Résoudre f'(x) = 0.</li>
+        <li>Étudier le signe de f'(x) sur [0 ; 6].</li>
+      </ol>
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+      <div class="zone-eleve"><textarea rows="6" placeholder="Réponses du groupe expert : f'(x), racines, signe..."></textarea></div>
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Tableau de variations">
+      <h3>Fiche B — Tableau de variations</h3>
+      <ol>
+        <li>Dresser le tableau de variations de f sur [0 ; 6].</li>
+        <li>Identifier les extremums locaux et leur valeur.</li>
+      </ol>
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+      <div class="zone-eleve"><textarea rows="6" placeholder="Réponses du groupe expert : tableau de variations, extremums..."></textarea></div>
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Interprétation">
+      <h3>Fiche C — Interpréter dans le contexte professionnel</h3>
+      <ol>
+        <li>Pour quelle quantité de pièces le coût est-il minimal sur [0 ; 6] ?</li>
+        <li>Combien de quantités de pièces donnent un coût de 20 centaines d'euros ?</li>
+        <li>Quelle recommandation feriez-vous à l'atelier ?</li>
+      </ol>
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+      <div class="zone-eleve"><textarea rows="6" placeholder="Réponses du groupe expert : quantité optimale, nombre de solutions, recommandation..."></textarea></div>
+    </div>
+
+    <h3 style="margin-top:var(--gap-lg);">Synthèse puzzle</h3>
+    <div class="info">
+      En groupe mélangé, rassembler les résultats des trois fiches pour rédiger une
+      analyse complète du coût de fabrication.
+    </div>
+    <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Synthèse commune : dérivée, tableau de variations, interprétation professionnelle..."></textarea></div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="bilan">
+
+  <div class="section-titre">
+    <div class="picto-section">📝</div>
+    <h2>Trace écrite - Compte rendu</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <h3>Identification</h3>
+
+    <div class="form-row">
+      <div class="form-group"><label for="nom-eleve">Nom</label><input id="nom-eleve" type="text" placeholder="Nom"></div>
+      <div class="form-group"><label for="prenom-eleve">Prénom</label><input id="prenom-eleve" type="text" placeholder="Prénom"></div>
+      <div class="form-group"><label for="classe-eleve">Classe</label><input id="classe-eleve" type="text" placeholder="Classe"></div>
+      <div class="form-group"><label for="date-eleve">Date</label><input id="date-eleve" type="date"></div>
+    </div>
+
+    <h3 style="margin-top:var(--gap-md);">Résumé du TD</h3>
+
+    <div class="zone-eleve">
+      <textarea id="resume-tp" rows="6" placeholder="Résumer les études de fonctions réalisées (résolution graphique, polynômes, dérivation)..."></textarea>
+    </div>
+
+    <h3 style="margin-top:var(--gap-md);">Questions</h3>
+
+    <div class="questions-bloc" data-tp="fonctions">
+
+    <ol class="questions-tp">
+
+      <li>
+        <div class="question-entete">
+          <strong>Donner la dérivée d'une fonction polynôme de degré inférieur ou égal à 3, et expliquer comment résoudre graphiquement f(x) = g(x).</strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question1" rows="4" placeholder="Votre réponse..."></textarea></div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>Calculer la dérivée du polynôme étudié, résoudre f'(x) = 0 et dresser le tableau de variations correspondant.</strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question2" rows="4" placeholder="Votre réponse..."></textarea></div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>À partir des tableaux de variations, expliquer combien l'équation f(x) = c admet de solutions selon la valeur de c.</strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question3" rows="5" placeholder="Votre analyse..."></textarea></div>
+      </li>
+
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique posée en début de TD :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="fonctions"></p>
+        <div class="zone-eleve"><textarea id="question4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+
+    </ol>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="auto-evaluation">
+
+  <div class="section-titre">
+    <div class="picto-section">📡</div>
+    <h2>Auto-évaluation des compétences</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p class="info">À la fin du TD, évaluez votre niveau de maîtrise pour chaque compétence.</p>
+
+    <div class="table-responsive">
+      <table class="tableau-resultats autoeval-table">
+        <thead><tr><th>Domaine</th><th>Sigle</th><th>Je suis capable de...</th><th>0</th><th>1</th><th>2</th></tr></thead>
+        <tbody>
+          <tr data-comp="APP"><td>S'approprier</td><td>APP</td><td>Identifier le type d'une fonction (affine, parabole, cube) et le degré d'un polynôme.</td>
+            <td><input type="radio" name="APP" value="0"></td><td><input type="radio" name="APP" value="1"></td><td><input type="radio" name="APP" value="2"></td></tr>
+          <tr data-comp="REA"><td>Réaliser</td><td>REA</td><td>Résoudre graphiquement une équation/inéquation, étudier une parabole, calculer une dérivée et un tableau de variations.</td>
+            <td><input type="radio" name="REA" value="0"></td><td><input type="radio" name="REA" value="1"></td><td><input type="radio" name="REA" value="2"></td></tr>
+          <tr data-comp="ANA"><td>Analyser / Raisonner</td><td>ANA</td><td>Exploiter un tableau de variations pour dénombrer les solutions de f(x) = c.</td>
+            <td><input type="radio" name="ANA" value="0"></td><td><input type="radio" name="ANA" value="1"></td><td><input type="radio" name="ANA" value="2"></td></tr>
+          <tr data-comp="VAL"><td>Valider</td><td>VAL</td><td>Interpréter un extremum local dans une situation professionnelle.</td>
+            <td><input type="radio" name="VAL" value="0"></td><td><input type="radio" name="VAL" value="1"></td><td><input type="radio" name="VAL" value="2"></td></tr>
+          <tr data-comp="COM"><td>Communiquer</td><td>COM</td><td>Argumenter une étude de fonction à l'oral ou à l'écrit.</td>
+            <td><input type="radio" name="COM" value="0"></td><td><input type="radio" name="COM" value="1"></td><td><input type="radio" name="COM" value="2"></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="radar-actions" style="margin-top:var(--gap-lg);">
+      <button id="btn-radar" class="btn btn-primaire">📊 Générer mon radar de compétences</button>
+      <div id="radar-resultat" style="margin-top:var(--gap-md);"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="impression_tp">
+
+  <div class="section-titre">
+    <div class="picto-section">📒</div>
+    <h2>Impression du compte-rendu</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p class="info">
+      À la fin du TD, imprimer votre travail en PDF.
+      Envoyer à l'enseignant votre compte rendu en pièce jointe par la messagerie de l'ENT.
+    </p>
+
+    <div class="toolbar">
+      <button id="btn-imprimer" class="btn btn-primaire">🖨 Imprimer le compte-rendu</button>
+    </div>
+
+    <div class="info" style="margin-top:var(--gap-md);">
+      L'impression récupère automatiquement :
+      <ul>
+        <li>le tableau de résultats ;</li>
+        <li>les réponses aux questions ;</li>
+        <li>l'auto-évaluation des compétences.</li>
+      </ul>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="nav-tp">
+
+  <button class="btn btn-secondaire" onclick="loadTP('td02-suites-numeriques')">
+    ← TD02
+  </button>
+
+  <button class="btn btn-secondaire" onclick="location.href='../index.html'">
+    🏠 Accueil
+  </button>
+
+  <button class="btn btn-primaire" onclick="loadTP('td04-fonctions-exponentielles-logarithme')">
+    TD04 →
+  </button>
+
+</div>
+
+</main>
+
+<div id="cr-print-container" style="display:none;"></div>
+
+</section>
