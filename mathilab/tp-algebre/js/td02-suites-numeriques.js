@@ -227,4 +227,3 @@ initComparerSuitesGeometriques();
 
 initRadarCompetences();
 initImpressionCompteRendu({ titre: 'Étudier et comparer des suites numériques', tp: 'TD02' });
-OK td02 js
