@@ -119,27 +119,17 @@
     </div>
 
     <!-- ============================================================
-         NIVEAU 1ère / Tle
+         ONGLETS À PLAT (aucune imbrication de tabs-container, pattern
+         identique au modèle de référence tp-statistiques)
          ============================================================ -->
     <div class="tabs-container">
 
       <div class="tabs-header">
-        <button class="tab-btn actif" data-tab="niveau-1ere">1ère — Suites arithmétiques</button>
-        <button class="tab-btn" data-tab="niveau-tle">Tle — Suites géométriques</button>
+        <button class="tab-btn actif" data-tab="ar-etudier">1ère · Étudier une suite arithmétique</button>
+        <button class="tab-btn" data-tab="ar-comparer">1ère · Comparer deux évolutions</button>
+        <button class="tab-btn" data-tab="geo-etudier">Tle · Étudier une suite géométrique</button>
+        <button class="tab-btn" data-tab="geo-comparer">Tle · Comparer deux évolutions</button>
       </div>
-
-      <!-- ============================ -->
-      <!-- NIVEAU 1ère : ARITHMÉTIQUES  -->
-      <!-- ============================ -->
-
-      <div class="tab-panel actif" id="niveau-1ere">
-
-        <div class="tabs-container">
-
-          <div class="tabs-header">
-            <button class="tab-btn actif" data-tab="ar-etudier">Étudier une suite arithmétique</button>
-            <button class="tab-btn" data-tab="ar-comparer">Comparer deux évolutions</button>
-          </div>
 
           <div class="tab-panel actif" id="ar-etudier">
 
@@ -249,24 +239,7 @@
 
           </div>
 
-        </div>
-
-      </div>
-
-      <!-- ============================ -->
-      <!-- NIVEAU Tle : GÉOMÉTRIQUES    -->
-      <!-- ============================ -->
-
-      <div class="tab-panel" id="niveau-tle">
-
-        <div class="tabs-container">
-
-          <div class="tabs-header">
-            <button class="tab-btn actif" data-tab="geo-etudier">Étudier une suite géométrique</button>
-            <button class="tab-btn" data-tab="geo-comparer">Comparer deux évolutions à taux fixe</button>
-          </div>
-
-          <div class="tab-panel actif" id="geo-etudier">
+          <div class="tab-panel" id="geo-etudier">
 
             <h3>Calculer les termes, le sens de variation et la somme</h3>
 
@@ -373,10 +346,6 @@
             <div id="geo-cs-nuage"></div>
 
           </div>
-
-        </div>
-
-      </div>
 
     </div>
 
@@ -672,4 +641,3 @@
 <div id="cr-print-container" style="display:none;"></div>
 
 </section>
-OK td02 html
