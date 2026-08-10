@@ -117,27 +117,20 @@
     <!-- ============================================================
          NIVEAU 1ère / Tle
          ============================================================ -->
+    <!-- ============================================================
+         ONGLETS À PLAT (aucune imbrication de tabs-container, pattern
+         identique au modèle de référence tp-statistiques)
+         ============================================================ -->
     <div class="tabs-container">
 
       <div class="tabs-header">
-        <button class="tab-btn actif" data-tab="niveau-1ere">1ère</button>
-        <button class="tab-btn" data-tab="niveau-tle">Tle</button>
+        <button class="tab-btn actif" data-tab="interets-simples">1ère · Intérêts simples</button>
+        <button class="tab-btn" data-tab="couts-marginal-moyen">1ère · Coût marginal et coût moyen</button>
+        <button class="tab-btn" data-tab="interets-composes">Tle · Intérêts composés</button>
+        <button class="tab-btn" data-tab="amortissement">Tle · Tableau d'amortissement</button>
       </div>
 
-      <!-- ============================ -->
-      <!-- NIVEAU 1ère                  -->
-      <!-- ============================ -->
-
-      <div class="tab-panel actif" id="niveau-1ere">
-
-        <div class="tabs-container">
-
-          <div class="tabs-header">
-            <button class="tab-btn actif" data-tab="interets-simples">Intérêts simples</button>
-            <button class="tab-btn" data-tab="couts-marginal-moyen">Coût marginal et coût moyen</button>
-          </div>
-
-          <!-- ---------- INTÉRÊTS SIMPLES ---------- -->
+          <!-- ---------- INTÉRÊTS SIMPLES (1ère) ---------- -->
           <div class="tab-panel actif" id="interets-simples">
 
             <h3>Capital obtenu après n périodes à intérêts simples</h3>
@@ -225,25 +218,8 @@
 
           </div>
 
-        </div>
-
-      </div>
-
-      <!-- ============================ -->
-      <!-- NIVEAU Tle                   -->
-      <!-- ============================ -->
-
-      <div class="tab-panel" id="niveau-tle">
-
-        <div class="tabs-container">
-
-          <div class="tabs-header">
-            <button class="tab-btn actif" data-tab="interets-composes">Intérêts composés</button>
-            <button class="tab-btn" data-tab="amortissement">Tableau d'amortissement d'un emprunt</button>
-          </div>
-
-          <!-- ---------- INTÉRÊTS COMPOSÉS ---------- -->
-          <div class="tab-panel actif" id="interets-composes">
+          <!-- ---------- INTÉRÊTS COMPOSÉS (Tle) ---------- -->
+          <div class="tab-panel" id="interets-composes">
 
             <h3>Capital obtenu après n périodes à intérêts composés</h3>
 
@@ -354,10 +330,6 @@
             </ol>
 
           </div>
-
-        </div>
-
-      </div>
 
     </div>
 
