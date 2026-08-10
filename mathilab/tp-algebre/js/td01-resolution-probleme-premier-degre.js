@@ -654,4 +654,3 @@ function initialiserTD01() {
 }
 
 initialiserTD01();
-exit code 0
