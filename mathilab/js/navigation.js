@@ -49,7 +49,7 @@ function getDefaultModule(domaine) {
         "tp-algorithme": "td01-simuler-une-experience-aleatoire"
         
     };
-    return defaultModules[domaine] || "tp01-solutions"; // Fallback
+    return defaultModules[domaine] || "tp01-organiser-une-serie-statistique"; // Fallback
 }
 
 /* ==========================================================
