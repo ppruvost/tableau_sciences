@@ -18,23 +18,14 @@
     --domaine-statistiques-1: #6A3DBD;
     --domaine-statistiques-2: #472785;
 
-    --domaine-mecanique-1: #4B5563;
-    --domaine-mecanique-2: #1F2937;
+    --domaine-algebre-1: #1B6CA8;
+    --domaine-algebre-2: #0D4F8A;
 
-    --domaine-chimie-1: #1B6CA8;
-    --domaine-chimie-2: #0D4F8A;
+    --domaine-geometrie-1: #10B981;
+    --domaine-geometrie-2: #059669;
 
-    --domaine-algorithme-1: #0891B2;
-    --domaine-algorithme-2: #0E7490;
-
-    --domaine-thermique-1: #C1440E;
-    --domaine-thermique-2: #7A2E0E;
-
-    --domaine-optique-1: #8B5CF6;
-    --domaine-optique-2: #6D28D9;
-
-    --domaine-signaux-1: #10B981;
-    --domaine-signaux-2: #059669;
+    --domaine-algorithme-1: #C1440E;
+    --domaine-algorithme-2: #7A2E0E;
 }
 
 body {
@@ -334,28 +325,16 @@ th {
     background: linear-gradient(135deg, var(--domaine-statistiques-1), var(--domaine-statistiques-2));
 }
 
-.mecanique {
-    background: linear-gradient(135deg, var(--domaine-mecanique-1), var(--domaine-mecanique-2));
+.algebre {
+    background: linear-gradient(135deg, var(--domaine-algebre-1), var(--domaine-algebre-2));
 }
 
-.chimie {
-    background: linear-gradient(135deg, var(--domaine-chimie-1), var(--domaine-chimie-2));
+.geometrie {
+    background: linear-gradient(135deg, var(--domaine-geometrie-1), var(--domaine-geometrie-2));
 }
 
 .algorithme {
     background: linear-gradient(135deg, var(--domaine-algorithme-1), var(--domaine-algorithme-2));
-}
-
-.thermique {
-    background: linear-gradient(135deg, var(--domaine-thermique-1), var(--domaine-thermique-2));
-}
-
-.optique {
-    background: linear-gradient(135deg, var(--domaine-optique-1), var(--domaine-optique-2));
-}
-
-.signaux {
-    background: linear-gradient(135deg, var(--domaine-signaux-1), var(--domaine-signaux-2));
 }
 
 /* =========================
@@ -430,12 +409,9 @@ th {
    ajouter tpViewer.dataset.domaine = "chimie"). Sans cet attribut,
    le bandeau garde sa couleur neutre par défaut ci-dessus. */
 .tp-viewer[data-domaine="statistiques"] .viewer-topbar { background: linear-gradient(135deg, var(--domaine-statistiques-2), var(--domaine-statistiques-1)); }
-.tp-viewer[data-domaine="mecanique"]   .viewer-topbar { background: linear-gradient(135deg, var(--domaine-mecanique-2), var(--domaine-mecanique-1)); }
-.tp-viewer[data-domaine="chimie"]      .viewer-topbar { background: linear-gradient(135deg, var(--domaine-chimie-2), var(--domaine-chimie-1)); }
+.tp-viewer[data-domaine="algebre"]   .viewer-topbar { background: linear-gradient(135deg, var(--domaine-algebre-2), var(--domaine-algebre-1)); }
+.tp-viewer[data-domaine="geometrie"]      .viewer-topbar { background: linear-gradient(135deg, var(--domaine-geometrie-2), var(--domaine-geometrie-1)); }
 .tp-viewer[data-domaine="algorithme"]  .viewer-topbar { background: linear-gradient(135deg, var(--domaine-algorithme-2), var(--domaine-algorithme-1)); }
-.tp-viewer[data-domaine="thermique"]   .viewer-topbar { background: linear-gradient(135deg, var(--domaine-thermique-2), var(--domaine-thermique-1)); }
-.tp-viewer[data-domaine="optique"]     .viewer-topbar { background: linear-gradient(135deg, var(--domaine-optique-2), var(--domaine-optique-1)); }
-.tp-viewer[data-domaine="signaux"] .viewer-topbar { background: linear-gradient(135deg, var(--domaine-signaux-2), var(--domaine-signaux-1)); }
 
 .viewer-topbar h2 {
     color: white;
