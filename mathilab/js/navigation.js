@@ -44,7 +44,7 @@ function getDefaultModule(domaine) {
     const defaultModules = {        
         
         "tp-statistiques": "tp01-organiser-une-serie-statistique",
-        "tp-algebre": "tp01-resolution-probleme-premier-degre",
+        "tp-algebre": "td01-resolution-probleme-premier-degre",
         "tp-geometrie": "tp01-",        
         "tp-algorithme": "td01-simuler-une-experience-aleatoire"
         
