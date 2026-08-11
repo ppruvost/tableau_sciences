@@ -240,8 +240,7 @@ print("Coefficient de détermination r² :", r2)</textarea>
         </div>
 
         <div class="code-exercice" data-titre="Estimer P(A∪B) et P(A∩B)">
-          <textarea class="code-editeur-python" spellcheck="false">import random
-
+          <textarea class="code-editeur-python" spellcheck="false">
 p_a = 0.3   # probabilité de l'événement A
 p_b = 0.2   # probabilité de l'événement B
 n = 10000
@@ -295,8 +294,7 @@ print("P(A) + P(B) - P(A et B) ≈", nb_a / n + nb_b / n - nb_a_et_b / n)</texta
         </div>
 
         <div class="code-exercice" data-titre="Changement de variable et ajustement">
-          <textarea class="code-editeur-python" spellcheck="false">import math
-
+          <textarea class="code-editeur-python" spellcheck="false">
 def coefficient_determination(x, y):
     n = len(x)
     mx = sum(x) / n
@@ -346,8 +344,7 @@ print("r² pour l'ajustement affine après changement de variable (x, log(y)) :"
         </div>
 
         <div class="code-exercice" data-titre="Simuler un arbre pondéré">
-          <textarea class="code-editeur-python" spellcheck="false">import random
-
+          <textarea class="code-editeur-python" spellcheck="false">
 p_a = 0.9    # probabilité que la pièce passe le premier contrôle (événement A)
 # Second contrôle : sa probabilité de succès dépend (ou non) du premier
 p_b_si_a = 0.95       # P(B) sachant A réussi
