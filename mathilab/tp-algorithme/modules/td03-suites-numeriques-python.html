@@ -1,0 +1,629 @@
+<!--
+  Fragment SPA chargé dynamiquement par navigation.js.
+  Tous les chemins sont relatifs à la racine du site.
+  Aucun <script> dans ce fragment.
+-->
+
+<section>
+
+<header class="tp-header">
+
+  <div class="tp-header-logo">
+    <div class="logo">
+      <span class="sci">Mathi</span><span class="Lab">Lab</span>
+    </div>
+  </div>
+
+  <div class="tp-header-centre">
+
+    <h1>Suites numériques en Python</h1>
+
+    <div class="tp-meta">
+
+      <div class="tp-row">
+        <span class="tag">1ère</span>
+        <span class="tag">Tle</span>
+        <span class="tag">Algorithmique et programmation</span>
+        <span class="tag">Listes - </span><span class="tag">Suites arithmétiques - </span><span class="tag">Suites géométriques</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="tp-header-numero">
+    <span class="tp-numero-txt">TD03</span>
+  </div>
+
+</header>
+
+<div class="progress">
+  <div id="bar"></div>
+</div>
+
+<main id="content">
+
+<div class="section" data-type="objectif">
+
+  <div class="section-titre">
+    <div class="picto-section">🎯</div>
+    <h2>Capacités évaluées</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <ul>
+      <li>Calculer un terme de rang donné d'une suite numérique à l'aide d'une boucle Python.</li>
+      <li>Calculer la somme d'un nombre fini de termes d'une suite numérique.</li>
+      <li>Générer une liste de termes d'une suite et la représenter par un nuage de points de coordonnées (n ; un).</li>
+      <li>Déterminer, à l'aide d'une boucle <code>while</code>, le rang à partir duquel les termes d'une suite monotone dépassent (ou deviennent inférieurs à) une valeur donnée.</li>
+      <li><em>1ère :</em> suites arithmétiques et suites quelconques définies par récurrence. <em>Tle :</em> suites géométriques, en lien avec les fonctions exponentielles.</li>
+    </ul>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="contexte-pro">
+
+  <div class="section-titre">
+    <div class="picto-section">🏭</div>
+    <h2>Contexte professionnel</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="info">
+      De nombreuses évolutions professionnelles se calculent terme après
+      terme : planning de production, montée en charge, dépréciation d'un
+      équipement...
+    </div>
+
+    <div class="filiere-select-bloc">
+      <label for="select-filiere-pro">Votre filière professionnelle :</label>
+      <select id="select-filiere-pro">
+        <option value="">-- Sélectionner une filière --</option>
+      </select>
+    </div>
+
+    <div id="contexte-pro-resultat" class="contexte-pro-resultat">
+      <p>Sélectionner votre filière professionnelle pour afficher le contexte et la problématique associée.</p>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="preparation">
+
+  <div class="section-titre">
+    <div class="picto-section">🐍</div>
+    <h2>Activités</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="toolbar">
+      <a class="btn btn-secondaire" href="../../numworks/emulator.html" target="_blank" rel="noopener">
+        🧮 Ouvrir la calculatrice NumWorks
+      </a>
+    </div>
+
+    <div class="info">
+      Chaque exercice s'exécute réellement en <strong>Python</strong> dans
+      <strong>PyLab</strong> (nouvel onglet).
+    </div>
+
+    <div class="tabs-container">
+
+      <div class="tabs-header">
+        <button class="tab-btn actif" data-tab="ar-termes-somme">1ère · Termes et somme (arithmétique)</button>
+        <button class="tab-btn" data-tab="ar-nuage-seuil">1ère · Nuage de points et seuil</button>
+        <button class="tab-btn" data-tab="geo-termes-somme">Tle · Termes et somme (géométrique)</button>
+        <button class="tab-btn" data-tab="geo-nuage-seuil">Tle · Nuage de points et seuil</button>
+      </div>
+
+      <!-- ---------- 1ère : TERMES ET SOMME ---------- -->
+      <div class="tab-panel actif" id="ar-termes-somme">
+
+        <h3>Calculer les termes et la somme d'une suite arithmétique</h3>
+
+        <div class="info">
+          Une suite arithmétique se définit par récurrence : u(0) est donné,
+          et chaque terme s'obtient à partir du précédent en ajoutant une
+          raison r constante : u(n+1) = u(n) + r.
+        </div>
+
+        <div class="code-exercice" data-titre="Termes d'une suite arithmétique">
+          <textarea class="code-editeur-python" spellcheck="false">u0 = 10      # premier terme
+r = 3        # raison
+n_termes = 10
+
+termes = [u0]
+for i in range(1, n_termes):
+    termes.append(termes[-1] + r)
+
+print("Liste des termes :", termes)
+print("Terme de rang", n_termes - 1, ":", termes[-1])
+print("Somme des", n_termes, "premiers termes :", sum(termes))</textarea>
+          <div class="toolbar">
+            <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
+          </div>
+        </div>
+
+        <div class="info" style="margin-top:var(--gap-lg);">
+          Le programme suivant fonctionne aussi pour une suite quelconque (pas
+          nécessairement arithmétique), définie par une relation de
+          récurrence différente à chaque cas.
+        </div>
+
+        <div class="code-exercice" data-titre="Suite quelconque définie par récurrence">
+          <textarea class="code-editeur-python" spellcheck="false"># Exemple : u(n+1) = 0.5 * u(n) + 4 (suite non arithmétique)
+u0 = 2
+n_termes = 10
+
+termes = [u0]
+for i in range(1, n_termes):
+    terme_precedent = termes[-1]
+    nouveau_terme = 0.5 * terme_precedent + 4
+    termes.append(nouveau_terme)
+
+print("Liste des termes :", termes)</textarea>
+          <div class="toolbar">
+            <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
+          </div>
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
+        <ol class="etapes">
+          <li>Identifier le premier terme u0 et la relation de récurrence de la situation étudiée.</li>
+          <li>Adapter u0, r (ou la formule de récurrence) et n_termes à votre situation.</li>
+          <li>Lire dans la console le dernier terme calculé et la somme des termes.</li>
+        </ol>
+
+      </div>
+
+      <!-- ---------- 1ère : NUAGE ET SEUIL ---------- -->
+      <div class="tab-panel" id="ar-nuage-seuil">
+
+        <h3>Nuage de points et recherche d'un seuil</h3>
+
+        <div class="info">
+          Générer la liste des rangs n et des termes u(n), puis utiliser
+          PyLab pour tracer le nuage de points (n ; un).
+        </div>
+
+        <div class="code-exercice" data-titre="Générer un nuage de points (n ; un)">
+          <textarea class="code-editeur-python" spellcheck="false">import matplotlib.pyplot as plt
+
+u0 = 10
+r = 3
+n_termes = 15
+
+rangs = list(range(n_termes))
+termes = [u0]
+for i in range(1, n_termes):
+    termes.append(termes[-1] + r)
+
+plt.scatter(rangs, termes)
+plt.xlabel("n")
+plt.ylabel("u(n)")
+plt.title("Nuage de points de la suite")
+plt.show()</textarea>
+          <div class="toolbar">
+            <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
+          </div>
+        </div>
+
+        <div class="info" style="margin-top:var(--gap-lg);">
+          Le programme suivant détermine, avec une boucle <code>while</code>,
+          le premier rang n à partir duquel u(n) dépasse une valeur seuil
+          donnée.
+        </div>
+
+        <div class="code-exercice" data-titre="Recherche d'un seuil (boucle while)">
+          <textarea class="code-editeur-python" spellcheck="false">u0 = 10
+r = 3
+seuil = 100
+
+n = 0
+u = u0
+while u <= seuil:
+    n += 1
+    u = u + r
+
+print("Rang n à partir duquel u(n) dépasse", seuil, ":", n)
+print("Valeur de u(n) à ce rang :", u)</textarea>
+          <div class="toolbar">
+            <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
+          </div>
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
+        <ol class="etapes">
+          <li>Observer le nuage de points obtenu : la suite est-elle croissante, décroissante ?</li>
+          <li>Adapter le seuil recherché dans le second programme à une situation professionnelle (ex. capacité maximale d'un atelier).</li>
+          <li>Vérifier le rang trouvé en recalculant u(n) à la main pour ce rang.</li>
+        </ol>
+
+      </div>
+
+      <!-- ---------- Tle : TERMES ET SOMME GÉOMÉTRIQUE ---------- -->
+      <div class="tab-panel" id="geo-termes-somme">
+
+        <h3>Calculer les termes et la somme d'une suite géométrique</h3>
+
+        <div class="info">
+          Une suite géométrique se définit par récurrence : u(0) est donné,
+          et chaque terme s'obtient à partir du précédent en multipliant par
+          une raison q constante : u(n+1) = u(n) × q.
+        </div>
+
+        <div class="code-exercice" data-titre="Termes d'une suite géométrique">
+          <textarea class="code-editeur-python" spellcheck="false">u0 = 1000    # premier terme
+q = 1.03     # raison
+n_termes = 12
+
+termes = [u0]
+for i in range(1, n_termes):
+    termes.append(termes[-1] * q)
+
+print("Liste des termes :", termes)
+print("Terme de rang", n_termes - 1, ":", termes[-1])
+print("Somme des", n_termes, "premiers termes :", sum(termes))</textarea>
+          <div class="toolbar">
+            <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
+          </div>
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
+        <ol class="etapes">
+          <li>Identifier le premier terme u0 et la raison q de la situation étudiée (q &gt; 0).</li>
+          <li>Adapter u0, q et n_termes à votre situation.</li>
+          <li>Lire dans la console le dernier terme calculé et la somme des termes.</li>
+        </ol>
+
+      </div>
+
+      <!-- ---------- Tle : NUAGE ET SEUIL GÉOMÉTRIQUE ---------- -->
+      <div class="tab-panel" id="geo-nuage-seuil">
+
+        <h3>Nuage de points et recherche d'un seuil</h3>
+
+        <div class="info">
+          Générer la liste des rangs n et des termes u(n), puis tracer le
+          nuage de points (n ; un) avec PyLab.
+        </div>
+
+        <div class="code-exercice" data-titre="Générer un nuage de points (n ; un)">
+          <textarea class="code-editeur-python" spellcheck="false">import matplotlib.pyplot as plt
+
+u0 = 1000
+q = 1.03
+n_termes = 20
+
+rangs = list(range(n_termes))
+termes = [u0]
+for i in range(1, n_termes):
+    termes.append(termes[-1] * q)
+
+plt.scatter(rangs, termes)
+plt.xlabel("n")
+plt.ylabel("u(n)")
+plt.title("Nuage de points de la suite géométrique")
+plt.show()</textarea>
+          <div class="toolbar">
+            <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
+          </div>
+        </div>
+
+        <div class="info" style="margin-top:var(--gap-lg);">
+          Le programme suivant détermine, avec une boucle <code>while</code>,
+          le premier rang n à partir duquel u(n) dépasse une valeur seuil
+          donnée.
+        </div>
+
+        <div class="code-exercice" data-titre="Recherche d'un seuil (boucle while)">
+          <textarea class="code-editeur-python" spellcheck="false">u0 = 1000
+q = 1.03
+seuil = 2000
+
+n = 0
+u = u0
+while u <= seuil:
+    n += 1
+    u = u * q
+
+print("Rang n à partir duquel u(n) dépasse", seuil, ":", n)
+print("Valeur de u(n) à ce rang :", u)</textarea>
+          <div class="toolbar">
+            <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
+          </div>
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
+        <ol class="etapes">
+          <li>Observer le nuage de points obtenu : la croissance est-elle « à taux fixe » (courbe qui s'accentue) ?</li>
+          <li>Adapter le seuil recherché à une situation professionnelle (ex. capital cible d'un placement).</li>
+          <li>Ce type de recherche par seuil sera réutilisé pour les fonctions exponentielles (TD04).</li>
+        </ol>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="resultats">
+
+  <div class="section-titre">
+    <div class="picto-section">📋</div>
+    <h2>Tableau de résultats</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="table-responsive">
+      <table class="tableau-resultats">
+        <thead><tr><th>Grandeur</th><th>Résultat</th></tr></thead>
+        <tbody>
+          <tr><td>Somme des n premiers termes (suite arithmétique, 1ère)</td><td><input type="text" placeholder="valeur"></td></tr>
+          <tr><td>Rang seuil trouvé (suite arithmétique, 1ère)</td><td><input type="text" placeholder="valeur de n"></td></tr>
+          <tr><td>Somme des n premiers termes (suite géométrique, Tle)</td><td><input type="text" placeholder="valeur"></td></tr>
+          <tr><td>Rang seuil trouvé (suite géométrique, Tle)</td><td><input type="text" placeholder="valeur de n"></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="lien-metiers">
+
+  <div class="section-titre">
+    <div class="picto-section">🔗</div>
+    <h2>Mathématiques et sciences : un même langage</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p>
+      Ces programmes reprennent exactement les suites étudiées en TD02
+      d'Algèbre-Analyse (« Étudier et comparer des suites numériques »),
+      mais en les calculant soi-même par une boucle Python plutôt qu'avec
+      des boutons.
+    </p>
+
+    <ul style="padding-left:1.5rem;line-height:2">
+      <li>La <strong>liste</strong> <code>termes</code> stocke tous les termes calculés : c'est l'équivalent Python du tableau des valeurs vu en mathématiques.</li>
+      <li>Une boucle <code>while</code> permet de chercher un rang inconnu à l'avance (contrairement à une boucle <code>for</code>, qui répète un nombre de fois fixé).</li>
+      <li>Le lien entre suite géométrique et fonction exponentielle, entrevu ici, sera formalisé au TD04.</li>
+    </ul>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="puzzle">
+
+  <div class="section-titre">
+    <div class="picto-section">🧩</div>
+    <h2>Activités Puzzle</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="toolbar">
+      <a class="btn btn-secondaire" href="../../roue/index.html" target="_blank" rel="noopener">
+        🎡 Ouvrir la roue (tirage des groupes)
+      </a>
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Suite arithmétique">
+      <h3>Fiche A — Production à variation constante</h3>
+      <p>Une machine produit 200 pièces le premier jour, puis 15 pièces de plus chaque jour. Adapter et exécuter le programme « Termes d'une suite arithmétique » (u0 = 200, r = 15, n_termes = 15).</p>
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+      <div class="zone-eleve"><textarea rows="5" placeholder="Termes obtenus, somme..."></textarea></div>
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Suite géométrique">
+      <h3>Fiche B — Production à taux fixe</h3>
+      <p>Une machine produit 200 pièces le premier jour, avec une hausse de 5 % chaque jour. Adapter et exécuter le programme « Termes d'une suite géométrique » (u0 = 200, q = 1.05, n_termes = 15).</p>
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+      <div class="zone-eleve"><textarea rows="5" placeholder="Termes obtenus, somme..."></textarea></div>
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Comparaison">
+      <h3>Fiche C — Comparer les deux modèles</h3>
+      <p>Comparer les productions cumulées sur 15 jours (fiches A et B). Laquelle des deux évolutions devient la plus favorable à long terme ?</p>
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+      <div class="zone-eleve"><textarea rows="5" placeholder="Comparaison, conclusion..."></textarea></div>
+    </div>
+
+    <h3 style="margin-top:var(--gap-lg);">Synthèse puzzle</h3>
+    <div class="info">En groupe mélangé, comparer les deux types de suites et leur traduction en boucle Python (<code>+ r</code> contre <code>* q</code>).</div>
+    <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Synthèse commune..."></textarea></div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="bilan">
+
+  <div class="section-titre">
+    <div class="picto-section">📝</div>
+    <h2>Trace écrite - Compte rendu</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <h3>Identification</h3>
+
+    <div class="form-row">
+      <div class="form-group"><label for="nom-eleve">Nom</label><input id="nom-eleve" type="text" placeholder="Nom"></div>
+      <div class="form-group"><label for="prenom-eleve">Prénom</label><input id="prenom-eleve" type="text" placeholder="Prénom"></div>
+      <div class="form-group"><label for="classe-eleve">Classe</label><input id="classe-eleve" type="text" placeholder="Classe"></div>
+      <div class="form-group"><label for="date-eleve">Date</label><input id="date-eleve" type="date"></div>
+    </div>
+
+    <h3 style="margin-top:var(--gap-md);">Résumé du TD</h3>
+    <div class="zone-eleve"><textarea id="resume-tp" rows="6" placeholder="Résumer les programmes écrits ou exécutés..."></textarea></div>
+
+    <h3 style="margin-top:var(--gap-md);">Questions</h3>
+
+    <div class="questions-bloc" data-tp="suites-numeriques-python">
+    <ol class="questions-tp">
+
+      <li>
+        <div class="question-entete">
+          <strong>Expliquer la traduction en Python d'une relation de récurrence u(n+1) = u(n) + r (suite arithmétique) puis u(n+1) = u(n) × q (suite géométrique).</strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question1" rows="4" placeholder="Votre réponse..."></textarea></div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>Calculer, à l'aide des programmes exécutés, la somme des n premiers termes des deux suites étudiées.</strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question2" rows="4" placeholder="Votre réponse..."></textarea></div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>Expliquer pourquoi une boucle <code>while</code> est nécessaire (et non une boucle <code>for</code>) pour rechercher un rang seuil.</strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question3" rows="5" placeholder="Votre analyse..."></textarea></div>
+      </li>
+
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique posée en début de TD :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="suites-numeriques-python"></p>
+        <div class="zone-eleve"><textarea id="question4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+
+    </ol>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="auto-evaluation">
+
+  <div class="section-titre">
+    <div class="picto-section">📡</div>
+    <h2>Auto-évaluation des compétences</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p class="info">À la fin du TD, évaluez votre niveau de maîtrise pour chaque compétence.</p>
+
+    <div class="table-responsive">
+      <table class="tableau-resultats autoeval-table">
+        <thead><tr><th>Domaine</th><th>Sigle</th><th>Je suis capable de...</th><th>0</th><th>1</th><th>2</th></tr></thead>
+        <tbody>
+          <tr data-comp="APP"><td>S'approprier</td><td>APP</td><td>Identifier la relation de récurrence d'une suite arithmétique ou géométrique dans un programme.</td>
+            <td><input type="radio" name="APP" value="0"></td><td><input type="radio" name="APP" value="1"></td><td><input type="radio" name="APP" value="2"></td></tr>
+          <tr data-comp="REA"><td>Réaliser</td><td>REA</td><td>Générer une liste de termes, calculer une somme, tracer un nuage de points et rechercher un seuil.</td>
+            <td><input type="radio" name="REA" value="0"></td><td><input type="radio" name="REA" value="1"></td><td><input type="radio" name="REA" value="2"></td></tr>
+          <tr data-comp="ANA"><td>Analyser / Raisonner</td><td>ANA</td><td>Choisir entre boucle <code>for</code> et boucle <code>while</code> selon le problème posé.</td>
+            <td><input type="radio" name="ANA" value="0"></td><td><input type="radio" name="ANA" value="1"></td><td><input type="radio" name="ANA" value="2"></td></tr>
+          <tr data-comp="VAL"><td>Valider</td><td>VAL</td><td>Vérifier qu'un terme ou un rang seuil calculé par programme est correct.</td>
+            <td><input type="radio" name="VAL" value="0"></td><td><input type="radio" name="VAL" value="1"></td><td><input type="radio" name="VAL" value="2"></td></tr>
+          <tr data-comp="COM"><td>Communiquer</td><td>COM</td><td>Expliquer le fonctionnement d'un programme de suite numérique à l'oral ou à l'écrit.</td>
+            <td><input type="radio" name="COM" value="0"></td><td><input type="radio" name="COM" value="1"></td><td><input type="radio" name="COM" value="2"></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="radar-actions" style="margin-top:var(--gap-lg);">
+      <button id="btn-radar" class="btn btn-primaire">📊 Générer mon radar de compétences</button>
+      <div id="radar-resultat" style="margin-top:var(--gap-md);"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="impression_tp">
+
+  <div class="section-titre">
+    <div class="picto-section">📒</div>
+    <h2>Impression du compte-rendu</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p class="info">
+      À la fin du TD, imprimer votre travail en PDF.
+      Envoyer à l'enseignant votre compte rendu en pièce jointe par la messagerie de l'ENT.
+    </p>
+
+    <div class="toolbar">
+      <button id="btn-imprimer" class="btn btn-primaire">🖨 Imprimer le compte-rendu</button>
+    </div>
+
+    <div class="info" style="margin-top:var(--gap-md);">
+      L'impression récupère automatiquement :
+      <ul>
+        <li>le code Python de chaque exercice ;</li>
+        <li>les réponses aux questions ;</li>
+        <li>les fiches puzzle et l'auto-évaluation des compétences.</li>
+      </ul>
+      Penser à reporter les résultats lus dans PyLab dans le tableau de
+      résultats avant d'imprimer.
+    </div>
+
+  </div>
+
+</div>
+
+<div class="nav-tp">
+
+  <button class="btn btn-secondaire" onclick="loadTP('td02-statistiques-probabilites-python')">
+    ← TD02
+  </button>
+
+  <button class="btn btn-secondaire" onclick="location.href='../index.html'">
+    🏠 Accueil
+  </button>
+
+  <button class="btn btn-primaire" onclick="loadTP('td04-fonctions-calculs-commerciaux-python')">
+    TD04 →
+  </button>
+
+</div>
+
+</main>
+
+<div id="cr-print-container" style="display:none;"></div>
+
+</section>
