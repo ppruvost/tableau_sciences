@@ -1,0 +1,562 @@
+<!--
+  Fragment SPA chargé dynamiquement par navigation.js.
+  Tous les chemins sont relatifs à la racine du site.
+  Aucun <script> dans ce fragment.
+-->
+
+<section>
+
+<header class="tp-header">
+
+  <div class="tp-header-logo">
+    <div class="logo">
+      <span class="sci">Mathi</span><span class="Lab">Lab</span>
+    </div>
+  </div>
+
+  <div class="tp-header-centre">
+
+    <h1>Géométrie : calculs et constructions</h1>
+
+    <div class="tp-meta">
+
+      <div class="tp-row">
+        <span class="tag">2nde</span>
+        <span class="tag">Algorithmique et programmation</span>
+        <span class="tag">Géométrie</span>
+        <span class="tag">Théorème de Pythagore - </span><span class="tag">Aires et volumes - </span><span class="tag">Construction</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="tp-header-numero">
+    <span class="tp-numero-txt">TD05</span>
+  </div>
+
+</header>
+
+<div class="progress">
+  <div id="bar"></div>
+</div>
+
+<main id="content">
+
+<div class="section" data-type="objectif">
+
+  <div class="section-titre">
+    <div class="picto-section">🎯</div>
+    <h2>Capacités évaluées</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <ul>
+      <li>Chercher les triplets d'entiers pythagoriciens jusqu'à 1 000, en programmant le théorème de Pythagore et sa réciproque.</li>
+      <li>Calculer des aires ou des volumes usuels ; calculer le diamètre d'un cylindre connaissant sa hauteur et son volume ; calculer l'aire d'un carré connaissant son périmètre.</li>
+      <li>Construire une figure géométrique à l'aide d'un logiciel de géométrie dynamique.</li>
+      <li><em>Domaine transversal :</em> la proportionnalité, déjà réinvestie dans les calculs commerciaux (TD04), permet aussi de calculer la longueur d'un arc de cercle.</li>
+    </ul>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="contexte-pro">
+
+  <div class="section-titre">
+    <div class="picto-section">🏭</div>
+    <h2>Contexte professionnel</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="info">
+      Contrôler qu'une pièce est bien d'équerre, calculer le volume de matière
+      nécessaire à une fabrication, ou construire un patron : autant de
+      gestes de métier qui reposent sur la géométrie.
+    </div>
+
+    <div class="filiere-select-bloc">
+      <label for="select-filiere-pro">Votre filière professionnelle :</label>
+      <select id="select-filiere-pro">
+        <option value="">-- Sélectionner une filière --</option>
+      </select>
+    </div>
+
+    <div id="contexte-pro-resultat" class="contexte-pro-resultat">
+      <p>Sélectionner votre filière professionnelle pour afficher le contexte et la problématique associée.</p>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="preparation">
+
+  <div class="section-titre">
+    <div class="picto-section">🐍</div>
+    <h2>Activités</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="toolbar">
+      <a class="btn btn-secondaire" href="../../numworks/emulator.html" target="_blank" rel="noopener">
+        🧮 Ouvrir la calculatrice NumWorks
+      </a>
+      <button type="button" class="btn btn-secondaire" onclick="loadGeoGebraClassic()">
+        📐 Ouvrir GeoGebra Classic
+      </button>
+    </div>
+
+    <div class="info">
+      Les exercices de calcul s'exécutent en <strong>Python</strong> dans
+      <strong>PyLab</strong> (nouvel onglet). L'activité « Construire une
+      figure » s'explore dans <strong>GéoGébra Classic</strong>, ouvert
+      directement dans le site.
+    </div>
+
+    <div class="tabs-container">
+
+      <div class="tabs-header">
+        <button class="tab-btn actif" data-tab="pythagore">Triplets pythagoriciens</button>
+        <button class="tab-btn" data-tab="aires-volumes">Aires, volumes et proportionnalité</button>
+        <button class="tab-btn" data-tab="construction">Construire une figure (GeoGebra)</button>
+      </div>
+
+      <!-- ============================================= -->
+      <!-- TRIPLETS PYTHAGORICIENS                        -->
+      <!-- ============================================= -->
+
+      <div class="tab-panel actif" id="pythagore">
+
+        <h3>Chercher les triplets pythagoriciens jusqu'à 1 000</h3>
+
+        <div class="info">
+          Un triplet pythagoricien (a, b, c) vérifie a² + b² = c², avec a, b,
+          c des entiers strictement positifs : c'est la réciproque du
+          théorème de Pythagore qui garantit alors que le triangle de côtés
+          a, b, c est rectangle. Le programme ci-dessous teste tous les
+          triplets d'entiers jusqu'à une limite donnée.
+        </div>
+
+        <div class="code-exercice" data-titre="Rechercher des triplets pythagoriciens">
+          <textarea class="code-editeur-python" spellcheck="false">limite = 30   # augmenter progressivement jusqu'à 1000
+
+triplets = []
+for a in range(1, limite + 1):
+    for b in range(a, limite + 1):
+        for c in range(b, limite + 1):
+            if a ** 2 + b ** 2 == c ** 2:
+                triplets.append((a, b, c))
+
+print("Triplets pythagoriciens trouvés jusqu'à", limite, ":")
+for t in triplets:
+    print(t)
+print("Nombre de triplets trouvés :", len(triplets))</textarea>
+          <div class="toolbar">
+            <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
+          </div>
+        </div>
+
+        <div class="info" style="margin-top:var(--gap-lg);">
+          Vérifier, à partir de trois longueurs mesurées (donc potentiellement
+          non entières), si un triangle est rectangle : on ne peut pas tester
+          une égalité exacte avec des nombres flottants, on tolère donc un
+          petit écart.
+        </div>
+
+        <div class="code-exercice" data-titre="Vérifier si un triangle est rectangle (réciproque de Pythagore)">
+          <textarea class="code-editeur-python" spellcheck="false"># Trois longueurs mesurées (en cm), c étant la plus grande
+a = 3.0
+b = 4.02
+c = 5.01
+
+if abs(a ** 2 + b ** 2 - c ** 2) < 0.1:
+    print("Le triangle est rectangle (aux erreurs de mesure près).")
+else:
+    print("Le triangle n'est pas rectangle.")</textarea>
+          <div class="toolbar">
+            <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
+          </div>
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
+        <ol class="etapes">
+          <li>Augmenter progressivement <code>limite</code> (30, puis 100, puis 1000 dans PyLab) : le programme met-il plus de temps à s'exécuter ?</li>
+          <li>Adapter les trois longueurs du second programme à une pièce que vous devez contrôler dans votre filière.</li>
+          <li>Expliquer pourquoi on utilise une tolérance (<code>&lt; 0.1</code>) plutôt qu'une égalité stricte avec des nombres flottants.</li>
+        </ol>
+
+      </div>
+
+      <!-- ============================================= -->
+      <!-- AIRES, VOLUMES, PROPORTIONNALITÉ               -->
+      <!-- ============================================= -->
+
+      <div class="tab-panel" id="aires-volumes">
+
+        <h3>Calculer des aires, des volumes et utiliser la proportionnalité</h3>
+
+        <div class="code-exercice" data-titre="Aire d'un carré connaissant son périmètre">
+          <textarea class="code-editeur-python" spellcheck="false">perimetre = 24   # périmètre du carré (cm)
+
+cote = perimetre / 4
+aire = cote ** 2
+
+print("Côté du carré :", cote, "cm")
+print("Aire du carré :", aire, "cm²")</textarea>
+          <div class="toolbar">
+            <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
+          </div>
+        </div>
+
+        <div class="code-exercice" data-titre="Diamètre d'un cylindre connaissant sa hauteur et son volume" style="margin-top:var(--gap-lg);">
+          <textarea class="code-editeur-python" spellcheck="false">import math
+
+volume = 500     # volume du cylindre (cm³)
+hauteur = 10      # hauteur du cylindre (cm)
+
+# V = pi * rayon^2 * hauteur  =>  rayon = sqrt(V / (pi * hauteur))
+rayon = math.sqrt(volume / (math.pi * hauteur))
+diametre = 2 * rayon
+
+print("Rayon :", rayon, "cm")
+print("Diamètre :", diametre, "cm")</textarea>
+          <div class="toolbar">
+            <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
+          </div>
+        </div>
+
+        <div class="code-exercice" data-titre="Longueur d'un arc de cercle (proportionnalité)" style="margin-top:var(--gap-lg);">
+          <textarea class="code-editeur-python" spellcheck="false">import math
+
+rayon = 15        # rayon du cercle (cm)
+angle_degres = 60  # angle au centre de l'arc (degrés)
+
+perimetre_cercle = 2 * math.pi * rayon
+
+# Proportionnalité : longueur de l'arc / périmètre = angle / 360
+longueur_arc = perimetre_cercle * angle_degres / 360
+
+print("Périmètre du cercle complet :", perimetre_cercle, "cm")
+print("Longueur de l'arc pour un angle de", angle_degres, "° :", longueur_arc, "cm")</textarea>
+          <div class="toolbar">
+            <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
+          </div>
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
+        <ol class="etapes">
+          <li>Adapter le périmètre, le volume/la hauteur, ou le rayon/l'angle à une pièce réelle de votre filière.</li>
+          <li>Repérer, dans chaque programme, la formule d'aire ou de volume utilisée.</li>
+          <li>Dans le troisième programme, la longueur de l'arc est calculée par un produit en croix : identifier les quatre grandeurs de la proportionnalité.</li>
+        </ol>
+
+      </div>
+
+      <!-- ============================================= -->
+      <!-- CONSTRUCTION (GEOGEBRA)                        -->
+      <!-- ============================================= -->
+
+      <div class="tab-panel" id="construction">
+
+        <h3>Construire une figure géométrique</h3>
+
+        <div class="info">
+          Ouvrir GéoGébra Classic (bouton ci-dessus) et construire la figure
+          suivante : un triangle rectangle dont on vérifie la nature à l'aide
+          du théorème de Pythagore.
+        </div>
+
+        <ol class="etapes">
+          <li>Construire un segment [AB] avec l'outil Segment, ou en tapant <code>A=(0,0)</code> puis <code>B=(8,0)</code> dans la barre de saisie.</li>
+          <li>Construire le point C tel que AC = 6 et BC = 10 (utiliser deux cercles : <code>Cercle(A,6)</code> et <code>Cercle(B,10)</code>, puis <code>C=Intersect(cercle1,cercle2)</code>).</li>
+          <li>Tracer le triangle ABC avec l'outil Polygone.</li>
+          <li>Faire calculer les longueurs des trois côtés avec la commande <code>Distance(A,B)</code>, <code>Distance(A,C)</code>, <code>Distance(B,C)</code>.</li>
+          <li>Vérifier, à l'aide de ces longueurs, que le triangle est rectangle en A (AB² + AC² = BC² ?).</li>
+          <li>Afficher l'angle en A avec l'outil Angle : confirme-t-il la construction ?</li>
+        </ol>
+
+        <div class="zone-eleve">
+          <textarea rows="5" placeholder="Longueurs mesurées, vérification de la relation de Pythagore, valeur de l'angle en A..."></textarea>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="resultats">
+
+  <div class="section-titre">
+    <div class="picto-section">📋</div>
+    <h2>Tableau de résultats</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="table-responsive">
+      <table class="tableau-resultats">
+        <thead><tr><th>Grandeur</th><th>Résultat</th></tr></thead>
+        <tbody>
+          <tr><td>Nombre de triplets pythagoriciens trouvés jusqu'à 1000</td><td><input type="text" placeholder="valeur"></td></tr>
+          <tr><td>Aire du carré calculée</td><td><input type="text" placeholder="valeur en cm²"></td></tr>
+          <tr><td>Diamètre du cylindre calculé</td><td><input type="text" placeholder="valeur en cm"></td></tr>
+          <tr><td>Longueur de l'arc de cercle calculée</td><td><input type="text" placeholder="valeur en cm"></td></tr>
+          <tr><td>Angle en A mesuré dans GéoGébra</td><td><input type="text" placeholder="valeur en degrés"></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="lien-metiers">
+
+  <div class="section-titre">
+    <div class="picto-section">🔗</div>
+    <h2>Mathématiques et sciences : un même langage</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p>
+      Rechercher des triplets pythagoriciens par un triple balayage
+      (trois boucles imbriquées) illustre concrètement la notion de
+      décomposition d'un problème en sous-problèmes, revue tout au long de
+      l'année en algorithmique.
+    </p>
+
+    <ul style="padding-left:1.5rem;line-height:2">
+      <li>La <strong>réciproque du théorème de Pythagore</strong> permet de contrôler qu'une pièce est d'équerre sans instrument dédié : il suffit de mesurer trois longueurs.</li>
+      <li>La <strong>proportionnalité</strong>, déjà réinvestie dans les calculs commerciaux, s'applique aussi à la longueur d'un arc de cercle.</li>
+      <li>Une <strong>construction en géométrie dynamique</strong> permet de vérifier visuellement et numériquement une propriété, avant toute démonstration.</li>
+    </ul>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="puzzle">
+
+  <div class="section-titre">
+    <div class="picto-section">🧩</div>
+    <h2>Activités Puzzle</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="toolbar">
+      <a class="btn btn-secondaire" href="../../roue/index.html" target="_blank" rel="noopener">
+        🎡 Ouvrir la roue (tirage des groupes)
+      </a>
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Triplets pythagoriciens">
+      <h3>Fiche A — Rechercher des triplets</h3>
+      <p>Exécuter le programme « Rechercher des triplets pythagoriciens » avec limite = 100, puis relever tous les triplets trouvés.</p>
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+      <div class="zone-eleve"><textarea rows="5" placeholder="Triplets trouvés, nombre total..."></textarea></div>
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Aires et volumes">
+      <h3>Fiche B — Calculer une pièce réelle</h3>
+      <p>Choisir une pièce de votre filière modélisable par un carré ou un cylindre, et adapter les deux premiers programmes de l'onglet « Aires, volumes et proportionnalité ».</p>
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+      <div class="zone-eleve"><textarea rows="5" placeholder="Pièce choisie, résultats obtenus..."></textarea></div>
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Construction GeoGebra">
+      <h3>Fiche C — Construire un autre triangle rectangle</h3>
+      <p>Reprendre le protocole de construction GéoGébra avec un triplet pythagoricien différent (par exemple 5, 12, 13) et vérifier la relation de Pythagore.</p>
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+      <div class="zone-eleve"><textarea rows="5" placeholder="Longueurs, angle mesuré, vérification..."></textarea></div>
+    </div>
+
+    <h3 style="margin-top:var(--gap-lg);">Synthèse puzzle</h3>
+    <div class="info">En groupe mélangé, comparer les trois approches : recherche numérique de triplets, calculs de grandeurs, construction dynamique.</div>
+    <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Synthèse commune..."></textarea></div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="bilan">
+
+  <div class="section-titre">
+    <div class="picto-section">📝</div>
+    <h2>Trace écrite - Compte rendu</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <h3>Identification</h3>
+
+    <div class="form-row">
+      <div class="form-group"><label for="nom-eleve">Nom</label><input id="nom-eleve" type="text" placeholder="Nom"></div>
+      <div class="form-group"><label for="prenom-eleve">Prénom</label><input id="prenom-eleve" type="text" placeholder="Prénom"></div>
+      <div class="form-group"><label for="classe-eleve">Classe</label><input id="classe-eleve" type="text" placeholder="Classe"></div>
+      <div class="form-group"><label for="date-eleve">Date</label><input id="date-eleve" type="date"></div>
+    </div>
+
+    <h3 style="margin-top:var(--gap-md);">Résumé du TD</h3>
+    <div class="zone-eleve"><textarea id="resume-tp" rows="6" placeholder="Résumer les programmes écrits et la construction GéoGébra..."></textarea></div>
+
+    <h3 style="margin-top:var(--gap-md);">Questions</h3>
+
+    <div class="questions-bloc" data-tp="geometrie">
+    <ol class="questions-tp">
+
+      <li>
+        <div class="question-entete">
+          <strong>Énoncer le théorème de Pythagore et sa réciproque.</strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question1" rows="4" placeholder="Votre réponse..."></textarea></div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>Donner les résultats obtenus pour le diamètre du cylindre et la longueur de l'arc de cercle calculés.</strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question2" rows="4" placeholder="Votre réponse..."></textarea></div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>Expliquer pourquoi trois boucles imbriquées sont nécessaires pour rechercher des triplets pythagoriciens, et pourquoi on utilise une tolérance avec des nombres flottants.</strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question3" rows="5" placeholder="Votre analyse..."></textarea></div>
+      </li>
+
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique posée en début de TD :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="geometrie"></p>
+        <div class="zone-eleve"><textarea id="question4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+
+    </ol>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="auto-evaluation">
+
+  <div class="section-titre">
+    <div class="picto-section">📡</div>
+    <h2>Auto-évaluation des compétences</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p class="info">À la fin du TD, évaluez votre niveau de maîtrise pour chaque compétence.</p>
+
+    <div class="table-responsive">
+      <table class="tableau-resultats autoeval-table">
+        <thead><tr><th>Domaine</th><th>Sigle</th><th>Je suis capable de...</th><th>0</th><th>1</th><th>2</th></tr></thead>
+        <tbody>
+          <tr data-comp="APP"><td>S'approprier</td><td>APP</td><td>Reconnaître une situation relevant du théorème de Pythagore, d'une aire, d'un volume ou d'une proportionnalité.</td>
+            <td><input type="radio" name="APP" value="0"></td><td><input type="radio" name="APP" value="1"></td><td><input type="radio" name="APP" value="2"></td></tr>
+          <tr data-comp="REA"><td>Réaliser</td><td>REA</td><td>Écrire ou adapter un programme de recherche de triplets, un calcul d'aire/volume, et construire une figure en GéoGébra.</td>
+            <td><input type="radio" name="REA" value="0"></td><td><input type="radio" name="REA" value="1"></td><td><input type="radio" name="REA" value="2"></td></tr>
+          <tr data-comp="ANA"><td>Analyser / Raisonner</td><td>ANA</td><td>Décomposer la recherche de triplets pythagoriciens en boucles imbriquées.</td>
+            <td><input type="radio" name="ANA" value="0"></td><td><input type="radio" name="ANA" value="1"></td><td><input type="radio" name="ANA" value="2"></td></tr>
+          <tr data-comp="VAL"><td>Valider</td><td>VAL</td><td>Vérifier numériquement, avec une tolérance adaptée, qu'un triangle est rectangle.</td>
+            <td><input type="radio" name="VAL" value="0"></td><td><input type="radio" name="VAL" value="1"></td><td><input type="radio" name="VAL" value="2"></td></tr>
+          <tr data-comp="COM"><td>Communiquer</td><td>COM</td><td>Expliquer une construction géométrique et les calculs associés à l'oral ou à l'écrit.</td>
+            <td><input type="radio" name="COM" value="0"></td><td><input type="radio" name="COM" value="1"></td><td><input type="radio" name="COM" value="2"></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="radar-actions" style="margin-top:var(--gap-lg);">
+      <button id="btn-radar" class="btn btn-primaire">📊 Générer mon radar de compétences</button>
+      <div id="radar-resultat" style="margin-top:var(--gap-md);"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="impression_tp">
+
+  <div class="section-titre">
+    <div class="picto-section">📒</div>
+    <h2>Impression du compte-rendu</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p class="info">
+      À la fin du TD, imprimer votre travail en PDF.
+      Envoyer à l'enseignant votre compte rendu en pièce jointe par la messagerie de l'ENT.
+    </p>
+
+    <div class="toolbar">
+      <button id="btn-imprimer" class="btn btn-primaire">🖨 Imprimer le compte-rendu</button>
+    </div>
+
+    <div class="info" style="margin-top:var(--gap-md);">
+      L'impression récupère automatiquement :
+      <ul>
+        <li>le code Python de chaque exercice ;</li>
+        <li>les réponses aux questions et l'observation GéoGébra ;</li>
+        <li>les fiches puzzle et l'auto-évaluation des compétences.</li>
+      </ul>
+      Penser à reporter les résultats lus dans PyLab et GéoGébra dans le
+      tableau de résultats avant d'imprimer.
+    </div>
+
+  </div>
+
+</div>
+
+<div class="nav-tp">
+
+  <button class="btn btn-secondaire" onclick="loadTP('td04-fonctions-calculs-commerciaux-python')">
+    ← TD04
+  </button>
+
+  <button class="btn btn-primaire" onclick="location.href='../index.html'">
+    🏠 Accueil
+  </button>
+
+</div>
+
+</main>
+
+<div id="cr-print-container" style="display:none;"></div>
+
+</section>
