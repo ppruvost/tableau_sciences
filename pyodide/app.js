@@ -267,6 +267,7 @@ import sys
 import numpy
 import matplotlib
 import math
+import random
 import warnings
 
 warnings.filterwarnings("ignore", message=".*non-interactive.*")
@@ -274,9 +275,10 @@ warnings.filterwarnings("ignore", message=".*non-interactive.*")
 matplotlib.use("Agg")
 
 print("Python", sys.version.split()[0])
-print("NumPy", numpy.__version__)
-print("Matplotlib", matplotlib.__version__)
-print("Math")
+print("numPy", numpy.__version__)
+print("matplotlib", matplotlib.__version__)
+print("math")
+print("random")
 `);
 
                 pyodideReady = instance;
@@ -286,10 +288,11 @@ print("Math")
                 if (output) {
                     output.textContent =
                         "PyLab est prêt.\n\n" +
-                        "✓ Python chargé\n" +
-                        "✓ NumPy chargé\n" +
-                        "✓ Matplotlib chargé\n" +
-                        "✓ Math chargé\n\n" +
+                        "✓ python chargé\n" +
+                        "✓ numPy chargé\n" +
+                        "✓ matplotlib chargé\n" +
+                        "✓ random chargé\n" +
+                        "✓ math chargé\n\n" +
                         "Écris ton programme puis clique sur Exécuter.";
                 }
 
