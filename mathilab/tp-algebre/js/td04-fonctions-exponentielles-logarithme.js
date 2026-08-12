@@ -17,17 +17,25 @@ import { initImpressionCompteRendu } from './compte-rendu-algebre.js';
 import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 
 const CONTEXTES_TD04 = {
-  '2nde-remi': {
-    contexte: "La température d'une pièce en refroidissement suit une évolution exponentielle en fonction du temps.",
+  'tle-trpm': {
+    contexte: "La température d'une pièce en refroidissement, ou l'usure d'un outil de coupe, suit une évolution exponentielle en fonction du temps.",
+    problematique: "Au bout de combien de temps la pièce atteint-elle une température ou un seuil d'usure donné ?",
+  },
+  'tle-tci': {
+    contexte: "La température d'une pièce chaudronnée en refroidissement après soudure suit une évolution exponentielle en fonction du temps.",
     problematique: "Au bout de combien de temps la pièce atteint-elle une température donnée ?",
   },
-  '2nde-mcc': {
+  'tle-mcc': {
     contexte: "La proportion de teinture absorbée par un tissu évolue de façon exponentielle avec le temps de trempage.",
     problematique: "Quel temps de trempage permet d'atteindre un taux d'absorption donné ?",
   },
-  '2nde-gatl': {
+  'tle-log': {
     contexte: "Le taux de charge d'une batterie de chariot élévateur évolue de façon exponentielle avec le temps de charge.",
     problematique: "Quel temps de charge est nécessaire pour atteindre un seuil de charge donné ?",
+  },
+  'tle-agora': {
+    contexte: "Le taux de traitement d'un stock de dossiers en attente évolue de façon exponentielle avec le temps, à mesure que la charge de travail diminue.",
+    problematique: "Au bout de combien de temps le stock de dossiers atteint-il un seuil donné ?",
   },
 };
 
