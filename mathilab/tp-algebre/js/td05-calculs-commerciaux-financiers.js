@@ -21,25 +21,45 @@ import { initImpressionCompteRendu } from './compte-rendu-algebre.js';
 import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 
 const CONTEXTES_TD05 = {
-  '2nde-remi': {
-    contexte: "L'achat d'une nouvelle machine-outil peut être financé par un emprunt, ou son coût de fonctionnement suivi via un coût marginal/moyen ; le mode de remboursement influe sur le coût total de l'emprunt.",
-    problematique: "Quel mode de placement, de production ou de remboursement choisir pour la machine-outil au meilleur coût ?",
+  '1ere-trpm': {
+    contexte: "L'achat d'une nouvelle machine-outil peut être financé sur trésorerie placée à intérêts simples ; le coût de fonctionnement se suit via un coût marginal/moyen.",
+    problematique: "Quel capital obtient-on en plaçant une trésorerie à intérêts simples, et pour quelle quantité produite le coût moyen unitaire est-il le plus favorable ?",
   },
-  '2nde-mcc': {
-    contexte: "L'achat de nouvelles machines à coudre peut être financé par un emprunt ; le coût de production d'une série de vêtements dépend de la quantité fabriquée (coût marginal, coût moyen).",
-    problematique: "Quel mode de remboursement minimise le coût total de l'emprunt, et pour quelle quantité produite le coût moyen est-il le plus favorable ?",
+  '1ere-tci': {
+    contexte: "L'achat d'un nouvel équipement de chaudronnerie peut être financé sur trésorerie placée à intérêts simples ; le coût de production d'une série de pièces dépend de la quantité fabriquée.",
+    problematique: "Quel capital obtient-on en plaçant une trésorerie à intérêts simples, et pour quelle quantité produite le coût moyen unitaire est-il le plus favorable ?",
   },
-  '2nde-gatl': {
-    contexte: "L'achat d'un nouveau véhicule de livraison peut être financé par un emprunt ; le coût d'une tournée dépend du nombre de livraisons effectuées (coût marginal, coût moyen).",
-    problematique: "Quel mode de remboursement choisir pour financer le véhicule, et comment évolue le coût d'une tournée selon le nombre de livraisons ?",
+  '1ere-mcc': {
+    contexte: "L'achat de nouvelles machines à coudre peut être financé sur trésorerie placée à intérêts simples ; le coût de production d'une série de vêtements dépend de la quantité fabriquée.",
+    problematique: "Quel capital obtient-on en plaçant une trésorerie à intérêts simples, et pour quelle quantité produite le coût moyen unitaire est-il le plus favorable ?",
   },
   '1ere-log': {
-    contexte: "Le prix d'achat d'un lot de marchandises fait l'objet de remises et de frais avant d'être intégré au coût de revient logistique ; un investissement (entrepôt, véhicule) peut être financé par un emprunt.",
-    problematique: "Quel est le coût de revient réel d'un lot de marchandises, et quel mode de financement retenir pour un investissement logistique ?",
+    contexte: "Le prix d'achat d'un lot de marchandises fait l'objet de remises et de frais avant d'être intégré au coût de revient logistique ; une trésorerie disponible peut être placée à intérêts simples.",
+    problematique: "Quel est le coût de revient réel d'un lot de marchandises, et quel capital obtient-on en plaçant une trésorerie à intérêts simples ?",
   },
   '1ere-agora': {
-    contexte: "La facturation d'une prestation implique le calcul de remises et d'intérêts ; un investissement administratif peut être financé par un emprunt dont le coût dépend du mode de remboursement.",
-    problematique: "Quel est le montant net à payer par le client, et quel mode de remboursement minimise le coût d'un emprunt pour la structure ?",
+    contexte: "La facturation d'une prestation implique le calcul de remises et d'intérêts ; une trésorerie disponible peut être placée à intérêts simples en attendant un investissement.",
+    problematique: "Quel est le montant net à payer par le client, et quel capital obtient-on en plaçant une trésorerie à intérêts simples ?",
+  },
+  'tle-trpm': {
+    contexte: "L'achat d'une nouvelle machine-outil peut être financé par un emprunt, dont le mode de remboursement influe sur son coût total.",
+    problematique: "Quel mode de remboursement choisir pour financer la machine-outil au meilleur coût ?",
+  },
+  'tle-tci': {
+    contexte: "L'achat d'un nouvel équipement de chaudronnerie peut être financé par un emprunt, dont le mode de remboursement influe sur son coût total.",
+    problematique: "Quel mode de remboursement choisir pour financer l'équipement au meilleur coût ?",
+  },
+  'tle-mcc': {
+    contexte: "L'achat de nouvelles machines à coudre peut être financé par un emprunt, dont le coût dépend du mode de remboursement.",
+    problematique: "Quel mode de remboursement minimise le coût total de l'emprunt pour l'atelier ?",
+  },
+  'tle-log': {
+    contexte: "L'achat d'un nouveau véhicule de livraison peut être financé par un emprunt, dont le coût dépend du mode de remboursement.",
+    problematique: "Quel mode de remboursement choisir pour financer le véhicule au meilleur coût ?",
+  },
+  'tle-agora': {
+    contexte: "Un investissement administratif (matériel de bureau, logiciel) peut être financé par un emprunt dont le coût dépend du mode de remboursement.",
+    problematique: "Quel mode de remboursement minimise le coût total de l'emprunt pour la structure ?",
   },
 };
 
