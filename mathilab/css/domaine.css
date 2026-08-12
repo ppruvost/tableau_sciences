@@ -472,3 +472,8 @@ canvas {
   .controls, .buttons, .presets { flex-direction: column; align-items: stretch; }
   header { padding: var(--gap-md); }
 }
+
+.questions-tp .question-entete::before {
+  background: var(--domaine-accent);
+  color: #fff;
+}
