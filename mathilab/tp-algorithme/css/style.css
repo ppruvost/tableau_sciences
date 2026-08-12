@@ -20,8 +20,20 @@
   --domaine-accent-rgb:   193, 68, 14;
 }
 
-/* Aucun ajustement propre à la chimie au-delà de son identité de
-   couleur pour l'instant : toute la structure (header, nav, cartes,
-   formulaires, tableaux, EPI, matériel, radar, graphique,
-   histogramme, cartouches, auto-évaluation...) vient de tp.css et
-   css/domaine.css. */
+/* ── Médaillon numéroté des questions (".questions-tp
+   .question-entete::before") ────────────────────────────────────
+   tp.css le fixe en bleu (var(--bleu-cuivre)) sans jamais le laisser
+   à la charge du domaine, contrairement à .cartouche qui, lui, est
+   bien repris dans domaine.css. Redéfini ici explicitement au cas où
+   le correctif équivalent n'aurait pas encore été répercuté dans
+   css/domaine.css lui-même. */
+.questions-tp .question-entete::before {
+  background: var(--domaine-accent);
+  color: #fff;
+}
+
+/* Aucun autre ajustement propre à l'algorithmique au-delà de son
+   identité de couleur pour l'instant : toute la structure (header,
+   nav, cartes, formulaires, tableaux, EPI, matériel, radar,
+   graphique, histogramme, cartouches, auto-évaluation...) vient de
+   tp.css et css/domaine.css. */
