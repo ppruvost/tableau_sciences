@@ -32,7 +32,7 @@
   </div>
 
   <div class="tp-header-numero">
-    <span class="tp-numero-txt">Al01</span>
+    <span class="tp-numero-txt">TD01</span>
   </div>
 
 </header>
@@ -128,6 +128,7 @@
         <button class="tab-btn actif" data-tab="modifier-simulation">Modifier une simulation donnée</button>
         <button class="tab-btn" data-tab="utiliser-simulation">Utiliser une simulation fournie</button>
         <button class="tab-btn" data-tab="ecrire-fonction">Écrire une fonction de simulation</button>
+        <button class="tab-btn" data-tab="frequence-lettre">Fréquence d'une lettre dans un mot</button>
       </div>
 
       <!-- ============================================= -->
@@ -148,8 +149,9 @@
 
         <div class="code-exercice" data-titre="Modifier une simulation donnée">
 
-          <textarea class="code-editeur-python" spellcheck="false">
-# Modifier uniquement la valeur de n,
+          <textarea class="code-editeur-python" spellcheck="false">import random
+
+# Modifier uniquement la valeur de n, puis ouvrir dans PyLab
 n = 10
 p = 0.5
 
@@ -168,7 +170,7 @@ print("Fréquence observée :", frequence)</textarea>
 
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
 
         <ol class="etapes">
           <li>Ouvrir le code dans PyLab avec n = 10, exécuter, puis noter la fréquence obtenue.</li>
@@ -197,7 +199,8 @@ print("Fréquence observée :", frequence)</textarea>
 
         <div class="code-exercice" data-titre="Utiliser une simulation fournie">
 
-          <textarea class="code-editeur-python" spellcheck="false">
+          <textarea class="code-editeur-python" spellcheck="false">import random
+
 # Estime P("au moins un 6 en 4 lancers d'un dé")
 # en répétant l'expérience un grand nombre de fois.
 def lancer_de_quatre_fois():
@@ -221,7 +224,7 @@ print("Fréquence observée :", nb_succes / nb_essais)</textarea>
 
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
 
         <ol class="etapes">
           <li>Exécuter le programme dans PyLab plusieurs fois et relever la fréquence obtenue à chaque fois.</li>
@@ -250,7 +253,8 @@ print("Fréquence observée :", nb_succes / nb_essais)</textarea>
 
         <div class="code-exercice" data-titre="Écrire une fonction de simulation">
 
-          <textarea class="code-editeur-python" spellcheck="false">
+          <textarea class="code-editeur-python" spellcheck="false">import random
+
 # Compléter cette fonction : elle doit répéter n fois
 # un tirage de probabilité p, et renvoyer la fréquence
 # de succès observée.
@@ -271,12 +275,89 @@ print("Fréquence estimée :", frequence)</textarea>
 
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
 
         <ol class="etapes">
           <li>Compléter la boucle dans la fonction <code>estimer_probabilite</code>.</li>
           <li>Tester dans PyLab avec p = 0,2, puis avec une probabilité correspondant à votre filière (voir contexte professionnel).</li>
           <li>Vérifier que la fréquence obtenue se rapproche de la probabilité p choisie.</li>
+        </ol>
+
+      </div>
+
+      <!-- ============================================= -->
+      <!-- FRÉQUENCE D'UNE LETTRE DANS UN MOT             -->
+      <!-- ============================================= -->
+
+      <div class="tab-panel" id="frequence-lettre">
+
+        <h3>Déterminer la fréquence d'apparition d'une lettre dans un mot</h3>
+
+        <div class="info">
+          Ce dernier exercice quitte les probabilités : il s'agit d'un
+          exemple classique d'algorithmique, indépendant du hasard. Le
+          programme parcourt un mot caractère par caractère, compte les
+          occurrences d'une lettre donnée, puis calcule sa fréquence
+          d'apparition (nombre d'occurrences ÷ longueur du mot) — exactement
+          le même principe de calcul qu'une fréquence statistique.
+        </div>
+
+        <div class="code-exercice" data-titre="Compter les occurrences d'une lettre">
+          <textarea class="code-editeur-python" spellcheck="false">mot = "Fraisage"
+lettre = "a"
+
+mot_majuscule = mot.upper()
+lettre_majuscule = lettre.upper()
+
+occurrences = 0
+for caractere in mot_majuscule:
+    if caractere == lettre_majuscule:
+        occurrences += 1
+
+frequence = occurrences / len(mot)
+
+print("Le mot", mot, "contient", len(mot), "lettres.")
+print("La lettre", lettre, "apparaît", occurrences, "fois.")
+print("Fréquence d'apparition de la lettre", lettre, ":", frequence)</textarea>
+          <div class="toolbar">
+            <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
+          </div>
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Mots à tester selon votre filière</h4>
+
+        <div class="table-responsive">
+          <table class="tableau-resultats">
+            <thead>
+              <tr>
+                <th>Filière</th>
+                <th>4 mots du métier à tester</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>REMI — Réalisation d'Ensembles Mécaniques et Industriels</td>
+                <td>Fraisage, Tournage, Soudure, Maintenance</td>
+              </tr>
+              <tr>
+                <td>MCC — Métiers de la couture et de la confection</td>
+                <td>Couture, Patronage, Ourlet, Boutonnière</td>
+              </tr>
+              <tr>
+                <td>GATL — Gestion Administrative, du Transport et de la Logistique</td>
+                <td>Livraison, Entrepôt, Transport, Facturation</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
+
+        <ol class="etapes">
+          <li>Repérer la ligne du tableau correspondant à votre filière et choisir un premier mot.</li>
+          <li>Modifier <code>mot</code> et <code>lettre</code> dans le programme (par exemple la lettre « e »), puis l'ouvrir dans PyLab.</li>
+          <li>Recommencer avec les quatre mots de votre filière, en gardant la même lettre à chaque fois.</li>
+          <li>Comparer les quatre fréquences obtenues : quel mot contient la fréquence la plus élevée pour cette lettre ?</li>
         </ol>
 
       </div>
@@ -328,6 +409,11 @@ print("Fréquence estimée :", frequence)</textarea>
           <tr>
             <td>Fréquence obtenue avec la fonction complétée</td>
             <td><input type="text" placeholder="fréquence"></td>
+          </tr>
+
+          <tr>
+            <td>Mot testé le plus riche en la lettre choisie (votre filière)</td>
+            <td><input type="text" placeholder="mot et fréquence"></td>
           </tr>
 
         </tbody>
@@ -398,7 +484,8 @@ print("Fréquence estimée :", frequence)</textarea>
       <p>Un atelier annonce un taux de pièces non conformes de 8 % (p = 0,08). Compléter et ouvrir dans PyLab la fonction <code>estimer_probabilite(n, p)</code> avec n = 2000 et p = 0,08.</p>
 
       <div class="code-exercice" data-titre="REMI — simulation">
-        <textarea class="code-editeur-python" spellcheck="false">
+        <textarea class="code-editeur-python" spellcheck="false">import random
+
 def estimer_probabilite(n, p):
     nb_succes = 0
 
@@ -431,7 +518,8 @@ print("Fréquence de pièces non conformes :", frequence)</textarea>
       <p>Un transporteur annonce un taux de retard de 10 % (p = 0,10). Compléter et ouvrir dans PyLab la fonction <code>estimer_probabilite(n, p)</code> avec n = 2000 et p = 0,10.</p>
 
       <div class="code-exercice" data-titre="GATL — simulation">
-        <textarea class="code-editeur-python" spellcheck="false">
+        <textarea class="code-editeur-python" spellcheck="false">import random
+
 def estimer_probabilite(n, p):
     nb_succes = 0
 
@@ -464,7 +552,8 @@ print("Fréquence de livraisons en retard :", frequence)</textarea>
       <p>Un atelier de confection annonce un taux de retouche de 15 % (p = 0,15). Compléter et ouvrir dans PyLab la fonction <code>estimer_probabilite(n, p)</code> avec n = 2000 et p = 0,15.</p>
 
       <div class="code-exercice" data-titre="MCC — simulation">
-        <textarea class="code-editeur-python" spellcheck="false">
+        <textarea class="code-editeur-python" spellcheck="false">import random
+
 def estimer_probabilite(n, p):
     nb_succes = 0
 
@@ -746,7 +835,7 @@ print("Fréquence de pièces à retoucher :", frequence)</textarea>
   </button>
 
   <button class="btn btn-primaire" onclick="loadTP('td02-statistiques-probabilites-python')">
-    Al02 →
+    TD02 →
   </button>
 
 </div>
