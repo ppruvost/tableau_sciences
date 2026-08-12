@@ -19,17 +19,45 @@ import { initImpressionCompteRendu } from './compte-rendu-algebre.js';
 import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 
 const CONTEXTES_TD02 = {
-  '2nde-remi': {
+  '1ere-trpm': {
     contexte: "Le coût d'une intervention de maintenance comprend des frais fixes, puis un tarif horaire constant (variation constante) ; la valeur d'un équipement se déprécie d'un pourcentage fixe chaque année (taux fixe).",
     problematique: "Quel est le coût facturé pour n heures d'intervention, et comment évolue la valeur d'un équipement au fil des années ?",
   },
-  '2nde-mcc': {
+  '1ere-tci': {
+    contexte: "La production d'un atelier de chaudronnerie augmente d'un nombre fixe de pièces chaque semaine (variation constante) ; la valeur d'un équipement se déprécie d'un pourcentage fixe chaque année (taux fixe).",
+    problematique: "Combien de pièces l'atelier produira-t-il à la semaine n, et comment évolue la valeur de l'équipement au fil du temps ?",
+  },
+  '1ere-mcc': {
     contexte: "Un atelier de confection augmente sa production d'un nombre fixe de pièces chaque semaine (variation constante) ; la valeur d'une machine à coudre se déprécie d'un pourcentage fixe chaque année (taux fixe).",
     problematique: "Combien de pièces l'atelier produira-t-il à la semaine n, et comment évolue la valeur de l'équipement au fil du temps ?",
   },
-  '2nde-gatl': {
+  '1ere-log': {
     contexte: "Le tarif d'un transporteur comprend des frais fixes, puis un montant constant par kilomètre (variation constante) ; le volume de colis traité par un entrepôt augmente d'un pourcentage fixe chaque mois (taux fixe).",
     problematique: "Quel est le coût facturé pour n kilomètres, et quel volume de colis l'entrepôt devra-t-il traiter dans n mois ?",
+  },
+  '1ere-agora': {
+    contexte: "Le nombre de dossiers traités par une structure administrative augmente d'un nombre fixe chaque semaine (variation constante) ; un budget de fonctionnement évolue d'un pourcentage fixe chaque année (taux fixe).",
+    problematique: "Combien de dossiers seront traités à la semaine n, et comment évolue le budget au fil des années ?",
+  },
+  'tle-trpm': {
+    contexte: "La cadence d'une machine de production augmente d'un pourcentage fixe chaque jour (suite géométrique) ; ce même modèle décrit la dépréciation d'un équipement.",
+    problematique: "Quelle sera la production de la machine après n jours, et quelle est la production totale cumulée ?",
+  },
+  'tle-tci': {
+    contexte: "La production d'un atelier de chaudronnerie augmente d'un pourcentage fixe chaque jour (suite géométrique) ; ce même modèle décrit la dépréciation d'un équipement.",
+    problematique: "Quelle sera la production de l'atelier après n jours, et quelle est la production totale cumulée ?",
+  },
+  'tle-mcc': {
+    contexte: "La valeur d'un équipement de confection se déprécie d'un même pourcentage chaque année (suite géométrique).",
+    problematique: "Comment évolue la valeur de l'équipement au fil des années, et à partir de quand faut-il le remplacer ?",
+  },
+  'tle-log': {
+    contexte: "Le volume de colis traité par un entrepôt augmente d'un pourcentage fixe chaque mois (suite géométrique).",
+    problematique: "Quel volume de colis l'entrepôt devra-t-il traiter dans n mois, et quel volume cumulé sur la période ?",
+  },
+  'tle-agora': {
+    contexte: "Le nombre de dossiers traités par une structure administrative augmente d'un pourcentage fixe chaque mois (suite géométrique).",
+    problematique: "Quel nombre de dossiers la structure devra-t-elle traiter dans n mois, et quel nombre cumulé sur la période ?",
   },
 };
 
