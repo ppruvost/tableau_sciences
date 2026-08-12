@@ -41,6 +41,26 @@ const CONTEXTES_TD03 = {
     contexte: "Le résultat financier d'une structure administrative évolue en fonction du nombre de dossiers traités selon une fonction polynôme de degré 2 ou 3.",
     problematique: "Pour quel nombre de dossiers traités le résultat financier est-il optimal, tout en restant dans une plage acceptable pour l'équilibre budgétaire ?",
   },
+  'tle-trpm': {
+    contexte: "Lors d'une opération d'usinage, le coût de fabrication d'une série de pièces évolue avec la quantité produite selon une fonction polynôme de degré 3, avec un minimum local à identifier.",
+    problematique: "Pour quelle quantité de pièces produites le coût de fabrication est-il minimal ?",
+  },
+  'tle-tci': {
+    contexte: "En chaudronnerie, le coût de fabrication d'une série de pièces évolue avec la quantité produite selon une fonction polynôme de degré 3, avec un minimum local à identifier.",
+    problematique: "Pour quelle quantité de pièces produites le coût de fabrication est-il minimal ?",
+  },
+  'tle-mcc': {
+    contexte: "En confection, le coût de fabrication d'une série de pièces évolue avec la quantité produite selon une fonction polynôme de degré 3, avec un minimum local à identifier.",
+    problematique: "Pour quelle quantité de pièces produites le coût de fabrication est-il minimal ?",
+  },
+  'tle-log': {
+    contexte: "En logistique, le coût global d'une tournée évolue avec le nombre de points desservis selon une fonction polynôme de degré 3, avec un minimum local à identifier.",
+    problematique: "Pour quel nombre de points desservis le coût de la tournée est-il minimal ?",
+  },
+  'tle-agora': {
+    contexte: "Dans une structure administrative, le coût de gestion évolue avec le nombre de dossiers traités selon une fonction polynôme de degré 3, avec un minimum local à identifier.",
+    problematique: "Pour quel nombre de dossiers traités le coût de gestion est-il minimal ?",
+  },
 };
 
 function formater(v) {
