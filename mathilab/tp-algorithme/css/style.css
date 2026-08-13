@@ -32,6 +32,13 @@
   color: #fff;
 }
 
+/* ── Puces numérotées des étapes de méthodologie/protocole
+   (".etapes li::before") — même bug que ci-dessus. */
+.etapes li::before {
+  background: var(--domaine-accent);
+  color: #fff;
+}
+
 /* Aucun autre ajustement propre à l'algorithmique au-delà de son
    identité de couleur pour l'instant : toute la structure (header,
    nav, cartes, formulaires, tableaux, EPI, matériel, radar,
