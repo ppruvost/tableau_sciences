@@ -1,0 +1,599 @@
+<!--
+  Fragment SPA chargé dynamiquement par navigation.js.
+  Tous les chemins sont relatifs à la racine du site.
+  Aucun <script> dans ce fragment.
+-->
+
+<section>
+
+<header class="tp-header">
+
+  <div class="tp-header-logo">
+    <div class="logo">
+      <span class="sci">Mathi</span><span class="Lab">Lab</span>
+    </div>
+  </div>
+
+  <div class="tp-header-centre">
+
+    <h1>Solides, aires, volumes, Pythagore et Thalès</h1>
+
+    <div class="tp-meta">
+
+      <div class="tp-row">
+        <span class="tag">2nde</span>
+        <span class="tag">Géométrie</span>
+        <span class="tag">Aires et volumes - </span><span class="tag">Théorème de Pythagore - </span><span class="tag">Théorème de Thalès - </span><span class="tag">Agrandissement / réduction</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="tp-header-numero">
+    <span class="tp-numero-txt">G01</span>
+  </div>
+
+</header>
+
+<div class="progress">
+  <div id="bar"></div>
+</div>
+
+<main id="content">
+
+<div class="section" data-type="objectif">
+
+  <div class="section-titre">
+    <div class="picto-section">🎯</div>
+    <h2>Capacités évaluées</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <ul>
+      <li>Reconnaître et nommer un solide usuel (cube, pavé droit, pyramide, cylindre droit, cône, boule).</li>
+      <li>Calculer des longueurs, des mesures d'angles, des aires et des volumes dans des figures ou solides.</li>
+      <li>Utiliser le théorème de Pythagore et sa réciproque.</li>
+      <li>Utiliser le théorème de Thalès dans le triangle.</li>
+      <li>Déterminer les effets d'un agrandissement ou d'une réduction sur les longueurs, les aires et les volumes.</li>
+    </ul>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="contexte-pro">
+
+  <div class="section-titre">
+    <div class="picto-section">🏭</div>
+    <h2>Contexte professionnel</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="info">
+      Vérifier qu'une pièce est d'équerre, calculer la quantité de matière
+      nécessaire à une fabrication, ou agrandir un plan à une autre échelle
+      sont des gestes de métier qui reposent directement sur la géométrie.
+    </div>
+
+    <div class="filiere-select-bloc">
+      <label for="select-filiere-pro">Votre filière professionnelle :</label>
+      <select id="select-filiere-pro">
+        <option value="">-- Sélectionner une filière --</option>
+      </select>
+    </div>
+
+    <div id="contexte-pro-resultat" class="contexte-pro-resultat">
+      <p>Sélectionner votre filière professionnelle pour afficher le contexte et la problématique associée.</p>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="preparation">
+
+  <div class="section-titre">
+    <div class="picto-section">📐</div>
+    <h2>Activités</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="tabs-container">
+
+      <div class="tabs-header">
+        <button class="tab-btn actif" data-tab="aires-perimetres">Aires et périmètres</button>
+        <button class="tab-btn" data-tab="volumes">Volumes de solides</button>
+        <button class="tab-btn" data-tab="pythagore">Théorème de Pythagore</button>
+        <button class="tab-btn" data-tab="thales">Théorème de Thalès</button>
+        <button class="tab-btn" data-tab="agrandissement">Agrandissement / réduction</button>
+      </div>
+
+      <!-- ---------- AIRES ET PÉRIMÈTRES ---------- -->
+      <div class="tab-panel actif" id="aires-perimetres">
+
+        <h3>Calculer l'aire et le périmètre d'une figure plane</h3>
+
+        <div class="info">
+          Choisir une figure et saisir ses dimensions : l'aire et le
+          périmètre (ou la circonférence) se calculent automatiquement.
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fig-type">Figure</label>
+            <select id="fig-type">
+              <option value="carre">Carré</option>
+              <option value="rectangle">Rectangle</option>
+              <option value="triangle">Triangle (base et hauteur)</option>
+              <option value="disque">Disque</option>
+            </select>
+          </div>
+          <div class="form-group" id="fig-dim1-groupe">
+            <label for="fig-dim1" id="fig-dim1-label">Côté (cm)</label>
+            <input id="fig-dim1" type="number" step="0.1" value="5">
+          </div>
+          <div class="form-group" id="fig-dim2-groupe" style="display:none;">
+            <label for="fig-dim2" id="fig-dim2-label">Largeur (cm)</label>
+            <input id="fig-dim2" type="number" step="0.1" value="3">
+          </div>
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button id="fig-calculer" type="button" class="btn btn-primaire">▶ Calculer</button>
+          </div>
+        </div>
+
+        <div id="fig-resultat" class="resultat-calcul"></div>
+
+        <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
+        <ol class="etapes">
+          <li>Choisir la figure correspondant à la pièce ou surface à mesurer.</li>
+          <li>Saisir les dimensions demandées (elles changent selon la figure).</li>
+          <li>Vérifier le résultat avec la formule rappelée dans la réponse.</li>
+        </ol>
+
+      </div>
+
+      <!-- ---------- VOLUMES ---------- -->
+      <div class="tab-panel" id="volumes">
+
+        <h3>Calculer le volume d'un solide</h3>
+
+        <div class="info">
+          Choisir un solide usuel et saisir ses dimensions : le volume (et
+          la surface totale pour le cube, le pavé et le cylindre) se
+          calcule automatiquement. Les formules du volume de la pyramide,
+          du cône et de la boule sont fournies (non exigées de mémoire).
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="sol-type">Solide</label>
+            <select id="sol-type">
+              <option value="cube">Cube</option>
+              <option value="pave">Pavé droit</option>
+              <option value="cylindre">Cylindre droit</option>
+              <option value="pyramide">Pyramide (formule fournie)</option>
+              <option value="cone">Cône (formule fournie)</option>
+              <option value="boule">Boule (formule fournie)</option>
+            </select>
+          </div>
+          <div class="form-group" id="sol-dim1-groupe">
+            <label for="sol-dim1" id="sol-dim1-label">Arête (cm)</label>
+            <input id="sol-dim1" type="number" step="0.1" value="4">
+          </div>
+          <div class="form-group" id="sol-dim2-groupe" style="display:none;">
+            <label for="sol-dim2" id="sol-dim2-label">Largeur (cm)</label>
+            <input id="sol-dim2" type="number" step="0.1" value="3">
+          </div>
+          <div class="form-group" id="sol-dim3-groupe" style="display:none;">
+            <label for="sol-dim3" id="sol-dim3-label">Hauteur (cm)</label>
+            <input id="sol-dim3" type="number" step="0.1" value="6">
+          </div>
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button id="sol-calculer" type="button" class="btn btn-primaire">▶ Calculer</button>
+          </div>
+        </div>
+
+        <div id="sol-resultat" class="resultat-calcul"></div>
+
+        <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
+        <ol class="etapes">
+          <li>Identifier le solide qui modélise la pièce à fabriquer.</li>
+          <li>Saisir les dimensions demandées.</li>
+          <li>Comparer le volume obtenu à la quantité de matière réellement nécessaire.</li>
+        </ol>
+
+      </div>
+
+      <!-- ---------- PYTHAGORE ---------- -->
+      <div class="tab-panel" id="pythagore">
+
+        <h3>Théorème de Pythagore et sa réciproque</h3>
+
+        <div class="info">
+          Dans un triangle rectangle, le carré de l'hypoténuse est égal à la
+          somme des carrés des deux autres côtés : calculer l'hypoténuse
+          connaissant les deux côtés de l'angle droit.
+        </div>
+
+        <div class="form-row">
+          <div class="form-group"><label for="pyth-a">Côté a</label><input id="pyth-a" type="number" step="0.1" value="3"></div>
+          <div class="form-group"><label for="pyth-b">Côté b</label><input id="pyth-b" type="number" step="0.1" value="4"></div>
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button id="pyth-calculer" type="button" class="btn btn-primaire">▶ Calculer l'hypoténuse</button>
+          </div>
+        </div>
+
+        <div id="pyth-resultat" class="resultat-calcul"></div>
+
+        <h4 style="margin-top:var(--gap-lg);">Réciproque : ce triangle est-il rectangle ?</h4>
+
+        <div class="info">
+          La réciproque permet de vérifier, à partir de trois longueurs
+          mesurées, si un triangle est rectangle (sans instrument dédié).
+        </div>
+
+        <div class="form-row">
+          <div class="form-group"><label for="pyth-r-a">Côté 1</label><input id="pyth-r-a" type="number" step="0.01" value="3"></div>
+          <div class="form-group"><label for="pyth-r-b">Côté 2</label><input id="pyth-r-b" type="number" step="0.01" value="4"></div>
+          <div class="form-group"><label for="pyth-r-c">Côté 3 (le plus grand)</label><input id="pyth-r-c" type="number" step="0.01" value="5"></div>
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button id="pyth-r-verifier" type="button" class="btn btn-secondaire">Vérifier</button>
+          </div>
+        </div>
+
+        <div id="pyth-r-resultat" class="resultat-calcul"></div>
+
+        <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
+        <ol class="etapes">
+          <li>Identifier l'hypoténuse (le plus grand côté) avant d'appliquer le théorème.</li>
+          <li>Pour la réciproque, comparer le carré du plus grand côté à la somme des carrés des deux autres.</li>
+          <li>Adapter les longueurs à une pièce réelle de votre filière.</li>
+        </ol>
+
+      </div>
+
+      <!-- ---------- THALÈS ---------- -->
+      <div class="tab-panel" id="thales">
+
+        <h3>Théorème de Thalès dans le triangle</h3>
+
+        <div class="info">
+          Dans un triangle ABC, D est un point de [AB] et E un point de
+          [AC], avec (DE) parallèle à (BC). D'après le théorème de Thalès :
+          AD/AB = AE/AC = DE/BC. Saisir AB, AC, BC et AD pour calculer AE
+          et DE.
+        </div>
+
+        <div class="form-row">
+          <div class="form-group"><label for="th-ab">AB</label><input id="th-ab" type="number" step="0.1" value="8"></div>
+          <div class="form-group"><label for="th-ac">AC</label><input id="th-ac" type="number" step="0.1" value="6"></div>
+          <div class="form-group"><label for="th-bc">BC</label><input id="th-bc" type="number" step="0.1" value="5"></div>
+          <div class="form-group"><label for="th-ad">AD</label><input id="th-ad" type="number" step="0.1" value="4"></div>
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button id="th-calculer" type="button" class="btn btn-primaire">▶ Calculer AE et DE</button>
+          </div>
+        </div>
+
+        <div id="th-resultat" class="resultat-calcul"></div>
+
+        <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
+        <ol class="etapes">
+          <li>Vérifier que D est bien un point du segment [AB] (AD &lt; AB).</li>
+          <li>Écrire les trois rapports égaux AD/AB = AE/AC = DE/BC.</li>
+          <li>En déduire AE puis DE par produit en croix.</li>
+        </ol>
+
+      </div>
+
+      <!-- ---------- AGRANDISSEMENT / RÉDUCTION ---------- -->
+      <div class="tab-panel" id="agrandissement">
+
+        <h3>Effets d'un agrandissement ou d'une réduction</h3>
+
+        <div class="info">
+          Un agrandissement (ou une réduction) de coefficient k multiplie
+          les longueurs par k, les aires par k², et les volumes par k³.
+        </div>
+
+        <div class="form-row">
+          <div class="form-group"><label for="agr-k">Coefficient k</label><input id="agr-k" type="number" step="0.1" value="2"></div>
+          <div class="form-group"><label for="agr-longueur">Longueur initiale (cm)</label><input id="agr-longueur" type="number" step="0.1" value="5"></div>
+          <div class="form-group"><label for="agr-aire">Aire initiale (cm²)</label><input id="agr-aire" type="number" step="0.1" value="25"></div>
+          <div class="form-group"><label for="agr-volume">Volume initial (cm³)</label><input id="agr-volume" type="number" step="0.1" value="125"></div>
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button id="agr-calculer" type="button" class="btn btn-primaire">▶ Calculer</button>
+          </div>
+        </div>
+
+        <div id="agr-resultat" class="resultat-calcul"></div>
+
+        <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
+        <ol class="etapes">
+          <li>k &gt; 1 correspond à un agrandissement, 0 &lt; k &lt; 1 à une réduction.</li>
+          <li>Repérer, dans le résultat, l'exposant appliqué au coefficient selon la grandeur (1 pour une longueur, 2 pour une aire, 3 pour un volume).</li>
+        </ol>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="resultats">
+
+  <div class="section-titre">
+    <div class="picto-section">📋</div>
+    <h2>Tableau de résultats</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="table-responsive">
+      <table class="tableau-resultats">
+        <thead><tr><th>Grandeur</th><th>Résultat</th></tr></thead>
+        <tbody>
+          <tr><td>Aire et périmètre calculés</td><td><input type="text" placeholder="valeurs"></td></tr>
+          <tr><td>Volume calculé</td><td><input type="text" placeholder="valeur en cm³"></td></tr>
+          <tr><td>Hypoténuse calculée (Pythagore)</td><td><input type="text" placeholder="valeur"></td></tr>
+          <tr><td>Ce triangle est-il rectangle ? (réciproque)</td><td><input type="text" placeholder="oui / non"></td></tr>
+          <tr><td>AE et DE calculées (Thalès)</td><td><input type="text" placeholder="valeurs"></td></tr>
+          <tr><td>Effet du coefficient k sur longueur/aire/volume</td><td><input type="text" placeholder="valeurs"></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="lien-metiers">
+
+  <div class="section-titre">
+    <div class="picto-section">🔗</div>
+    <h2>Mathématiques et sciences : un même langage</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p>
+      Contrôler qu'une pièce est d'équerre, calculer un volume de matière,
+      ou changer d'échelle un plan : ces gestes de métier reposent sur les
+      mêmes théorèmes qu'en mathématiques.
+    </p>
+
+    <ul style="padding-left:1.5rem;line-height:2">
+      <li>Le <strong>théorème de Pythagore</strong> (et sa réciproque) permet de contrôler un angle droit sans équerre, uniquement à partir de trois longueurs.</li>
+      <li>Le <strong>théorème de Thalès</strong> permet de calculer une longueur inaccessible à partir d'une configuration de parallèles.</li>
+      <li>Un <strong>agrandissement/réduction</strong> correspond à un changement d'échelle de plan : les aires et volumes n'évoluent pas comme les longueurs.</li>
+    </ul>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="puzzle">
+
+  <div class="section-titre">
+    <div class="picto-section">🧩</div>
+    <h2>Activités Puzzle</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="toolbar">
+      <a class="btn btn-secondaire" href="../../roue/index.html" target="_blank" rel="noopener">
+        🎡 Ouvrir la roue (tirage des groupes)
+      </a>
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Pythagore">
+      <h3>Fiche A — Contrôler un angle droit</h3>
+      <p>Une pièce mesure 6 cm, 8 cm et 10 cm sur ses trois côtés. Utiliser l'onglet « Théorème de Pythagore » (réciproque) pour vérifier si elle est bien d'équerre.</p>
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+      <div class="zone-eleve"><textarea rows="5" placeholder="Résultat de la vérification..."></textarea></div>
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Thalès">
+      <h3>Fiche B — Calculer une longueur inaccessible</h3>
+      <p>Reprendre l'onglet « Théorème de Thalès » avec AB = 12, AC = 9, BC = 7, AD = 8 : calculer AE et DE.</p>
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+      <div class="zone-eleve"><textarea rows="5" placeholder="Valeurs de AE et DE obtenues..."></textarea></div>
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Agrandissement">
+      <h3>Fiche C — Changer d'échelle un plan</h3>
+      <p>Un plan est agrandi avec un coefficient k = 1,5. Calculer l'effet sur une longueur de 20 cm, une aire de 400 cm² et un volume de 8000 cm³.</p>
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+      <div class="zone-eleve"><textarea rows="5" placeholder="Nouvelles longueur, aire, volume..."></textarea></div>
+    </div>
+
+    <h3 style="margin-top:var(--gap-lg);">Synthèse puzzle</h3>
+    <div class="info">En groupe mélangé, comparer les trois approches : contrôle d'angle droit, calcul de longueur, changement d'échelle.</div>
+    <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Synthèse commune..."></textarea></div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="bilan">
+
+  <div class="section-titre">
+    <div class="picto-section">📝</div>
+    <h2>Trace écrite - Compte rendu</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <h3>Identification</h3>
+
+    <div class="form-row">
+      <div class="form-group"><label for="nom-eleve">Nom</label><input id="nom-eleve" type="text" placeholder="Nom"></div>
+      <div class="form-group"><label for="prenom-eleve">Prénom</label><input id="prenom-eleve" type="text" placeholder="Prénom"></div>
+      <div class="form-group"><label for="classe-eleve">Classe</label><input id="classe-eleve" type="text" placeholder="Classe"></div>
+      <div class="form-group"><label for="date-eleve">Date</label><input id="date-eleve" type="date"></div>
+    </div>
+
+    <h3 style="margin-top:var(--gap-md);">Résumé du TD</h3>
+    <div class="zone-eleve"><textarea id="resume-tp" rows="6" placeholder="Résumer les calculs d'aires, de volumes, et l'application des deux théorèmes..."></textarea></div>
+
+    <h3 style="margin-top:var(--gap-md);">Questions</h3>
+
+    <div class="questions-bloc" data-tp="solides-aires-volumes">
+    <ol class="questions-tp">
+
+      <li>
+        <div class="question-entete">
+          <strong>Énoncer le théorème de Pythagore et le théorème de Thalès.</strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question1" rows="4" placeholder="Votre réponse..."></textarea></div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>Donner les résultats obtenus pour le volume calculé et pour l'application du théorème de Thalès.</strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question2" rows="4" placeholder="Votre réponse..."></textarea></div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>Expliquer pourquoi une aire est multipliée par k² (et non par k) lors d'un agrandissement de coefficient k.</strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question3" rows="5" placeholder="Votre analyse..."></textarea></div>
+      </li>
+
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique posée en début de TD :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="solides-aires-volumes"></p>
+        <div class="zone-eleve"><textarea id="question4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+
+    </ol>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="auto-evaluation">
+
+  <div class="section-titre">
+    <div class="picto-section">📡</div>
+    <h2>Auto-évaluation des compétences</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p class="info">À la fin du TD, évaluez votre niveau de maîtrise pour chaque compétence.</p>
+
+    <div class="table-responsive">
+      <table class="tableau-resultats autoeval-table">
+        <thead><tr><th>Domaine</th><th>Sigle</th><th>Je suis capable de...</th><th>0</th><th>1</th><th>2</th></tr></thead>
+        <tbody>
+          <tr data-comp="APP"><td>S'approprier</td><td>APP</td><td>Reconnaître un solide usuel et identifier la formule d'aire ou de volume adaptée.</td>
+            <td><input type="radio" name="APP" value="0"></td><td><input type="radio" name="APP" value="1"></td><td><input type="radio" name="APP" value="2"></td></tr>
+          <tr data-comp="REA"><td>Réaliser</td><td>REA</td><td>Calculer une aire, un volume, une longueur par Pythagore ou par Thalès.</td>
+            <td><input type="radio" name="REA" value="0"></td><td><input type="radio" name="REA" value="1"></td><td><input type="radio" name="REA" value="2"></td></tr>
+          <tr data-comp="ANA"><td>Analyser / Raisonner</td><td>ANA</td><td>Choisir entre théorème direct et réciproque selon la question posée.</td>
+            <td><input type="radio" name="ANA" value="0"></td><td><input type="radio" name="ANA" value="1"></td><td><input type="radio" name="ANA" value="2"></td></tr>
+          <tr data-comp="VAL"><td>Valider</td><td>VAL</td><td>Vérifier la cohérence d'un résultat de longueur, d'aire ou de volume.</td>
+            <td><input type="radio" name="VAL" value="0"></td><td><input type="radio" name="VAL" value="1"></td><td><input type="radio" name="VAL" value="2"></td></tr>
+          <tr data-comp="COM"><td>Communiquer</td><td>COM</td><td>Expliquer une démarche géométrique à l'oral ou à l'écrit.</td>
+            <td><input type="radio" name="COM" value="0"></td><td><input type="radio" name="COM" value="1"></td><td><input type="radio" name="COM" value="2"></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="radar-actions" style="margin-top:var(--gap-lg);">
+      <button id="btn-radar" class="btn btn-primaire">📊 Générer mon radar de compétences</button>
+      <div id="radar-resultat" style="margin-top:var(--gap-md);"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="impression_tp">
+
+  <div class="section-titre">
+    <div class="picto-section">📒</div>
+    <h2>Impression du compte-rendu</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p class="info">
+      À la fin du TD, imprimer votre travail en PDF.
+      Envoyer à l'enseignant votre compte rendu en pièce jointe par la messagerie de l'ENT.
+    </p>
+
+    <div class="toolbar">
+      <button id="btn-imprimer" class="btn btn-primaire">🖨 Imprimer le compte-rendu</button>
+    </div>
+
+    <div class="info" style="margin-top:var(--gap-md);">
+      L'impression récupère automatiquement :
+      <ul>
+        <li>le tableau de résultats ;</li>
+        <li>les réponses aux questions ;</li>
+        <li>les fiches puzzle et l'auto-évaluation des compétences.</li>
+      </ul>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="nav-tp">
+
+  <button class="btn btn-secondaire" onclick="location.href='../index.html'">
+    🏠 Accueil
+  </button>
+
+  <button class="btn btn-primaire" onclick="loadTP('td02-geometrie-espace')">
+    G02 →
+  </button>
+
+</div>
+
+</main>
+
+<div id="cr-print-container" style="display:none;"></div>
+
+</section>
