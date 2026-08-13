@@ -473,7 +473,8 @@ canvas {
   header { padding: var(--gap-md); }
 }
 
-.questions-tp .question-entete::before {
+.questions-tp .question-entete::before,
+.etapes li::before {
   background: var(--domaine-accent);
   color: #fff;
 }
