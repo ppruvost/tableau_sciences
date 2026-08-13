@@ -9,37 +9,36 @@
 @import url("../../css/domaine.css");
 
 /* ════════════════════════════════════════════════════════════════
-   IDENTITÉ DU DOMAINE ALGORITHME
+   IDENTITÉ DU DOMAINE GÉOMÉTRIE
    L'ordre d'écriture n'a pas d'importance pour la résolution des
    var() : ces valeurs s'appliquent à css/domaine.css même si celui-ci
    est importé plus haut dans ce fichier.
    ════════════════════════════════════════════════════════════════ */
 :root {
-  --domaine-accent:       #C1440E;
-  --domaine-accent-fonce: #7A2E0E;
-  --domaine-accent-rgb:   193, 68, 14;
+  --domaine-accent:       #6B3FA0;
+  --domaine-accent-fonce: #482A6E;
+  --domaine-accent-rgb:   107, 63, 160;
 }
 
-/* ── Médaillon numéroté des questions (".questions-tp
-   .question-entete::before") ────────────────────────────────────
-   tp.css le fixe en bleu (var(--bleu-cuivre)) sans jamais le laisser
-   à la charge du domaine, contrairement à .cartouche qui, lui, est
-   bien repris dans domaine.css. Redéfini ici explicitement au cas où
-   le correctif équivalent n'aurait pas encore été répercuté dans
-   css/domaine.css lui-même. */
+/* ── Médaillon numéroté des questions ─────────────────────────────
+   Voir remarque équivalente dans tp-algorithme/css/style.css : tp.css
+   fixe ce médaillon en bleu sans jamais le laisser à la charge du
+   domaine. Redéfini ici explicitement. */
 .questions-tp .question-entete::before {
   background: var(--domaine-accent);
   color: #fff;
 }
 
-/* ── Puces numérotées des étapes de méthodologie/protocole
-   (".etapes li::before") — même bug que ci-dessus. */
+/* ── Puces numérotées des étapes de méthodologie (".etapes li::before",
+   utilisées dans les onglets d'activités) ────────────────────────
+   Même bug que ci-dessus : tp.css les fixe en bleu (var(--bleu-cuivre))
+   sans jamais les laisser à la charge du domaine. */
 .etapes li::before {
   background: var(--domaine-accent);
   color: #fff;
 }
 
-/* Aucun autre ajustement propre à l'algorithmique au-delà de son
+/* Aucun autre ajustement propre à la géométrie au-delà de son
    identité de couleur pour l'instant : toute la structure (header,
    nav, cartes, formulaires, tableaux, EPI, matériel, radar,
    graphique, histogramme, cartouches, auto-évaluation...) vient de
