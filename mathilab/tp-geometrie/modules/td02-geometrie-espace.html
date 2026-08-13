@@ -1,0 +1,443 @@
+<!--
+  Fragment SPA chargé dynamiquement par navigation.js.
+  Tous les chemins sont relatifs à la racine du site.
+  Aucun <script> dans ce fragment.
+-->
+
+<section>
+
+<header class="tp-header">
+
+  <div class="tp-header-logo">
+    <div class="logo">
+      <span class="sci">Mathi</span><span class="Lab">Lab</span>
+    </div>
+  </div>
+
+  <div class="tp-header-centre">
+
+    <h1>Géométrie dans l'espace : représenter et sectionner un solide</h1>
+
+    <div class="tp-meta">
+
+      <div class="tp-row">
+        <span class="tag">1ère</span>
+        <span class="tag">Géométrie</span>
+        <span class="tag">Solides usuels - </span><span class="tag">Section par un plan - </span><span class="tag">Géométrie dynamique</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="tp-header-numero">
+    <span class="tp-numero-txt">G02</span>
+  </div>
+
+</header>
+
+<div class="progress">
+  <div id="bar"></div>
+</div>
+
+<main id="content">
+
+<div class="section" data-type="objectif">
+
+  <div class="section-titre">
+    <div class="picto-section">🎯</div>
+    <h2>Capacités évaluées</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <ul>
+      <li>Représenter un solide usuel (cube, pavé droit, pyramide, cylindre droit, cône, boule) à l'aide d'un logiciel de géométrie dynamique.</li>
+      <li>Exploiter une représentation d'un solide usuel ou d'un assemblage de solides usuels.</li>
+      <li>Réaliser la section d'un solide usuel par un plan à l'aide d'un logiciel de géométrie dynamique.</li>
+      <li>Construire la section plane d'un solide passant par des points donnés.</li>
+    </ul>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="contexte-pro">
+
+  <div class="section-titre">
+    <div class="picto-section">🏭</div>
+    <h2>Contexte professionnel</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="info">
+      Lire un plan en 3D, anticiper la coupe d'une pièce, ou visualiser
+      l'assemblage de plusieurs volumes sont des compétences directement
+      mobilisées en atelier comme en bureau d'études.
+    </div>
+
+    <div class="filiere-select-bloc">
+      <label for="select-filiere-pro">Votre filière professionnelle :</label>
+      <select id="select-filiere-pro">
+        <option value="">-- Sélectionner une filière --</option>
+      </select>
+    </div>
+
+    <div id="contexte-pro-resultat" class="contexte-pro-resultat">
+      <p>Sélectionner votre filière professionnelle pour afficher le contexte et la problématique associée.</p>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="preparation">
+
+  <div class="section-titre">
+    <div class="picto-section">📐</div>
+    <h2>Activités</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="toolbar">
+      <button type="button" class="btn btn-secondaire" onclick="loadInFrame('https://www.geogebra.org/3d?lang=fr')">
+        📐 Ouvrir GéoGébra 3D
+      </button>
+    </div>
+
+    <div class="info">
+      Les deux activités de ce TD s'explorent dans <strong>GéoGébra 3D</strong>,
+      ouvert directement dans le site.
+    </div>
+
+    <div class="tabs-container">
+
+      <div class="tabs-header">
+        <button class="tab-btn actif" data-tab="representer-solide">Représenter un solide</button>
+        <button class="tab-btn" data-tab="section-plan">Section d'un solide par un plan</button>
+      </div>
+
+      <!-- ---------- REPRÉSENTER UN SOLIDE ---------- -->
+      <div class="tab-panel actif" id="representer-solide">
+
+        <h3>Représenter un solide usuel en 3D</h3>
+
+        <div class="info">
+          Ouvrir GéoGébra 3D (bouton ci-dessus) et construire un pavé droit,
+          puis lui adjoindre une pyramide pour former un solide composé —
+          une configuration fréquente en conception de pièces (chanfrein,
+          renfort...).
+        </div>
+
+        <ol class="etapes">
+          <li>Dans la barre de saisie, taper : <code>Pave=Cube((0,0,0),(6,0,0),(0,4,0),(0,0,3))</code> pour construire un pavé droit 6×4×3.</li>
+          <li>Faire pivoter la vue à la souris pour observer le solide sous plusieurs angles.</li>
+          <li>Construire une pyramide posée sur l'une des faces du pavé, de sommet S au-dessus du centre de cette face, avec l'outil Pyramide ou la commande <code>Pyramide(...)</code>.</li>
+          <li>Faire calculer le volume total avec la commande <code>Volume(Pave)</code> puis <code>Volume(Pyramide1)</code>, et sommer les deux résultats.</li>
+        </ol>
+
+        <div class="zone-eleve">
+          <textarea rows="5" placeholder="Volume du pavé, volume de la pyramide, volume total du solide composé..."></textarea>
+        </div>
+
+      </div>
+
+      <!-- ---------- SECTION PAR UN PLAN ---------- -->
+      <div class="tab-panel" id="section-plan">
+
+        <h3>Construire la section d'un solide par un plan</h3>
+
+        <div class="info">
+          Couper un cube par un plan passant par trois points donnés fait
+          apparaître une section polygonale — une opération que l'on
+          retrouve dans la lecture de plans en coupe.
+        </div>
+
+        <ol class="etapes">
+          <li>Construire un cube : taper <code>Cube=Cube((0,0,0),(5,0,0),(0,5,0))</code>.</li>
+          <li>Placer trois points sur trois arêtes différentes du cube, par exemple des milieux d'arêtes avec l'outil Point ou <code>Milieu(...)</code>.</li>
+          <li>Définir le plan passant par ces trois points avec la commande <code>Plan(Point1,Point2,Point3)</code>.</li>
+          <li>Faire apparaître la section avec la commande <code>Intersection(Cube,plan1)</code> (ou l'outil dédié « Section »).</li>
+          <li>Identifier le polygone obtenu : combien de côtés a-t-il ? Est-ce toujours le même nombre selon la position des trois points ?</li>
+        </ol>
+
+        <div class="zone-eleve">
+          <textarea rows="5" placeholder="Nature du polygone de section obtenu, observations en déplaçant les points..."></textarea>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="resultats">
+
+  <div class="section-titre">
+    <div class="picto-section">📋</div>
+    <h2>Tableau de résultats</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="table-responsive">
+      <table class="tableau-resultats">
+        <thead><tr><th>Grandeur</th><th>Résultat</th></tr></thead>
+        <tbody>
+          <tr><td>Volume total du solide composé (pavé + pyramide)</td><td><input type="text" placeholder="valeur en cm³"></td></tr>
+          <tr><td>Nature du polygone de section obtenu</td><td><input type="text" placeholder="ex. triangle, quadrilatère..."></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="lien-metiers">
+
+  <div class="section-titre">
+    <div class="picto-section">🔗</div>
+    <h2>Mathématiques et sciences : un même langage</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p>
+      Un plan technique en coupe représente exactement la section d'un
+      solide par un plan : ce que vous construisez ici en géométrie
+      dynamique se retrouve directement dans la lecture d'un dessin
+      industriel.
+    </p>
+
+    <ul style="padding-left:1.5rem;line-height:2">
+      <li>Un <strong>solide composé</strong> se décompose toujours en solides usuels dont on connaît les formules de volume (TD01).</li>
+      <li>Une <strong>section</strong> dépend de l'orientation du plan de coupe : elle change de nature selon les points choisis.</li>
+    </ul>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="puzzle">
+
+  <div class="section-titre">
+    <div class="picto-section">🧩</div>
+    <h2>Activités Puzzle</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="toolbar">
+      <a class="btn btn-secondaire" href="../../roue/index.html" target="_blank" rel="noopener">
+        🎡 Ouvrir la roue (tirage des groupes)
+      </a>
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Section d'un cube">
+      <h3>Fiche A — Section triangulaire d'un cube</h3>
+      <p>Construire un cube et placer les trois points de section sur trois arêtes issues d'un même sommet, à égale distance de ce sommet. Observer la section obtenue.</p>
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+      <div class="zone-eleve"><textarea rows="5" placeholder="Nature de la section obtenue..."></textarea></div>
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Section d'un cylindre">
+      <h3>Fiche B — Section d'un cylindre par un plan</h3>
+      <p>Construire un cylindre droit, puis le sectionner par un plan horizontal, puis par un plan incliné. Comparer les deux sections.</p>
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+      <div class="zone-eleve"><textarea rows="5" placeholder="Comparaison des deux sections obtenues..."></textarea></div>
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Solide composé">
+      <h3>Fiche C — Volume d'un solide composé</h3>
+      <p>Construire un solide composé d'un cylindre surmonté d'un cône (silo), et calculer son volume total avec GéoGébra.</p>
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+      <div class="zone-eleve"><textarea rows="5" placeholder="Volume total obtenu..."></textarea></div>
+    </div>
+
+    <h3 style="margin-top:var(--gap-lg);">Synthèse puzzle</h3>
+    <div class="info">En groupe mélangé, comparer les trois constructions : quelle stratégie utiliser pour anticiper la forme d'une section avant de la construire ?</div>
+    <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Synthèse commune..."></textarea></div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="bilan">
+
+  <div class="section-titre">
+    <div class="picto-section">📝</div>
+    <h2>Trace écrite - Compte rendu</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <h3>Identification</h3>
+
+    <div class="form-row">
+      <div class="form-group"><label for="nom-eleve">Nom</label><input id="nom-eleve" type="text" placeholder="Nom"></div>
+      <div class="form-group"><label for="prenom-eleve">Prénom</label><input id="prenom-eleve" type="text" placeholder="Prénom"></div>
+      <div class="form-group"><label for="classe-eleve">Classe</label><input id="classe-eleve" type="text" placeholder="Classe"></div>
+      <div class="form-group"><label for="date-eleve">Date</label><input id="date-eleve" type="date"></div>
+    </div>
+
+    <h3 style="margin-top:var(--gap-md);">Résumé du TD</h3>
+    <div class="zone-eleve"><textarea id="resume-tp" rows="6" placeholder="Résumer les constructions réalisées en GéoGébra 3D..."></textarea></div>
+
+    <h3 style="margin-top:var(--gap-md);">Questions</h3>
+
+    <div class="questions-bloc" data-tp="geometrie-espace">
+    <ol class="questions-tp">
+
+      <li>
+        <div class="question-entete">
+          <strong>Nommer les solides usuels rencontrés lors des constructions et rappeler leurs formules de volume.</strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question1" rows="4" placeholder="Votre réponse..."></textarea></div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>Donner le volume du solide composé construit et la nature de la section obtenue.</strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question2" rows="4" placeholder="Votre réponse..."></textarea></div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>Expliquer pourquoi la nature du polygone de section peut changer selon la position du plan de coupe.</strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question3" rows="5" placeholder="Votre analyse..."></textarea></div>
+      </li>
+
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique posée en début de TD :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="geometrie-espace"></p>
+        <div class="zone-eleve"><textarea id="question4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+
+    </ol>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="auto-evaluation">
+
+  <div class="section-titre">
+    <div class="picto-section">📡</div>
+    <h2>Auto-évaluation des compétences</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p class="info">À la fin du TD, évaluez votre niveau de maîtrise pour chaque compétence.</p>
+
+    <div class="table-responsive">
+      <table class="tableau-resultats autoeval-table">
+        <thead><tr><th>Domaine</th><th>Sigle</th><th>Je suis capable de...</th><th>0</th><th>1</th><th>2</th></tr></thead>
+        <tbody>
+          <tr data-comp="APP"><td>S'approprier</td><td>APP</td><td>Reconnaître un solide usuel et un assemblage de solides.</td>
+            <td><input type="radio" name="APP" value="0"></td><td><input type="radio" name="APP" value="1"></td><td><input type="radio" name="APP" value="2"></td></tr>
+          <tr data-comp="REA"><td>Réaliser</td><td>REA</td><td>Construire un solide et sa section par un plan en géométrie dynamique.</td>
+            <td><input type="radio" name="REA" value="0"></td><td><input type="radio" name="REA" value="1"></td><td><input type="radio" name="REA" value="2"></td></tr>
+          <tr data-comp="ANA"><td>Analyser / Raisonner</td><td>ANA</td><td>Anticiper la nature d'une section selon la position du plan de coupe.</td>
+            <td><input type="radio" name="ANA" value="0"></td><td><input type="radio" name="ANA" value="1"></td><td><input type="radio" name="ANA" value="2"></td></tr>
+          <tr data-comp="VAL"><td>Valider</td><td>VAL</td><td>Vérifier la cohérence d'un volume calculé avec les formules connues.</td>
+            <td><input type="radio" name="VAL" value="0"></td><td><input type="radio" name="VAL" value="1"></td><td><input type="radio" name="VAL" value="2"></td></tr>
+          <tr data-comp="COM"><td>Communiquer</td><td>COM</td><td>Décrire une construction 3D et son résultat à l'oral ou à l'écrit.</td>
+            <td><input type="radio" name="COM" value="0"></td><td><input type="radio" name="COM" value="1"></td><td><input type="radio" name="COM" value="2"></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="radar-actions" style="margin-top:var(--gap-lg);">
+      <button id="btn-radar" class="btn btn-primaire">📊 Générer mon radar de compétences</button>
+      <div id="radar-resultat" style="margin-top:var(--gap-md);"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="impression_tp">
+
+  <div class="section-titre">
+    <div class="picto-section">📒</div>
+    <h2>Impression du compte-rendu</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p class="info">
+      À la fin du TD, imprimer votre travail en PDF.
+      Envoyer à l'enseignant votre compte rendu en pièce jointe par la messagerie de l'ENT.
+    </p>
+
+    <div class="toolbar">
+      <button id="btn-imprimer" class="btn btn-primaire">🖨 Imprimer le compte-rendu</button>
+    </div>
+
+    <div class="info" style="margin-top:var(--gap-md);">
+      L'impression récupère automatiquement :
+      <ul>
+        <li>le tableau de résultats ;</li>
+        <li>les réponses aux questions et les observations GéoGébra ;</li>
+        <li>les fiches puzzle et l'auto-évaluation des compétences.</li>
+      </ul>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="nav-tp">
+
+  <button class="btn btn-secondaire" onclick="loadTP('td01-solides-aires-volumes')">
+    ← G01
+  </button>
+
+  <button class="btn btn-secondaire" onclick="location.href='../index.html'">
+    🏠 Accueil
+  </button>
+
+  <button class="btn btn-primaire" onclick="loadTP('td03-vecteurs')">
+    G03 →
+  </button>
+
+</div>
+
+</main>
+
+<div id="cr-print-container" style="display:none;"></div>
+
+</section>
