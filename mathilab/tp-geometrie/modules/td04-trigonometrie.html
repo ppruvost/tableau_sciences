@@ -1,0 +1,456 @@
+<!--
+  Fragment SPA chargé dynamiquement par navigation.js.
+  Tous les chemins sont relatifs à la racine du site.
+  Aucun <script> dans ce fragment.
+-->
+
+<section>
+
+<header class="tp-header">
+
+  <div class="tp-header-logo">
+    <div class="logo">
+      <span class="sci">Mathi</span><span class="Lab">Lab</span>
+    </div>
+  </div>
+
+  <div class="tp-header-centre">
+
+    <h1>Trigonométrie : cercle trigonométrique et fonctions sinus/cosinus</h1>
+
+    <div class="tp-meta">
+
+      <div class="tp-row">
+        <span class="tag">1ère</span>
+        <span class="tag">Géométrie</span>
+        <span class="tag">Cercle trigonométrique - </span><span class="tag">Radian - </span><span class="tag">Fonctions sinus et cosinus</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="tp-header-numero">
+    <span class="tp-numero-txt">G04</span>
+  </div>
+
+</header>
+
+<div class="progress">
+  <div id="bar"></div>
+</div>
+
+<main id="content">
+
+<div class="section" data-type="objectif">
+
+  <div class="section-titre">
+    <div class="picto-section">🎯</div>
+    <h2>Capacités évaluées</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="info">
+      Module réservé au groupement B (TRPM, TCI, MCC) : le référentiel
+      transmis ne définit aucune filière de groupement A pour ce domaine,
+      ni de module de Terminale correspondant (réservé au groupement A).
+      Ce TD s'arrête donc au programme de 1ère.
+    </div>
+
+    <ul>
+      <li>Placer, sur le cercle trigonométrique, le point image d'un nombre réel par enroulement de la droite des réels.</li>
+      <li>Effectuer des conversions de degrés en radians, de radians en degrés.</li>
+      <li>Déterminer graphiquement le cosinus et le sinus d'un nombre réel donné, et les valeurs particulières usuelles.</li>
+      <li>Exploiter la représentation graphique de la fonction sinus (et de la fonction cosinus, obtenue par translation).</li>
+    </ul>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="contexte-pro">
+
+  <div class="section-titre">
+    <div class="picto-section">🏭</div>
+    <h2>Contexte professionnel</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="info">
+      Un angle de coupe, une rotation de pièce, ou une tension électrique
+      sinusoïdale se décrivent naturellement à l'aide du cercle
+      trigonométrique et des fonctions sinus et cosinus.
+    </div>
+
+    <div class="filiere-select-bloc">
+      <label for="select-filiere-pro">Votre filière professionnelle :</label>
+      <select id="select-filiere-pro">
+        <option value="">-- Sélectionner une filière --</option>
+      </select>
+    </div>
+
+    <div id="contexte-pro-resultat" class="contexte-pro-resultat">
+      <p>Sélectionner votre filière professionnelle pour afficher le contexte et la problématique associée.</p>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="preparation">
+
+  <div class="section-titre">
+    <div class="picto-section">📐</div>
+    <h2>Activités</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div id="td04-message-filiere" class="info" style="display:none;"></div>
+
+    <div class="toolbar">
+      <button type="button" class="btn btn-secondaire" onclick="loadGeoGebraClassic()">
+        📐 Ouvrir GéoGébra Classic
+      </button>
+    </div>
+
+    <div class="tabs-container">
+
+      <div class="tabs-header">
+        <button class="tab-btn actif" data-tab="cercle-trigo" data-filieres="trpm,tci,mcc">Cercle trigonométrique et radian</button>
+        <button class="tab-btn" data-tab="fonctions-sin-cos" data-filieres="trpm,tci,mcc">Fonctions sinus et cosinus</button>
+      </div>
+
+      <!-- ---------- CERCLE TRIGONOMÉTRIQUE ---------- -->
+      <div class="tab-panel actif" id="cercle-trigo" data-filieres="trpm,tci,mcc">
+
+        <h3>Placer un point sur le cercle trigonométrique et convertir des angles</h3>
+
+        <div class="info">
+          Saisir un angle en degrés : sa mesure en radians, ainsi que le
+          cosinus et le sinus correspondants, se calculent automatiquement.
+        </div>
+
+        <div class="form-row">
+          <div class="form-group"><label for="ct-degres">Angle (degrés)</label><input id="ct-degres" type="number" step="1" value="60"></div>
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button id="ct-calculer" type="button" class="btn btn-primaire">▶ Convertir et calculer</button>
+          </div>
+        </div>
+
+        <div id="ct-resultat" class="resultat-calcul"></div>
+
+        <h4 style="margin-top:var(--gap-lg);">Valeurs particulières à connaître</h4>
+
+        <div class="table-responsive">
+          <table class="tableau-resultats">
+            <thead><tr><th>x (radians)</th><th>0</th><th>π/6</th><th>π/4</th><th>π/3</th><th>π/2</th><th>π</th></tr></thead>
+            <tbody>
+              <tr><td>cos(x)</td><td>1</td><td>√3/2</td><td>√2/2</td><td>1/2</td><td>0</td><td>−1</td></tr>
+              <tr><td>sin(x)</td><td>0</td><td>1/2</td><td>√2/2</td><td>√3/2</td><td>1</td><td>0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Explorer dans GéoGébra</h4>
+
+        <ol class="etapes">
+          <li>Ouvrir GéoGébra Classic et taper : <code>c=Cercle((0,0),1)</code> pour tracer le cercle trigonométrique.</li>
+          <li>Créer un curseur α entre 0 et 2π (outil Curseur, ou <code>α=Curseur(0,2π)</code>).</li>
+          <li>Placer le point image : <code>M=(cos(α),sin(α))</code>.</li>
+          <li>Faire varier α et observer les coordonnées de M : que représentent-elles ?</li>
+        </ol>
+
+        <div class="zone-eleve">
+          <textarea rows="4" placeholder="Observations sur les coordonnées de M en fonction de α..."></textarea>
+        </div>
+
+      </div>
+
+      <!-- ---------- FONCTIONS SIN/COS ---------- -->
+      <div class="tab-panel" id="fonctions-sin-cos" data-filieres="trpm,tci,mcc">
+
+        <h3>Construire la courbe des fonctions sinus et cosinus</h3>
+
+        <div class="info">
+          La courbe de la fonction sinus se construit point par point par
+          enroulement de la droite des réels sur le cercle trigonométrique
+          ; celle de la fonction cosinus s'en déduit par translation, à
+          l'aide de l'identité cos(x) = sin(x + π/2).
+        </div>
+
+        <ol class="etapes">
+          <li>Dans GéoGébra, tracer la fonction sinus : <code>f(x)=sin(x)</code>.</li>
+          <li>Tracer la fonction cosinus par translation : <code>g(x)=f(x+π/2)</code>, puis comparer à <code>h(x)=cos(x)</code> : les deux courbes sont-elles confondues ?</li>
+          <li>Mesurer, à l'aide du curseur, la période de la fonction sinus : au bout de quelle valeur la courbe se répète-t-elle ?</li>
+          <li>Relever les valeurs maximale et minimale atteintes par sin(x) sur ℝ.</li>
+        </ol>
+
+        <div class="zone-eleve">
+          <textarea rows="4" placeholder="Période observée, valeurs extrêmes, vérification cos(x) = sin(x + π/2)..."></textarea>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="resultats">
+
+  <div class="section-titre">
+    <div class="picto-section">📋</div>
+    <h2>Tableau de résultats</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="table-responsive">
+      <table class="tableau-resultats">
+        <thead><tr><th>Grandeur</th><th>Résultat</th></tr></thead>
+        <tbody>
+          <tr><td>Angle converti en radians</td><td><input type="text" placeholder="valeur"></td></tr>
+          <tr><td>Cosinus et sinus obtenus</td><td><input type="text" placeholder="valeurs"></td></tr>
+          <tr><td>Période de la fonction sinus observée dans GéoGébra</td><td><input type="text" placeholder="valeur"></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="lien-metiers">
+
+  <div class="section-titre">
+    <div class="picto-section">🔗</div>
+    <h2>Mathématiques et sciences : un même langage</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p>
+      Une grandeur sinusoïdale — tension électrique, vibration, rotation
+      périodique — se décrit exactement par une fonction du type
+      a·sin(x). Cercle trigonométrique et fonction sinus sont les deux
+      faces d'un même outil.
+    </p>
+
+    <ul style="padding-left:1.5rem;line-height:2">
+      <li>Le <strong>radian</strong> est l'unité naturelle pour décrire une rotation ou un enroulement.</li>
+      <li>La <strong>périodicité</strong> de la fonction sinus traduit le caractère répétitif d'un phénomène cyclique.</li>
+    </ul>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="puzzle">
+
+  <div class="section-titre">
+    <div class="picto-section">🧩</div>
+    <h2>Activités Puzzle</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <div class="toolbar">
+      <a class="btn btn-secondaire" href="../../roue/index.html" target="_blank" rel="noopener">
+        🎡 Ouvrir la roue (tirage des groupes)
+      </a>
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Conversion d'angles">
+      <h3>Fiche A — Convertir et lire des valeurs</h3>
+      <p>Convertir 45°, 90° et 180° en radians avec l'onglet « Cercle trigonométrique », et relever leur cosinus et sinus.</p>
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+      <div class="zone-eleve"><textarea rows="5" placeholder="Valeurs obtenues pour les trois angles..."></textarea></div>
+    </div>
+
+    <div class="fiche-puzzle" data-titre="Construction GeoGebra">
+      <h3>Fiche B — Construire le point image</h3>
+      <p>Suivre le protocole GéoGébra de l'onglet « Cercle trigonométrique » et faire une capture des coordonnées de M pour α = π/3.</p>
+      <div class="form-row">
+        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+      </div>
+      <div class="zone-eleve"><textarea rows="5" placeholder="Coordonnées de M obtenues..."></textarea></div>
+    </div>
+
+    <h3 style="margin-top:var(--gap-lg);">Synthèse puzzle</h3>
+    <div class="info">En groupe mélangé, relier les valeurs du tableau de valeurs particulières à ce qui est observé sur le cercle trigonométrique.</div>
+    <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Synthèse commune..."></textarea></div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="bilan">
+
+  <div class="section-titre">
+    <div class="picto-section">📝</div>
+    <h2>Trace écrite - Compte rendu</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <h3>Identification</h3>
+
+    <div class="form-row">
+      <div class="form-group"><label for="nom-eleve">Nom</label><input id="nom-eleve" type="text" placeholder="Nom"></div>
+      <div class="form-group"><label for="prenom-eleve">Prénom</label><input id="prenom-eleve" type="text" placeholder="Prénom"></div>
+      <div class="form-group"><label for="classe-eleve">Classe</label><input id="classe-eleve" type="text" placeholder="Classe"></div>
+      <div class="form-group"><label for="date-eleve">Date</label><input id="date-eleve" type="date"></div>
+    </div>
+
+    <h3 style="margin-top:var(--gap-md);">Résumé du TD</h3>
+    <div class="zone-eleve"><textarea id="resume-tp" rows="6" placeholder="Résumer les conversions d'angles et l'étude des fonctions sinus/cosinus..."></textarea></div>
+
+    <h3 style="margin-top:var(--gap-md);">Questions</h3>
+
+    <div class="questions-bloc" data-tp="trigonometrie">
+    <ol class="questions-tp">
+
+      <li>
+        <div class="question-entete">
+          <strong>Rappeler la relation de proportionnalité entre degrés et radians, et donner cos(π/4) et sin(π/4).</strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question1" rows="4" placeholder="Votre réponse..."></textarea></div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>Donner les valeurs obtenues pour l'angle converti, son cosinus et son sinus.</strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question2" rows="4" placeholder="Votre réponse..."></textarea></div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>Expliquer, à partir de la construction GéoGébra, pourquoi la fonction sinus est périodique et donner sa période.</strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question3" rows="5" placeholder="Votre analyse..."></textarea></div>
+      </li>
+
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique posée en début de TD :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="trigonometrie"></p>
+        <div class="zone-eleve"><textarea id="question4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+
+    </ol>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="auto-evaluation">
+
+  <div class="section-titre">
+    <div class="picto-section">📡</div>
+    <h2>Auto-évaluation des compétences</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p class="info">À la fin du TD, évaluez votre niveau de maîtrise pour chaque compétence.</p>
+
+    <div class="table-responsive">
+      <table class="tableau-resultats autoeval-table">
+        <thead><tr><th>Domaine</th><th>Sigle</th><th>Je suis capable de...</th><th>0</th><th>1</th><th>2</th></tr></thead>
+        <tbody>
+          <tr data-comp="APP"><td>S'approprier</td><td>APP</td><td>Reconnaître le cercle trigonométrique et l'unité radian.</td>
+            <td><input type="radio" name="APP" value="0"></td><td><input type="radio" name="APP" value="1"></td><td><input type="radio" name="APP" value="2"></td></tr>
+          <tr data-comp="REA"><td>Réaliser</td><td>REA</td><td>Convertir un angle, déterminer un cosinus et un sinus, construire une courbe de fonction trigonométrique.</td>
+            <td><input type="radio" name="REA" value="0"></td><td><input type="radio" name="REA" value="1"></td><td><input type="radio" name="REA" value="2"></td></tr>
+          <tr data-comp="ANA"><td>Analyser / Raisonner</td><td>ANA</td><td>Exploiter la périodicité de la fonction sinus.</td>
+            <td><input type="radio" name="ANA" value="0"></td><td><input type="radio" name="ANA" value="1"></td><td><input type="radio" name="ANA" value="2"></td></tr>
+          <tr data-comp="VAL"><td>Valider</td><td>VAL</td><td>Vérifier une valeur de cosinus ou de sinus à l'aide du tableau de valeurs particulières.</td>
+            <td><input type="radio" name="VAL" value="0"></td><td><input type="radio" name="VAL" value="1"></td><td><input type="radio" name="VAL" value="2"></td></tr>
+          <tr data-comp="COM"><td>Communiquer</td><td>COM</td><td>Expliquer une construction trigonométrique à l'oral ou à l'écrit.</td>
+            <td><input type="radio" name="COM" value="0"></td><td><input type="radio" name="COM" value="1"></td><td><input type="radio" name="COM" value="2"></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="radar-actions" style="margin-top:var(--gap-lg);">
+      <button id="btn-radar" class="btn btn-primaire">📊 Générer mon radar de compétences</button>
+      <div id="radar-resultat" style="margin-top:var(--gap-md);"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="section" data-type="impression_tp">
+
+  <div class="section-titre">
+    <div class="picto-section">📒</div>
+    <h2>Impression du compte-rendu</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <p class="info">
+      À la fin du TD, imprimer votre travail en PDF.
+      Envoyer à l'enseignant votre compte rendu en pièce jointe par la messagerie de l'ENT.
+    </p>
+
+    <div class="toolbar">
+      <button id="btn-imprimer" class="btn btn-primaire">🖨 Imprimer le compte-rendu</button>
+    </div>
+
+    <div class="info" style="margin-top:var(--gap-md);">
+      L'impression récupère automatiquement :
+      <ul>
+        <li>le tableau de résultats ;</li>
+        <li>les réponses aux questions ;</li>
+        <li>les fiches puzzle et l'auto-évaluation des compétences.</li>
+      </ul>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="nav-tp">
+
+  <button class="btn btn-secondaire" onclick="loadTP('td03-vecteurs')">
+    ← G03
+  </button>
+
+  <button class="btn btn-primaire" onclick="location.href='../index.html'">
+    🏠 Accueil
+  </button>
+
+</div>
+
+</main>
+
+<div id="cr-print-container" style="display:none;"></div>
+
+</section>
