@@ -24,8 +24,13 @@ const CELERITE = 3.00e8; // m/s, vitesse de la lumière dans le vide
 // Contexte professionnel par filière (clé "niveau-idFiliere")
 const CONTEXTES_PRO = {
 
-  '1ere-remi': {
-    contexte: "En Réalisation d'Ensembles Mécaniques et Industriels, le suivi de pièces en production s'appuie de plus en plus sur des badges ou étiquettes RFID, lus par des ondes électromagnétiques.",
+  '1ere-tci': {
+    contexte: "En chaudronnerie industrielle, le suivi des pièces et des lots en production s'appuie de plus en plus sur des badges ou étiquettes RFID, lus par des ondes électromagnétiques.",
+    problematique: "À quel domaine du spectre électromagnétique appartiennent les ondes utilisées par un badge RFID, et comment transmettent-elles une information ?",
+  },
+
+  '1ere-trpm': {
+    contexte: "En réalisation de produits mécaniques, le suivi des pièces sur la ligne de production s'appuie de plus en plus sur des badges ou étiquettes RFID, lus par des ondes électromagnétiques.",
     problematique: "À quel domaine du spectre électromagnétique appartiennent les ondes utilisées par un badge RFID, et comment transmettent-elles une information ?",
   },
 
