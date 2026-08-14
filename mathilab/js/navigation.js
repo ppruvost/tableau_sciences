@@ -45,7 +45,7 @@ function getDefaultModule(domaine) {
         
         "tp-statistiques": "tp01-organiser-une-serie-statistique",
         "tp-algebre": "td01-resolution-probleme-premier-degre",
-        "tp-geometrie": "tp01-",        
+        "tp-geometrie": "td01-solides-aires-volumes",        
         "tp-algorithme": "td01-simuler-une-experience-aleatoire"
         
     };
