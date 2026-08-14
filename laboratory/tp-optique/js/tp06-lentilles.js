@@ -22,8 +22,13 @@ import laboratoryEquipment from '../../data/equipment.js';
 // Contexte professionnel par filière (clé "niveau-idFiliere")
 const CONTEXTES_PRO = {
 
-  '1ere-remi': {
-    contexte: "En Réalisation d'Ensembles Mécaniques et Industriels, les loupes et viseurs optiques utilisés pour le contrôle de pièces reposent sur des lentilles convergentes dont la distance focale détermine le grossissement.",
+  '1ere-tci': {
+    contexte: "En chaudronnerie industrielle, les loupes et viseurs optiques utilisés pour le contrôle des soudures et des tôles reposent sur des lentilles convergentes dont la distance focale détermine le grossissement.",
+    problematique: "Comment déterminer la distance focale d'une lentille convergente et prévoir la position de l'image qu'elle forme ?",
+  },
+
+  '1ere-trpm': {
+    contexte: "En réalisation de produits mécaniques, le contrôle qualité des pièces usinées s'appuie sur des loupes et viseurs optiques dont les lentilles convergentes déterminent le grossissement observé.",
     problematique: "Comment déterminer la distance focale d'une lentille convergente et prévoir la position de l'image qu'elle forme ?",
   },
 
