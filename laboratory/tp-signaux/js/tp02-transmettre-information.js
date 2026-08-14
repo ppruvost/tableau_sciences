@@ -22,8 +22,13 @@ import laboratoryEquipment from '../../data/equipment.js';
 // Contexte professionnel par filière (clé "niveau-idFiliere")
 const CONTEXTES_PRO = {
 
-  'tle-remi': {
-    contexte: "En Réalisation d'Ensembles Mécaniques et Industriels, les liaisons entre automates et capteurs sur une ligne de production combinent parfois des câbles (propagation guidée) et des liaisons sans fil (propagation libre).",
+  'tle-tci': {
+    contexte: "En chaudronnerie industrielle, les liaisons entre automates et capteurs sur une ligne de production combinent parfois des câbles (propagation guidée) et des liaisons sans fil (propagation libre).",
+    problematique: "Quel mode de propagation (libre ou guidée) choisir pour relier deux équipements d'une ligne de production, et pourquoi ?",
+  },
+
+  'tle-trpm': {
+    contexte: "En réalisation de produits mécaniques, les liaisons entre automates et capteurs sur une ligne d'usinage combinent parfois des câbles (propagation guidée) et des liaisons sans fil (propagation libre).",
     problematique: "Quel mode de propagation (libre ou guidée) choisir pour relier deux équipements d'une ligne de production, et pourquoi ?",
   },
 
