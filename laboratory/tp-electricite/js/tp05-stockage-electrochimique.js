@@ -24,6 +24,16 @@ import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 
 const CONTEXTES_PRO = {
 
+  'tle-tci': {
+    contexte: "Les outils portatifs d'un atelier de chaudronnerie (perceuse, meuleuse d'angle sur batterie) fonctionnent grâce à un accumulateur rechargeable dont l'autonomie dépend de sa capacité et de son énergie massique.",
+    problematique: "Comment un accumulateur stocke-t-il de l'énergie électrique sous forme chimique, et comment évaluer l'énergie qu'il est capable de restituer ?",
+  },
+
+  'tle-trpm': {
+    contexte: "Les outils portatifs d'un atelier de production mécanique (visseuse, perceuse sur batterie) fonctionnent grâce à un accumulateur rechargeable dont l'autonomie dépend de sa capacité et de son énergie massique.",
+    problematique: "Comment un accumulateur stocke-t-il de l'énergie électrique sous forme chimique, et comment évaluer l'énergie qu'il est capable de restituer ?",
+  },
+
   'tle-mcc': {
     contexte: "Les outils de couture sur batterie (ciseaux électriques, machines portatives) fonctionnent grâce à un accumulateur rechargeable dont l'autonomie dépend de sa capacité et de son énergie massique.",
     problematique: "Comment un accumulateur stocke-t-il de l'énergie électrique sous forme chimique, et comment évaluer l'énergie qu'il est capable de restituer ?",
