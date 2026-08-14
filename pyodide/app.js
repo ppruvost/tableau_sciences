@@ -244,7 +244,7 @@ plt.show()`
                 console.log("PyLab : chargement de Pyodide...");
 
                 const instance = await loadPyodide({
-                    indexURL: "https://cdn.jsdelivr.net/pyodide/v314.0.3/full/"
+                    indexURL: "https://cdn.jsdelivr.net/pyodide/v0.26.4/full/"
                 });
 
                 console.log("PyLab : Pyodide chargé.");
