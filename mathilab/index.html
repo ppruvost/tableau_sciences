@@ -2,113 +2,717 @@
 <html lang="fr">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MathiLab</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- CSS principal -->
-  <link rel="stylesheet" href="style.css">
+    <title>MathiLab</title>
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <!-- =====================================================
+         FONT AWESOME
+         ===================================================== -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+
+    <!-- =====================================================
+         CSS PRINCIPAL
+         ===================================================== -->
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <!-- ================= CONTENU ================= -->
-  <div class="container">
+<!-- =========================================================
+     MENU LATÉRAL
+     ========================================================= -->
+<nav class="menu" aria-label="Menu principal MathiLab">
 
-    <!-- ====== PAGE ACCUEIL ====== -->
-    <div id="tp-home" class="section active">
-      <h1 class="tp-title">Choisir un domaine</h1>
+    <!-- ACCUEIL -->
+    <button
+        class="menu-item active"
+        id="homeButton"
+        type="button"
+        data-tooltip="Accueil"
+        aria-label="Afficher l'accueil">
 
-      <div class="tp-grid">
+        <i class="fas fa-home"></i>
 
-        <div class="tp-card statistiques" id="openStatistiques" data-domaine="statistiques">
-          <i class="fas fa-chart-column"></i>
-          <span>Statistique et probabilités</span>
+    </button>
+
+
+    <!-- MATHILAB -->
+    <button
+        class="menu-item"
+        id="pythonButton"
+        type="button"
+        data-tooltip="MathiLab"
+        aria-label="Ouvrir MathiLab">
+
+        <i class="fas fa-calculator"></i>
+
+    </button>
+
+
+    <!-- =====================================================
+         DOMAINES
+         ===================================================== -->
+    <div class="menu-wrapper">
+
+        <button
+            class="menu-item"
+            id="examplesButton"
+            type="button"
+            data-tooltip="Domaines Mathématiques"
+            aria-label="Afficher les domaines">
+
+            <i class="fas fa-book-open"></i>
+
+        </button>
+
+
+        <div class="submenu" id="examplesMenu">
+
+            <button
+                type="button"
+                data-domaine="statistiques">
+
+                <i class="fas fa-chart-column"></i>
+                Statistiques
+            </button>
+
+
+            <button
+                type="button"
+                data-domaine="algebre">
+
+                <i class="fas fa-cogs"></i>
+                Algèbre – Analyse
+            </button>
+
+
+            <button
+                type="button"
+                data-domaine="geometrie">
+
+                <i class="fas fa-draw-polygon"></i>
+                Géométrie
+            </button>
+
+
+            <button
+                type="button"
+                data-domaine="algorithme">
+
+                <i class="fas fa-code"></i>
+                Algorithmique
+            </button>
+
+
+            <button
+                type="button"
+                data-example="graphique">
+
+                <i class="fas fa-chart-line"></i>
+                Graphique
+            </button>
+
         </div>
 
-        <div class="tp-card algebre" id="openAlgebre" data-domaine="algebre">
-          <i class="fas fa-cogs"></i>
-          <span>Algèbre – Analyse</span>
-        </div>
-
-        <div class="tp-card geometrie" id="openGeometrie" data-domaine="geometrie">
-          <i class="fas fa-draw-polygon"></i>
-          <span>Géométrie</span>
-        </div>
-
-        <div class="tp-card algorithme" id="openAlgorithme" data-domaine="algorithme">
-          <i class="fas fa-code"></i>
-          <span>Algorithmique et programmation</span>
-        </div>
-
-      </div>
     </div>
 
-    <!-- ====== VERRERIE ====== -->
-    <div id="glassware" class="section">
-      <h2>Verrerie</h2>
 
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>Nom</th><th>Contenance</th><th>Lieu</th><th>Image</th>
-            </tr>
-          </thead>
-          <tbody id="glassware-body"></tbody>
-        </table>
-      </div>
-    </div>
+    <!-- EFFACER -->
+    <button
+        class="menu-item"
+        id="menuClear"
+        type="button"
+        data-tooltip="Effacer"
+        aria-label="Effacer le programme">
 
-    <!-- ====== EXTERNE ====== -->
-    <div id="external-content" class="section">
-      <iframe id="external-frame"></iframe>
-    </div>
+        <i class="fas fa-eraser"></i>
 
-  </div>
+    </button>
 
-  <!-- ================= NAVIGATION JS ================= -->
-  <script>
-    function setActive(element) {
-      document.querySelectorAll(".menu-item").forEach(i => i.classList.remove("active"));
-      if (element) element.classList.add("active");
-    }
+</nav>
 
-    function showSection(sectionId, element = null) {
-      document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
-      document.getElementById(sectionId)?.classList.add("active");
-      setActive(element);
-    }
 
-    function loadInFrame(url, element = null) {
-      document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
-      const frameSection = document.getElementById("external-content");
-      const iframe = document.getElementById("external-frame");
+<!-- =========================================================
+     CONTENU PRINCIPAL
+     ========================================================= -->
+<div id="content-container">
 
-      iframe.src = url;
-      frameSection.classList.add("active");
 
-      setActive(element);
-    }
+    <!-- =====================================================
+         PAGE D'ACCUEIL
+         ===================================================== -->
+    <section
+        id="home-message"
+        class="page active-page">
 
-    window.showSection = showSection;
-    window.loadInFrame = loadInFrame;
-  </script>
+        <div class="home-icon">
+            <i class="fas fa-calculator"></i>
+        </div>
 
-  <!-- ================= IMPORTANT : MODULE UNIQUEMENT ================= -->
-  <script type="module" src="js/app.js"></script>
 
-  <!-- ====== VIEWER TP ====== -->
-  <div id="tpViewer" class="tp-viewer hidden">
+        <h2>Bienvenue dans</h2>
+
+
+        <!-- LOGO MATHILAB -->
+        <div
+            class="mathilab-logo"
+            aria-label="MathiLab">
+
+            <span class="math">Mathi</span>
+            <span class="lab">Lab</span>
+
+        </div>
+
+
+        <p class="mathilab-tagline">
+            Un laboratoire numérique pour les mathématiques
+        </p>
+
+
+        <p>
+            <strong>MathiLab</strong> permet d'apprendre,
+            d'expérimenter et de programmer en mathématiques
+            directement dans le navigateur.
+        </p>
+
+
+        <p>
+            Utilise les différents domaines pour travailler
+            les statistiques, l'algèbre, l'analyse, la géométrie
+            et l'algorithmique.
+        </p>
+
+
+        <div class="home-actions">
+
+            <button
+                id="startButton"
+                class="start-button"
+                type="button">
+
+                <i class="fas fa-play"></i>
+
+                Commencer
+
+            </button>
+
+        </div>
+
+
+        <p class="signature">
+
+            <strong>MathiLab</strong>
+            — « Learn • Apply • Build »
+
+            <br>
+
+            Apprendre, mettre en pratique et construire.
+
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         PAGE MATHILAB
+         ===================================================== -->
+    <section
+        id="python-page"
+        class="page">
+
+
+        <!-- =================================================
+             EN-TÊTE
+             ================================================= -->
+        <div class="page-header">
+
+            <div>
+
+                <h1>
+                    <i class="fas fa-calculator"></i>
+                </h1>
+
+
+                <div
+                    class="mathilab-logo"
+                    aria-label="MathiLab">
+
+                    <span class="math">Mathi</span>
+                    <span class="lab">Lab</span>
+
+                </div>
+
+
+                <p>
+                    Expérimente les mathématiques avec Python.
+                </p>
+
+            </div>
+
+
+            <!-- Utilisé par app.js -->
+            <span
+                id="status"
+                class="status-loading"
+                aria-live="polite">
+
+                Chargement de Python...
+
+            </span>
+
+        </div>
+
+
+        <!-- =================================================
+             ESPACE DE PROGRAMMATION
+             ================================================= -->
+        <div class="lab-grid">
+
+
+            <!-- =================================================
+                 ÉDITEUR
+                 ================================================= -->
+            <section class="editor-panel">
+
+
+                <div class="panel-title">
+
+                    <span>
+                        <i class="fas fa-file-code"></i>
+                        Éditeur Python
+                    </span>
+
+                    <span class="file-name">
+                        programme.py
+                    </span>
+
+                </div>
+
+
+                <!-- =================================================
+                     ÉDITEUR PYTHON
+                     ================================================= -->
+                <textarea
+                    id="code"
+                    spellcheck="false"
+                    autocomplete="off"
+                    autocapitalize="off"
+                    aria-label="Écris ton programme Python ici">print("Bienvenue dans MathiLab !")
+
+for nombre in range(1, 6):
+    print(nombre)</textarea>
+
+
+                <!-- =================================================
+                     ACTIONS
+                     ================================================= -->
+                <div class="editor-actions">
+
+
+                    <!-- EXÉCUTER -->
+                    <button
+                        id="run"
+                        class="run-button"
+                        type="button"
+                        disabled>
+
+                        <i class="fas fa-play"></i>
+
+                        Exécuter
+
+                    </button>
+
+
+                    <!-- EXPORTER -->
+                    <button
+                        id="export"
+                        class="export-button"
+                        type="button">
+
+                        <i class="fas fa-file-export"></i>
+
+                        Exporter le script
+
+                    </button>
+
+
+                    <!-- EFFACER -->
+                    <button
+                        id="clear"
+                        class="clear-button"
+                        type="button">
+
+                        <i class="fas fa-eraser"></i>
+
+                        Effacer
+
+                    </button>
+
+
+                    <!-- RACCOURCI -->
+                    <span class="shortcut">
+
+                        <i class="fas fa-keyboard"></i>
+
+                        Ctrl + Entrée
+
+                    </span>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 RÉSULTAT
+                 ================================================= -->
+            <section class="result-panel">
+
+
+                <div
+                    class="panel-title result-title">
+
+                    <span>
+
+                        <i class="fas fa-terminal"></i>
+
+                        Résultat
+
+                    </span>
+
+
+                    <span class="result-indicator">
+
+                        ● Console MathiLab
+
+                    </span>
+
+                </div>
+
+
+                <!-- Utilisé par app.js -->
+                <pre
+                    id="output"
+                    aria-live="polite">
+
+Chargement de Python et des bibliothèques scientifiques...
+
+                </pre>
+
+            </section>
+
+        </div>
+
+
+        <!-- =================================================
+             AIDE
+             ================================================= -->
+        <section class="help-card">
+
+            <i class="fas fa-lightbulb"></i>
+
+
+            <div>
+
+                <strong>Astuce</strong>
+
+
+                <p>
+
+                    Utilise les domaines du menu pour découvrir
+                    progressivement les mathématiques.
+
+                    Tu peux également utiliser Python pour effectuer
+                    des calculs, manipuler des données et construire
+                    des graphiques avec NumPy et Matplotlib.
+
+                </p>
+
+            </div>
+
+        </section>
+
+    </section>
+
+
+    <!-- =====================================================
+         DOMAINES MATHÉMATIQUES
+         ===================================================== -->
+
+    <section
+        id="domaines-page"
+        class="page">
+
+
+        <h1 class="tp-title">
+            Choisir un domaine
+        </h1>
+
+
+        <div class="tp-grid">
+
+
+            <!-- STATISTIQUES -->
+            <div
+                class="tp-card statistiques"
+                id="openStatistiques"
+                data-domaine="statistiques">
+
+                <i class="fas fa-chart-column"></i>
+
+                <span>
+                    Statistiques et probabilités
+                </span>
+
+            </div>
+
+
+            <!-- ALGÈBRE -->
+            <div
+                class="tp-card algebre"
+                id="openAlgebre"
+                data-domaine="algebre">
+
+                <i class="fas fa-cogs"></i>
+
+                <span>
+                    Algèbre – Analyse
+                </span>
+
+            </div>
+
+
+            <!-- GÉOMÉTRIE -->
+            <div
+                class="tp-card geometrie"
+                id="openGeometrie"
+                data-domaine="geometrie">
+
+                <i class="fas fa-draw-polygon"></i>
+
+                <span>
+                    Géométrie
+                </span>
+
+            </div>
+
+
+            <!-- ALGORITHMIQUE -->
+            <div
+                class="tp-card algorithme"
+                id="openAlgorithme"
+                data-domaine="algorithme">
+
+                <i class="fas fa-code"></i>
+
+                <span>
+                    Algorithmique et programmation
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CONTENU EXTERNE
+         ===================================================== -->
+    <section
+        id="external-content"
+        class="page">
+
+        <iframe
+            id="external-frame"
+            title="Contenu MathiLab"
+            loading="lazy">
+        </iframe>
+
+    </section>
+
+</div>
+
+
+<!-- =========================================================
+     VIEWER DES TP
+     ========================================================= -->
+<div
+    id="tpViewer"
+    class="tp-viewer hidden">
+
+
     <div class="viewer-topbar">
-      <h2>Travaux Dirigés</h2>
-      <button id="closeViewer">✖ Fermer</button>
+
+        <h2>
+            Travaux Dirigés
+        </h2>
+
+
+        <button
+            id="closeViewer"
+            type="button">
+
+            <i class="fas fa-xmark"></i>
+            Fermer
+
+        </button>
+
     </div>
-    <iframe id="tpFrame"></iframe>
-  </div>
+
+
+    <iframe
+        id="tpFrame"
+        title="Travail dirigé">
+
+    </iframe>
+
+</div>
+
+
+<!-- =========================================================
+     NAVIGATION
+     ========================================================= -->
+<script>
+
+    /* =====================================================
+       ACTIVER UN ÉLÉMENT DU MENU
+       ===================================================== */
+
+    function setActive(element) {
+
+        document
+            .querySelectorAll(".menu-item")
+            .forEach(item => {
+
+                item.classList.remove("active");
+
+            });
+
+
+        if (element) {
+
+            element.classList.add("active");
+
+        }
+
+    }
+
+
+    /* =====================================================
+       AFFICHER UNE SECTION
+       ===================================================== */
+
+    function showSection(
+        sectionId,
+        element = null
+    ) {
+
+        document
+            .querySelectorAll(".page")
+            .forEach(section => {
+
+                section.classList.remove("active-page");
+
+            });
+
+
+        const section =
+            document.getElementById(sectionId);
+
+
+        if (section) {
+
+            section.classList.add("active-page");
+
+        }
+
+
+        setActive(element);
+
+    }
+
+
+    /* =====================================================
+       CHARGER UNE PAGE DANS UN IFRAME
+       ===================================================== */
+
+    function loadInFrame(
+        url,
+        element = null
+    ) {
+
+        document
+            .querySelectorAll(".page")
+            .forEach(section => {
+
+                section.classList.remove("active-page");
+
+            });
+
+
+        const frameSection =
+            document.getElementById(
+                "external-content"
+            );
+
+
+        const iframe =
+            document.getElementById(
+                "external-frame"
+            );
+
+
+        if (!frameSection || !iframe) {
+
+            return;
+
+        }
+
+
+        iframe.src = url;
+
+        frameSection.classList.add(
+            "active-page"
+        );
+
+
+        setActive(element);
+
+    }
+
+
+    /* =====================================================
+       DISPONIBLE POUR app.js
+       ===================================================== */
+
+    window.showSection =
+        showSection;
+
+    window.loadInFrame =
+        loadInFrame;
+
+</script>
+
+
+<!-- =========================================================
+     PYODIDE CORE
+     ========================================================= -->
+
+<script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+
+
+<!-- =========================================================
+     APPLICATION MATHILAB
+     ========================================================= -->
+
+<script
+    type="module"
+    src="js/app.js">
+</script>
 
 
 </body>
