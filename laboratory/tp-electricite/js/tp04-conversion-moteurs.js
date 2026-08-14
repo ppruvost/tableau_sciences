@@ -31,6 +31,11 @@ const CONTEXTES_PRO = {
     problematique: "Comment convertir un courant alternatif en courant continu et comment un moteur électrique convertit-il l'énergie électrique en énergie mécanique ?",
   },
 
+  'tle-mcc': {
+    contexte: "Les machines à coudre industrielles sont équipées de moteurs à courant continu ou asynchrones alimentés à partir du secteur, via un module de conversion alternatif-continu pour les modèles à variateur électronique.",
+    problematique: "Comment convertir un courant alternatif en courant continu et comment un moteur électrique convertit-il l'énergie électrique en énergie mécanique ?",
+  },
+
 };
 
 const REDRESSEMENT_INFO = {
