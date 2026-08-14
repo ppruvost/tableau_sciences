@@ -30,6 +30,11 @@ const CONTEXTES_PRO = {
     problematique: "Comment mesurer et calculer la puissance active réellement consommée par un moteur alimenté en régime sinusoïdal ?",
   },
 
+  'tle-mcc': {
+    contexte: "Une machine à coudre électrique alimentée en régime sinusoïdal présente, comme tout moteur, un déphasage entre tension et intensité qui influence la puissance active réellement consommée.",
+    problematique: "Comment mesurer et calculer la puissance active réellement consommée par un appareil alimenté en régime sinusoïdal ?",
+  },
+
 };
 
 export function init() {
