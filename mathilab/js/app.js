@@ -1,11 +1,11 @@
 // =========================================================
 // MATHILAB
-// NAVIGATION + PYODIDE + NUMPY + MATPLOTLIB
+// PYODIDE + NUMPY + MATPLOTLIB
 // =========================================================
 
 
 // =========================================================
-// VARIABLES PYTHON
+// VARIABLES
 // =========================================================
 
 let pyodide = null;
@@ -16,21 +16,47 @@ let pythonReady = false;
 // ÉLÉMENTS DOM
 // =========================================================
 
-const homeButton    = document.getElementById("homeButton");
-const pythonButton  = document.getElementById("pythonButton");
-const examplesButton = document.getElementById("examplesButton");
+const homeButton =
+    document.getElementById("homeButton");
 
-const startButton   = document.getElementById("startButton");
+const pythonButton =
+    document.getElementById("pythonButton");
 
-const runButton     = document.getElementById("run");
-const clearButton   = document.getElementById("clear");
-const exportButton  = document.getElementById("export");
+const examplesButton =
+    document.getElementById("examplesButton");
 
-const codeEditor    = document.getElementById("code");
-const output        = document.getElementById("output");
-const status        = document.getElementById("status");
+const examplesMenu =
+    document.getElementById("examplesMenu");
 
-const examplesMenu  = document.getElementById("examplesMenu");
+const startButton =
+    document.getElementById("startButton");
+
+const runButton =
+    document.getElementById("run");
+
+const clearButton =
+    document.getElementById("clear");
+
+const exportButton =
+    document.getElementById("export");
+
+const menuClear =
+    document.getElementById("menuClear");
+
+const codeEditor =
+    document.getElementById("code");
+
+const output =
+    document.getElementById("output");
+
+const status =
+    document.getElementById("status");
+
+const graphContainer =
+    document.getElementById("graph-container");
+
+const graphStatus =
+    document.getElementById("graph-status");
 
 
 // =========================================================
@@ -88,7 +114,7 @@ window.showSection = function (
 
 
 // =========================================================
-// CHARGER UNE PAGE EXTERNE
+// IFRAME
 // =========================================================
 
 window.loadInFrame = function (
@@ -143,7 +169,7 @@ homeButton?.addEventListener(
 
 
 // =========================================================
-// OUVRIR MATHILAB
+// MATHILAB
 // =========================================================
 
 pythonButton?.addEventListener(
@@ -160,7 +186,7 @@ pythonButton?.addEventListener(
 
 
 // =========================================================
-// BOUTON COMMENCER
+// COMMENCER
 // =========================================================
 
 startButton?.addEventListener(
@@ -177,24 +203,20 @@ startButton?.addEventListener(
 
 
 // =========================================================
-// MENU DOMAINES
+// MENU EXEMPLES
 // =========================================================
 
 examplesButton?.addEventListener(
     "click",
-    () => {
+    event => {
 
-        if (!examplesMenu) return;
+        event.stopPropagation();
 
-        examplesMenu.classList.toggle("show");
+        examplesMenu?.classList.toggle("show");
 
     }
 );
 
-
-// =========================================================
-// FERMER LE MENU SI CLIC AILLEURS
-// =========================================================
 
 document.addEventListener(
     "click",
@@ -205,7 +227,9 @@ document.addEventListener(
             !examplesMenu?.contains(event.target)
         ) {
 
-            examplesMenu?.classList.remove("show");
+            examplesMenu?.classList.remove(
+                "show"
+            );
 
         }
 
@@ -227,10 +251,6 @@ const closeViewer =
     document.getElementById("closeViewer");
 
 
-// =========================================================
-// OUVRIR UN TP
-// =========================================================
-
 function openTP(url) {
 
     if (!tpViewer || !tpFrame) return;
@@ -241,10 +261,6 @@ function openTP(url) {
 
 }
 
-
-// =========================================================
-// FERMER LE TP
-// =========================================================
 
 closeViewer?.addEventListener(
     "click",
@@ -349,15 +365,102 @@ window.updateProgress = function () {
 
 
 // =========================================================
-// CHARGEMENT DE PYODIDE
+// AFFICHAGE GRAPHIQUE
+// =========================================================
+
+function clearGraph() {
+
+    if (!graphContainer) return;
+
+    graphContainer.innerHTML = `
+
+        <div class="graph-placeholder">
+
+            <i class="fas fa-chart-area"></i>
+
+            <p>
+                Le graphique apparaîtra ici.
+            </p>
+
+            <small>
+                Utilise Matplotlib dans ton programme Python.
+            </small>
+
+        </div>
+
+    `;
+
+    if (graphStatus) {
+
+        graphStatus.textContent =
+            "● Prêt";
+
+    }
+
+}
+
+
+// =========================================================
+// AFFICHER UNE IMAGE PNG
+// =========================================================
+
+function displayGraph(base64) {
+
+    if (!graphContainer || !base64) {
+
+        return;
+
+    }
+
+
+    graphContainer.innerHTML = "";
+
+
+    const image =
+        document.createElement("img");
+
+
+    image.className =
+        "mathilab-graph";
+
+
+    image.alt =
+        "Graphique généré avec Matplotlib";
+
+
+    image.src =
+        "data:image/png;base64," +
+        base64;
+
+
+    graphContainer.appendChild(
+        image
+    );
+
+
+    if (graphStatus) {
+
+        graphStatus.textContent =
+            "● Graphique généré";
+
+    }
+
+}
+
+
+// =========================================================
+// CHARGEMENT PYODIDE
 // =========================================================
 
 async function loadPyodideEngine() {
 
-    if (typeof loadPyodide !== "function") {
+    if (
+        typeof loadPyodide !==
+        "function"
+    ) {
 
         console.error(
-            "Pyodide n'est pas disponible."
+            "Pyodide indisponible."
         );
 
         if (status) {
@@ -367,13 +470,6 @@ async function loadPyodideEngine() {
 
             status.className =
                 "status-error";
-
-        }
-
-        if (output) {
-
-            output.textContent =
-                "Impossible de charger Pyodide.";
 
         }
 
@@ -403,11 +499,8 @@ async function loadPyodideEngine() {
         }
 
 
-        // =================================================
-        // PYODIDE
-        // =================================================
-
-        pyodide = await loadPyodide();
+        pyodide =
+            await loadPyodide();
 
 
         // =================================================
@@ -421,7 +514,10 @@ async function loadPyodideEngine() {
 
         }
 
-        await pyodide.loadPackage("numpy");
+
+        await pyodide.loadPackage(
+            "numpy"
+        );
 
 
         // =================================================
@@ -434,6 +530,7 @@ async function loadPyodideEngine() {
                 "Chargement de Matplotlib...";
 
         }
+
 
         await pyodide.loadPackage(
             "matplotlib"
@@ -448,20 +545,18 @@ async function loadPyodideEngine() {
 
 import sys
 import math
+import base64
+from io import StringIO, BytesIO
 
 import numpy as np
-import matplotlib
 
+import matplotlib
 matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt
 
         `);
 
-
-        // =================================================
-        // PYTHON PRÊT
-        // =================================================
 
         pythonReady = true;
 
@@ -486,35 +581,29 @@ import matplotlib.pyplot as plt
         }
 
 
-        if (runButton) {
-
-            runButton.disabled = false;
-
-        }
+        runButton &&
+            (runButton.disabled = false);
 
 
         console.log(
-            "MathiLab : Python chargé"
+            "MathiLab : Python prêt"
         );
 
         console.log(
-            "MathiLab : NumPy chargé"
+            "MathiLab : NumPy prêt"
         );
 
         console.log(
-            "MathiLab : Matplotlib chargé"
+            "MathiLab : Matplotlib prêt"
         );
 
 
     } catch (error) {
 
         console.error(
-            "Erreur lors du chargement de Pyodide :",
+            "Erreur Pyodide :",
             error
         );
-
-
-        pythonReady = false;
 
 
         if (status) {
@@ -531,7 +620,7 @@ import matplotlib.pyplot as plt
         if (output) {
 
             output.textContent =
-                "Erreur lors du chargement de Python :\\n\\n" +
+                "Erreur lors du chargement :\\n\\n" +
                 error;
 
         }
@@ -592,6 +681,9 @@ async function runPython() {
     }
 
 
+    clearGraph();
+
+
     if (output) {
 
         output.textContent =
@@ -603,13 +695,10 @@ async function runPython() {
     try {
 
         // =================================================
-        // REDIRECTION DE LA CONSOLE PYTHON
+        // PRÉPARATION DE LA CONSOLE
         // =================================================
 
         pyodide.runPython(`
-
-import sys
-from io import StringIO
 
 _mathilab_output = StringIO()
 
@@ -620,14 +709,16 @@ sys.stderr = _mathilab_output
 
 
         // =================================================
-        // EXÉCUTION
+        // EXÉCUTION DU CODE
         // =================================================
 
-        await pyodide.runPythonAsync(code);
+        await pyodide.runPythonAsync(
+            code
+        );
 
 
         // =================================================
-        // RÉCUPÉRATION DU RÉSULTAT
+        // RÉCUPÉRER LE TEXTE
         // =================================================
 
         const result =
@@ -639,7 +730,59 @@ sys.stderr = _mathilab_output
         if (output) {
 
             output.textContent =
-                result || "Programme exécuté avec succès.";
+                result ||
+                "Programme exécuté avec succès.";
+
+        }
+
+
+        // =================================================
+        // RECHERCHER LES FIGURES
+        // =================================================
+
+        const figureCount =
+            pyodide.runPython(
+                "len(plt.get_fignums())"
+            );
+
+
+        if (figureCount > 0) {
+
+            const base64 =
+                pyodide.runPython(`
+
+import base64
+from io import BytesIO
+
+_fig = plt.gcf()
+
+_buffer = BytesIO()
+
+_fig.savefig(
+    _buffer,
+    format="png",
+    bbox_inches="tight",
+    dpi=120
+)
+
+_buffer.seek(0)
+
+base64.b64encode(
+    _buffer.read()
+).decode("utf-8")
+
+                `);
+
+
+            displayGraph(
+                base64
+            );
+
+
+            // Fermer les figures
+            pyodide.runPython(
+                "plt.close('all')"
+            );
 
         }
 
@@ -660,11 +803,18 @@ sys.stderr = _mathilab_output
 
         }
 
+
+        if (graphStatus) {
+
+            graphStatus.textContent =
+                "● Erreur";
+
+        }
+
     } finally {
 
-
         // =================================================
-        // RESTAURATION STDOUT / STDERR
+        // RESTAURATION CONSOLE
         // =================================================
 
         try {
@@ -676,11 +826,11 @@ sys.stderr = sys.__stderr__
 
             `);
 
-        } catch (e) {
+        } catch (error) {
 
             console.warn(
-                "Impossible de restaurer stdout.",
-                e
+                "Restauration console impossible.",
+                error
             );
 
         }
@@ -734,7 +884,7 @@ codeEditor?.addEventListener(
 
 
 // =========================================================
-// EFFACER L'ÉDITEUR
+// EFFACER
 // =========================================================
 
 function clearEditor() {
@@ -753,6 +903,9 @@ function clearEditor() {
 
     }
 
+
+    clearGraph();
+
 }
 
 
@@ -762,20 +915,14 @@ clearButton?.addEventListener(
 );
 
 
-// =========================================================
-// EFFACER VIA LE MENU LATÉRAL
-// =========================================================
-
-document
-    .getElementById("menuClear")
-    ?.addEventListener(
-        "click",
-        clearEditor
-    );
+menuClear?.addEventListener(
+    "click",
+    clearEditor
+);
 
 
 // =========================================================
-// EXPORTER LE SCRIPT PYTHON
+// EXPORT PYTHON
 // =========================================================
 
 function exportPython() {
@@ -783,13 +930,9 @@ function exportPython() {
     if (!codeEditor) return;
 
 
-    const code =
-        codeEditor.value;
-
-
     const blob =
         new Blob(
-            [code],
+            [codeEditor.value],
             {
                 type: "text/x-python"
             }
@@ -810,7 +953,10 @@ function exportPython() {
         "programme.py";
 
 
-    document.body.appendChild(link);
+    document.body.appendChild(
+        link
+    );
+
 
     link.click();
 
@@ -829,7 +975,7 @@ exportButton?.addEventListener(
 
 
 // =========================================================
-// EXEMPLES PYTHON
+// EXEMPLES
 // =========================================================
 
 const EXAMPLES = {
@@ -837,10 +983,8 @@ const EXAMPLES = {
     bonjour: `print("Bonjour depuis MathiLab !")`,
 
 
-
     boucle: `for nombre in range(1, 11):
     print(nombre)`,
-
 
 
     liste: `nombres = [12, 15, 18, 20, 25]
@@ -849,7 +993,6 @@ print("Données :", nombres)
 print("Effectif :", len(nombres))
 print("Somme :", sum(nombres))
 print("Moyenne :", sum(nombres) / len(nombres))`,
-
 
 
     calcul: `a = 12
@@ -861,29 +1004,34 @@ print("a × b =", a * b)
 print("a ÷ b =", a / b)`,
 
 
-
     graphique: `import numpy as np
 import matplotlib.pyplot as plt
 
 x = np.linspace(0, 10, 100)
+
 y = x ** 2
 
 plt.figure(figsize=(7, 4))
+
 plt.plot(x, y)
+
 plt.title("Fonction carré")
+
 plt.xlabel("x")
+
 plt.ylabel("y")
+
 plt.grid()
 
-print("Graphique créé avec NumPy et Matplotlib.")
+plt.show()
 
-plt.show()`
+print("Graphique créé avec Matplotlib.")`
 
 };
 
 
 // =========================================================
-// CHARGER UN EXEMPLE
+// CHARGER LES EXEMPLES
 // =========================================================
 
 document
@@ -922,40 +1070,6 @@ document
                 window.showSection(
                     "python-page",
                     pythonButton
-                );
-
-            }
-        );
-
-    });
-
-
-// =========================================================
-// DOMAINE → EXEMPLES
-// =========================================================
-
-document
-    .querySelectorAll(
-        "[data-domaine]"
-    )
-    .forEach(button => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                const domaine =
-                    button.dataset.domaine;
-
-
-                examplesMenu?.classList.remove(
-                    "show"
-                );
-
-
-                console.log(
-                    "Domaine sélectionné :",
-                    domaine
                 );
 
             }
