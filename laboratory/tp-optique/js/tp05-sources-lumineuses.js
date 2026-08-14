@@ -22,8 +22,13 @@ import laboratoryEquipment from '../../data/equipment.js';
 // Contexte professionnel par filière (clé "niveau-idFiliere")
 const CONTEXTES_PRO = {
 
-  '1ere-remi': {
-    contexte: "En Réalisation d'Ensembles Mécaniques et Industriels, l'éclairage des postes de travail doit être suffisant et durable ; le choix des lampes de l'atelier a un impact direct sur la facture énergétique.",
+  '1ere-tci': {
+    contexte: "En chaudronnerie industrielle, l'éclairage du poste de soudage et de traçage doit être suffisant et durable ; le choix des lampes de l'atelier a un impact direct sur la facture énergétique.",
+    problematique: "Comment comparer l'efficacité énergétique de deux sources lumineuses pour choisir l'éclairage d'un poste de travail ?",
+  },
+
+  '1ere-trpm': {
+    contexte: "Sur une machine-outil, un éclairage localisé performant et économe est nécessaire pour le contrôle précis des pièces usinées ; le choix des lampes de l'atelier a un impact direct sur la facture énergétique.",
     problematique: "Comment comparer l'efficacité énergétique de deux sources lumineuses pour choisir l'éclairage d'un poste de travail ?",
   },
 
