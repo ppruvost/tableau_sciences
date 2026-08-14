@@ -1,571 +1,1702 @@
-/* =========================
-   RESET + BASE
-========================= */
+/* =========================================================
+   MATHILAB
+   Mathématiques • Python • NumPy • Matplotlib
+   ========================================================= */
+
+
+/* =========================================================
+   VARIABLES
+   ========================================================= */
+
+:root {
+
+    --orange: #f28c18;
+    --orange-dark: #d96f00;
+    --orange-light: #fff3e0;
+
+    --bleu: #1769aa;
+    --bleu-dark: #0d4f80;
+    --bleu-light: #eaf4fc;
+
+    --vert: #12b886;
+    --vert-dark: #087f5b;
+    --vert-light: #e6fcf5;
+
+    --rouge: #c2410c;
+    --rouge-light: #fff1eb;
+
+    --texte: #20252b;
+    --texte-clair: #66707a;
+
+    --blanc: #ffffff;
+
+    --gris-50: #fafafa;
+    --gris-100: #f4f5f7;
+    --gris-200: #e5e7eb;
+    --gris-300: #d1d5db;
+    --gris-500: #6b7280;
+
+    --noir: #111827;
+
+    --ombre:
+        0 4px 14px rgba(0, 0, 0, 0.10);
+
+    --ombre-forte:
+        0 8px 24px rgba(0, 0, 0, 0.15);
+
+    --rayon: 10px;
+
+    --menu-width: 78px;
+
+}
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
 * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
 }
 
-/* =========================
-   CHARTE GRAPHIQUE — UNE COULEUR PAR DOMAINE DE TP
-   Source unique de vérité pour toutes les teintes de domaine,
-   réutilisée ci-dessous par .tp-card et par le bandeau du viewer.
-   Chaque tp-<domaine>/css/style.css doit utiliser exactement ces
-   mêmes teintes pour rester cohérent avec cette page d'accueil.
-========================= */
-:root {
-    --domaine-statistiques-1: #E87A0E;
-    --domaine-statistiques-2: #A8500A;
 
-    --domaine-algebre-1: #1B6CA8;
-    --domaine-algebre-2: #0D4F8A;
+html {
+    margin: 0;
+    padding: 0;
 
-    --domaine-geometrie-1: #10B981;
-    --domaine-geometrie-2: #059669;
+    width: 100%;
+    min-height: 100%;
 
-    --domaine-algorithme-1: #C1440E;
-    --domaine-algorithme-2: #7A2E0E;
+    scroll-behavior: smooth;
 }
+
 
 body {
-    font-family: Arial, sans-serif;
-    background: #f4f4f4;
-    color: #222;
+
+    margin: 0;
+    padding: 0;
+
+    min-height: 100vh;
+
+    font-family:
+        "Lexend",
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    font-size: 16px;
+
     line-height: 1.5;
+
+    color: var(--texte);
+
+    background:
+        linear-gradient(
+            135deg,
+            #f7f9fb 0%,
+            #ffffff 50%,
+            #f1f5f9 100%
+        );
+
 }
 
-/* =========================
-   MENU HORIZONTAL
-========================= */
-.top-menu {
-    display: flex;
-    flex-wrap: wrap; /* retour à la ligne si manque de place */
-    width: 100%;
-    background: #2c3e50;
-    color: white;
-}
 
-.menu-item {
-    flex: 1 1 auto;
-    min-width: 180px;
-    text-align: center;
-    padding: 15px 20px;
-    cursor: pointer;
-    transition: 0.3s;
-    font-size: 15px;
-}
+/* =========================================================
+   PAGE
+   IMPORTANT :
+   UNE SEULE PAGE DOIT ÊTRE VISIBLE
+   ========================================================= */
 
-.menu-item:hover {
-    background: #34495e;
-}
-
-.menu-item.active {
-    background: #e67e22;
-}
-
-/* =========================
-   CONTENU
-========================= */
-.container {
-    width: 100%;
-    max-width: 100%;
-    padding: 20px;
-}
-
-.section {
+.page {
     display: none;
 }
 
-.section.active {
+
+.page.active-page {
     display: block;
 }
 
-h2 {
-    margin-bottom: 20px;
-    font-size: clamp(22px, 3vw, 32px);
-}
 
-/* =========================
-   TABLE RESPONSIVE
-========================= */
-.table-wrapper {
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    background: white;
-    border-radius: 10px;
-}
+/* =========================================================
+   MENU LATÉRAL
+   ========================================================= */
 
-/* scrollbar plus fluide mobile */
-.table-wrapper::-webkit-scrollbar {
-    height: 8px;
-}
+.menu {
 
-table {
-    width: 100%;
-    min-width: 900px; /* garde structure desktop */
-    border-collapse: collapse;
-    background: white;
-}
+    position: fixed;
 
-th,
-td {
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: left;
-    vertical-align: middle;
-    font-size: 14px;
-}
+    top: 0;
+    left: 0;
+    bottom: 0;
 
-th {
-    background: #ecf0f1;
-    font-weight: bold;
-}
+    width: var(--menu-width);
 
-/* =========================
-   PICTOGRAMMES + VISUELS (LOUPE UNIFIÉE)
-========================= */
-
-.picto-container,
-.image-container {
-    display: inline-block;
-    position: relative;
-    margin: 0 4px;
-}
-
-/* style commun images */
-.picto,
-.table-image {
-    max-width: 100%;
-    height: auto;
-    cursor: pointer;
-    transition: transform 0.25s ease;
-}
-
-/* tailles différentes */
-.picto {
-    width: 40px;
-}
-
-.table-image {
-    width: 60px;
-    border-radius: 6px;
-}
-
-/* effet loupe commun */
-.picto-container:hover .picto,
-.image-container:hover .table-image {
-    transform: scale(2.5);
-    position: relative;
-    z-index: 20;
-}
-/* =========================
-   IFRAME EXTERNE
-========================= */
-#external-frame {
-    width: 100%;
-    height: 90vh;
-    border: none;
-    border-radius: 10px;
-    background: white;
-}
-
-/* =========================
-   TABLETTE
-========================= */
-@media (max-width: 1024px) {
-    .menu-item {
-        min-width: 150px;
-        font-size: 14px;
-        padding: 14px 16px;
-    }
-
-    th,
-    td {
-        font-size: 13px;
-        padding: 8px;
-    }
-
-    .picto {
-        width: 34px;
-    }
-
-    table img {
-        max-width: 65px;
-    }
-}
-
-/* =========================
-   MOBILE
-========================= */
-@media (max-width: 768px) {
-    .top-menu {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .menu-item {
-        width: 100%;
-        min-width: unset;
-        padding: 14px;
-        font-size: 14px;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .container {
-        padding: 12px;
-    }
-
-    h2 {
-        font-size: 22px;
-    }
-
-    table {
-        min-width: 700px;
-    }
-
-    .picto {
-        width: 30px;
-    }
-
-    table img {
-        max-width: 55px;
-    }
-
-    #external-frame {
-        height: 75vh;
-    }
-}
-
-/* =========================
-   PETIT MOBILE
-========================= */
-@media (max-width: 480px) {
-    .container {
-        padding: 10px;
-    }
-
-    h2 {
-        font-size: 20px;
-    }
-
-    th,
-    td {
-        font-size: 12px;
-        padding: 7px;
-    }
-
-    .picto {
-        width: 26px;
-    }
-
-    table img {
-        max-width: 45px;
-    }
-
-    #external-frame {
-        height: 70vh;
-    }
-}
-
-/* =========================
-   PAGE DOMAINES TP
-========================= */
-
-.tp-title {
-    text-align: center;
-    margin: 30px 0;
-    font-size: 2.2rem;
-    color: #1f2937;
-}
-
-.tp-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 25px;
-    padding: 20px;
-}
-
-.tp-card {
-    height: 180px;
-    border-radius: 20px;
-    color: white;
-    font-size: 1.3rem;
-    font-weight: bold;
+    z-index: 1000;
 
     display: flex;
+
     flex-direction: column;
-    justify-content: center;
+
     align-items: center;
+
+    gap: 10px;
+
+    padding: 16px 10px;
+
+    background: #111827;
+
+    border-right: 1px solid #273244;
+
+    box-shadow:
+        3px 0 14px rgba(0, 0, 0, 0.12);
+
+}
+
+
+/* =========================================================
+   BOUTONS DU MENU
+   ========================================================= */
+
+.menu-item {
+
+    position: relative;
+
+    width: 56px;
+    height: 56px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #39475a;
+
+    border-radius: 9px;
+
+    background: #1f2937;
+
+    color: #f8fafc;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+
+}
+
+
+.menu-item:hover {
+
+    background: #374151;
+
+    transform: translateY(-2px);
+
+}
+
+
+.menu-item.active {
+
+    background: var(--orange);
+
+    border-color: var(--orange);
+
+    color: #ffffff;
+
+    box-shadow:
+        0 4px 12px rgba(242, 140, 24, 0.35);
+
+}
+
+
+/* =========================================================
+   TOOLTIPS
+   ========================================================= */
+
+.menu-item::after {
+
+    content: attr(data-tooltip);
+
+    position: absolute;
+
+    left: calc(100% + 12px);
+
+    top: 50%;
+
+    transform:
+        translateY(-50%)
+        translateX(-5px);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    white-space: nowrap;
+
+    padding: 7px 10px;
+
+    border-radius: 6px;
+
+    background: #111827;
+
+    color: #ffffff;
+
+    font-size: 13px;
+
+    box-shadow: var(--ombre);
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+
+}
+
+
+.menu-item:hover::after {
+
+    opacity: 1;
+
+    transform:
+        translateY(-50%)
+        translateX(0);
+
+}
+
+
+/* =========================================================
+   SOUS-MENU
+   ========================================================= */
+
+.menu-wrapper {
+
+    position: relative;
+
+}
+
+
+.submenu {
+
+    position: absolute;
+
+    left: calc(100% + 12px);
+
+    top: 0;
+
+    width: 230px;
+
+    display: none;
+
+    flex-direction: column;
+
+    padding: 8px;
+
+    gap: 4px;
+
+    background: #ffffff;
+
+    border: 1px solid var(--gris-200);
+
+    border-radius: 10px;
+
+    box-shadow: var(--ombre-forte);
+
+    z-index: 1100;
+
+}
+
+
+.submenu.show {
+
+    display: flex;
+
+}
+
+
+.submenu button {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    width: 100%;
+
+    padding: 10px 12px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    background: transparent;
+
+    color: var(--texte);
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    text-align: left;
+
+    cursor: pointer;
+
+}
+
+
+.submenu button:hover {
+
+    background: var(--orange-light);
+
+    color: var(--orange-dark);
+
+}
+
+
+/* =========================================================
+   CONTENEUR PRINCIPAL
+   ========================================================= */
+
+#content-container {
+
+    margin-left: var(--menu-width);
+
+    min-height: 100vh;
+
+    width: calc(100% - var(--menu-width));
+
+}
+
+
+/* =========================================================
+   ACCUEIL
+   ========================================================= */
+
+#home-message {
+
+    min-height: 100vh;
+
+    padding:
+        70px
+        60px
+        60px;
+
+    display: none;
+
+    align-items: center;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    text-align: center;
+
+}
+
+
+#home-message.active-page {
+
+    display: flex;
+
+}
+
+
+/* =========================================================
+   ICÔNE ACCUEIL
+   ========================================================= */
+
+.home-icon {
+
+    width: 90px;
+    height: 90px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 20px;
+
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--orange),
+            var(--orange-dark)
+        );
+
+    color: #ffffff;
+
+    font-size: 42px;
+
+    box-shadow:
+        0 10px 25px
+        rgba(242, 140, 24, 0.30);
+
+}
+
+
+/* =========================================================
+   TITRES ACCUEIL
+   ========================================================= */
+
+#home-message h2 {
+
+    margin: 0 0 12px;
+
+    font-size: clamp(28px, 4vw, 42px);
+
+    font-weight: 800;
+
+}
+
+
+/* =========================================================
+   LOGO MATHILAB
+   ========================================================= */
+
+.mathilab-logo {
+
+    display: inline-flex;
+
+    align-items: baseline;
+
+    justify-content: center;
+
+    margin: 5px 0 14px;
+
+    font-size: clamp(38px, 5vw, 58px);
+
+    line-height: 1;
+
+    font-weight: 900;
+
+    letter-spacing: -2px;
+
+}
+
+
+.mathilab-logo .math {
+
+    color: var(--bleu);
+
+}
+
+
+.mathilab-logo .lab {
+
+    color: var(--orange);
+
+}
+
+
+/* =========================================================
+   TAGLINE
+   ========================================================= */
+
+.mathilab-tagline {
+
+    margin: 0 0 18px;
+
+    color: var(--texte-clair);
+
+    font-size: 18px;
+
+    font-weight: 600;
+
+}
+
+
+#home-message > p:not(.signature):not(.mathilab-tagline) {
+
+    max-width: 850px;
+
+    margin:
+        6px
+        auto;
+
+    color: #4b5563;
+
+}
+
+
+/* =========================================================
+   ACTION ACCUEIL
+   ========================================================= */
+
+.home-actions {
+
+    margin-top: 25px;
+
+}
+
+
+.start-button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    padding: 13px 24px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--orange),
+            var(--orange-dark)
+        );
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 15px
+        rgba(242, 140, 24, 0.30);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+
+}
+
+
+.start-button:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px
+        rgba(242, 140, 24, 0.35);
+
+}
+
+
+/* =========================================================
+   SIGNATURE
+   ========================================================= */
+
+.signature {
+
+    margin-top: 35px;
+
+    color: var(--texte-clair);
+
+    font-size: 14px;
+
+}
+
+
+/* =========================================================
+   PAGE MATHILAB
+   ========================================================= */
+
+#python-page {
+
+    padding: 35px;
+
+}
+
+
+#python-page.active-page {
+
+    display: block;
+
+}
+
+
+/* =========================================================
+   EN-TÊTE
+   ========================================================= */
+
+.page-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 25px;
+
+    margin-bottom: 25px;
+
+    padding: 22px 25px;
+
+    background: #ffffff;
+
+    border: 1px solid var(--gris-200);
+
+    border-radius: var(--rayon);
+
+    box-shadow: var(--ombre);
+
+}
+
+
+.page-header h1 {
+
+    margin: 0 0 4px;
+
+    color: var(--bleu);
+
+    font-size: 30px;
+
+}
+
+
+.page-header .mathilab-logo {
+
+    margin: 0 0 6px;
+
+    font-size: 32px;
+
+}
+
+
+.page-header p {
+
+    margin: 0;
+
+    color: var(--texte-clair);
+
+}
+
+
+/* =========================================================
+   STATUT PYODIDE
+   ========================================================= */
+
+.status-loading,
+.status-ready,
+.status-error {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 8px 12px;
+
+    border-radius: 20px;
+
+    white-space: nowrap;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+}
+
+
+.status-loading {
+
+    background: #fff7ed;
+
+    color: #c2410c;
+
+}
+
+
+.status-ready {
+
+    background: #ecfdf5;
+
+    color: #087f5b;
+
+}
+
+
+.status-error {
+
+    background: #fef2f2;
+
+    color: #b91c1c;
+
+}
+
+
+/* =========================================================
+   ESPACE DE TRAVAIL
+   ========================================================= */
+
+.lab-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(320px, 1.1fr)
+        minmax(280px, 0.9fr);
+
+    gap: 20px;
+
+    align-items: stretch;
+
+}
+
+
+/* =========================================================
+   PANNEAUX
+   ========================================================= */
+
+.editor-panel,
+.result-panel,
+.graph-panel {
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border: 1px solid var(--gris-200);
+
+    border-radius: var(--rayon);
+
+    box-shadow: var(--ombre);
+
+}
+
+
+/* =========================================================
+   TITRE PANNEAU
+   ========================================================= */
+
+.panel-title {
+
+    min-height: 48px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
 
     gap: 15px;
 
-    cursor: pointer;
+    padding: 10px 15px;
 
-    transition: 0.25s;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    background: #f8fafc;
+
+    border-bottom: 1px solid var(--gris-200);
+
+    font-size: 14px;
+
+    font-weight: 700;
+
 }
 
-.tp-card i {
-    font-size: 3rem;
+
+.panel-title > span:first-child {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
 }
 
-.tp-card:hover {
-    transform: translateY(-6px) scale(1.03);
-    box-shadow: 0 12px 22px rgba(0,0,0,0.25);
+
+.panel-title i {
+
+    color: var(--bleu);
+
 }
 
-/* Couleurs — une teinte par domaine, cf. bloc :root ci-dessus.
-   TP Chimie reste bleu (identité déjà établie dans
-   tp-chimie/css/style.css) ; TP Acoustique passe au cyan pour éviter
-   le doublon avec le bleu désormais réservé à la chimie. */
 
-.statistiques {
-    background: linear-gradient(135deg, var(--domaine-statistiques-1), var(--domaine-statistiques-2));
+.file-name {
+
+    color: var(--gris-500);
+
+    font-size: 12px;
+
+    font-weight: 500;
+
 }
 
-.algebre {
-    background: linear-gradient(135deg, var(--domaine-algebre-1), var(--domaine-algebre-2));
-}
 
-.geometrie {
-    background: linear-gradient(135deg, var(--domaine-geometrie-1), var(--domaine-geometrie-2));
-}
+/* =========================================================
+   ÉDITEUR
+   ========================================================= */
 
-.algorithme {
-    background: linear-gradient(135deg, var(--domaine-algorithme-1), var(--domaine-algorithme-2));
-}
+#code {
 
-/* =========================
-   RESPONSIVE DOMAINES TP
-========================= */
-
-@media (max-width: 768px) {
-
-    .tp-grid {
-        grid-template-columns: 1fr;
-        gap: 18px;
-        padding: 10px;
-    }
-
-    .tp-card {
-        height: 140px;
-        font-size: 1.1rem;
-    }
-
-    .tp-card i {
-        font-size: 2.2rem;
-    }
-}
-
-/* =====================================
-   TP VIEWER
-===================================== */
-
-.tp-viewer {
-    position: fixed;
-    inset: 0;
+    display: block;
 
     width: 100%;
-    height: 100vh;
 
-    background: #0f1720;
+    min-height: 390px;
 
-    z-index: 9999;
+    padding: 18px;
+
+    resize: vertical;
+
+    border: none;
+
+    outline: none;
+
+    background: #111827;
+
+    color: #f9fafb;
+
+    font-family:
+        "DejaVu Sans Mono",
+        "Consolas",
+        monospace;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+}
+
+
+#code:focus {
+
+    box-shadow:
+        inset 0 0 0 2px var(--bleu);
+
+}
+
+
+/* =========================================================
+   ACTIONS ÉDITEUR
+   ========================================================= */
+
+.editor-actions {
 
     display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    padding: 12px;
+
+    background: #f8fafc;
+
+    border-top: 1px solid var(--gris-200);
+
+}
+
+
+.editor-actions button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    min-height: 36px;
+
+    padding: 7px 12px;
+
+    border-radius: 6px;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+}
+
+
+.run-button {
+
+    border: 1px solid var(--bleu);
+
+    background: var(--bleu);
+
+    color: #ffffff;
+
+}
+
+
+.run-button:hover:not(:disabled) {
+
+    background: var(--bleu-dark);
+
+}
+
+
+.run-button:disabled {
+
+    opacity: 0.55;
+
+    cursor: not-allowed;
+
+}
+
+
+.export-button {
+
+    border: 1px solid var(--vert);
+
+    background: var(--vert);
+
+    color: #ffffff;
+
+}
+
+
+.export-button:hover {
+
+    background: var(--vert-dark);
+
+}
+
+
+.clear-button {
+
+    border: 1px solid #dc2626;
+
+    background: #ffffff;
+
+    color: #dc2626;
+
+}
+
+
+.clear-button:hover {
+
+    background: #fef2f2;
+
+}
+
+
+.shortcut {
+
+    margin-left: auto;
+
+    color: var(--gris-500);
+
+    font-size: 12px;
+
+}
+
+
+/* =========================================================
+   CONSOLE
+   ========================================================= */
+
+.result-panel {
+
+    display: flex;
+
     flex-direction: column;
+
 }
 
-/* IMPORTANT */
+
+#output {
+
+    flex: 1;
+
+    min-height: 390px;
+
+    margin: 0;
+
+    padding: 18px;
+
+    overflow: auto;
+
+    white-space: pre-wrap;
+
+    word-break: break-word;
+
+    background: #0f172a;
+
+    color: #e2e8f0;
+
+    font-family:
+        "DejaVu Sans Mono",
+        "Consolas",
+        monospace;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+}
+
+
+.result-title i {
+
+    color: var(--vert);
+
+}
+
+
+.result-indicator {
+
+    color: var(--gris-500);
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+}
+
+
+/* =========================================================
+   GRAPHIQUE
+   ========================================================= */
+
+.graph-panel {
+
+    grid-column: 1 / -1;
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+.graph-title i {
+
+    color: var(--orange);
+
+}
+
+
+.graph-container {
+
+    min-height: 400px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background: #ffffff;
+
+    overflow: auto;
+
+}
+
+
+.graph-placeholder {
+
+    padding: 30px;
+
+    text-align: center;
+
+    color: var(--gris-500);
+
+}
+
+
+.graph-placeholder i {
+
+    margin-bottom: 12px;
+
+    color: var(--orange);
+
+    font-size: 48px;
+
+}
+
+
+.graph-placeholder p {
+
+    margin: 6px 0;
+
+    font-weight: 700;
+
+}
+
+
+.graph-placeholder small {
+
+    display: block;
+
+    max-width: 500px;
+
+}
+
+
+.mathilab-graph {
+
+    display: block;
+
+    max-width: 100%;
+
+    height: auto;
+
+    margin: auto;
+
+}
+
+
+/* =========================================================
+   AIDE
+   ========================================================= */
+
+.help-card {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+    margin-top: 20px;
+
+    padding: 18px 20px;
+
+    background: var(--orange-light);
+
+    border: 1px solid #fed7aa;
+
+    border-radius: var(--rayon);
+
+}
+
+
+.help-card > i {
+
+    margin-top: 3px;
+
+    color: var(--orange-dark);
+
+    font-size: 22px;
+
+}
+
+
+.help-card strong {
+
+    color: #9a4d00;
+
+}
+
+
+.help-card p {
+
+    margin: 5px 0 0;
+
+    color: #6b4a22;
+
+    font-size: 14px;
+
+}
+
+
+/* =========================================================
+   PAGE DOMAINES
+   ========================================================= */
+
+#domaines-page {
+
+    min-height: 100vh;
+
+    padding: 55px 35px;
+
+}
+
+
+.tp-title {
+
+    margin:
+        0 0 35px;
+
+    color: var(--texte);
+
+    text-align: center;
+
+    font-size: 32px;
+
+    font-weight: 800;
+
+}
+
+
+/* =========================================================
+   GRILLE DOMAINES
+   ========================================================= */
+
+.tp-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 18px;
+
+}
+
+
+/* =========================================================
+   CARTES DOMAINES
+   ========================================================= */
+
+.tp-card {
+
+    min-height: 150px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 15px;
+
+    padding: 25px 15px;
+
+    border-radius: 14px;
+
+    color: #ffffff;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    box-shadow: var(--ombre);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+
+}
+
+
+.tp-card:hover {
+
+    transform: translateY(-5px);
+
+    box-shadow: var(--ombre-forte);
+
+}
+
+
+.tp-card i {
+
+    font-size: 36px;
+
+}
+
+
+.tp-card span {
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+}
+
+
+.tp-card.statistiques {
+
+    background:
+        linear-gradient(
+            135deg,
+            #f28c18,
+            #c65e05
+        );
+
+}
+
+
+.tp-card.algebre {
+
+    background:
+        linear-gradient(
+            135deg,
+            #1769aa,
+            #0d5a91
+        );
+
+}
+
+
+.tp-card.geometrie {
+
+    background:
+        linear-gradient(
+            135deg,
+            #12b886,
+            #079669
+        );
+
+}
+
+
+.tp-card.algorithme {
+
+    background:
+        linear-gradient(
+            135deg,
+            #c2410c,
+            #9a3412
+        );
+
+}
+
+
+/* =========================================================
+   CONTENU EXTERNE
+   ========================================================= */
+
+#external-content {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 900;
+
+    margin-left: var(--menu-width);
+
+    background: #ffffff;
+
+}
+
+
+#external-frame {
+
+    width: 100%;
+
+    height: 100%;
+
+    min-height: 100vh;
+
+    border: none;
+
+}
+
+
+/* =========================================================
+   TP VIEWER
+   ========================================================= */
+
+.tp-viewer {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 2000;
+
+    display: flex;
+
+    flex-direction: column;
+
+    background: #ffffff;
+
+}
+
+
 .tp-viewer.hidden {
-    display: none !important;
+
+    display: none;
+
 }
 
-/* ===================================== */
 
 .viewer-topbar {
+
     height: 60px;
 
-    background: #172432;
-
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
 
     padding: 0 20px;
 
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    background: #111827;
 
-    flex-shrink: 0;
+    color: #ffffff;
 
-    transition: background .25s;
 }
 
-/* Bandeau du viewer teinté selon le domaine ouvert, si le JS
-   (js/app.js) pose un attribut data-domaine="..." sur #tpViewer au
-   moment de l'ouverture (ex. lors du clic sur la carte "TP Chimie",
-   ajouter tpViewer.dataset.domaine = "chimie"). Sans cet attribut,
-   le bandeau garde sa couleur neutre par défaut ci-dessus. */
-.tp-viewer[data-domaine="statistiques"] .viewer-topbar { background: linear-gradient(135deg, var(--domaine-statistiques-2), var(--domaine-statistiques-1)); }
-.tp-viewer[data-domaine="algebre"]   .viewer-topbar { background: linear-gradient(135deg, var(--domaine-algebre-2), var(--domaine-algebre-1)); }
-.tp-viewer[data-domaine="geometrie"]      .viewer-topbar { background: linear-gradient(135deg, var(--domaine-geometrie-2), var(--domaine-geometrie-1)); }
-.tp-viewer[data-domaine="algorithme"]  .viewer-topbar { background: linear-gradient(135deg, var(--domaine-algorithme-2), var(--domaine-algorithme-1)); }
 
 .viewer-topbar h2 {
-    color: white;
-    font-size: 1.1rem;
+
+    margin: 0;
+
+    font-size: 18px;
+
 }
 
+
 .viewer-topbar button {
-    background: #ef4444;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 8px 13px;
+
     border: none;
 
-    padding: 10px 16px;
+    border-radius: 6px;
 
-    border-radius: 10px;
+    background: #dc2626;
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-weight: 700;
 
     cursor: pointer;
 
-    color: white;
-    font-weight: bold;
 }
 
-/* ===================================== */
 
 #tpFrame {
+
     flex: 1;
 
     width: 100%;
-    height: calc(100vh - 60px);
 
     border: none;
 
-    background: white;
 }
 
-/* ---- En-tête de section avec bouton ---- */
-.section-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
-  gap: .5rem;
+
+/* =========================================================
+   RESPONSIVE — TABLETTE
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .tp-grid {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+    }
+
+
+    .lab-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .graph-panel {
+
+        grid-column: auto;
+
+    }
+
 }
-#btn-print-labels {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  background: #1a56db;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  font-size: .875rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background .15s;
+
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    :root {
+
+        --menu-width: 0px;
+
+    }
+
+
+    .menu {
+
+        position: fixed;
+
+        top: auto;
+
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        width: 100%;
+
+        height: 68px;
+
+        flex-direction: row;
+
+        justify-content: center;
+
+        padding: 6px;
+
+        gap: 8px;
+
+        border-right: none;
+
+        border-top: 1px solid #273244;
+
+    }
+
+
+    .menu-item {
+
+        width: 48px;
+        height: 48px;
+
+    }
+
+
+    .menu-item::after {
+
+        display: none;
+
+    }
+
+
+    .submenu {
+
+        left: auto;
+
+        right: 0;
+
+        bottom: 58px;
+
+        top: auto;
+
+    }
+
+
+    #content-container {
+
+        width: 100%;
+
+        margin-left: 0;
+
+        padding-bottom: 75px;
+
+    }
+
+
+    #python-page {
+
+        padding: 15px;
+
+    }
+
+
+    #domaines-page {
+
+        padding:
+            35px 15px;
+
+    }
+
+
+    .page-header {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+    }
+
+
+    .status-loading,
+    .status-ready,
+    .status-error {
+
+        white-space: normal;
+
+    }
+
+
+    .tp-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    #code,
+    #output {
+
+        min-height: 300px;
+
+    }
+
+
+    .shortcut {
+
+        width: 100%;
+
+        margin-left: 0;
+
+    }
+
+
+    .editor-actions {
+
+        align-items: stretch;
+
+    }
+
+
+    .editor-actions button {
+
+        flex: 1;
+
+    }
+
+
+    .graph-container {
+
+        min-height: 280px;
+
+        padding: 10px;
+
+    }
+
 }
-#btn-print-labels:hover { background: #1240a8; }
- 
-/* ---- Colonne checkbox ---- */
-#table-body td:first-child,
-thead th:first-child { width: 36px; text-align: center; }
- 
-/* ---- Modal overlay ---- */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.45);
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
+
+/* =========================================================
+   ACCESSIBILITÉ
+   ========================================================= */
+
+button:focus-visible,
+textarea:focus-visible {
+
+    outline: 3px solid
+        rgba(23, 105, 170, 0.35);
+
+    outline-offset: 2px;
+
 }
-.modal-box {
-  background: #fff;
-  border-radius: 10px;
-  width: min(480px, 94vw);
-  box-shadow: 0 8px 32px rgba(0,0,0,.25);
-  overflow: hidden;
-}
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
-  border-bottom: 1px solid #e5e7eb;
-}
-.modal-header h3 {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #111827;
-}
-.modal-close {
-  background: none;
-  border: none;
-  font-size: 1.4rem;
-  line-height: 1;
-  cursor: pointer;
-  color: #6b7280;
-  padding: 2px 6px;
-}
-.modal-close:hover { color: #111827; }
-.modal-body { padding: 20px; }
-.modal-info { font-size: .85rem; color: #374151; margin: 0 0 14px; line-height: 1.5; }
-.modal-selection-info {
-  background: #eff6ff;
-  border: 1px solid #bfdbfe;
-  border-radius: 6px;
-  padding: 8px 12px;
-  font-size: .83rem;
-  color: #1e40af;
-  margin-bottom: 14px;
-}
-.modal-options { display: flex; flex-direction: column; gap: 8px; }
-.modal-option, .modal-opt-check {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: .875rem;
-  color: #374151;
-  cursor: pointer;
-}
-.modal-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  padding: 14px 20px;
-  border-top: 1px solid #e5e7eb;
-  background: #f9fafb;
-}
-.btn-primary {
-  padding: 9px 18px;
-  background: #1a56db;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  font-size: .875rem;
-  font-weight: 500;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-.btn-primary:hover { background: #1240a8; }
-.btn-secondary {
-  padding: 9px 18px;
-  background: #fff;
-  color: #374151;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: .875rem;
-  cursor: pointer;
-}
-.btn-secondary:hover { background: #f3f4f6; }
