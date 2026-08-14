@@ -1,719 +1,988 @@
-<!DOCTYPE html>
-<html lang="fr">
+// =========================================================
+// MATHILAB
+// NAVIGATION + PYODIDE + NUMPY + MATPLOTLIB
+// =========================================================
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>MathiLab</title>
+// =========================================================
+// VARIABLES PYTHON
+// =========================================================
 
-    <!-- =====================================================
-         FONT AWESOME
-         ===================================================== -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+let pyodide = null;
+let pythonReady = false;
 
-    <!-- =====================================================
-         CSS PRINCIPAL
-         ===================================================== -->
-    <link rel="stylesheet" href="style.css">
-</head>
 
-<body>
+// =========================================================
+// ÉLÉMENTS DOM
+// =========================================================
 
-<!-- =========================================================
-     MENU LATÉRAL
-     ========================================================= -->
-<nav class="menu" aria-label="Menu principal MathiLab">
+const homeButton    = document.getElementById("homeButton");
+const pythonButton  = document.getElementById("pythonButton");
+const examplesButton = document.getElementById("examplesButton");
 
-    <!-- ACCUEIL -->
-    <button
-        class="menu-item active"
-        id="homeButton"
-        type="button"
-        data-tooltip="Accueil"
-        aria-label="Afficher l'accueil">
+const startButton   = document.getElementById("startButton");
 
-        <i class="fas fa-home"></i>
+const runButton     = document.getElementById("run");
+const clearButton   = document.getElementById("clear");
+const exportButton  = document.getElementById("export");
 
-    </button>
+const codeEditor    = document.getElementById("code");
+const output        = document.getElementById("output");
+const status        = document.getElementById("status");
 
+const examplesMenu  = document.getElementById("examplesMenu");
 
-    <!-- MATHILAB -->
-    <button
-        class="menu-item"
-        id="pythonButton"
-        type="button"
-        data-tooltip="MathiLab"
-        aria-label="Ouvrir MathiLab">
 
-        <i class="fas fa-calculator"></i>
+// =========================================================
+// NAVIGATION
+// =========================================================
 
-    </button>
+window.setActive = function (element) {
 
+    document
+        .querySelectorAll(".menu-item")
+        .forEach(item => {
 
-    <!-- =====================================================
-         DOMAINES
-         ===================================================== -->
-    <div class="menu-wrapper">
+            item.classList.remove("active");
 
-        <button
-            class="menu-item"
-            id="examplesButton"
-            type="button"
-            data-tooltip="Domaines Mathématiques"
-            aria-label="Afficher les domaines">
+        });
 
-            <i class="fas fa-book-open"></i>
+    if (element) {
 
-        </button>
+        element.classList.add("active");
 
+    }
 
-        <div class="submenu" id="examplesMenu">
+};
 
-            <button
-                type="button"
-                data-domaine="statistiques">
 
-                <i class="fas fa-chart-column"></i>
-                Statistiques
-            </button>
+// =========================================================
+// AFFICHER UNE PAGE
+// =========================================================
 
+window.showSection = function (
+    sectionId,
+    element = null
+) {
 
-            <button
-                type="button"
-                data-domaine="algebre">
+    document
+        .querySelectorAll(".page")
+        .forEach(page => {
 
-                <i class="fas fa-cogs"></i>
-                Algèbre – Analyse
-            </button>
+            page.classList.remove("active-page");
 
+        });
 
-            <button
-                type="button"
-                data-domaine="geometrie">
+    const section =
+        document.getElementById(sectionId);
 
-                <i class="fas fa-draw-polygon"></i>
-                Géométrie
-            </button>
+    if (section) {
 
+        section.classList.add("active-page");
 
-            <button
-                type="button"
-                data-domaine="algorithme">
+    }
 
-                <i class="fas fa-code"></i>
-                Algorithmique
-            </button>
+    window.setActive(element);
 
+};
 
-            <button
-                type="button"
-                data-example="graphique">
 
-                <i class="fas fa-chart-line"></i>
-                Graphique
-            </button>
+// =========================================================
+// CHARGER UNE PAGE EXTERNE
+// =========================================================
 
-        </div>
+window.loadInFrame = function (
+    url,
+    element = null
+) {
 
-    </div>
+    document
+        .querySelectorAll(".page")
+        .forEach(page => {
 
+            page.classList.remove("active-page");
 
-    <!-- EFFACER -->
-    <button
-        class="menu-item"
-        id="menuClear"
-        type="button"
-        data-tooltip="Effacer"
-        aria-label="Effacer le programme">
+        });
 
-        <i class="fas fa-eraser"></i>
+    const section =
+        document.getElementById(
+            "external-content"
+        );
 
-    </button>
+    const frame =
+        document.getElementById(
+            "external-frame"
+        );
 
-</nav>
+    if (!section || !frame) return;
 
+    frame.src = url;
 
-<!-- =========================================================
-     CONTENU PRINCIPAL
-     ========================================================= -->
-<div id="content-container">
+    section.classList.add("active-page");
 
+    window.setActive(element);
 
-    <!-- =====================================================
-         PAGE D'ACCUEIL
-         ===================================================== -->
-    <section
-        id="home-message"
-        class="page active-page">
+};
 
-        <div class="home-icon">
-            <i class="fas fa-calculator"></i>
-        </div>
 
+// =========================================================
+// ACCUEIL
+// =========================================================
 
-        <h2>Bienvenue dans</h2>
+homeButton?.addEventListener(
+    "click",
+    () => {
 
+        window.showSection(
+            "home-message",
+            homeButton
+        );
 
-        <!-- LOGO MATHILAB -->
-        <div
-            class="mathilab-logo"
-            aria-label="MathiLab">
+    }
+);
 
-            <span class="math">Mathi</span>
-            <span class="lab">Lab</span>
 
-        </div>
+// =========================================================
+// OUVRIR MATHILAB
+// =========================================================
 
+pythonButton?.addEventListener(
+    "click",
+    () => {
 
-        <p class="mathilab-tagline">
-            Un laboratoire numérique pour les mathématiques
-        </p>
+        window.showSection(
+            "python-page",
+            pythonButton
+        );
 
+    }
+);
 
-        <p>
-            <strong>MathiLab</strong> permet d'apprendre,
-            d'expérimenter et de programmer en mathématiques
-            directement dans le navigateur.
-        </p>
 
+// =========================================================
+// BOUTON COMMENCER
+// =========================================================
 
-        <p>
-            Utilise les différents domaines pour travailler
-            les statistiques, l'algèbre, l'analyse, la géométrie
-            et l'algorithmique.
-        </p>
+startButton?.addEventListener(
+    "click",
+    () => {
 
+        window.showSection(
+            "python-page",
+            pythonButton
+        );
 
-        <div class="home-actions">
+    }
+);
 
-            <button
-                id="startButton"
-                class="start-button"
-                type="button">
 
-                <i class="fas fa-play"></i>
+// =========================================================
+// MENU DOMAINES
+// =========================================================
 
-                Commencer
+examplesButton?.addEventListener(
+    "click",
+    () => {
 
-            </button>
+        if (!examplesMenu) return;
 
-        </div>
+        examplesMenu.classList.toggle("show");
 
+    }
+);
 
-        <p class="signature">
 
-            <strong>MathiLab</strong>
-            — « Learn • Apply • Build »
+// =========================================================
+// FERMER LE MENU SI CLIC AILLEURS
+// =========================================================
 
-            <br>
+document.addEventListener(
+    "click",
+    event => {
 
-            Apprendre, mettre en pratique et construire.
+        if (
+            !examplesButton?.contains(event.target) &&
+            !examplesMenu?.contains(event.target)
+        ) {
 
-        </p>
-
-    </section>
-
-
-    <!-- =====================================================
-         PAGE MATHILAB
-         ===================================================== -->
-    <section
-        id="python-page"
-        class="page">
-
-
-        <!-- =================================================
-             EN-TÊTE
-             ================================================= -->
-        <div class="page-header">
-
-            <div>
-
-                <h1>
-                    <i class="fas fa-calculator"></i>
-                </h1>
-
-
-                <div
-                    class="mathilab-logo"
-                    aria-label="MathiLab">
-
-                    <span class="math">Mathi</span>
-                    <span class="lab">Lab</span>
-
-                </div>
-
-
-                <p>
-                    Expérimente les mathématiques avec Python.
-                </p>
-
-            </div>
-
-
-            <!-- Utilisé par app.js -->
-            <span
-                id="status"
-                class="status-loading"
-                aria-live="polite">
-
-                Chargement de Python...
-
-            </span>
-
-        </div>
-
-
-        <!-- =================================================
-             ESPACE DE PROGRAMMATION
-             ================================================= -->
-        <div class="lab-grid">
-
-
-            <!-- =================================================
-                 ÉDITEUR
-                 ================================================= -->
-            <section class="editor-panel">
-
-
-                <div class="panel-title">
-
-                    <span>
-                        <i class="fas fa-file-code"></i>
-                        Éditeur Python
-                    </span>
-
-                    <span class="file-name">
-                        programme.py
-                    </span>
-
-                </div>
-
-
-                <!-- =================================================
-                     ÉDITEUR PYTHON
-                     ================================================= -->
-                <textarea
-                    id="code"
-                    spellcheck="false"
-                    autocomplete="off"
-                    autocapitalize="off"
-                    aria-label="Écris ton programme Python ici">print("Bienvenue dans MathiLab !")
-
-for nombre in range(1, 6):
-    print(nombre)</textarea>
-
-
-                <!-- =================================================
-                     ACTIONS
-                     ================================================= -->
-                <div class="editor-actions">
-
-
-                    <!-- EXÉCUTER -->
-                    <button
-                        id="run"
-                        class="run-button"
-                        type="button"
-                        disabled>
-
-                        <i class="fas fa-play"></i>
-
-                        Exécuter
-
-                    </button>
-
-
-                    <!-- EXPORTER -->
-                    <button
-                        id="export"
-                        class="export-button"
-                        type="button">
-
-                        <i class="fas fa-file-export"></i>
-
-                        Exporter le script
-
-                    </button>
-
-
-                    <!-- EFFACER -->
-                    <button
-                        id="clear"
-                        class="clear-button"
-                        type="button">
-
-                        <i class="fas fa-eraser"></i>
-
-                        Effacer
-
-                    </button>
-
-
-                    <!-- RACCOURCI -->
-                    <span class="shortcut">
-
-                        <i class="fas fa-keyboard"></i>
-
-                        Ctrl + Entrée
-
-                    </span>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 RÉSULTAT
-                 ================================================= -->
-            <section class="result-panel">
-
-
-                <div
-                    class="panel-title result-title">
-
-                    <span>
-
-                        <i class="fas fa-terminal"></i>
-
-                        Résultat
-
-                    </span>
-
-
-                    <span class="result-indicator">
-
-                        ● Console MathiLab
-
-                    </span>
-
-                </div>
-
-
-                <!-- Utilisé par app.js -->
-                <pre
-                    id="output"
-                    aria-live="polite">
-
-Chargement de Python et des bibliothèques scientifiques...
-
-                </pre>
-
-            </section>
-
-        </div>
-
-
-        <!-- =================================================
-             AIDE
-             ================================================= -->
-        <section class="help-card">
-
-            <i class="fas fa-lightbulb"></i>
-
-
-            <div>
-
-                <strong>Astuce</strong>
-
-
-                <p>
-
-                    Utilise les domaines du menu pour découvrir
-                    progressivement les mathématiques.
-
-                    Tu peux également utiliser Python pour effectuer
-                    des calculs, manipuler des données et construire
-                    des graphiques avec NumPy et Matplotlib.
-
-                </p>
-
-            </div>
-
-        </section>
-
-    </section>
-
-
-    <!-- =====================================================
-         DOMAINES MATHÉMATIQUES
-         ===================================================== -->
-
-    <section
-        id="domaines-page"
-        class="page">
-
-
-        <h1 class="tp-title">
-            Choisir un domaine
-        </h1>
-
-
-        <div class="tp-grid">
-
-
-            <!-- STATISTIQUES -->
-            <div
-                class="tp-card statistiques"
-                id="openStatistiques"
-                data-domaine="statistiques">
-
-                <i class="fas fa-chart-column"></i>
-
-                <span>
-                    Statistiques et probabilités
-                </span>
-
-            </div>
-
-
-            <!-- ALGÈBRE -->
-            <div
-                class="tp-card algebre"
-                id="openAlgebre"
-                data-domaine="algebre">
-
-                <i class="fas fa-cogs"></i>
-
-                <span>
-                    Algèbre – Analyse
-                </span>
-
-            </div>
-
-
-            <!-- GÉOMÉTRIE -->
-            <div
-                class="tp-card geometrie"
-                id="openGeometrie"
-                data-domaine="geometrie">
-
-                <i class="fas fa-draw-polygon"></i>
-
-                <span>
-                    Géométrie
-                </span>
-
-            </div>
-
-
-            <!-- ALGORITHMIQUE -->
-            <div
-                class="tp-card algorithme"
-                id="openAlgorithme"
-                data-domaine="algorithme">
-
-                <i class="fas fa-code"></i>
-
-                <span>
-                    Algorithmique et programmation
-                </span>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         CONTENU EXTERNE
-         ===================================================== -->
-    <section
-        id="external-content"
-        class="page">
-
-        <iframe
-            id="external-frame"
-            title="Contenu MathiLab"
-            loading="lazy">
-        </iframe>
-
-    </section>
-
-</div>
-
-
-<!-- =========================================================
-     VIEWER DES TP
-     ========================================================= -->
-<div
-    id="tpViewer"
-    class="tp-viewer hidden">
-
-
-    <div class="viewer-topbar">
-
-        <h2>
-            Travaux Dirigés
-        </h2>
-
-
-        <button
-            id="closeViewer"
-            type="button">
-
-            <i class="fas fa-xmark"></i>
-            Fermer
-
-        </button>
-
-    </div>
-
-
-    <iframe
-        id="tpFrame"
-        title="Travail dirigé">
-
-    </iframe>
-
-</div>
-
-
-<!-- =========================================================
-     NAVIGATION
-     ========================================================= -->
-<script>
-
-    /* =====================================================
-       ACTIVER UN ÉLÉMENT DU MENU
-       ===================================================== */
-
-    function setActive(element) {
-
-        document
-            .querySelectorAll(".menu-item")
-            .forEach(item => {
-
-                item.classList.remove("active");
-
-            });
-
-
-        if (element) {
-
-            element.classList.add("active");
+            examplesMenu?.classList.remove("show");
 
         }
 
     }
+);
 
 
-    /* =====================================================
-       AFFICHER UNE SECTION
-       ===================================================== */
+// =========================================================
+// TP VIEWER
+// =========================================================
 
-    function showSection(
-        sectionId,
-        element = null
-    ) {
+const tpViewer =
+    document.getElementById("tpViewer");
 
-        document
-            .querySelectorAll(".page")
-            .forEach(section => {
+const tpFrame =
+    document.getElementById("tpFrame");
 
-                section.classList.remove("active-page");
-
-            });
+const closeViewer =
+    document.getElementById("closeViewer");
 
 
-        const section =
-            document.getElementById(sectionId);
+// =========================================================
+// OUVRIR UN TP
+// =========================================================
+
+function openTP(url) {
+
+    if (!tpViewer || !tpFrame) return;
+
+    tpViewer.classList.remove("hidden");
+
+    tpFrame.src = url;
+
+}
 
 
-        if (section) {
+// =========================================================
+// FERMER LE TP
+// =========================================================
 
-            section.classList.add("active-page");
+closeViewer?.addEventListener(
+    "click",
+    () => {
+
+        tpViewer.classList.add("hidden");
+
+        tpFrame.src = "";
+
+    }
+);
+
+
+// =========================================================
+// DOMAINES
+// =========================================================
+
+document
+    .getElementById("openStatistiques")
+    ?.addEventListener(
+        "click",
+        () => {
+
+            openTP(
+                "tp-statistiques/index.html"
+            );
+
+        }
+    );
+
+
+document
+    .getElementById("openAlgebre")
+    ?.addEventListener(
+        "click",
+        () => {
+
+            openTP(
+                "tp-algebre/index.html"
+            );
+
+        }
+    );
+
+
+document
+    .getElementById("openGeometrie")
+    ?.addEventListener(
+        "click",
+        () => {
+
+            openTP(
+                "tp-geometrie/index.html"
+            );
+
+        }
+    );
+
+
+document
+    .getElementById("openAlgorithme")
+    ?.addEventListener(
+        "click",
+        () => {
+
+            openTP(
+                "tp-algorithme/index.html"
+            );
+
+        }
+    );
+
+
+// =========================================================
+// PROGRESS BAR
+// =========================================================
+
+let progress = 10;
+
+
+window.updateProgress = function () {
+
+    progress += 10;
+
+    if (progress > 100) {
+
+        progress = 100;
+
+    }
+
+    const bar =
+        document.getElementById("bar");
+
+    if (bar) {
+
+        bar.style.width =
+            progress + "%";
+
+    }
+
+};
+
+
+// =========================================================
+// CHARGEMENT DE PYODIDE
+// =========================================================
+
+async function loadPyodideEngine() {
+
+    if (typeof loadPyodide !== "function") {
+
+        console.error(
+            "Pyodide n'est pas disponible."
+        );
+
+        if (status) {
+
+            status.textContent =
+                "Erreur : Pyodide indisponible";
+
+            status.className =
+                "status-error";
 
         }
 
+        if (output) {
 
-        setActive(element);
+            output.textContent =
+                "Impossible de charger Pyodide.";
+
+        }
+
+        return;
 
     }
 
 
-    /* =====================================================
-       CHARGER UNE PAGE DANS UN IFRAME
-       ===================================================== */
+    try {
 
-    function loadInFrame(
-        url,
-        element = null
-    ) {
+        if (status) {
 
-        document
-            .querySelectorAll(".page")
-            .forEach(section => {
+            status.textContent =
+                "Chargement de Python...";
 
-                section.classList.remove("active-page");
-
-            });
-
-
-        const frameSection =
-            document.getElementById(
-                "external-content"
-            );
-
-
-        const iframe =
-            document.getElementById(
-                "external-frame"
-            );
-
-
-        if (!frameSection || !iframe) {
-
-            return;
+            status.className =
+                "status-loading";
 
         }
 
 
-        iframe.src = url;
+        if (output) {
 
-        frameSection.classList.add(
-            "active-page"
+            output.textContent =
+                "Initialisation de Python...";
+
+        }
+
+
+        // =================================================
+        // PYODIDE
+        // =================================================
+
+        pyodide = await loadPyodide();
+
+
+        // =================================================
+        // NUMPY
+        // =================================================
+
+        if (status) {
+
+            status.textContent =
+                "Chargement de NumPy...";
+
+        }
+
+        await pyodide.loadPackage("numpy");
+
+
+        // =================================================
+        // MATPLOTLIB
+        // =================================================
+
+        if (status) {
+
+            status.textContent =
+                "Chargement de Matplotlib...";
+
+        }
+
+        await pyodide.loadPackage(
+            "matplotlib"
         );
 
 
-        setActive(element);
+        // =================================================
+        // ENVIRONNEMENT PYTHON
+        // =================================================
+
+        await pyodide.runPythonAsync(`
+
+import sys
+import math
+
+import numpy as np
+import matplotlib
+
+matplotlib.use("Agg")
+
+import matplotlib.pyplot as plt
+
+        `);
+
+
+        // =================================================
+        // PYTHON PRÊT
+        // =================================================
+
+        pythonReady = true;
+
+
+        if (status) {
+
+            status.textContent =
+                "Python + NumPy + Matplotlib prêts";
+
+            status.className =
+                "status-ready";
+
+        }
+
+
+        if (output) {
+
+            output.textContent =
+                "MathiLab est prêt.\\n\\n" +
+                "Python + NumPy + Matplotlib sont chargés.";
+
+        }
+
+
+        if (runButton) {
+
+            runButton.disabled = false;
+
+        }
+
+
+        console.log(
+            "MathiLab : Python chargé"
+        );
+
+        console.log(
+            "MathiLab : NumPy chargé"
+        );
+
+        console.log(
+            "MathiLab : Matplotlib chargé"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Erreur lors du chargement de Pyodide :",
+            error
+        );
+
+
+        pythonReady = false;
+
+
+        if (status) {
+
+            status.textContent =
+                "Erreur de chargement";
+
+            status.className =
+                "status-error";
+
+        }
+
+
+        if (output) {
+
+            output.textContent =
+                "Erreur lors du chargement de Python :\\n\\n" +
+                error;
+
+        }
+
+    }
+
+}
+
+
+// =========================================================
+// EXÉCUTER PYTHON
+// =========================================================
+
+async function runPython() {
+
+    if (!pythonReady || !pyodide) {
+
+        if (output) {
+
+            output.textContent =
+                "Python n'est pas encore prêt.";
+
+        }
+
+        return;
 
     }
 
 
-    /* =====================================================
-       DISPONIBLE POUR app.js
-       ===================================================== */
-
-    window.showSection =
-        showSection;
-
-    window.loadInFrame =
-        loadInFrame;
-
-</script>
+    if (!codeEditor) return;
 
 
-<!-- =========================================================
-     PYODIDE CORE
-     ========================================================= -->
-
-<script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+    const code =
+        codeEditor.value;
 
 
-<!-- =========================================================
-     APPLICATION MATHILAB
-     ========================================================= -->
+    if (!code.trim()) {
 
-<script
-    type="module"
-    src="js/app.js">
-</script>
+        if (output) {
+
+            output.textContent =
+                "Aucun programme à exécuter.";
+
+        }
+
+        return;
+
+    }
 
 
-</body>
-</html>
+    if (runButton) {
+
+        runButton.disabled = true;
+
+        runButton.innerHTML =
+            '<i class="fas fa-spinner fa-spin"></i> Exécution...';
+
+    }
+
+
+    if (output) {
+
+        output.textContent =
+            "Exécution du programme...";
+
+    }
+
+
+    try {
+
+        // =================================================
+        // REDIRECTION DE LA CONSOLE PYTHON
+        // =================================================
+
+        pyodide.runPython(`
+
+import sys
+from io import StringIO
+
+_mathilab_output = StringIO()
+
+sys.stdout = _mathilab_output
+sys.stderr = _mathilab_output
+
+        `);
+
+
+        // =================================================
+        // EXÉCUTION
+        // =================================================
+
+        await pyodide.runPythonAsync(code);
+
+
+        // =================================================
+        // RÉCUPÉRATION DU RÉSULTAT
+        // =================================================
+
+        const result =
+            pyodide.runPython(
+                "_mathilab_output.getvalue()"
+            );
+
+
+        if (output) {
+
+            output.textContent =
+                result || "Programme exécuté avec succès.";
+
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "Erreur Python :",
+            error
+        );
+
+
+        if (output) {
+
+            output.textContent =
+                "Erreur Python :\\n\\n" +
+                error;
+
+        }
+
+    } finally {
+
+
+        // =================================================
+        // RESTAURATION STDOUT / STDERR
+        // =================================================
+
+        try {
+
+            pyodide.runPython(`
+
+sys.stdout = sys.__stdout__
+sys.stderr = sys.__stderr__
+
+            `);
+
+        } catch (e) {
+
+            console.warn(
+                "Impossible de restaurer stdout.",
+                e
+            );
+
+        }
+
+
+        if (runButton) {
+
+            runButton.disabled = false;
+
+            runButton.innerHTML =
+                '<i class="fas fa-play"></i> Exécuter';
+
+        }
+
+    }
+
+}
+
+
+// =========================================================
+// BOUTON EXÉCUTER
+// =========================================================
+
+runButton?.addEventListener(
+    "click",
+    runPython
+);
+
+
+// =========================================================
+// CTRL + ENTRÉE
+// =========================================================
+
+codeEditor?.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.ctrlKey &&
+            event.key === "Enter"
+        ) {
+
+            event.preventDefault();
+
+            runPython();
+
+        }
+
+    }
+);
+
+
+// =========================================================
+// EFFACER L'ÉDITEUR
+// =========================================================
+
+function clearEditor() {
+
+    if (codeEditor) {
+
+        codeEditor.value = "";
+
+    }
+
+
+    if (output) {
+
+        output.textContent =
+            "Éditeur effacé.";
+
+    }
+
+}
+
+
+clearButton?.addEventListener(
+    "click",
+    clearEditor
+);
+
+
+// =========================================================
+// EFFACER VIA LE MENU LATÉRAL
+// =========================================================
+
+document
+    .getElementById("menuClear")
+    ?.addEventListener(
+        "click",
+        clearEditor
+    );
+
+
+// =========================================================
+// EXPORTER LE SCRIPT PYTHON
+// =========================================================
+
+function exportPython() {
+
+    if (!codeEditor) return;
+
+
+    const code =
+        codeEditor.value;
+
+
+    const blob =
+        new Blob(
+            [code],
+            {
+                type: "text/x-python"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(blob);
+
+
+    const link =
+        document.createElement("a");
+
+
+    link.href = url;
+
+    link.download =
+        "programme.py";
+
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+
+    URL.revokeObjectURL(url);
+
+}
+
+
+exportButton?.addEventListener(
+    "click",
+    exportPython
+);
+
+
+// =========================================================
+// EXEMPLES PYTHON
+// =========================================================
+
+const EXAMPLES = {
+
+    bonjour: `print("Bonjour depuis MathiLab !")`,
+
+
+
+    boucle: `for nombre in range(1, 11):
+    print(nombre)`,
+
+
+
+    liste: `nombres = [12, 15, 18, 20, 25]
+
+print("Données :", nombres)
+print("Effectif :", len(nombres))
+print("Somme :", sum(nombres))
+print("Moyenne :", sum(nombres) / len(nombres))`,
+
+
+
+    calcul: `a = 12
+b = 5
+
+print("a + b =", a + b)
+print("a - b =", a - b)
+print("a × b =", a * b)
+print("a ÷ b =", a / b)`,
+
+
+
+    graphique: `import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(0, 10, 100)
+y = x ** 2
+
+plt.figure(figsize=(7, 4))
+plt.plot(x, y)
+plt.title("Fonction carré")
+plt.xlabel("x")
+plt.ylabel("y")
+plt.grid()
+
+print("Graphique créé avec NumPy et Matplotlib.")
+
+plt.show()`
+
+};
+
+
+// =========================================================
+// CHARGER UN EXEMPLE
+// =========================================================
+
+document
+    .querySelectorAll(
+        "[data-example]"
+    )
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                const name =
+                    button.dataset.example;
+
+
+                if (
+                    !EXAMPLES[name] ||
+                    !codeEditor
+                ) {
+
+                    return;
+
+                }
+
+
+                codeEditor.value =
+                    EXAMPLES[name];
+
+
+                examplesMenu?.classList.remove(
+                    "show"
+                );
+
+
+                window.showSection(
+                    "python-page",
+                    pythonButton
+                );
+
+            }
+        );
+
+    });
+
+
+// =========================================================
+// DOMAINE → EXEMPLES
+// =========================================================
+
+document
+    .querySelectorAll(
+        "[data-domaine]"
+    )
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                const domaine =
+                    button.dataset.domaine;
+
+
+                examplesMenu?.classList.remove(
+                    "show"
+                );
+
+
+                console.log(
+                    "Domaine sélectionné :",
+                    domaine
+                );
+
+            }
+        );
+
+    });
+
+
+// =========================================================
+// INITIALISATION
+// =========================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        console.log(
+            "MathiLab : interface chargée"
+        );
+
+
+        loadPyodideEngine();
+
+    }
+);
+
+
+console.log(
+    "MathiLab chargé avec succès"
+);
