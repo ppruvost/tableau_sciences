@@ -30,6 +30,21 @@ const CONTEXTES_PRO = {
     problematique: "Pourquoi l'énergie électrique est-elle transportée sous haute tension avant d'être abaissée par un transformateur jusqu'à la tension utilisée dans l'atelier ?",
   },
 
+  '1ere-mcc': {
+    contexte: "Un atelier de confection est raccordé au réseau basse tension, issu d'un transformateur de distribution qui abaisse la tension transportée depuis les lignes à haute tension.",
+    problematique: "Pourquoi l'énergie électrique est-elle transportée sous haute tension avant d'être abaissée par un transformateur jusqu'à la tension utilisée dans l'atelier ?",
+  },
+
+  'tle-tci': {
+    contexte: "Un atelier de chaudronnerie est alimenté à partir du réseau basse tension du bâtiment, lui-même issu d'un poste de transformation qui abaisse la haute tension du réseau de distribution.",
+    problematique: "Pourquoi l'énergie électrique est-elle transportée sous haute tension avant d'être abaissée par un transformateur jusqu'à la tension utilisée dans l'atelier ?",
+  },
+
+  'tle-trpm': {
+    contexte: "Les machines-outils d'un atelier de production mécanique sont alimentées en basse tension, obtenue après plusieurs abaissements successifs de tension depuis le réseau de transport.",
+    problematique: "Pourquoi l'énergie électrique est-elle transportée sous haute tension avant d'être abaissée par un transformateur jusqu'à la tension utilisée dans l'atelier ?",
+  },
+
   'tle-mcc': {
     contexte: "Un atelier de confection est raccordé au réseau basse tension, issu d'un transformateur de distribution qui abaisse la tension transportée depuis les lignes à haute tension.",
     problematique: "Pourquoi l'énergie électrique est-elle transportée sous haute tension avant d'être abaissée par un transformateur jusqu'à la tension utilisée dans l'atelier ?",
