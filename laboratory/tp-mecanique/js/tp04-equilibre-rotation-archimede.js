@@ -34,6 +34,21 @@ const CONTEXTES_PRO = {
     problematique: "Comment calculer le moment des forces qui s'exercent sur un outillage en rotation et vérifier sa condition d'équilibre ?",
   },
 
+  '1ere-mcc': {
+    contexte: "Un portant à vêtements ou une table à repasser articulée autour d'un axe doit rester en équilibre lors de son utilisation, sous l'effet de plusieurs forces appliquées à différentes distances de l'axe.",
+    problematique: "Comment calculer le moment des forces qui s'exercent sur un équipement en rotation et vérifier sa condition d'équilibre ?",
+  },
+
+  'tle-tci': {
+    contexte: "Une cuve ou un flotteur métallique fabriqué en chaudronnerie doit rester stable à la surface d'un liquide, sous l'effet de son poids et de la poussée exercée par le liquide déplacé.",
+    problematique: "Comment déterminer la force d'Archimède exercée sur un objet immergé et expliquer sa flottabilité ?",
+  },
+
+  'tle-trpm': {
+    contexte: "Une pièce mécanique creuse ou un flotteur usiné doit rester stable à la surface d'un liquide, sous l'effet de son poids et de la poussée exercée par le liquide déplacé.",
+    problematique: "Comment déterminer la force d'Archimède exercée sur un objet immergé et expliquer sa flottabilité ?",
+  },
+
   'tle-mcc': {
     contexte: "Certains accessoires ou flotteurs utilisés en confection (mannequins flottants de présentation, éléments décoratifs immergés) doivent rester en équilibre à la surface d'un liquide.",
     problematique: "Comment déterminer la force d'Archimède exercée sur un objet immergé et expliquer sa flottabilité ?",
