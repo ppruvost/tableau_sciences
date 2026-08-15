@@ -1,98 +1,136 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths - 1ere Pro</title>
 
-  <!-- CSS externe -->
-  <link rel="stylesheet" href="arcade.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maths - 1ère Pro</title>
+
+    <link rel="stylesheet" href="arcade.css">
 </head>
+
 <body>
 
-  <!-- HEADER -->
-  <header class="top-bar">
-    <h1>🎮 MATHS - 1ERE PRO 🎮</h1>
+<header class="top-bar">
+    <h1>🎮 MATHS - 1ÈRE PRO 🎮</h1>
 
-    <!-- Bouton menu hamburger -->
-    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Ouvrir le menu">
-      ☰
+    <button class="menu-toggle" onclick="toggleMenu()">
+        ☰
     </button>
-  </header>
+</header>
 
-  <!-- IFRAME plein écran -->
-  <div class="frame-container">
-    <iframe
-      id="contentFrame"
-      src="https://ppruvost.github.io/automat03/"
-      title="Automatisme_01">
-    </iframe>
-  </div>
 
-  <!-- MENU LATÉRAL -->
-  <div class="side-menu" id="sideMenu">
+<!-- PAGE ACCUEIL -->
+<div class="home-dashboard" id="homeDashboard">
 
-    <table>
-      <thead>
-        <tr>
-          <th>Nom</th>
-          <th>Accès</th>
-          <th>Niveau</th>
-          <th>Capacité</th>
-        </tr>
-      </thead>
+<!-- ===================== AUTOMATISMES ===================== -->
+<section class="arcade-column">
 
-      <tbody>
+    <h2>⚙️ Automatismes</h2>
 
-        <tr onclick="loadPage('https://ppruvost.github.io/automat03/')">
-          <td>Automatisme_01</td>
-          <td>▶ Ouvrir</td>
-          <td><span class="tag niveau">Niveau 01</span></td>
-          <td><span class="tag cap1">Calcul de la probabilité</span></td>
-        </tr>
+    <div class="game-card" onclick="loadPage('./automatisme-1ere/01/index.html')">
+        <h3>B 01</h3>
+        <p>⚙️ Probabilité d’un événement</p>
+        <span class="tag cap2">Niveau 01</span>
+    </div>
 
-        <tr onclick="loadPage('https://ppruvost.github.io/automat02/')">
-          <td>Mécanique : Automatisme_02</td>
-          <td>▶ Ouvrir</td>
-          <td><span class="tag niveau">Niveau 01</span></td>
-          <td><span class="tag cap1">Décimaux et pourcentages</span></td>
-        </tr>
+    <div class="game-card" onclick="loadPage('./automatisme-1ere/02/index.html')">
+        <h3>B 02</h3>
+        <p>⚙️ Dénombrement (tableaux et arbres)</p>
+        <span class="tag cap2">Niveau 01</span>
+    </div>
 
-        <tr onclick="loadPage('https://ppruvost.github.io/quiz04/')">
-          <td>Thermique : Quiz_04</td>
-          <td>▶ Ouvrir</td>
-          <td><span class="tag niveau">Niveau 01</span></td>
-          <td><span class="tag cap2">Echanges d'énergie sous forme thermique</span></td>
-        </tr>
+    <div class="game-card" onclick="loadPage('./automatisme-1ere/03/index.html')">
+        <h3>B 03</h3>
+        <p>⚙️ Lecture de graphiques et diagrammes</p>
+        <span class="tag cap2">Niveau 01</span>
+    </div>
 
-        <tr onclick="loadPage('https://ppruvost.github.io/playmaths03/')">
-          <td>Thermique : PlayPhys_03</td>
-          <td>▶ Ouvrir</td>
-          <td><span class="tag niveau">Niveau 01</span></td>
-          <td><span class="tag cap3">Fonctions</span></td>
-        </tr>
-		
-        <tr onclick="loadPage('https://ppruvost.github.io/playmaths04/')">
-          <td>Thermique : PlayPhys_04</td>
-          <td>▶ Ouvrir</td>
-          <td><span class="tag niveau">Niveau 01</span></td>
-          <td><span class="tag cap3">Solides</span></td>
-        </tr>	
-		
-      <tr onclick="loadPage('https://ppruvost.github.io/playmaths05/')">
-        <td>Optique : PlayPhys_05</td>
-        <td>▶ Ouvrir</td>
-        <td><span class="tag niveau">Niveau 01</span></td>
-        <td><span class="tag cap3">Notation scientifique</span></td>
-      </tr> 
+    <div class="game-card" onclick="loadPage('./automatisme-1ere/04/index.html')">
+        <h3>B 04</h3>
+        <p>⚙️ Associer un graphique à des données</p>
+        <span class="tag cap2">Niveau 01</span>
+    </div>
 
-      </tbody>
-    </table>
+    <div class="game-card" onclick="loadPage('./automatisme-1ere/05/index.html')">
+        <h3>B 05</h3>
+        <p>⚙️ Indicateurs de position et de dispersion</p>
+        <span class="tag cap3">Niveau 02</span>
+    </div>
 
-  </div>
+    <div class="game-card" onclick="loadPage('./automatisme-1ere/06/index.html')">
+        <h3>B 06</h3>
+        <p>⚙️ Résolution d’équations du 1er degré</p>
+        <span class="tag cap2">Niveau 01</span>
+    </div>
 
-  <!-- JS externe -->
-  <script src="arcade.js"></script>
+    <div class="game-card" onclick="loadPage('./automatisme-1ere/07/index.html')">
+        <h3>B 07</h3>
+        <p>⚙️ Résolution d’inéquations du 1er degré</p>
+        <span class="tag cap3">Niveau 02</span>
+    </div>
+
+    <div class="game-card" onclick="loadPage('./automatisme-1ere/08/index.html')">
+        <h3>B 08</h3>
+        <p>⚙️ Proportionnalité et fonction linéaire</p>
+        <span class="tag cap2">Niveau 01</span>
+    </div>
+
+    <div class="game-card" onclick="loadPage('./automatisme-1ere/09/index.html')">
+        <h3>B 09</h3>
+        <p>⚙️ Allure d’une courbe à partir d’un tableau de variations</p>
+        <span class="tag cap3">Niveau 02</span>
+    </div>
+
+    <div class="game-card" onclick="loadPage('./automatisme-1ere/10/index.html')">
+        <h3>B 10</h3>
+        <p>⚙️ Tableau de variations à partir d’une courbe</p>
+        <span class="tag cap3">Niveau 02</span>
+    </div>
+
+    <div class="automatismes-explication">
+        <p>
+            Les automatismes t’aident à gagner en rapidité, en confiance et en efficacité.
+            Ils se travaillent régulièrement grâce à des exercices courts, des questions flash
+            et des activités variées tout au long de l’année.
+        </p>
+    </div>
+
+</section>
+
+
+<!-- ===================== PLAYMATHS ===================== -->
+<section class="arcade-column">
+
+    <h2>🕹 PlayMaths</h2>
+
+    <div class="game-card" onclick="loadPage('./playmaths/06/index.html')">
+        <h3>🏆 P 01</h3>
+        <p>Évaluation des acquis — 1ère</p>
+        <span class="tag cap3">Niveau 03</span>
+    </div>
+
+</section>
+
+</div>
+
+
+<!-- ===================== FRAME ===================== -->
+<div class="frame-container" id="frameContainer">
+    <iframe id="contentFrame" src=""></iframe>
+</div>
+
+
+<!-- ===================== MENU ===================== -->
+<div class="side-menu" id="sideMenu">
+
+    <button class="home-btn" onclick="returnHome()">
+        🏠 Retour accueil
+    </button>
+
+</div>
+
+<script src="arcade.js"></script>
 
 </body>
 </html>
