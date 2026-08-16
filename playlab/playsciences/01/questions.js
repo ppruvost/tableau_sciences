@@ -1,263 +1,134 @@
+/* ============================================================
+   ============  QUIZ PLAYSCIENCES — CHIMIE 2NDE  ============
+   ============================================================ */
+
 window.questions = [
 
-{
-question:"Quel élément est indispensable pour transmettre un son ?",
-options:[
-"Le vide",
-"Un milieu matériel",
-"Uniquement l'air",
-"La lumière"
-],
-bonne_reponse:"Un milieu matériel",
-graphique:"img/q1.png",
-explication:"Le son nécessite toujours un milieu matériel pour se propager."
-},
+  {
+    question: "Que signifie « dissoudre un soluté dans un solvant » ?",
+    options: [
+      "Faire fondre le solvant",
+      "Disperser le soluté de façon homogène dans le solvant",
+      "Faire bouillir le mélange",
+      "Séparer le soluté du solvant par filtration"
+    ],
+    bonne_reponse: "Disperser le soluté de façon homogène dans le solvant",
+    explication: "La dissolution consiste à disperser un soluté de façon homogène dans un solvant pour obtenir une solution."
+  },
 
-{
-question:"Quelle grandeur caractérise la hauteur d'un son ?",
-options:[
-"L'intensité",
-"La fréquence",
-"La vitesse",
-"La durée"
-],
-bonne_reponse:"La fréquence",
-graphique:"img/q2.png",
-explication:"La fréquence détermine si un son est grave ou aigu."
-},
+  {
+    question: "Voici deux instruments de verrerie. Lequel permet de mesurer un volume avec la meilleure précision ?",
+    graphique: "img/q1.png",
+    options: [
+      "L'éprouvette graduée",
+      "La fiole jaugée",
+      "Les deux ont la même précision",
+      "Aucun des deux ne mesure un volume"
+    ],
+    bonne_reponse: "La fiole jaugée",
+    explication: "La fiole jaugée, calibrée pour un unique volume, offre une bien meilleure précision que l'éprouvette graduée."
+  },
 
-{
-question:"Un son de 100 Hz est :",
-options:[
-"Très aigu",
-"Grave",
-"Ultrason",
-"Inaudible"
-],
-bonne_reponse:"Grave",
-graphique:"img/q3.png",
-explication:"Les basses fréquences produisent des sons graves."
-},
+  {
+    question: "Lors d'une dilution, que devient la concentration de la solution obtenue par rapport à la solution mère ?",
+    options: [
+      "Elle augmente",
+      "Elle diminue",
+      "Elle reste identique",
+      "Elle devient nulle"
+    ],
+    bonne_reponse: "Elle diminue",
+    explication: "Diluer une solution ajoute du solvant sans changer la quantité de soluté : la concentration diminue donc."
+  },
 
-{
-question:"Quelle unité mesure le niveau sonore ?",
-options:[
-"Watt",
-"Hertz",
-"Décibel",
-"Volt"
-],
-bonne_reponse:"Décibel",
-graphique:"img/q4.png",
-explication:"Le décibel (dB) mesure les niveaux sonores."
-},
+  {
+    question: "Ce pictogramme signale un produit :",
+    graphique: "img/q2.png",
+    options: [
+      "Inflammable",
+      "Corrosif",
+      "Comburant",
+      "Explosif"
+    ],
+    bonne_reponse: "Corrosif",
+    explication: "Le pictogramme corrosif représente une substance attaquant les matériaux ou la peau."
+  },
 
-{
-question:"La zone de plus grande sensibilité de l'oreille humaine se situe vers :",
-options:[
-"50 Hz",
-"3000 Hz",
-"15000 Hz",
-"20 Hz"
-],
-bonne_reponse:"3000 Hz",
-graphique:"img/q5.png",
-explication:"L'oreille humaine est particulièrement sensible autour de 3–4 kHz."
-},
+  {
+    question: "On verse du nitrate d'argent dans une solution contenant des ions chlorure. On observe la formation d'un précipité blanc, comme sur le schéma. Que permet ce test ?",
+    graphique: "img/q3.png",
+    options: [
+      "De mesurer le pH de la solution",
+      "D'identifier la présence d'ions chlorure",
+      "De diluer la solution",
+      "De neutraliser un acide"
+    ],
+    bonne_reponse: "D'identifier la présence d'ions chlorure",
+    explication: "L'apparition d'un précipité blanc de chlorure d'argent est caractéristique de la présence d'ions chlorure en solution."
+  },
 
-{
-question:"La vitesse du son dans l'air vaut environ :",
-options:[
-"34 m/s",
-"340 m/s",
-"3400 m/s",
-"3 m/s"
-],
-bonne_reponse:"340 m/s",
-graphique:"img/q6.png",
-explication:"La vitesse moyenne du son dans l'air est proche de 340 m/s."
-},
+  {
+    question: "Une solution testée fait virer la phénolphtaléine (indicateur coloré) au rose fuchsia. Cette solution est :",
+    options: [
+      "Acide",
+      "Neutre",
+      "Basique",
+      "Impossible à déterminer"
+    ],
+    bonne_reponse: "Basique",
+    explication: "La phénolphtaléine est incolore en milieu acide ou neutre et vire au rose fuchsia en milieu basique."
+  },
 
-{
-question:"Si la distance double, l'intensité sonore :",
-options:[
-"Augmente",
-"Reste constante",
-"Diminue",
-"Double"
-],
-bonne_reponse:"Diminue",
-graphique:"img/q7.png",
-explication:"L'intensité diminue avec l'éloignement."
-},
+  {
+    question: "Comment utilise-t-on du papier pH, comme celui représenté ici, pour estimer le pH d'une solution ?",
+    graphique: "img/q7.png",
+    options: [
+      "On y dépose une goutte de solution et l'on compare la couleur obtenue à une échelle de teintes",
+      "On le fait brûler et l'on observe la couleur de la flamme",
+      "On le pèse avant et après contact avec la solution",
+      "On mesure sa résistance électrique"
+    ],
+    bonne_reponse: "On y dépose une goutte de solution et l'on compare la couleur obtenue à une échelle de teintes",
+    explication: "Le papier pH change de couleur au contact d'une solution ; on compare la teinte obtenue à une échelle de référence pour estimer le pH."
+  },
 
-{
-question:"Quel matériau isole généralement mieux du bruit ?",
-options:[
-"Le béton seul",
-"La mousse",
-"L'air",
-"Le verre mince"
-],
-bonne_reponse:"La mousse",
-graphique:"img/q8.png",
-explication:"Les matériaux absorbants limitent davantage la transmission."
-},
+  {
+    question: "Quel est le principe d'un titrage par équivalence colorimétrique ?",
+    options: [
+      "Peser directement le soluté à doser",
+      "Repérer, grâce à un indicateur coloré, le changement de teinte correspondant à l'équivalence pour en déduire une concentration inconnue",
+      "Chauffer la solution jusqu'à évaporation complète",
+      "Filtrer la solution pour isoler le soluté"
+    ],
+    bonne_reponse: "Repérer, grâce à un indicateur coloré, le changement de teinte correspondant à l'équivalence pour en déduire une concentration inconnue",
+    explication: "Un titrage colorimétrique consiste à verser une solution titrante jusqu'au virage de couleur signalant l'équivalence, ce qui permet de déterminer la concentration inconnue."
+  },
 
-{
-question:"Un capteur piézoélectrique transforme :",
-options:[
-"Le son en lumière",
-"Une vibration en signal électrique",
-"L'électricité en eau",
-"La chaleur en vibration"
-],
-bonne_reponse:"Une vibration en signal électrique",
-graphique:"img/q9.png",
-explication:"Le piézo produit une tension lorsqu'il est déformé."
-},
+  {
+    question: "Pourquoi ne faut-il jamais jeter une solution acide ou basique directement à l'évier ?",
+    options: [
+      "Parce que cela bouche les canalisations",
+      "Parce que cela peut nuire à l'environnement et doit être neutralisé avant élimination",
+      "Parce que cela coûte cher",
+      "Il n'y a pas de raison particulière, c'est autorisé"
+    ],
+    bonne_reponse: "Parce que cela peut nuire à l'environnement et doit être neutralisé avant élimination",
+    explication: "Les solutions acides ou basiques doivent être collectées en vue d'une neutralisation avant élimination, pour protéger l'environnement."
+  },
 
-{
-question:"Dans quel milieu le son va le plus vite ?",
-options:[
-"Air",
-"Eau",
-"Acier",
-"Vide"
-],
-bonne_reponse:"Acier",
-graphique:"img/q10.png",
-explication:"Le son se propage plus vite dans les solides."
-},
-
-{
-question:"À partir d'environ quel niveau sonore le risque auditif apparaît ?",
-options:[
-"20 dB",
-"40 dB",
-"80 dB",
-"10 dB"
-],
-bonne_reponse:"80 dB",
-graphique:"img/q11.png",
-explication:"L'exposition prolongée au-delà de 80–85 dB peut être nocive."
-},
-
-{
-question:"La fréquence de résonance correspond :",
-options:[
-"À l'arrêt du son",
-"À l'amplitude maximale",
-"Au silence",
-"À la vitesse minimale"
-],
-bonne_reponse:"À l'amplitude maximale",
-graphique:"img/q12.png",
-explication:"La résonance produit généralement une amplitude maximale."
-},
-
-{
-question:"Les battements apparaissent lorsque :",
-options:[
-"Deux fréquences proches se superposent",
-"Deux sons identiques disparaissent",
-"On coupe le son",
-"Le son est trop fort"
-],
-bonne_reponse:"Deux fréquences proches se superposent",
-graphique:"img/q13.png",
-explication:"Les battements résultent de fréquences légèrement différentes."
-},
-
-{
-question:"L'effet Doppler provoque :",
-options:[
-"Une variation de fréquence perçue",
-"Une baisse du volume",
-"Un arrêt du son",
-"Une réflexion"
-],
-bonne_reponse:"Une variation de fréquence perçue",
-graphique:"img/q14.png",
-explication:"La fréquence perçue varie selon le mouvement."
-},
-
-{
-question:"Les ultrasons ont une fréquence :",
-options:[
-"<20 Hz",
-">20000 Hz",
-"1000 Hz",
-"100 Hz"
-],
-bonne_reponse:">20000 Hz",
-graphique:"img/q15.png",
-explication:"Les ultrasons dépassent la plage audible."
-},
-
-{
-question:"Les infrasons ont une fréquence :",
-options:[
-">20 kHz",
-"<20 Hz",
-"340 Hz",
-"200 Hz"
-],
-bonne_reponse:"<20 Hz",
-graphique:"img/q16.png",
-explication:"Les infrasons sont sous la limite basse de l'audition."
-},
-
-{
-question:"Un signal sonore périodique possède :",
-options:[
-"Une répétition régulière",
-"Aucune fréquence",
-"Une seule amplitude",
-"Aucune durée"
-],
-bonne_reponse:"Une répétition régulière",
-graphique:"img/q17.png",
-explication:"Un signal périodique se répète."
-},
-
-{
-question:"Une perte auditive liée à l'âge se nomme :",
-options:[
-"Résonance",
-"Presbyacousie",
-"Écho",
-"Battement"
-],
-bonne_reponse:"Presbyacousie",
-graphique:"img/q18.png",
-explication:"La presbyacousie réduit surtout les hautes fréquences."
-},
-
-{
-question:"Le microphone transforme :",
-options:[
-"Son → signal électrique",
-"Lumière → chaleur",
-"Signal → eau",
-"Son → lumière"
-],
-bonne_reponse:"Son → signal électrique",
-graphique:"img/q19.png",
-explication:"Un microphone convertit les vibrations acoustiques."
-},
-
-{
-question:"Le vide transmet-il le son ?",
-options:[
-"Oui",
-"Non",
-"Seulement fort",
-"Seulement faible"
-],
-bonne_reponse:"Non",
-graphique:"img/q20.png",
-explication:"Sans milieu matériel, le son ne se propage pas."
-}
+  {
+    question: "Quel geste limite la production de déchets lors d'un test à l'indicateur coloré ?",
+    options: [
+      "Utiliser le nombre minimal de gouttes d'indicateur permettant une observation fiable",
+      "Utiliser toujours un flacon entier d'indicateur",
+      "Refaire le test plusieurs fois par précaution",
+      "Mélanger tous les indicateurs disponibles"
+    ],
+    bonne_reponse: "Utiliser le nombre minimal de gouttes d'indicateur permettant une observation fiable",
+    explication: "Limiter le volume de réactif utilisé au strict nécessaire réduit la quantité de déchets chimiques à traiter."
+  },
 
 ];
+/* ============================================================
+   ========================  FIN  ===============================
+   ============================================================ */
