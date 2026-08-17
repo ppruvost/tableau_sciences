@@ -1,70 +1,110 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sciences - Terminale Pro</title>
 
-  <!-- CSS externe -->
-  <link rel="stylesheet" href="arcade.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sciences - Terminale Pro</title>
+
+    <link rel="stylesheet" href="arcade.css">
 </head>
+
 <body>
 
-  <!-- HEADER -->
-  <header class="top-bar">
+<header class="top-bar">
     <h1>🎮 SCIENCES - TERMINALE PRO 🎮</h1>
 
-    <!-- Bouton menu hamburger -->
-    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Ouvrir le menu">
-      ☰
+    <button class="menu-toggle" onclick="toggleMenu()">
+        ☰
     </button>
-  </header>
+</header>
 
-  <!-- IFRAME plein écran -->
-  <div class="frame-container">
-    <iframe
-      id="contentFrame"
-      src="https://ppruvost.github.io/automat03/"
-      title="Automatisme_01">
-    </iframe>
-  </div>
 
-  <!-- MENU LATÉRAL -->
-  <div class="side-menu" id="sideMenu">
+<!-- PAGE ACCUEIL -->
+<div class="home-dashboard" id="homeDashboard">
 
-    <table>
-      <thead>
-        <tr>
-          <th>Nom</th>
-          <th>Accès</th>
-          <th>Niveau</th>
-          <th>Capacité</th>
-        </tr>
-      </thead>
+<!-- ===================== CHIMIE ===================== -->
+<section class="arcade-column">
+    <h2>🧪 Chimie</h2>
+    <div class="game-card" onclick="loadPage('./playsciences/03/index.html')">
+        <h3>🏆 Chimie 03</h3>
+        <p>pH, réactions métal/acide, piles électrochimiques</p>
+        <span class="tag cap3">Niveau 03</span>
+    </div>
+    <div class="game-card" onclick="loadPage('./playsciences/04/index.html')">
+        <h3>🏆 Chimie 04</h3>
+        <p>Corrosion, accumulateurs, chimie organique</p>
+        <span class="tag cap3">Niveau 03</span>
+    </div>
+</section>
 
-      <tbody>
+<!-- ===================== ACOUSTIQUE ===================== -->
+<section class="arcade-column">
+    <h2>🔊 Acoustique</h2>
+    <div class="game-card" onclick="loadPage('./playsciences/07/index.html')">
+        <h3>🏆 Acoustique 03</h3>
+        <p>Niveau d'intensité acoustique, atténuation avec la distance</p>
+        <span class="tag cap3">Niveau 03</span>
+    </div>
+</section>
 
-        <tr onclick="loadPage('https://ppruvost.github.io/exAO_01/')">
-          <td>Mécanique : exAO_01</td>
-          <td>▶ Ouvrir</td>
-          <td><span class="tag niveau">Niveau 01</span></td>
-          <td><span class="tag cap1">Capture mouvement plan incliné</span></td>
-        </tr>
+<!-- ===================== ÉLECTRICITÉ ===================== -->
+<section class="arcade-column">
+    <h2>⚡ Électricité</h2>
+    <div class="game-card" onclick="loadPage('./playsciences/12/index.html')">
+        <h3>🏆 Électricité 02</h3>
+        <p>Puissance active, redressement, moteurs, piles, accumulateurs</p>
+        <span class="tag cap3">Niveau 03</span>
+    </div>
+</section>
 
-        <tr onclick="loadPage('https://ppruvost.github.io/exAO_02/')">
-          <td>Mécanique : exAO_02</td>
-          <td>▶ Ouvrir</td>
-          <td><span class="tag niveau">Niveau 02</span></td>
-          <td><span class="tag cap2">Capture mouvement plan incliné</span></td>
-        </tr> 
+<!-- ===================== MÉCANIQUE ===================== -->
+<section class="arcade-column">
+    <h2>⚙️ Mécanique</h2>
+    <div class="game-card" onclick="loadPage('./playsciences/15/index.html')">
+        <h3>🏆 Mécanique 03</h3>
+        <p>Moment d'une force, Archimède, Pascal, résonance, Venturi</p>
+        <span class="tag cap3">Niveau 03</span>
+    </div>
+</section>
 
-      </tbody>
-    </table>
+<!-- ===================== SIGNAUX ===================== -->
+<section class="arcade-column">
+    <h2>📡 Signaux</h2>
+    <div class="game-card" onclick="loadPage('./playsciences/17/index.html')">
+        <h3>🏆 Signaux 02</h3>
+        <p>Transmission d'informations, propagation, fibre optique</p>
+        <span class="tag cap3">Niveau 03</span>
+    </div>
+</section>
 
-  </div>
+<!-- ===================== THERMIQUE ===================== -->
+<section class="arcade-column">
+    <h2>🔥 Thermique</h2>
+    <div class="game-card" onclick="loadPage('./playsciences/21/index.html')">
+        <h3>🏆 Thermique 04</h3>
+        <p>Conduction, rayonnement, effet de serre atmosphérique</p>
+        <span class="tag cap3">Niveau 03</span>
+    </div>
+</section>
 
-  <!-- JS externe -->
-  <script src="arcade.js"></script>
+</div>
+
+
+<!-- ===================== FRAME ===================== -->
+<div class="frame-container" id="frameContainer">
+    <iframe id="contentFrame" src=""></iframe>
+</div>
+
+
+<!-- ===================== MENU ===================== -->
+<div class="side-menu" id="sideMenu">
+    <button class="home-btn" onclick="returnHome()">
+        🏠 Retour accueil
+    </button>
+</div>
+
+<script src="arcade.js"></script>
 
 </body>
 </html>

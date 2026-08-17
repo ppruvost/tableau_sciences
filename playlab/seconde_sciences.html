@@ -1,112 +1,105 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sciences - 2nde Pro</title>
 
-  <!-- CSS externe -->
-  <link rel="stylesheet" href="arcade.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sciences - 2nde Pro</title>
+
+    <link rel="stylesheet" href="arcade.css">
 </head>
+
 <body>
 
-  <!-- HEADER -->
-  <header class="top-bar">
+<header class="top-bar">
     <h1>🎮 SCIENCES - 2NDE PRO 🎮</h1>
 
-    <!-- Bouton menu hamburger -->
-    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Ouvrir le menu">
-      ☰
+    <button class="menu-toggle" onclick="toggleMenu()">
+        ☰
     </button>
-  </header>
+</header>
 
-  <!-- IFRAME plein écran -->
-  <div class="frame-container">
-    <iframe
-      id="contentFrame"
-      src="https://ppruvost.github.io/quiz01/"
-      title="Mouvement en rotation">
-    </iframe>
-  </div>
 
-  <!-- MENU LATÉRAL -->
-  <div class="side-menu" id="sideMenu">
+<!-- PAGE ACCUEIL -->
+<div class="home-dashboard" id="homeDashboard">
 
-    <table>
-      <thead>
-        <tr>
-          <th>Nom</th>
-          <th>Accès</th>
-          <th>Niveau</th>
-          <th>Capacité</th>
-        </tr>
-      </thead>
+<!-- ===================== CHIMIE ===================== -->
+<section class="arcade-column">
+    <h2>🧪 Chimie</h2>
+    <div class="game-card" onclick="loadPage('./playsciences/01/index.html')">
+        <h3>👾 Chimie 01</h3>
+        <p>Dissolution, dilution, sécurité, indicateurs et titrage</p>
+        <span class="tag cap2">Niveau 01</span>
+    </div>
+</section>
 
-      <tbody>
+<!-- ===================== ACOUSTIQUE ===================== -->
+<section class="arcade-column">
+    <h2>🔊 Acoustique</h2>
+    <div class="game-card" onclick="loadPage('./playsciences/05/index.html')">
+        <h3>👾 Acoustique 01</h3>
+        <p>Caractériser un son, isolation phonique, chaîne de transmission</p>
+        <span class="tag cap2">Niveau 01</span>
+    </div>
+</section>
 
-        <tr onclick="loadPage('https://ppruvost.github.io/meca02/')">
-          <td>Simulateur Meca_rot</td>
-          <td>▶ Ouvrir</td>
-          <td><span class="tag niveau">Niveau 01</span></td>
-          <td><span class="tag cap1">Mouvement en rotation</span></td>
-        </tr>
+<!-- ===================== OPTIQUE ===================== -->
+<section class="arcade-column">
+    <h2>💡 Optique</h2>
+    <div class="game-card" onclick="loadPage('./playsciences/08/index.html')">
+        <h3>👾 Optique 01</h3>
+        <p>Réflexion, réfraction, spectre et couleurs</p>
+        <span class="tag cap2">Niveau 01</span>
+    </div>
+    <div class="game-card" onclick="loadPage('./playsciences/09/index.html')">
+        <h3>👾 Optique 02</h3>
+        <p>Photocomposants : éclairement, longueur d'onde, énergie du photon</p>
+        <span class="tag cap2">Niveau 01</span>
+    </div>
+</section>
 
-        <tr onclick="loadPage('https://ppruvost.github.io/quiz01/')">
-          <td>Mécanique : Quiz_01</td>
-          <td>▶ Ouvrir</td>
-          <td><span class="tag niveau">Niveau 01</span></td>
-          <td><span class="tag cap2">Mouvement en rotation</span></td>
-        </tr>
+<!-- ===================== MÉCANIQUE ===================== -->
+<section class="arcade-column">
+    <h2>⚙️ Mécanique</h2>
+    <div class="game-card" onclick="loadPage('./playsciences/13/index.html')">
+        <h3>👾 Mécanique 01</h3>
+        <p>Décrire un mouvement, actions mécaniques, poids et équilibre</p>
+        <span class="tag cap2">Niveau 01</span>
+    </div>
+</section>
 
-        <tr onclick="loadPage('https://ppruvost.github.io/quiz02/')">
-          <td>Mécanique : Quiz_02</td>
-          <td>▶ Ouvrir</td>
-          <td><span class="tag niveau">Niveau 01</span></td>
-          <td><span class="tag cap3">Mouvement rectiligne uniforme et varié</span></td>
-        </tr>
+<!-- ===================== THERMIQUE ===================== -->
+<section class="arcade-column">
+    <h2>🔥 Thermique</h2>
+    <div class="game-card" onclick="loadPage('./playsciences/18/index.html')">
+        <h3>👾 Thermique 01</h3>
+        <p>Capteurs de température : Celsius, Kelvin, thermocouple...</p>
+        <span class="tag cap2">Niveau 01</span>
+    </div>
+    <div class="game-card" onclick="loadPage('./playsciences/19/index.html')">
+        <h3>👾 Thermique 02</h3>
+        <p>Équilibre thermique et changement d'état</p>
+        <span class="tag cap2">Niveau 01</span>
+    </div>
+</section>
 
-        <tr onclick="loadPage('https://ppruvost.github.io/quiz04/')">
-          <td>Thermique : Quiz_04</td>
-          <td>▶ Ouvrir</td>
-          <td><span class="tag niveau">Niveau 01</span></td>
-          <td><span class="tag cap4">Echanges d'énergie sous forme thermique</span></td>
-        </tr>
+</div>
 
-        <tr onclick="loadPage('https://ppruvost.github.io/playmaths01/')">
-          <td>Thermique : Thermique_01</td>
-          <td>▶ Ouvrir</td>
-          <td><span class="tag niveau">Niveau 01</span></td>
-          <td><span class="tag cap1">Echanges d'énergie sous forme thermique</span></td>
-        </tr>
-		
-        <tr onclick="loadPage('https://ppruvost.github.io/playmaths06/')">
-          <td>Thermique : Electricité_02</td>
-          <td>▶ Ouvrir</td>
-          <td><span class="tag niveau">Niveau 01</span></td>
-          <td><span class="tag cap1">Lire et représenter un schéma électrique</span></td>
-        </tr>	
-		
-      <tr onclick="loadPage('https://ppruvost.github.io/playmaths09/')">
-        <td>Optique : Optique_01</td>
-        <td>▶ Ouvrir</td>
-        <td><span class="tag niveau">Niveau 01</span></td>
-        <td><span class="tag cap1">Connaître les lois de la réflexion et de réfraction</span></td>
-      </tr>
-		  
-		<tr onclick="loadPage('./playmaths/04/index.html')">
-          <td>optique_02</td>
-          <td>▶ Ouvrir</td>
-          <td><span class="tag niveau">Niveau 02</span></td>
-          <td><span class="tag cap3">Lumière additive et soustractive</span></td>
-        </tr>
 
-      </tbody>
-    </table>
+<!-- ===================== FRAME ===================== -->
+<div class="frame-container" id="frameContainer">
+    <iframe id="contentFrame" src=""></iframe>
+</div>
 
-  </div>
 
-  <!-- JS externe -->
-  <script src="arcade.js"></script>
+<!-- ===================== MENU ===================== -->
+<div class="side-menu" id="sideMenu">
+    <button class="home-btn" onclick="returnHome()">
+        🏠 Retour accueil
+    </button>
+</div>
+
+<script src="arcade.js"></script>
 
 </body>
 </html>
