@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maths - Terminale Pro</title>
+
+    <link rel="stylesheet" href="arcade.css">
+</head>
+
+<body>
+
+<header class="top-bar">
+    <h1>🎮 MATHS - TERMINALE PRO 🎮</h1>
+
+    <button class="menu-toggle" onclick="toggleMenu()">
+        ☰
+    </button>
+</header>
+
+
+<!-- PAGE ACCUEIL -->
+<div class="home-dashboard" id="homeDashboard">
+
+<!-- ===================== AUTOMATISMES ===================== -->
+<section class="arcade-column">
+
+    <h2>⚙️ Automatismes</h2>
+
+    <div class="game-card" onclick="loadPage('./automatisme-tle/01/index.html')">
+        <h3>C 01</h3>
+        <p>⚙️ Probabilité de l’événement contraire</p>
+        <span class="tag cap2">Niveau 01</span>
+    </div>
+
+    <div class="game-card" onclick="loadPage('./automatisme-tle/02/index.html')">
+        <h3>C 02</h3>
+        <p>⚙️ Réunion d’événements incompatibles</p>
+        <span class="tag cap2">Niveau 01</span>
+    </div>
+
+    <div class="game-card" onclick="loadPage('./automatisme-tle/03/index.html')">
+        <h3>C 03</h3>
+        <p>⚙️ Réunion de deux événements</p>
+        <span class="tag cap3">Niveau 02</span>
+    </div>
+
+    <div class="game-card" onclick="loadPage('./automatisme-tle/04/index.html')">
+        <h3>C 04</h3>
+        <p>⚙️ Intersection de deux événements</p>
+        <span class="tag cap3">Niveau 02</span>
+    </div>
+
+    <div class="game-card" onclick="loadPage('./automatisme-tle/05/index.html')">
+        <h3>C 05</h3>
+        <p>⚙️ Tableaux croisés et diagrammes</p>
+        <span class="tag cap2">Niveau 01</span>
+    </div>
+
+    <div class="game-card" onclick="loadPage('./automatisme-tle/06/index.html')">
+        <h3>C 06</h3>
+        <p>⚙️ Probabilités conditionnelles</p>
+        <span class="tag cap3">Niveau 02</span>
+    </div>
+
+    <div class="game-card" onclick="loadPage('./automatisme-tle/07/index.html')">
+        <h3>C 07</h3>
+        <p>⚙️ Suites arithmétiques</p>
+        <span class="tag cap2">Niveau 01</span>
+    </div>
+
+    <div class="game-card" onclick="loadPage('./automatisme-tle/08/index.html')">
+        <h3>C 08</h3>
+        <p>⚙️ Nombre de solutions de f(x) = 0</p>
+        <span class="tag cap3">Niveau 02</span>
+    </div>
+
+    <div class="game-card" onclick="loadPage('./automatisme-tle/09/index.html')">
+        <h3>C 09</h3>
+        <p>⚙️ Forme factorisée d’un polynôme du 2nd degré</p>
+        <span class="tag cap3">Niveau 02</span>
+    </div>
+
+    <div class="game-card" onclick="loadPage('./automatisme-tle/10/index.html')">
+        <h3>C 10</h3>
+        <p>⚙️ Dérivée d’un polynôme (degré ≤ 2)</p>
+        <span class="tag cap2">Niveau 01</span>
+    </div>
+
+    <div class="game-card" onclick="loadPage('./automatisme-tle/11/index.html')">
+        <h3>C 11</h3>
+        <p>⚙️ Construction de vecteurs</p>
+        <span class="tag cap2">Niveau 01</span>
+    </div>
+
+    <div class="game-card" onclick="loadPage('./automatisme-tle/12/index.html')">
+        <h3>C 12</h3>
+        <p>⚙️ Arbre pondéré et indépendance</p>
+        <span class="tag cap3">Niveau 02</span>
+    </div>
+
+    <div class="automatismes-explication">
+        <p>
+            Les automatismes t’aident à gagner en rapidité, en confiance et en efficacité.
+            Ils se travaillent régulièrement grâce à des exercices courts, des questions flash
+            et des activités variées tout au long de l’année.
+        </p>
+    </div>
+
+</section>
+
+
+<!-- ===================== PLAYMATHS ===================== -->
+<section class="arcade-column">
+
+    <h2>🕹 PlayMaths</h2>
+
+    <div class="game-card" onclick="loadPage('./playmaths/07/index.html')">
+        <h3>🏆 P 01</h3>
+        <p>Évaluation des acquis — Tle</p>
+        <span class="tag cap3">Niveau 03</span>
+    </div>
+
+</section>
+
+</div>
+
+
+<!-- ===================== FRAME ===================== -->
+<div class="frame-container" id="frameContainer">
+    <iframe id="contentFrame" src=""></iframe>
+</div>
+
+
+<!-- ===================== MENU ===================== -->
+<div class="side-menu" id="sideMenu">
+
+    <button class="home-btn" onclick="returnHome()">
+        🏠 Retour accueil
+    </button>
+
+</div>
+
+<script src="arcade.js"></script>
+
+</body>
+</html>
