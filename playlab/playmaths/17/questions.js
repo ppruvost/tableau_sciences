@@ -1,133 +1,129 @@
 /* ============================================================
-   ============  QUIZ PLAYSCIENCES — STATISTIQUES 2NDE  ============
+   ============  QUIZ PLAYSCIENCES — ALGORITHME AL05  ============
    ============================================================ */
 
 window.questions = [
 
   {
-    question: "Ce diagramme représente une série statistique regroupée en classes. Pourquoi regroupe-t-on parfois une série en classes ?",
+    question: "Quels nombres entiers (a, b, c) forment un triplet pythagoricien ?",
+    options: [
+      "Des entiers vérifiant a² + b² = c²",
+      "Des entiers vérifiant a + b = c",
+      "Des entiers premiers entre eux uniquement",
+      "Des entiers consécutifs"
+    ],
+    bonne_reponse: "Des entiers vérifiant a² + b² = c²",
+    explication: "Un triplet pythagoricien est un triplet d'entiers naturels (a, b, c) vérifiant l'égalité du théorème de Pythagore a² + b² = c², comme (3, 4, 5)."
+  },
+
+  {
+    question: "Sur ce triangle rectangle de côtés 3 et 4, l'hypoténuse mesure 5. Comment un programme Python peut-il vérifier que (3, 4, 5) est bien un triplet pythagoricien ?",
     graphique: "img/q1.png",
     options: [
-      "Pour synthétiser une série comportant de nombreuses valeurs différentes ou continues, et faciliter sa lecture",
-      "Pour rendre la série plus difficile à comprendre",
-      "Pour supprimer certaines valeurs de la série",
-      "Le regroupement en classes est toujours interdit en statistiques"
+      "En testant si 3**2 + 4**2 == 5**2",
+      "En testant si 3 + 4 == 5",
+      "En testant si 3 * 4 == 5",
+      "En testant si 3 == 4"
     ],
-    bonne_reponse: "Pour synthétiser une série comportant de nombreuses valeurs différentes ou continues, et faciliter sa lecture",
-    explication: "Regrouper une série statistique en classes permet de synthétiser un grand nombre de valeurs, notamment continues, en un nombre restreint d'intervalles, facilitant l'analyse et la représentation graphique."
+    bonne_reponse: "En testant si 3**2 + 4**2 == 5**2",
+    explication: "Vérifier un triplet pythagoricien revient à tester par programme l'égalité a²+b²=c², soit ici 3**2 + 4**2 == 5**2, qui est vraie (9+16=25)."
   },
 
   {
-    question: "Ce diagramme circulaire représente une série statistique qualitative. Pourquoi ce type de diagramme est-il adapté à une série qualitative ?",
-    graphique: "img/q2.png",
+    question: "Comment un programme peut-il rechercher automatiquement tous les triplets pythagoriciens dont les côtés sont inférieurs à une valeur maximale donnée ?",
     options: [
-      "Il permet de visualiser directement la part de chaque catégorie dans l'effectif total",
-      "Il ne peut représenter que des données numériques continues",
-      "Il masque systématiquement les petites catégories",
-      "Il est réservé aux séries chronologiques uniquement"
+      "En testant, à l'aide de boucles imbriquées, toutes les combinaisons possibles de a, b, c et en conservant celles qui vérifient a²+b²=c²",
+      "En devinant les triplets un par un, sans méthode systématique",
+      "Cette recherche est impossible à programmer",
+      "En ne testant qu'une seule combinaison de valeurs"
     ],
-    bonne_reponse: "Il permet de visualiser directement la part de chaque catégorie dans l'effectif total",
-    explication: "Un diagramme en secteurs (circulaire) est particulièrement adapté à une série qualitative car il représente visuellement la proportion de chaque catégorie par rapport au total."
+    bonne_reponse: "En testant, à l'aide de boucles imbriquées, toutes les combinaisons possibles de a, b, c et en conservant celles qui vérifient a²+b²=c²",
+    explication: "Une recherche exhaustive de triplets pythagoriciens utilise des boucles imbriquées qui parcourent toutes les valeurs possibles de a, b et c jusqu'à une borne donnée, en ne conservant que celles vérifiant la relation de Pythagore."
   },
 
   {
-    question: "Ce graphique représente l'évolution d'une grandeur au cours des mois de l'année, à l'aide de lignes brisées. Pourquoi ce type de représentation est-il adapté ?",
-    graphique: "img/q3.png",
+    question: "Ce schéma représente un carré et un disque. Un programme calcule leurs aires. Quelle formule utilise-t-il pour l'aire du disque de rayon r ?",
+    graphique: "img/q4.png",
     options: [
-      "Il met en évidence l'évolution chronologique d'une grandeur au fil du temps",
-      "Il ne peut représenter que des données qualitatives",
-      "Il ne permet jamais de comparer deux périodes différentes",
-      "Il est réservé exclusivement aux très grandes séries de données"
+      "Aire = π × r²",
+      "Aire = 2 × π × r",
+      "Aire = π × r",
+      "Aire = r²"
     ],
-    bonne_reponse: "Il met en évidence l'évolution chronologique d'une grandeur au fil du temps",
-    explication: "Un diagramme en lignes brisées relie chronologiquement les valeurs successives d'une série, ce qui permet de visualiser clairement son évolution dans le temps (tendance, saisonnalité...)."
+    bonne_reponse: "Aire = π × r²",
+    explication: "L'aire d'un disque de rayon r est donnée par la formule π × r², directement traduisible dans un programme utilisant le module math de Python (math.pi)."
   },
 
   {
-    question: "Quels sont les indicateurs de position d'une série statistique ?",
+    question: "Comment un programme Python utilise-t-il la proportionnalité pour convertir une longueur mesurée sur un plan à l'échelle 1/100 en longueur réelle ?",
     options: [
-      "Le mode, la moyenne et la médiane",
-      "L'étendue et l'écart type uniquement",
-      "Les quartiles uniquement",
-      "Le nombre total de valeurs de la série"
+      "En multipliant la longueur mesurée par 100",
+      "En divisant la longueur mesurée par 100",
+      "En ajoutant 100 à la longueur mesurée",
+      "La proportionnalité ne s'applique pas à un plan à l'échelle"
     ],
-    bonne_reponse: "Le mode, la moyenne et la médiane",
-    explication: "Les indicateurs de position (mode, moyenne, médiane, quartiles) renseignent sur les valeurs centrales ou caractéristiques d'une série, tandis que les indicateurs de dispersion (étendue, écart type, écart interquartile) renseignent sur son étalement."
+    bonne_reponse: "En multipliant la longueur mesurée par 100",
+    explication: "Une échelle 1/100 signifie que 1 unité sur le plan représente 100 unités dans la réalité : on multiplie donc la longueur mesurée sur le plan par 100 pour obtenir la longueur réelle."
   },
 
   {
-    question: "Comment calcule-t-on l'écart interquartile d'une série statistique ?",
+    question: "Quel est l'intérêt d'utiliser un logiciel de géométrie dynamique (comme GeoGebra) pour construire une figure ?",
     options: [
-      "Q3 − Q1",
-      "Q3 + Q1",
-      "Q3 × Q1",
-      "La médiane moins le premier quartile"
+      "Il permet de construire une figure précise et de faire varier ses paramètres tout en conservant les propriétés géométriques imposées",
+      "Il ne sert qu'à colorier des figures déjà existantes",
+      "Il remplace totalement le raisonnement géométrique, sans apport pédagogique",
+      "Il ne permet de construire que des triangles"
     ],
-    bonne_reponse: "Q3 − Q1",
-    explication: "L'écart interquartile, indicateur de dispersion, se calcule en soustrayant le premier quartile Q1 au troisième quartile Q3."
+    bonne_reponse: "Il permet de construire une figure précise et de faire varier ses paramètres tout en conservant les propriétés géométriques imposées",
+    explication: "Un logiciel de géométrie dynamique permet de construire une figure respectant des contraintes géométriques précises, et d'observer comment elle évolue lorsqu'on déplace certains éléments, tout en conservant les propriétés imposées à la construction."
   },
 
   {
-    question: "Ce diagramme en boîte à moustaches compare deux séries A et B. Que peut-on en conclure si la boîte de la série B est plus étalée que celle de la série A ?",
-    graphique: "img/q6.png",
+    question: "Comment construit-on, avec un logiciel de géométrie dynamique, un triangle rectangle dont l'hypoténuse a une longueur fixée à l'avance ?",
     options: [
-      "La série B est plus dispersée que la série A",
-      "La série B a une moyenne plus faible que la série A",
-      "Les deux séries sont identiques",
-      "La série B contient moins de valeurs que la série A"
+      "En utilisant un cercle de diamètre l'hypoténuse : tout point de ce cercle (hors extrémités) forme un triangle rectangle avec les extrémités du diamètre",
+      "En traçant trois segments de longueurs quelconques au hasard",
+      "Ce type de construction est impossible avec un logiciel de géométrie dynamique",
+      "En ne traçant qu'un seul côté du triangle"
     ],
-    bonne_reponse: "La série B est plus dispersée que la série A",
-    explication: "Une boîte à moustaches plus étalée (plus large) traduit une plus grande dispersion des valeurs de la série autour de sa médiane."
+    bonne_reponse: "En utilisant un cercle de diamètre l'hypoténuse : tout point de ce cercle (hors extrémités) forme un triangle rectangle avec les extrémités du diamètre",
+    explication: "Cette construction repose sur la propriété selon laquelle un triangle inscrit dans un cercle, dont un côté est un diamètre, est nécessairement rectangle en son troisième sommet (réciproque du théorème de l'angle inscrit)."
   },
 
   {
-    question: "Comment interprète-t-on la comparaison de deux diagrammes en boîte à moustaches représentant deux séries statistiques ?",
+    question: "Comment calcule-t-on le volume d'un solide composé d'un pavé droit et d'une pyramide à l'aide d'un programme Python ?",
     options: [
-      "En comparant à la fois leur position (médiane) et leur dispersion (étendue de la boîte et des moustaches)",
-      "En ne comparant que la valeur maximale de chaque série",
-      "En ignorant systématiquement les valeurs extrêmes",
-      "Les diagrammes en boîte ne permettent aucune comparaison"
+      "En calculant séparément le volume de chaque solide usuel puis en les additionnant",
+      "En multipliant les deux volumes entre eux",
+      "En ne calculant que le volume du plus grand des deux solides",
+      "Le volume d'un solide composé ne peut pas être calculé par un programme"
     ],
-    bonne_reponse: "En comparant à la fois leur position (médiane) et leur dispersion (étendue de la boîte et des moustaches)",
-    explication: "Comparer deux diagrammes en boîte à moustaches consiste à observer à la fois la position des médianes (qui série est globalement plus élevée) et l'étalement des boîtes et moustaches (quelle série est la plus dispersée)."
+    bonne_reponse: "En calculant séparément le volume de chaque solide usuel puis en les additionnant",
+    explication: "Un programme calcule le volume d'un solide composé en appliquant séparément la formule de volume de chaque solide usuel qui le compose, puis en additionnant (ou soustrayant, selon les cas) ces résultats."
   },
 
   {
-    question: "Sur ce graphique, on augmente progressivement la taille n de l'échantillon prélevé dans une population où la fréquence p est connue. Que peut-on observer ?",
-    graphique: "img/q8.png",
+    question: "Quelle bibliothèque Python fournit la constante mathématique π nécessaire aux calculs d'aires et de volumes de solides comportant des cercles ?",
     options: [
-      "La fréquence observée se stabilise progressivement autour de la probabilité p lorsque n augmente",
-      "La fréquence observée s'éloigne de p lorsque n augmente",
-      "La fréquence reste toujours rigoureusement égale à p, quel que soit n",
-      "Il n'existe aucune relation entre n et la fréquence observée"
+      "Le module math (math.pi)",
+      "Le module random",
+      "Le module time",
+      "Aucune bibliothèque Python ne fournit π"
     ],
-    bonne_reponse: "La fréquence observée se stabilise progressivement autour de la probabilité p lorsque n augmente",
-    explication: "C'est le phénomène de stabilisation relative des fréquences : plus l'échantillon est grand, plus la fréquence observée se rapproche de la probabilité théorique p de l'événement étudié."
+    bonne_reponse: "Le module math (math.pi)",
+    explication: "Le module standard math de Python fournit la constante math.pi, valeur approchée du nombre π utile pour tout calcul géométrique impliquant des cercles, disques ou solides de révolution."
   },
 
   {
-    question: "Cet arbre représente les résultats possibles de deux lancers successifs d'une pièce de monnaie. Combien d'issues possibles ce dénombrement permet-il d'obtenir ?",
-    graphique: "img/q9.png",
+    question: "Comment un programme peut-il vérifier automatiquement le théorème de Thalès sur une configuration donnée, à partir de longueurs mesurées ?",
     options: [
-      "4 issues possibles (PP, PF, FP, FF)",
-      "2 issues possibles seulement",
-      "8 issues possibles",
-      "1 seule issue possible"
+      "En comparant numériquement les rapports de longueurs correspondants pour vérifier leur égalité (à une tolérance de calcul près)",
+      "En vérifiant uniquement que les longueurs sont positives",
+      "Le théorème de Thalès ne peut pas être vérifié par un programme",
+      "En comparant uniquement les couleurs des segments"
     ],
-    bonne_reponse: "4 issues possibles (PP, PF, FP, FF)",
-    explication: "Un arbre de dénombrement pour deux lancers successifs d'une pièce (2 issues à chaque lancer) donne 2×2 = 4 issues possibles au total."
-  },
-
-  {
-    question: "Quelle est l'étendue d'une série de fréquences d'échantillons de taille n fixée, comportant la valeur minimale 0,42 et la valeur maximale 0,58 ?",
-    options: [
-      "0,16",
-      "0,50",
-      "1,00",
-      "0,08"
-    ],
-    bonne_reponse: "0,16",
-    explication: "L'étendue est la différence entre la valeur maximale et la valeur minimale de la série : 0,58 − 0,42 = 0,16."
+    bonne_reponse: "En comparant numériquement les rapports de longueurs correspondants pour vérifier leur égalité (à une tolérance de calcul près)",
+    explication: "Un programme peut vérifier le théorème de Thalès en calculant les rapports de longueurs correspondants (AM/AB, AN/AC, MN/BC) et en comparant leur égalité numériquement, avec une tolérance pour tenir compte des erreurs d'arrondi."
   },
 
 ];

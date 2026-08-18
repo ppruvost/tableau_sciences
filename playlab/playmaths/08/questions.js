@@ -1,5 +1,5 @@
 /* ============================================================
-   ============  QUIZ PLAYSCIENCES — ALGEBRE 2NDE  ============
+   ============  QUIZ PLAYSCIENCES — ALGEBRE A01  ============
    ============================================================ */
 
 window.questions = [
@@ -54,8 +54,20 @@ window.questions = [
   },
 
   {
+    question: "Lorsqu'on multiplie les deux membres d'une inéquation par un nombre négatif, que doit-on faire ?",
+    options: [
+      "Changer le sens de l'inégalité",
+      "Ne rien changer",
+      "Ajouter 1 aux deux membres",
+      "Transformer l'inégalité en équation"
+    ],
+    bonne_reponse: "Changer le sens de l'inégalité",
+    explication: "Multiplier ou diviser une inégalité par un nombre strictement négatif inverse son sens."
+  },
+
+  {
     question: "Ce schéma représente un intervalle de ℝ. Comment le note-t-on ?",
-    graphique: "img/q5.png",
+    graphique: "img/q6.png",
     options: [
       "[1 ; 5]",
       "]1 ; 5[",
@@ -79,27 +91,39 @@ window.questions = [
   },
 
   {
-    question: "Quelle méthode permet de résoudre graphiquement une équation du type f(x) = k ?",
+    question: "Quelle est l'intersection des intervalles [1 ; 6] et [4 ; 9] ?",
     options: [
-      "Tracer la courbe de f et l'horizontale y = k, puis lire les abscisses des points d'intersection",
-      "Calculer uniquement l'image de 0 par f",
-      "Tracer uniquement l'axe des abscisses",
-      "Résoudre systématiquement par le calcul, jamais graphiquement"
+      "[4 ; 6]",
+      "[1 ; 9]",
+      "[1 ; 4]",
+      "[6 ; 9]"
     ],
-    bonne_reponse: "Tracer la courbe de f et l'horizontale y = k, puis lire les abscisses des points d'intersection",
-    explication: "Résoudre f(x) = k graphiquement consiste à repérer les points d'intersection de la courbe de f avec la droite horizontale d'équation y = k, puis à lire leurs abscisses."
+    bonne_reponse: "[4 ; 6]",
+    explication: "L'intersection contient les valeurs communes aux deux intervalles, soit les réels compris entre 4 (la plus grande des deux bornes inférieures) et 6 (la plus petite des deux bornes supérieures)."
   },
 
   {
-    question: "Pour un problème donnant lieu à une contrainte du type « au moins » ou « au plus », quel type d'outil mathématique choisit-on généralement ?",
+    question: "Pour un problème donnant lieu à une contrainte du type « au moins » ou « au plus », quel type d'outil mathématique choisit-on généralement pour le traduire ?",
     options: [
-      "Une équation",
       "Une inéquation",
+      "Une équation",
       "Une suite numérique",
       "Un vecteur"
     ],
     bonne_reponse: "Une inéquation",
     explication: "Les expressions « au moins », « au plus », « ne dépasse pas » traduisent une contrainte d'inégalité, modélisée par une inéquation plutôt que par une équation."
+  },
+
+  {
+    question: "Un article coûte x euros. Après une hausse de 20 %, il coûte 60 €. Quelle équation permet de retrouver x ?",
+    options: [
+      "1,2x = 60",
+      "x + 20 = 60",
+      "0,8x = 60",
+      "x − 1,2 = 60"
+    ],
+    bonne_reponse: "1,2x = 60",
+    explication: "Une hausse de 20 % revient à multiplier le prix initial par 1,2 : l'équation traduisant la situation est donc 1,2x = 60."
   },
 
 ];

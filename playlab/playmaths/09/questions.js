@@ -1,11 +1,11 @@
 /* ============================================================
-   ============  QUIZ PLAYSCIENCES — ALGEBRE 1ERE  ============
+   ============  QUIZ PLAYSCIENCES — ALGEBRE A02  ============
    ============================================================ */
 
 window.questions = [
 
   {
-    question: "Sur ce graphique, on observe les 8 premiers termes d'une suite (uₙ). Quelle est la nature de cette suite ?",
+    question: "Sur ce graphique, on observe les 8 premiers termes d'une suite (uₙ). Quelle est sa nature ?",
     graphique: "img/q1.png",
     options: [
       "Une suite arithmétique",
@@ -14,7 +14,7 @@ window.questions = [
       "Une suite constante"
     ],
     bonne_reponse: "Une suite arithmétique",
-    explication: "Les points sont alignés : la différence entre deux termes consécutifs est constante (ici +2), ce qui caractérise une suite arithmétique."
+    explication: "Les points sont alignés : la différence entre deux termes consécutifs est constante, ce qui caractérise une suite arithmétique."
   },
 
   {
@@ -32,99 +32,99 @@ window.questions = [
   {
     question: "Comment détermine-t-on le sens de variation d'une suite arithmétique de raison r ?",
     options: [
-      "La suite est croissante si r > 0, décroissante si r < 0, constante si r = 0",
-      "La suite est toujours croissante",
-      "La suite est toujours décroissante",
+      "Croissante si r > 0, décroissante si r < 0, constante si r = 0",
+      "Toujours croissante",
+      "Toujours décroissante",
       "Le sens de variation ne dépend jamais de r"
     ],
-    bonne_reponse: "La suite est croissante si r > 0, décroissante si r < 0, constante si r = 0",
+    bonne_reponse: "Croissante si r > 0, décroissante si r < 0, constante si r = 0",
     explication: "Le signe de la raison r détermine directement le sens de variation d'une suite arithmétique."
   },
 
   {
-    question: "Ce graphique représente une fonction f. Quelles sont les solutions de l'équation f(x) = 0 lues graphiquement ?",
-    graphique: "img/q4.png",
+    question: "Pour comparer deux évolutions dont l'une est arithmétique et l'autre géométrique, sur le long terme, que peut-on généralement observer ?",
     options: [
-      "x = 1 et x = 3",
-      "x = 0 uniquement",
-      "x = 2 uniquement",
-      "Il n'y a pas de solution"
+      "L'évolution géométrique finit par dépasser largement l'évolution arithmétique",
+      "L'évolution arithmétique dépasse toujours l'évolution géométrique",
+      "Les deux évolutions restent toujours égales",
+      "Aucune comparaison n'est possible"
     ],
-    bonne_reponse: "x = 1 et x = 3",
-    explication: "Les solutions de f(x) = 0 correspondent aux abscisses des points où la courbe coupe l'axe des abscisses, ici x = 1 et x = 3."
+    bonne_reponse: "L'évolution géométrique finit par dépasser largement l'évolution arithmétique",
+    explication: "Une croissance géométrique (multiplicative) finit toujours par dépasser une croissance arithmétique (additive) de raison constante, même si celle-ci démarre plus vite."
   },
 
   {
-    question: "Une parabole donnée sous forme factorisée f(x) = a(x−r1)(x−r2), avec a > 0, admet un minimum. Où se situe l'abscisse de ce minimum (le sommet) ?",
+    question: "Ce graphique représente les 8 premiers termes d'une suite (vₙ). Quelle est sa nature ?",
+    graphique: "img/q5.png",
     options: [
-      "Au milieu des deux racines r1 et r2",
-      "Toujours en x = 0",
-      "À l'infini",
-      "Cela ne peut pas être déterminé"
+      "Une suite géométrique",
+      "Une suite arithmétique",
+      "Une suite constante",
+      "Une suite ni arithmétique ni géométrique"
     ],
-    bonne_reponse: "Au milieu des deux racines r1 et r2",
-    explication: "Une parabole étant symétrique par rapport à son axe, l'abscisse du sommet (extremum) est la moyenne des deux racines : (r1+r2)/2."
+    bonne_reponse: "Une suite géométrique",
+    explication: "L'allure exponentielle de la courbe montre que chaque terme est obtenu en multipliant le précédent par une raison constante : c'est une suite géométrique."
   },
 
   {
-    question: "Sur ce graphique, une droite (en pointillés rouge) est tracée au point d'abscisse x = 1. Que représente cette droite ?",
-    graphique: "img/q6.png",
+    question: "Une suite géométrique a pour premier terme u₀ = 3 et pour raison q = 2. Quelle est la valeur de u₃ ?",
     options: [
-      "La tangente à la courbe au point d'abscisse 1",
-      "Une asymptote de la courbe",
-      "La droite des solutions de f(x) = 0",
-      "Une droite parallèle à l'axe des abscisses sans lien avec la courbe"
+      "24",
+      "18",
+      "9",
+      "6"
     ],
-    bonne_reponse: "La tangente à la courbe au point d'abscisse 1",
-    explication: "La tangente à une courbe en un point est la droite qui approche le mieux la courbe localement en ce point ; son coefficient directeur est le nombre dérivé de la fonction en ce point."
+    bonne_reponse: "24",
+    explication: "uₙ = u₀ × qⁿ, donc u₃ = 3 × 2³ = 24."
   },
 
   {
-    question: "Que représente le nombre dérivé f'(a) d'une fonction f en un point d'abscisse a ?",
+    question: "Comment détermine-t-on le sens de variation d'une suite géométrique de raison q > 0 et de premier terme positif ?",
     options: [
-      "Le coefficient directeur de la tangente à la courbe de f au point d'abscisse a",
-      "La valeur de f en a",
-      "L'aire sous la courbe entre 0 et a",
-      "La distance entre deux points de la courbe"
+      "Croissante si q > 1, décroissante si 0 < q < 1, constante si q = 1",
+      "Toujours croissante quel que soit q",
+      "Toujours décroissante quel que soit q",
+      "Le sens de variation ne dépend jamais de q"
     ],
-    bonne_reponse: "Le coefficient directeur de la tangente à la courbe de f au point d'abscisse a",
-    explication: "Le nombre dérivé f'(a) donne la pente (coefficient directeur) de la tangente à la courbe représentative de f au point d'abscisse a."
+    bonne_reponse: "Croissante si q > 1, décroissante si 0 < q < 1, constante si q = 1",
+    explication: "Pour une suite géométrique à termes positifs, le sens de variation dépend directement de la position de la raison q par rapport à 1."
   },
 
   {
-    question: "Un capital de 2000 € est placé à intérêts simples au taux annuel de 3 % pendant 5 ans. Quel est le montant des intérêts obtenus ?",
+    question: "Ce graphique compare deux évolutions A (arithmétique) et B (géométrique) à partir du même point de départ. Laquelle des deux devient la plus grande à long terme ?",
+    graphique: "img/q8.png",
     options: [
-      "300 €",
-      "2300 €",
-      "600 €",
-      "60 €"
+      "L'évolution B",
+      "L'évolution A",
+      "Les deux restent toujours égales",
+      "Cela dépend uniquement du rang n = 0"
     ],
-    bonne_reponse: "300 €",
-    explication: "Intérêts simples = Capital × taux × durée = 2000 × 0,03 × 5 = 300 €."
+    bonne_reponse: "L'évolution B",
+    explication: "Bien que les deux évolutions démarrent proches, la croissance géométrique de l'évolution B finit par l'emporter nettement sur la croissance arithmétique de l'évolution A."
   },
 
   {
-    question: "Qu'appelle-t-on le coût marginal d'une production, en économie ?",
+    question: "Comment calcule-t-on la somme des n premiers termes d'une suite arithmétique de premier terme u0 et de dernier terme un ?",
     options: [
-      "Le coût de production d'une unité supplémentaire",
-      "Le coût total de toute la production",
-      "Le coût moyen de l'ensemble de la production",
-      "Le prix de vente unitaire"
+      "Somme = n × (u0 + un) / 2",
+      "Somme = n × u0 × un",
+      "Somme = u0 + un",
+      "Somme = (u0 + un) / n"
     ],
-    bonne_reponse: "Le coût de production d'une unité supplémentaire",
-    explication: "Le coût marginal correspond au coût engendré par la production d'une unité supplémentaire ; il peut être approché par le nombre dérivé de la fonction coût total."
+    bonne_reponse: "Somme = n × (u0 + un) / 2",
+    explication: "La somme des termes d'une suite arithmétique se calcule par le nombre de termes multiplié par la moyenne du premier et du dernier terme."
   },
 
   {
-    question: "Comment calcule-t-on le coût moyen unitaire de production, connaissant le coût total C(x) pour x unités produites ?",
+    question: "Comment calcule-t-on la somme des n+1 premiers termes d'une suite géométrique de premier terme u0 et de raison q ≠ 1 ?",
     options: [
-      "Coût moyen = C(x) / x",
-      "Coût moyen = C(x) × x",
-      "Coût moyen = C(x) + x",
-      "Coût moyen = x / C(x)"
+      "Somme = u0 × (1 − q^(n+1)) / (1 − q)",
+      "Somme = u0 × q^(n+1)",
+      "Somme = u0 + q×(n+1)",
+      "Somme = u0 / (1 − q)"
     ],
-    bonne_reponse: "Coût moyen = C(x) / x",
-    explication: "Le coût moyen unitaire est le coût total divisé par le nombre d'unités produites : Cmoy(x) = C(x)/x."
+    bonne_reponse: "Somme = u0 × (1 − q^(n+1)) / (1 − q)",
+    explication: "La somme des premiers termes d'une suite géométrique de raison q ≠ 1 se calcule à l'aide de la formule Somme = u0 × (1 − q^(n+1)) / (1 − q)."
   },
 
 ];

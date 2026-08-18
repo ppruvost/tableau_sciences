@@ -1,129 +1,129 @@
 /* ============================================================
-   ============  QUIZ PLAYSCIENCES — ALGORITHME 2NDE  ============
+   ============  QUIZ PLAYSCIENCES — ALGEBRE A04  ============
    ============================================================ */
 
 window.questions = [
 
   {
-    question: "Sur ce graphique, on augmente progressivement la taille n de l'échantillon simulé. Que peut-on observer sur la fréquence observée ?",
+    question: "Ce graphique compare deux fonctions exponentielles de base q. Laquelle est croissante ?",
     graphique: "img/q1.png",
     options: [
-      "Elle se rapproche de plus en plus de la probabilité théorique lorsque n augmente",
-      "Elle s'éloigne de plus en plus de la probabilité théorique",
-      "Elle reste toujours identique quelle que soit n",
-      "Elle devient nulle pour n grand"
+      "Celle avec q = 0,6",
+      "Celle avec q = 2",
+      "Les deux sont croissantes",
+      "Aucune des deux n'est croissante"
     ],
-    bonne_reponse: "Elle se rapproche de plus en plus de la probabilité théorique lorsque n augmente",
-    explication: "C'est une version vulgarisée de la loi des grands nombres : lorsque n est grand, la fréquence observée se rapproche de la probabilité théorique de l'événement."
+    bonne_reponse: "Celle avec q = 2",
+    explication: "Une fonction exponentielle x ↦ qˣ est croissante si q > 1 et décroissante si 0 < q < 1 : la courbe avec q = 2 est donc la croissante."
   },
 
   {
-    question: "Pourquoi modifie-t-on une simulation donnée en augmentant la taille de l'échantillon ?",
+    question: "Quelle est la valeur de q^0 pour une fonction exponentielle de base q (q > 0) ?",
     options: [
-      "Pour observer que la fréquence se stabilise autour de la probabilité lorsque n devient grand",
-      "Pour rendre le programme plus lent, sans autre intérêt",
-      "Pour changer la nature de l'expérience aléatoire simulée",
-      "Pour supprimer tout hasard de la simulation"
+      "1",
+      "0",
+      "q",
+      "Cela dépend de q"
     ],
-    bonne_reponse: "Pour observer que la fréquence se stabilise autour de la probabilité lorsque n devient grand",
-    explication: "Modifier la taille de l'échantillon dans une simulation permet de mettre en évidence expérimentalement le phénomène de stabilisation de la fréquence autour de la probabilité théorique."
+    bonne_reponse: "1",
+    explication: "Toute fonction exponentielle de base q > 0 vérifie q^0 = 1, quel que soit q."
   },
 
   {
-    question: "À quoi sert une simulation informatique fournie pour estimer une probabilité non triviale ?",
+    question: "Comment évolue une population de 1000 individus qui augmente de 5 % chaque année ?",
     options: [
-      "À obtenir une estimation numérique de la probabilité par répétition d'un grand nombre d'essais, lorsque le calcul théorique est difficile",
-      "À remplacer systématiquement tout calcul de probabilités",
-      "À visualiser uniquement des graphiques sans lien avec les probabilités",
-      "À calculer une moyenne arithmétique uniquement"
+      "Elle suit une évolution exponentielle de la forme 1000 × 1,05ⁿ",
+      "Elle suit une évolution arithmétique de raison 50",
+      "Elle reste constante",
+      "Elle diminue chaque année"
     ],
-    bonne_reponse: "À obtenir une estimation numérique de la probabilité par répétition d'un grand nombre d'essais, lorsque le calcul théorique est difficile",
-    explication: "Lorsque le calcul exact d'une probabilité est complexe, une simulation informatique permet d'en obtenir une estimation fiable en répétant un grand nombre de fois l'expérience aléatoire."
+    bonne_reponse: "Elle suit une évolution exponentielle de la forme 1000 × 1,05ⁿ",
+    explication: "Une augmentation de 5 % chaque année correspond à une multiplication par 1,05 à chaque étape, ce qui définit une évolution exponentielle (suite géométrique) de raison 1,05."
   },
 
   {
-    question: "Ce graphique représente la fréquence de certaines lettres dans un texte. Comment une fonction Python peut-elle déterminer la fréquence d'une lettre dans un mot ?",
-    graphique: "img/q4.png",
+    question: "Ce graphique représente la fonction logarithme décimal x ↦ log(x). Sur quel intervalle est-elle définie ?",
+    graphique: "img/q6.png",
     options: [
-      "En comptant le nombre d'occurrences de la lettre puis en divisant par la longueur totale du mot",
-      "En multipliant le nombre de lettres par 100",
-      "En ne comptant que la première occurrence de la lettre",
-      "La fréquence d'une lettre ne peut pas être calculée par un programme"
+      "Sur ]0 ; +∞[",
+      "Sur ℝ tout entier",
+      "Sur ]−∞ ; 0[",
+      "Uniquement sur les entiers positifs"
     ],
-    bonne_reponse: "En comptant le nombre d'occurrences de la lettre puis en divisant par la longueur totale du mot",
-    explication: "Une fonction Python parcourt le mot, compte les occurrences de la lettre recherchée, puis divise ce nombre par la longueur totale du mot pour obtenir la fréquence."
+    bonne_reponse: "Sur ]0 ; +∞[",
+    explication: "La fonction logarithme décimal n'est définie que pour les réels strictement positifs, comme le montre le graphique qui ne s'étend pas à gauche de 0."
   },
 
   {
-    question: "Comment écrit-on une fonction Python pour simuler un lancer de dé équilibré à 6 faces ?",
+    question: "Résoudre l'équation log(x) = 2.",
     options: [
-      "Avec la fonction randint(1, 6) du module random, qui renvoie un entier aléatoire entre 1 et 6",
-      "Avec une boucle qui affiche toujours le nombre 6",
-      "Avec une simple addition de deux nombres fixes",
-      "Il est impossible de simuler un dé avec Python"
+      "x = 100",
+      "x = 20",
+      "x = 2",
+      "x = 0,01"
     ],
-    bonne_reponse: "Avec la fonction randint(1, 6) du module random, qui renvoie un entier aléatoire entre 1 et 6",
-    explication: "La fonction randint(1, 6) du module random de Python génère un entier aléatoire compris entre 1 et 6 inclus, simulant ainsi le lancer d'un dé équilibré."
+    bonne_reponse: "x = 100",
+    explication: "log(x) = 2 équivaut à x = 10² = 100."
   },
 
   {
-    question: "En Python, comment définit-on une fonction f qui calcule l'image de x par f(x) = 2x + 3 ?",
+    question: "Quelle est la valeur de log(1) ?",
     options: [
-      "def f(x): return 2*x + 3",
-      "def f(x): print(2*x + 3)",
-      "f(x) = 2x + 3",
-      "function f(x) = 2*x + 3"
+      "0",
+      "1",
+      "10",
+      "Cela n'existe pas"
     ],
-    bonne_reponse: "def f(x): return 2*x + 3",
-    explication: "En Python, une fonction se définit avec le mot-clé def, suivi de son nom et de ses paramètres, et le résultat est renvoyé avec return."
+    bonne_reponse: "0",
+    explication: "log(1) = 0 car 10⁰ = 1."
   },
 
   {
-    question: "Un article coûte 80 € avant une remise de 15 %. Quel est le montant net après remise ?",
+    question: "Quelle propriété vérifie le logarithme décimal d'un produit de deux nombres strictement positifs a et b ?",
     options: [
-      "68 €",
-      "65 €",
-      "92 €",
-      "12 €"
+      "log(a × b) = log(a) + log(b)",
+      "log(a × b) = log(a) × log(b)",
+      "log(a × b) = log(a) − log(b)",
+      "log(a × b) = log(a) / log(b)"
     ],
-    bonne_reponse: "68 €",
-    explication: "Montant net = 80 × (1 − 0,15) = 80 × 0,85 = 68 €."
+    bonne_reponse: "log(a × b) = log(a) + log(b)",
+    explication: "Le logarithme décimal transforme un produit en somme : log(a×b) = log(a) + log(b), propriété fondamentale utilisée notamment pour les échelles logarithmiques (pH, décibels)."
   },
 
   {
-    question: "Quels nombres entiers (a, b, c) forment un triplet pythagoricien ?",
+    question: "Pourquoi la fonction logarithme décimal est-elle utile pour représenter des grandeurs variant sur plusieurs ordres de grandeur (comme le pH ou les décibels) ?",
     options: [
-      "Des entiers vérifiant a² + b² = c²",
-      "Des entiers vérifiant a + b = c",
-      "Des entiers premiers entre eux uniquement",
-      "Des entiers consécutifs"
+      "Parce qu'elle « compresse » une large gamme de valeurs en une échelle plus lisible",
+      "Parce qu'elle est toujours négative",
+      "Parce qu'elle rend toutes les valeurs égales",
+      "Elle n'a en réalité aucune utilité dans ce contexte"
     ],
-    bonne_reponse: "Des entiers vérifiant a² + b² = c²",
-    explication: "Un triplet pythagoricien est un triplet d'entiers naturels (a, b, c) vérifiant l'égalité du théorème de Pythagore a² + b² = c², comme (3, 4, 5)."
+    bonne_reponse: "Parce qu'elle « compresse » une large gamme de valeurs en une échelle plus lisible",
+    explication: "La fonction logarithme permet de représenter sur une échelle resserrée des grandeurs qui varient sur plusieurs puissances de 10, ce qui la rend précieuse pour des échelles comme le pH ou le niveau sonore en décibels."
   },
 
   {
-    question: "Un cylindre a un volume de 500 cm³ et une hauteur de 10 cm. Quel est approximativement son diamètre ? (formule V = π×r²×h)",
+    question: "Quel est le sens de variation de la fonction logarithme décimal sur son ensemble de définition ?",
     options: [
-      "Environ 8 cm",
-      "Environ 4 cm",
-      "Environ 16 cm",
-      "Environ 50 cm"
+      "Elle est strictement croissante",
+      "Elle est strictement décroissante",
+      "Elle est constante",
+      "Elle n'a pas de sens de variation défini"
     ],
-    bonne_reponse: "Environ 8 cm",
-    explication: "r² = V/(π×h) = 500/(π×10) ≈ 15,9, donc r ≈ 4 cm et le diamètre ≈ 8 cm."
+    bonne_reponse: "Elle est strictement croissante",
+    explication: "La fonction logarithme décimal est strictement croissante sur ]0 ; +∞[."
   },
 
   {
-    question: "Quel est l'intérêt d'utiliser un logiciel de géométrie dynamique (comme GeoGebra) pour construire une figure ?",
+    question: "Comment résout-on une équation du type qˣ = c (avec q et c strictement positifs) à l'aide du logarithme ?",
     options: [
-      "Il permet de construire une figure précise et de faire varier ses paramètres tout en conservant les propriétés géométriques imposées",
-      "Il ne sert qu'à colorier des figures déjà existantes",
-      "Il remplace totalement le raisonnement géométrique, sans apport pédagogique",
-      "Il ne permet de construire que des triangles"
+      "En appliquant le logarithme aux deux membres : x×log(q) = log(c), donc x = log(c)/log(q)",
+      "En divisant simplement c par q",
+      "Cette équation ne peut jamais être résolue",
+      "En multipliant q et c entre eux"
     ],
-    bonne_reponse: "Il permet de construire une figure précise et de faire varier ses paramètres tout en conservant les propriétés géométriques imposées",
-    explication: "Un logiciel de géométrie dynamique permet de construire une figure respectant des contraintes géométriques précises, et d'observer comment elle évolue lorsqu'on déplace certains éléments, tout en conservant les propriétés imposées à la construction."
+    bonne_reponse: "En appliquant le logarithme aux deux membres : x×log(q) = log(c), donc x = log(c)/log(q)",
+    explication: "Pour isoler l'exposant x dans une équation exponentielle, on applique le logarithme aux deux membres, ce qui transforme qˣ = c en x×log(q) = log(c), d'où x = log(c)/log(q)."
   },
 
 ];

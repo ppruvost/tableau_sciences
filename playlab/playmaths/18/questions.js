@@ -1,108 +1,132 @@
 /* ============================================================
-   ============  QUIZ PLAYSCIENCES — STATISTIQUES 1ERE  ============
+   ============  QUIZ PLAYSCIENCES — GEOMETRIE G01  ============
    ============================================================ */
 
 window.questions = [
 
   {
-    question: "Sur ce nuage de points, une droite d'ajustement affine a été tracée. Comment détermine-t-on son équation par la méthode des moindres carrés ?",
+    question: "Sur ce triangle rectangle, quelle formule permet de calculer son aire ?",
     graphique: "img/q1.png",
     options: [
-      "En minimisant la somme des carrés des écarts entre les points du nuage et la droite",
-      "En reliant simplement deux points extrêmes du nuage",
-      "En traçant une droite parallèle à l'axe des ordonnées",
-      "La méthode des moindres carrés ne s'applique pas à un nuage de points"
+      "Aire = (base × hauteur) / 2",
+      "Aire = base × hauteur",
+      "Aire = base + hauteur",
+      "Aire = base² + hauteur²"
     ],
-    bonne_reponse: "En minimisant la somme des carrés des écarts entre les points du nuage et la droite",
-    explication: "La droite d'ajustement affine obtenue par la méthode des moindres carrés est celle qui minimise la somme des carrés des écarts verticaux entre chaque point du nuage et la droite."
+    bonne_reponse: "Aire = (base × hauteur) / 2",
+    explication: "L'aire d'un triangle rectangle est le produit de la base par la hauteur relative, divisé par 2."
   },
 
   {
-    question: "Que représente le coefficient de détermination R² d'un ajustement affine ?",
+    question: "Quelle est la formule du périmètre d'un rectangle de longueur L et de largeur l ?",
     options: [
-      "Une mesure de la qualité de l'ajustement, proche de 1 lorsque le modèle affine décrit bien le nuage de points",
-      "Le coefficient directeur de la droite d'ajustement",
-      "La valeur moyenne de la série statistique",
-      "Le nombre de points du nuage"
+      "P = 2 × (L + l)",
+      "P = L × l",
+      "P = L + l",
+      "P = 2 × L × l"
     ],
-    bonne_reponse: "Une mesure de la qualité de l'ajustement, proche de 1 lorsque le modèle affine décrit bien le nuage de points",
-    explication: "Le coefficient de détermination R² évalue la pertinence de l'ajustement affine choisi : plus il est proche de 1, mieux la droite décrit la tendance du nuage de points."
+    bonne_reponse: "P = 2 × (L + l)",
+    explication: "Le périmètre d'un rectangle est deux fois la somme de la longueur et de la largeur."
   },
 
   {
-    question: "Sur ce même graphique, on utilise la droite d'ajustement pour estimer une valeur de y en x = 11, au-delà du nuage de points observé. Comment appelle-t-on cette estimation ?",
-    graphique: "img/q1.png",
+    question: "Sur cette figure combinant un pavé droit et une pyramide, comment calcule-t-on le volume total du solide composé ?",
+    graphique: "img/q3.png",
     options: [
-      "Une extrapolation",
-      "Une interpolation",
-      "Une régression logarithmique",
-      "Un dénombrement"
+      "En additionnant le volume du pavé droit et celui de la pyramide",
+      "En multipliant les deux volumes entre eux",
+      "En ne prenant en compte que le plus grand des deux volumes",
+      "Le volume d'un solide composé ne peut pas être calculé"
     ],
-    bonne_reponse: "Une extrapolation",
-    explication: "Estimer une valeur en dehors de l'intervalle des données observées, à l'aide du modèle d'ajustement, s'appelle une extrapolation ; estimer une valeur à l'intérieur de cet intervalle s'appelle une interpolation."
+    bonne_reponse: "En additionnant le volume du pavé droit et celui de la pyramide",
+    explication: "Le volume d'un solide composé s'obtient en additionnant (ou soustrayant) les volumes des solides usuels qui le constituent."
   },
 
   {
-    question: "Quelle est la différence entre interpoler et extrapoler une valeur à partir d'un ajustement affine ?",
+    question: "Quelle est la formule du volume d'un cylindre de rayon r et de hauteur h ?",
     options: [
-      "Interpoler estime une valeur à l'intérieur de l'intervalle des données observées, extrapoler à l'extérieur de cet intervalle",
-      "Interpoler et extrapoler désignent exactement la même opération",
-      "Extrapoler est toujours plus fiable qu'interpoler",
-      "Interpoler ne peut se faire qu'avec des données qualitatives"
+      "V = π × r² × h",
+      "V = π × r × h",
+      "V = 2 × π × r × h",
+      "V = (4/3) × π × r³"
     ],
-    bonne_reponse: "Interpoler estime une valeur à l'intérieur de l'intervalle des données observées, extrapoler à l'extérieur de cet intervalle",
-    explication: "L'interpolation reste dans le domaine des données observées et est généralement fiable, alors que l'extrapolation, en dehors de ce domaine, est plus risquée car rien ne garantit que le modèle reste valable."
+    bonne_reponse: "V = π × r² × h",
+    explication: "Le volume d'un cylindre de révolution est le produit de l'aire de sa base circulaire (π×r²) par sa hauteur h."
   },
 
   {
-    question: "Ce tableau croisé d'effectifs présente la répartition d'élèves selon leur genre et leur filière. Combien d'élèves au total sont en filière Sciences ?",
-    graphique: "img/q6.png",
+    question: "Sur ce triangle rectangle de côtés a = 4 cm et b = 3 cm, quelle est la longueur de l'hypoténuse c ?",
+    graphique: "img/q5.png",
     options: [
-      "40",
-      "43",
-      "37",
-      "80"
+      "5 cm",
+      "7 cm",
+      "1 cm",
+      "25 cm"
     ],
-    bonne_reponse: "40",
-    explication: "On lit directement dans la ligne « Sciences » du tableau croisé : 18 + 22 = 40 élèves au total."
+    bonne_reponse: "5 cm",
+    explication: "D'après le théorème de Pythagore, c² = a² + b² = 16 + 9 = 25, donc c = 5 cm."
   },
 
   {
-    question: "À partir de ce tableau croisé, quelle est la probabilité qu'un élève choisi au hasard soit une fille ?",
-    graphique: "img/q6.png",
+    question: "À quelle condition peut-on utiliser la réciproque du théorème de Pythagore pour démontrer qu'un triangle est rectangle ?",
     options: [
-      "43/80",
-      "18/80",
-      "40/80",
-      "25/80"
+      "Lorsque le carré du plus grand côté est égal à la somme des carrés des deux autres côtés",
+      "Lorsque tous les côtés du triangle sont égaux",
+      "Lorsque le triangle a un angle obtus",
+      "La réciproque ne permet jamais de démontrer qu'un triangle est rectangle"
     ],
-    bonne_reponse: "43/80",
-    explication: "Il y a 43 filles sur un total de 80 élèves, donc P(fille) = 43/80."
+    bonne_reponse: "Lorsque le carré du plus grand côté est égal à la somme des carrés des deux autres côtés",
+    explication: "La réciproque du théorème de Pythagore permet d'affirmer qu'un triangle est rectangle si le carré de son plus grand côté est égal à la somme des carrés des deux autres côtés."
   },
 
   {
-    question: "Comment calcule-t-on, à partir d'un tableau croisé d'effectifs, la probabilité conditionnelle P_Sciences(Fille), c'est-à-dire la probabilité qu'un élève soit une fille sachant qu'il est en filière Sciences ?",
-    graphique: "img/q6.png",
+    question: "Sur cette figure, la droite (MN) est parallèle à (BC). Quelle relation donne le théorème de Thalès dans ce triangle ?",
+    graphique: "img/q7.png",
     options: [
-      "En divisant l'effectif des filles en Sciences par l'effectif total de la filière Sciences (18/40)",
-      "En divisant l'effectif des filles en Sciences par l'effectif total des filles (18/43)",
-      "En divisant l'effectif total par l'effectif des filles en Sciences",
-      "La probabilité conditionnelle ne peut pas être calculée à partir d'un tableau croisé"
+      "AM/AB = AN/AC = MN/BC",
+      "AM + AB = AN + AC",
+      "AM × AB = AN × AC",
+      "AM/AB = BC/MN"
     ],
-    bonne_reponse: "En divisant l'effectif des filles en Sciences par l'effectif total de la filière Sciences (18/40)",
-    explication: "La probabilité conditionnelle P_Sciences(Fille) se calcule en restreignant l'univers à la filière Sciences (l'événement conditionnant) : on divise l'effectif des filles en Sciences par l'effectif total de la filière Sciences, soit 18/40."
+    bonne_reponse: "AM/AB = AN/AC = MN/BC",
+    explication: "Le théorème de Thalès, appliqué lorsque (MN) est parallèle à (BC), donne l'égalité des rapports AM/AB = AN/AC = MN/BC."
   },
 
   {
-    question: "Quelle est la relation générale entre la probabilité conditionnelle P_A(B), P(A∩B) et P(A) ?",
+    question: "Dans un triangle, deux droites parallèles définissent des longueurs AM = 3 cm, AB = 6 cm et AN = 4 cm. Quelle est la longueur AC ?",
     options: [
-      "P_A(B) = P(A∩B) / P(A)",
-      "P_A(B) = P(A∩B) × P(A)",
-      "P_A(B) = P(A) / P(A∩B)",
-      "P_A(B) = P(A) + P(B)"
+      "8 cm",
+      "2 cm",
+      "12 cm",
+      "7 cm"
     ],
-    bonne_reponse: "P_A(B) = P(A∩B) / P(A)",
-    explication: "La probabilité conditionnelle de B sachant A est définie par P_A(B) = P(A∩B) / P(A), avec P(A) non nul."
+    bonne_reponse: "8 cm",
+    explication: "D'après Thalès, AM/AB = AN/AC, donc 3/6 = 4/AC, d'où AC = 4×6/3 = 8 cm."
+  },
+
+  {
+    question: "Sur cette figure, un carré est agrandi avec un rapport k = 2. Comment évolue son aire par rapport à l'aire initiale ?",
+    graphique: "img/q9.png",
+    options: [
+      "Elle est multipliée par k² = 4",
+      "Elle est multipliée par k = 2",
+      "Elle reste identique",
+      "Elle est multipliée par 2k = 4 uniquement en apparence"
+    ],
+    bonne_reponse: "Elle est multipliée par k² = 4",
+    explication: "Lors d'un agrandissement (ou d'une réduction) de rapport k, les longueurs sont multipliées par k, les aires par k², et les volumes par k³."
+  },
+
+  {
+    question: "Un solide de volume 20 cm³ subit une réduction de rapport k = 1/2. Quel est le volume du solide réduit ?",
+    options: [
+      "2,5 cm³",
+      "10 cm³",
+      "5 cm³",
+      "40 cm³"
+    ],
+    bonne_reponse: "2,5 cm³",
+    explication: "Les volumes sont multipliés par k³ = (1/2)³ = 1/8, donc le nouveau volume est 20 × 1/8 = 2,5 cm³."
   },
 
 ];

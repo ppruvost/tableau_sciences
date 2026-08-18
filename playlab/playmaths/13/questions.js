@@ -1,130 +1,130 @@
 /* ============================================================
-   ============  QUIZ PLAYSCIENCES — ALGORITHME TLE  ============
+   ============  QUIZ PLAYSCIENCES — ALGORITHME AL01  ============
    ============================================================ */
 
 window.questions = [
 
   {
-    question: "Ce nuage de points suit une évolution non affine, ajustée ici par une courbe exponentielle. Pourquoi choisit-on parfois un ajustement non affine en Terminale plutôt qu'une simple droite ?",
+    question: "Sur ce graphique, on augmente progressivement la taille n de l'échantillon simulé. Que peut-on observer sur la fréquence observée ?",
     graphique: "img/q1.png",
     options: [
-      "Parce que la forme du nuage de points ne correspond pas à une évolution linéaire, et qu'un autre modèle décrit mieux la tendance observée",
-      "Parce qu'un ajustement affine est toujours interdit en mathématiques",
-      "Parce que les nuages de points ne servent à rien en Terminale",
-      "Parce qu'il faut toujours choisir le modèle le plus compliqué possible"
+      "Elle se rapproche de plus en plus de la probabilité théorique lorsque n augmente",
+      "Elle s'éloigne de plus en plus de la probabilité théorique",
+      "Elle reste toujours identique quelle que soit n",
+      "Elle devient nulle pour n grand"
     ],
-    bonne_reponse: "Parce que la forme du nuage de points ne correspond pas à une évolution linéaire, et qu'un autre modèle décrit mieux la tendance observée",
-    explication: "Lorsque la forme du nuage de points suggère une tendance non linéaire, on choisit un modèle d'ajustement adapté (exponentiel, logarithmique...), quitte à utiliser un changement de variable pour s'y ramener."
+    bonne_reponse: "Elle se rapproche de plus en plus de la probabilité théorique lorsque n augmente",
+    explication: "C'est la loi des grands nombres, version vulgarisée : lorsque n est grand, la fréquence observée se rapproche de la probabilité théorique de l'événement."
   },
 
   {
-    question: "Sur cet arbre pondéré, quelle est la probabilité de l'événement A, sachant les probabilités indiquées sur les branches ?",
-    graphique: "img/q2.png",
+    question: "Pourquoi modifie-t-on une simulation donnée en augmentant la taille de l'échantillon ?",
     options: [
-      "0,6",
-      "0,4",
-      "1",
-      "0,24"
+      "Pour observer que la fréquence se stabilise autour de la probabilité lorsque n devient grand",
+      "Pour rendre le programme plus lent, sans autre intérêt",
+      "Pour changer la nature de l'expérience aléatoire simulée",
+      "Pour supprimer tout hasard de la simulation"
     ],
-    bonne_reponse: "0,6",
-    explication: "Sur un arbre pondéré, la probabilité associée à une branche partant de la racine correspond directement à la probabilité de l'événement à son extrémité : ici P(A) = 0,6."
+    bonne_reponse: "Pour observer que la fréquence se stabilise autour de la probabilité lorsque n devient grand",
+    explication: "Modifier la taille de l'échantillon dans une simulation permet de mettre en évidence expérimentalement le phénomène de stabilisation de la fréquence autour de la probabilité théorique."
   },
 
   {
-    question: "Que dit la formule des probabilités totales, pour un événement B et une partition de l'univers en événements A1, A2 (par exemple A et son contraire) ?",
+    question: "À quoi sert une simulation informatique fournie pour estimer une probabilité non triviale ?",
     options: [
-      "P(B) = P(A1) × P_A1(B) + P(A2) × P_A2(B)",
-      "P(B) = P(A1) + P(A2)",
-      "P(B) = P(A1) × P(A2)",
-      "P(B) = P_A1(B) − P_A2(B)"
+      "À obtenir une estimation numérique de la probabilité par répétition d'un grand nombre d'essais, lorsque le calcul théorique est difficile",
+      "À remplacer systématiquement tout calcul de probabilités",
+      "À visualiser uniquement des graphiques sans lien avec les probabilités",
+      "À calculer une moyenne arithmétique uniquement"
     ],
-    bonne_reponse: "P(B) = P(A1) × P_A1(B) + P(A2) × P_A2(B)",
-    explication: "La formule des probabilités totales additionne, sur chaque branche d'une partition de l'univers, le produit de la probabilité de l'événement de la partition par la probabilité conditionnelle de B sachant cet événement."
+    bonne_reponse: "À obtenir une estimation numérique de la probabilité par répétition d'un grand nombre d'essais, lorsque le calcul théorique est difficile",
+    explication: "Lorsque le calcul exact d'une probabilité est complexe, une simulation informatique permet d'en obtenir une estimation fiable en répétant un grand nombre de fois l'expérience aléatoire."
   },
 
   {
-    question: "Comment montre-t-on que deux événements A et B sont indépendants ?",
+    question: "Comment utilise-t-on une simulation déjà fournie pour répondre à une question de probabilité, sans en modifier le code ?",
     options: [
-      "En vérifiant que P(A∩B) = P(A) × P(B)",
-      "En vérifiant que P(A) = P(B)",
-      "En vérifiant que A et B sont incompatibles",
-      "L'indépendance ne peut jamais être démontrée par le calcul"
+      "En exécutant le programme et en interprétant les résultats affichés (fréquences, graphiques) au regard de la question posée",
+      "En réécrivant systématiquement tout le programme depuis le début",
+      "En ignorant les résultats affichés par le programme",
+      "Une simulation fournie ne peut jamais être exploitée directement"
     ],
-    bonne_reponse: "En vérifiant que P(A∩B) = P(A) × P(B)",
-    explication: "Deux événements A et B sont indépendants si et seulement si la probabilité de leur intersection est égale au produit de leurs probabilités : P(A∩B) = P(A) × P(B)."
+    bonne_reponse: "En exécutant le programme et en interprétant les résultats affichés (fréquences, graphiques) au regard de la question posée",
+    explication: "Utiliser une simulation déjà écrite consiste à l'exécuter, éventuellement en ajustant certains paramètres d'entrée, puis à interpréter les résultats numériques ou graphiques qu'elle produit pour répondre à la question posée."
   },
 
   {
-    question: "Comment calcule-t-on, en Python, le terme de rang n d'une suite géométrique de premier terme u0 et de raison q, à l'aide d'une boucle ?",
+    question: "Comment écrit-on une fonction Python pour simuler un lancer de dé équilibré à 6 faces ?",
     options: [
-      "En multipliant u0 par q à chaque tour de boucle, n fois de suite",
-      "En additionnant q à u0 à chaque tour de boucle",
-      "En ne faisant aucun calcul, juste u0",
-      "En divisant u0 par q à chaque tour"
+      "Avec la fonction randint(1, 6) du module random, qui renvoie un entier aléatoire entre 1 et 6",
+      "Avec une boucle qui affiche toujours le nombre 6",
+      "Avec une simple addition de deux nombres fixes",
+      "Il est impossible de simuler un dé avec Python"
     ],
-    bonne_reponse: "En multipliant u0 par q à chaque tour de boucle, n fois de suite",
-    explication: "Une suite géométrique se calcule par récurrence en multipliant le terme précédent par la raison q à chaque itération de la boucle."
+    bonne_reponse: "Avec la fonction randint(1, 6) du module random, qui renvoie un entier aléatoire entre 1 et 6",
+    explication: "La fonction randint(1, 6) du module random de Python génère un entier aléatoire compris entre 1 et 6 inclus, simulant ainsi le lancer d'un dé équilibré."
   },
 
   {
-    question: "Sur ce graphique représentant une suite géométrique croissante, comment détermine-t-on par un programme le rang à partir duquel les termes dépassent le seuil indiqué ?",
-    graphique: "img/q4.png",
+    question: "Ce graphique représente la fréquence de certaines lettres dans un texte. Comment une fonction Python peut-elle déterminer la fréquence d'une lettre dans un mot ?",
+    graphique: "img/q6.png",
     options: [
-      "Avec une boucle while qui multiplie le terme courant par la raison tant qu'il reste inférieur au seuil",
-      "En calculant directement sans aucune boucle",
-      "En multipliant le seuil par la raison une seule fois",
-      "Cela ne peut pas être déterminé par un programme"
+      "En comptant le nombre d'occurrences de la lettre puis en divisant par la longueur totale du mot",
+      "En multipliant le nombre de lettres par 100",
+      "En ne comptant que la première occurrence de la lettre",
+      "La fréquence d'une lettre ne peut pas être calculée par un programme"
     ],
-    bonne_reponse: "Avec une boucle while qui multiplie le terme courant par la raison tant qu'il reste inférieur au seuil",
-    explication: "Comme pour une suite arithmétique, une boucle while permet de calculer successivement les termes et de s'arrêter dès que le terme dépasse le seuil fixé."
+    bonne_reponse: "En comptant le nombre d'occurrences de la lettre puis en divisant par la longueur totale du mot",
+    explication: "Une fonction Python parcourt le mot, compte les occurrences de la lettre recherchée, puis divise ce nombre par la longueur totale du mot pour obtenir la fréquence."
   },
 
   {
-    question: "Comment recherche-t-on par balayage une racine d'une fonction polynôme de degré 3 ou une solution d'une équation exponentielle ?",
+    question: "Quelle instruction Python permet de compter les occurrences d'un caractère c dans une chaîne mot ?",
     options: [
-      "En testant des valeurs successives de x avec un pas donné et en repérant un changement de signe de f(x)",
-      "En résolvant uniquement de tête, sans calcul numérique",
-      "En ignorant totalement la fonction et en devinant une valeur au hasard",
-      "Cette méthode ne fonctionne que pour les équations du premier degré"
+      "mot.count(c)",
+      "mot.find(c)",
+      "len(mot)",
+      "mot.index(c)"
     ],
-    bonne_reponse: "En testant des valeurs successives de x avec un pas donné et en repérant un changement de signe de f(x)",
-    explication: "La méthode de balayage, déjà vue en 1ère pour des équations plus simples, s'applique de la même façon à des fonctions polynômes de degré supérieur ou des équations exponentielles/logarithmes : on cherche un changement de signe de f(x)."
+    bonne_reponse: "mot.count(c)",
+    explication: "La méthode count() appliquée à une chaîne de caractères Python renvoie le nombre d'occurrences de l'élément recherché."
   },
 
   {
-    question: "Un capital de 5000 € est placé à intérêts composés à 3 % par an. Quel capital obtient-on après 10 ans (arrondi à l'euro) ?",
+    question: "Pourquoi la lettre E apparaît-elle beaucoup plus fréquemment que la lettre Z dans un texte français, comme le montre le graphique ?",
+    graphique: "img/q6.png",
     options: [
-      "6719 €",
-      "6500 €",
-      "5150 €",
-      "5300 €"
+      "Parce que la fréquence d'apparition des lettres dépend de la langue et de son vocabulaire courant",
+      "Parce que toutes les lettres apparaissent forcément avec la même fréquence dans n'importe quelle langue",
+      "Parce que Z est une lettre interdite dans la plupart des mots",
+      "Il n'existe aucune différence de fréquence entre les lettres d'une langue"
     ],
-    bonne_reponse: "6719 €",
-    explication: "Capital final = 5000 × 1,03¹⁰ ≈ 5000 × 1,3439 ≈ 6719 €."
+    bonne_reponse: "Parce que la fréquence d'apparition des lettres dépend de la langue et de son vocabulaire courant",
+    explication: "Chaque langue possède sa propre distribution statistique de fréquence des lettres, liée à son vocabulaire et à sa grammaire ; en français, le E est particulièrement fréquent, contrairement au Z."
   },
 
   {
-    question: "Comment calcule-t-on par programme les annuités constantes d'un emprunt à intérêts composés ?",
+    question: "Quel est l'intérêt d'écrire sa propre fonction de simulation plutôt que d'utiliser uniquement une simulation déjà fournie ?",
     options: [
-      "À l'aide d'une formule financière utilisant le capital emprunté, le taux périodique et le nombre de périodes",
-      "En divisant simplement le capital emprunté par le nombre de périodes, sans tenir compte des intérêts",
-      "Les annuités ne peuvent pas être calculées par programme",
-      "En multipliant le capital emprunté par le taux une seule fois"
+      "Cela permet d'adapter précisément la simulation à une nouvelle expérience aléatoire non prévue par le programme existant",
+      "Cela n'a aucun intérêt particulier",
+      "Cela rend systématiquement le programme plus lent sans bénéfice",
+      "Une fonction personnelle ne peut jamais fonctionner correctement"
     ],
-    bonne_reponse: "À l'aide d'une formule financière utilisant le capital emprunté, le taux périodique et le nombre de périodes",
-    explication: "Le calcul de l'annuité constante d'un emprunt utilise une formule financière prenant en compte le capital emprunté, le taux d'intérêt périodique et le nombre total de périodes de remboursement."
+    bonne_reponse: "Cela permet d'adapter précisément la simulation à une nouvelle expérience aléatoire non prévue par le programme existant",
+    explication: "Écrire sa propre fonction de simulation permet de modéliser une expérience aléatoire spécifique qui n'est pas couverte par un programme existant, en choisissant précisément les instructions aléatoires nécessaires."
   },
 
   {
-    question: "Comment calcule-t-on un taux mensuel équivalent à un taux annuel de crédit, en tenant compte de la capitalisation des intérêts ?",
+    question: "Dans une boucle simulant N répétitions d'une expérience aléatoire, comment calcule-t-on la fréquence finale d'un événement observé ?",
     options: [
-      "Le taux mensuel équivalent tm vérifie (1+tm)¹² = 1+ta, où ta est le taux annuel",
-      "On divise simplement le taux annuel par 12",
-      "Le taux mensuel équivalent est toujours égal au taux annuel",
-      "Cette conversion n'est pas possible mathématiquement"
+      "En divisant le nombre de fois où l'événement s'est produit par le nombre total de répétitions N",
+      "En multipliant le nombre d'occurrences par N",
+      "En ne prenant en compte que la dernière répétition",
+      "La fréquence ne peut pas être calculée à la fin d'une boucle"
     ],
-    bonne_reponse: "Le taux mensuel équivalent tm vérifie (1+tm)¹² = 1+ta, où ta est le taux annuel",
-    explication: "Pour respecter la capitalisation des intérêts composés sur 12 mois, le taux mensuel équivalent vérifie (1+tm)¹² = 1+ta, ce qui donne tm = (1+ta)^(1/12) − 1, différent d'une simple division par 12."
+    bonne_reponse: "En divisant le nombre de fois où l'événement s'est produit par le nombre total de répétitions N",
+    explication: "La fréquence d'un événement observé sur une série de N répétitions se calcule en divisant le nombre de réalisations de cet événement par le nombre total de répétitions N."
   },
 
 ];

@@ -1,82 +1,93 @@
 /* ============================================================
-   ============  QUIZ PLAYSCIENCES — STATISTIQUES TLE  ============
+   ============  QUIZ PLAYSCIENCES — GEOMETRIE G02  ============
    ============================================================ */
 
 window.questions = [
 
   {
-    question: "Ce nuage de points est ajusté par une courbe non affine (logarithmique). Pourquoi choisit-on ce type de modèle plutôt qu'une droite ?",
+    question: "Sur cette représentation d'un pavé droit, quel logiciel permet de la construire et de la faire pivoter pour l'observer sous différents angles ?",
     graphique: "img/q1.png",
     options: [
-      "Parce que la forme du nuage de points suggère une évolution qui ralentit, mieux décrite par un modèle logarithmique qu'affine",
-      "Parce qu'un ajustement affine est toujours faux",
-      "Parce qu'un modèle logarithmique est toujours plus simple qu'une droite",
-      "Le choix du modèle ne dépend jamais de la forme du nuage"
+      "Un logiciel de géométrie dynamique (comme GeoGebra 3D)",
+      "Un tableur uniquement",
+      "Un logiciel de traitement de texte",
+      "Cela ne peut se faire qu'à la main, sans logiciel"
     ],
-    bonne_reponse: "Parce que la forme du nuage de points suggère une évolution qui ralentit, mieux décrite par un modèle logarithmique qu'affine",
-    explication: "Lorsque le nuage de points présente une croissance qui ralentit progressivement, un modèle logarithmique (ou un autre modèle non affine adapté) décrit souvent mieux la tendance qu'une simple droite."
+    bonne_reponse: "Un logiciel de géométrie dynamique (comme GeoGebra 3D)",
+    explication: "Un logiciel de géométrie dynamique en 3D permet de représenter un solide usuel et de le manipuler (rotation, zoom) pour mieux visualiser sa structure spatiale."
   },
 
   {
-    question: "Comment peut-on se ramener à un ajustement affine pour étudier un nuage de points suivant une évolution exponentielle y = k×qˣ ?",
+    question: "Quelle est la convention utilisée en perspective cavalière pour représenter les arêtes cachées d'un solide sur un dessin en 2D ?",
     options: [
-      "En effectuant le changement de variable z = ln(y), qui rend la relation entre x et z affine",
-      "En multipliant simplement toutes les valeurs de y par x",
-      "Ce type de nuage ne peut jamais être étudié",
-      "En ajoutant une constante arbitraire à chaque valeur de y"
+      "Elles sont tracées en pointillés",
+      "Elles sont tracées en couleur rouge",
+      "Elles ne sont jamais représentées",
+      "Elles sont tracées plus épaisses que les arêtes visibles"
     ],
-    bonne_reponse: "En effectuant le changement de variable z = ln(y), qui rend la relation entre x et z affine",
-    explication: "Si y = k×qˣ, alors ln(y) = ln(k) + x×ln(q), ce qui est une relation affine entre x et z = ln(y) : on peut donc ajuster ce nouveau nuage de points (x ; z) par une droite."
+    bonne_reponse: "Elles sont tracées en pointillés",
+    explication: "En perspective cavalière, les arêtes cachées d'un solide (non visibles depuis le point de vue choisi) sont conventionnellement représentées en traits pointillés."
   },
 
   {
-    question: "Quel outil numérique permet de choisir et exploiter un modèle d'ajustement non affine adapté à un nuage de points ?",
+    question: "Comment exploite-t-on la représentation d'un assemblage de solides usuels pour en calculer le volume total ?",
     options: [
-      "Un tableur ou une calculatrice proposant plusieurs types de régression (affine, exponentielle, logarithmique, puissance...)",
-      "Uniquement une règle et un crayon",
-      "Un dictionnaire papier",
-      "Aucun outil numérique ne permet ce type d'ajustement"
+      "En identifiant chaque solide usuel composant l'assemblage, puis en additionnant ou soustrayant leurs volumes respectifs",
+      "En mesurant uniquement la hauteur totale de l'assemblage",
+      "En ignorant les solides internes non visibles",
+      "Le volume d'un assemblage ne peut jamais être calculé"
     ],
-    bonne_reponse: "Un tableur ou une calculatrice proposant plusieurs types de régression (affine, exponentielle, logarithmique, puissance...)",
-    explication: "Les tableurs et calculatrices modernes proposent plusieurs types de régression, ce qui permet de comparer différents modèles d'ajustement et de choisir celui qui décrit le mieux le nuage de points observé."
+    bonne_reponse: "En identifiant chaque solide usuel composant l'assemblage, puis en additionnant ou soustrayant leurs volumes respectifs",
+    explication: "Pour calculer le volume d'un assemblage de solides usuels, on décompose la figure en solides simples dont on connaît les formules de volume, puis on additionne ou soustrait ces volumes selon la construction."
   },
 
   {
-    question: "Sur cet arbre pondéré à deux niveaux, quelle formule permet de calculer P(B), en utilisant la formule des probabilités totales ?",
-    graphique: "img/q4.png",
+    question: "Sur ce cube dont on réalise la section par un plan horizontal, quelle est la forme de la section obtenue ?",
+    graphique: "img/q3.png",
     options: [
-      "P(B) = P(A)×P_A(B) + P(Ā)×P_Ā(B)",
-      "P(B) = P(A) + P(Ā)",
-      "P(B) = P_A(B) × P_Ā(B)",
-      "P(B) = P(A) − P(Ā)"
+      "Un carré (ou un rectangle), parallèle à la face du cube",
+      "Un cercle",
+      "Un triangle",
+      "La section n'a jamais de forme définie"
     ],
-    bonne_reponse: "P(B) = P(A)×P_A(B) + P(Ā)×P_Ā(B)",
-    explication: "La formule des probabilités totales, appliquée à la partition {A, Ā} de l'univers, permet de calculer P(B) en sommant les contributions de chaque chemin de l'arbre menant à B."
+    bonne_reponse: "Un carré (ou un rectangle), parallèle à la face du cube",
+    explication: "La section d'un cube par un plan parallèle à l'une de ses faces est un carré (de mêmes dimensions que la face si le plan est situé à l'intérieur du cube)."
   },
 
   {
-    question: "Sur cet arbre pondéré, quelle est la probabilité du chemin menant à A puis B (calculée par la règle du produit le long des branches) ?",
-    graphique: "img/q4.png",
+    question: "Quelle est la forme de la section d'un cylindre de révolution par un plan perpendiculaire à son axe ?",
     options: [
-      "0,3 × 0,4 = 0,12",
-      "0,3 + 0,4 = 0,7",
-      "0,3 − 0,4 = −0,1",
-      "0,3 / 0,4 = 0,75"
+      "Un cercle (ou un disque)",
+      "Un carré",
+      "Un triangle",
+      "Une ellipse allongée"
     ],
-    bonne_reponse: "0,3 × 0,4 = 0,12",
-    explication: "Sur un arbre pondéré, la probabilité d'un chemin s'obtient en multipliant les probabilités inscrites sur chaque branche parcourue, ici P(A) × P_A(B) = 0,3 × 0,4 = 0,12."
+    bonne_reponse: "Un cercle (ou un disque)",
+    explication: "Un plan perpendiculaire à l'axe d'un cylindre de révolution le coupe selon un disque de même rayon que la base du cylindre."
   },
 
   {
-    question: "Comment démontre-t-on, à partir d'un arbre pondéré, que deux événements A et B sont indépendants ?",
+    question: "Comment construit-on la section plane d'un solide passant par des points donnés situés sur ses arêtes ?",
     options: [
-      "En vérifiant que P_A(B) = P(B) (la probabilité de B ne dépend pas de la réalisation de A)",
-      "En vérifiant que P(A) = P(B)",
-      "En vérifiant que les deux branches de l'arbre ont la même longueur graphique",
-      "L'indépendance ne peut jamais être vérifiée à partir d'un arbre"
+      "En reliant les points situés sur des faces communes du solide, en respectant le parallélisme des faces opposées",
+      "En reliant les points au hasard, sans règle particulière",
+      "En ignorant les faces du solide",
+      "La section ne peut être construite qu'en 2D, jamais en 3D"
     ],
-    bonne_reponse: "En vérifiant que P_A(B) = P(B) (la probabilité de B ne dépend pas de la réalisation de A)",
-    explication: "Deux événements A et B sont indépendants si la réalisation de A ne modifie pas la probabilité de B, ce qui se traduit par P_A(B) = P(B) (et de façon équivalente P(A∩B) = P(A)×P(B))."
+    bonne_reponse: "En reliant les points situés sur des faces communes du solide, en respectant le parallélisme des faces opposées",
+    explication: "Construire une section plane consiste à relier progressivement les points donnés situés sur les arêtes, en utilisant notamment la propriété que les traces du plan sécant sur deux faces parallèles sont elles-mêmes parallèles."
+  },
+
+  {
+    question: "Pourquoi la section d'une pyramide par un plan parallèle à sa base est-elle toujours semblable à cette base ?",
+    options: [
+      "Parce que le plan de section réalise un agrandissement ou une réduction de la base, selon sa position sur la hauteur de la pyramide",
+      "Parce que toutes les sections d'une pyramide ont toujours la même taille",
+      "Parce que la base et la section n'ont en réalité aucun rapport géométrique",
+      "Cette propriété est fausse en général"
+    ],
+    bonne_reponse: "Parce que le plan de section réalise un agrandissement ou une réduction de la base, selon sa position sur la hauteur de la pyramide",
+    explication: "Une section d'une pyramide par un plan parallèle à la base est l'image de la base par un agrandissement ou une réduction (homothétie) dont le rapport dépend de la position du plan sur la hauteur de la pyramide."
   },
 
 ];

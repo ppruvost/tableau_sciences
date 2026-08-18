@@ -1,49 +1,87 @@
 /* ============================================================
-   ============  QUIZ PLAYSCIENCES — ALGEBRE TLE  ============
+   ============  QUIZ PLAYSCIENCES — ALGEBRE A03  ============
    ============================================================ */
 
 window.questions = [
 
   {
-    question: "Ce graphique représente les 8 premiers termes d'une suite (uₙ). Quelle est sa nature ?",
+    question: "Ce graphique représente une fonction f. Quelles sont les solutions de l'équation f(x) = 0 lues graphiquement ?",
     graphique: "img/q1.png",
     options: [
-      "Une suite arithmétique",
-      "Une suite géométrique",
-      "Une suite constante",
-      "Une suite ni arithmétique ni géométrique"
+      "x = 1 et x = 3",
+      "x = 0 uniquement",
+      "x = 2 uniquement",
+      "Il n'y a pas de solution"
     ],
-    bonne_reponse: "Une suite géométrique",
-    explication: "La courbe a une allure exponentielle typique : chaque terme est obtenu en multipliant le précédent par une raison constante, ce qui caractérise une suite géométrique."
+    bonne_reponse: "x = 1 et x = 3",
+    explication: "Les solutions de f(x) = 0 correspondent aux abscisses des points où la courbe coupe l'axe des abscisses, ici x = 1 et x = 3."
   },
 
   {
-    question: "Une suite géométrique a pour premier terme u₀ = 3 et pour raison q = 2. Quelle est la valeur de u₃ ?",
+    question: "Quelle méthode permet de résoudre graphiquement une équation du type f(x) = k ?",
     options: [
-      "24",
-      "18",
-      "9",
-      "6"
+      "Tracer la courbe de f et l'horizontale y = k, puis lire les abscisses des points d'intersection",
+      "Calculer uniquement l'image de 0 par f",
+      "Tracer uniquement l'axe des abscisses",
+      "Résoudre systématiquement par le calcul, jamais graphiquement"
     ],
-    bonne_reponse: "24",
-    explication: "uₙ = u₀ × qⁿ, donc u₃ = 3 × 2³ = 3 × 8 = 24."
+    bonne_reponse: "Tracer la courbe de f et l'horizontale y = k, puis lire les abscisses des points d'intersection",
+    explication: "Résoudre f(x) = k graphiquement consiste à repérer les points d'intersection de la courbe de f avec la droite horizontale d'équation y = k, puis à lire leurs abscisses."
   },
 
   {
-    question: "Comment détermine-t-on le sens de variation d'une suite géométrique de raison q > 0 et de premier terme positif ?",
+    question: "Cette parabole représente une fonction polynôme du second degré. Quelles sont les coordonnées de son sommet ?",
+    graphique: "img/q3.png",
     options: [
-      "Croissante si q > 1, décroissante si 0 < q < 1, constante si q = 1",
-      "Toujours croissante quel que soit q",
-      "Toujours décroissante quel que soit q",
-      "Le sens de variation ne dépend jamais de q"
+      "(2 ; −1)",
+      "(0 ; −1)",
+      "(−1 ; 2)",
+      "(2 ; 0)"
     ],
-    bonne_reponse: "Croissante si q > 1, décroissante si 0 < q < 1, constante si q = 1",
-    explication: "Pour une suite géométrique à termes positifs, le sens de variation dépend directement de la position de la raison q par rapport à 1."
+    bonne_reponse: "(2 ; −1)",
+    explication: "Le sommet de la parabole, point d'extremum de la fonction, se lit directement sur le graphique aux coordonnées (2 ; −1)."
+  },
+
+  {
+    question: "Une fonction polynôme du second degré f(x) = ax² + bx + c, avec a > 0, admet un minimum. Comment calcule-t-on l'abscisse de ce minimum ?",
+    options: [
+      "x = −b / (2a)",
+      "x = −c / a",
+      "x = b / a",
+      "x = −b / a"
+    ],
+    bonne_reponse: "x = −b / (2a)",
+    explication: "L'abscisse du sommet (extremum) d'une parabole d'équation f(x) = ax² + bx + c est donnée par x = −b/(2a)."
+  },
+
+  {
+    question: "Sur ce graphique, une droite en pointillés rouge est tracée au point d'abscisse x = 1. Que représente cette droite ?",
+    graphique: "img/q5.png",
+    options: [
+      "La tangente à la courbe au point d'abscisse 1",
+      "Une asymptote de la courbe",
+      "La droite des solutions de f(x) = 0",
+      "Une droite parallèle à l'axe des abscisses sans lien avec la courbe"
+    ],
+    bonne_reponse: "La tangente à la courbe au point d'abscisse 1",
+    explication: "La tangente à une courbe en un point est la droite qui approche le mieux la courbe localement en ce point ; son coefficient directeur est le nombre dérivé de la fonction en ce point."
+  },
+
+  {
+    question: "Que représente le nombre dérivé f'(a) d'une fonction f en un point d'abscisse a ?",
+    options: [
+      "Le coefficient directeur de la tangente à la courbe de f au point d'abscisse a",
+      "La valeur de f en a",
+      "L'aire sous la courbe entre 0 et a",
+      "La distance entre deux points de la courbe"
+    ],
+    bonne_reponse: "Le coefficient directeur de la tangente à la courbe de f au point d'abscisse a",
+    explication: "Le nombre dérivé f'(a) donne la pente (coefficient directeur) de la tangente à la courbe représentative de f au point d'abscisse a."
   },
 
   {
     question: "Ce graphique représente la fonction cube f(x) = x³. Quel est son sens de variation sur ℝ ?",
-    graphique: "img/q4.png",
+    graphique: "img/q7.png",
     options: [
       "Elle est strictement croissante sur ℝ",
       "Elle est strictement décroissante sur ℝ",
@@ -67,65 +105,27 @@ window.questions = [
   },
 
   {
-    question: "Ce graphique compare deux fonctions exponentielles de base q. Laquelle est croissante ?",
-    graphique: "img/q6.png",
+    question: "Comment factorise-t-on un polynôme de degré 3 dont on connaît une racine évidente x0 ?",
     options: [
-      "Celle avec q = 0,6",
-      "Celle avec q = 2",
-      "Les deux sont croissantes",
-      "Aucune des deux n'est croissante"
+      "En le mettant sous la forme (x − x0) × (polynôme du second degré)",
+      "En le divisant simplement par x0",
+      "Un polynôme de degré 3 ne peut jamais être factorisé",
+      "En multipliant le polynôme par (x − x0)"
     ],
-    bonne_reponse: "Celle avec q = 2",
-    explication: "Une fonction exponentielle x ↦ qˣ est croissante si q > 1 et décroissante si 0 < q < 1 : la courbe avec q = 2 est donc la croissante."
+    bonne_reponse: "En le mettant sous la forme (x − x0) × (polynôme du second degré)",
+    explication: "Si x0 est une racine d'un polynôme de degré 3, on peut le factoriser sous la forme (x − x0) fois un polynôme de degré 2, que l'on détermine ensuite par identification ou division euclidienne."
   },
 
   {
-    question: "Ce graphique représente la fonction logarithme décimal x ↦ log(x). Sur quel intervalle est-elle définie ?",
-    graphique: "img/q7.png",
+    question: "Comment étudie-t-on les variations d'une fonction à l'aide de sa dérivée ?",
     options: [
-      "Sur ]0 ; +∞[",
-      "Sur ℝ tout entier",
-      "Sur ]−∞ ; 0[",
-      "Uniquement sur les entiers positifs"
+      "La fonction est croissante là où sa dérivée est positive, décroissante là où elle est négative",
+      "La fonction est toujours croissante là où sa dérivée est négative",
+      "Le signe de la dérivée n'a aucun lien avec les variations de la fonction",
+      "La dérivée permet seulement de calculer une aire"
     ],
-    bonne_reponse: "Sur ]0 ; +∞[",
-    explication: "La fonction logarithme décimal n'est définie que pour les réels strictement positifs, comme le montre le graphique qui ne s'étend pas à gauche de 0."
-  },
-
-  {
-    question: "Résoudre l'équation log(x) = 2.",
-    options: [
-      "x = 100",
-      "x = 20",
-      "x = 2",
-      "x = 0,01"
-    ],
-    bonne_reponse: "x = 100",
-    explication: "log(x) = 2 équivaut à x = 10² = 100."
-  },
-
-  {
-    question: "Un capital de 1000 € est placé à intérêts composés au taux annuel de 4 %. Quel est le capital obtenu après 3 ans (arrondi à l'euro) ?",
-    options: [
-      "1125 €",
-      "1120 €",
-      "1040 €",
-      "1300 €"
-    ],
-    bonne_reponse: "1125 €",
-    explication: "Capital final = 1000 × 1,04³ ≈ 1000 × 1,124864 ≈ 1125 €."
-  },
-
-  {
-    question: "Dans un tableau d'amortissement d'emprunt à annuités constantes, que représente la part d'intérêt de chaque échéance au fil du temps ?",
-    options: [
-      "Elle diminue progressivement, tandis que la part de capital remboursé augmente",
-      "Elle augmente progressivement",
-      "Elle reste rigoureusement constante",
-      "Elle est toujours nulle après la première échéance"
-    ],
-    bonne_reponse: "Elle diminue progressivement, tandis que la part de capital remboursé augmente",
-    explication: "Dans un emprunt à annuités constantes, les intérêts sont calculés sur le capital restant dû, qui diminue au fil du temps : la part d'intérêt décroît donc progressivement, et la part de capital remboursé augmente d'autant, l'annuité totale restant constante."
+    bonne_reponse: "La fonction est croissante là où sa dérivée est positive, décroissante là où elle est négative",
+    explication: "Le signe de la dérivée d'une fonction renseigne directement sur son sens de variation : positive, la fonction est croissante ; négative, elle est décroissante."
   },
 
 ];

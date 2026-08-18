@@ -1,131 +1,129 @@
 /* ============================================================
-   ============  QUIZ PLAYSCIENCES — GEOMETRIE 1ERE  ============
+   ============  QUIZ PLAYSCIENCES — ALGORITHME AL03  ============
    ============================================================ */
 
 window.questions = [
 
   {
-    question: "Sur cette représentation d'un pavé droit, quel logiciel permet de la construire et de la faire pivoter pour l'observer sous différents angles ?",
-    graphique: "img/q1.png",
+    question: "Comment calcule-t-on, en Python, le terme de rang n d'une suite arithmétique de premier terme u0 et de raison r, à l'aide d'une boucle ?",
     options: [
-      "Un logiciel de géométrie dynamique (comme GeoGebra 3D)",
-      "Un tableur uniquement",
-      "Un logiciel de traitement de texte",
-      "Cela ne peut se faire qu'à la main, sans logiciel"
+      "En ajoutant r à u0 à chaque tour de boucle, n fois de suite",
+      "En multipliant u0 par r à chaque tour de boucle",
+      "En ne faisant aucun calcul, juste u0",
+      "En divisant u0 par r à chaque tour"
     ],
-    bonne_reponse: "Un logiciel de géométrie dynamique (comme GeoGebra 3D)",
-    explication: "Un logiciel de géométrie dynamique en 3D permet de représenter un solide usuel et de le manipuler (rotation, zoom) pour mieux visualiser sa structure spatiale."
+    bonne_reponse: "En ajoutant r à u0 à chaque tour de boucle, n fois de suite",
+    explication: "Une suite arithmétique se calcule par récurrence en ajoutant la raison r au terme précédent à chaque itération de la boucle."
   },
 
   {
-    question: "Comment exploite-t-on la représentation d'un assemblage de solides usuels pour en calculer le volume total ?",
+    question: "Une suite arithmétique est définie par récurrence en Python avec une boucle for. Comment calcule-t-on la somme de ses n premiers termes dans le programme ?",
     options: [
-      "En identifiant chaque solide usuel composant l'assemblage, puis en additionnant ou soustrayant leurs volumes respectifs",
-      "En mesurant uniquement la hauteur totale de l'assemblage",
-      "En ignorant les solides internes non visibles",
-      "Le volume d'un assemblage ne peut jamais être calculé"
+      "En accumulant chaque terme calculé dans une variable somme, initialisée à 0 avant la boucle",
+      "En multipliant uniquement le premier et le dernier terme",
+      "En ignorant les termes intermédiaires",
+      "La somme ne peut pas être calculée par une boucle"
     ],
-    bonne_reponse: "En identifiant chaque solide usuel composant l'assemblage, puis en additionnant ou soustrayant leurs volumes respectifs",
-    explication: "Pour calculer le volume d'un assemblage de solides usuels, on décompose la figure en solides simples dont on connaît les formules de volume, puis on additionne ou soustrait ces volumes selon la construction."
+    bonne_reponse: "En accumulant chaque terme calculé dans une variable somme, initialisée à 0 avant la boucle",
+    explication: "Pour calculer une somme avec une boucle, on initialise une variable accumulateur à 0, puis on lui ajoute chaque terme de la suite au fur et à mesure de la boucle."
   },
 
   {
-    question: "Sur ce cube dont on réalise la section par un plan horizontal, quelle est la forme de la section obtenue ?",
+    question: "Sur ce graphique représentant une suite (uₙ) arithmétique croissante, comment détermine-t-on par programme le rang à partir duquel les termes dépassent le seuil indiqué ?",
     graphique: "img/q3.png",
     options: [
-      "Un carré (ou un rectangle), parallèle à la face du cube",
-      "Un cercle",
-      "Un triangle",
-      "La section n'a jamais de forme définie"
+      "Avec une boucle while qui incrémente n tant que uₙ reste inférieur au seuil",
+      "Avec une seule instruction, sans boucle",
+      "En calculant uniquement u₀",
+      "Cela ne peut pas être déterminé par un programme"
     ],
-    bonne_reponse: "Un carré (ou un rectangle), parallèle à la face du cube",
-    explication: "La section d'un cube par un plan parallèle à l'une de ses faces est un carré (de mêmes dimensions que la face si le plan est situé à l'intérieur du cube)."
+    bonne_reponse: "Avec une boucle while qui incrémente n tant que uₙ reste inférieur au seuil",
+    explication: "Une boucle while permet de répéter le calcul du terme suivant et d'incrémenter le rang n tant que la condition (uₙ inférieur au seuil) reste vraie, jusqu'à trouver le premier rang qui dépasse le seuil."
   },
 
   {
-    question: "Comment construit-on la section plane d'un solide passant par des points donnés situés sur ses arêtes ?",
+    question: "Quelle structure de contrôle Python est la plus adaptée pour rechercher le premier rang n vérifiant une condition inconnue à l'avance (comme dépasser un seuil) ?",
     options: [
-      "En reliant les points situés sur des faces communes du solide, en respectant le parallélisme des faces opposées",
-      "En reliant les points au hasard, sans règle particulière",
-      "En ignorant les faces du solide",
-      "La section ne peut être construite qu'en 2D, jamais en 3D"
+      "Une boucle while",
+      "Une boucle for avec un nombre d'itérations fixé à l'avance",
+      "Une simple instruction if",
+      "Une fonction sans aucune boucle"
     ],
-    bonne_reponse: "En reliant les points situés sur des faces communes du solide, en respectant le parallélisme des faces opposées",
-    explication: "Construire une section plane consiste à relier progressivement les points donnés situés sur les arêtes, en utilisant notamment la propriété que les traces du plan sécant sur deux faces parallèles sont elles-mêmes parallèles."
+    bonne_reponse: "Une boucle while",
+    explication: "La boucle while est adaptée lorsque le nombre d'itérations nécessaires n'est pas connu à l'avance, contrairement à la boucle for, mieux adaptée à un nombre d'itérations fixé."
   },
 
   {
-    question: "Ce schéma représente un vecteur AB. Que faut-il préciser pour caractériser complètement un vecteur ?",
-    graphique: "img/q5.png",
+    question: "Comment calcule-t-on, en Python, le terme de rang n d'une suite géométrique de premier terme u0 et de raison q, à l'aide d'une boucle ?",
     options: [
-      "Sa direction, son sens et sa norme (longueur)",
-      "Uniquement sa longueur",
-      "Uniquement son point de départ",
-      "Uniquement sa couleur sur le schéma"
+      "En multipliant u0 par q à chaque tour de boucle, n fois de suite",
+      "En additionnant q à u0 à chaque tour de boucle",
+      "En ne faisant aucun calcul, juste u0",
+      "En divisant u0 par q à chaque tour"
     ],
-    bonne_reponse: "Sa direction, son sens et sa norme (longueur)",
-    explication: "Un vecteur est caractérisé par trois éléments : sa direction, son sens et sa norme (longueur) ; deux vecteurs sont égaux s'ils ont ces trois éléments identiques."
+    bonne_reponse: "En multipliant u0 par q à chaque tour de boucle, n fois de suite",
+    explication: "Une suite géométrique se calcule par récurrence en multipliant le terme précédent par la raison q à chaque itération de la boucle."
   },
 
   {
-    question: "Deux vecteurs AB et CD sont dits colinéaires si :",
+    question: "Comment calcule-t-on par programme la somme des n premiers termes d'une suite géométrique ?",
     options: [
-      "Ils ont la même direction (l'un est un multiple de l'autre)",
-      "Ils ont nécessairement la même norme",
-      "Ils ont nécessairement le même sens",
-      "Ils sont nécessairement égaux"
+      "En accumulant chaque terme calculé dans une variable somme au fil de la boucle, comme pour une suite arithmétique",
+      "En utilisant uniquement le premier terme",
+      "La somme d'une suite géométrique ne peut jamais être calculée par un programme",
+      "En multipliant tous les termes entre eux"
     ],
-    bonne_reponse: "Ils ont la même direction (l'un est un multiple de l'autre)",
-    explication: "Deux vecteurs non nuls sont colinéaires s'ils ont la même direction, c'est-à-dire s'il existe un réel k tel que l'un soit égal à k fois l'autre."
+    bonne_reponse: "En accumulant chaque terme calculé dans une variable somme au fil de la boucle, comme pour une suite arithmétique",
+    explication: "Comme pour une suite arithmétique, on calcule la somme des termes d'une suite géométrique en accumulant chaque terme successif dans une variable initialisée à 0 avant la boucle."
   },
 
   {
-    question: "Dans un repère orthogonal, un vecteur u a pour coordonnées (3 ; 4). Quelle est sa norme ?",
-    options: [
-      "5",
-      "7",
-      "12",
-      "25"
-    ],
-    bonne_reponse: "5",
-    explication: "La norme d'un vecteur de coordonnées (x ; y) est √(x²+y²) = √(9+16) = √25 = 5."
-  },
-
-  {
-    question: "Sur ce cercle trigonométrique, un point M est associé à un angle de 60°. Combien de radians cela représente-t-il ?",
+    question: "Sur ce graphique représentant une suite géométrique croissante, comment détermine-t-on par un programme le rang à partir duquel les termes dépassent le seuil indiqué ?",
     graphique: "img/q8.png",
     options: [
-      "π/3",
-      "π/6",
-      "π/2",
-      "2π"
+      "Avec une boucle while qui multiplie le terme courant par la raison tant qu'il reste inférieur au seuil",
+      "En calculant directement sans aucune boucle",
+      "En multipliant le seuil par la raison une seule fois",
+      "Cela ne peut pas être déterminé par un programme"
     ],
-    bonne_reponse: "π/3",
-    explication: "La conversion degrés-radians suit la règle de proportionnalité 180° = π rad, donc 60° = 60×π/180 = π/3 radians."
+    bonne_reponse: "Avec une boucle while qui multiplie le terme courant par la raison tant qu'il reste inférieur au seuil",
+    explication: "Comme pour une suite arithmétique, une boucle while permet de calculer successivement les termes et de s'arrêter dès que le terme dépasse le seuil fixé."
   },
 
   {
-    question: "Quelles sont les valeurs de cos(π/2) et sin(π/2) ?",
+    question: "Comment un programme Python peut-il représenter graphiquement le nuage de points (n ; uₙ) d'une suite numérique ?",
     options: [
-      "cos(π/2) = 0 et sin(π/2) = 1",
-      "cos(π/2) = 1 et sin(π/2) = 0",
-      "cos(π/2) = 1 et sin(π/2) = 1",
-      "cos(π/2) = 0 et sin(π/2) = 0"
+      "En utilisant une bibliothèque graphique (comme matplotlib) pour tracer chaque point de coordonnées (n ; uₙ)",
+      "Un programme ne peut jamais tracer de graphique",
+      "En affichant uniquement les valeurs sous forme de texte",
+      "En traçant uniquement une droite, quelle que soit la suite"
     ],
-    bonne_reponse: "cos(π/2) = 0 et sin(π/2) = 1",
-    explication: "Au point du cercle trigonométrique associé à l'angle π/2 (90°), l'abscisse (cosinus) vaut 0 et l'ordonnée (sinus) vaut 1."
+    bonne_reponse: "En utilisant une bibliothèque graphique (comme matplotlib) pour tracer chaque point de coordonnées (n ; uₙ)",
+    explication: "Une bibliothèque graphique comme matplotlib permet de tracer un nuage de points, chaque terme de la suite étant représenté par le point de coordonnées (n ; uₙ), pour visualiser son évolution."
   },
 
   {
-    question: "Comment obtient-on la représentation graphique de la fonction cosinus à partir de celle de la fonction sinus ?",
+    question: "Pourquoi représenter le nuage de points d'une suite numérique est-il utile pour conjecturer sa nature (arithmétique, géométrique, ou autre) ?",
     options: [
-      "Par une translation de la courbe de la fonction sinus",
-      "Par une symétrie centrale par rapport à l'origine",
-      "Les deux courbes sont rigoureusement identiques, sans aucune transformation",
-      "Il n'existe aucun lien graphique entre les deux fonctions"
+      "Parce que l'allure du nuage de points (aligné, exponentiel...) donne des indices visuels sur le type d'évolution de la suite",
+      "Parce que cela ne donne aucune information sur la suite",
+      "Parce que seule une lecture algébrique permet de connaître la nature d'une suite",
+      "Le nuage de points n'a aucun intérêt pour l'étude d'une suite"
     ],
-    bonne_reponse: "Par une translation de la courbe de la fonction sinus",
-    explication: "La courbe de la fonction cosinus s'obtient à partir de celle de la fonction sinus par une translation horizontale (de vecteur -π/2 selon l'axe des abscisses), puisque cos(x) = sin(x + π/2)."
+    bonne_reponse: "Parce que l'allure du nuage de points (aligné, exponentiel...) donne des indices visuels sur le type d'évolution de la suite",
+    explication: "Un nuage de points aligné suggère une suite arithmétique, tandis qu'une allure exponentielle suggère une suite géométrique : cette lecture visuelle aide à formuler une conjecture avant de la démontrer par le calcul."
+  },
+
+  {
+    question: "Comment détermine-t-on par balayage, à l'aide d'un programme, le seuil de rang n à partir duquel une suite dépasse une valeur donnée, sans connaître de formule explicite du terme général ?",
+    options: [
+      "En calculant successivement chaque terme de la suite par récurrence jusqu'à dépasser la valeur donnée",
+      "En résolvant uniquement une équation algébrique, sans aucun calcul informatique",
+      "Cette recherche n'est possible que si l'on connaît la formule explicite du terme général",
+      "En devinant le rang au hasard"
+    ],
+    bonne_reponse: "En calculant successivement chaque terme de la suite par récurrence jusqu'à dépasser la valeur donnée",
+    explication: "Même sans formule explicite du terme général, un programme peut calculer successivement chaque terme d'une suite définie par récurrence, jusqu'à ce qu'il dépasse la valeur cherchée, ce qui permet de déterminer le rang seuil par balayage."
   },
 
 ];
