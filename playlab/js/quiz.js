@@ -553,7 +553,7 @@ Play Maths : ${playMathsPoints} points 🎉`;
 
     nom: nomInput.value.trim(),
 
-    prenom: nomInput.value.trim(),
+    prenom: prenomInput.value.trim(),
 
     activite: document.title
 
