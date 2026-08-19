@@ -355,6 +355,24 @@ body{
   color:black;
 }
 
+.classe{
+
+  background:#334155;
+
+  color:#e2e8f0;
+
+  border:1px solid rgba(255,255,255,.15);
+}
+
+.tag-row{
+
+  display:flex;
+
+  gap:6px;
+
+  flex-wrap:wrap;
+}
+
 /* =========================
    RESPONSIVE
 ========================= */
