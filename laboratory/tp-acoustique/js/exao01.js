@@ -1,16 +1,20 @@
 /* ============================================================
    EXAO01.JS
    Acquisition vitesse du son - SYSAM V6
+   Convention SciLab : point d'entrée exporté en module ES,
+   appelé par tp04-propagation-du-son.js (import { initExaoAcquisition }).
+   La fonction reste aussi exposée sur window.initExao01 pour
+   compatibilité avec l'ancienne page autonome modules/exao01.html.
    ============================================================ */
 
-   window.initExao01 = function () {
+export function initExaoAcquisition() {
 
   /* ========================================================
      ELEMENTS
      ======================================================== */
 
-  const statusDot = document.getElementById("statusDot");
-  const statusText = document.getElementById("statusText");
+  const statusDot = document.getElementById("exaoStatusDot");
+  const statusText = document.getElementById("exaoStatusText");
 
   const btnEnum = document.getElementById("btnEnum");
   const btnConnect = document.getElementById("btnConnect");
@@ -835,4 +839,8 @@ const trueLag =
   drawScope();
   drawCorrelation();
 
-};
+}
+
+if (typeof window !== "undefined") {
+  window.initExao01 = initExaoAcquisition;
+}
