@@ -1425,3 +1425,11 @@ textarea { font-family: var(--font-corps); resize: vertical; min-height: 80px; }
 .radar-axe-ligne   { stroke: var(--gris-clair); stroke-width: 1; }
 .radar-axe-texte   { font-size: 12px; font-weight: 700; fill: var(--gris-moyen); }
 .radar-polygone    { fill: var(--bleu-cuivre); fill-opacity: .35; stroke: var(--bleu-cuivre); stroke-width: 2; }
+
+
+.filiere-restriction-note {
+  font-size: 0.9em;
+  font-style: italic;
+  color: var(--gris-texte, #555);
+  margin-top: 0.5em;
+}
