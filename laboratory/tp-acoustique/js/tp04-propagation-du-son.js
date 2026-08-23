@@ -21,19 +21,40 @@ import laboratoryEquipment from '../../data/equipment.js';
 import { initExaoAcquisition } from './exao01.js';
 
 // Contexte professionnel par filière (clé "niveau-idFiliere")
+// D'après le référentiel, la capacité « Caractériser la propagation d'un
+// signal sonore » (qui couvre TP04 et TP05) n'est évaluée qu'en 1ère pour
+// la filière Métiers de la couture et de la confection, et en Terminale
+// pour les filières Technicien en chaudronnerie industrielle et Technicien
+// en réalisation de produits mécaniques. Le menu est donc restreint à ces
+// 3 combinaisons via FILIERES_AUTORISEES (voir plus bas), même si 1ère et
+// Tle proposent par ailleurs les mêmes filières dans data/filieres.js.
 const CONTEXTES_PRO = {
 
-  '2nde-remi': {
-    contexte: "En Réalisation d'Ensembles Mécaniques et Industriels, le contrôle non destructif par ultrasons exploite la propagation du son dans les métaux pour détecter des défauts internes, invisibles à l'œil nu.",
-    problematique: "Comment déterminer expérimentalement la vitesse de propagation du son dans un milieu donné, et pourquoi cette vitesse varie-t-elle d'un milieu à l'autre ?",
-  },
-
-  '2nde-mcc': {
+  '1ere-mcc': {
     contexte: "En Métiers de la couture et de la confection, certains capteurs de proximité utilisés sur les lignes de production reposent sur la mesure du temps de propagation d'une onde sonore réfléchie.",
     problematique: "Comment un capteur peut-il déterminer une distance à partir de la vitesse de propagation du son, et cette méthode fonctionne-t-elle dans tous les milieux ?",
   },
 
+  'tle-tci': {
+    contexte: "En Technicien en chaudronnerie industrielle, le contrôle non destructif par ultrasons exploite la propagation du son dans les métaux pour détecter des défauts internes (soufflures, fissures) invisibles à l'œil nu, notamment sur les cordons de soudure.",
+    problematique: "Comment déterminer expérimentalement la vitesse de propagation du son dans un milieu donné, et pourquoi cette vitesse varie-t-elle d'un milieu à l'autre ?",
+  },
+
+  'tle-trpm': {
+    contexte: "En Réalisation de produits mécaniques, le contrôle non destructif par ultrasons permet de vérifier l'intégrité interne d'une pièce usinée sans la détériorer, en s'appuyant sur la propagation du son dans les matériaux.",
+    problematique: "Comment déterminer expérimentalement la vitesse de propagation du son dans un milieu donné, et pourquoi cette vitesse varie-t-elle d'un milieu à l'autre ?",
+  },
+
 };
+
+// Restreint le menu déroulant "filière professionnelle" aux seules
+// combinaisons réellement évaluées pour ce TP (cf. commentaire ci-dessus).
+const FILIERES_AUTORISEES = ['1ere-mcc', 'tle-tci', 'tle-trpm'];
+
+// Petit mot affiché sous le menu pour expliquer la restriction : les
+// filières/niveaux non listés ci-dessus n'étudient pas cette capacité ici.
+const NOTE_RESTRICTION_REFERENTIEL =
+  "D'après le référentiel, cette capacité n'est évaluée qu'en 1ère (Métiers de la couture et de la confection) et en Terminale (Technicien en chaudronnerie industrielle, Technicien en réalisation de produits mécaniques). Ce TP n'est pas évalué pour les autres niveaux et filières professionnelles.";
 
 // Vitesses de référence usuelles (ordres de grandeur, en m/s)
 const VITESSE_REFERENCE = {
@@ -60,6 +81,8 @@ export function init() {
   initContextePro({
     filieres: FILIERES_PRO,
     contextes: CONTEXTES_PRO,
+    filieresAutorisees: FILIERES_AUTORISEES,
+    noteRestriction: NOTE_RESTRICTION_REFERENTIEL,
   });
 
   initSections();
