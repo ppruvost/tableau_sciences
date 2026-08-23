@@ -21,19 +21,40 @@ import laboratoryEquipment from '../../data/equipment.js';
 import { dessinerGraphiqueLigne } from '../../js/graphique.js';
 
 // Contexte professionnel par filière (clé "niveau-idFiliere")
+// D'après le référentiel, la capacité « Caractériser la propagation d'un
+// signal sonore » (qui couvre TP04 et TP05) n'est évaluée qu'en 1ère pour
+// la filière Métiers de la couture et de la confection, et en Terminale
+// pour les filières Technicien en chaudronnerie industrielle et Technicien
+// en réalisation de produits mécaniques. Le menu est donc restreint à ces
+// 3 combinaisons via FILIERES_AUTORISEES (voir plus bas), même si 1ère et
+// Tle proposent par ailleurs les mêmes filières dans data/filieres.js.
 const CONTEXTES_PRO = {
 
-  '2nde-remi': {
-    contexte: "En Réalisation d'Ensembles Mécaniques et Industriels, l'organisation d'un atelier (éloignement des machines bruyantes, écrans acoustiques) s'appuie sur la connaissance de l'atténuation du niveau sonore avec la distance.",
-    problematique: "Comment évolue le niveau sonore perçu lorsqu'on s'éloigne d'une machine bruyante, et comment exploiter cette évolution pour organiser un poste de travail ?",
-  },
-
-  '2nde-mcc': {
+  '1ere-mcc': {
     contexte: "En Métiers de la couture et de la confection, la disposition des postes dans un atelier peut être pensée pour limiter le niveau sonore perçu par chaque opérateur, en s'appuyant sur l'atténuation du son avec la distance.",
     problematique: "Comment le niveau sonore perçu à un poste de couture évolue-t-il avec la distance à la source de bruit ?",
   },
 
+  'tle-tci': {
+    contexte: "En Technicien en chaudronnerie industrielle, l'organisation d'un atelier (éloignement des postes de soudure et de découpe, écrans acoustiques) s'appuie sur la connaissance de l'atténuation du niveau sonore avec la distance.",
+    problematique: "Comment évolue le niveau sonore perçu lorsqu'on s'éloigne d'une machine bruyante, et comment exploiter cette évolution pour organiser un poste de travail ?",
+  },
+
+  'tle-trpm': {
+    contexte: "En Réalisation de produits mécaniques, l'organisation d'un atelier d'usinage (éloignement des machines-outils bruyantes, écrans acoustiques) s'appuie sur la connaissance de l'atténuation du niveau sonore avec la distance.",
+    problematique: "Comment évolue le niveau sonore perçu lorsqu'on s'éloigne d'une machine bruyante, et comment exploiter cette évolution pour organiser un poste de travail ?",
+  },
+
 };
+
+// Restreint le menu déroulant "filière professionnelle" aux seules
+// combinaisons réellement évaluées pour ce TP (cf. commentaire ci-dessus).
+const FILIERES_AUTORISEES = ['1ere-mcc', 'tle-tci', 'tle-trpm'];
+
+// Petit mot affiché sous le menu pour expliquer la restriction : les
+// filières/niveaux non listés ci-dessus n'étudient pas cette capacité ici.
+const NOTE_RESTRICTION_REFERENTIEL =
+  "D'après le référentiel, cette capacité n'est évaluée qu'en 1ère (Métiers de la couture et de la confection) et en Terminale (Technicien en chaudronnerie industrielle, Technicien en réalisation de produits mécaniques). Ce TP n'est pas évalué pour les autres niveaux et filières professionnelles.";
 
 // Constantes de référence pour le calcul du niveau d'intensité acoustique
 const PRESSION_REFERENCE = 2e-5;   // Pa
@@ -57,6 +78,8 @@ export function init() {
   initContextePro({
     filieres: FILIERES_PRO,
     contextes: CONTEXTES_PRO,
+    filieresAutorisees: FILIERES_AUTORISEES,
+    noteRestriction: NOTE_RESTRICTION_REFERENTIEL,
   });
 
   initSections();
