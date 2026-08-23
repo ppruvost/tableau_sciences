@@ -109,12 +109,21 @@ function rendreRappelsProblematique(data) {
  * @param {Object} params
  * @param {Object} params.filieres  - Catalogue FILIERES_PRO (data/filieres.js)
  * @param {Object} params.contextes - Dictionnaire { "niveau-filiereId": {contexte, problematique} } propre au TP
+ * @param {string[]} [params.filieresAutorisees] - Restreint le menu aux seules clés
+ *        "niveau-filiereId" listées (ex : capacité évaluée pour certaines filières
+ *        seulement selon le référentiel). Sans cette option, comportement inchangé :
+ *        toutes les filières du/des niveau(x) détecté(s) sont proposées.
+ * @param {string} [params.noteRestriction] - Petit texte affiché sous le menu
+ *        lorsque `filieresAutorisees` est fourni, pour préciser que le TP n'est
+ *        pas évalué pour les autres niveaux/filières (le pourquoi de la restriction).
  * @param {string} [params.selectId]
  * @param {string} [params.resultatId]
  */
 export function initContextePro({
     filieres,
     contextes,
+    filieresAutorisees,
+    noteRestriction,
     selectId = "select-filiere-pro",
     resultatId = "contexte-pro-resultat"
 } = {}) {
@@ -123,6 +132,7 @@ export function initContextePro({
     if (!select || !resultat || !filieres || !contextes) return;
 
     const niveauxPresents = detecterNiveauxPresents();
+    const autorisees = filieresAutorisees ? new Set(filieresAutorisees) : null;
 
     select.innerHTML = '<option value="">-- Sélectionner une filière --</option>';
 
@@ -131,10 +141,16 @@ export function initContextePro({
         const options = filieres[niveau];
         if (!options || !options.length) return;
 
+        const optionsFiltrees = autorisees
+            ? options.filter(f => autorisees.has(`${niveau}-${f.id}`))
+            : options;
+
+        if (!optionsFiltrees.length) return;
+
         const optgroup = document.createElement("optgroup");
         optgroup.label = LIBELLES_NIVEAU[niveau];
 
-        options.forEach(f => {
+        optionsFiltrees.forEach(f => {
             const opt = document.createElement("option");
             opt.value = `${niveau}-${f.id}`;
             opt.textContent = f.label;
@@ -143,6 +159,21 @@ export function initContextePro({
 
         select.appendChild(optgroup);
     });
+
+    // Petit mot expliquant la restriction, affiché juste sous le menu.
+    const blocSelect = select.closest(".filiere-select-bloc") || select.parentElement;
+    let noteEl = blocSelect ? blocSelect.querySelector(".filiere-restriction-note") : null;
+
+    if (autorisees && noteRestriction) {
+        if (!noteEl && blocSelect) {
+            noteEl = document.createElement("p");
+            noteEl.className = "filiere-restriction-note";
+            blocSelect.appendChild(noteEl);
+        }
+        if (noteEl) noteEl.textContent = noteRestriction;
+    } else if (noteEl) {
+        noteEl.remove();
+    }
 
     select.addEventListener("change", () => {
         const data = contextes[select.value];
