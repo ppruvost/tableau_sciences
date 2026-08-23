@@ -27,11 +27,21 @@
      18. Onglets
      19. Progression pédagogique & sidebar
      20. Chronomètre, capsule concentration/arrondi, tooltip
-     21. Auto-évaluation (écran)
-     22. Animations
-     23. RESPONSIVE (centralisé — aucun @media ailleurs)
-     24. IMPRESSION (layout général, hors compte-rendu)
+     21. Navigation inter-TP
+     22. Animations (déplacées dans animations.css)
+     23. RESPONSIVE (centralisé — aucun @media ailleurs, y compris les
+         cibles tactiles agrandies pour usage tactile en labo)
      25. Préférences de mouvement réduit
+
+   Notes de cohérence avec le code actuel :
+   - Les styles d'auto-évaluation à l'écran (.autoeval-print) sont dans
+     la section 8 (TABLEAUX), avec .table/.tableau-resultats, plutôt que
+     dans une section dédiée : il n'existe pas de section « Auto-évaluation »
+     séparée malgré l'ancien intitulé de ce sommaire.
+   - Il n'y a pas de section « 24. IMPRESSION » dans ce fichier : le layout
+     général d'impression vit dans css/print.css, hors de tp.css. À vérifier
+     si cette section a été déplacée intentionnellement ou si des règles
+     ont été perdues en route.
    ════════════════════════════════════════════════════════════════ */
 
 /* ──────────────────────────────────────────────────────────────
@@ -1407,6 +1417,18 @@ textarea { font-family: var(--font-corps); resize: vertical; min-height: 80px; }
   .btn { min-height: 44px; }
   .section-titre { padding-block: var(--gap-sm); }
   .materiel-check-input { width: 22px; height: 22px; }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   25. PRÉFÉRENCES DE MOUVEMENT RÉDUIT
+   ════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* ════════════════════════════════════════════════════════════════
