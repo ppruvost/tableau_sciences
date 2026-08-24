@@ -11,6 +11,14 @@ function normalizePrenom(prenom) {
     .toLowerCase();
 }
 
+// Formate un prénom pour l'affichage : première lettre en majuscule, le reste
+// en minuscule (les accents sont conservés). Ex: "LEO" / "léo" / "lÉo" => "Léo"
+function formatPrenomAffichage(prenom) {
+  const lower = (prenom || "").trim().toLowerCase();
+  if (!lower) return "";
+  return lower.charAt(0).toUpperCase() + lower.slice(1);
+}
+
 // Ne garde qu'une seule entrée par prénom normalisé (la meilleure, car la liste
 // d'entrée est déjà triée par score desc puis date desc), puis tronque à `limit`
 function dedupeByPrenom(scores, limit = 10) {
@@ -46,7 +54,7 @@ function renderLeaderboard(topScores = []) {
     rankTd.textContent = index + 1;
 
     const prenomTd = document.createElement("td");
-    prenomTd.textContent = joueur?.prenom || "";
+    prenomTd.textContent = formatPrenomAffichage(joueur?.prenom);
 
     const dateTd = document.createElement("td");
     dateTd.textContent = joueur?.date || "";
