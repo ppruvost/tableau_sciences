@@ -1,0 +1,237 @@
+/* =========================================================
+   ROUE CLASSE PUZZLE
+   CHARTE CLAIRE TABLEAU SCIENCES — ALIGNÉE SCILAB / MATHILAB / PYLAB
+   Tokens : bleu #4169e1 (accent), #1e90ff (survol), #243b73 (texte fort),
+   #172033 (texte), fond #f7fbff — palette blanc/bleu pour l'accessibilité
+   ========================================================= */
+
+* { box-sizing: border-box; }
+
+body{
+  margin: 0;
+  padding: 24px 16px 48px;
+
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  color: #172033;
+
+  background: linear-gradient(135deg, #f8fcff, #edf6fc);
+
+  text-align: center;
+}
+
+/* =========================================================
+   EN-TÊTE
+   ========================================================= */
+
+.page-header{
+  max-width: 900px;
+  margin: 0 auto 24px;
+
+  padding: 22px 26px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+
+  background: #ffffff;
+  border: 1px solid #d7e5f0;
+  border-left: 7px solid #4169e1;
+  border-radius: 14px;
+
+  box-shadow: 0 4px 15px rgba(40, 70, 100, 0.08);
+}
+
+.page-header h1{
+  margin: 0;
+  color: #243b73;
+  font-size: 1.8rem;
+}
+
+.page-header h1 .emoji{
+  margin-right: 8px;
+}
+
+.page-header p{
+  margin: 0;
+  color: #526b83;
+  font-size: 0.95rem;
+}
+
+/* =========================================================
+   CHARGEMENT DU FICHIER
+   ========================================================= */
+
+.upload-card{
+  max-width: 620px;
+  margin: 0 auto 24px;
+
+  padding: 18px 22px;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+
+  background: #ffffff;
+  border: 1px solid #d5e2ec;
+  border-radius: 15px;
+
+  box-shadow: 0 5px 18px rgba(35, 65, 95, 0.10);
+}
+
+.upload-hint{
+  flex: 1 1 260px;
+  max-width: 300px;
+
+  text-align: left;
+
+  color: #526b83;
+  font-size: 0.9rem;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+input[type="file"]{
+  padding: 8px 10px;
+
+  color: #465f77;
+  font-size: 0.9rem;
+
+  background: #edf5fb;
+  border: 1px solid #dbe6ef;
+  border-radius: 9px;
+}
+
+/* =========================================================
+   BOUTONS (même style que SciLab / PyLab)
+   ========================================================= */
+
+button{
+  min-height: 48px;
+
+  padding: 0 22px;
+  margin: 6px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: bold;
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  border: none;
+  border-radius: 9px;
+
+  background: #4169e1;
+
+  box-shadow: 0 3px 8px rgba(65, 105, 225, 0.20);
+
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover{
+  background: #1e90ff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(65, 105, 225, 0.28);
+}
+
+button:active{
+  transform: translateY(0);
+}
+
+.actions-row{
+  max-width: 700px;
+  margin: 0 auto 10px;
+}
+
+/* =========================================================
+   ROUE
+   ========================================================= */
+
+.wheel-wrap{
+  margin: 20px auto 10px;
+}
+
+canvas{
+  display: block;
+  margin: 0 auto;
+
+  border: 3px solid #4169e1;
+  border-radius: 50%;
+
+  background: #ffffff;
+
+  box-shadow: 0 8px 20px rgba(65, 105, 225, 0.18);
+}
+
+/* =========================================================
+   RÉSULTATS
+   ========================================================= */
+
+.results{
+  max-width: 1100px;
+  margin: 30px auto 0;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+}
+
+.card{
+  width: 250px;
+
+  padding: 16px 18px;
+
+  text-align: left;
+
+  background: #ffffff;
+  border: 1px solid #d5e2ec;
+  border-left: 6px solid #4169e1;
+  border-radius: 14px;
+
+  box-shadow: 0 5px 18px rgba(35, 65, 95, 0.10);
+}
+
+.card h4{
+  margin: 0 0 10px;
+
+  color: #243b73;
+  font-size: 1.05rem;
+
+  padding-bottom: 8px;
+  border-bottom: 1px solid #dbe6ef;
+}
+
+.card div{
+  color: #172033;
+  font-size: 0.95rem;
+}
+
+.puzzle{
+  width: 34px;
+  height: 34px;
+
+  border-radius: 50%;
+
+  background: #edf5fb;
+  border: 1px solid #dbe6ef;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px){
+  .page-header h1{ font-size: 1.5rem; }
+  canvas{ width: 300px; height: 300px; }
+  .card{ width: 90%; max-width: 320px; }
+}
