@@ -47,7 +47,7 @@ function initChart() {
                 {
                     label: "Niveau sonore (dBA)",
                     data: Array(maxHistoryLength).fill(0),
-                    borderColor: "black",
+                    borderColor: "#243b73",
                     borderWidth: 1,
                     pointRadius: 0,
                     tension: 0.1,
