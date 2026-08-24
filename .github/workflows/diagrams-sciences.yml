@@ -1,11 +1,9 @@
-```yaml
 name: MermozLab - Bibliothèques scientifiques diagrams.net
 
 # ==============================================================
 # MERMOZLAB / TABLEAU SCIENCES
 #
-# Préparation des bibliothèques diagrams.net destinées aux
-# schémas de physique-chimie du BAC Professionnel.
+# Bibliothèques utiles aux schémas de physique-chimie BAC Pro.
 #
 # Domaines :
 #   - Électricité
@@ -19,9 +17,9 @@ name: MermozLab - Bibliothèques scientifiques diagrams.net
 #   - Mesures / instrumentation
 #   - Sécurité
 #
-# Le workflow n'importe PAS l'ensemble des bibliothèques
-# diagrams.net : seules les ressources scientifiques utiles
-# à MermozLab sont conservées.
+# IMPORTANT :
+# Ce workflow ne télécharge PAS tout diagrams.net.
+# Il récupère uniquement les bibliothèques utiles.
 # ==============================================================
 
 on:
@@ -31,7 +29,6 @@ on:
   push:
     paths:
       - ".github/workflows/diagrams-sciences.yml"
-      - "diagrams/**"
 
 
 permissions:
@@ -58,7 +55,7 @@ jobs:
       # 2. ARBORESCENCE
       # ==========================================================
 
-      - name: Créer l'arborescence diagrams.net
+      - name: Créer l'arborescence
         run: |
 
           mkdir -p diagrams/libraries/electricite
@@ -66,105 +63,141 @@ jobs:
           mkdir -p diagrams/libraries/chimie
           mkdir -p diagrams/libraries/instruments
           mkdir -p diagrams/libraries/securite
-
           mkdir -p diagrams/docs
           mkdir -p diagrams/templates
 
 
       # ==========================================================
-      # 3. BIBLIOTHÈQUE ÉLECTRIQUE OFFICIELLE DRAWIO
-      # ==========================================================
-
-      - name: Télécharger la bibliothèque Electrical
-        run: |
-
-          curl -fL \
-            "https://raw.githubusercontent.com/jgraph/drawio/dev/src/main/webapp/stencils/electrical/electrical.xml" \
-            -o diagrams/libraries/electricite/electrical.xml
-
-
-      # ==========================================================
-      # 4. PORTES LOGIQUES
-      # ==========================================================
-
-      - name: Télécharger les portes logiques
-        run: |
-
-          curl -fL \
-            "https://raw.githubusercontent.com/jgraph/drawio/dev/src/main/webapp/stencils/electrical/logic_gates.xml" \
-            -o diagrams/libraries/electricite/logic-gates.xml
-
-
-      # ==========================================================
-      # 5. BIBLIOTHÈQUE P&ID
+      # 3. RÉCUPÉRATION DU DÉPÔT OFFICIEL DIAGRAMS.NET
       #
-      # Utile notamment pour :
-      #   moteurs
-      #   pompes
-      #   générateurs
-      #   installations
-      #   procédés
-      # ==========================================================
+      # On utilise le dépôt officiel comme source.
+      #
+      # Cela évite les URL raw obsolètes.
+      # ==============================================================
 
-      - name: Télécharger P&ID
+      - name: Récupérer diagrams.net
         run: |
 
-          curl -fL \
-            "https://raw.githubusercontent.com/jgraph/drawio/dev/src/main/webapp/stencils/pid/pid.xml" \
-            -o diagrams/libraries/physique/pid.xml
+          git clone \
+            --depth 1 \
+            --filter=blob:none \
+            --sparse \
+            --branch dev \
+            https://github.com/jgraph/drawio.git \
+            /tmp/drawio
+
+          cd /tmp/drawio
+
+          git sparse-checkout set \
+            src/main/webapp/stencils/electrical
 
 
       # ==========================================================
-      # 6. BIBLIOTHÈQUE ÉLECTRIQUE OWNTECH
+      # 4. BIBLIOTHÈQUES ÉLECTRIQUES OFFICIELLES
       #
-      # Source :
-      # https://github.com/owntech-foundation/LibraryDrawIO
+      # Ces fichiers correspondent aux bibliothèques réellement
+      # utilisées par diagrams.net.
+      # ==============================================================
+
+      - name: Installer les bibliothèques électriques
+        run: |
+
+          cp /tmp/drawio/src/main/webapp/stencils/electrical/logic_gates.xml \
+             diagrams/libraries/electricite/
+
+          cp /tmp/drawio/src/main/webapp/stencils/electrical/resistors.xml \
+             diagrams/libraries/electricite/
+
+          cp /tmp/drawio/src/main/webapp/stencils/electrical/capacitors.xml \
+             diagrams/libraries/electricite/
+
+          cp /tmp/drawio/src/main/webapp/stencils/electrical/inductors.xml \
+             diagrams/libraries/electricite/
+
+          cp /tmp/drawio/src/main/webapp/stencils/electrical/diodes.xml \
+             diagrams/libraries/electricite/
+
+          cp /tmp/drawio/src/main/webapp/stencils/electrical/signal_sources.xml \
+             diagrams/libraries/electricite/
+
+          cp /tmp/drawio/src/main/webapp/stencils/electrical/instruments.xml \
+             diagrams/libraries/electricite/
+
+          cp /tmp/drawio/src/main/webapp/stencils/electrical/waveforms.xml \
+             diagrams/libraries/electricite/
+
+          cp /tmp/drawio/src/main/webapp/stencils/electrical/transistors.xml \
+             diagrams/libraries/electricite/
+
+          cp /tmp/drawio/src/main/webapp/stencils/electrical/mosfets1.xml \
+             diagrams/libraries/electricite/
+
+          cp /tmp/drawio/src/main/webapp/stencils/electrical/mosfets2.xml \
+             diagrams/libraries/electricite/
+
+          cp /tmp/drawio/src/main/webapp/stencils/electrical/opto_electronics.xml \
+             diagrams/libraries/electricite/
+
+          cp /tmp/drawio/src/main/webapp/stencils/electrical/electro-mechanical.xml \
+             diagrams/libraries/electricite/
+
+          cp /tmp/drawio/src/main/webapp/stencils/electrical/switchesRelays.xml \
+             diagrams/libraries/electricite/
+
+
+      # ==========================================================
+      # 5. BIBLIOTHÈQUE ÉLECTRIQUE OWNTECH
+      #
+      # Projet :
+      # owntech-foundation/LibraryDrawIO
       #
       # Licence :
       # CC-BY-SA-4.0
-      # ==========================================================
+      # ==============================================================
 
       - name: Récupérer OwnTech
         run: |
 
-          git clone --depth 1 \
+          git clone \
+            --depth 1 \
             https://github.com/owntech-foundation/LibraryDrawIO.git \
-            /tmp/owntech-drawio
+            /tmp/owntech
 
-          find /tmp/owntech-drawio \
-            -type f \
-            \( -name "*.xml" -o -name "*.drawio" \) \
-            -exec cp {} diagrams/libraries/electricite/ \;
+          cp /tmp/owntech/circuit_library.xml \
+             diagrams/libraries/electricite/OwnTech-circuit.xml
 
 
       # ==========================================================
-      # 7. BIBLIOTHÈQUE ÉLECTRIQUE COMPLÉMENTAIRE
+      # 6. BIBLIOTHÈQUE ÉLECTRIQUE COMPLÉMENTAIRE
       #
-      # Source :
-      # https://github.com/bzarek/draw.io-electrical
-      # ==========================================================
+      # Projet :
+      # bzarek/draw.io-electrical
+      # ==============================================================
 
       - name: Récupérer draw.io-electrical
         run: |
 
-          git clone --depth 1 \
+          git clone \
+            --depth 1 \
             https://github.com/bzarek/draw.io-electrical.git \
             /tmp/drawio-electrical
 
-          find /tmp/drawio-electrical \
-            -type f \
-            \( -name "*.xml" -o -name "*.drawio" \) \
-            -exec cp {} diagrams/libraries/electricite/ \;
+          cp /tmp/drawio-electrical/Custom_Electrical.xml \
+             diagrams/libraries/electricite/Custom-Electrical.xml
 
 
       # ==========================================================
-      # 8. BIBLIOTHÈQUE CHIMIE MERMOZLAB
+      # 7. PRÉPARATION CHIMIE / VERRERIE
       #
-      # Répertoire réservé aux ressources SVG dont la licence
-      # permet leur redistribution dans le projet MermozLab.
-      # ==========================================================
+      # Aucun dépôt externe de verrerie suffisamment fiable et
+      # clairement licencié n'est imposé ici.
+      #
+      # On prépare la bibliothèque MermozLab afin de pouvoir
+      # intégrer ensuite uniquement des SVG librement
+      # redistribuables.
+      # ==============================================================
 
-      - name: Préparer la bibliothèque Chimie
+      - name: Préparer la bibliothèque Chimie MermozLab
         run: |
 
           mkdir -p diagrams/libraries/chimie/svg
@@ -172,7 +205,6 @@ jobs:
           touch diagrams/libraries/chimie/svg/.gitkeep
 
           cat > diagrams/libraries/chimie/README.md <<'EOF'
-
 # MermozLab Chemistry
 
 Bibliothèque destinée aux schémas de chimie du BAC Professionnel.
@@ -197,12 +229,12 @@ Bibliothèque destinée aux schémas de chimie du BAC Professionnel.
 - Spatule
 - Agitateur en verre
 
-## Matériel
+## Matériel de laboratoire
 
 - Balance
 - Thermomètre
-- Plaque chauffante
 - Chauffe-ballon
+- Plaque chauffante
 - Support universel
 - Pince
 - Trépied
@@ -222,7 +254,6 @@ Bibliothèque destinée aux schémas de chimie du BAC Professionnel.
 - Atome
 - Ion
 - Molécule
-- Liaison chimique
 - Solution
 - Soluté
 - Solvant
@@ -236,81 +267,225 @@ Bibliothèque destinée aux schémas de chimie du BAC Professionnel.
 
 ## Sécurité
 
-- Pictogrammes CLP
 - Lunettes
 - Gants
 - Blouse
 - Hotte
+- Pictogrammes CLP
 - Déchets chimiques
 
-Les ressources SVG ajoutées doivent posséder une licence
+Les ressources externes doivent posséder une licence
 compatible avec leur redistribution dans MermozLab.
 
 EOF
 
 
       # ==========================================================
-      # 9. DOCUMENTATION DES SOURCES
-      # ==========================================================
+      # 8. BIBLIOTHÈQUE OPTIQUE / PHYSIQUE
+      #
+      # On réserve cette catégorie pour les éléments qui seront
+      # intégrés dans la bibliothèque scientifique MermozLab.
+      # ==============================================================
 
-      - name: Documenter les sources
+      - name: Préparer les bibliothèques de physique
         run: |
 
-          cat > diagrams/libraries/SOURCES.md <<'EOF'
+          cat > diagrams/libraries/physique/README.md <<'EOF'
+# MermozLab Physique
 
-# Sources des bibliothèques MermozLab
+Bibliothèque destinée aux schémas de physique BAC Pro.
 
-## diagrams.net
+## Mécanique
 
-https://github.com/jgraph/drawio
+- Objet
+- Point matériel
+- Force
+- Poids
+- Vecteur
+- Mouvement
+- Trajectoire
+- Ressort
+- Poulie
+- Roue
+- Engrenage
+- Plan incliné
 
-Utilisation :
+## Acoustique
 
-- Electrical
-- Logic Gates
-- P&ID
+- Source sonore
+- Haut-parleur
+- Microphone
+- Sonomètre
+- Signal périodique
+- Onde sonore
 
----
+## Optique
 
-## OwnTech
+- Source lumineuse
+- Rayon lumineux
+- Faisceau
+- Miroir
+- Lentille convergente
+- Lentille divergente
+- Écran
+- Objet
+- Image
+- Œil
+- Fibre optique
 
-https://github.com/owntech-foundation/LibraryDrawIO
+## Énergie
 
-Licence :
-
-CC-BY-SA-4.0
-
-Utilisation :
-
-Bibliothèque électrique complémentaire.
-
----
-
-## bzarek
-
-https://github.com/bzarek/draw.io-electrical
-
-Utilisation :
-
-Symboles électriques complémentaires.
-
----
-
-## MermozLab Chemistry
-
-Bibliothèque locale destinée aux éléments scientifiques
-non disponibles de manière suffisamment complète dans
-les bibliothèques diagrams.net.
-
-Les ressources externes doivent être accompagnées de
-leur licence et de leur attribution.
+- Générateur
+- Moteur
+- Transformateur
+- Conversion d'énergie
+- Chaîne énergétique
 
 EOF
 
 
       # ==========================================================
-      # 10. MANIFESTE
+      # 9. INSTRUMENTATION
+      # ==============================================================
+
+      - name: Préparer les instruments
+        run: |
+
+          cat > diagrams/libraries/instruments/README.md <<'EOF'
+# Instruments MermozLab
+
+## Électricité
+
+- Multimètre
+- Voltmètre
+- Ampèremètre
+- Oscilloscope
+- GBF
+
+## Acoustique
+
+- Sonomètre
+- Microphone
+- Haut-parleur
+
+## Optique
+
+- Luxmètre
+
+## Chimie
+
+- Balance
+- Thermomètre
+- pH-mètre
+- Conductimètre
+
+EOF
+
+
       # ==========================================================
+      # 10. SÉCURITÉ
+      # ==============================================================
+
+      - name: Préparer la sécurité
+        run: |
+
+          cat > diagrams/libraries/securite/README.md <<'EOF'
+# Sécurité MermozLab
+
+Éléments prévus :
+
+- Lunettes
+- Gants
+- Blouse
+- Hotte
+- Pictogrammes CLP
+- Risque corrosif
+- Risque inflammable
+- Risque toxique
+- Risque irritant
+- Risque environnement
+- Déchets chimiques
+
+EOF
+
+
+      # ==========================================================
+      # 11. SOURCES ET LICENCES
+      # ==============================================================
+
+      - name: Documenter les sources
+        run: |
+
+          cat > diagrams/libraries/SOURCES.md <<'EOF'
+# Sources des bibliothèques MermozLab
+
+## 1. diagrams.net
+
+Dépôt officiel :
+
+https://github.com/jgraph/drawio
+
+Bibliothèques utilisées :
+
+- logic_gates.xml
+- resistors.xml
+- capacitors.xml
+- inductors.xml
+- diodes.xml
+- signal_sources.xml
+- instruments.xml
+- waveforms.xml
+- transistors.xml
+- mosfets1.xml
+- mosfets2.xml
+- opto_electronics.xml
+- electro-mechanical.xml
+- switchesRelays.xml
+
+---
+
+## 2. OwnTech
+
+Dépôt :
+
+https://github.com/owntech-foundation/LibraryDrawIO
+
+Fichier :
+
+circuit_library.xml
+
+Licence :
+
+CC-BY-SA-4.0
+
+---
+
+## 3. bzarek
+
+Dépôt :
+
+https://github.com/bzarek/draw.io-electrical
+
+Fichier :
+
+Custom_Electrical.xml
+
+---
+
+## 4. MermozLab Chemistry
+
+Bibliothèque spécifique MermozLab.
+
+Les éléments externes ajoutés dans cette bibliothèque
+doivent être accompagnés de leur licence et de leur
+attribution.
+
+EOF
+
+
+      # ==========================================================
+      # 12. MANIFESTE
+      # ==============================================================
 
       - name: Créer le manifeste
         run: |
@@ -320,37 +495,48 @@ EOF
   "project": "MermozLab",
   "module": "diagrams.net",
   "version": "1.0.0",
-  "purpose": "Schémas de sciences BAC Pro",
 
   "domains": {
 
     "electricite": {
       "name": "⚡ Électricité",
       "libraries": [
-        "electricite/electrical.xml",
-        "electricite/logic-gates.xml"
+        "electricite/logic_gates.xml",
+        "electricite/resistors.xml",
+        "electricite/capacitors.xml",
+        "electricite/inductors.xml",
+        "electricite/diodes.xml",
+        "electricite/signal_sources.xml",
+        "electricite/instruments.xml",
+        "electricite/waveforms.xml",
+        "electricite/transistors.xml",
+        "electricite/mosfets1.xml",
+        "electricite/mosfets2.xml",
+        "electricite/opto_electronics.xml",
+        "electricite/electro-mechanical.xml",
+        "electricite/switchesRelays.xml",
+        "electricite/OwnTech-circuit.xml",
+        "electricite/Custom-Electrical.xml"
       ]
     },
 
     "energie": {
       "name": "🔋 Énergie",
       "libraries": [
-        "electricite/electrical.xml",
-        "physique/pid.xml"
+        "electricite/electro-mechanical.xml"
       ]
     },
 
     "mecanique": {
       "name": "🧲 Mécanique",
-      "libraries": [
-        "physique/pid.xml"
-      ]
+      "libraries": []
     },
 
     "acoustique": {
       "name": "🔊 Acoustique",
       "libraries": [
-        "electricite/electrical.xml"
+        "electricite/waveforms.xml",
+        "electricite/instruments.xml"
       ]
     },
 
@@ -361,35 +547,31 @@ EOF
 
     "ondes": {
       "name": "〰️ Ondes et signaux",
-      "libraries": []
+      "libraries": [
+        "electricite/waveforms.xml"
+      ]
     },
 
     "chimie": {
       "name": "🧪 Chimie",
-      "libraries": [
-        "chimie/MermozLab-Chemistry.xml"
-      ]
+      "libraries": []
     },
 
     "verrerie": {
       "name": "⚗️ Verrerie",
-      "libraries": [
-        "chimie/MermozLab-Chemistry.xml"
-      ]
+      "libraries": []
     },
 
     "mesures": {
       "name": "📏 Mesures",
       "libraries": [
-        "electricite/electrical.xml"
+        "electricite/instruments.xml"
       ]
     },
 
     "securite": {
       "name": "🧯 Sécurité",
-      "libraries": [
-        "securite"
-      ]
+      "libraries": []
     }
 
   }
@@ -398,15 +580,14 @@ EOF
 
 
       # ==========================================================
-      # 11. MATRICE DE COUVERTURE
-      # ==========================================================
+      # 13. MATRICE DE COUVERTURE
+      # ==============================================================
 
-      - name: Créer la matrice BAC Pro
+      - name: Créer la matrice de couverture
         run: |
 
           cat > diagrams/docs/couverture-bac-pro.md <<'EOF'
-
-# MermozLab — Couverture du programme sciences BAC Pro
+# MermozLab — Couverture sciences BAC Pro
 
 ## PHYSIQUE
 
@@ -417,8 +598,8 @@ EOF
 - Intensité
 - Résistance
 - Loi d'Ohm
-- Puissance
-- Énergie
+- Puissance électrique
+- Énergie électrique
 - Générateurs
 - Récepteurs
 - Moteurs
@@ -466,14 +647,14 @@ EOF
 
 ### Optique
 
-- Source lumineuse
-- Rayon
-- Faisceau
+- Sources lumineuses
+- Rayons lumineux
+- Faisceaux
 - Réflexion
 - Réfraction
-- Miroir
-- Lentille
-- Image
+- Miroirs
+- Lentilles
+- Images
 - Œil
 - Fibre optique
 
@@ -516,7 +697,7 @@ EOF
 - Indicateurs colorés
 - pH-mètre
 
-### Transformations
+### Transformations chimiques
 
 - Réactifs
 - Produits
@@ -569,31 +750,38 @@ EOF
 
 
       # ==========================================================
-      # 12. CONTRÔLE DES FICHIERS
-      # ==========================================================
+      # 14. VÉRIFICATION DES FICHIERS
+      # ==============================================================
 
-      - name: Vérifier les bibliothèques
+      - name: Vérifier les fichiers XML
         run: |
 
-          echo "=========================================="
+          echo "=============================================="
           echo " MERMOZLAB - BIBLIOTHÈQUES DIAGRAMS.NET"
-          echo "=========================================="
+          echo "=============================================="
 
           find diagrams/libraries \
             -type f \
             | sort
 
           echo ""
-          echo "=========================================="
-          echo " VÉRIFICATION XML"
-          echo "=========================================="
+          echo "=============================================="
+          echo " VÉRIFICATION DES XML"
+          echo "=============================================="
 
-          for file in $(find diagrams/libraries -name "*.xml"); do
+          files=$(find diagrams/libraries -type f -name "*.xml")
 
-            echo "→ $file"
+          if [ -z "$files" ]; then
+            echo "ERREUR : aucune bibliothèque XML trouvée."
+            exit 1
+          fi
+
+          for file in $files; do
+
+            echo "Vérification : $file"
 
             test -s "$file" || {
-              echo "ERREUR : fichier vide"
+              echo "ERREUR : fichier vide : $file"
               exit 1
             }
 
@@ -601,30 +789,95 @@ EOF
 
 
       # ==========================================================
-      # 13. VÉRIFICATION DE LA STRUCTURE
-      # ==========================================================
+      # 15. VÉRIFICATION DES FICHIERS OBLIGATOIRES
+      # ==============================================================
 
-      - name: Vérifier la structure MermozLab
+      - name: Vérifier les bibliothèques obligatoires
         run: |
 
-          test -d diagrams/libraries/electricite
-          test -d diagrams/libraries/physique
-          test -d diagrams/libraries/chimie
-          test -d diagrams/libraries/instruments
-          test -d diagrams/libraries/securite
+          required_files=(
 
-          test -f diagrams/libraries/manifest.json
-          test -f diagrams/libraries/SOURCES.md
-          test -f diagrams/docs/couverture-bac-pro.md
+            "diagrams/libraries/electricite/logic_gates.xml"
+            "diagrams/libraries/electricite/resistors.xml"
+            "diagrams/libraries/electricite/capacitors.xml"
+            "diagrams/libraries/electricite/inductors.xml"
+            "diagrams/libraries/electricite/diodes.xml"
+            "diagrams/libraries/electricite/signal_sources.xml"
+            "diagrams/libraries/electricite/instruments.xml"
+            "diagrams/libraries/electricite/waveforms.xml"
+            "diagrams/libraries/electricite/transistors.xml"
+            "diagrams/libraries/electricite/mosfets1.xml"
+            "diagrams/libraries/electricite/mosfets2.xml"
+            "diagrams/libraries/electricite/opto_electronics.xml"
+            "diagrams/libraries/electricite/electro-mechanical.xml"
+            "diagrams/libraries/electricite/switchesRelays.xml"
 
-          echo "Structure MermozLab OK."
+            "diagrams/libraries/electricite/OwnTech-circuit.xml"
+            "diagrams/libraries/electricite/Custom-Electrical.xml"
+
+            "diagrams/libraries/manifest.json"
+            "diagrams/libraries/SOURCES.md"
+            "diagrams/docs/couverture-bac-pro.md"
+          )
+
+          for file in "${required_files[@]}"; do
+
+            if [ ! -s "$file" ]; then
+
+              echo "ERREUR : fichier manquant : $file"
+              exit 1
+
+            fi
+
+            echo "OK : $file"
+
+          done
 
 
       # ==========================================================
-      # 14. COMMIT AUTOMATIQUE
-      # ==========================================================
+      # 16. INFORMATIONS DE FIN
+      # ==============================================================
 
-      - name: Enregistrer les modifications
+      - name: Résumé
+        run: |
+
+          echo ""
+          echo "=============================================="
+          echo " MERMOZLAB - INSTALLATION TERMINÉE"
+          echo "=============================================="
+          echo ""
+
+          echo "Bibliothèques électriques :"
+          find diagrams/libraries/electricite \
+            -maxdepth 1 \
+            -type f \
+            -name "*.xml" \
+            -printf "  ✓ %f\n"
+
+          echo ""
+          echo "Architecture scientifique :"
+          echo "  ✓ Électricité"
+          echo "  ✓ Énergie"
+          echo "  ✓ Mécanique"
+          echo "  ✓ Acoustique"
+          echo "  ✓ Optique"
+          echo "  ✓ Ondes et signaux"
+          echo "  ✓ Chimie"
+          echo "  ✓ Verrerie"
+          echo "  ✓ Mesures"
+          echo "  ✓ Sécurité"
+
+          echo ""
+          echo "Les ressources de chimie/verrerie restent"
+          echo "séparées afin de permettre l'ajout ultérieur"
+          echo "de ressources SVG dont la licence est vérifiée."
+
+
+      # ==========================================================
+      # 17. COMMIT AUTOMATIQUE
+      # ==============================================================
+
+      - name: Enregistrer les bibliothèques
         run: |
 
           git config user.name "github-actions[bot]"
@@ -644,4 +897,3 @@ EOF
             git push
 
           fi
-```
