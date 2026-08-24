@@ -1,27 +1,152 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f7f7f7;
+/* =========================================================
+   MINUTEUR
+   CHARTE CLAIRE TABLEAU SCIENCES — ALIGNÉE SCILAB / MATHILAB / PYLAB / ROUE
+   Tokens : bleu #4169e1 (accent), #1e90ff (survol), #243b73 (texte fort),
+   #172033 (texte), fond #f7fbff — palette blanc/bleu pour l'accessibilité
+   ========================================================= */
+
+* { box-sizing: border-box; }
+
+body{
+  margin: 0;
+  min-height: 100vh;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+
+  font-family: Arial, sans-serif;
+  color: #172033;
+
+  background: linear-gradient(135deg, #f8fcff, #edf6fc);
 }
 
-.container {
+/* =========================================================
+   CARTE PRINCIPALE
+   ========================================================= */
+
+.container{
+  max-width: 380px;
+  padding: 28px 36px 32px;
+
   text-align: center;
-  background: white;
-  padding: 20px 40px;
+
+  background: #ffffff;
+  border: 1px solid #d7e5f0;
+  border-left: 7px solid #4169e1;
   border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+
+  box-shadow: 0 5px 18px rgba(35, 65, 95, 0.10);
 }
 
-canvas {
-  margin-top: 20px;
-  border-radius: 50%;
+h1{
+  margin: 0 0 18px;
+
+  color: #243b73;
+  font-size: 1.8rem;
 }
 
-#timeText {
-  font-size: 1.8em;
-  margin-top: 10px;
+/* =========================================================
+   CHAMPS
+   ========================================================= */
+
+label{
+  display: block;
+  margin-bottom: 8px;
+
+  color: #526b83;
+  font-size: 0.9rem;
+}
+
+input[type="number"]{
+  width: 100px;
+  padding: 8px 10px;
+  margin-bottom: 14px;
+
+  color: #465f77;
+  font-size: 0.95rem;
+  text-align: center;
+
+  background: #edf5fb;
+  border: 1px solid #dbe6ef;
+  border-radius: 9px;
+}
+
+/* =========================================================
+   BOUTON (même style que SciLab / PyLab / Roue)
+   ========================================================= */
+
+button{
+  min-height: 48px;
+
+  padding: 0 24px;
+  margin-left: 10px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  color: #ffffff;
+  font-size: 0.95rem;
   font-weight: bold;
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  border: none;
+  border-radius: 9px;
+
+  background: #4169e1;
+
+  box-shadow: 0 3px 8px rgba(65, 105, 225, 0.20);
+
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover{
+  background: #1e90ff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(65, 105, 225, 0.28);
+}
+
+button:active{
+  transform: translateY(0);
+}
+
+/* =========================================================
+   CADRAN
+   ========================================================= */
+
+canvas{
+  display: block;
+  margin: 22px auto 0;
+
+  border: 3px solid #4169e1;
+  border-radius: 50%;
+
+  box-shadow: 0 8px 20px rgba(65, 105, 225, 0.18);
+}
+
+#timeText{
+  margin-top: 14px;
+
+  color: #243b73;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 420px){
+  .container{
+    max-width: 92vw;
+    padding: 22px 18px 26px;
+  }
+
+  h1{ font-size: 1.5rem; }
+
+  canvas{ width: 240px; height: 240px; }
 }
