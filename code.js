@@ -192,7 +192,9 @@ function loadGeoGebra3D() {
     container.innerHTML = "";
 
     const params = {
-        appName: "3d",
+        appName: "classic",
+        perspective: "5", // Vue "3D Graphiques" de Classic (et non l'app allégée "3d",
+                           // dont le menu ne propose pas Ouvrir / Enregistrer sur l'ordinateur)
         width: window.innerWidth - 120,
         height: window.innerHeight - 20,
         showToolBar: true,
