@@ -184,27 +184,147 @@ jobs:
 
 
       # ==========================================================
-      # 7. PRÉPARATION CHIMIE / VERRERIE
+      # 7. PICTOGRAMMES DE VERRERIE / LABORATOIRE (SVG)
       #
-      # Aucun dépôt externe de verrerie suffisamment fiable et
-      # clairement licencié n'est imposé ici.
+      # Aucune bibliothèque diagrams.net dédiée à la verrerie de
+      # chimie n'est disponible avec une licence de redistribution
+      # claire. On récupère donc des pictogrammes SVG individuels
+      # depuis Material Design Icons (Pictogrammers), sous licence
+      # Apache License 2.0, qui couvrent la majorité du matériel
+      # de laboratoire courant.
       #
-      # On prépare la bibliothèque MermozLab afin de pouvoir
-      # intégrer ensuite uniquement des SVG librement
-      # redistribuables.
+      # Dépôt :
+      # https://github.com/Templarian/MaterialDesign
+      #
+      # Les pictogrammes non couverts (burette, entonnoir, ampoule
+      # à décanter, fiole jaugée, verre de montre, pissette,
+      # spatule, agitateur) restent à ajouter manuellement : voir
+      # diagrams/libraries/chimie/svg/README.md.
+      # ==============================================================
+
+      - name: Récupérer les pictogrammes de laboratoire (Material Design Icons)
+        run: |
+
+          mkdir -p diagrams/libraries/chimie/svg
+
+          git clone \
+            --depth 1 \
+            --filter=blob:none \
+            --sparse \
+            https://github.com/Templarian/MaterialDesign.git \
+            /tmp/mdi
+
+          cd /tmp/mdi
+
+          git sparse-checkout set svg
+
+          cd "$GITHUB_WORKSPACE"
+
+          curl -sSL \
+            -o /tmp/mdi-license.txt \
+            https://raw.githubusercontent.com/Templarian/MaterialDesign/master/LICENSE
+
+          icons=(
+            beaker
+            beaker-outline
+            flask
+            flask-outline
+            flask-round-bottom
+            flask-round-bottom-outline
+            test-tube
+            test-tube-empty
+            cylinder
+            eyedropper
+            thermometer
+            scale-balance
+            molecule
+            atom
+            periodic-table
+            microscope
+            weight-gram
+          )
+
+          for icon in "${icons[@]}"; do
+            cp "/tmp/mdi/svg/${icon}.svg" "diagrams/libraries/chimie/svg/${icon}.svg"
+          done
+
+          cp /tmp/mdi-license.txt \
+             diagrams/libraries/chimie/svg/LICENSE-material-design-icons.txt
+
+          rm -f diagrams/libraries/chimie/svg/.gitkeep
+
+
+      # ==========================================================
+      # 8. INDEX DES PICTOGRAMMES CHIMIE (README dédié)
+      # ==========================================================
+
+      - name: Documenter les pictogrammes de chimie
+        run: |
+
+          cat > diagrams/libraries/chimie/svg/README.md <<'EOF'
+          # Pictogrammes de laboratoire — MermozLab Chemistry
+
+          Icônes SVG individuelles, à utiliser en complément des
+          bibliothèques XML (importables une par une dans
+          diagrams.net via File > Import).
+
+          | Fichier | Usage suggéré |
+          |---|---|
+          | beaker.svg / beaker-outline.svg | Bécher |
+          | flask.svg / flask-outline.svg | Erlenmeyer |
+          | flask-round-bottom.svg / flask-round-bottom-outline.svg | Ballon (fond rond) |
+          | test-tube.svg / test-tube-empty.svg | Tube à essais |
+          | cylinder.svg | Éprouvette graduée |
+          | eyedropper.svg | Pipette / compte-gouttes |
+          | thermometer.svg | Thermomètre |
+          | scale-balance.svg | Balance |
+          | molecule.svg | Molécule |
+          | atom.svg | Atome |
+          | periodic-table.svg | Tableau périodique |
+          | microscope.svg | Microscope |
+          | weight-gram.svg | Masse / pesée |
+
+          ## Encore à ajouter manuellement
+
+          Aucune source librement redistribuable n'a été trouvée
+          pour ces éléments ; à ajouter à la main (dessin ou SVG
+          sous licence compatible) :
+
+          - Burette
+          - Entonnoir
+          - Ampoule à décanter
+          - Fiole jaugée
+          - Verre de montre
+          - Pissette
+          - Spatule
+          - Agitateur en verre
+
+          ## Licence
+
+          Icônes issues de Material Design Icons (Pictogrammers),
+          Apache License 2.0. Voir LICENSE-material-design-icons.txt
+          dans ce dossier et diagrams/libraries/SOURCES.md.
+
+          EOF
+
+
+      # ==========================================================
+      # 9. PRÉPARATION CHIMIE / VERRERIE
+      #
+      # La bibliothèque XML MermozLab reste réservée aux SVG dont
+      # la licence est vérifiée (voir étape 7 ci-dessus pour les
+      # pictogrammes déjà intégrés).
       # ==============================================================
 
       - name: Préparer la bibliothèque Chimie MermozLab
         run: |
 
-          mkdir -p diagrams/libraries/chimie/svg
-
-          touch diagrams/libraries/chimie/svg/.gitkeep
-
           cat > diagrams/libraries/chimie/README.md <<'EOF'
           # MermozLab Chemistry
 
           Bibliothèque destinée aux schémas de chimie du BAC Professionnel.
+
+          Pictogrammes SVG déjà intégrés : voir svg/README.md.
 
           ## Verrerie
 
@@ -278,7 +398,7 @@ jobs:
 
 
       # ==========================================================
-      # 8. BIBLIOTHÈQUE OPTIQUE / PHYSIQUE
+      # 10. BIBLIOTHÈQUE OPTIQUE / PHYSIQUE
       #
       # On réserve cette catégorie pour les éléments qui seront
       # intégrés dans la bibliothèque scientifique MermozLab.
@@ -342,7 +462,7 @@ jobs:
 
 
       # ==========================================================
-      # 9. INSTRUMENTATION
+      # 11. INSTRUMENTATION
       # ==============================================================
 
       - name: Préparer les instruments
@@ -380,7 +500,7 @@ jobs:
 
 
       # ==========================================================
-      # 10. SÉCURITÉ
+      # 12. SÉCURITÉ
       # ==============================================================
 
       - name: Préparer la sécurité
@@ -407,7 +527,7 @@ jobs:
 
 
       # ==========================================================
-      # 11. SOURCES ET LICENCES
+      # 13. SOURCES ET LICENCES
       # ==============================================================
 
       - name: Documenter les sources
@@ -468,7 +588,40 @@ jobs:
 
           ---
 
-          ## 4. MermozLab Chemistry
+          ## 4. Material Design Icons (Pictogrammers)
+
+          Dépôt :
+
+          https://github.com/Templarian/MaterialDesign
+
+          Fichiers (dans libraries/chimie/svg/) :
+
+          - beaker.svg
+          - beaker-outline.svg
+          - flask.svg
+          - flask-outline.svg
+          - flask-round-bottom.svg
+          - flask-round-bottom-outline.svg
+          - test-tube.svg
+          - test-tube-empty.svg
+          - cylinder.svg
+          - eyedropper.svg
+          - thermometer.svg
+          - scale-balance.svg
+          - molecule.svg
+          - atom.svg
+          - periodic-table.svg
+          - microscope.svg
+          - weight-gram.svg
+
+          Licence :
+
+          Apache License 2.0 (voir LICENSE-material-design-icons.txt
+          dans le même dossier)
+
+          ---
+
+          ## 5. MermozLab Chemistry
 
           Bibliothèque spécifique MermozLab.
 
@@ -480,7 +633,7 @@ jobs:
 
 
       # ==========================================================
-      # 12. MANIFESTE
+      # 14. MANIFESTE
       # ==============================================================
 
       - name: Créer le manifeste
@@ -549,18 +702,36 @@ jobs:
 
               "chimie": {
                 "name": "🧪 Chimie",
-                "libraries": []
+                "libraries": [
+                  "chimie/svg/molecule.svg",
+                  "chimie/svg/atom.svg",
+                  "chimie/svg/periodic-table.svg"
+                ]
               },
 
               "verrerie": {
                 "name": "⚗️ Verrerie",
-                "libraries": []
+                "libraries": [
+                  "chimie/svg/beaker.svg",
+                  "chimie/svg/beaker-outline.svg",
+                  "chimie/svg/flask.svg",
+                  "chimie/svg/flask-outline.svg",
+                  "chimie/svg/flask-round-bottom.svg",
+                  "chimie/svg/flask-round-bottom-outline.svg",
+                  "chimie/svg/test-tube.svg",
+                  "chimie/svg/test-tube-empty.svg",
+                  "chimie/svg/cylinder.svg",
+                  "chimie/svg/eyedropper.svg"
+                ]
               },
 
               "mesures": {
                 "name": "📏 Mesures",
                 "libraries": [
-                  "electricite/instruments.xml"
+                  "electricite/instruments.xml",
+                  "chimie/svg/thermometer.svg",
+                  "chimie/svg/scale-balance.svg",
+                  "chimie/svg/weight-gram.svg"
                 ]
               },
 
@@ -575,7 +746,7 @@ jobs:
 
 
       # ==========================================================
-      # 13. MATRICE DE COUVERTURE
+      # 15. MATRICE DE COUVERTURE
       # ==============================================================
 
       - name: Créer la matrice de couverture
@@ -745,7 +916,109 @@ jobs:
 
 
       # ==========================================================
-      # 14. VÉRIFICATION DES FICHIERS
+      # 16. GÉNÉRER LA PAGE D'ACCÈS (index.html)
+      #
+      # Page HTML unique listant, par domaine, les bibliothèques
+      # et pictogrammes réellement présents (lecture dynamique de
+      # manifest.json), pour naviguer facilement dans le projet
+      # (localement ou via GitHub Pages).
+      # ==========================================================
+
+      - name: Générer la page d'accès du projet
+        run: |
+
+          python3 - <<'PYEOF'
+          import json, pathlib, html
+
+          base = pathlib.Path("diagrams")
+          manifest = json.loads((base / "libraries" / "manifest.json").read_text(encoding="utf-8"))
+
+          def item_html(path):
+              href = f"libraries/{path}"
+              name = pathlib.Path(path).name
+              label = html.escape(name)
+              if path.endswith(".svg"):
+                  return (
+                      f'<li class="item"><a href="{href}" target="_blank">'
+                      f'<img src="{href}" alt="{label}" loading="lazy">'
+                      f'<span>{label}</span></a></li>'
+                  )
+              return (
+                  f'<li class="item item-xml"><a href="{href}" target="_blank">'
+                  f'<span class="file-icon">&#128194;</span>'
+                  f'<span>{label}</span></a></li>'
+              )
+
+          sections = []
+          nav_links = []
+          for key, domain in manifest["domains"].items():
+              libs = domain.get("libraries", [])
+              if not libs:
+                  continue
+              nav_links.append(f'<a href="#{key}">{html.escape(domain["name"])}</a>')
+              items = "\n          ".join(item_html(p) for p in libs)
+              sections.append(
+                  f'<section id="{key}"><h2>{html.escape(domain["name"])}</h2>'
+                  f'<ul class="grid">\n          {items}\n          </ul></section>'
+              )
+
+          sections_html = "\n\n        ".join(sections)
+          nav_html = "\n  ".join(nav_links)
+
+          page = f"""<!DOCTYPE html>
+          <html lang="fr">
+          <head>
+          <meta charset="UTF-8">
+          <title>MermozLab -- Bibliotheques sciences</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <style>
+            body {{ font-family: system-ui, sans-serif; margin: 0; background: #f6f7f9; color: #1a1a1a; }}
+            header {{ background: #14213d; color: #fff; padding: 1.5rem 2rem; }}
+            header h1 {{ margin: 0 0 .3rem; font-size: 1.4rem; }}
+            header p {{ margin: 0; opacity: .8; }}
+            nav {{ background: #fff; border-bottom: 1px solid #ddd; padding: .6rem 2rem; position: sticky; top: 0; display: flex; flex-wrap: wrap; gap: .5rem; }}
+            nav a {{ color: #14213d; text-decoration: none; font-size: .82rem; padding: .25rem .6rem; border-radius: 999px; background: #eef1f6; }}
+            main {{ padding: 1.5rem 2rem 3rem; }}
+            section {{ margin-bottom: 2.2rem; }}
+            section h2 {{ font-size: 1.05rem; border-bottom: 2px solid #14213d22; padding-bottom: .3rem; }}
+            ul.grid {{ list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: .6rem; }}
+            .item a {{ display: flex; flex-direction: column; align-items: center; gap: .35rem; background: #fff; border: 1px solid #e3e5e9; border-radius: 10px; padding: .7rem .5rem; text-decoration: none; color: #1a1a1a; font-size: .72rem; text-align: center; word-break: break-all; }}
+            .item img {{ width: 40px; height: 40px; }}
+            .file-icon {{ font-size: 1.4rem; }}
+            footer {{ padding: 1.5rem 2rem 3rem; font-size: .8rem; color: #666; }}
+            footer a {{ color: #14213d; }}
+          </style>
+          </head>
+          <body>
+          <header>
+            <h1>MermozLab -- Bibliotheques sciences</h1>
+            <p>Physique-chimie BAC Pro - diagrams.net</p>
+          </header>
+          <nav>
+            {nav_html}
+            <a href="libraries/SOURCES.md">Sources &amp; licences</a>
+            <a href="docs/couverture-bac-pro.md">Couverture BAC Pro</a>
+          </nav>
+          <main>
+                  {sections_html}
+          </main>
+          <footer>
+            Genere automatiquement par le workflow GitHub Actions
+            <code>diagrams-sciences.yml</code>. Cliquer sur un pictogramme ou une
+            bibliotheque l'ouvre ou la telecharge ; les fichiers .xml
+            s'importent dans diagrams.net via File &gt; Import Library.
+          </footer>
+          </body>
+          </html>
+          """
+
+          (base / "index.html").write_text(page, encoding="utf-8")
+          print("index.html genere")
+          PYEOF
+
+
+      # ==========================================================
+      # 17. VÉRIFICATION DES FICHIERS
       # ==============================================================
 
       - name: Vérifier les fichiers XML
@@ -784,7 +1057,7 @@ jobs:
 
 
       # ==========================================================
-      # 15. VÉRIFICATION DES FICHIERS OBLIGATOIRES
+      # 18. VÉRIFICATION DES FICHIERS OBLIGATOIRES
       # ==============================================================
 
       - name: Vérifier les bibliothèques obligatoires
@@ -809,9 +1082,26 @@ jobs:
             "diagrams/libraries/electricite/OwnTech-circuit.xml"
             "diagrams/libraries/electricite/Custom-Electrical.xml"
 
+            "diagrams/libraries/chimie/svg/beaker.svg"
+            "diagrams/libraries/chimie/svg/flask.svg"
+            "diagrams/libraries/chimie/svg/flask-round-bottom.svg"
+            "diagrams/libraries/chimie/svg/test-tube.svg"
+            "diagrams/libraries/chimie/svg/cylinder.svg"
+            "diagrams/libraries/chimie/svg/eyedropper.svg"
+            "diagrams/libraries/chimie/svg/thermometer.svg"
+            "diagrams/libraries/chimie/svg/scale-balance.svg"
+            "diagrams/libraries/chimie/svg/molecule.svg"
+            "diagrams/libraries/chimie/svg/atom.svg"
+            "diagrams/libraries/chimie/svg/periodic-table.svg"
+            "diagrams/libraries/chimie/svg/microscope.svg"
+            "diagrams/libraries/chimie/svg/weight-gram.svg"
+            "diagrams/libraries/chimie/svg/LICENSE-material-design-icons.txt"
+            "diagrams/libraries/chimie/svg/README.md"
+
             "diagrams/libraries/manifest.json"
             "diagrams/libraries/SOURCES.md"
             "diagrams/docs/couverture-bac-pro.md"
+            "diagrams/index.html"
           )
 
           for file in "${required_files[@]}"; do
@@ -829,7 +1119,7 @@ jobs:
 
 
       # ==========================================================
-      # 16. INFORMATIONS DE FIN
+      # 19. INFORMATIONS DE FIN
       # ==============================================================
 
       - name: Résumé
@@ -849,6 +1139,14 @@ jobs:
             -printf "  ✓ %f\n"
 
           echo ""
+          echo "Pictogrammes de laboratoire :"
+          find diagrams/libraries/chimie/svg \
+            -maxdepth 1 \
+            -type f \
+            -name "*.svg" \
+            -printf "  ✓ %f\n"
+
+          echo ""
           echo "Architecture scientifique :"
           echo "  ✓ Électricité"
           echo "  ✓ Énergie"
@@ -862,13 +1160,17 @@ jobs:
           echo "  ✓ Sécurité"
 
           echo ""
-          echo "Les ressources de chimie/verrerie restent"
-          echo "séparées afin de permettre l'ajout ultérieur"
-          echo "de ressources SVG dont la licence est vérifiée."
+          echo "Page d'accès du projet : diagrams/index.html"
+
+          echo ""
+          echo "Éléments de verrerie encore à ajouter manuellement :"
+          echo "burette, entonnoir, ampoule à décanter, fiole jaugée,"
+          echo "verre de montre, pissette, spatule, agitateur"
+          echo "(voir diagrams/libraries/chimie/svg/README.md)."
 
 
       # ==========================================================
-      # 17. COMMIT AUTOMATIQUE
+      # 20. COMMIT AUTOMATIQUE
       # ==============================================================
 
       - name: Enregistrer les bibliothèques
