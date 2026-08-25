@@ -588,11 +588,14 @@ jobs:
 
           ---
 
-          ## 4. Material Design Icons (Pictogrammers)
+          ## 4. Material Design Icons — pictogrammes locaux (Pictogrammers)
 
           Dépôt :
 
           https://github.com/Templarian/MaterialDesign
+
+          Usage : aperçus statiques dans libraries/chimie/svg/ et
+          dans la page index.html (galerie du projet).
 
           Fichiers (dans libraries/chimie/svg/) :
 
@@ -621,7 +624,38 @@ jobs:
 
           ---
 
-          ## 5. MermozLab Chemistry
+          ## 5. Bibliothèques chargées en direct dans editor.html
+
+          La page diagrams/editor.html charge, via le paramètre
+          clibs de diagrams.net, trois bibliothèques au format
+          "custom library" (mxlibrary) officiel, utilisables
+          directement par glisser-déposer dans l'éditeur :
+
+          - OwnTech (circuit_library.xml) :
+            https://github.com/owntech-foundation/LibraryDrawIO
+            Licence CC-BY-SA-4.0
+
+          - bzarek/draw.io-electrical (Custom_Electrical.xml) :
+            https://github.com/bzarek/draw.io-electrical
+
+          - Material Design Icons, reconditionnée au format
+            diagrams.net par le dépôt officiel jgraph/drawio-libs
+            (material-design-icons.xml) :
+            https://github.com/jgraph/drawio-libs
+            Icônes originales : Google, Apache License 2.0.
+
+          Ces trois fichiers ne sont pas copiés dans ce dépôt : ils
+          sont chargés à la demande depuis leurs URL d'origine à
+          chaque ouverture de editor.html.
+
+          Les catégories natives "General" et "Electrical" de
+          l'éditeur (déjà intégrées à diagrams.net) couvrent les
+          mêmes formes que diagrams/libraries/electricite/*.xml —
+          voir la note dans le workflow, section 17.
+
+          ---
+
+          ## 6. MermozLab Chemistry
 
           Bibliothèque spécifique MermozLab.
 
@@ -995,6 +1029,7 @@ jobs:
             <p>Physique-chimie BAC Pro - diagrams.net</p>
           </header>
           <nav>
+            <a href="editor.html" style="background:#14213d;color:#fff;">&#9998; Ouvrir l'editeur</a>
             {nav_html}
             <a href="libraries/SOURCES.md">Sources &amp; licences</a>
             <a href="docs/couverture-bac-pro.md">Couverture BAC Pro</a>
@@ -1018,7 +1053,82 @@ jobs:
 
 
       # ==========================================================
-      # 17. VÉRIFICATION DES FICHIERS
+      # 17. GÉNÉRER LA PAGE ÉDITEUR (editor.html)
+      #
+      # Page qui encapsule l'éditeur diagrams.net complet (via
+      # embed.diagrams.net, seul domaine de diagrams.net dont la
+      # politique CSP autorise l'intégration en <iframe>) avec :
+      #   - le panneau de formes latéral visible (identique à
+      #     app.diagrams.net) ;
+      #   - les catégories natives "general" et "electrical" déjà
+      #     ouvertes (mêmes stencils que ceux archivés localement
+      #     dans diagrams/libraries/electricite/, déjà intégrés
+      #     nativement à l'application, donc chargés directement
+      #     depuis l'application plutôt que réimportés) ;
+      #   - les bibliothèques personnalisées OwnTech, bzarek et
+      #     Material Design Icons (format mxlibrary officiel,
+      #     chargées via clibs).
+      #
+      # NOTE IMPORTANTE :
+      # Les fichiers XML de diagrams/libraries/electricite/*.xml
+      # sont au format "stencil" interne de diagrams.net (utilisé
+      # pour compiler l'application), et non au format "bibliothèque
+      # personnalisée" (mxlibrary) attendu par File > Ouvrir une
+      # bibliothèque ou par le paramètre clibs. Ils ne peuvent donc
+      # pas être chargés tels quels dans une session d'édition ; ils
+      # restent une archive de référence (voir SOURCES.md). Les
+      # mêmes formes sont déjà disponibles nativement dans
+      # l'éditeur via la catégorie "Electrical".
+      # ==========================================================
+
+      - name: Générer la page éditeur (editor.html)
+        run: |
+
+          EMBED_SRC="https://embed.diagrams.net/?splash=0&libs=general;electrical&clibs=Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fowntech-foundation%2FLibraryDrawIO%2Fmain%2Fcircuit_library.xml;Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fbzarek%2Fdraw.io-electrical%2Fmain%2FCustom_Electrical.xml;Uhttps%3A%2F%2Fjgraph.github.io%2Fdrawio-libs%2Flibs%2Fmaterial-design-icons.xml"
+          FULLTAB_SRC="https://app.diagrams.net/?splash=0&libs=general;electrical&clibs=Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fowntech-foundation%2FLibraryDrawIO%2Fmain%2Fcircuit_library.xml;Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fbzarek%2Fdraw.io-electrical%2Fmain%2FCustom_Electrical.xml;Uhttps%3A%2F%2Fjgraph.github.io%2Fdrawio-libs%2Flibs%2Fmaterial-design-icons.xml"
+
+          cat > diagrams/editor.html <<EOF
+          <!DOCTYPE html>
+          <html lang="fr">
+          <head>
+          <meta charset="UTF-8">
+          <title>MermozLab -- Editeur diagrams.net</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <style>
+          * { box-sizing: border-box; }
+          html, body { margin: 0; height: 100%; font-family: system-ui, sans-serif; }
+          #topbar {
+          height: 42px; background: #14213d; color: #fff; display: flex;
+          align-items: center; gap: 1rem; padding: 0 1rem; font-size: .85rem;
+          }
+          #topbar a { color: #fff; text-decoration: none; opacity: .85; }
+          #topbar a:hover { opacity: 1; text-decoration: underline; }
+          #topbar .title { font-weight: 600; opacity: 1; margin-right: auto; }
+          #frame-wrap { position: absolute; top: 42px; left: 0; right: 0; bottom: 0; }
+          iframe { width: 100%; height: 100%; border: 0; display: block; }
+          </style>
+          </head>
+          <body>
+          <div id="topbar">
+          <span class="title">MermozLab -- Editeur diagrams.net</span>
+          <a href="index.html">&larr; Retour au catalogue</a>
+          <a href="$FULLTAB_SRC" target="_blank" rel="noopener">Ouvrir en plein ecran (nouvel onglet)</a>
+          </div>
+          <div id="frame-wrap">
+          <iframe
+          src="$EMBED_SRC"
+          title="Editeur diagrams.net -- MermozLab"
+          allow="clipboard-read; clipboard-write"
+          referrerpolicy="strict-origin-when-cross-origin">
+          </iframe>
+          </div>
+          </body>
+          </html>
+          EOF
+
+
+      # ==========================================================
+      # 18. VÉRIFICATION DES FICHIERS
       # ==============================================================
 
       - name: Vérifier les fichiers XML
@@ -1057,7 +1167,7 @@ jobs:
 
 
       # ==========================================================
-      # 18. VÉRIFICATION DES FICHIERS OBLIGATOIRES
+      # 19. VÉRIFICATION DES FICHIERS OBLIGATOIRES
       # ==============================================================
 
       - name: Vérifier les bibliothèques obligatoires
@@ -1102,6 +1212,7 @@ jobs:
             "diagrams/libraries/SOURCES.md"
             "diagrams/docs/couverture-bac-pro.md"
             "diagrams/index.html"
+            "diagrams/editor.html"
           )
 
           for file in "${required_files[@]}"; do
@@ -1119,7 +1230,7 @@ jobs:
 
 
       # ==========================================================
-      # 19. INFORMATIONS DE FIN
+      # 20. INFORMATIONS DE FIN
       # ==============================================================
 
       - name: Résumé
@@ -1170,7 +1281,7 @@ jobs:
 
 
       # ==========================================================
-      # 20. COMMIT AUTOMATIQUE
+      # 21. COMMIT AUTOMATIQUE
       # ==============================================================
 
       - name: Enregistrer les bibliothèques
