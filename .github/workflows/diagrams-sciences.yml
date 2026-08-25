@@ -141,9 +141,6 @@ jobs:
           cp /tmp/drawio/src/main/webapp/stencils/electrical/electro-mechanical.xml \
              diagrams/libraries/electricite/
 
-          cp /tmp/drawio/src/main/webapp/stencils/electrical/switchesRelays.xml \
-             diagrams/libraries/electricite/
-
 
       # ==========================================================
       # 5. BIBLIOTHÈQUE ÉLECTRIQUE OWNTECH
@@ -205,79 +202,79 @@ jobs:
           touch diagrams/libraries/chimie/svg/.gitkeep
 
           cat > diagrams/libraries/chimie/README.md <<'EOF'
-# MermozLab Chemistry
+          # MermozLab Chemistry
 
-Bibliothèque destinée aux schémas de chimie du BAC Professionnel.
+          Bibliothèque destinée aux schémas de chimie du BAC Professionnel.
 
-## Verrerie
+          ## Verrerie
 
-- Bécher
-- Erlenmeyer
-- Fiole jaugée
-- Éprouvette graduée
-- Pipette jaugée
-- Pipette graduée
-- Burette
-- Tube à essais
-- Ballon
-- Ballon à fond rond
-- Entonnoir
-- Ampoule à décanter
-- Verre de montre
-- Coupelle
-- Pissette
-- Spatule
-- Agitateur en verre
+          - Bécher
+          - Erlenmeyer
+          - Fiole jaugée
+          - Éprouvette graduée
+          - Pipette jaugée
+          - Pipette graduée
+          - Burette
+          - Tube à essais
+          - Ballon
+          - Ballon à fond rond
+          - Entonnoir
+          - Ampoule à décanter
+          - Verre de montre
+          - Coupelle
+          - Pissette
+          - Spatule
+          - Agitateur en verre
 
-## Matériel de laboratoire
+          ## Matériel de laboratoire
 
-- Balance
-- Thermomètre
-- Chauffe-ballon
-- Plaque chauffante
-- Support universel
-- Pince
-- Trépied
+          - Balance
+          - Thermomètre
+          - Chauffe-ballon
+          - Plaque chauffante
+          - Support universel
+          - Pince
+          - Trépied
 
-## Instruments
+          ## Instruments
 
-- pH-mètre
-- Conductimètre
-- Multimètre
-- GBF
-- Oscilloscope
-- Sonomètre
-- Luxmètre
+          - pH-mètre
+          - Conductimètre
+          - Multimètre
+          - GBF
+          - Oscilloscope
+          - Sonomètre
+          - Luxmètre
 
-## Chimie
+          ## Chimie
 
-- Atome
-- Ion
-- Molécule
-- Solution
-- Soluté
-- Solvant
-- Acide
-- Base
-- Indicateur coloré
-- Réaction chimique
-- Oxydoréduction
-- Combustion
-- Corrosion
+          - Atome
+          - Ion
+          - Molécule
+          - Solution
+          - Soluté
+          - Solvant
+          - Acide
+          - Base
+          - Indicateur coloré
+          - Réaction chimique
+          - Oxydoréduction
+          - Combustion
+          - Corrosion
 
-## Sécurité
+          ## Sécurité
 
-- Lunettes
-- Gants
-- Blouse
-- Hotte
-- Pictogrammes CLP
-- Déchets chimiques
+          - Lunettes
+          - Gants
+          - Blouse
+          - Hotte
+          - Pictogrammes CLP
+          - Déchets chimiques
 
-Les ressources externes doivent posséder une licence
-compatible avec leur redistribution dans MermozLab.
+          Les ressources externes doivent posséder une licence
+          compatible avec leur redistribution dans MermozLab.
 
-EOF
+          EOF
 
 
       # ==========================================================
@@ -291,57 +288,57 @@ EOF
         run: |
 
           cat > diagrams/libraries/physique/README.md <<'EOF'
-# MermozLab Physique
+          # MermozLab Physique
 
-Bibliothèque destinée aux schémas de physique BAC Pro.
+          Bibliothèque destinée aux schémas de physique BAC Pro.
 
-## Mécanique
+          ## Mécanique
 
-- Objet
-- Point matériel
-- Force
-- Poids
-- Vecteur
-- Mouvement
-- Trajectoire
-- Ressort
-- Poulie
-- Roue
-- Engrenage
-- Plan incliné
+          - Objet
+          - Point matériel
+          - Force
+          - Poids
+          - Vecteur
+          - Mouvement
+          - Trajectoire
+          - Ressort
+          - Poulie
+          - Roue
+          - Engrenage
+          - Plan incliné
 
-## Acoustique
+          ## Acoustique
 
-- Source sonore
-- Haut-parleur
-- Microphone
-- Sonomètre
-- Signal périodique
-- Onde sonore
+          - Source sonore
+          - Haut-parleur
+          - Microphone
+          - Sonomètre
+          - Signal périodique
+          - Onde sonore
 
-## Optique
+          ## Optique
 
-- Source lumineuse
-- Rayon lumineux
-- Faisceau
-- Miroir
-- Lentille convergente
-- Lentille divergente
-- Écran
-- Objet
-- Image
-- Œil
-- Fibre optique
+          - Source lumineuse
+          - Rayon lumineux
+          - Faisceau
+          - Miroir
+          - Lentille convergente
+          - Lentille divergente
+          - Écran
+          - Objet
+          - Image
+          - Œil
+          - Fibre optique
 
-## Énergie
+          ## Énergie
 
-- Générateur
-- Moteur
-- Transformateur
-- Conversion d'énergie
-- Chaîne énergétique
+          - Générateur
+          - Moteur
+          - Transformateur
+          - Conversion d'énergie
+          - Chaîne énergétique
 
-EOF
+          EOF
 
 
       # ==========================================================
@@ -352,34 +349,34 @@ EOF
         run: |
 
           cat > diagrams/libraries/instruments/README.md <<'EOF'
-# Instruments MermozLab
+          # Instruments MermozLab
 
-## Électricité
+          ## Électricité
 
-- Multimètre
-- Voltmètre
-- Ampèremètre
-- Oscilloscope
-- GBF
+          - Multimètre
+          - Voltmètre
+          - Ampèremètre
+          - Oscilloscope
+          - GBF
 
-## Acoustique
+          ## Acoustique
 
-- Sonomètre
-- Microphone
-- Haut-parleur
+          - Sonomètre
+          - Microphone
+          - Haut-parleur
 
-## Optique
+          ## Optique
 
-- Luxmètre
+          - Luxmètre
 
-## Chimie
+          ## Chimie
 
-- Balance
-- Thermomètre
-- pH-mètre
-- Conductimètre
+          - Balance
+          - Thermomètre
+          - pH-mètre
+          - Conductimètre
 
-EOF
+          EOF
 
 
       # ==========================================================
@@ -390,23 +387,23 @@ EOF
         run: |
 
           cat > diagrams/libraries/securite/README.md <<'EOF'
-# Sécurité MermozLab
+          # Sécurité MermozLab
 
-Éléments prévus :
+          Éléments prévus :
 
-- Lunettes
-- Gants
-- Blouse
-- Hotte
-- Pictogrammes CLP
-- Risque corrosif
-- Risque inflammable
-- Risque toxique
-- Risque irritant
-- Risque environnement
-- Déchets chimiques
+          - Lunettes
+          - Gants
+          - Blouse
+          - Hotte
+          - Pictogrammes CLP
+          - Risque corrosif
+          - Risque inflammable
+          - Risque toxique
+          - Risque irritant
+          - Risque environnement
+          - Déchets chimiques
 
-EOF
+          EOF
 
 
       # ==========================================================
@@ -417,70 +414,69 @@ EOF
         run: |
 
           cat > diagrams/libraries/SOURCES.md <<'EOF'
-# Sources des bibliothèques MermozLab
+          # Sources des bibliothèques MermozLab
 
-## 1. diagrams.net
+          ## 1. diagrams.net
 
-Dépôt officiel :
+          Dépôt officiel :
 
-https://github.com/jgraph/drawio
+          https://github.com/jgraph/drawio
 
-Bibliothèques utilisées :
+          Bibliothèques utilisées :
 
-- logic_gates.xml
-- resistors.xml
-- capacitors.xml
-- inductors.xml
-- diodes.xml
-- signal_sources.xml
-- instruments.xml
-- waveforms.xml
-- transistors.xml
-- mosfets1.xml
-- mosfets2.xml
-- opto_electronics.xml
-- electro-mechanical.xml
-- switchesRelays.xml
+          - logic_gates.xml
+          - resistors.xml
+          - capacitors.xml
+          - inductors.xml
+          - diodes.xml
+          - signal_sources.xml
+          - instruments.xml
+          - waveforms.xml
+          - transistors.xml
+          - mosfets1.xml
+          - mosfets2.xml
+          - opto_electronics.xml
+          - electro-mechanical.xml
 
----
+          ---
 
-## 2. OwnTech
+          ## 2. OwnTech
 
-Dépôt :
+          Dépôt :
 
-https://github.com/owntech-foundation/LibraryDrawIO
+          https://github.com/owntech-foundation/LibraryDrawIO
 
-Fichier :
+          Fichier :
 
-circuit_library.xml
+          circuit_library.xml
 
-Licence :
+          Licence :
 
-CC-BY-SA-4.0
+          CC-BY-SA-4.0
 
----
+          ---
 
-## 3. bzarek
+          ## 3. bzarek
 
-Dépôt :
+          Dépôt :
 
-https://github.com/bzarek/draw.io-electrical
+          https://github.com/bzarek/draw.io-electrical
 
-Fichier :
+          Fichier :
 
-Custom_Electrical.xml
+          Custom_Electrical.xml
 
----
+          ---
 
-## 4. MermozLab Chemistry
+          ## 4. MermozLab Chemistry
 
-Bibliothèque spécifique MermozLab.
+          Bibliothèque spécifique MermozLab.
 
-Les éléments externes ajoutés dans cette bibliothèque
-doivent être accompagnés de leur licence et de leur
-attribution.
+          Les éléments externes ajoutés dans cette bibliothèque
+          doivent être accompagnés de leur licence et de leur
+          attribution.
 
-EOF
+          EOF
 
 
       # ==========================================================
@@ -491,92 +487,91 @@ EOF
         run: |
 
           cat > diagrams/libraries/manifest.json <<'EOF'
-{
-  "project": "MermozLab",
-  "module": "diagrams.net",
-  "version": "1.0.0",
+          {
+            "project": "MermozLab",
+            "module": "diagrams.net",
+            "version": "1.0.0",
 
-  "domains": {
+            "domains": {
 
-    "electricite": {
-      "name": "⚡ Électricité",
-      "libraries": [
-        "electricite/logic_gates.xml",
-        "electricite/resistors.xml",
-        "electricite/capacitors.xml",
-        "electricite/inductors.xml",
-        "electricite/diodes.xml",
-        "electricite/signal_sources.xml",
-        "electricite/instruments.xml",
-        "electricite/waveforms.xml",
-        "electricite/transistors.xml",
-        "electricite/mosfets1.xml",
-        "electricite/mosfets2.xml",
-        "electricite/opto_electronics.xml",
-        "electricite/electro-mechanical.xml",
-        "electricite/switchesRelays.xml",
-        "electricite/OwnTech-circuit.xml",
-        "electricite/Custom-Electrical.xml"
-      ]
-    },
+              "electricite": {
+                "name": "⚡ Électricité",
+                "libraries": [
+                  "electricite/logic_gates.xml",
+                  "electricite/resistors.xml",
+                  "electricite/capacitors.xml",
+                  "electricite/inductors.xml",
+                  "electricite/diodes.xml",
+                  "electricite/signal_sources.xml",
+                  "electricite/instruments.xml",
+                  "electricite/waveforms.xml",
+                  "electricite/transistors.xml",
+                  "electricite/mosfets1.xml",
+                  "electricite/mosfets2.xml",
+                  "electricite/opto_electronics.xml",
+                  "electricite/electro-mechanical.xml",
+                  "electricite/OwnTech-circuit.xml",
+                  "electricite/Custom-Electrical.xml"
+                ]
+              },
 
-    "energie": {
-      "name": "🔋 Énergie",
-      "libraries": [
-        "electricite/electro-mechanical.xml"
-      ]
-    },
+              "energie": {
+                "name": "🔋 Énergie",
+                "libraries": [
+                  "electricite/electro-mechanical.xml"
+                ]
+              },
 
-    "mecanique": {
-      "name": "🧲 Mécanique",
-      "libraries": []
-    },
+              "mecanique": {
+                "name": "🧲 Mécanique",
+                "libraries": []
+              },
 
-    "acoustique": {
-      "name": "🔊 Acoustique",
-      "libraries": [
-        "electricite/waveforms.xml",
-        "electricite/instruments.xml"
-      ]
-    },
+              "acoustique": {
+                "name": "🔊 Acoustique",
+                "libraries": [
+                  "electricite/waveforms.xml",
+                  "electricite/instruments.xml"
+                ]
+              },
 
-    "optique": {
-      "name": "💡 Optique",
-      "libraries": []
-    },
+              "optique": {
+                "name": "💡 Optique",
+                "libraries": []
+              },
 
-    "ondes": {
-      "name": "〰️ Ondes et signaux",
-      "libraries": [
-        "electricite/waveforms.xml"
-      ]
-    },
+              "ondes": {
+                "name": "〰️ Ondes et signaux",
+                "libraries": [
+                  "electricite/waveforms.xml"
+                ]
+              },
 
-    "chimie": {
-      "name": "🧪 Chimie",
-      "libraries": []
-    },
+              "chimie": {
+                "name": "🧪 Chimie",
+                "libraries": []
+              },
 
-    "verrerie": {
-      "name": "⚗️ Verrerie",
-      "libraries": []
-    },
+              "verrerie": {
+                "name": "⚗️ Verrerie",
+                "libraries": []
+              },
 
-    "mesures": {
-      "name": "📏 Mesures",
-      "libraries": [
-        "electricite/instruments.xml"
-      ]
-    },
+              "mesures": {
+                "name": "📏 Mesures",
+                "libraries": [
+                  "electricite/instruments.xml"
+                ]
+              },
 
-    "securite": {
-      "name": "🧯 Sécurité",
-      "libraries": []
-    }
+              "securite": {
+                "name": "🧯 Sécurité",
+                "libraries": []
+              }
 
-  }
-}
-EOF
+            }
+          }
+          EOF
 
 
       # ==========================================================
@@ -587,166 +582,166 @@ EOF
         run: |
 
           cat > diagrams/docs/couverture-bac-pro.md <<'EOF'
-# MermozLab — Couverture sciences BAC Pro
+          # MermozLab — Couverture sciences BAC Pro
 
-## PHYSIQUE
+          ## PHYSIQUE
 
-### Électricité
+          ### Électricité
 
-- Circuits électriques
-- Tension
-- Intensité
-- Résistance
-- Loi d'Ohm
-- Puissance électrique
-- Énergie électrique
-- Générateurs
-- Récepteurs
-- Moteurs
-- Transformateurs
-- Diodes
-- DEL
-- Condensateurs
-- Mesures électriques
+          - Circuits électriques
+          - Tension
+          - Intensité
+          - Résistance
+          - Loi d'Ohm
+          - Puissance électrique
+          - Énergie électrique
+          - Générateurs
+          - Récepteurs
+          - Moteurs
+          - Transformateurs
+          - Diodes
+          - DEL
+          - Condensateurs
+          - Mesures électriques
 
-### Énergie
+          ### Énergie
 
-- Production
-- Transport
-- Distribution
-- Conversion
-- Puissance
-- Énergie
-- Rendement
+          - Production
+          - Transport
+          - Distribution
+          - Conversion
+          - Puissance
+          - Énergie
+          - Rendement
 
-### Mécanique
+          ### Mécanique
 
-- Mouvement
-- Trajectoire
-- Vitesse
-- Forces
-- Poids
-- Équilibre
-- Travail
-- Énergie mécanique
+          - Mouvement
+          - Trajectoire
+          - Vitesse
+          - Forces
+          - Poids
+          - Équilibre
+          - Travail
+          - Énergie mécanique
 
-### Acoustique
+          ### Acoustique
 
-- Source sonore
-- Haut-parleur
-- Microphone
-- Propagation
-- Fréquence
-- Période
-- Amplitude
-- Niveau sonore
-- Spectre
-- GBF
-- Oscilloscope
-- Sonomètre
+          - Source sonore
+          - Haut-parleur
+          - Microphone
+          - Propagation
+          - Fréquence
+          - Période
+          - Amplitude
+          - Niveau sonore
+          - Spectre
+          - GBF
+          - Oscilloscope
+          - Sonomètre
 
-### Optique
+          ### Optique
 
-- Sources lumineuses
-- Rayons lumineux
-- Faisceaux
-- Réflexion
-- Réfraction
-- Miroirs
-- Lentilles
-- Images
-- Œil
-- Fibre optique
+          - Sources lumineuses
+          - Rayons lumineux
+          - Faisceaux
+          - Réflexion
+          - Réfraction
+          - Miroirs
+          - Lentilles
+          - Images
+          - Œil
+          - Fibre optique
 
-### Ondes et signaux
+          ### Ondes et signaux
 
-- Signal périodique
-- Fréquence
-- Période
-- Longueur d'onde
-- Propagation
+          - Signal périodique
+          - Fréquence
+          - Période
+          - Longueur d'onde
+          - Propagation
 
----
+          ---
 
-# CHIMIE
+          # CHIMIE
 
-### Matière
+          ### Matière
 
-- Atome
-- Noyau
-- Électron
-- Ion
-- Isotope
-- Molécule
-- Tableau périodique
+          - Atome
+          - Noyau
+          - Électron
+          - Ion
+          - Isotope
+          - Molécule
+          - Tableau périodique
 
-### Solutions
+          ### Solutions
 
-- Soluté
-- Solvant
-- Dissolution
-- Dilution
-- Concentration massique
-- Concentration molaire
+          - Soluté
+          - Solvant
+          - Dissolution
+          - Dilution
+          - Concentration massique
+          - Concentration molaire
 
-### Acides et bases
+          ### Acides et bases
 
-- pH
-- Acide
-- Base
-- Indicateurs colorés
-- pH-mètre
+          - pH
+          - Acide
+          - Base
+          - Indicateurs colorés
+          - pH-mètre
 
-### Transformations chimiques
+          ### Transformations chimiques
 
-- Réactifs
-- Produits
-- Équation chimique
-- Conservation
-- Oxydoréduction
-- Combustion
-- Corrosion
+          - Réactifs
+          - Produits
+          - Équation chimique
+          - Conservation
+          - Oxydoréduction
+          - Combustion
+          - Corrosion
 
-### Verrerie
+          ### Verrerie
 
-- Bécher
-- Erlenmeyer
-- Fiole jaugée
-- Éprouvette graduée
-- Pipette jaugée
-- Pipette graduée
-- Burette
-- Tube à essais
-- Ballon
-- Entonnoir
-- Ampoule à décanter
-- Verre de montre
-- Coupelle
-- Pissette
-- Spatule
-- Agitateur
+          - Bécher
+          - Erlenmeyer
+          - Fiole jaugée
+          - Éprouvette graduée
+          - Pipette jaugée
+          - Pipette graduée
+          - Burette
+          - Tube à essais
+          - Ballon
+          - Entonnoir
+          - Ampoule à décanter
+          - Verre de montre
+          - Coupelle
+          - Pissette
+          - Spatule
+          - Agitateur
 
-### Mesures
+          ### Mesures
 
-- Balance
-- Thermomètre
-- pH-mètre
-- Conductimètre
-- Multimètre
-- GBF
-- Oscilloscope
-- Sonomètre
-- Luxmètre
+          - Balance
+          - Thermomètre
+          - pH-mètre
+          - Conductimètre
+          - Multimètre
+          - GBF
+          - Oscilloscope
+          - Sonomètre
+          - Luxmètre
 
-### Sécurité
+          ### Sécurité
 
-- Pictogrammes CLP
-- EPI
-- Risques chimiques
-- Stockage
-- Déchets
+          - Pictogrammes CLP
+          - EPI
+          - Risques chimiques
+          - Stockage
+          - Déchets
 
-EOF
+          EOF
 
 
       # ==========================================================
@@ -810,7 +805,6 @@ EOF
             "diagrams/libraries/electricite/mosfets2.xml"
             "diagrams/libraries/electricite/opto_electronics.xml"
             "diagrams/libraries/electricite/electro-mechanical.xml"
-            "diagrams/libraries/electricite/switchesRelays.xml"
 
             "diagrams/libraries/electricite/OwnTech-circuit.xml"
             "diagrams/libraries/electricite/Custom-Electrical.xml"
