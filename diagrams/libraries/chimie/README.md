@@ -2,6 +2,8 @@
 
 Bibliothèque destinée aux schémas de chimie du BAC Professionnel.
 
+Pictogrammes SVG déjà intégrés : voir svg/README.md.
+
 ## Verrerie
 
 - Bécher

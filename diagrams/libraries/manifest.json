@@ -60,18 +60,36 @@
 
     "chimie": {
       "name": "🧪 Chimie",
-      "libraries": []
+      "libraries": [
+        "chimie/svg/molecule.svg",
+        "chimie/svg/atom.svg",
+        "chimie/svg/periodic-table.svg"
+      ]
     },
 
     "verrerie": {
       "name": "⚗️ Verrerie",
-      "libraries": []
+      "libraries": [
+        "chimie/svg/beaker.svg",
+        "chimie/svg/beaker-outline.svg",
+        "chimie/svg/flask.svg",
+        "chimie/svg/flask-outline.svg",
+        "chimie/svg/flask-round-bottom.svg",
+        "chimie/svg/flask-round-bottom-outline.svg",
+        "chimie/svg/test-tube.svg",
+        "chimie/svg/test-tube-empty.svg",
+        "chimie/svg/cylinder.svg",
+        "chimie/svg/eyedropper.svg"
+      ]
     },
 
     "mesures": {
       "name": "📏 Mesures",
       "libraries": [
-        "electricite/instruments.xml"
+        "electricite/instruments.xml",
+        "chimie/svg/thermometer.svg",
+        "chimie/svg/scale-balance.svg",
+        "chimie/svg/weight-gram.svg"
       ]
     },
 

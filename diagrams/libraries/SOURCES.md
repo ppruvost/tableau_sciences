@@ -52,7 +52,40 @@ Custom_Electrical.xml
 
 ---
 
-## 4. MermozLab Chemistry
+## 4. Material Design Icons (Pictogrammers)
+
+Dépôt :
+
+https://github.com/Templarian/MaterialDesign
+
+Fichiers (dans libraries/chimie/svg/) :
+
+- beaker.svg
+- beaker-outline.svg
+- flask.svg
+- flask-outline.svg
+- flask-round-bottom.svg
+- flask-round-bottom-outline.svg
+- test-tube.svg
+- test-tube-empty.svg
+- cylinder.svg
+- eyedropper.svg
+- thermometer.svg
+- scale-balance.svg
+- molecule.svg
+- atom.svg
+- periodic-table.svg
+- microscope.svg
+- weight-gram.svg
+
+Licence :
+
+Apache License 2.0 (voir LICENSE-material-design-icons.txt
+dans le même dossier)
+
+---
+
+## 5. MermozLab Chemistry
 
 Bibliothèque spécifique MermozLab.
 
