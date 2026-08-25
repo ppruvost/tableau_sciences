@@ -1,0 +1,84 @@
+{
+  "project": "MermozLab",
+  "module": "diagrams.net",
+  "version": "1.0.0",
+
+  "domains": {
+
+    "electricite": {
+      "name": "⚡ Électricité",
+      "libraries": [
+        "electricite/logic_gates.xml",
+        "electricite/resistors.xml",
+        "electricite/capacitors.xml",
+        "electricite/inductors.xml",
+        "electricite/diodes.xml",
+        "electricite/signal_sources.xml",
+        "electricite/instruments.xml",
+        "electricite/waveforms.xml",
+        "electricite/transistors.xml",
+        "electricite/mosfets1.xml",
+        "electricite/mosfets2.xml",
+        "electricite/opto_electronics.xml",
+        "electricite/electro-mechanical.xml",
+        "electricite/OwnTech-circuit.xml",
+        "electricite/Custom-Electrical.xml"
+      ]
+    },
+
+    "energie": {
+      "name": "🔋 Énergie",
+      "libraries": [
+        "electricite/electro-mechanical.xml"
+      ]
+    },
+
+    "mecanique": {
+      "name": "🧲 Mécanique",
+      "libraries": []
+    },
+
+    "acoustique": {
+      "name": "🔊 Acoustique",
+      "libraries": [
+        "electricite/waveforms.xml",
+        "electricite/instruments.xml"
+      ]
+    },
+
+    "optique": {
+      "name": "💡 Optique",
+      "libraries": []
+    },
+
+    "ondes": {
+      "name": "〰️ Ondes et signaux",
+      "libraries": [
+        "electricite/waveforms.xml"
+      ]
+    },
+
+    "chimie": {
+      "name": "🧪 Chimie",
+      "libraries": []
+    },
+
+    "verrerie": {
+      "name": "⚗️ Verrerie",
+      "libraries": []
+    },
+
+    "mesures": {
+      "name": "📏 Mesures",
+      "libraries": [
+        "electricite/instruments.xml"
+      ]
+    },
+
+    "securite": {
+      "name": "🧯 Sécurité",
+      "libraries": []
+    }
+
+  }
+}
