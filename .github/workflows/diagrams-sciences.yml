@@ -1055,39 +1055,42 @@ jobs:
       # ==========================================================
       # 17. GÉNÉRER LA PAGE ÉDITEUR (editor.html)
       #
-      # Page qui encapsule l'éditeur diagrams.net complet (via
-      # embed.diagrams.net, seul domaine de diagrams.net dont la
-      # politique CSP autorise l'intégration en <iframe>) avec :
-      #   - le panneau de formes latéral visible (identique à
-      #     app.diagrams.net) ;
-      #   - les catégories natives "general" et "electrical" déjà
-      #     ouvertes (mêmes stencils que ceux archivés localement
-      #     dans diagrams/libraries/electricite/, déjà intégrés
-      #     nativement à l'application, donc chargés directement
-      #     depuis l'application plutôt que réimportés) ;
-      #   - les bibliothèques personnalisées OwnTech, bzarek et
-      #     Material Design Icons (format mxlibrary officiel,
-      #     chargées via clibs).
+      # Page qui encapsule l'éditeur diagrams.net complet, via
+      # embed.diagrams.net (seul domaine de diagrams.net dont la
+      # politique CSP autorise l'intégration en <iframe> ; voir
+      # https://www.drawio.com/doc/faq/embed-mode).
       #
-      # NOTE IMPORTANTE :
-      # Les fichiers XML de diagrams/libraries/electricite/*.xml
-      # sont au format "stencil" interne de diagrams.net (utilisé
-      # pour compiler l'application), et non au format "bibliothèque
-      # personnalisée" (mxlibrary) attendu par File > Ouvrir une
-      # bibliothèque ou par le paramètre clibs. Ils ne peuvent donc
-      # pas être chargés tels quels dans une session d'édition ; ils
-      # restent une archive de référence (voir SOURCES.md). Les
-      # mêmes formes sont déjà disponibles nativement dans
+      # IMPORTANT : embed.diagrams.net exige le paramètre embed=1
+      # ET un échange postMessage (protocole JSON documenté par
+      # diagrams.net) pour initialiser réellement l'éditeur. Sans
+      # cela, la page reste bloquée dans un état à moitié chargé
+      # (barre de menu visible mais grisée, aucune page ni panneau
+      # de formes) — c'est le bug corrigé par cette étape : le
+      # script ci-dessous répond à l'événement "init" envoyé par
+      # l'iframe avec une action "load" contenant un diagramme
+      # vierge, ce qui débloque l'éditeur.
+      #
+      # Contenu chargé :
+      #   - catégories natives "general" et "electrical" (mêmes
+      #     stencils que ceux archivés localement dans
+      #     diagrams/libraries/electricite/, déjà intégrés
+      #     nativement à l'application) ;
+      #   - bibliothèques personnalisées OwnTech, bzarek et
+      #     Material Design Icons (format mxlibrary officiel,
+      #     chargées via clibs, glisser-déposer disponible).
+      #
+      # NOTE : les fichiers diagrams/libraries/electricite/*.xml
+      # sont au format "stencil" interne de diagrams.net, pas au
+      # format "bibliothèque personnalisée" (mxlibrary) attendu
+      # par clibs ; ils restent une archive de référence (voir
+      # SOURCES.md). Les mêmes formes sont déjà natives dans
       # l'éditeur via la catégorie "Electrical".
       # ==========================================================
 
       - name: Générer la page éditeur (editor.html)
         run: |
 
-          EMBED_SRC="https://embed.diagrams.net/?splash=0&libs=general;electrical&clibs=Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fowntech-foundation%2FLibraryDrawIO%2Fmain%2Fcircuit_library.xml;Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fbzarek%2Fdraw.io-electrical%2Fmain%2FCustom_Electrical.xml;Uhttps%3A%2F%2Fjgraph.github.io%2Fdrawio-libs%2Flibs%2Fmaterial-design-icons.xml"
-          FULLTAB_SRC="https://app.diagrams.net/?splash=0&libs=general;electrical&clibs=Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fowntech-foundation%2FLibraryDrawIO%2Fmain%2Fcircuit_library.xml;Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fbzarek%2Fdraw.io-electrical%2Fmain%2FCustom_Electrical.xml;Uhttps%3A%2F%2Fjgraph.github.io%2Fdrawio-libs%2Flibs%2Fmaterial-design-icons.xml"
-
-          cat > diagrams/editor.html <<EOF
+          cat > diagrams/editor.html <<'EOF'
           <!DOCTYPE html>
           <html lang="fr">
           <head>
@@ -1095,37 +1098,61 @@ jobs:
           <title>MermozLab -- Editeur diagrams.net</title>
           <meta name="viewport" content="width=device-width, initial-scale=1">
           <style>
-          * { box-sizing: border-box; }
-          html, body { margin: 0; height: 100%; font-family: system-ui, sans-serif; }
-          #topbar {
-          height: 42px; background: #14213d; color: #fff; display: flex;
-          align-items: center; gap: 1rem; padding: 0 1rem; font-size: .85rem;
-          }
-          #topbar a { color: #fff; text-decoration: none; opacity: .85; }
-          #topbar a:hover { opacity: 1; text-decoration: underline; }
-          #topbar .title { font-weight: 600; opacity: 1; margin-right: auto; }
-          #frame-wrap { position: absolute; top: 42px; left: 0; right: 0; bottom: 0; }
-          iframe { width: 100%; height: 100%; border: 0; display: block; }
+            * { box-sizing: border-box; }
+            html, body { margin: 0; height: 100%; font-family: system-ui, sans-serif; }
+            #topbar {
+              height: 42px; background: #14213d; color: #fff; display: flex;
+              align-items: center; gap: 1rem; padding: 0 1rem; font-size: .85rem;
+            }
+            #topbar a { color: #fff; text-decoration: none; opacity: .85; }
+            #topbar a:hover { opacity: 1; text-decoration: underline; }
+            #topbar .title { font-weight: 600; opacity: 1; margin-right: auto; }
+            #status { opacity: .65; font-style: italic; }
+            #frame-wrap { position: absolute; top: 42px; left: 0; right: 0; bottom: 0; }
+            iframe { width: 100%; height: 100%; border: 0; display: block; }
           </style>
           </head>
           <body>
           <div id="topbar">
-          <span class="title">MermozLab -- Editeur diagrams.net</span>
-          <a href="index.html">&larr; Retour au catalogue</a>
-          <a href="$FULLTAB_SRC" target="_blank" rel="noopener">Ouvrir en plein ecran (nouvel onglet)</a>
+            <span class="title">MermozLab -- Editeur diagrams.net</span>
+            <span id="status">Chargement de l'editeur...</span>
+            <a href="index.html">&larr; Retour au catalogue</a>
+            <a href="https://app.diagrams.net/?splash=0&libs=general;electrical&clibs=Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fowntech-foundation%2FLibraryDrawIO%2Fmain%2Fcircuit_library.xml;Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fbzarek%2Fdraw.io-electrical%2Fmain%2FCustom_Electrical.xml;Uhttps%3A%2F%2Fjgraph.github.io%2Fdrawio-libs%2Flibs%2Fmaterial-design-icons.xml" target="_blank" rel="noopener">Ouvrir en plein ecran (nouvel onglet)</a>
           </div>
           <div id="frame-wrap">
-          <iframe
-          src="$EMBED_SRC"
-          title="Editeur diagrams.net -- MermozLab"
-          allow="clipboard-read; clipboard-write"
-          referrerpolicy="strict-origin-when-cross-origin">
-          </iframe>
+            <iframe id="drawio-frame"
+              src="https://embed.diagrams.net/?embed=1&ui=kennedy&spin=1&proto=json&libraries=1&splash=0&libs=general;electrical&clibs=Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fowntech-foundation%2FLibraryDrawIO%2Fmain%2Fcircuit_library.xml;Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fbzarek%2Fdraw.io-electrical%2Fmain%2FCustom_Electrical.xml;Uhttps%3A%2F%2Fjgraph.github.io%2Fdrawio-libs%2Flibs%2Fmaterial-design-icons.xml"
+              title="Editeur diagrams.net -- MermozLab"
+              allow="clipboard-read; clipboard-write"
+              referrerpolicy="strict-origin-when-cross-origin">
+            </iframe>
           </div>
+          <script>
+            var EMPTY_XML = '<mxGraphModel dx="800" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0"><root><mxCell id="0" /><mxCell id="1" parent="0" /></root></mxGraphModel>';
+            var ORIGIN = 'https://embed.diagrams.net';
+            var frame = document.getElementById('drawio-frame');
+            var status = document.getElementById('status');
+
+            window.addEventListener('message', function (evt) {
+              if (evt.origin !== ORIGIN) { return; }
+              var msg;
+              try { msg = JSON.parse(evt.data); } catch (e) { return; }
+
+              if (msg.event === 'init') {
+                status.textContent = '';
+                frame.contentWindow.postMessage(JSON.stringify({
+                  action: 'load',
+                  xml: EMPTY_XML,
+                  autosave: 1
+                }), ORIGIN);
+              } else if (msg.event === 'exit') {
+                window.location.href = 'index.html';
+              }
+            });
+          </script>
           </body>
           </html>
           EOF
-
 
       # ==========================================================
       # 18. VÉRIFICATION DES FICHIERS
