@@ -59,51 +59,7 @@ function remainingCooldown(prenom, automatisme){
 
 
 // =============================
-// Initialisation EmailJS
-// =============================
-(function () {
-
-  if (!window.emailjs) return;
-
-  try {
-
-    const path =
-      window.location.pathname
-      .toLowerCase();
-
-    const isAutomatisme =
-      path.includes("/automatisme/");
-
-    const PUBLIC_KEY =
-      isAutomatisme
-        ? "Jo1z5RV5-0IDQO8T7"
-        : "TJHX0tkW1CCz7lv7a";
-
-    emailjs.init(PUBLIC_KEY);
-
-    console.log(
-      "EmailJS initialisé :",
-      isAutomatisme
-        ? "clé Automatisme"
-        : "clé Standard"
-    );
-
-  }
-
-  catch (e) {
-
-    console.warn(
-      "EmailJS init failed :",
-      e
-    );
-
-  }
-
-})();
-
-
-// =============================
-// ENVOI SCORE SUPABASE
+// ENVOI SCORE SUPABASE (leaderboard)
 // =============================
 async function envoyerScore(prenom, score){
 
@@ -172,6 +128,81 @@ async function envoyerScore(prenom, score){
 
 
 // =============================
+// ENVOI EMAIL RESULTAT (Edge Function Supabase + Resend)
+// Remplace l'ancien envoi via EmailJS.
+// =============================
+async function envoyerEmailResultat({
+  nom,
+  prenom,
+  quiz,
+  score,
+  total,
+  detailsRecap
+}) {
+
+  if (!SUPABASE_URL || !SUPABASE_KEY) {
+
+    throw new Error(
+      "Variables Supabase absentes"
+    );
+
+  }
+
+  const body = {
+
+    nom: nom || "",
+
+    prenom: prenom || "",
+
+    quiz: quiz || "",
+
+    score,
+
+    total,
+
+    // L'Edge Function attend un tableau d'objets {question, reponse, correct}.
+    // On y glisse le récapitulatif texte déjà construit par sendResults().
+    details: detailsRecap
+      ? [{
+          question: "Détail des réponses",
+          reponse: detailsRecap,
+          correct: true
+        }]
+      : []
+
+  };
+
+  const res = await fetch(
+    `${SUPABASE_URL}/functions/v1/send-quiz-results`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`
+      },
+      body: JSON.stringify(body)
+    }
+  );
+
+  if (!res.ok) {
+
+    throw new Error(
+      await res.text()
+    );
+
+  }
+
+  console.log(
+    "Email de résultat envoyé avec succès"
+  );
+
+  return true;
+
+}
+
+
+// =============================
 // ENVOI RESULTATS
 // =============================
 async function sendResults(
@@ -182,16 +213,6 @@ async function sendResults(
   playMathsPoints = 0,
   questions = []
 ) {
-
-  if (!window.emailjs) {
-
-    console.warn(
-      "EmailJS non chargé !"
-    );
-
-    return;
-
-  }
 
   const prenom =
     user?.prenom || "";
@@ -240,61 +261,15 @@ async function sendResults(
   });
 
 
-  // =============================
-  // PARAMS EMAILJS
-  // =============================
-  const emailParams = {
-
-    nom:
-      user?.nom || "",
-
-    prenom,
-
-    activite:
-      titreQuiz,
-
-    score,
-
-    total,
-
-    note20,
-
-    points_play_maths:
-      playMathsPoints,
-
-    details:
-      recap,
-
-    email:
-      "lyceepro.mermoz@gmail.com"
-
-  };
-
-
-  const path =
-    window.location.pathname
-    .toLowerCase();
-
-  const isAutomatisme =
-    path.includes("/automatisme/");
-
-  const SERVICE_ID =
-    isAutomatisme
-      ? "service_he9gy99"
-      : "service_cgh817y";
-
-  const TEMPLATE_ID =
-    isAutomatisme
-      ? "template_5vfgpmf"
-      : "template_ly7s41e";
-
-
   const emailPromise =
-    emailjs.send(
-      SERVICE_ID,
-      TEMPLATE_ID,
-      emailParams
-    );
+    envoyerEmailResultat({
+      nom: user?.nom || "",
+      prenom,
+      quiz: titreQuiz,
+      score,
+      total,
+      detailsRecap: recap
+    });
 
 
   const savePromise =
@@ -346,7 +321,7 @@ async function sendResults(
     else {
 
       console.error(
-        "Erreur EmailJS :",
+        "Erreur envoi email :",
         emailRes.reason
       );
 
