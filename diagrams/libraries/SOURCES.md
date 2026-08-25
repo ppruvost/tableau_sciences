@@ -52,11 +52,14 @@ Custom_Electrical.xml
 
 ---
 
-## 4. Material Design Icons (Pictogrammers)
+## 4. Material Design Icons — pictogrammes locaux (Pictogrammers)
 
 Dépôt :
 
 https://github.com/Templarian/MaterialDesign
+
+Usage : aperçus statiques dans libraries/chimie/svg/ et
+dans la page index.html (galerie du projet).
 
 Fichiers (dans libraries/chimie/svg/) :
 
@@ -85,7 +88,38 @@ dans le même dossier)
 
 ---
 
-## 5. MermozLab Chemistry
+## 5. Bibliothèques chargées en direct dans editor.html
+
+La page diagrams/editor.html charge, via le paramètre
+clibs de diagrams.net, trois bibliothèques au format
+"custom library" (mxlibrary) officiel, utilisables
+directement par glisser-déposer dans l'éditeur :
+
+- OwnTech (circuit_library.xml) :
+  https://github.com/owntech-foundation/LibraryDrawIO
+  Licence CC-BY-SA-4.0
+
+- bzarek/draw.io-electrical (Custom_Electrical.xml) :
+  https://github.com/bzarek/draw.io-electrical
+
+- Material Design Icons, reconditionnée au format
+  diagrams.net par le dépôt officiel jgraph/drawio-libs
+  (material-design-icons.xml) :
+  https://github.com/jgraph/drawio-libs
+  Icônes originales : Google, Apache License 2.0.
+
+Ces trois fichiers ne sont pas copiés dans ce dépôt : ils
+sont chargés à la demande depuis leurs URL d'origine à
+chaque ouverture de editor.html.
+
+Les catégories natives "General" et "Electrical" de
+l'éditeur (déjà intégrées à diagrams.net) couvrent les
+mêmes formes que diagrams/libraries/electricite/*.xml —
+voir la note dans le workflow, section 17.
+
+---
+
+## 6. MermozLab Chemistry
 
 Bibliothèque spécifique MermozLab.
 

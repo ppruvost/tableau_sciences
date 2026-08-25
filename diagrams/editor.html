@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>MermozLab -- Editeur diagrams.net</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; font-family: system-ui, sans-serif; }
+#topbar {
+height: 42px; background: #14213d; color: #fff; display: flex;
+align-items: center; gap: 1rem; padding: 0 1rem; font-size: .85rem;
+}
+#topbar a { color: #fff; text-decoration: none; opacity: .85; }
+#topbar a:hover { opacity: 1; text-decoration: underline; }
+#topbar .title { font-weight: 600; opacity: 1; margin-right: auto; }
+#frame-wrap { position: absolute; top: 42px; left: 0; right: 0; bottom: 0; }
+iframe { width: 100%; height: 100%; border: 0; display: block; }
+</style>
+</head>
+<body>
+<div id="topbar">
+<span class="title">MermozLab -- Editeur diagrams.net</span>
+<a href="index.html">&larr; Retour au catalogue</a>
+<a href="https://app.diagrams.net/?splash=0&libs=general;electrical&clibs=Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fowntech-foundation%2FLibraryDrawIO%2Fmain%2Fcircuit_library.xml;Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fbzarek%2Fdraw.io-electrical%2Fmain%2FCustom_Electrical.xml;Uhttps%3A%2F%2Fjgraph.github.io%2Fdrawio-libs%2Flibs%2Fmaterial-design-icons.xml" target="_blank" rel="noopener">Ouvrir en plein ecran (nouvel onglet)</a>
+</div>
+<div id="frame-wrap">
+<iframe
+src="https://embed.diagrams.net/?splash=0&libs=general;electrical&clibs=Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fowntech-foundation%2FLibraryDrawIO%2Fmain%2Fcircuit_library.xml;Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fbzarek%2Fdraw.io-electrical%2Fmain%2FCustom_Electrical.xml;Uhttps%3A%2F%2Fjgraph.github.io%2Fdrawio-libs%2Flibs%2Fmaterial-design-icons.xml"
+title="Editeur diagrams.net -- MermozLab"
+allow="clipboard-read; clipboard-write"
+referrerpolicy="strict-origin-when-cross-origin">
+</iframe>
+</div>
+</body>
+</html>
