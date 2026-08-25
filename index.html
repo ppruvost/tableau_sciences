@@ -160,10 +160,8 @@
         class="menu-item"
         data-tooltip="Créer un schéma"
         onclick="
-            window.open(
-                'https://app.diagrams.net/',
-                '_blank'
-            )
+            setActiveButton(this);
+            loadInFrame('./diagrams/index.html')
         "
     >
         <i class="fas fa-project-diagram"></i>
