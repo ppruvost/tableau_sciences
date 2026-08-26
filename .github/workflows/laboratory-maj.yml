@@ -1,0 +1,82 @@
+name: Intégrer un zip de corrections dans /laboratory
+
+# Déclenchement manuel depuis l'onglet "Actions" du dépôt GitHub.
+# Usage :
+#   1. Déposer le zip à la racine du dépôt via l'interface web GitHub
+#      ("Add file" → "Upload files"), par ex. laboratory-corrections.zip
+#      (commit direct sur main, ou sur une branche de ton choix).
+#   2. Aller dans l'onglet "Actions" → ce workflow → "Run workflow",
+#      renseigner le chemin du zip si différent de la valeur par défaut.
+#   3. Le workflow extrait le zip, copie son contenu dans laboratory/
+#      (en écrasant les fichiers existants aux mêmes chemins), supprime
+#      le zip, puis ouvre une Pull Request avec le résultat — rien n'est
+#      poussé directement sur main.
+#   4. Relire le diff de la PR avant de merger.
+
+on:
+  workflow_dispatch:
+    inputs:
+      zip_path:
+        description: "Chemin du zip à intégrer, relatif à la racine du dépôt"
+        required: true
+        default: "laboratory-corrections.zip"
+      target_dir:
+        description: "Dossier de destination dans le dépôt"
+        required: true
+        default: "laboratory"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  integrate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+
+      - name: Vérifier que le zip existe
+        run: |
+          if [ ! -f "${{ github.event.inputs.zip_path }}" ]; then
+            echo "::error::Zip introuvable à '${{ github.event.inputs.zip_path }}'. Dépose-le d'abord à la racine du dépôt (ou ajuste le chemin dans les paramètres du workflow)."
+            exit 1
+          fi
+
+      - name: Extraire le zip dans un dossier temporaire
+        run: |
+          rm -rf /tmp/zip-extract
+          mkdir -p /tmp/zip-extract
+          unzip -o "${{ github.event.inputs.zip_path }}" -d /tmp/zip-extract
+
+      - name: Copier le contenu extrait vers le dossier cible
+        run: |
+          set -e
+          # Si le zip contient un unique dossier racine (ex. laboratory-corrections/),
+          # on copie son CONTENU plutôt que le dossier lui-même.
+          ENTRIES=(/tmp/zip-extract/*/)
+          if [ "${#ENTRIES[@]}" -eq 1 ] && [ -d "${ENTRIES[0]}" ]; then
+            SRC="${ENTRIES[0]}"
+          else
+            SRC="/tmp/zip-extract/"
+          fi
+          mkdir -p "${{ github.event.inputs.target_dir }}"
+          cp -rv "$SRC"/* "${{ github.event.inputs.target_dir }}/"
+
+      - name: Supprimer le zip intégré
+        run: rm -f "${{ github.event.inputs.zip_path }}"
+
+      - name: Créer la Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "Intègre les corrections de ${{ github.event.inputs.zip_path }} dans ${{ github.event.inputs.target_dir }}/"
+          branch: corrections/integration-zip
+          delete-branch: true
+          title: "Intégration des corrections — ${{ github.event.inputs.target_dir }}"
+          body: |
+            Intégration automatique du contenu de `${{ github.event.inputs.zip_path }}`
+            dans `${{ github.event.inputs.target_dir }}/`, généré par ce workflow.
+
+            À vérifier avant merge :
+            - le diff correspond bien aux fichiers attendus
+            - aucun fichier non concerné n'a été écrasé par erreur
