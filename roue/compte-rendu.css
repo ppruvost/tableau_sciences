@@ -1,0 +1,199 @@
+/**
+ * compte-rendu.css — Trame d'impression du tirage (Roue Classe Puzzle)
+ * Calquée sur laboratory/css/compte-rendu.css (SciLab) pour garder
+ * le même style visuel que les comptes rendus de TP.
+ * Contrairement à la version SciLab, ce fichier est autonome
+ * (valeurs de couleur en dur, pas de dépendance à global.css)
+ * car /roue est un projet indépendant de /laboratory.
+ */
+
+/* ══════════════════════════════════════════════════════════════
+   Bouton d'export (écran)
+   ══════════════════════════════════════════════════════════════ */
+#cr-print-container { display: none; }
+
+/* ══════════════════════════════════════════════════════════════
+   IMPRESSION
+   ══════════════════════════════════════════════════════════════ */
+@media print {
+
+  @page {
+    size: A4 portrait;
+    margin: 12mm;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #fff !important;
+  }
+
+  body.cr-printing {
+    background: #fff !important;
+    overflow: visible !important;
+  }
+
+  body.cr-printing > *:not(#cr-print-container) {
+    display: none !important;
+  }
+
+  body.cr-printing #cr-print-container {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    width: 100% !important;
+    min-height: 100vh;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    background: #fff !important;
+    color: #000 !important;
+    overflow: visible !important;
+    z-index: 99999;
+  }
+
+  body.cr-printing #cr-print-container * {
+    visibility: visible !important;
+  }
+
+  /* -------------------------------------------------------
+     Éviter les coupures
+     ------------------------------------------------------- */
+  .cr-section,
+  .cr-identification,
+  .cr-groupe-bloc {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  table { page-break-inside: auto; }
+  tr    { page-break-inside: avoid; }
+
+  /* ── En-tête ── */
+  .cr-entete {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid #1B6CA8;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    font-family: Arial, sans-serif;
+  }
+
+  .cr-logo { display: flex; align-items: center; gap: 9px; }
+  .cr-logo svg { width: 34px; height: 34px; }
+  .cr-logo-texte { font-weight: 800; font-size: 14pt; color: #0D4F8A; letter-spacing: .02em; }
+  .cr-logo-texte span { color: #1B6CA8; font-weight: 400; }
+
+  .cr-entete-droite { text-align: right; font-size: 7.5pt; color: #6B7280; line-height: 1.5; }
+
+  /* ── Badge domaine + titre ── */
+  .cr-domaine-badge {
+    display: inline-block;
+    background: #1B6CA8;
+    color: #fff;
+    font-size: 6.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    padding: 2px 9px;
+    border-radius: 999px;
+    margin-bottom: 4px;
+  }
+
+  .cr-titre-tp { font-size: 13pt; font-weight: 700; color: #111827; margin: 3px 0 12px; }
+
+  /* ── Bandeau infos du tirage ── */
+  .cr-identification {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: 1.5px solid #1B6CA8;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+  .cr-identification > div { padding: 6px 10px; border-right: 1px solid #CBD5E1; }
+  .cr-identification > div:last-child { border-right: none; }
+  .cr-identification .cr-label {
+    font-size: 6pt;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    color: #1B6CA8;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .cr-identification .cr-valeur { font-size: 9pt; font-weight: 600; }
+
+  /* ── Sections génériques ── */
+  .cr-section { margin-bottom: 10px; break-inside: avoid; }
+
+  .cr-section:not(.cr-section-question) h3 {
+    font-size: 9pt;
+    font-weight: 700;
+    color: #0D4F8A;
+    border-left: 3px solid #1B6CA8;
+    padding-left: 7px;
+    margin: 0 0 8px;
+  }
+
+  .cr-vide { color: #9CA3AF; font-style: italic; }
+
+  /* ── Grille des groupes tirés (séance 1 / séance 2) ── */
+  .cr-groupes-grille {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .cr-groupe-bloc {
+    border: 1px solid #CBD5E1;
+    border-radius: 6px;
+    padding: 6px 8px;
+  }
+
+  .cr-groupe-bloc h4 {
+    font-size: 8.5pt;
+    font-weight: 700;
+    color: #0D4F8A;
+    margin: 0 0 4px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid #EAF2F8;
+  }
+
+  /* ── Tableau élève / rôle (même esprit que .cr-items de SciLab) ── */
+  .cr-items { width: 100%; border-collapse: collapse; font-size: 8.5pt; }
+  .cr-items td { padding: 3px 5px; border-bottom: 1px solid #E5E7EB; }
+  .cr-items td:first-child { color: #4B5563; width: 60%; }
+  .cr-items td:last-child  { font-weight: 700; text-align: right; }
+
+  .cr-role-badge {
+    display: inline-block;
+    font-size: 6.5pt;
+    font-weight: 800;
+    letter-spacing: .03em;
+    padding: 1px 6px;
+    border-radius: 10px;
+    border: 1px solid #1B6CA8;
+    background: #EAF2F8;
+    color: #0D4F8A;
+    margin-left: 5px;
+  }
+
+  /* ── Pied de page ── */
+  .cr-pied {
+    margin-top: 12px;
+    padding-top: 6px;
+    border-top: 1px solid #E5E7EB;
+    font-size: 6.5pt;
+    color: #9CA3AF;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* Sur pages étroites : bandeau infos sur 2 colonnes */
+  @media (max-width: 480px) {
+    .cr-identification { grid-template-columns: repeat(2, 1fr); }
+    .cr-groupes-grille { grid-template-columns: 1fr; }
+  }
+}
