@@ -9,6 +9,7 @@
  * compte-rendu.js via #materiel-verrerie / #materiel-equipements.
  */
 import { genererCompteRendu } from '../../js/compte-rendu.js';
+import { getFiliereSelectionnee } from '../../js/contexte-pro.js';
 
 function texte(el) {
   return (el?.textContent || '').trim();
@@ -34,6 +35,20 @@ function construireSectionResume() {
   const zone = document.getElementById('resume-tp');
   if (!zone) return null;
   return { titre: 'Résumé du TP', texte: valeur(zone) };
+}
+
+// Contexte professionnel (filière/niveau choisis par l'élève), pour que le
+// compte-rendu imprimé indique la même chose que ce qui est affiché à l'écran
+// via contexte-pro.js.
+function construireSectionContextePro() {
+  const filiere = getFiliereSelectionnee();
+  if (!filiere) return null;
+  return {
+    titre: 'Contexte professionnel',
+    items: [
+      { label: 'Filière', valeur: `${filiere.niveau} — ${filiere.filiere}` },
+    ],
+  };
 }
 
 // Tableau de résultats de la section [data-type="resultats"], lu
@@ -65,6 +80,7 @@ export function initImpressionCompteRendu({ titre, tp }) {
 
   bouton.addEventListener('click', () => {
     const sections = [
+      construireSectionContextePro(),
       construireSectionResultats(),
       ...construireSectionsQuestions(),
       construireSectionResume(),
