@@ -284,18 +284,23 @@ jobs:
           | microscope.svg | Microscope |
           | weight-gram.svg | Masse / pesée |
 
+          ## Verrerie photo-réaliste MermozLab
+
+          Pour la verrerie proprement dite, préférer la bibliothèque
+          diagrams/libraries/chimie/verrerie-mermozlab.xml (photos
+          du labo, 27 pièces, glisser-déposer direct dans l'éditeur)
+          : bécher, erlenmeyer, fiole jaugée, éprouvette graduée,
+          tube à essai, verre à pied, ballons, burette, pipettes,
+          ampoule à décanter, entonnoir, fiole à vide, tube gradué,
+          tube de culture, réfrigérants, cristallisoir, verre de
+          montre, flacon réactif, flacon compte-gouttes, pissette,
+          dessiccateur, ampoule de coulée, tube de Thiele.
+
           ## Encore à ajouter manuellement
 
           Aucune source librement redistribuable n'a été trouvée
-          pour ces éléments ; à ajouter à la main (dessin ou SVG
-          sous licence compatible) :
+          pour ces éléments ; à ajouter à la main (dessin ou photo) :
 
-          - Burette
-          - Entonnoir
-          - Ampoule à décanter
-          - Fiole jaugée
-          - Verre de montre
-          - Pissette
           - Spatule
           - Agitateur en verre
 
@@ -398,7 +403,94 @@ jobs:
 
 
       # ==========================================================
-      # 10. BIBLIOTHÈQUE OPTIQUE / PHYSIQUE
+      # 10. BIBLIOTHÈQUE DE VERRERIE MERMOZLAB (photos du labo)
+      #
+      # Génère une bibliothèque personnalisée diagrams.net (format
+      # mxlibrary, utilisable par glisser-déposer dans l'éditeur)
+      # à partir des photos de verrerie déjà présentes dans ce
+      # dépôt (laboratory/assets/img/glassware/), prises pour le
+      # laboratoire MermozLab lui-même : aucune question de licence
+      # tierce, contrairement aux pictogrammes génériques de
+      # l'étape 7. Cette bibliothèque couvre notamment la burette,
+      # l'entonnoir, l'ampoule à décanter, la fiole jaugée, le
+      # verre de montre et la pissette — absents des pictogrammes
+      # Material Design Icons (voir libraries/chimie/svg/README.md).
+      #
+      # Les dimensions de chaque image sont lues directement dans
+      # l'en-tête PNG (aucune dépendance externe type Pillow) puis
+      # mises à l'échelle (plus grande dimension = 60 px) pour un
+      # glisser-déposer à taille raisonnable sur le canevas.
+      # ==========================================================
+
+      - name: Générer la bibliothèque de verrerie MermozLab
+        run: |
+
+          python3 - <<'PYEOF'
+          import struct, os, base64, json, pathlib
+
+          LABELS = {
+              "becher.png": "Bécher",
+              "erlenmeyer.png": "Erlenmeyer",
+              "fiole_jaugee.png": "Fiole jaugée",
+              "eprouvette_graduee.png": "Éprouvette graduée",
+              "tube_essai.png": "Tube à essai",
+              "verre_pied.png": "Verre à pied",
+              "ballon_fond_rond.png": "Ballon fond rond",
+              "ballon_fond_plat.png": "Ballon fond plat",
+              "ballon_col_long.png": "Ballon à col long",
+              "burette.png": "Burette",
+              "pipette_graduee.png": "Pipette graduée",
+              "pipette_jaugee.png": "Pipette jaugée",
+              "ampoule_decanter.png": "Ampoule à décanter",
+              "entonnoir.png": "Entonnoir",
+              "fiole_vide.png": "Fiole à vide",
+              "tube_gradue.png": "Tube à essai gradué",
+              "tube_culture.png": "Tube de culture",
+              "refrigerant_droit.png": "Réfrigérant droit (Liebig)",
+              "refrigerant_a_boule.png": "Réfrigérant à boules (Allihn)",
+              "cristallisoir.png": "Cristallisoir",
+              "verre_montre.png": "Verre de montre",
+              "flacon_reactif.png": "Flacon réactif",
+              "flacon_compte_goutte.png": "Flacon compte-gouttes",
+              "pissette.png": "Pissette",
+              "dessicateur.png": "Dessiccateur",
+              "ampoule_coulee.png": "Ampoule de coulée",
+              "thiele.png": "Tube de Thiele",
+          }
+
+          MAX_DIM = 60
+          src_dir = pathlib.Path("laboratory/assets/img/glassware")
+
+          entries = []
+          missing = []
+          for fname, title in LABELS.items():
+              path = src_dir / fname
+              if not path.is_file():
+                  missing.append(fname)
+                  continue
+              raw = path.read_bytes()
+              w, h = struct.unpack(">II", raw[16:24])
+              scale = MAX_DIM / max(w, h)
+              sw, sh = round(w * scale), round(h * scale)
+              b64 = base64.b64encode(raw).decode("ascii")
+              entries.append({
+                  "data": f"data:image/png;base64,{b64}",
+                  "w": sw,
+                  "h": sh,
+                  "title": title,
+              })
+
+          if missing:
+              raise SystemExit(f"Images de verrerie manquantes : {missing}")
+
+          out = pathlib.Path("diagrams/libraries/chimie/verrerie-mermozlab.xml")
+          out.write_text("<mxlibrary>" + json.dumps(entries, ensure_ascii=False) + "</mxlibrary>", encoding="utf-8")
+          print(f"{len(entries)} pictogrammes de verrerie MermozLab intégrés dans {out}")
+          PYEOF
+
+
+      # ==========================================================
+      # 11. BIBLIOTHÈQUE OPTIQUE / PHYSIQUE
       #
       # On réserve cette catégorie pour les éléments qui seront
       # intégrés dans la bibliothèque scientifique MermozLab.
@@ -462,7 +554,7 @@ jobs:
 
 
       # ==========================================================
-      # 11. INSTRUMENTATION
+      # 12. INSTRUMENTATION
       # ==============================================================
 
       - name: Préparer les instruments
@@ -500,7 +592,7 @@ jobs:
 
 
       # ==========================================================
-      # 12. SÉCURITÉ
+      # 13. SÉCURITÉ
       # ==============================================================
 
       - name: Préparer la sécurité
@@ -527,7 +619,7 @@ jobs:
 
 
       # ==========================================================
-      # 13. SOURCES ET LICENCES
+      # 14. SOURCES ET LICENCES
       # ==============================================================
 
       - name: Documenter les sources
@@ -651,11 +743,33 @@ jobs:
           Les catégories natives "General" et "Electrical" de
           l'éditeur (déjà intégrées à diagrams.net) couvrent les
           mêmes formes que diagrams/libraries/electricite/*.xml —
-          voir la note dans le workflow, section 17.
+          voir la note dans le workflow, section 20.
 
           ---
 
-          ## 6. MermozLab Chemistry
+          ## 6. Verrerie MermozLab (photos originales du labo)
+
+          Fichier :
+
+          diagrams/libraries/chimie/verrerie-mermozlab.xml
+
+          Bibliothèque personnalisée (format mxlibrary, utilisable
+          par glisser-déposer) générée à partir des photos de
+          verrerie du laboratoire, déjà présentes dans ce dépôt à
+          laboratory/assets/img/glassware/. Contenu et droits
+          propres à MermozLab — aucune licence tierce à respecter.
+          27 pièces : bécher, erlenmeyer, fiole jaugée, éprouvette
+          graduée, tube à essai, verre à pied, ballons (fond rond /
+          plat / col long), burette, pipettes (graduée / jaugée),
+          ampoule à décanter, entonnoir, fiole à vide, tube à essai
+          gradué, tube de culture, réfrigérants (droit / à boules),
+          cristallisoir, verre de montre, flacon réactif, flacon
+          compte-gouttes, pissette, dessiccateur, ampoule de coulée,
+          tube de Thiele.
+
+          ---
+
+          ## 7. MermozLab Chemistry
 
           Bibliothèque spécifique MermozLab.
 
@@ -667,7 +781,7 @@ jobs:
 
 
       # ==========================================================
-      # 14. MANIFESTE
+      # 15. MANIFESTE
       # ==============================================================
 
       - name: Créer le manifeste
@@ -746,6 +860,7 @@ jobs:
               "verrerie": {
                 "name": "⚗️ Verrerie",
                 "libraries": [
+                  "chimie/verrerie-mermozlab.xml",
                   "chimie/svg/beaker.svg",
                   "chimie/svg/beaker-outline.svg",
                   "chimie/svg/flask.svg",
@@ -780,7 +895,7 @@ jobs:
 
 
       # ==========================================================
-      # 15. MATRICE DE COUVERTURE
+      # 16. MATRICE DE COUVERTURE
       # ==============================================================
 
       - name: Créer la matrice de couverture
@@ -950,7 +1065,7 @@ jobs:
 
 
       # ==========================================================
-      # 16. GÉNÉRER LES STYLES COMMUNS (assets/style.css)
+      # 17. GÉNÉRER LES STYLES COMMUNS (assets/style.css)
       #
       # Feuille de style partagée par index.html et editor.html,
       # reprenant la charte graphique commune SciLab / MathiLab
@@ -1075,7 +1190,7 @@ jobs:
 
 
       # ==========================================================
-      # 17. GÉNÉRER LA PAGE D'ACCÈS (index.html)
+      # 18. GÉNÉRER LA PAGE D'ACCÈS (index.html)
       #
       # Page HTML unique listant, par domaine, les bibliothèques
       # et pictogrammes réellement présents (lecture dynamique de
@@ -1187,7 +1302,7 @@ jobs:
 
 
       # ==========================================================
-      # 18. GÉNÉRER LES ASSETS DE L'ÉDITEUR (editor.css / editor.js)
+      # 19. GÉNÉRER LES ASSETS DE L'ÉDITEUR (editor.css / editor.js)
       #
       # editor.css complète assets/style.css avec la mise en page
       # du bandeau et de la zone d'iframe. editor.js implémente le
@@ -1268,12 +1383,20 @@ jobs:
           cat > diagrams/assets/editor.js <<'EOF'
           /* ════════════════════════════════════════════════════════════════
              assets/editor.js — MermozLab / Éditeur diagrams.net
-             Gère le protocole postMessage requis par embed.diagrams.net :
-             l'iframe envoie un événement "init" une fois chargée, et attend
-             en retour une action "load" contenant un diagramme à afficher.
-             Sans cette réponse, l'éditeur reste bloqué (barre grisée, aucune
-             page ni panneau de formes) — voir SOURCES.md / le workflow pour
-             le détail du problème corrigé ici.
+
+             Deux rôles :
+             1. Construire dynamiquement l'URL de l'éditeur (iframe + lien
+                "plein écran"), en ajoutant à clibs le chemin ABSOLU de la
+                bibliothèque de verrerie MermozLab (libraries/chimie/
+                verrerie-mermozlab.xml), calculé depuis l'URL de la page —
+                ce fichier fait partie du dépôt et son adresse finale dépend
+                de l'hébergement (GitHub Pages, domaine propre, etc.), d'où
+                le calcul dynamique plutôt qu'une URL codée en dur.
+             2. Gérer le protocole postMessage requis par embed.diagrams.net :
+                l'iframe envoie un événement "init" une fois chargée, et
+                attend en retour une action "load" contenant un diagramme à
+                afficher. Sans cette réponse, l'éditeur reste bloqué (barre
+                grisée, aucune page ni panneau de formes).
              ════════════════════════════════════════════════════════════════ */
 
           (function () {
@@ -1286,12 +1409,54 @@ jobs:
               '<root><mxCell id="0" /><mxCell id="1" parent="0" /></root>' +
               '</mxGraphModel>';
 
-            var ORIGIN = "https://embed.diagrams.net";
+            var EMBED_ORIGIN = "https://embed.diagrams.net";
+
+            var EXTERNAL_CLIBS = [
+              "https://raw.githubusercontent.com/owntech-foundation/LibraryDrawIO/main/circuit_library.xml",
+              "https://raw.githubusercontent.com/bzarek/draw.io-electrical/main/Custom_Electrical.xml",
+              "https://jgraph.github.io/drawio-libs/libs/material-design-icons.xml"
+            ];
+
+            function localLibraryUrl() {
+              try {
+                return new URL("libraries/chimie/verrerie-mermozlab.xml", window.location.href).href;
+              } catch (e) {
+                return null;
+              }
+            }
+
+            function buildClibsParam() {
+              var urls = EXTERNAL_CLIBS.slice();
+              var local = localLibraryUrl();
+              if (local) { urls.push(local); }
+              return urls.map(function (u) { return "U" + encodeURIComponent(u); }).join(";");
+            }
+
+            function buildUrl(base, embedMode) {
+              var params = [
+                "splash=0",
+                "libs=general;electrical",
+                "clibs=" + buildClibsParam()
+              ];
+              if (embedMode) {
+                params.unshift("embed=1&ui=kennedy&spin=1&proto=json&libraries=1");
+              }
+              return base + "/?" + params.join("&");
+            }
+
             var frame = document.getElementById("drawio-frame");
             var status = document.getElementById("status");
+            var fullTabLink = document.getElementById("fulltab-link");
+
+            if (fullTabLink) {
+              fullTabLink.href = buildUrl("https://app.diagrams.net", false);
+            }
+            if (frame) {
+              frame.src = buildUrl("https://embed.diagrams.net", true);
+            }
 
             window.addEventListener("message", function (evt) {
-              if (evt.origin !== ORIGIN) { return; }
+              if (evt.origin !== EMBED_ORIGIN) { return; }
 
               var msg;
               try {
@@ -1306,7 +1471,7 @@ jobs:
                   action: "load",
                   xml: EMPTY_XML,
                   autosave: 1
-                }), ORIGIN);
+                }), EMBED_ORIGIN);
               } else if (msg.event === "exit") {
                 window.location.href = "index.html";
               }
@@ -1316,7 +1481,7 @@ jobs:
 
 
       # ==========================================================
-      # 19. GÉNÉRER LA PAGE ÉDITEUR (editor.html)
+      # 20. GÉNÉRER LA PAGE ÉDITEUR (editor.html)
       #
       # Page qui encapsule l'éditeur diagrams.net complet, via
       # embed.diagrams.net (seul domaine de diagrams.net dont la
@@ -1340,7 +1505,12 @@ jobs:
       #     nativement à l'application) ;
       #   - bibliothèques personnalisées OwnTech, bzarek et
       #     Material Design Icons (format mxlibrary officiel,
-      #     chargées via clibs, glisser-déposer disponible).
+      #     chargées via clibs, glisser-déposer disponible) ;
+      #   - bibliothèque de verrerie MermozLab (photos du labo,
+      #     voir étape 10), ajoutée dynamiquement à clibs par
+      #     assets/editor.js (URL absolue calculée depuis la page,
+      #     l'iframe et le lien "plein écran" n'ont donc plus de
+      #     src/href codés en dur ici).
       #
       # NOTE : les fichiers diagrams/libraries/electricite/*.xml
       # sont au format "stencil" interne de diagrams.net, pas au
@@ -1369,11 +1539,10 @@ jobs:
             <span class="title"><i class="fas fa-diagram-project" aria-hidden="true"></i> MermozLab -- Editeur diagrams.net</span>
             <span id="status">Chargement de l'editeur...</span>
             <a href="index.html"><i class="fas fa-arrow-left" aria-hidden="true"></i> Retour au catalogue</a>
-            <a href="https://app.diagrams.net/?splash=0&libs=general;electrical&clibs=Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fowntech-foundation%2FLibraryDrawIO%2Fmain%2Fcircuit_library.xml;Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fbzarek%2Fdraw.io-electrical%2Fmain%2FCustom_Electrical.xml;Uhttps%3A%2F%2Fjgraph.github.io%2Fdrawio-libs%2Flibs%2Fmaterial-design-icons.xml" target="_blank" rel="noopener"><i class="fas fa-up-right-from-square" aria-hidden="true"></i> Ouvrir en plein ecran</a>
+            <a id="fulltab-link" href="https://app.diagrams.net/" target="_blank" rel="noopener"><i class="fas fa-up-right-from-square" aria-hidden="true"></i> Ouvrir en plein ecran</a>
           </div>
           <div id="frame-wrap">
             <iframe id="drawio-frame"
-              src="https://embed.diagrams.net/?embed=1&ui=kennedy&spin=1&proto=json&libraries=1&splash=0&libs=general;electrical&clibs=Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fowntech-foundation%2FLibraryDrawIO%2Fmain%2Fcircuit_library.xml;Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fbzarek%2Fdraw.io-electrical%2Fmain%2FCustom_Electrical.xml;Uhttps%3A%2F%2Fjgraph.github.io%2Fdrawio-libs%2Flibs%2Fmaterial-design-icons.xml"
               title="Editeur diagrams.net -- MermozLab"
               allow="clipboard-read; clipboard-write"
               referrerpolicy="strict-origin-when-cross-origin">
@@ -1386,7 +1555,7 @@ jobs:
 
 
       # ==========================================================
-      # 20. VÉRIFICATION DES FICHIERS
+      # 21. VÉRIFICATION DES FICHIERS
       # ==============================================================
 
       - name: Vérifier les fichiers XML
@@ -1425,7 +1594,7 @@ jobs:
 
 
       # ==========================================================
-      # 21. VÉRIFICATION DES FICHIERS OBLIGATOIRES
+      # 22. VÉRIFICATION DES FICHIERS OBLIGATOIRES
       # ==============================================================
 
       - name: Vérifier les bibliothèques obligatoires
@@ -1464,6 +1633,7 @@ jobs:
             "diagrams/libraries/chimie/svg/microscope.svg"
             "diagrams/libraries/chimie/svg/weight-gram.svg"
             "diagrams/libraries/chimie/svg/LICENSE-material-design-icons.txt"
+            "diagrams/libraries/chimie/verrerie-mermozlab.xml"
             "diagrams/libraries/chimie/svg/README.md"
 
             "diagrams/libraries/manifest.json"
@@ -1491,7 +1661,7 @@ jobs:
 
 
       # ==========================================================
-      # 22. INFORMATIONS DE FIN
+      # 23. INFORMATIONS DE FIN
       # ==============================================================
 
       - name: Résumé
@@ -1519,6 +1689,10 @@ jobs:
             -printf "  ✓ %f\n"
 
           echo ""
+          echo "Bibliothèque de verrerie MermozLab (photos du labo) :"
+          echo "  ✓ diagrams/libraries/chimie/verrerie-mermozlab.xml"
+
+          echo ""
           echo "Architecture scientifique :"
           echo "  ✓ Électricité"
           echo "  ✓ Énergie"
@@ -1542,7 +1716,7 @@ jobs:
 
 
       # ==========================================================
-      # 23. COMMIT AUTOMATIQUE
+      # 24. COMMIT AUTOMATIQUE
       # ==============================================================
 
       - name: Enregistrer les bibliothèques
