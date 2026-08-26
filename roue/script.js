@@ -4,6 +4,7 @@ let eleves=[];
 let segments=[];
 let attribution=[];
 let groupesSeance1={};
+let groupesSeance2={};
 
 let startAngle=0,arc=0;
 
@@ -124,6 +125,7 @@ function tirageSeance1(){
 
   // reset
   groupesSeance1 = {};
+  groupesSeance2 = {};
 
   let tailles = [];
 
@@ -309,6 +311,8 @@ function tirageSeance2(){
 
   });
 
+  groupesSeance2 = groupes;
+
   afficherSeance2(groupes);
 }
 // =======================
@@ -365,6 +369,150 @@ c.innerHTML+=`
 div.appendChild(c);
 
 });
+}
+
+// =======================
+// 🖨️ EXPORT PDF (Séance 1 + Séance 2)
+// Même trame visuelle que les comptes rendus de /laboratory
+// (voir roue/compte-rendu.css)
+// =======================
+
+function _echapper(s){
+  const d = document.createElement("div");
+  d.textContent = String(s ?? "");
+  return d.innerHTML;
+}
+
+function _logoRoueSVG(){
+  return `<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="24" cy="24" r="19" fill="#EAF2F8" stroke="#1B6CA8" stroke-width="2.4"/>
+    <path d="M24 5 A19 19 0 0 1 43 24 L24 24 Z" fill="#1B6CA8"/>
+    <path d="M24 24 L43 24 A19 19 0 0 1 33.4 40.5 Z" fill="#0D4F8A"/>
+    <circle cx="24" cy="24" r="4.5" fill="#fff" stroke="#0D4F8A" stroke-width="1.6"/>
+    <path d="M20 5 L20 2 L28 2 L28 5" stroke="#0D4F8A" stroke-width="1.6" stroke-linecap="round"/>
+  </svg>`;
+}
+
+function _construireBlocGroupe(nomGroupe, membres, libelleRole){
+  const lignes = membres.map(e => {
+    const nomEleve = _echapper(e.nom);
+    const role = libelleRole ? libelleRole : (e.role ? e.role.nom : "");
+    return `<tr><td>${nomEleve}</td><td><span class="cr-role-badge">${_echapper(role)}</span></td></tr>`;
+  }).join("");
+
+  return `
+    <div class="cr-groupe-bloc">
+      <h4>Groupe ${_echapper(nomGroupe)} <span style="font-weight:400;color:#6B7280;">(${membres.length} élèves)</span></h4>
+      <table class="cr-items"><tbody>${lignes}</tbody></table>
+    </div>`;
+}
+
+function _construireSectionSeance1(){
+  const noms = Object.keys(groupesSeance1);
+  if(!noms.length) return "";
+
+  const blocs = noms.map(g => _construireBlocGroupe(g, groupesSeance1[g])).join("");
+
+  return `
+    <div class="cr-section">
+      <h3>Séance 1 — Groupes adaptatifs (pédagogie différenciée)</h3>
+      <div class="cr-groupes-grille">${blocs}</div>
+    </div>`;
+}
+
+function _construireSectionSeance2(){
+  const noms = Object.keys(groupesSeance2);
+  if(!noms.length) return "";
+
+  const blocs = noms.map(g => _construireBlocGroupe(g, groupesSeance2[g], "Expert")).join("");
+
+  return `
+    <div class="cr-section">
+      <h3>Séance 2 — Groupes puzzle (regroupement des experts)</h3>
+      <div class="cr-groupes-grille">${blocs}</div>
+    </div>`;
+}
+
+function _construireTrameRoue(){
+  const dateFr = new Date().toLocaleDateString("fr-FR", {
+    day: "2-digit", month: "long", year: "numeric"
+  });
+
+  const nbGroupes1 = Object.keys(groupesSeance1).length;
+  const nbGroupes2 = Object.keys(groupesSeance2).length;
+
+  return `
+    <div class="cr-entete">
+      <div class="cr-logo">
+        ${_logoRoueSVG()}
+        <div class="cr-logo-texte">Roue<span>ClassePuzzle</span></div>
+      </div>
+      <div class="cr-entete-droite">
+        Tirage généré le ${dateFr}<br>
+        Pédagogie de la classe puzzle
+      </div>
+    </div>
+
+    <span class="cr-domaine-badge">Pédagogie — Tirage aléatoire</span>
+    <div class="cr-titre-tp">Répartition des groupes — Classe puzzle</div>
+
+    <div class="cr-identification">
+      <div><div class="cr-label">Date du tirage</div><div class="cr-valeur">${dateFr}</div></div>
+      <div><div class="cr-label">Nombre d'élèves</div><div class="cr-valeur">${eleves.length}</div></div>
+      <div><div class="cr-label">Groupes séance 1</div><div class="cr-valeur">${nbGroupes1 || "—"}</div></div>
+      <div><div class="cr-label">Groupes séance 2</div><div class="cr-valeur">${nbGroupes2 || "—"}</div></div>
+    </div>
+
+    ${_construireSectionSeance1()}
+    ${_construireSectionSeance2()}
+
+    <div class="cr-pied">
+      <span>Roue Classe Puzzle — Tirage aléatoire</span>
+      <span>Pédagogie du puzzle</span>
+    </div>`;
+}
+
+function exporterPDF(){
+  if(Object.keys(groupesSeance1).length === 0 && Object.keys(groupesSeance2).length === 0){
+    return alert("Effectue d'abord le tirage de la séance 1 (et éventuellement de la séance 2) avant d'exporter.");
+  }
+
+  const contenuHTML = _construireTrameRoue();
+
+  let conteneur = document.getElementById("cr-print-container");
+  if(!conteneur){
+    conteneur = document.createElement("div");
+    conteneur.id = "cr-print-container";
+  }
+  if(conteneur.parentElement !== document.body){
+    document.body.appendChild(conteneur);
+  }
+
+  conteneur.innerHTML = contenuHTML;
+
+  // force le navigateur à calculer la mise en page
+  void conteneur.offsetHeight;
+
+  document.body.classList.add("cr-printing");
+
+  void document.body.offsetHeight;
+
+  const nettoyer = () => {
+    document.body.classList.remove("cr-printing");
+    conteneur.replaceChildren();
+    window.removeEventListener("afterprint", nettoyer);
+  };
+
+  window.addEventListener("afterprint", nettoyer);
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        window.focus();
+        window.print();
+      });
+    });
+  });
 }
 
 drawWheel();
