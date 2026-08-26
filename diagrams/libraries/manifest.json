@@ -70,6 +70,7 @@
     "verrerie": {
       "name": "⚗️ Verrerie",
       "libraries": [
+        "chimie/verrerie-mermozlab.xml",
         "chimie/svg/beaker.svg",
         "chimie/svg/beaker-outline.svg",
         "chimie/svg/flask.svg",

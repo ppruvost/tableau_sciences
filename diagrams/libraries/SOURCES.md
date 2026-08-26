@@ -115,11 +115,33 @@ chaque ouverture de editor.html.
 Les catégories natives "General" et "Electrical" de
 l'éditeur (déjà intégrées à diagrams.net) couvrent les
 mêmes formes que diagrams/libraries/electricite/*.xml —
-voir la note dans le workflow, section 17.
+voir la note dans le workflow, section 20.
 
 ---
 
-## 6. MermozLab Chemistry
+## 6. Verrerie MermozLab (photos originales du labo)
+
+Fichier :
+
+diagrams/libraries/chimie/verrerie-mermozlab.xml
+
+Bibliothèque personnalisée (format mxlibrary, utilisable
+par glisser-déposer) générée à partir des photos de
+verrerie du laboratoire, déjà présentes dans ce dépôt à
+laboratory/assets/img/glassware/. Contenu et droits
+propres à MermozLab — aucune licence tierce à respecter.
+27 pièces : bécher, erlenmeyer, fiole jaugée, éprouvette
+graduée, tube à essai, verre à pied, ballons (fond rond /
+plat / col long), burette, pipettes (graduée / jaugée),
+ampoule à décanter, entonnoir, fiole à vide, tube à essai
+gradué, tube de culture, réfrigérants (droit / à boules),
+cristallisoir, verre de montre, flacon réactif, flacon
+compte-gouttes, pissette, dessiccateur, ampoule de coulée,
+tube de Thiele.
+
+---
+
+## 7. MermozLab Chemistry
 
 Bibliothèque spécifique MermozLab.
 

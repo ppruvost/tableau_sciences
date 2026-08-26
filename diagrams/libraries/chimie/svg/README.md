@@ -20,18 +20,23 @@ diagrams.net via File > Import).
 | microscope.svg | Microscope |
 | weight-gram.svg | Masse / pesée |
 
+## Verrerie photo-réaliste MermozLab
+
+Pour la verrerie proprement dite, préférer la bibliothèque
+diagrams/libraries/chimie/verrerie-mermozlab.xml (photos
+du labo, 27 pièces, glisser-déposer direct dans l'éditeur)
+: bécher, erlenmeyer, fiole jaugée, éprouvette graduée,
+tube à essai, verre à pied, ballons, burette, pipettes,
+ampoule à décanter, entonnoir, fiole à vide, tube gradué,
+tube de culture, réfrigérants, cristallisoir, verre de
+montre, flacon réactif, flacon compte-gouttes, pissette,
+dessiccateur, ampoule de coulée, tube de Thiele.
+
 ## Encore à ajouter manuellement
 
 Aucune source librement redistribuable n'a été trouvée
-pour ces éléments ; à ajouter à la main (dessin ou SVG
-sous licence compatible) :
+pour ces éléments ; à ajouter à la main (dessin ou photo) :
 
-- Burette
-- Entonnoir
-- Ampoule à décanter
-- Fiole jaugée
-- Verre de montre
-- Pissette
 - Spatule
 - Agitateur en verre
 
