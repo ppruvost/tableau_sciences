@@ -613,6 +613,14 @@ function lancerCompteRendu() {
         });
     }
 
+    const materiel = getMaterielSelectionne();
+    if (materiel.length) {
+        sections.push({
+            titre: "Matériel utilisé",
+            texte: materiel.join(" • ")
+        });
+    }
+
     genererCompteRendu({
         domaine: "Chimie",
         tp: "TP01",
