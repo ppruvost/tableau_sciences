@@ -10,8 +10,14 @@
  *
  * Fichier strictement calqué sur tp-mecanique/js/compte-rendu-mecanique.js
  * pour garantir un rendu d'impression cohérent entre domaines SciLab.
+ * STATUT : ce module n'est actuellement importé par aucun TP01-05 de
+ * tp-chimie — chacun garde sa propre fonction lancerCompteRendu() avec des
+ * besoins spécifiques (contexte pro, réactif, résultats dédiés, groupes de
+ * sections). Conservé pour cohérence avec les 6 autres domaines si un futur
+ * TP chimie n'a pas besoin de logique dédiée ; à supprimer sinon.
  */
 import { genererCompteRendu } from '../../js/compte-rendu.js';
+import { getFiliereSelectionnee } from '../../js/contexte-pro.js';
 
 function texte(el) {
   return (el?.textContent || '').trim();
@@ -39,6 +45,18 @@ function construireSectionResume() {
   const zone = document.getElementById('resume-tp');
   if (!zone) return null;
   return { titre: 'Résumé du TP', texte: valeur(zone) };
+}
+
+// Contexte professionnel (filière/niveau choisis par l'élève).
+function construireSectionContextePro() {
+  const filiere = getFiliereSelectionnee();
+  if (!filiere) return null;
+  return {
+    titre: 'Contexte professionnel',
+    items: [
+      { label: 'Filière', valeur: `${filiere.niveau} — ${filiere.filiere}` },
+    ],
+  };
 }
 
 // Tableau de résultats de la section [data-type="resultats"], lu
@@ -69,6 +87,7 @@ export function initImpressionCompteRendu({ titre, tp }) {
   if (!bouton) return;
   bouton.addEventListener('click', () => {
     const sections = [
+      construireSectionContextePro(),
       construireSectionResultats(),
       ...construireSectionsQuestions(),
       construireSectionResume(),
