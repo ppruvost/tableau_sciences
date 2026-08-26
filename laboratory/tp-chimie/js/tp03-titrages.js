@@ -54,8 +54,7 @@ from "../../js/securite.js";
 
 
 import {
-    initMateriel,
-    getMaterielSelectionne
+    initMateriel
 }
 from "../../js/materiel.js";
 
@@ -1900,27 +1899,6 @@ function initBoutonImpressionCR() {
 }
 
 
-function recupererAutoEvaluation() {
-
-    const competences =
-        ["APP", "ANA", "REA", "VAL", "COM"];
-
-    const scores = {};
-
-    competences.forEach(c => {
-
-        const choix =
-            document.querySelector(`input[name="${c}"]:checked`);
-
-        scores[c] =
-            choix ? Number(choix.value) : null;
-
-    });
-
-    return scores;
-
-}
-
 
 function lancerCompteRendu() {
 
@@ -1956,9 +1934,6 @@ function lancerCompteRendu() {
     const nomReactif =
         reactifCourant?.nom || "—";
 
-
-    const autoEval =
-        recupererAutoEvaluation();
 
     const filiereChoisie =
         getFiliereSelectionnee();
@@ -2045,34 +2020,6 @@ function lancerCompteRendu() {
         sections.push({
             titre: "Résumé du TP",
             texte: resume
-        });
-
-    }
-
-
-    sections.push({
-
-        titre: "Auto-évaluation des compétences",
-
-        items: [
-            { label: "APP", valeur: autoEval.APP ?? "—" },
-            { label: "ANA", valeur: autoEval.ANA ?? "—" },
-            { label: "REA", valeur: autoEval.REA ?? "—" },
-            { label: "VAL", valeur: autoEval.VAL ?? "—" },
-            { label: "COM", valeur: autoEval.COM ?? "—" }
-        ]
-
-    });
-
-
-    const materiel =
-        getMaterielSelectionne();
-
-    if (materiel.length) {
-
-        sections.push({
-            titre: "Matériel utilisé",
-            texte: materiel.join(" • ")
         });
 
     }
