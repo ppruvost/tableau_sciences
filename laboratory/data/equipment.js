@@ -328,10 +328,16 @@ const laboratoryEquipment = [
     },
 
     // Mécanique
+    // NB : ces 7 entrées existaient déjà mais avec categorie: "" (invisibles
+    // dans initMateriel, quel que soit le TP demandé) — même bug historique
+    // que celui déjà corrigé une fois pour le domaine Optique. Elles sont ici
+    // retaguées pour les 5 TP de tp-mecanique (Cinematique, ActionsMecaniques,
+    // CinematiquePression, RotationArchimede, PressionDebitResonance),
+    // complétées par du matériel manquant pour couvrir chaque activité.
     {
         domaine: "Mécanique",
         nom: "Chronomètre numérique",
-        categorie: "",
+        categorie: ["Cinematique", "CinematiquePression"],
         description: "Mesure de temps et de vitesses",
         lieu: "Salle B27 - ***",
         image:"",
@@ -340,8 +346,8 @@ const laboratoryEquipment = [
     {
         domaine: "Mécanique",
         nom: "Dynamomètre",
-        categorie: "",
-        description: "Mesure de forces",
+        categorie: ["ActionsMecaniques", "RotationArchimede"],
+        description: "Mesure de forces (poids, tension, poussée d'Archimède par pesée dans l'air puis immergé)",
         lieu: "Salle B27 - ***",
         image:"",
         noticeUtilisation: "assets/notice/dynamometre.pdf"
@@ -349,8 +355,8 @@ const laboratoryEquipment = [
     {
         domaine: "Mécanique",
         nom: "Poulies et masses marquées",
-        categorie: "",
-        description: "Étude des forces et mouvements",
+        categorie: ["ActionsMecaniques", "RotationArchimede"],
+        description: "Étude des forces, de l'équilibre et des moments de force (bras de levier)",
         lieu: "Salle B27 - ***",
         image:"",
         noticeUtilisation: "assets/notice/poulies_masses.pdf"
@@ -358,8 +364,8 @@ const laboratoryEquipment = [
     {
         domaine: "Mécanique",
         nom: "Plan incliné",
-        categorie: "",
-        description: "Étude des forces et de l'équilibre",
+        categorie: ["ActionsMecaniques", "Cinematique"],
+        description: "Étude des forces, de l'équilibre et du mouvement sur une pente",
         lieu: "Salle B27 - ***",
         image:"",
         noticeUtilisation: "assets/notice/plan_incline.pdf"
@@ -367,8 +373,8 @@ const laboratoryEquipment = [
     {
         domaine: "Mécanique",
         nom: "Vérin hydraulique",
-        categorie: "",
-        description: "Étude de la pression et de la force pressante",
+        categorie: ["CinematiquePression", "PressionDebitResonance"],
+        description: "Étude de la pression et de la force pressante (relation de Pascal)",
         lieu: "Salle B27 - ***",
         image:"",
         noticeUtilisation: "assets/notice/verin_hydraulique.pdf"
@@ -376,7 +382,7 @@ const laboratoryEquipment = [
     {
         domaine: "Mécanique",
         nom: "Manomètre",
-        categorie: "",
+        categorie: ["CinematiquePression", "PressionDebitResonance"],
         description: "Mesure de pression",
         lieu: "Salle B27 - ***",
         image:"",
@@ -385,7 +391,7 @@ const laboratoryEquipment = [
     {
         domaine: "Mécanique",
         nom: "Capteur de pression",
-        categorie: "",
+        categorie: ["CinematiquePression", "PressionDebitResonance"],
         description: "Mesure de pression dans les fluides",
         lieu: "Salle B27 - ***",
         image:"",
@@ -394,8 +400,62 @@ const laboratoryEquipment = [
     {
         domaine: "Mécanique",
         nom: "Mètre ruban / règle graduée",
-        categorie: ["Acoustique"],
-        description: "Mesure des distances entre source et récepteur (atténuation avec la distance, méthode du retard)",
+        categorie: ["Acoustique", "Cinematique", "ActionsMecaniques"],
+        description: "Mesure des distances entre source et récepteur (atténuation avec la distance, méthode du retard) ; mesure de longueurs et de bras de levier en mécanique",
+        lieu: "Salle B27 - ***",
+        image:"",
+        noticeUtilisation: ""
+    },
+    {
+        domaine: "Mécanique",
+        nom: "Banc à coussin d'air avec chariot mobile",
+        categorie: ["Cinematique", "CinematiquePression"],
+        description: "Étude d'un mouvement quasi sans frottement (chariot mobile) pour la description du mouvement et le calcul de vitesses",
+        lieu: "Salle B27 - ***",
+        image:"",
+        noticeUtilisation: ""
+    },
+    {
+        domaine: "Mécanique",
+        nom: "Cellules photoélectriques (portes optiques) + compteur",
+        categorie: ["Cinematique", "CinematiquePression"],
+        description: "Chronométrage précis du passage d'un mobile pour le calcul de vitesses instantanées",
+        lieu: "Salle B27 - ***",
+        image:"",
+        noticeUtilisation: ""
+    },
+    {
+        domaine: "Mécanique",
+        nom: "Support, potence et noix de serrage",
+        categorie: ["ActionsMecaniques", "RotationArchimede"],
+        description: "Fixation du matériel (dynamomètre, solides suspendus) pour l'étude des actions mécaniques et de la poussée d'Archimède",
+        lieu: "Salle B27 - ***",
+        image:"",
+        noticeUtilisation: ""
+    },
+    {
+        domaine: "Mécanique",
+        nom: "Fil à plomb / niveau à bulle",
+        categorie: ["ActionsMecaniques"],
+        description: "Vérification de la verticalité/horizontalité d'un montage pour l'étude de l'équilibre",
+        lieu: "Salle B27 - ***",
+        image:"",
+        noticeUtilisation: ""
+    },
+    {
+        domaine: "Mécanique",
+        nom: "Jeu de solides étalons (volumes et masses volumiques connues)",
+        categorie: ["RotationArchimede"],
+        description: "Détermination expérimentale de la poussée d'Archimède et de la masse volumique par immersion",
+        lieu: "Salle B27 - ***",
+        image:"",
+        noticeUtilisation: ""
+    },
+    {
+        domaine: "Mécanique",
+        nom: "Débitmètre à flotteur / dispositif de mesure de débit par écoulement chronométré",
+        categorie: ["PressionDebitResonance"],
+        description: "Mesure du débit volumique d'un fluide en circulation (volume écoulé / durée)",
         lieu: "Salle B27 - ***",
         image:"",
         noticeUtilisation: ""
@@ -415,7 +475,7 @@ const laboratoryEquipment = [
     {
     domaine: "Chimie",
     nom: "Balance Jeulin 701 277",
-    categorie: ["Dissolution", "pHmétrie"],
+    categorie: ["Dissolution", "pHmétrie", "RotationArchimede"],
     description: "Capacité 2 000 g max — Précision ± 1 g",
     lieu: "Salle B27 / étagère C2",
     image: "assets/img/equipments/balance_jeulin.jpg",
@@ -424,7 +484,7 @@ const laboratoryEquipment = [
     {
     domaine: "Chimie",
     nom: "Balance METTLER TOLEDO PB602",
-    categorie: ["Dissolution", "pHmétrie"],
+    categorie: ["Dissolution", "pHmétrie", "RotationArchimede"],
     description: "Capacité 610 g max - 0,5 g min — Précision ± 0,1 g",
     lieu: "Salle B27 / pallasse E2",
     image:"assets/img/equipments/balance_mettler.jpg",
@@ -761,7 +821,7 @@ const laboratoryEquipment = [
     {
         domaine: "Signaux",
         nom: "Générateur de fonctions",
-        categorie: ["Température", "Acoustique"],
+        categorie: ["Température", "Acoustique", "PressionDebitResonance"],
         description: "Production de signaux sonores et électriques",
         lieu: "Salle B27 - ***",
         image:"",
@@ -797,7 +857,7 @@ const laboratoryEquipment = [
         {
         domaine: "Signaux",
         nom: "haut-parleur",
-        categorie: ["Acoustique"],
+        categorie: ["Acoustique", "PressionDebitResonance"],
         description: "Émission et réception de signaux sonores",
         lieu: "Salle B27 - ***",
         image:"",
