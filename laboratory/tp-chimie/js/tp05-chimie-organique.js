@@ -25,8 +25,7 @@ import {
 } from "../../js/securite.js";
 
 import {
-    initMateriel,
-    getMaterielSelectionne
+    initMateriel
 } from "../../js/materiel.js";
 
 import {
@@ -544,14 +543,6 @@ function lancerCompteRendu() {
         sections.push({
             titre: "Résumé du TP",
             texte: resume
-        });
-    }
-
-    const materiel = getMaterielSelectionne();
-    if (materiel.length) {
-        sections.push({
-            titre: "Matériel utilisé",
-            texte: materiel.join(" • ")
         });
     }
 
