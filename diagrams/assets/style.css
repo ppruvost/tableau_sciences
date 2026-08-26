@@ -1,0 +1,106 @@
+/* ════════════════════════════════════════════════════════════════
+   assets/style.css — MermozLab / Bibliothèques sciences
+   Reprend la charte graphique commune SciLab / MathiLab :
+   voir laboratory/css/global.css et laboratory/style.css.
+   Les valeurs sont recopiées ici en dur pour que ce module reste
+   autonome (cf. commentaire dans laboratory/style.css : "Chaque
+   tp-<domaine>/css/style.css doit utiliser exactement ces mêmes
+   teintes").
+   ════════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Fira+Code:wght@400;500&family=Lato:wght@300;400;700&display=swap');
+
+:root {
+  --bleu-cuivre:   #1B6CA8;
+  --bleu-fonce:    #0D4F8A;
+  --bleu-clair-bg: #EAF2F8;
+  --gris-ardoise:  #2C3E50;
+  --gris-moyen:    #566573;
+  --gris-texte-clair: #6B7280;
+  --gris-clair:    #D5D8DC;
+  --blanc-paillasse: #F8F9FA;
+  --blanc:         #FFFFFF;
+
+  --domaine-electricite-1: #F59E0B; --domaine-electricite-2: #B45309;
+  --domaine-mecanique-1:   #4B5563; --domaine-mecanique-2:   #1F2937;
+  --domaine-chimie-1:      #1B6CA8; --domaine-chimie-2:      #0D4F8A;
+  --domaine-acoustique-1:  #0891B2; --domaine-acoustique-2:  #0E7490;
+  --domaine-thermique-1:   #C1440E; --domaine-thermique-2:   #7A2E0E;
+  --domaine-optique-1:     #8B5CF6; --domaine-optique-2:     #6D28D9;
+  --domaine-signaux-1:     #10B981; --domaine-signaux-2:     #059669;
+
+  --font-titre: 'Space Grotesk', sans-serif;
+  --font-corps: 'Lato', sans-serif;
+  --font-code:  'Fira Code', monospace;
+
+  --r-sm: 4px; --r-md: 8px; --r-lg: 16px; --r-pill: 999px;
+  --ombre-carte:  0 2px 8px rgba(0, 0, 0, .10);
+  --ombre-lourde: 0 8px 32px rgba(0, 0, 0, .15);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: var(--font-corps);
+  margin: 0;
+  background: var(--blanc-paillasse);
+  color: var(--gris-ardoise);
+}
+
+/* ── En-tête ── */
+header { background: var(--gris-ardoise); color: #fff; padding: 1.6rem 2rem; }
+header h1 {
+  margin: 0 0 .3rem; font-family: var(--font-titre); font-weight: 700;
+  font-size: 1.5rem; letter-spacing: -.3px;
+}
+header p { margin: 0; opacity: .75; font-size: .9rem; }
+
+/* ── Navigation ── */
+nav {
+  background: #fff; border-bottom: 1px solid var(--gris-clair); padding: .7rem 2rem;
+  position: sticky; top: 0; display: flex; flex-wrap: wrap; gap: .5rem; z-index: 10;
+}
+nav a {
+  color: var(--bleu-fonce); text-decoration: none; font-size: .8rem; font-weight: 400;
+  padding: .35rem .75rem; border-radius: var(--r-pill); background: var(--bleu-clair-bg);
+  display: inline-flex; align-items: center; gap: .4rem; transition: .2s;
+}
+nav a:hover { background: var(--bleu-cuivre); color: #fff; }
+nav a.cta { background: var(--bleu-cuivre); color: #fff; font-weight: 700; }
+nav a.cta:hover { background: var(--bleu-fonce); }
+
+/* ── Contenu / sections domaine ── */
+main { padding: 1.6rem 2rem 3rem; max-width: 1200px; margin: 0 auto; }
+section { margin-bottom: 2rem; background: #fff; border-radius: var(--r-lg); box-shadow: var(--ombre-carte); overflow: hidden; }
+section h2 {
+  margin: 0; padding: .85rem 1.2rem; font-family: var(--font-titre); font-weight: 600;
+  font-size: 1rem; color: #fff; display: flex; align-items: center; gap: .6rem;
+}
+
+.domaine-electricite { background: linear-gradient(135deg, var(--domaine-electricite-1), var(--domaine-electricite-2)); }
+.domaine-mecanique   { background: linear-gradient(135deg, var(--domaine-mecanique-1), var(--domaine-mecanique-2)); }
+.domaine-chimie      { background: linear-gradient(135deg, var(--domaine-chimie-1), var(--domaine-chimie-2)); }
+.domaine-acoustique  { background: linear-gradient(135deg, var(--domaine-acoustique-1), var(--domaine-acoustique-2)); }
+.domaine-thermique   { background: linear-gradient(135deg, var(--domaine-thermique-1), var(--domaine-thermique-2)); }
+.domaine-optique     { background: linear-gradient(135deg, var(--domaine-optique-1), var(--domaine-optique-2)); }
+.domaine-signaux     { background: linear-gradient(135deg, var(--domaine-signaux-1), var(--domaine-signaux-2)); }
+
+/* ── Grille de fichiers / pictogrammes ── */
+ul.grid {
+  list-style: none; margin: 0; padding: 1.1rem; display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: .7rem;
+}
+.item a {
+  display: flex; flex-direction: column; align-items: center; gap: .4rem;
+  background: var(--blanc-paillasse); border: 1px solid var(--gris-clair); border-radius: var(--r-md);
+  padding: .8rem .5rem; text-decoration: none; color: var(--gris-ardoise); font-size: .72rem;
+  text-align: center; word-break: break-all; transition: .2s;
+}
+.item a:hover { transform: translateY(-3px); box-shadow: var(--ombre-carte); border-color: var(--bleu-cuivre); }
+.item img { width: 40px; height: 40px; }
+.file-icon { font-size: 1.4rem; color: var(--gris-moyen); }
+
+/* ── Pied de page ── */
+footer { padding: 1.6rem 2rem 3rem; font-size: .8rem; color: var(--gris-texte-clair); text-align: center; }
+footer code { font-family: var(--font-code); background: var(--gris-clair); padding: .1rem .4rem; border-radius: var(--r-sm); }
+footer a { color: var(--bleu-cuivre); }

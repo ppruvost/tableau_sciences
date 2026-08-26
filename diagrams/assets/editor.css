@@ -1,0 +1,64 @@
+/* ════════════════════════════════════════════════════════════════
+   assets/editor.css — MermozLab / Éditeur diagrams.net
+   Complète assets/style.css (variables, polices) avec les règles
+   propres à la page editor.html (bandeau + zone d'iframe).
+   ════════════════════════════════════════════════════════════════ */
+
+html, body { margin: 0; height: 100%; }
+
+#topbar {
+  height: 46px;
+  background: var(--gris-ardoise);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 1.2rem;
+  font-family: var(--font-corps);
+  font-size: .85rem;
+}
+
+#topbar .title {
+  font-family: var(--font-titre);
+  font-weight: 700;
+  opacity: 1;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+#topbar a {
+  color: #fff;
+  text-decoration: none;
+  padding: .3rem .7rem;
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, .12);
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  transition: .2s;
+}
+
+#topbar a:hover { background: var(--bleu-cuivre); }
+
+#status {
+  opacity: .7;
+  font-style: italic;
+  font-family: var(--font-corps);
+}
+
+#frame-wrap {
+  position: absolute;
+  top: 46px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
