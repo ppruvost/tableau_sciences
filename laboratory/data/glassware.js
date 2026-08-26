@@ -3,7 +3,7 @@ const glassware = [
   { nom: "Bécher", contenance_ml: "50 / 100 / 250 / 500 / 1000", lieu: "Salle B27 / étagère D3", categorie: ["Dissolution", "pHmétrie", "Redox", "Organique", "Capteurs", "Equilibre", "ChangementEtat", "Combustion", "Stockage"], image: "assets/img/glassware/becher.png" },
   { nom: "Erlenmeyer", contenance_ml: "50 / 100 / 250 / 500 / 1000", lieu: "Salle B27 / étagère D3", categorie: ["pHmétrie", "Organique"], image: "assets/img/glassware/erlenmeyer.png" },
   { nom: "Fiole jaugée", contenance_ml: "50 / 100 / 200 / 250 / 500 / 1000", lieu: "Salle B27 / étagère D3", categorie: ["Dissolution", "pHmétrie"], image: "assets/img/glassware/fiole_jaugee.png" },
-  { nom: "Éprouvette graduée", contenance_ml: "10 / 25 / 50 / 100 / 250 / 500 / 1000", lieu: "Salle B27 / étagère D1", image: "assets/img/glassware/eprouvette_graduee.png" },
+  { nom: "Éprouvette graduée", contenance_ml: "10 / 25 / 50 / 100 / 250 / 500 / 1000", lieu: "Salle B27 / étagère D1", categorie: ["Dissolution", "pHmétrie", "Redox", "Organique", "RotationArchimede", "PressionDebitResonance"], image: "assets/img/glassware/eprouvette_graduee.png" },
   { nom: "Tube à essai", contenance_ml: "5 / 10 / 20", lieu: "Salle B27 / étagère D1", categorie: ["Dissolution", "pHmétrie", "Redox", "Organique", "Stockage"], image: "assets/img/glassware/tube_essai.png" },
   { nom: "Verre à pied", contenance_ml: "250", lieu: "Salle B27 / étagère D3",  categorie: ["Redox", "Stockage"],  image: "assets/img/glassware/verre_pied.png"},    
 
