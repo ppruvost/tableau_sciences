@@ -2,7 +2,7 @@
  * tp-statistiques/js/tp05-tableau-croise-arbre-pondere.js
  */
 import FILIERES_PRO from '../../data/filieres.js';
-import { initContextePro } from '../../js/contexte-pro.js';
+import { initContextePro, getFiliereSelectionnee } from '../../js/contexte-pro.js';
 import {regrouperEnClasses, classeModale, dessinerDiagrammeBarres, dessinerDiagrammeSecteurs } from '../../js/statistiques.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-statistiques.js';
