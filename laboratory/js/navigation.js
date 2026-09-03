@@ -53,7 +53,7 @@ function getDefaultModule(domaine) {
         "tp-acoustique": "tp01-caracteriser-un-son",
         "tp-optique": "tp01-reflexion-refraction",        
         "tp-mecanique": "tp01-decrire-mouvement",
-      "tp-signaux": "tp01-onde-electromagnetique"
+        "tp-signaux": "tp01-onde-electromagnetique"
         
     };
     return defaultModules[domaine] || "tp01-solutions"; // Fallback
