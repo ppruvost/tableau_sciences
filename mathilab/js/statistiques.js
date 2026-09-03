@@ -76,10 +76,28 @@ export function mode(valeurs) {
 }
 
 /**
+ * Formate une borne de classe pour l'affichage : entier tel quel,
+ * décimal arrondi à 2 chiffres avec virgule (notation française).
+ */
+function formaterBorneClasse(valeur) {
+  if (!Number.isFinite(valeur)) return '';
+  if (Number.isInteger(valeur)) return String(valeur);
+  return valeur.toFixed(2).replace(/0+$/, '').replace(/,?\.$/, '').replace('.', ',');
+}
+
+/**
  * Regroupe une série en nClasses classes de même amplitude
  * ([debut ; fin[), avec le même algorithme que dessinerHistogramme
  * (js/incertitudes.js), afin que le tableau des classes affiché dans
  * un TP corresponde exactement au diagramme tracé à côté.
+ *
+ * Chaque classe est automatiquement bornée à partir du minimum et du
+ * maximum des valeurs saisies (amplitude = étendue / nClasses) et
+ * reçoit un libellé lisible ("[debut ; fin[") exposé à la fois sous
+ * `label` (attendu par dessinerDiagrammeBarres) et `libelle` (attendu
+ * par les tableaux de classes des TP), afin que passer par exemple
+ * nClasses = 5 suffise à obtenir directement les 5 classes prêtes à
+ * afficher, sans configuration manuelle des bornes.
  */
 export function regrouperEnClasses(valeurs, nClasses = 5) {
   if (!valeurs || valeurs.length < 2) return [];
@@ -89,11 +107,12 @@ export function regrouperEnClasses(valeurs, nClasses = 5) {
   const etendue = max - min || 1;
   const largeurClasse = etendue / nClasses;
 
-  const classes = Array.from({ length: nClasses }, (_, i) => ({
-    debut: min + i * largeurClasse,
-    fin: min + (i + 1) * largeurClasse,
-    effectif: 0,
-  }));
+  const classes = Array.from({ length: nClasses }, (_, i) => {
+    const debut = min + i * largeurClasse;
+    const fin = min + (i + 1) * largeurClasse;
+    const libelle = `[${formaterBorneClasse(debut)} ; ${formaterBorneClasse(fin)}[`;
+    return { debut, fin, effectif: 0, libelle, label: libelle };
+  });
 
   valeurs.forEach(v => {
     let idx = Math.floor((v - min) / largeurClasse);
