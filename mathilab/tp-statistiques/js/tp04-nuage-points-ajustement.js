@@ -2,7 +2,7 @@
  * tp-statistiques/js/tp04-nuage-points-ajustement.js
  */
 import FILIERES_PRO from '../../data/filieres.js';
-import { initContextePro } from '../../js/contexte-pro.js';
+import { initContextePro, getFiliereSelectionnee } from '../../js/contexte-pro.js';
 import {regrouperEnClasses, classeModale, dessinerDiagrammeBarres, dessinerDiagrammeSecteurs } from '../../js/statistiques.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-statistiques.js';
@@ -94,7 +94,8 @@ function actualiserNuageAffine() {
     return;
   }
   regressionCourante = regressionLineaire(pointsAffine);
-  equationDiv.textContent = `y = ${regressionCourante.a.toFixed(3)} x + ${regressionCourante.b.toFixed(3)}   —   R² = ${regressionCourante.r2.toFixed(3)}`;
+  const signeB = regressionCourante.b < 0 ? '−' : '+';
+  equationDiv.textContent = `y = ${regressionCourante.a.toFixed(3)} x ${signeB} ${Math.abs(regressionCourante.b).toFixed(3)}   —   R² = ${regressionCourante.r2.toFixed(3)}`;
   dessinerNuage('na-nuage', pointsAffine, regressionCourante);
 }
 
