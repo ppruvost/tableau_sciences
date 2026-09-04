@@ -149,3 +149,34 @@ Les éléments externes ajoutés dans cette bibliothèque
 doivent être accompagnés de leur licence et de leur
 attribution.
 
+---
+
+## 8. Bâtiment — Plan d'architecte (bibliothèque native diagrams.net)
+
+diagrams/editor.html active, via le paramètre libs= de
+diagrams.net (voir section 20 du workflow
+diagrams-sciences.yml), la catégorie native "Floorplan"
+("Plan d'architecte") : murs, portes, fenêtres, mobilier de
+cuisine / salle de bain / chambre, escaliers, etc. Cette
+bibliothèque fait partie de diagrams.net lui-même — elle
+n'est ni copiée ni modifiée dans ce dépôt, exactement comme
+les catégories "General" et "Electrical" déjà utilisées.
+
+Dépôt officiel (mêmes sources que la section 1) :
+
+https://github.com/jgraph/drawio
+
+## 9. Bâtiment — Modèle de plan de départ MermozLab
+
+Fichier :
+
+diagrams/libraries/batiment/modele-plan-maison.xml
+
+Diagramme .drawio original (pas une bibliothèque de formes),
+créé pour ce dépôt à partir de formes géométriques de base
+(rectangles, ellipse, texte) : un petit plan d'appartement
+(Salon, Chambre, Salle de bain) servant de point de départ,
+à compléter avec les formes de la bibliothèque "Plan
+d'architecte" (section 8). Contenu propre à MermozLab —
+aucune licence tierce à respecter.
+
