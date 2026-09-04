@@ -28,7 +28,8 @@ html, body { margin: 0; height: 100%; }
   gap: .5rem;
 }
 
-#topbar a {
+#topbar a,
+#topbar button {
   color: #fff;
   text-decoration: none;
   padding: .3rem .7rem;
@@ -38,9 +39,19 @@ html, body { margin: 0; height: 100%; }
   align-items: center;
   gap: .4rem;
   transition: .2s;
+  border: 0;
+  font: inherit;
+  cursor: pointer;
 }
 
-#topbar a:hover { background: var(--bleu-cuivre); }
+#topbar a:hover,
+#topbar button:hover { background: var(--bleu-cuivre); }
+
+#topbar button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+  background: rgba(255, 255, 255, .12);
+}
 
 #status {
   opacity: .7;
