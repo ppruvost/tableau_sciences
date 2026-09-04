@@ -1,0 +1,116 @@
+name: diagrams-sciences
+
+# ============================================================
+# MermozLab — diagrams/ : integration continue et mise a jour
+# ============================================================
+#
+# Sommaire (sections numerotees, reprises dans
+# diagrams/libraries/SOURCES.md et diagrams/docs/plans-maison.md
+# pour garder une reference commune entre le code et la
+# documentation) :
+#
+#  1. Declencheurs : push sur main touchant diagrams/libraries/**
+#     ou diagrams/scripts/**, pull request sur les memes chemins
+#     (verification seule, sans commit), et declenchement manuel.
+#  2. "regenerer-index" (push/manuel) : recupere le depot.
+#  3. Prepare Python -- aucune dependance externe requise, le
+#     generateur (diagrams/scripts/generate_index.py) n'utilise
+#     que la bibliotheque standard.
+#  4. Lance generate_index.py, qui relit
+#     diagrams/libraries/manifest.json, verifie que chaque fichier
+#     reference existe reellement dans diagrams/libraries/, et
+#     reecrit diagrams/index.html (menu + catalogue).
+#  5. Si diagrams/index.html a change, commit et push automatique
+#     sur la branche courante -- pas de pull request a valider a la
+#     main pour un simple ajout de fichier de bibliotheque ou de
+#     modele.
+#  6. "verifier-index" (pull_request) : meme generation, mais en
+#     mode --check (aucune ecriture) ; le job echoue si
+#     diagrams/index.html n'est pas a jour par rapport a
+#     manifest.json, pour rappeler de lancer le generateur avant de
+#     fusionner.
+#
+#  (10-19 reserve pour extensions futures : verification des
+#  licences listees dans SOURCES.md, detection de liens morts,
+#  etc.)
+#
+# 20. Bibliotheques natives vs bibliotheques du depot -- note
+#     importante pour ne pas dupliquer inutilement du contenu :
+#     - Les categories natives "General" et "Electrical" de
+#       diagrams.net (activees via libs=general;electrical dans
+#       diagrams/assets/editor.js) couvrent deja une bonne partie
+#       des formes de diagrams/libraries/electricite/*.xml. Ces
+#       fichiers .xml restent neanmoins utiles comme bibliotheques
+#       *autonomes*, telechargeables et importables dans n'importe
+#       quel diagrams.net independamment de ce depot (cf. section 1
+#       de SOURCES.md).
+#     - Meme logique pour la categorie native "floorplan" ("Plan
+#       d'architecte"), activee depuis l'ajout du domaine
+#       "batiment" (voir diagrams/docs/plans-maison.md) : elle
+#       n'est PAS copiee dans ce depot, seul le modele de depart
+#       (diagrams/libraries/batiment/modele-plan-maison.xml) l'est.
+#       Avant d'ajouter une nouvelle bibliotheque "murs / portes /
+#       fenetres" personnalisee, verifier que la categorie native
+#       ne suffit pas deja.
+#
+# ============================================================
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "diagrams/libraries/**"
+      - "diagrams/scripts/**"
+  pull_request:
+    paths:
+      - "diagrams/libraries/**"
+      - "diagrams/scripts/**"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  regenerer-index:
+    name: Regenerer diagrams/index.html
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 2. Recuperer le depot
+        uses: actions/checkout@v4
+
+      - name: 3. Preparer Python (bibliotheque standard uniquement)
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: 4. Regenerer index.html a partir de manifest.json
+        run: python3 diagrams/scripts/generate_index.py
+
+      - name: 5. Committer et pousser si index.html a change
+        run: |
+          if git diff --quiet -- diagrams/index.html; then
+            echo "Aucun changement : diagrams/index.html est deja a jour."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add diagrams/index.html
+          git commit -m "chore(diagrams): regenere index.html depuis manifest.json [skip ci]"
+          git push
+
+  verifier-index:
+    name: Verifier diagrams/index.html (pull request)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 2. Recuperer le depot
+        uses: actions/checkout@v4
+
+      - name: 3. Preparer Python (bibliotheque standard uniquement)
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: 6. Verifier que index.html correspond a manifest.json
+        run: python3 diagrams/scripts/generate_index.py --check
