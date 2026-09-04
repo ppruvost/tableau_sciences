@@ -2,10 +2,10 @@
   "project": "MermozLab",
   "module": "diagrams.net",
   "version": "1.0.0",
-
   "domains": {
-
     "electricite": {
+      "icon": "fa-bolt",
+      "cssClass": "domaine-electricite",
       "name": "⚡ Électricité",
       "libraries": [
         "electricite/logic_gates.xml",
@@ -25,40 +25,46 @@
         "electricite/Custom-Electrical.xml"
       ]
     },
-
     "energie": {
+      "icon": "fa-battery-full",
+      "cssClass": "domaine-thermique",
       "name": "🔋 Énergie",
       "libraries": [
         "electricite/electro-mechanical.xml"
       ]
     },
-
     "mecanique": {
+      "icon": "fa-gears",
+      "cssClass": "domaine-mecanique",
       "name": "🧲 Mécanique",
       "libraries": []
     },
-
     "acoustique": {
+      "icon": "fa-volume-high",
+      "cssClass": "domaine-acoustique",
       "name": "🔊 Acoustique",
       "libraries": [
         "electricite/waveforms.xml",
         "electricite/instruments.xml"
       ]
     },
-
     "optique": {
+      "icon": "fa-lightbulb",
+      "cssClass": "domaine-optique",
       "name": "💡 Optique",
       "libraries": []
     },
-
     "ondes": {
+      "icon": "fa-wave-square",
+      "cssClass": "domaine-signaux",
       "name": "〰️ Ondes et signaux",
       "libraries": [
         "electricite/waveforms.xml"
       ]
     },
-
     "chimie": {
+      "icon": "fa-flask",
+      "cssClass": "domaine-chimie",
       "name": "🧪 Chimie",
       "libraries": [
         "chimie/svg/molecule.svg",
@@ -66,8 +72,9 @@
         "chimie/svg/periodic-table.svg"
       ]
     },
-
     "verrerie": {
+      "icon": "fa-vial",
+      "cssClass": "domaine-chimie",
       "name": "⚗️ Verrerie",
       "libraries": [
         "chimie/verrerie-mermozlab.xml",
@@ -83,8 +90,9 @@
         "chimie/svg/eyedropper.svg"
       ]
     },
-
     "mesures": {
+      "icon": "fa-ruler",
+      "cssClass": "domaine-mecanique",
       "name": "📏 Mesures",
       "libraries": [
         "electricite/instruments.xml",
@@ -93,11 +101,27 @@
         "chimie/svg/weight-gram.svg"
       ]
     },
-
     "securite": {
+      "icon": "fa-triangle-exclamation",
+      "cssClass": "domaine-thermique",
       "name": "🧯 Sécurité",
       "libraries": []
+    },
+    "batiment": {
+      "icon": "fa-drafting-compass",
+      "cssClass": "domaine-batiment",
+      "name": "🏗️ Bâtiment (plans de maison)",
+      "libraries": [],
+      "modeles": [
+        {
+          "cle": "batiment",
+          "fichier": "batiment/modele-plan-maison.xml",
+          "titre": "Plan de maison (modèle de départ)"
+        }
+      ],
+      "builtin": [
+        "floorplan"
+      ]
     }
-
   }
 }
