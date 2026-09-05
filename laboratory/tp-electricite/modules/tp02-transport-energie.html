@@ -176,32 +176,22 @@
           domestique ou industrielle (230 V / 400 V).
         </div>
 
-        <div class="form-group">
-          <label for="reseau-select">Étape du réseau de distribution</label>
-          <select id="reseau-select">
-            <option value="">-- Sélectionner une étape --</option>
-            <option value="centrale">Centrale de production</option>
-            <option value="tht">Réseau très haute tension (transport)</option>
-            <option value="ht">Réseau haute tension (répartition régionale)</option>
-            <option value="bt">Réseau basse tension (distribution finale)</option>
-          </select>
-        </div>
-
-        <div id="reseau-info" class="resultat-calcul">
-          Sélectionner une étape pour afficher l'ordre de grandeur de tension associé.
+        <div class="schema-interactif-conteneur">
+          <iframe
+            src="../assets/schema-reseau-distribution.html"
+            title="Schéma interactif du réseau de distribution — de la centrale au client"
+            class="schema-interactif-frame"
+            loading="lazy">
+          </iframe>
         </div>
 
         <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
 
         <ol class="etapes">
-          <li>À partir d'une ressource documentaire fournie par l'enseignant, identifier les différentes étapes du réseau électrique entre une centrale et une habitation.</li>
-          <li>Pour chaque étape, relever l'ordre de grandeur de la tension utilisée.</li>
+          <li>Cliquer sur chaque étape du schéma interactif (ou sur les boutons numérotés) pour afficher sa fiche technique.</li>
+          <li>Pour chaque étape, relever le rôle du transformateur, le type de ligne et la tension associée.</li>
           <li>Représenter le schéma simplifié du réseau en indiquant l'évolution de la tension.</li>
         </ol>
-
-        <div class="mode-op">
-          <img src="./assets/images/e2-reseau.png" alt="Mode opératoire — réseau de distribution de l'énergie électrique" class="mode-image">
-        </div>
 
       </div>
 
