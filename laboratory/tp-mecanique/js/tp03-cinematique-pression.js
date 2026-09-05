@@ -149,7 +149,7 @@ function initPressionForce() {
 
     zoneResultat.innerHTML = `
       Pression P = F / S = <strong>${arrondir(p, 0)} Pa</strong>
-      (soit ${arrondir(p / 1e5, 3)} bar)
+      (soit ${arrondir(p / 100, 1)} hPa)
     `;
   }
 
@@ -256,7 +256,7 @@ function initBoyleMariotte() {
 
     zoneResultat.innerHTML = `
       D'après P₁×V₁ = P₂×V₂, pression finale attendue :
-      <strong>${arrondir(p2, 3)} bar</strong>
+      <strong>${arrondir(p2, 0)} hPa</strong>
     `;
   }
 
