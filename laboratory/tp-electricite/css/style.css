@@ -44,3 +44,27 @@
 .etapes li::before {
   background: var(--domaine-accent);
 }
+
+/* ── Schéma interactif réseau de distribution (TP02) ───────────────
+   Le contenu est une page HTML autonome chargée en iframe : aucun
+   script n'est ajouté au fragment SPA, conformément à la règle
+   « aucun <script> dans les fragments ». */
+.schema-interactif-conteneur {
+  border: 1px solid var(--gris-clair, #E7E9EC);
+  border-radius: var(--radius-md, 12px);
+  overflow: hidden;
+  margin-top: var(--gap-md);
+}
+
+.schema-interactif-frame {
+  width: 100%;
+  min-height: 760px;
+  border: 0;
+  display: block;
+}
+
+@media (max-width: 640px) {
+  .schema-interactif-frame {
+    min-height: 980px;
+  }
+}
