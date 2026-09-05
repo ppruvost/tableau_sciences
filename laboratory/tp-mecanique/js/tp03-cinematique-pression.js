@@ -41,6 +41,8 @@ export function init() {
 
   initVitesseAcceleration();
   initPressionForce();
+  initSurfacePiston();
+  initForceInverse();
   initBoyleMariotte();
   initTableauMesuresBoyleMariotte();
 
@@ -152,6 +154,78 @@ function initPressionForce() {
   }
 
   inputForce.addEventListener('input', calculer);
+  inputSurface.addEventListener('input', calculer);
+}
+
+// =================================================================
+// Onglet 2 (suite) — Surface du piston à partir de son diamètre
+// S = π × (d/2)², reportée automatiquement dans le champ pf-surface
+// pour être réutilisée par le calcul P = F/S ci-dessus.
+// =================================================================
+function initSurfacePiston() {
+
+  const inputDiametre = $('pf-diametre');
+  const inputSurface = $('pf-surface');
+  const zoneResultat = $('pf-diametre-resultat');
+
+  if (!inputDiametre || !inputSurface || !zoneResultat) return;
+
+  inputDiametre.addEventListener('input', () => {
+
+    const dMm = parseFloat(inputDiametre.value);
+
+    if (Number.isNaN(dMm) || dMm <= 0) {
+      zoneResultat.textContent = 'Saisir le diamètre interne du piston (indiqué sur la seringue) pour calculer automatiquement la surface pressée S et la reporter ci-dessous.';
+      return;
+    }
+
+    const rMm = dMm / 2;
+    const sMm2 = Math.PI * rMm * rMm;
+    const sCm2 = sMm2 / 100;
+
+    inputSurface.value = arrondir(sCm2, 3);
+    inputSurface.dispatchEvent(new Event('input'));
+
+    zoneResultat.innerHTML = `
+      Surface S = π × (d/2)² = <strong>${arrondir(sCm2, 3)} cm²</strong>
+      — reportée automatiquement dans le calcul P = F/S ci-dessus.
+    `;
+  });
+
+}
+
+// =================================================================
+// Onglet 2 (suite) — Calcul inverse F = P × S à partir de la
+// pression lue directement sur le capteur numérique ou le manomètre.
+// =================================================================
+function initForceInverse() {
+
+  const inputPression = $('pf-pression-lue');
+  const inputSurface = $('pf-surface-inverse');
+  const zoneResultat = $('pf-inverse-resultat');
+
+  if (!inputPression || !inputSurface || !zoneResultat) return;
+
+  function calculer() {
+
+    const pHpa = parseFloat(inputPression.value);
+    const sCm2 = parseFloat(inputSurface.value);
+
+    if (Number.isNaN(pHpa) || Number.isNaN(sCm2) || sCm2 === 0) {
+      zoneResultat.textContent = 'Saisir la pression lue sur le dispositif et la surface du piston pour déduire la force pressante F = P × S.';
+      return;
+    }
+
+    const pPa = pHpa * 100;
+    const sM2 = sCm2 * 1e-4;
+    const f = pPa * sM2;
+
+    zoneResultat.innerHTML = `
+      Force pressante F = P × S = <strong>${arrondir(f, 2)} N</strong>
+    `;
+  }
+
+  inputPression.addEventListener('input', calculer);
   inputSurface.addEventListener('input', calculer);
 }
 
