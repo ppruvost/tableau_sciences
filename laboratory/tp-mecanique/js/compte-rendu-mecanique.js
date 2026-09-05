@@ -70,6 +70,39 @@ function construireSectionResultats() {
   return { titre: 'Tableau de résultats', items };
 }
 
+// Tableau de mesures (V, P) de l'onglet "Pression et force pressante"
+// (loi de Boyle-Mariotte), construit à partir du tableau dynamique
+// #bm-table-corps généré par tp03-cinematique-pression.js. Retourne
+// null si aucune mesure exploitable n'a été saisie, pour ne pas
+// polluer le compte-rendu des élèves qui n'ont pas utilisé cet onglet.
+function construireSectionMesuresPression() {
+  const lignes = document.querySelectorAll('#bm-table-corps tr');
+  if (!lignes.length) return null;
+
+  const items = [...lignes].map((tr, index) => {
+    const selectDispositif = tr.querySelector('.bm-dispositif');
+    const dispositif = selectDispositif
+      ? selectDispositif.options[selectDispositif.selectedIndex].text
+      : '—';
+    const v = valeur(tr.querySelector('.bm-volume'));
+    const p = valeur(tr.querySelector('.bm-pression'));
+    const pv = texte(tr.querySelector('.bm-pv'));
+
+    const contenu = (v && p)
+      ? `V = ${v} mL — P = ${p} hPa — P × V = ${pv} hPa·mL`
+      : '(mesure non renseignée)';
+
+    return { label: `Mesure ${index + 1} (${dispositif})`, valeur: contenu };
+  });
+
+  const auMoinsUneMesure = [...lignes].some(tr =>
+    valeur(tr.querySelector('.bm-volume')) && valeur(tr.querySelector('.bm-pression'))
+  );
+  if (!auMoinsUneMesure) return null;
+
+  return { titre: 'Mesures de pression — loi de Boyle-Mariotte', items };
+}
+
 /**
  * @param {Object} params
  * @param {string} params.titre - Titre du TP (ex. "Décrire un mouvement")
@@ -79,18 +112,35 @@ export function initImpressionCompteRendu({ titre, tp }) {
   const bouton = document.getElementById('btn-imprimer');
   if (!bouton) return;
   bouton.addEventListener('click', () => {
+
+    // Signale aux modules du TP (ex. la courbe P = f(V)) qu'une
+    // impression va avoir lieu, pour qu'ils puissent se redessiner
+    // une dernière fois avant la capture du canvas en image.
+    document.dispatchEvent(new CustomEvent('cr:avant-impression'));
+
+    const sectionMesuresPression = construireSectionMesuresPression();
+
     const sections = [
       construireSectionContextePro(),
       construireSectionResultats(),
+      sectionMesuresPression,
       ...construireSectionsQuestions(),
       construireSectionResume(),
     ].filter(Boolean);
+
+    // La courbe P = f(V) n'est incluse que si des mesures exploitables
+    // ont été saisies (évite un graphique vide dans le compte-rendu).
+    const canvasCourbe = sectionMesuresPression
+      ? document.getElementById('bm-canvas-courbe')
+      : null;
+
     genererCompteRendu({
       titre,
       domaine: 'Mécanique',
       tp,
       sections,
       noteFinale: true,
+      ...(canvasCourbe ? { canvas: canvasCourbe } : {}),
     });
   });
 }
