@@ -42,3 +42,32 @@
 .etapes li::before {
   background: var(--domaine-accent);
 }
+
+/* ── Photos des dispositifs expérimentaux (TP03, onglet « Pression et
+   force pressante ») ────────────────────────────────────────────── */
+.experiences-photos {
+  margin-top: var(--gap-md);
+}
+.experience-card {
+  display: flex;
+  flex-direction: column;
+}
+.experience-image {
+  display: block;
+  width: 100%;
+  max-height: 360px;
+  object-fit: contain;
+  background: var(--blanc-paillasse);
+  border: 1px solid var(--gris-clair);
+  border-radius: var(--r-md);
+  margin-bottom: var(--gap-sm);
+}
+.experience-card h4 {
+  margin: 0 0 .4rem;
+  color: var(--domaine-accent-fonce);
+}
+.experience-card p {
+  margin: 0;
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
