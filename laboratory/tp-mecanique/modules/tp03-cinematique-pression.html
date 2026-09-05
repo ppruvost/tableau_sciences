@@ -407,6 +407,25 @@
           du produit P × V.
         </div>
 
+        <h4 style="margin-top:var(--gap-lg);">Courbe P = f(V)</h4>
+
+        <div class="info">
+          La courbe se met à jour automatiquement à chaque saisie ou
+          modification d'une mesure (V, P) dans le tableau ci-dessus.
+          Les points rouges sont les mesures ; la courbe bleue est la
+          courbe théorique P = k / V (k = produit moyen P × V), tracée
+          dès que deux mesures exploitables sont disponibles.
+        </div>
+
+        <div class="legende-courbe">
+          <span><i style="background:#c0392b"></i> Points mesurés</span>
+          <span><i style="background:#1B6CA8"></i> Courbe théorique P = k / V</span>
+        </div>
+
+        <div class="graphe-boyle-mariotte">
+          <canvas id="bm-canvas-courbe"></canvas>
+        </div>
+
         <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
 
         <ol class="etapes">
