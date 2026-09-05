@@ -243,7 +243,45 @@
           la pression correspondante.
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Vérification de la loi de Boyle-Mariotte</h4>
+        <h4 style="margin-top:var(--gap-lg);">Deux dispositifs pour étudier la pression d'un gaz enfermé</h4>
+
+        <div class="info">
+          Les deux dispositifs présentés ci-dessous permettent d'enfermer une
+          quantité d'air dans une seringue et de mesurer la pression du gaz
+          pour différents volumes, afin de vérifier la loi de Boyle-Mariotte.
+        </div>
+
+        <div class="grid grid-2 experiences-photos">
+
+          <div class="card experience-card">
+            <img src="./assets/images/m3-exp-capteur-numerique.jpg"
+                 alt="Seringue reliée par un tuyau à un capteur de pression numérique Jeulin affichant P = 1006 hPa"
+                 class="experience-image">
+            <h4>Dispositif A — Capteur de pression numérique</h4>
+            <p>
+              Une seringue est reliée par un tuyau souple à un capteur de
+              pression Jeulin. Le piston est déplacé à la main pour fixer le
+              volume de gaz enfermé ; la pression correspondante est lue
+              directement en hPa sur l'écran numérique du capteur.
+            </p>
+          </div>
+
+          <div class="card experience-card">
+            <img src="./assets/images/m3-exp-loi-mariotte.jpg"
+                 alt="Dispositif Loi de Mariotte : seringue graduée entraînée par une vis, reliée à un manomètre analogique à aiguille"
+                 class="experience-image">
+            <h4>Dispositif B — Vérin à vis et manomètre analogique</h4>
+            <p>
+              Une seringue graduée (0 à 60 cm³), entraînée par une vis
+              micrométrique fixée sur un support « Loi de Mariotte », est
+              reliée à un manomètre analogique gradué en bar et en hPa qui
+              affiche la pression du gaz enfermé pour chaque volume imposé.
+            </p>
+          </div>
+
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Calcul rapide entre deux points de mesure</h4>
 
         <div class="form-row">
 
@@ -270,12 +308,53 @@
           de Boyle-Mariotte.
         </div>
 
+        <h4 style="margin-top:var(--gap-lg);">Tableau de mesures — vérification sur plusieurs points</h4>
+
+        <div class="info">
+          Avec l'un des deux dispositifs, relever la pression du gaz pour
+          plusieurs volumes différents, puis vérifier que le produit P × V
+          reste approximativement constant à température constante.
+        </div>
+
+        <div class="table-responsive">
+
+          <table class="tableau-resultats" id="bm-table">
+
+            <thead>
+              <tr>
+                <th>Mesure</th>
+                <th>Dispositif</th>
+                <th>Volume V (mL)</th>
+                <th>Pression P (hPa)</th>
+                <th>P × V (hPa·mL)</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody id="bm-table-corps">
+              <!-- Lignes générées dynamiquement par tp03-cinematique-pression.js -->
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <div class="toolbar" style="margin-top:var(--gap-sm);">
+          <button id="bm-ajouter-mesure" class="btn btn-secondaire" type="button">➕ Ajouter une mesure</button>
+        </div>
+
+        <div id="bm-table-resultat" class="resultat-calcul" style="margin-top:var(--gap-md);">
+          Ajouter au moins deux mesures (V, P) pour vérifier la constance
+          du produit P × V.
+        </div>
+
         <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
 
         <ol class="etapes">
           <li>Mesurer la pression exercée par un vérin ou une presse sur une surface connue.</li>
-          <li>À l'aide d'une seringue fermée reliée à un manomètre, relever le volume et la pression du gaz enfermé pour différentes positions du piston.</li>
-          <li>Saisir les valeurs mesurées et comparer avec la pression prédite par la loi de Boyle-Mariotte.</li>
+          <li>Choisir l'un des deux dispositifs (capteur numérique ou vérin à vis + manomètre analogique) et fermer le robinet de la seringue pour enfermer une quantité d'air.</li>
+          <li>Déplacer progressivement le piston (à la main ou à l'aide de la vis) pour imposer différents volumes ; relever à chaque fois le volume V et la pression P dans le tableau de mesures.</li>
+          <li>Calculer le produit P × V pour chaque mesure et comparer avec la pression prédite par la loi de Boyle-Mariotte.</li>
         </ol>
 
         <div class="mode-op">
