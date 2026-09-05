@@ -273,6 +273,7 @@ function initBoyleMariotte() {
 // =================================================================
 let bmMesures = [];
 let bmProchainId = 1;
+let bmDernierPoints = [];
 
 function initTableauMesuresBoyleMariotte() {
 
@@ -320,6 +321,9 @@ function initTableauMesuresBoyleMariotte() {
     const points = bmMesures
       .map(m => ({ v: parseFloat(m.volume), p: parseFloat(m.pression) }))
       .filter(pt => !Number.isNaN(pt.v) && !Number.isNaN(pt.p) && pt.v > 0);
+
+    bmDernierPoints = points;
+    dessinerCourbeBoyleMariotte(points);
 
     if (points.length < 2) {
       zoneResultat.textContent = 'Ajouter au moins deux mesures (V, P) pour vérifier la constance du produit P × V.';
@@ -379,6 +383,146 @@ function initTableauMesuresBoyleMariotte() {
 
   boutonAjouter.addEventListener('click', ajouterLigne);
 
+  window.addEventListener('resize', () => dessinerCourbeBoyleMariotte(bmDernierPoints));
+
+  // Redessine la courbe juste avant l'impression du compte-rendu (voir
+  // compte-rendu-mecanique.js), au cas où le canvas n'aurait jamais été
+  // affiché à sa taille définitive (onglet resté fermé, par exemple).
+  document.addEventListener('cr:avant-impression', () => dessinerCourbeBoyleMariotte(bmDernierPoints));
+
   rafraichir();
+
+}
+
+// =================================================================
+// Onglet 2 (suite) — Tracé de la courbe P = f(V) : points mesurés
+// (rouge) et courbe théorique P = k / V (bleu), k étant le produit
+// moyen P × V calculé sur les mesures exploitables.
+// =================================================================
+function dessinerCourbeBoyleMariotte(points) {
+
+  const canvas = $('bm-canvas-courbe');
+  if (!canvas) return;
+
+  const conteneur = canvas.parentElement;
+  const largeurAffichee = (conteneur && conteneur.clientWidth) || 600;
+  const hauteurAffichee = 320;
+  const dpr = window.devicePixelRatio || 1;
+
+  canvas.width = largeurAffichee * dpr;
+  canvas.height = hauteurAffichee * dpr;
+
+  const ctx = canvas.getContext('2d');
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, largeurAffichee, hauteurAffichee);
+
+  const marge = 55;
+
+  if (points.length === 0) {
+    ctx.fillStyle = '#8a8a8a';
+    ctx.font = '14px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(
+      'Saisir des mesures (V, P) dans le tableau ci-dessus pour tracer la courbe.',
+      largeurAffichee / 2,
+      hauteurAffichee / 2
+    );
+    return;
+  }
+
+  const vMax = Math.max(...points.map(pt => pt.v)) * 1.15 || 1;
+  const pMax = Math.max(...points.map(pt => pt.p)) * 1.15 || 1;
+
+  const xPix = v => marge + (v / vMax) * (largeurAffichee - marge - 20);
+  const yPix = p => hauteurAffichee - marge - (p / pMax) * (hauteurAffichee - marge - 20);
+
+  // Graduations et quadrillage.
+  ctx.strokeStyle = '#e5e5e5';
+  ctx.fillStyle = '#666';
+  ctx.font = '11px sans-serif';
+  ctx.lineWidth = 1;
+
+  const nbDivisions = 5;
+  for (let i = 0; i <= nbDivisions; i++) {
+
+    const v = (vMax * i) / nbDivisions;
+    const x = xPix(v);
+    ctx.beginPath();
+    ctx.moveTo(x, 15);
+    ctx.lineTo(x, hauteurAffichee - marge);
+    ctx.stroke();
+    ctx.textAlign = 'center';
+    ctx.fillText(arrondir(v, 0), x, hauteurAffichee - marge + 16);
+
+    const p = (pMax * i) / nbDivisions;
+    const y = yPix(p);
+    ctx.beginPath();
+    ctx.moveTo(marge, y);
+    ctx.lineTo(largeurAffichee - 20, y);
+    ctx.stroke();
+    ctx.textAlign = 'right';
+    ctx.fillText(arrondir(p, 0), marge - 8, y + 4);
+
+  }
+
+  // Axes.
+  ctx.strokeStyle = '#333';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(marge, 15);
+  ctx.lineTo(marge, hauteurAffichee - marge);
+  ctx.lineTo(largeurAffichee - 20, hauteurAffichee - marge);
+  ctx.stroke();
+
+  ctx.fillStyle = '#333';
+  ctx.font = '13px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Volume V (mL)', largeurAffichee / 2, hauteurAffichee - 10);
+
+  ctx.save();
+  ctx.translate(16, hauteurAffichee / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText('Pression P (hPa)', 0, 0);
+  ctx.restore();
+
+  // Courbe théorique P = k / V, dès que deux mesures exploitables existent.
+  if (points.length >= 2) {
+
+    const produits = points.map(pt => pt.p * pt.v);
+    const k = produits.reduce((s, x) => s + x, 0) / produits.length;
+
+    ctx.strokeStyle = '#1B6CA8';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+
+    let depart = false;
+    const nbEtapes = 300;
+
+    for (let i = 1; i <= nbEtapes; i++) {
+      const v = (vMax * i) / nbEtapes;
+      const p = k / v;
+      if (p > pMax) continue;
+      const x = xPix(v);
+      const y = yPix(p);
+      if (!depart) { ctx.moveTo(x, y); depart = true; }
+      else ctx.lineTo(x, y);
+    }
+
+    ctx.stroke();
+
+  }
+
+  // Points mesurés.
+  points.forEach(pt => {
+    const x = xPix(pt.v);
+    const y = yPix(pt.p);
+    ctx.beginPath();
+    ctx.arc(x, y, 5, 0, 2 * Math.PI);
+    ctx.fillStyle = '#c0392b';
+    ctx.fill();
+    ctx.strokeStyle = '#7a1f14';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  });
 
 }
