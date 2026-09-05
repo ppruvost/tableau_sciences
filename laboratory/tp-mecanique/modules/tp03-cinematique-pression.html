@@ -224,6 +224,37 @@
           Boyle-Mariotte relie pression et volume : P₁ × V₁ = P₂ × V₂.
         </div>
 
+        <div class="info">
+          Avec les deux dispositifs présentés plus bas (capteur
+          numérique ou manomètre relié à une seringue), la pression P
+          se lit directement sur l'appareil : F et S ne se mesurent
+          pas séparément avec ces montages. Pour relier la mesure à la
+          relation P = F/S :
+          <ul style="margin:.5rem 0 0;padding-left:1.2rem;">
+            <li><strong>S</strong> est la surface interne du piston de la seringue, calculable à partir de son diamètre interne d : S = π × (d/2)².</li>
+            <li><strong>F</strong> est la force pressante exercée sur ce piston : elle se déduit de la pression P lue sur le capteur ou le manomètre, grâce à F = P × S.</li>
+          </ul>
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Calculer S à partir du diamètre du piston</h4>
+
+        <div class="form-row">
+
+          <div class="form-group">
+            <label for="pf-diametre">Diamètre interne du piston d (mm)</label>
+            <input id="pf-diametre" type="number" step="0.1">
+          </div>
+
+        </div>
+
+        <div id="pf-diametre-resultat" class="resultat-calcul">
+          Saisir le diamètre interne du piston (indiqué sur la
+          seringue) pour calculer automatiquement la surface pressée S
+          et la reporter ci-dessous.
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Calcul direct : P = F / S</h4>
+
         <div class="form-row">
 
           <div class="form-group">
@@ -241,6 +272,34 @@
         <div id="pf-resultat" class="resultat-calcul">
           Saisir la force pressante et la surface pressée pour calculer
           la pression correspondante.
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Calcul inverse : déduire F à partir de la pression lue sur le dispositif</h4>
+
+        <div class="info">
+          Cas d'usage réel avec les deux dispositifs photographiés : on
+          connaît la pression P affichée par le capteur ou le
+          manomètre, et la surface S du piston (calculée ci-dessus) ;
+          on en déduit la force pressante F exercée sur le piston.
+        </div>
+
+        <div class="form-row">
+
+          <div class="form-group">
+            <label for="pf-pression-lue">Pression lue P (hPa)</label>
+            <input id="pf-pression-lue" type="number" step="1">
+          </div>
+
+          <div class="form-group">
+            <label for="pf-surface-inverse">Surface pressée S (cm²)</label>
+            <input id="pf-surface-inverse" type="number" step="0.01">
+          </div>
+
+        </div>
+
+        <div id="pf-inverse-resultat" class="resultat-calcul">
+          Saisir la pression lue sur le dispositif et la surface du
+          piston pour déduire la force pressante F = P × S.
         </div>
 
         <h4 style="margin-top:var(--gap-lg);">Deux dispositifs pour étudier la pression d'un gaz enfermé</h4>
