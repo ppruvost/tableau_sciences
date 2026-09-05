@@ -28,6 +28,7 @@
   --domaine-thermique-1:   #C1440E; --domaine-thermique-2:   #7A2E0E;
   --domaine-optique-1:     #8B5CF6; --domaine-optique-2:     #6D28D9;
   --domaine-signaux-1:     #10B981; --domaine-signaux-2:     #059669;
+  --domaine-batiment-1:    #4338CA; --domaine-batiment-2:    #312E81;
 
   --font-titre: 'Space Grotesk', sans-serif;
   --font-corps: 'Lato', sans-serif;
@@ -84,6 +85,7 @@ section h2 {
 .domaine-thermique   { background: linear-gradient(135deg, var(--domaine-thermique-1), var(--domaine-thermique-2)); }
 .domaine-optique     { background: linear-gradient(135deg, var(--domaine-optique-1), var(--domaine-optique-2)); }
 .domaine-signaux     { background: linear-gradient(135deg, var(--domaine-signaux-1), var(--domaine-signaux-2)); }
+.domaine-batiment    { background: linear-gradient(135deg, var(--domaine-batiment-1), var(--domaine-batiment-2)); }
 
 /* ── Grille de fichiers / pictogrammes ── */
 ul.grid {
@@ -99,6 +101,8 @@ ul.grid {
 .item a:hover { transform: translateY(-3px); box-shadow: var(--ombre-carte); border-color: var(--bleu-cuivre); }
 .item img { width: 40px; height: 40px; }
 .file-icon { font-size: 1.4rem; color: var(--gris-moyen); }
+.item-builtin a { background: var(--bleu-clair-bg); border-color: var(--bleu-cuivre); font-weight: 600; }
+.item-builtin .file-icon { color: var(--bleu-cuivre); }
 
 /* ── Pied de page ── */
 footer { padding: 1.6rem 2rem 3rem; font-size: .8rem; color: var(--gris-texte-clair); text-align: center; }
