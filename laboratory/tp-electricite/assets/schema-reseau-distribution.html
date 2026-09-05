@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Réseau de distribution — TP E02</title>
+<style>
+
+  /* ────────────────────────────────────────────────────────────
+     Page autonome — reprend les tokens de charte SciLab
+     (domaine Électricité : accent #E87A0E) pour rester cohérente
+     une fois intégrée dans l'onglet « Réseau de distribution »
+     du TP E02. Aucune dépendance externe : tout est dans ce fichier.
+     ──────────────────────────────────────────────────────────── */
+
+  :root {
+    --domaine-accent:        #E87A0E;
+    --domaine-accent-fonce:  #A8500A;
+    --domaine-accent-clair:  #FCEBD8;
+
+    --tht:   #C0392B; /* rouge   — THT / HTB */
+    --ht:    #E87A0E; /* orange  — HT        */
+    --hta:   #C99A1E; /* jaune   — HTA (MT)  */
+    --bt:    #2E8B57; /* vert    — BT        */
+
+    --gris-fonce:   #2B2E33;
+    --gris-moyen:   #5B6470;
+    --gris-clair:   #E7E9EC;
+    --fond:         #F7F8F9;
+    --blanc:        #FFFFFF;
+
+    --rayon: 12px;
+    --ombre: 0 2px 10px rgba(43, 46, 51, .08);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 1.5rem;
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--gris-fonce);
+    background: var(--fond);
+  }
+
+  .schema-reseau {
+    max-width: 980px;
+    margin: 0 auto;
+  }
+
+  .schema-reseau h2 {
+    font-size: 1.15rem;
+    margin: 0 0 .9rem;
+    color: var(--gris-fonce);
+  }
+
+  /* ── Diagramme horizontal ─────────────────────────────────── */
+
+  .diagramme {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: var(--blanc);
+    border: 1px solid var(--gris-clair);
+    border-radius: var(--rayon);
+    padding: 1.4rem 1rem 1.1rem;
+    box-shadow: var(--ombre);
+    overflow-x: auto;
+  }
+
+  .etape-diag {
+    flex: 1 1 0;
+    min-width: 128px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: .4rem .3rem;
+    border-radius: 10px;
+    font-family: inherit;
+    transition: background .15s ease, transform .1s ease;
+  }
+
+  .etape-diag:hover      { background: var(--gris-clair); }
+  .etape-diag:focus-visible { outline: 3px solid var(--domaine-accent); outline-offset: 2px; }
+
+  .etape-diag.actif {
+    background: var(--domaine-accent-clair);
+  }
+
+  .etape-diag .icone {
+    width: 56px;
+    height: 56px;
+    margin-bottom: .5rem;
+  }
+
+  .etape-diag .nom {
+    font-weight: 700;
+    font-size: .82rem;
+    color: var(--gris-fonce);
+    line-height: 1.25;
+  }
+
+  .etape-diag .valeurs {
+    font-size: .72rem;
+    color: var(--gris-moyen);
+    margin-top: .15rem;
+  }
+
+  .etape-diag .puce {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin: .35rem auto 0;
+  }
+
+  .connecteur {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    align-self: flex-start;
+    margin-top: 28px;
+    color: var(--gris-moyen);
+  }
+
+  .connecteur svg { width: 100%; height: 20px; }
+
+  /* ── Légende ───────────────────────────────────────────────── */
+
+  .legende {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem 1.3rem;
+    margin: .8rem .2rem 0;
+    font-size: .78rem;
+    color: var(--gris-moyen);
+  }
+
+  .legende span { display: inline-flex; align-items: center; gap: .35rem; }
+
+  .legende .puce { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+
+  .legende-note {
+    font-size: .72rem;
+    color: var(--gris-moyen);
+    margin: .35rem .2rem 0;
+  }
+
+  /* ── Sélecteur d'étape (boutons numérotés) ───────────────────── */
+
+  .selecteur-etapes {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: .5rem;
+    margin: 1.1rem 0;
+  }
+
+  .btn-etape {
+    font-family: inherit;
+    font-size: .82rem;
+    font-weight: 600;
+    color: var(--gris-fonce);
+    background: var(--blanc);
+    border: 1px solid var(--gris-clair);
+    border-radius: 9px;
+    padding: .55rem .4rem;
+    cursor: pointer;
+    transition: border-color .15s ease, color .15s ease, background .15s ease;
+  }
+
+  .btn-etape:hover { border-color: var(--domaine-accent); }
+
+  .btn-etape.actif {
+    background: var(--domaine-accent);
+    border-color: var(--domaine-accent);
+    color: var(--blanc);
+  }
+
+  .btn-etape:focus-visible { outline: 3px solid var(--domaine-accent-fonce); outline-offset: 2px; }
+
+  /* ── Fiche technique ──────────────────────────────────────── */
+
+  .fiche {
+    background: var(--blanc);
+    border: 1px solid var(--gris-clair);
+    border-left: 5px solid var(--domaine-accent);
+    border-radius: var(--rayon);
+    padding: 1.1rem 1.3rem 1.2rem;
+    box-shadow: var(--ombre);
+  }
+
+  .fiche-entete {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: .6rem;
+    flex-wrap: wrap;
+    margin-bottom: .5rem;
+  }
+
+  .fiche-entete h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    color: var(--gris-fonce);
+  }
+
+  .fiche-domaine {
+    font-size: .72rem;
+    font-weight: 700;
+    padding: .18rem .55rem;
+    border-radius: 999px;
+    color: var(--blanc);
+    white-space: nowrap;
+  }
+
+  .fiche-intro {
+    font-size: .88rem;
+    color: var(--gris-moyen);
+    margin: 0 0 .9rem;
+  }
+
+  .fiche-grille {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: .8rem;
+  }
+
+  .fiche-bloc {
+    background: var(--fond);
+    border-radius: 9px;
+    padding: .7rem .85rem;
+  }
+
+  .fiche-bloc .label {
+    font-size: .68rem;
+    font-weight: 700;
+    color: var(--gris-moyen);
+    margin-bottom: .3rem;
+  }
+
+  .fiche-bloc .valeur {
+    font-size: .86rem;
+    line-height: 1.4;
+    color: var(--gris-fonce);
+  }
+
+  .fiche-repere {
+    margin-top: .9rem;
+    padding-top: .8rem;
+    border-top: 1px dashed var(--gris-clair);
+    font-size: .8rem;
+    color: var(--gris-moyen);
+    line-height: 1.5;
+  }
+
+  .fiche-repere strong { color: var(--gris-fonce); }
+
+  .invite {
+    font-size: .8rem;
+    color: var(--gris-moyen);
+    margin: 0 0 1.1rem;
+  }
+
+  @media (max-width: 640px) {
+    .selecteur-etapes  { grid-template-columns: repeat(3, 1fr); }
+    .fiche-grille      { grid-template-columns: 1fr; }
+    .connecteur        { width: 18px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .etape-diag, .btn-etape { transition: none; }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="schema-reseau">
+
+  <h2>Du site de production à l'installation domestique</h2>
+  <p class="invite">Cliquer sur une étape du schéma ou sur un bouton ci-dessous pour afficher sa fiche technique.</p>
+
+  <!-- ═══════════ DIAGRAMME CLIQUABLE ═══════════ -->
+  <div class="diagramme" id="diagramme" role="group" aria-label="Étapes du réseau électrique">
+    <!-- rempli en JS -->
+  </div>
+
+  <div class="legende" id="legende"></div>
+  <p class="legende-note">Domaines de tension au sens de la norme NF C 18-510 : HTB au-delà de 50 kV (couvre ici le « très haut » 400/225&nbsp;kV et le « haut » 63/90/150&nbsp;kV), HTA de 1 à 50&nbsp;kV, BT de 50 à 1000&nbsp;V.</p>
+
+  <!-- ═══════════ SÉLECTEUR NUMÉROTÉ ═══════════ -->
+  <div class="selecteur-etapes" id="selecteur" role="tablist" aria-label="Sélection d'une étape"></div>
+
+  <!-- ═══════════ FICHE TECHNIQUE ═══════════ -->
+  <div class="fiche" id="fiche" role="tabpanel" aria-live="polite"></div>
+
+</div>
+
+<script>
+(function () {
+
+  // ── Données des 5 étapes ──────────────────────────────────
+  const ETAPES = [
+
+    {
+      id: "production",
+      numero: 1,
+      nomBouton: "Production",
+      nomDiag: "Production",
+      valeursDiag: "20 kV → 400 kV",
+      domaine: "hta-htb",
+      couleur: "var(--hta)",
+      domaineLabel: "HTA → HTB",
+      resume: "Le point de départ du voyage de l'électricité : la centrale produit puis élève la tension avant l'entrée sur le réseau de transport.",
+      role: "Élévateur — élève la tension de sortie de l'alternateur (quelques kV à ~20 kV) jusqu'à 400 kV, afin de limiter les pertes en ligne lors du transport à longue distance.",
+      ligne: "Liaison très courte entre l'alternateur et le poste d'élévation, aérienne ou souterraine selon le site de production.",
+      tension: "Sortie alternateur ≈ 20 kV (HTA), élevée jusqu'à 400 kV (THT/HTB) au poste d'évacuation.",
+      repere: "La tension de sortie d'un alternateur de centrale reste modeste (quelques kV à une vingtaine de kV) : c'est un transformateur élévateur, au pied de la centrale, qui la porte au niveau du réseau de transport.",
+    },
+
+    {
+      id: "transport",
+      numero: 2,
+      nomBouton: "Transport",
+      nomDiag: "Transport",
+      valeursDiag: "400 / 225 kV",
+      domaine: "htb",
+      couleur: "var(--tht)",
+      domaineLabel: "THT / HTB",
+      resume: "L'énergie parcourt de longues distances à tension quasi constante, très élevée pour limiter les pertes par effet Joule.",
+      role: "Aucune transformation à ce stade : le réseau achemine l'énergie à tension quasi constante sur de longues distances, en minimisant les pertes par effet Joule grâce à la très haute tension.",
+      ligne: "Aérienne, sur des lignes à pylônes de grande hauteur (le refroidissement par air permet de limiter la section des câbles et l'emprise au sol).",
+      tension: "400 kV et 225 kV (Très Haute Tension, domaine HTB).",
+      repere: "Le réseau géré par RTE compte environ 106 000 km de lignes en 225 et 400 kV : le 400 kV assure l'évacuation depuis les grands sites de production ainsi que les interconnexions entre régions et pays voisins.",
+    },
+
+    {
+      id: "repartition",
+      numero: 3,
+      nomBouton: "Répartition",
+      nomDiag: "Répartition",
+      valeursDiag: "225 → 63 kV",
+      domaine: "htb",
+      couleur: "var(--ht)",
+      domaineLabel: "HT (HTB)",
+      resume: "Un premier abaissement de tension, aux postes qui répartissent l'énergie entre les différentes régions.",
+      role: "Abaisseur — abaisse la tension aux postes de répartition régionaux, avant que l'énergie ne soit acheminée vers les zones de consommation.",
+      ligne: "Essentiellement aérienne ; quelques tronçons souterrains en zones urbaines denses où l'implantation de pylônes est impossible.",
+      tension: "63, 90 ou 150 kV selon les régions (toujours dans le domaine HTB, mais couramment désigné « HT »).",
+      repere: "Les réseaux à 63-90 kV assurent la répartition de l'énergie entre régions, en aval des grandes liaisons 225/400 kV.",
+    },
+
+    {
+      id: "poste-source",
+      numero: 4,
+      nomBouton: "Poste source",
+      nomDiag: "Poste source",
+      valeursDiag: "63 → 20 kV",
+      domaine: "hta",
+      couleur: "var(--hta)",
+      domaineLabel: "HTA",
+      resume: "Le poste source fait la jonction entre le réseau de transport (RTE) et le réseau de distribution (Enedis).",
+      role: "Abaisseur — transforme la haute tension du réseau de transport en moyenne tension (HTA), au point de jonction entre les deux gestionnaires de réseau.",
+      ligne: "Arrivée aérienne ou souterraine selon le poste ; départs en HTA généralement souterrains en zone urbaine, aériens en zone rurale.",
+      tension: "Entrée 63, 90 ou 225 kV → sortie 20 kV (HTA, moyenne tension).",
+      repere: "Le poste source marque le passage de responsabilité de RTE (transport) à Enedis (distribution) : c'est ici que l'énergie entre dans le réseau de distribution proprement dit.",
+    },
+
+    {
+      id: "distribution",
+      numero: 5,
+      nomBouton: "Poste HTA/BT",
+      nomDiag: "Distribution",
+      valeursDiag: "20 kV → 230 V",
+      domaine: "bt",
+      couleur: "var(--bt)",
+      domaineLabel: "BT",
+      resume: "Le dernier maillon : la tension arrive au niveau utilisable directement par les appareils du client.",
+      role: "Abaisseur final — dans le poste HTA/BT (« transformateur de quartier »), abaisse la moyenne tension en basse tension utilisable directement par les clients.",
+      ligne: "Souterraine en zone urbaine dense, aérienne en zone rurale, jusqu'au client final.",
+      tension: "Sortie 400 V triphasé ; le client domestique reçoit une phase et le neutre, ce qui donne le 230 V monophasé.",
+      repere: "Dernier maillon du réseau, géré par Enedis, avant le compteur du client : une phase + le neutre du réseau 400 V triphasé fournissent le 230 V monophasé de l'installation domestique.",
+    },
+
+  ];
+
+  const CONNECTEURS = ["transfo", "ligne", "transfo", "transfo"]; // entre chaque paire d'étapes consécutives
+
+  // ── Icônes SVG (simples, monochromes, héritent de currentColor) ──
+  const ICONES = {
+
+    production: `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 50 L20 26 L26 50 Z" />
+      <rect x="32" y="30" width="16" height="20" />
+      <path d="M36 30 L36 24 L44 24 L44 30" />
+      <line x1="10" y1="50" x2="54" y2="50" />
+    </svg>`,
+
+    transport: `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M32 12 L20 50 M32 12 L44 50" />
+      <path d="M24 26 L40 26 M22 38 L42 38" />
+      <line x1="10" y1="50" x2="54" y2="50" />
+      <line x1="6" y1="20" x2="22" y2="20" />
+      <line x1="42" y1="20" x2="58" y2="20" />
+      <line x1="8" y1="30" x2="20" y2="30" />
+      <line x1="44" y1="30" x2="56" y2="30" />
+    </svg>`,
+
+    repartition: `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="10" y1="24" x2="54" y2="24" />
+      <line x1="18" y1="24" x2="18" y2="34" />
+      <line x1="32" y1="24" x2="32" y2="34" />
+      <line x1="46" y1="24" x2="46" y2="34" />
+      <rect x="24" y="34" width="16" height="16" rx="8" />
+      <line x1="10" y1="50" x2="54" y2="50" />
+    </svg>`,
+
+    "poste-source": `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="16" y="26" width="32" height="24" rx="2" />
+      <line x1="24" y1="26" x2="24" y2="16" />
+      <line x1="40" y1="26" x2="40" y2="16" />
+      <circle cx="24" cy="14" r="2" fill="currentColor" stroke="none" />
+      <circle cx="40" cy="14" r="2" fill="currentColor" stroke="none" />
+      <line x1="10" y1="50" x2="54" y2="50" />
+    </svg>`,
+
+    distribution: `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 32 L32 16 L50 32" />
+      <rect x="20" y="32" width="24" height="18" />
+      <line x1="30" y1="50" x2="30" y2="40" />
+      <line x1="26" y1="40" x2="34" y2="40" />
+      <line x1="10" y1="50" x2="54" y2="50" />
+    </svg>`,
+
+  };
+
+  const ICONE_CONNECTEUR = `<svg viewBox="0 0 34 20"><circle cx="12" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="22" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>`;
+  const ICONE_LIGNE       = `<svg viewBox="0 0 34 20"><line x1="2" y1="10" x2="32" y2="10" stroke="currentColor" stroke-width="1.6"/></svg>`;
+
+  // ── Construction du diagramme ──────────────────────────────
+  const diagEl = document.getElementById("diagramme");
+  const legEl  = document.getElementById("legende");
+  const selEl  = document.getElementById("selecteur");
+  const ficheEl = document.getElementById("fiche");
+
+  ETAPES.forEach((etape, i) => {
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "etape-diag";
+    btn.dataset.id = etape.id;
+    btn.setAttribute("aria-pressed", "false");
+    btn.innerHTML = `
+      <span class="icone" style="color:${etape.couleur}">${ICONES[etape.id]}</span>
+      <span class="nom">${etape.nomDiag}</span>
+      <span class="valeurs">${etape.valeursDiag}</span>
+      <span class="puce" style="background:${etape.couleur}"></span>
+    `;
+    btn.addEventListener("click", () => afficherFiche(etape.id));
+    diagEl.appendChild(btn);
+
+    if (i < ETAPES.length - 1) {
+      const conn = document.createElement("div");
+      conn.className = "connecteur";
+      conn.innerHTML = CONNECTEURS[i] === "transfo" ? ICONE_CONNECTEUR : ICONE_LIGNE;
+      diagEl.appendChild(conn);
+    }
+  });
+
+  // ── Légende ────────────────────────────────────────────────
+  legEl.innerHTML = `
+    <span><i class="puce" style="background:var(--tht)"></i>THT / HTB</span>
+    <span><i class="puce" style="background:var(--ht)"></i>HT</span>
+    <span><i class="puce" style="background:var(--hta)"></i>HTA (moyenne tension)</span>
+    <span><i class="puce" style="background:var(--bt)"></i>BT</span>
+  `;
+
+  // ── Sélecteur numéroté ─────────────────────────────────────
+  ETAPES.forEach(etape => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "btn-etape";
+    b.dataset.id = etape.id;
+    b.setAttribute("role", "tab");
+    b.setAttribute("aria-selected", "false");
+    b.textContent = `${etape.numero} · ${etape.nomBouton}`;
+    b.addEventListener("click", () => afficherFiche(etape.id));
+    selEl.appendChild(b);
+  });
+
+  // ── Affichage de la fiche technique ────────────────────────
+  function afficherFiche(id) {
+
+    const etape = ETAPES.find(e => e.id === id);
+    if (!etape) return;
+
+    // état actif sur le diagramme
+    diagEl.querySelectorAll(".etape-diag").forEach(el => {
+      const actif = el.dataset.id === id;
+      el.classList.toggle("actif", actif);
+      el.setAttribute("aria-pressed", String(actif));
+    });
+
+    // état actif sur le sélecteur
+    selEl.querySelectorAll(".btn-etape").forEach(el => {
+      const actif = el.dataset.id === id;
+      el.classList.toggle("actif", actif);
+      el.setAttribute("aria-selected", String(actif));
+    });
+
+    ficheEl.style.borderLeftColor = etape.couleur;
+
+    ficheEl.innerHTML = `
+      <div class="fiche-entete">
+        <h3>${etape.numero} · ${etape.nomDiag}</h3>
+        <span class="fiche-domaine" style="background:${etape.couleur}">${etape.domaineLabel}</span>
+      </div>
+      <p class="fiche-intro">${etape.resume}</p>
+      <div class="fiche-grille">
+        <div class="fiche-bloc">
+          <div class="label">Rôle du transformateur</div>
+          <div class="valeur">${etape.role}</div>
+        </div>
+        <div class="fiche-bloc">
+          <div class="label">Type de ligne</div>
+          <div class="valeur">${etape.ligne}</div>
+        </div>
+        <div class="fiche-bloc">
+          <div class="label">Tension</div>
+          <div class="valeur">${etape.tension}</div>
+        </div>
+      </div>
+      <div class="fiche-repere"><strong>Repère :</strong> ${etape.repere}</div>
+    `;
+  }
+
+  // Étape affichée par défaut
+  afficherFiche("production");
+
+})();
+</script>
+
+</body>
+</html>
