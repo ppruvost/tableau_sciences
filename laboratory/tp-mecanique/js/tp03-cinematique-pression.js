@@ -42,6 +42,7 @@ export function init() {
   initVitesseAcceleration();
   initPressionForce();
   initBoyleMariotte();
+  initTableauMesuresBoyleMariotte();
 
   initMateriel({
     equipementId: 'materiel-equipements',
@@ -188,4 +189,122 @@ function initBoyleMariotte() {
   inputP1.addEventListener('input', calculer);
   inputV1.addEventListener('input', calculer);
   inputV2.addEventListener('input', calculer);
+}
+
+// =================================================================
+// Onglet 2 (suite) — Tableau de mesures (V, P) sur plusieurs points
+// pour les deux dispositifs expérimentaux (capteur numérique /
+// vérin à vis + manomètre analogique) et vérification de la
+// constance du produit P × V (loi de Boyle-Mariotte).
+// =================================================================
+let bmMesures = [];
+let bmProchainId = 1;
+
+function initTableauMesuresBoyleMariotte() {
+
+  const corps = $('bm-table-corps');
+  const boutonAjouter = $('bm-ajouter-mesure');
+  const zoneResultat = $('bm-table-resultat');
+
+  if (!corps || !boutonAjouter || !zoneResultat) return;
+
+  // Deux lignes de départ (vides) pour que l'élève voie immédiatement
+  // la structure du tableau à compléter.
+  bmMesures = [
+    { id: bmProchainId++, dispositif: 'numerique', volume: '', pression: '' },
+    { id: bmProchainId++, dispositif: 'numerique', volume: '', pression: '' },
+  ];
+
+  function ajouterLigne() {
+    bmMesures.push({ id: bmProchainId++, dispositif: 'numerique', volume: '', pression: '' });
+    rafraichir();
+  }
+
+  function supprimerLigne(id) {
+    if (bmMesures.length <= 1) return;
+    bmMesures = bmMesures.filter(m => m.id !== id);
+    rafraichir();
+  }
+
+  function majMesure(id, champ, valeur) {
+    const mesure = bmMesures.find(m => m.id === id);
+    if (mesure) mesure[champ] = valeur;
+    calculerVerification();
+  }
+
+  function calculerVerification() {
+
+    // Colonne P×V affichée pour chaque ligne du tableau.
+    bmMesures.forEach(m => {
+      const v = parseFloat(m.volume);
+      const p = parseFloat(m.pression);
+      const cellule = corps.querySelector(`tr[data-id="${m.id}"] .bm-pv`);
+      if (!cellule) return;
+      cellule.textContent = (!Number.isNaN(v) && !Number.isNaN(p)) ? arrondir(p * v, 0) : '—';
+    });
+
+    const points = bmMesures
+      .map(m => ({ v: parseFloat(m.volume), p: parseFloat(m.pression) }))
+      .filter(pt => !Number.isNaN(pt.v) && !Number.isNaN(pt.p) && pt.v > 0);
+
+    if (points.length < 2) {
+      zoneResultat.textContent = 'Ajouter au moins deux mesures (V, P) pour vérifier la constance du produit P × V.';
+      return;
+    }
+
+    const produits = points.map(pt => pt.p * pt.v);
+    const moyenne = produits.reduce((s, x) => s + x, 0) / produits.length;
+    const ecartMaxRelatif = Math.max(...produits.map(x => Math.abs(x - moyenne) / moyenne)) * 100;
+
+    const verdict = ecartMaxRelatif < 10
+      ? 'Le produit P × V reste approximativement constant : les mesures sont cohérentes avec la loi de Boyle-Mariotte.'
+      : "L'écart entre les valeurs de P × V dépasse 10 % : vérifier l'étanchéité du montage ou une éventuelle variation de température.";
+
+    zoneResultat.innerHTML = `
+      Produit moyen P × V ≈ <strong>${arrondir(moyenne, 0)} hPa·mL</strong>
+      (écart maximal à la moyenne : ${arrondir(ecartMaxRelatif, 1)} %)<br>
+      ${verdict}
+    `;
+  }
+
+  function rafraichir() {
+
+    corps.innerHTML = '';
+
+    bmMesures.forEach((m, index) => {
+
+      const ligne = document.createElement('tr');
+      ligne.dataset.id = m.id;
+
+      ligne.innerHTML = `
+        <td>${index + 1}</td>
+        <td>
+          <select class="bm-dispositif">
+            <option value="numerique" ${m.dispositif === 'numerique' ? 'selected' : ''}>Capteur numérique</option>
+            <option value="manometre" ${m.dispositif === 'manometre' ? 'selected' : ''}>Vérin + manomètre</option>
+          </select>
+        </td>
+        <td class="saisie"><input type="number" step="0.1" class="bm-volume" value="${m.volume}"></td>
+        <td class="saisie"><input type="number" step="1" class="bm-pression" value="${m.pression}"></td>
+        <td class="bm-pv">—</td>
+        <td><button type="button" class="btn btn-danger bm-supprimer" ${bmMesures.length <= 1 ? 'disabled' : ''}>🗑</button></td>
+      `;
+
+      corps.appendChild(ligne);
+
+      ligne.querySelector('.bm-dispositif').addEventListener('change', e => majMesure(m.id, 'dispositif', e.target.value));
+      ligne.querySelector('.bm-volume').addEventListener('input', e => majMesure(m.id, 'volume', e.target.value));
+      ligne.querySelector('.bm-pression').addEventListener('input', e => majMesure(m.id, 'pression', e.target.value));
+      ligne.querySelector('.bm-supprimer').addEventListener('click', () => supprimerLigne(m.id));
+
+    });
+
+    calculerVerification();
+
+  }
+
+  boutonAjouter.addEventListener('click', ajouterLigne);
+
+  rafraichir();
+
 }
