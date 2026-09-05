@@ -71,3 +71,19 @@
   font-size: var(--fs-sm);
   line-height: 1.5;
 }
+
+/* ── Courbe P = f(V) (TP03, tableau de mesures Boyle-Mariotte) ──── */
+.graphe-boyle-mariotte {
+  position: relative;
+  width: 100%;
+  min-height: 340px;
+  margin-top: var(--gap-sm);
+}
+#bm-canvas-courbe {
+  display: block;
+  width: 100% !important;
+  height: 320px !important;
+  background: var(--blanc);
+  border: 1px solid var(--gris-clair);
+  border-radius: var(--r-md);
+}
