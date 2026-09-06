@@ -325,8 +325,7 @@
         </div>
 
       </div>
-
-      <!-- ============================ -->
+<!-- ============================ -->
       <!-- TRANSFORMATEUR               -->
       <!-- ============================ -->
 
@@ -337,8 +336,92 @@
         <div class="info">
           Un transformateur permet d'élever ou d'abaisser une tension
           alternative. Le rapport entre la tension au secondaire et la
-          tension au primaire est lié au rapport du nombre de spires
-          des deux enroulements.
+          tension au primaire est égal au rapport du nombre de spires
+          des deux enroulements : U₂ / U₁ = N₂ / N₁. Le simulateur
+          ci-dessous permet d'explorer cette relation avant de la
+          vérifier expérimentalement.
+        </div>
+
+        <div class="transfo-simu" id="transfo-simu">
+
+          <div class="transfo-simu-reglages">
+
+            <div class="transfo-reglage">
+              <label for="transfo-u1-simu">Tension au primaire U₁</label>
+              <input type="range" id="transfo-u1-simu" min="1" max="230" step="1" value="12">
+              <span class="transfo-reglage-valeur" id="transfo-u1-simu-valeur">12 V</span>
+            </div>
+
+            <div class="transfo-reglage">
+              <label for="transfo-n1">Nombre de spires au primaire N₁</label>
+              <input type="range" id="transfo-n1" min="10" max="500" step="10" value="200">
+              <span class="transfo-reglage-valeur" id="transfo-n1-valeur">200 spires</span>
+            </div>
+
+            <div class="transfo-reglage">
+              <label for="transfo-n2">Nombre de spires au secondaire N₂</label>
+              <input type="range" id="transfo-n2" min="10" max="500" step="10" value="100">
+              <span class="transfo-reglage-valeur" id="transfo-n2-valeur">100 spires</span>
+            </div>
+
+          </div>
+
+          <div class="transfo-simu-visuel">
+
+            <div class="transfo-schema">
+
+              <div class="transfo-bobine">
+                <span class="transfo-bobine-titre">Primaire</span>
+                <div class="transfo-bobine-image" id="transfo-image-primaire"></div>
+                <span class="transfo-bobine-n" id="transfo-n1-affiche">N₁ = 200 spires</span>
+              </div>
+
+              <div class="transfo-noyau" aria-hidden="true"></div>
+
+              <div class="transfo-bobine">
+                <span class="transfo-bobine-titre">Secondaire</span>
+                <div class="transfo-bobine-image" id="transfo-image-secondaire"></div>
+                <span class="transfo-bobine-n" id="transfo-n2-affiche">N₂ = 100 spires</span>
+              </div>
+
+            </div>
+
+            <div class="transfo-tensions">
+
+              <div class="transfo-tension">
+                <span class="transfo-tension-nom">U₁</span>
+                <div class="transfo-barre-fond">
+                  <div class="transfo-barre-remplissage" id="transfo-barre-u1"></div>
+                </div>
+                <span class="transfo-tension-valeur" id="transfo-u1-affiche">12 V</span>
+              </div>
+
+              <div class="transfo-tension">
+                <span class="transfo-tension-nom">U₂</span>
+                <div class="transfo-barre-fond">
+                  <div class="transfo-barre-remplissage" id="transfo-barre-u2"></div>
+                </div>
+                <span class="transfo-tension-valeur" id="transfo-u2-affiche">6 V</span>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div id="transfo-conclusion-simu" class="resultat-calcul">
+            Régler la tension au primaire et le nombre de spires de
+            chaque enroulement pour déterminer si le transformateur
+            est élévateur ou abaisseur.
+          </div>
+
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Vérification expérimentale</h4>
+
+        <div class="info">
+          Sur le transformateur réel du poste de travail, mesurez les
+          tensions efficaces au primaire et au secondaire pour
+          vérifier la relation observée dans le simulateur.
         </div>
 
         <div class="form-row">
@@ -363,9 +446,9 @@
         <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
 
         <ol class="etapes">
-          <li>Alimenter l'enroulement primaire du transformateur avec une tension alternative basse tension.</li>
-          <li>Mesurer la tension efficace au primaire, puis au secondaire, à l'aide d'un voltmètre en position alternatif.</li>
-          <li>Saisir les deux valeurs mesurées et observer la conclusion affichée.</li>
+          <li>Dans le simulateur, régler N₁ et N₂ puis observer l'effet sur U₂ pour une tension U₁ donnée.</li>
+          <li>Alimenter l'enroulement primaire du transformateur réel avec une tension alternative basse tension.</li>
+          <li>Mesurer la tension efficace au primaire, puis au secondaire, à l'aide d'un voltmètre en position alternatif, et saisir les deux valeurs mesurées ci-dessus.</li>
         </ol>
 
         <div class="mode-op">
@@ -374,12 +457,6 @@
         </div>
 
       </div>
-
-    </div>
-
-  </div>
-
-</div>
 
 <div class="section" data-type="resultats">
 
