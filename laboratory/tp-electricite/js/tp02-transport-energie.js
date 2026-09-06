@@ -130,49 +130,126 @@ function initReseau() {
 }
 
 // =================================================================
-// Onglet 2 — Effet Joule et comparaison des pertes en ligne
+// Onglet 2 — Simulateur interactif : effet Joule et pertes en ligne
 // =================================================================
+//
+// Transporte une même puissance P par deux lignes de résistance R
+// identique, l'une en basse tension (U1), l'autre en haute tension
+// (U2). Calcule pour chacune l'intensité, la puissance perdue par
+// effet Joule et la part de la puissance transportée qui est perdue,
+// puis pilote une représentation visuelle de l'échauffement du câble
+// (couleur + ondes de chaleur) via la variable CSS --chauffe.
+
 function initEffetJoule() {
 
-  const inputR = $('joule-resistance');
-  const inputIbt = $('joule-intensite-bt');
-  const inputIht = $('joule-intensite-ht');
-  const zoneResultat = $('joule-resultat');
+  const inputP  = $('joule-puissance');
+  const inputR  = $('joule-resistance-simu');
+  const inputU1 = $('joule-tension-bt');
+  const inputU2 = $('joule-tension-ht');
 
-  if (!inputR || !inputIbt || !inputIht || !zoneResultat) return;
+  const zoneConclusion = $('joule-conclusion');
 
-  function calculerPertes() {
+  if (!inputP || !inputR || !inputU1 || !inputU2 || !zoneConclusion) return;
 
-    const r = parseFloat(inputR.value);
-    const iBt = parseFloat(inputIbt.value);
-    const iHt = parseFloat(inputIht.value);
+  // Couleur du câble interpolée : vert (froid) → ambre → rouge (chaud).
+  // t est un taux de charge thermique entre 0 et 1.
+  function couleurChauffe(t) {
 
-    if (Number.isNaN(r) || Number.isNaN(iBt) || Number.isNaN(iHt)) {
-      zoneResultat.textContent = 'Saisir la résistance de ligne et les deux intensités pour comparer les pertes par effet Joule en basse et en haute tension, à puissance transportée égale.';
-      return;
-    }
+    const froid = [0, 135, 90];   // --vert-acide
+    const tiede = [202, 111, 30]; // --ambre-fer
+    const chaud = [192, 57, 43];  // --rouge-ph
 
-    const pBt = r * iBt * iBt;
-    const pHt = r * iHt * iHt;
+    const [a, b] = t < 0.5 ? [froid, tiede] : [tiede, chaud];
+    const k = t < 0.5 ? t / 0.5 : (t - 0.5) / 0.5;
 
-    let comparaison = '';
+    const r = Math.round(a[0] + (b[0] - a[0]) * k);
+    const g = Math.round(a[1] + (b[1] - a[1]) * k);
+    const bch = Math.round(a[2] + (b[2] - a[2]) * k);
 
-    if (pBt > 0) {
-      const rapport = pBt / pHt;
-      comparaison = `Les pertes sont environ ${arrondir(rapport, 0)} fois plus faibles en haute tension qu'en basse tension, à puissance transportée identique.`;
-    }
-
-    zoneResultat.innerHTML = `
-      Puissance dissipée par effet Joule :<br>
-      &bull; en basse tension : <strong>${arrondir(pBt, 1)} W</strong><br>
-      &bull; en haute tension : <strong>${arrondir(pHt, 1)} W</strong><br>
-      ${comparaison}
-    `;
+    return `rgb(${r}, ${g}, ${bch})`;
   }
 
-  inputR.addEventListener('input', calculerPertes);
-  inputIbt.addEventListener('input', calculerPertes);
-  inputIht.addEventListener('input', calculerPertes);
+  function appliquerEchauffement(filEl, t) {
+
+    const clamped = Math.min(1, Math.max(0, t));
+    const couleur = couleurChauffe(clamped);
+
+    filEl.style.setProperty('--chauffe', clamped.toFixed(2));
+    filEl.style.backgroundColor = couleur;
+    filEl.style.color = couleur;
+    filEl.style.boxShadow = `0 0 ${4 + 40 * clamped}px ${1 + 10 * clamped}px ${couleur}`;
+  }
+
+  function formaterPuissance(w) {
+    if (w >= 1000) return `${arrondir(w / 1000, 2)} kW`;
+    return `${arrondir(w, 1)} W`;
+  }
+
+  function simuler() {
+
+    const pKw = parseFloat(inputP.value);
+    const r   = parseFloat(inputR.value);
+    const u1  = parseFloat(inputU1.value);      // volts
+    const u2Kv = parseFloat(inputU2.value);     // kilovolts
+
+    if ([pKw, r, u1, u2Kv].some(Number.isNaN) || u1 <= 0 || u2Kv <= 0) return;
+
+    const pWatts = pKw * 1000;
+    const u2 = u2Kv * 1000; // volts
+
+    const i1 = pWatts / u1;
+    const i2 = pWatts / u2;
+
+    const pertes1 = r * i1 * i1;
+    const pertes2 = r * i2 * i2;
+
+    const part1 = (pertes1 / pWatts) * 100;
+    const part2 = (pertes2 / pWatts) * 100;
+
+    // Affichage des réglages
+    $('joule-puissance-valeur').textContent = `${arrondir(pKw, 0)} kW`;
+    $('joule-resistance-simu-valeur').textContent = `${arrondir(r, 1)} Ω`;
+    $('joule-tension-bt-valeur').textContent = `${arrondir(u1, 0)} V`;
+    $('joule-tension-ht-valeur').textContent = `${arrondir(u2Kv, 0)} kV`;
+
+    $('joule-bt-tension-affiche').textContent = `${arrondir(u1, 0)} V`;
+    $('joule-ht-tension-affiche').textContent = `${arrondir(u2Kv, 0)} kV`;
+
+    // Mesures basse tension
+    $('joule-bt-intensite').textContent = `${arrondir(i1, 1)} A`;
+    $('joule-bt-pertes').textContent = formaterPuissance(pertes1);
+    $('joule-bt-part').textContent = `${arrondir(Math.min(part1, 999), 1)} %`;
+
+    // Mesures haute tension
+    $('joule-ht-intensite').textContent = `${arrondir(i2, 2)} A`;
+    $('joule-ht-pertes').textContent = formaterPuissance(pertes2);
+    $('joule-ht-part').textContent = `${arrondir(part2, 3)} %`;
+
+    // Échauffement visuel : échelle de charge thermique bornée à
+    // 50 % de perte (au-delà, le câble est affiché au rouge maximal).
+    appliquerEchauffement($('joule-bt-fil'), part1 / 50);
+    appliquerEchauffement($('joule-ht-fil'), part2 / 50);
+
+    // Conclusion
+    if (pertes2 > 0) {
+
+      const rapport = pertes1 / pertes2;
+
+      zoneConclusion.innerHTML = `
+        À puissance transportée égale (${formaterPuissance(pWatts)}), les pertes par
+        effet Joule sont environ <strong>${arrondir(rapport, 0)} fois plus faibles</strong>
+        en haute tension (${arrondir(u2Kv, 0)} kV) qu'en basse tension (${arrondir(u1, 0)} V) :
+        <strong>${formaterPuissance(pertes1)}</strong> contre <strong>${formaterPuissance(pertes2)}</strong>.
+        C'est pourquoi le réseau de transport fonctionne sous très haute tension.
+      `;
+    }
+  }
+
+  [inputP, inputR, inputU1, inputU2].forEach((input) => {
+    input.addEventListener('input', simuler);
+  });
+
+  simuler();
 }
 
 // =================================================================
