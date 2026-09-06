@@ -285,3 +285,91 @@ function initTransformateur() {
   inputU1.addEventListener('input', analyserTransformateur);
   inputU2.addEventListener('input', analyserTransformateur);
 }
+// =================================================================
+// Onglet 3 — Simulateur interactif : transformateur élévateur /
+// abaisseur, à partir du rapport de spires N2/N1.
+// =================================================================
+
+function initTransformateurSimulateur() {
+
+  const inputU1 = $('transfo-u1-simu');
+  const inputN1 = $('transfo-n1');
+  const inputN2 = $('transfo-n2');
+
+  const zoneConclusion = $('transfo-conclusion-simu');
+
+  if (!inputU1 || !inputN1 || !inputN2 || !zoneConclusion) return;
+
+  // Échelle logarithmique commune aux deux barres de tension, pour
+  // pouvoir représenter aussi bien un fonctionnement abaisseur
+  // (U2 très petit) qu'élévateur (U2 très grand) sur la même hauteur.
+  const BARRE_MIN = 0.01;   // V
+  const BARRE_MAX = 20000;  // V
+
+  function hauteurBarre(v) {
+    const vClamp = Math.min(BARRE_MAX, Math.max(BARRE_MIN, v));
+    const t = (Math.log10(vClamp) - Math.log10(BARRE_MIN)) / (Math.log10(BARRE_MAX) - Math.log10(BARRE_MIN));
+    return Math.min(100, Math.max(4, t * 100));
+  }
+
+  // Espacement (px) entre les traits de spires : plus N est grand,
+  // plus les traits sont serrés. Échelle inverse (k / N) pour bien
+  // distinguer les régimes, plutôt qu'une simple interpolation
+  // linéaire qui aplatit les écarts sur la plage utile de N.
+  function espacementSpires(n) {
+    return Math.min(25, Math.max(3, 2000 / Math.max(10, n)));
+  }
+
+  function formaterTension(v) {
+    if (v >= 1000) return `${arrondir(v / 1000, 2)} kV`;
+    if (v < 1) return `${arrondir(v * 1000, 0)} mV`;
+    return `${arrondir(v, v < 10 ? 2 : 1)} V`;
+  }
+
+  function simuler() {
+
+    const u1 = parseFloat(inputU1.value);
+    const n1 = parseFloat(inputN1.value);
+    const n2 = parseFloat(inputN2.value);
+
+    if ([u1, n1, n2].some(Number.isNaN) || n1 <= 0) return;
+
+    const rapport = n2 / n1;
+    const u2 = u1 * rapport;
+
+    // Réglages affichés
+    $('transfo-u1-simu-valeur').textContent = `${arrondir(u1, 0)} V`;
+    $('transfo-n1-valeur').textContent = `${arrondir(n1, 0)} spires`;
+    $('transfo-n2-valeur').textContent = `${arrondir(n2, 0)} spires`;
+
+    // Schéma des bobines
+    $('transfo-n1-affiche').textContent = `N₁ = ${arrondir(n1, 0)} spires`;
+    $('transfo-n2-affiche').textContent = `N₂ = ${arrondir(n2, 0)} spires`;
+    $('transfo-image-primaire').style.setProperty('--espacement', `${espacementSpires(n1)}px`);
+    $('transfo-image-secondaire').style.setProperty('--espacement', `${espacementSpires(n2)}px`);
+
+    // Barres de tension
+    $('transfo-barre-u1').style.height = `${hauteurBarre(u1)}%`;
+    $('transfo-barre-u2').style.height = `${hauteurBarre(u2)}%`;
+    $('transfo-u1-affiche').textContent = formaterTension(u1);
+    $('transfo-u2-affiche').textContent = formaterTension(u2);
+
+    // Conclusion
+    let role;
+    if (rapport > 1.02) role = 'élévateur';
+    else if (rapport < 0.98) role = 'abaisseur';
+    else role = 'ni élévateur ni abaisseur (rapport 1:1)';
+
+    zoneConclusion.innerHTML = `
+      Rapport de transformation N₂ / N₁ = U₂ / U₁ = <strong>${arrondir(rapport, 2)}</strong>.
+      Pour U₁ = ${formaterTension(u1)}, on obtient U₂ = <strong>${formaterTension(u2)}</strong> :
+      ce transformateur est donc <strong>${role}</strong> de tension.
+    `;
+  }
+
+  [inputU1, inputN1, inputN2].forEach((input) => {
+    input.addEventListener('input', simuler);
+  });
+
+  simuler();
+}
