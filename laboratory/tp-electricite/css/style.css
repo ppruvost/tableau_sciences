@@ -235,3 +235,178 @@
 @media (max-width: 560px) {
   .joule-mesures { grid-template-columns: 1fr; }
 }
+/* ══════════════════════════════════════════════════════════════
+   Simulateur interactif — Transformateur (TP E02, tp-electricite)
+   Utilise les variables globales définies dans css/global.css.
+   ══════════════════════════════════════════════════════════════ */
+
+.transfo-simu {
+  background: var(--blanc);
+  border: 1px solid var(--gris-clair);
+  border-radius: var(--r-md);
+  padding: var(--gap-md);
+  margin: var(--gap-md) 0;
+}
+
+/* ── Réglages (sliders) ─────────────────────────────────────── */
+
+.transfo-simu-reglages {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--gap-md);
+  margin-bottom: var(--gap-lg);
+}
+
+.transfo-reglage {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+}
+
+.transfo-reglage label {
+  font-size: var(--fs-sm, .85rem);
+  font-weight: 600;
+  color: var(--gris-ardoise);
+}
+
+.transfo-reglage input[type="range"] {
+  width: 100%;
+  accent-color: var(--domaine-accent, var(--bleu-cuivre));
+}
+
+.transfo-reglage-valeur {
+  align-self: flex-start;
+  font-family: var(--font-code);
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--domaine-accent-fonce, var(--bleu-fonce));
+  background: var(--domaine-accent-clair, var(--bleu-tres-clair));
+  padding: .1rem .55rem;
+  border-radius: 999px;
+}
+
+/* ── Représentation visuelle du transformateur ─────────────────── */
+
+.transfo-simu-visuel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-lg);
+  align-items: center;
+  justify-content: center;
+  background: var(--blanc-paillasse, #F8F9FA);
+  border: 1px solid var(--gris-clair);
+  border-radius: var(--r-md);
+  padding: var(--gap-md);
+}
+
+.transfo-schema {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.transfo-bobine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .4rem;
+  width: 90px;
+}
+
+.transfo-bobine-titre {
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--gris-ardoise);
+}
+
+/* Enroulement représenté par des spires horizontales dont la densité
+   (espacement --espacement, fixé en JS selon N) traduit visuellement
+   le nombre de spires : plus N est grand, plus les spires sont
+   serrées. */
+.transfo-bobine-image {
+  width: 46px;
+  height: 130px;
+  border-radius: 8px;
+  border: 2px solid var(--domaine-accent-fonce, var(--bleu-fonce));
+  background-color: var(--domaine-accent-clair, var(--bleu-tres-clair));
+  background-image: repeating-linear-gradient(
+    0deg,
+    var(--domaine-accent-fonce, var(--bleu-fonce)) 0,
+    var(--domaine-accent-fonce, var(--bleu-fonce)) 2px,
+    transparent 2px,
+    transparent calc(2px + var(--espacement, 10px))
+  );
+  transition: background-image .25s ease;
+}
+
+.transfo-bobine-n {
+  font-family: var(--font-code);
+  font-size: .72rem;
+  color: var(--gris-moyen);
+  text-align: center;
+}
+
+.transfo-noyau {
+  width: 34px;
+  height: 150px;
+  margin: 0 -6px;
+  background: repeating-linear-gradient(
+    90deg,
+    #B8BFC7 0,
+    #B8BFC7 4px,
+    #A7AFB8 4px,
+    #A7AFB8 8px
+  );
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1);
+}
+
+/* ── Barres de tension (échelle logarithmique) ─────────────────── */
+
+.transfo-tensions {
+  display: flex;
+  gap: var(--gap-lg);
+  align-items: flex-end;
+}
+
+.transfo-tension {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .4rem;
+}
+
+.transfo-tension-nom {
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--gris-ardoise);
+}
+
+.transfo-barre-fond {
+  width: 34px;
+  height: 160px;
+  background: var(--gris-clair);
+  border-radius: 6px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.transfo-barre-remplissage {
+  width: 100%;
+  height: 5%;
+  background: linear-gradient(180deg, var(--domaine-accent, #E87A0E), var(--domaine-accent-fonce, #A8500A));
+  border-radius: 0 0 6px 6px;
+  transition: height .3s ease;
+}
+
+.transfo-tension-valeur {
+  font-family: var(--font-code);
+  font-weight: 700;
+  font-size: .85rem;
+  color: var(--gris-ardoise);
+}
+
+@media (max-width: 640px) {
+  .transfo-simu-visuel { flex-direction: column; }
+}
