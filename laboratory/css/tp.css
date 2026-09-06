@@ -1242,6 +1242,13 @@ textarea { font-family: var(--font-corps); resize: vertical; min-height: 80px; }
   height: 560px;
   object-fit: contain;
 }
+.mode-legende {
+  max-width: 1450px;
+  margin: 10px auto 0;
+  font-size: 0.85rem;
+  color: var(--gris-moyen, #5B6470);
+  font-style: italic;
+}
 .hidden { display: none; }
 
 /* ──────────────────────────────────────────────────────────────
