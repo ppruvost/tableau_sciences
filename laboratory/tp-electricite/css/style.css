@@ -68,3 +68,170 @@
     min-height: 980px;
   }
 }
+/* ══════════════════════════════════════════════════════════════
+   Simulateur interactif — Effet Joule (TP E02, tp-electricite)
+   Utilise les variables globales définies dans css/global.css
+   (--gap-*, --r-*, --font-code, --vert-acide, --ambre-fer,
+   --rouge-ph, --gris-ardoise, --gris-moyen, --blanc).
+   ══════════════════════════════════════════════════════════════ */
+
+.joule-simu {
+  background: var(--blanc);
+  border: 1px solid var(--gris-clair);
+  border-radius: var(--r-md);
+  padding: var(--gap-md);
+  margin: var(--gap-md) 0;
+}
+
+/* ── Réglages (sliders) ─────────────────────────────────────── */
+
+.joule-simu-reglages {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--gap-md);
+  margin-bottom: var(--gap-md);
+}
+
+.joule-reglage {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+}
+
+.joule-reglage label {
+  font-size: var(--fs-sm, .85rem);
+  font-weight: 600;
+  color: var(--gris-ardoise);
+}
+
+.joule-reglage input[type="range"] {
+  width: 100%;
+  accent-color: var(--domaine-accent, var(--bleu-cuivre));
+}
+
+.joule-reglage-valeur {
+  align-self: flex-start;
+  font-family: var(--font-code);
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--domaine-accent-fonce, var(--bleu-fonce));
+  background: var(--domaine-accent-clair, var(--bleu-tres-clair));
+  padding: .1rem .55rem;
+  border-radius: 999px;
+}
+
+/* ── Les deux lignes comparées ──────────────────────────────── */
+
+.joule-simu-lignes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--gap-md);
+}
+
+.joule-ligne {
+  background: var(--blanc-paillasse, #F8F9FA);
+  border: 1px solid var(--gris-clair);
+  border-radius: var(--r-md);
+  padding: var(--gap-sm) var(--gap-md);
+}
+
+.joule-ligne-entete {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .5rem;
+  margin-bottom: var(--gap-sm);
+  flex-wrap: wrap;
+}
+
+.joule-ligne-titre {
+  font-weight: 700;
+  color: var(--gris-ardoise);
+  font-size: .95rem;
+}
+
+.joule-ligne-tension {
+  font-family: var(--font-code);
+  font-size: .8rem;
+  color: var(--gris-moyen);
+}
+
+/* ── Le câble et son échauffement visuel ────────────────────── */
+
+.joule-cable {
+  position: relative;
+  padding: 26px 4px 10px;
+}
+
+.joule-cable-fil {
+  position: relative;
+  height: 16px;
+  border-radius: 999px;
+  background-color: var(--vert-acide);
+  box-shadow: 0 0 4px 1px var(--vert-acide);
+  transition: background-color .35s ease, box-shadow .35s ease;
+}
+
+/* Ondes de chaleur au-dessus du câble : trois petits traits animés,
+   dont l'opacité et la vitesse sont pilotées par --chauffe (0 à 1),
+   fixé en JS sur chaque .joule-cable-fil. */
+.joule-vague {
+  position: absolute;
+  bottom: 100%;
+  width: 2px;
+  height: 16px;
+  border-radius: 2px;
+  background: currentColor;
+  color: inherit;
+  opacity: calc(var(--chauffe, 0) * 0.8);
+  animation: joule-onde calc(1.4s - 0.9s * var(--chauffe, 0)) ease-in-out infinite;
+}
+
+.joule-vague:nth-child(1) { left: 18%; animation-delay: 0s; }
+.joule-vague:nth-child(2) { left: 48%; animation-delay: .25s; }
+.joule-vague:nth-child(3) { left: 76%; animation-delay: .5s; }
+
+@keyframes joule-onde {
+  0%   { transform: translateY(0) scaleY(.6); opacity: 0; }
+  40%  { opacity: calc(var(--chauffe, 0) * 0.8); }
+  100% { transform: translateY(-14px) scaleY(1.3); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .joule-vague { animation: none; opacity: 0; }
+}
+
+/* ── Mesures ─────────────────────────────────────────────────── */
+
+.joule-mesures {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .5rem;
+  margin-top: var(--gap-sm);
+}
+
+.joule-mesure {
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+  background: var(--blanc);
+  border-radius: var(--r-sm);
+  padding: .4rem .5rem;
+  text-align: center;
+}
+
+.joule-mesure-label {
+  font-size: .68rem;
+  color: var(--gris-moyen);
+}
+
+.joule-mesure-valeur {
+  font-family: var(--font-code);
+  font-weight: 700;
+  font-size: .9rem;
+  color: var(--gris-ardoise);
+}
+
+@media (max-width: 560px) {
+  .joule-mesures { grid-template-columns: 1fr; }
+}
