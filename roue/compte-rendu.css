@@ -106,7 +106,7 @@
   /* ── Bandeau infos du tirage ── */
   .cr-identification {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     border: 1.5px solid #1B6CA8;
     border-radius: 6px;
     overflow: hidden;
@@ -193,7 +193,7 @@
 
   /* Sur pages étroites : bandeau infos sur 2 colonnes */
   @media (max-width: 480px) {
-    .cr-identification { grid-template-columns: repeat(2, 1fr); }
+    .cr-identification { grid-template-columns: repeat(3, 1fr); }
     .cr-groupes-grille { grid-template-columns: 1fr; }
   }
 }
