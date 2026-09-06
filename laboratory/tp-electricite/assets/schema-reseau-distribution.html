@@ -95,7 +95,19 @@
     width: 56px;
     height: 56px;
     margin-bottom: .5rem;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--gris-clair);
   }
+
+  .etape-diag .icone img,
+  .etape-diag .icone svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .etape-diag .icone svg { object-fit: contain; padding: 6px; box-sizing: border-box; }
 
   .etape-diag .nom {
     font-weight: 700;
@@ -196,11 +208,73 @@
 
   .fiche-entete {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
-    gap: .6rem;
+    gap: .8rem;
     flex-wrap: wrap;
     margin-bottom: .5rem;
+  }
+
+  .fiche-entete-titre {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+  }
+
+  .fiche-entete-vignette {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    flex: 0 0 auto;
+    overflow: hidden;
+    display: block;
+  }
+
+  .fiche-entete-vignette img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .fiche-entete-repli {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    padding: 7px;
+    box-sizing: border-box;
+  }
+
+  .fiche-entete-repli svg { width: 100%; height: 100%; }
+
+  .fiche-galerie {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .6rem;
+    margin-top: .9rem;
+  }
+
+  .fiche-galerie figure {
+    margin: 0;
+    width: 150px;
+    flex: 0 0 auto;
+  }
+
+  .fiche-galerie img {
+    width: 100%;
+    height: 104px;
+    object-fit: cover;
+    border-radius: 9px;
+    display: block;
+    border: 1px solid var(--gris-clair, #E7E9EC);
+  }
+
+  .fiche-galerie figcaption {
+    font-size: .68rem;
+    color: var(--gris-moyen);
+    line-height: 1.3;
+    margin-top: .3rem;
   }
 
   .fiche-entete h3 {
@@ -316,6 +390,12 @@
       domaine: "hta-htb",
       couleur: "var(--hta)",
       domaineLabel: "HTA → HTB",
+      image: "./images/1_production_nucleaire_belleville.jpg",
+      photos: [
+        { src: "./images/1_production_nucleaire_belleville.jpg", legende: "Centrale nucléaire de Belleville-sur-Loire — tours de refroidissement" },
+        { src: "./images/2_production_hydraulique_sarrans.jpg", legende: "Barrage hydraulique de Sarrans" },
+        { src: "./images/3_production_eolienne_bercheres.jpg", legende: "Site de production éolienne de Bercherès" },
+      ],
       resume: "Le point de départ du voyage de l'électricité : la centrale produit puis élève la tension avant l'entrée sur le réseau de transport.",
       role: "Élévateur — élève la tension de sortie de l'alternateur (quelques kV à ~20 kV) jusqu'à 400 kV, afin de limiter les pertes en ligne lors du transport à longue distance.",
       ligne: "Liaison très courte entre l'alternateur et le poste d'élévation, aérienne ou souterraine selon le site de production.",
@@ -332,6 +412,12 @@
       domaine: "htb",
       couleur: "var(--tht)",
       domaineLabel: "THT / HTB",
+      image: "./images/5_transport_pylone_trianon_400kv.jpg",
+      photos: [
+        { src: "./images/5_transport_pylone_trianon_400kv.jpg", legende: "Pylône type « Trianon », double circuit 400 kV" },
+        { src: "./images/6_transport_pylone_muguet_400kv.jpg", legende: "Pylône tubulaire type « Muguet », 400 kV" },
+        { src: "./images/4_transport_pylone_chat_400kv.jpg", legende: "Pylône type « Chat », 400 kV" },
+      ],
       resume: "L'énergie parcourt de longues distances à tension quasi constante, très élevée pour limiter les pertes par effet Joule.",
       role: "Aucune transformation à ce stade : le réseau achemine l'énergie à tension quasi constante sur de longues distances, en minimisant les pertes par effet Joule grâce à la très haute tension.",
       ligne: "Aérienne, sur des lignes à pylônes de grande hauteur (le refroidissement par air permet de limiter la section des câbles et l'emprise au sol).",
@@ -348,6 +434,10 @@
       domaine: "htb",
       couleur: "var(--ht)",
       domaineLabel: "HT (HTB)",
+      image: "./images/7_repartition_poste_source_225kv.jpg",
+      photos: [
+        { src: "./images/7_repartition_poste_source_225kv.jpg", legende: "Poste de répartition 225 kV — transformateur et arrivée aérienne" },
+      ],
       resume: "Un premier abaissement de tension, aux postes qui répartissent l'énergie entre les différentes régions.",
       role: "Abaisseur — abaisse la tension aux postes de répartition régionaux, avant que l'énergie ne soit acheminée vers les zones de consommation.",
       ligne: "Essentiellement aérienne ; quelques tronçons souterrains en zones urbaines denses où l'implantation de pylônes est impossible.",
@@ -364,6 +454,10 @@
       domaine: "hta",
       couleur: "var(--hta)",
       domaineLabel: "HTA",
+      image: "./images/8_poste_source_thones.jpg",
+      photos: [
+        { src: "./images/8_poste_source_thones.jpg", legende: "Poste source de Thônes" },
+      ],
       resume: "Le poste source fait la jonction entre le réseau de transport (RTE) et le réseau de distribution (Enedis).",
       role: "Abaisseur — transforme la haute tension du réseau de transport en moyenne tension (HTA), au point de jonction entre les deux gestionnaires de réseau.",
       ligne: "Arrivée aérienne ou souterraine selon le poste ; départs en HTA généralement souterrains en zone urbaine, aériens en zone rurale.",
@@ -380,6 +474,11 @@
       domaine: "bt",
       couleur: "var(--bt)",
       domaineLabel: "BT",
+      image: "./images/9_distribution_transformateur_20kv.jpg",
+      photos: [
+        { src: "./images/9_distribution_transformateur_20kv.jpg", legende: "Transformateur HTA/BT 20 kV, poste de distribution" },
+        { src: "./images/10_habitat_compteur_linky.jpg", legende: "Compteur communicant Linky, chez le client final" },
+      ],
       resume: "Le dernier maillon : la tension arrive au niveau utilisable directement par les appareils du client.",
       role: "Abaisseur final — dans le poste HTA/BT (« transformateur de quartier »), abaisse la moyenne tension en basse tension utilisable directement par les clients.",
       ligne: "Souterraine en zone urbaine dense, aérienne en zone rurale, jusqu'au client final.",
@@ -456,7 +555,11 @@
     btn.dataset.id = etape.id;
     btn.setAttribute("aria-pressed", "false");
     btn.innerHTML = `
-      <span class="icone" style="color:${etape.couleur}">${ICONES[etape.id]}</span>
+      <span class="icone" style="color:${etape.couleur}">
+        <img src="${etape.image}" alt="" loading="lazy"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <span class="icone-repli" style="display:none">${ICONES[etape.id]}</span>
+      </span>
       <span class="nom">${etape.nomDiag}</span>
       <span class="valeurs">${etape.valeursDiag}</span>
       <span class="puce" style="background:${etape.couleur}"></span>
@@ -517,7 +620,14 @@
 
     ficheEl.innerHTML = `
       <div class="fiche-entete">
-        <h3>${etape.numero} · ${etape.nomDiag}</h3>
+        <div class="fiche-entete-titre">
+          <span class="fiche-entete-vignette" style="background:${etape.couleur}1A">
+            <img src="${etape.image}" alt="" loading="lazy"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <span class="fiche-entete-repli" style="display:none;color:${etape.couleur}">${ICONES[etape.id]}</span>
+          </span>
+          <h3>${etape.numero} · ${etape.nomDiag}</h3>
+        </div>
         <span class="fiche-domaine" style="background:${etape.couleur}">${etape.domaineLabel}</span>
       </div>
       <p class="fiche-intro">${etape.resume}</p>
@@ -536,6 +646,14 @@
         </div>
       </div>
       <div class="fiche-repere"><strong>Repère :</strong> ${etape.repere}</div>
+      <div class="fiche-galerie">
+        ${etape.photos.map(p => `
+          <figure onerror="this.style.display='none'">
+            <img src="${p.src}" alt="${p.legende}" loading="lazy" onerror="this.closest('figure').style.display='none'">
+            <figcaption>${p.legende}</figcaption>
+          </figure>
+        `).join("")}
+      </div>
     `;
   }
 
