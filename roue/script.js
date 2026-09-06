@@ -5,6 +5,7 @@ let segments=[];
 let attribution=[];
 let groupesSeance1={};
 let groupesSeance2={};
+let groupesSeance3={};
 
 let startAngle=0,arc=0;
 
@@ -316,6 +317,52 @@ function tirageSeance2(){
   afficherSeance2(groupes);
 }
 // =======================
+// 👫 SÉANCE 3 : BINÔMES
+// =======================
+function _libelleSeance3(membres){
+  return membres.length === 3 ? "Trinôme" : "Binôme";
+}
+
+function tirageSeance3(){
+
+  if(eleves.length === 0)
+    return alert("Charge un fichier d'abord");
+
+  let listeMelangee = shuffle([...eleves]);
+  let nbEleves = listeMelangee.length;
+
+  groupesSeance3 = {};
+
+  // cas particulier : un seul élève, impossible de faire un binôme
+  if(nbEleves === 1){
+    groupesSeance3["1"] = [{ nom: listeMelangee[0] }];
+    afficherSeance3();
+    return;
+  }
+
+  let index = 0;
+  let numeroGroupe = 1;
+
+  while(index < nbEleves){
+
+    let restant = nbEleves - index;
+
+    // si nombre impair : le dernier groupe devient un trinôme
+    // pour ajuster (au lieu de laisser un élève seul)
+    let taille = (restant === 3) ? 3 : 2;
+
+    groupesSeance3[String(numeroGroupe)] = listeMelangee
+      .slice(index, index + taille)
+      .map(nom => ({ nom: nom }));
+
+    index += taille;
+    numeroGroupe++;
+  }
+
+  afficherSeance3();
+}
+
+// =======================
 // 🖼️ affichage séance 1
 // =======================
 function afficherSeance1(){
@@ -372,7 +419,35 @@ div.appendChild(c);
 }
 
 // =======================
-// 🖨️ EXPORT PDF (Séance 1 + Séance 2)
+// 🖼️ affichage séance 3
+// =======================
+function afficherSeance3(){
+
+let div=document.getElementById("results");
+div.innerHTML="";
+
+Object.keys(groupesSeance3).forEach(g=>{
+
+let membres = groupesSeance3[g];
+
+let c=document.createElement("div");
+c.className="card";
+c.innerHTML=`<h4>${_libelleSeance3(membres)} ${g}</h4>`;
+
+membres.forEach(e=>{
+c.innerHTML+=`
+<div style="display:flex;align-items:center;gap:8px;margin:6px 0;">
+<span>- ${e.nom}</span>
+</div>`;
+});
+
+div.appendChild(c);
+
+});
+}
+
+// =======================
+// 🖨️ EXPORT PDF (Séance 1 + Séance 2 + Séance 3)
 // Même trame visuelle que les comptes rendus de /laboratory
 // (voir roue/compte-rendu.css)
 // =======================
@@ -433,6 +508,34 @@ function _construireSectionSeance2(){
     </div>`;
 }
 
+function _construireBlocBinome(nomGroupe, membres){
+  const lignes = membres.map(e => {
+    const nomEleve = _echapper(e.nom);
+    return `<tr><td>${nomEleve}</td><td></td></tr>`;
+  }).join("");
+
+  const libelle = _libelleSeance3(membres);
+
+  return `
+    <div class="cr-groupe-bloc">
+      <h4>${_echapper(libelle)} ${_echapper(nomGroupe)} <span style="font-weight:400;color:#6B7280;">(${membres.length} élèves)</span></h4>
+      <table class="cr-items"><tbody>${lignes}</tbody></table>
+    </div>`;
+}
+
+function _construireSectionSeance3(){
+  const noms = Object.keys(groupesSeance3);
+  if(!noms.length) return "";
+
+  const blocs = noms.map(g => _construireBlocBinome(g, groupesSeance3[g])).join("");
+
+  return `
+    <div class="cr-section">
+      <h3>Séance 3 — Binômes</h3>
+      <div class="cr-groupes-grille">${blocs}</div>
+    </div>`;
+}
+
 function _construireTrameRoue(){
   const dateFr = new Date().toLocaleDateString("fr-FR", {
     day: "2-digit", month: "long", year: "numeric"
@@ -440,6 +543,7 @@ function _construireTrameRoue(){
 
   const nbGroupes1 = Object.keys(groupesSeance1).length;
   const nbGroupes2 = Object.keys(groupesSeance2).length;
+  const nbGroupes3 = Object.keys(groupesSeance3).length;
 
   return `
     <div class="cr-entete">
@@ -461,10 +565,12 @@ function _construireTrameRoue(){
       <div><div class="cr-label">Nombre d'élèves</div><div class="cr-valeur">${eleves.length}</div></div>
       <div><div class="cr-label">Groupes séance 1</div><div class="cr-valeur">${nbGroupes1 || "—"}</div></div>
       <div><div class="cr-label">Groupes séance 2</div><div class="cr-valeur">${nbGroupes2 || "—"}</div></div>
+      <div><div class="cr-label">Groupes séance 3</div><div class="cr-valeur">${nbGroupes3 || "—"}</div></div>
     </div>
 
     ${_construireSectionSeance1()}
     ${_construireSectionSeance2()}
+    ${_construireSectionSeance3()}
 
     <div class="cr-pied">
       <span>Roue Classe Puzzle — Tirage aléatoire</span>
@@ -473,8 +579,10 @@ function _construireTrameRoue(){
 }
 
 function exporterPDF(){
-  if(Object.keys(groupesSeance1).length === 0 && Object.keys(groupesSeance2).length === 0){
-    return alert("Effectue d'abord le tirage de la séance 1 (et éventuellement de la séance 2) avant d'exporter.");
+  if(Object.keys(groupesSeance1).length === 0
+     && Object.keys(groupesSeance2).length === 0
+     && Object.keys(groupesSeance3).length === 0){
+    return alert("Effectue d'abord le tirage d'au moins une séance (1, 2 ou 3) avant d'exporter.");
   }
 
   const contenuHTML = _construireTrameRoue();
