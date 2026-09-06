@@ -1,633 +1,644 @@
-<!--
-  Fragment SPA chargé dynamiquement par navigation.js.
-  Tous les chemins sont relatifs à la racine du site.
-  Aucun <script> dans ce fragment.
--->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Réseau de distribution — TP E02</title>
+<style>
 
-<section>
+  /* ────────────────────────────────────────────────────────────
+     Page autonome — reprend les tokens de charte SciLab
+     (domaine Électricité : accent #E87A0E) pour rester cohérente
+     une fois intégrée dans l'onglet « Réseau de distribution »
+     du TP E02. Aucune dépendance externe : tout est dans ce fichier.
+     ──────────────────────────────────────────────────────────── */
 
-<header class="tp-header">
+  :root {
+    --domaine-accent:        #E87A0E;
+    --domaine-accent-fonce:  #A8500A;
+    --domaine-accent-clair:  #FCEBD8;
 
-  <div class="tp-header-logo">
-    <div class="logo">
-      <span class="sci">Sci</span><span class="Lab">Lab</span>
-    </div>
+    --tht:   #C0392B; /* rouge   — THT / HTB */
+    --ht:    #E87A0E; /* orange  — HT        */
+    --hta:   #C99A1E; /* jaune   — HTA (MT)  */
+    --bt:    #2E8B57; /* vert    — BT        */
+
+    --gris-fonce:   #2B2E33;
+    --gris-moyen:   #5B6470;
+    --gris-clair:   #E7E9EC;
+    --fond:         #F7F8F9;
+    --blanc:        #FFFFFF;
+
+    --rayon: 12px;
+    --ombre: 0 2px 10px rgba(43, 46, 51, .08);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 1.5rem;
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--gris-fonce);
+    background: var(--fond);
+  }
+
+  .schema-reseau {
+    max-width: 980px;
+    margin: 0 auto;
+  }
+
+  .schema-reseau h2 {
+    font-size: 1.15rem;
+    margin: 0 0 .9rem;
+    color: var(--gris-fonce);
+  }
+
+  /* ── Diagramme horizontal ─────────────────────────────────── */
+
+  .diagramme {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: var(--blanc);
+    border: 1px solid var(--gris-clair);
+    border-radius: var(--rayon);
+    padding: 1.4rem 1rem 1.1rem;
+    box-shadow: var(--ombre);
+    overflow-x: auto;
+  }
+
+  .etape-diag {
+    flex: 1 1 0;
+    min-width: 128px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: .4rem .3rem;
+    border-radius: 10px;
+    font-family: inherit;
+    transition: background .15s ease, transform .1s ease;
+  }
+
+  .etape-diag:hover      { background: var(--gris-clair); }
+  .etape-diag:focus-visible { outline: 3px solid var(--domaine-accent); outline-offset: 2px; }
+
+  .etape-diag.actif {
+    background: var(--domaine-accent-clair);
+  }
+
+  .etape-diag .icone {
+    width: 56px;
+    height: 56px;
+    margin-bottom: .5rem;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--gris-clair);
+  }
+
+  .etape-diag .icone img,
+  .etape-diag .icone svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .etape-diag .icone svg { object-fit: contain; padding: 6px; box-sizing: border-box; }
+
+  .etape-diag .nom {
+    font-weight: 700;
+    font-size: .82rem;
+    color: var(--gris-fonce);
+    line-height: 1.25;
+  }
+
+  .etape-diag .valeurs {
+    font-size: .72rem;
+    color: var(--gris-moyen);
+    margin-top: .15rem;
+  }
+
+  .etape-diag .puce {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin: .35rem auto 0;
+  }
+
+  .connecteur {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    align-self: flex-start;
+    margin-top: 28px;
+    color: var(--gris-moyen);
+  }
+
+  .connecteur svg { width: 100%; height: 20px; }
+
+  /* ── Légende ───────────────────────────────────────────────── */
+
+  .legende {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem 1.3rem;
+    margin: .8rem .2rem 0;
+    font-size: .78rem;
+    color: var(--gris-moyen);
+  }
+
+  .legende span { display: inline-flex; align-items: center; gap: .35rem; }
+
+  .legende .puce { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+
+  .legende-note {
+    font-size: .72rem;
+    color: var(--gris-moyen);
+    margin: .35rem .2rem 0;
+  }
+
+  /* ── Sélecteur d'étape (boutons numérotés) ───────────────────── */
+
+  .selecteur-etapes {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: .5rem;
+    margin: 1.1rem 0;
+  }
+
+  .btn-etape {
+    font-family: inherit;
+    font-size: .82rem;
+    font-weight: 600;
+    color: var(--gris-fonce);
+    background: var(--blanc);
+    border: 1px solid var(--gris-clair);
+    border-radius: 9px;
+    padding: .55rem .4rem;
+    cursor: pointer;
+    transition: border-color .15s ease, color .15s ease, background .15s ease;
+  }
+
+  .btn-etape:hover { border-color: var(--domaine-accent); }
+
+  .btn-etape.actif {
+    background: var(--domaine-accent);
+    border-color: var(--domaine-accent);
+    color: var(--blanc);
+  }
+
+  .btn-etape:focus-visible { outline: 3px solid var(--domaine-accent-fonce); outline-offset: 2px; }
+
+  /* ── Fiche technique ──────────────────────────────────────── */
+
+  .fiche {
+    background: var(--blanc);
+    border: 1px solid var(--gris-clair);
+    border-left: 5px solid var(--domaine-accent);
+    border-radius: var(--rayon);
+    padding: 1.1rem 1.3rem 1.2rem;
+    box-shadow: var(--ombre);
+  }
+
+  .fiche-entete {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .8rem;
+    flex-wrap: wrap;
+    margin-bottom: .5rem;
+  }
+
+  .fiche-entete-titre {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+  }
+
+  .fiche-entete-titre img {
+    width: 44px;
+    height: 44px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex: 0 0 auto;
+  }
+
+  .fiche-galerie {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .6rem;
+    margin-top: .9rem;
+  }
+
+  .fiche-galerie figure {
+    margin: 0;
+    width: 150px;
+    flex: 0 0 auto;
+  }
+
+  .fiche-galerie img {
+    width: 100%;
+    height: 104px;
+    object-fit: cover;
+    border-radius: 9px;
+    display: block;
+    border: 1px solid var(--gris-clair, #E7E9EC);
+  }
+
+  .fiche-galerie figcaption {
+    font-size: .68rem;
+    color: var(--gris-moyen);
+    line-height: 1.3;
+    margin-top: .3rem;
+  }
+
+  .fiche-entete h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    color: var(--gris-fonce);
+  }
+
+  .fiche-domaine {
+    font-size: .72rem;
+    font-weight: 700;
+    padding: .18rem .55rem;
+    border-radius: 999px;
+    color: var(--blanc);
+    white-space: nowrap;
+  }
+
+  .fiche-intro {
+    font-size: .88rem;
+    color: var(--gris-moyen);
+    margin: 0 0 .9rem;
+  }
+
+  .fiche-grille {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: .8rem;
+  }
+
+  .fiche-bloc {
+    background: var(--fond);
+    border-radius: 9px;
+    padding: .7rem .85rem;
+  }
+
+  .fiche-bloc .label {
+    font-size: .68rem;
+    font-weight: 700;
+    color: var(--gris-moyen);
+    margin-bottom: .3rem;
+  }
+
+  .fiche-bloc .valeur {
+    font-size: .86rem;
+    line-height: 1.4;
+    color: var(--gris-fonce);
+  }
+
+  .fiche-repere {
+    margin-top: .9rem;
+    padding-top: .8rem;
+    border-top: 1px dashed var(--gris-clair);
+    font-size: .8rem;
+    color: var(--gris-moyen);
+    line-height: 1.5;
+  }
+
+  .fiche-repere strong { color: var(--gris-fonce); }
+
+  .invite {
+    font-size: .8rem;
+    color: var(--gris-moyen);
+    margin: 0 0 1.1rem;
+  }
+
+  @media (max-width: 640px) {
+    .selecteur-etapes  { grid-template-columns: repeat(3, 1fr); }
+    .fiche-grille      { grid-template-columns: 1fr; }
+    .connecteur        { width: 18px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .etape-diag, .btn-etape { transition: none; }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="schema-reseau">
+
+  <h2>Du site de production à l'installation domestique</h2>
+  <p class="invite">Cliquer sur une étape du schéma ou sur un bouton ci-dessous pour afficher sa fiche technique.</p>
+
+  <!-- ═══════════ DIAGRAMME CLIQUABLE ═══════════ -->
+  <div class="diagramme" id="diagramme" role="group" aria-label="Étapes du réseau électrique">
+    <!-- rempli en JS -->
   </div>
 
-  <div class="tp-header-centre">
+  <div class="legende" id="legende"></div>
+  <p class="legende-note">Domaines de tension au sens de la norme NF C 18-510 : HTB au-delà de 50 kV (couvre ici le « très haut » 400/225&nbsp;kV et le « haut » 63/90/150&nbsp;kV), HTA de 1 à 50&nbsp;kV, BT de 50 à 1000&nbsp;V.</p>
 
-    <h1>Transport de l'énergie électrique</h1>
+  <!-- ═══════════ SÉLECTEUR NUMÉROTÉ ═══════════ -->
+  <div class="selecteur-etapes" id="selecteur" role="tablist" aria-label="Sélection d'une étape"></div>
 
-    <div class="tp-meta">
+  <!-- ═══════════ FICHE TECHNIQUE ═══════════ -->
+  <div class="fiche" id="fiche" role="tabpanel" aria-live="polite"></div>
 
-      <div class="tp-row">
-        <span class="tag">1ère</span>
-        <span class="tag">Électricité</span>
-        <span class="tag">Effet Joule - </span><span class="tag">Transformateur</span>
+</div>
+
+<script>
+(function () {
+
+  // ── Données des 5 étapes ──────────────────────────────────
+  const ETAPES = [
+
+    {
+      id: "production",
+      numero: 1,
+      nomBouton: "Production",
+      nomDiag: "Production",
+      valeursDiag: "20 kV → 400 kV",
+      domaine: "hta-htb",
+      couleur: "var(--hta)",
+      domaineLabel: "HTA → HTB",
+      image: "./images/1_production_nucleaire_belleville.jpg",
+      photos: [
+        { src: "./images/1_production_nucleaire_belleville.jpg", legende: "Centrale nucléaire de Belleville-sur-Loire — tours de refroidissement" },
+        { src: "./images/2_production_hydraulique_sarrans.jpg", legende: "Barrage hydraulique de Sarrans" },
+        { src: "./images/3_production_eolienne_bercheres.jpg", legende: "Site de production éolienne de Bercherès" },
+      ],
+      resume: "Le point de départ du voyage de l'électricité : la centrale produit puis élève la tension avant l'entrée sur le réseau de transport.",
+      role: "Élévateur — élève la tension de sortie de l'alternateur (quelques kV à ~20 kV) jusqu'à 400 kV, afin de limiter les pertes en ligne lors du transport à longue distance.",
+      ligne: "Liaison très courte entre l'alternateur et le poste d'élévation, aérienne ou souterraine selon le site de production.",
+      tension: "Sortie alternateur ≈ 20 kV (HTA), élevée jusqu'à 400 kV (THT/HTB) au poste d'évacuation.",
+      repere: "La tension de sortie d'un alternateur de centrale reste modeste (quelques kV à une vingtaine de kV) : c'est un transformateur élévateur, au pied de la centrale, qui la porte au niveau du réseau de transport.",
+    },
+
+    {
+      id: "transport",
+      numero: 2,
+      nomBouton: "Transport",
+      nomDiag: "Transport",
+      valeursDiag: "400 / 225 kV",
+      domaine: "htb",
+      couleur: "var(--tht)",
+      domaineLabel: "THT / HTB",
+      image: "./images/5_transport_pylone_trianon_400kv.jpg",
+      photos: [
+        { src: "./images/5_transport_pylone_trianon_400kv.jpg", legende: "Pylône type « Trianon », double circuit 400 kV" },
+        { src: "./images/6_transport_pylone_muguet_400kv.jpg", legende: "Pylône tubulaire type « Muguet », 400 kV" },
+        { src: "./images/4_transport_pylone_chat_400kv.jpg", legende: "Pylône type « Chat », 400 kV" },
+      ],
+      resume: "L'énergie parcourt de longues distances à tension quasi constante, très élevée pour limiter les pertes par effet Joule.",
+      role: "Aucune transformation à ce stade : le réseau achemine l'énergie à tension quasi constante sur de longues distances, en minimisant les pertes par effet Joule grâce à la très haute tension.",
+      ligne: "Aérienne, sur des lignes à pylônes de grande hauteur (le refroidissement par air permet de limiter la section des câbles et l'emprise au sol).",
+      tension: "400 kV et 225 kV (Très Haute Tension, domaine HTB).",
+      repere: "Le réseau géré par RTE compte environ 106 000 km de lignes en 225 et 400 kV : le 400 kV assure l'évacuation depuis les grands sites de production ainsi que les interconnexions entre régions et pays voisins.",
+    },
+
+    {
+      id: "repartition",
+      numero: 3,
+      nomBouton: "Répartition",
+      nomDiag: "Répartition",
+      valeursDiag: "225 → 63 kV",
+      domaine: "htb",
+      couleur: "var(--ht)",
+      domaineLabel: "HT (HTB)",
+      image: "./images/7_repartition_poste_source_225kv.jpg",
+      photos: [
+        { src: "./images/7_repartition_poste_source_225kv.jpg", legende: "Poste de répartition 225 kV — transformateur et arrivée aérienne" },
+      ],
+      resume: "Un premier abaissement de tension, aux postes qui répartissent l'énergie entre les différentes régions.",
+      role: "Abaisseur — abaisse la tension aux postes de répartition régionaux, avant que l'énergie ne soit acheminée vers les zones de consommation.",
+      ligne: "Essentiellement aérienne ; quelques tronçons souterrains en zones urbaines denses où l'implantation de pylônes est impossible.",
+      tension: "63, 90 ou 150 kV selon les régions (toujours dans le domaine HTB, mais couramment désigné « HT »).",
+      repere: "Les réseaux à 63-90 kV assurent la répartition de l'énergie entre régions, en aval des grandes liaisons 225/400 kV.",
+    },
+
+    {
+      id: "poste-source",
+      numero: 4,
+      nomBouton: "Poste source",
+      nomDiag: "Poste source",
+      valeursDiag: "63 → 20 kV",
+      domaine: "hta",
+      couleur: "var(--hta)",
+      domaineLabel: "HTA",
+      image: "./images/8_poste_source_thones.jpg",
+      photos: [
+        { src: "./images/8_poste_source_thones.jpg", legende: "Poste source de Thônes" },
+      ],
+      resume: "Le poste source fait la jonction entre le réseau de transport (RTE) et le réseau de distribution (Enedis).",
+      role: "Abaisseur — transforme la haute tension du réseau de transport en moyenne tension (HTA), au point de jonction entre les deux gestionnaires de réseau.",
+      ligne: "Arrivée aérienne ou souterraine selon le poste ; départs en HTA généralement souterrains en zone urbaine, aériens en zone rurale.",
+      tension: "Entrée 63, 90 ou 225 kV → sortie 20 kV (HTA, moyenne tension).",
+      repere: "Le poste source marque le passage de responsabilité de RTE (transport) à Enedis (distribution) : c'est ici que l'énergie entre dans le réseau de distribution proprement dit.",
+    },
+
+    {
+      id: "distribution",
+      numero: 5,
+      nomBouton: "Poste HTA/BT",
+      nomDiag: "Distribution",
+      valeursDiag: "20 kV → 230 V",
+      domaine: "bt",
+      couleur: "var(--bt)",
+      domaineLabel: "BT",
+      image: "./images/9_distribution_transformateur_20kv.jpg",
+      photos: [
+        { src: "./images/9_distribution_transformateur_20kv.jpg", legende: "Transformateur HTA/BT 20 kV, poste de distribution" },
+        { src: "./images/10_habitat_compteur_linky.jpg", legende: "Compteur communicant Linky, chez le client final" },
+      ],
+      resume: "Le dernier maillon : la tension arrive au niveau utilisable directement par les appareils du client.",
+      role: "Abaisseur final — dans le poste HTA/BT (« transformateur de quartier »), abaisse la moyenne tension en basse tension utilisable directement par les clients.",
+      ligne: "Souterraine en zone urbaine dense, aérienne en zone rurale, jusqu'au client final.",
+      tension: "Sortie 400 V triphasé ; le client domestique reçoit une phase et le neutre, ce qui donne le 230 V monophasé.",
+      repere: "Dernier maillon du réseau, géré par Enedis, avant le compteur du client : une phase + le neutre du réseau 400 V triphasé fournissent le 230 V monophasé de l'installation domestique.",
+    },
+
+  ];
+
+  const CONNECTEURS = ["transfo", "ligne", "transfo", "transfo"]; // entre chaque paire d'étapes consécutives
+
+  // ── Icônes SVG (simples, monochromes, héritent de currentColor) ──
+  const ICONES = {
+
+    production: `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 50 L20 26 L26 50 Z" />
+      <rect x="32" y="30" width="16" height="20" />
+      <path d="M36 30 L36 24 L44 24 L44 30" />
+      <line x1="10" y1="50" x2="54" y2="50" />
+    </svg>`,
+
+    transport: `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M32 12 L20 50 M32 12 L44 50" />
+      <path d="M24 26 L40 26 M22 38 L42 38" />
+      <line x1="10" y1="50" x2="54" y2="50" />
+      <line x1="6" y1="20" x2="22" y2="20" />
+      <line x1="42" y1="20" x2="58" y2="20" />
+      <line x1="8" y1="30" x2="20" y2="30" />
+      <line x1="44" y1="30" x2="56" y2="30" />
+    </svg>`,
+
+    repartition: `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="10" y1="24" x2="54" y2="24" />
+      <line x1="18" y1="24" x2="18" y2="34" />
+      <line x1="32" y1="24" x2="32" y2="34" />
+      <line x1="46" y1="24" x2="46" y2="34" />
+      <rect x="24" y="34" width="16" height="16" rx="8" />
+      <line x1="10" y1="50" x2="54" y2="50" />
+    </svg>`,
+
+    "poste-source": `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="16" y="26" width="32" height="24" rx="2" />
+      <line x1="24" y1="26" x2="24" y2="16" />
+      <line x1="40" y1="26" x2="40" y2="16" />
+      <circle cx="24" cy="14" r="2" fill="currentColor" stroke="none" />
+      <circle cx="40" cy="14" r="2" fill="currentColor" stroke="none" />
+      <line x1="10" y1="50" x2="54" y2="50" />
+    </svg>`,
+
+    distribution: `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 32 L32 16 L50 32" />
+      <rect x="20" y="32" width="24" height="18" />
+      <line x1="30" y1="50" x2="30" y2="40" />
+      <line x1="26" y1="40" x2="34" y2="40" />
+      <line x1="10" y1="50" x2="54" y2="50" />
+    </svg>`,
+
+  };
+
+  const ICONE_CONNECTEUR = `<svg viewBox="0 0 34 20"><circle cx="12" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="22" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>`;
+  const ICONE_LIGNE       = `<svg viewBox="0 0 34 20"><line x1="2" y1="10" x2="32" y2="10" stroke="currentColor" stroke-width="1.6"/></svg>`;
+
+  // ── Construction du diagramme ──────────────────────────────
+  const diagEl = document.getElementById("diagramme");
+  const legEl  = document.getElementById("legende");
+  const selEl  = document.getElementById("selecteur");
+  const ficheEl = document.getElementById("fiche");
+
+  ETAPES.forEach((etape, i) => {
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "etape-diag";
+    btn.dataset.id = etape.id;
+    btn.setAttribute("aria-pressed", "false");
+    btn.innerHTML = `
+      <span class="icone" style="color:${etape.couleur}">
+        <img src="${etape.image}" alt="" loading="lazy"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <span class="icone-repli" style="display:none">${ICONES[etape.id]}</span>
+      </span>
+      <span class="nom">${etape.nomDiag}</span>
+      <span class="valeurs">${etape.valeursDiag}</span>
+      <span class="puce" style="background:${etape.couleur}"></span>
+    `;
+    btn.addEventListener("click", () => afficherFiche(etape.id));
+    diagEl.appendChild(btn);
+
+    if (i < ETAPES.length - 1) {
+      const conn = document.createElement("div");
+      conn.className = "connecteur";
+      conn.innerHTML = CONNECTEURS[i] === "transfo" ? ICONE_CONNECTEUR : ICONE_LIGNE;
+      diagEl.appendChild(conn);
+    }
+  });
+
+  // ── Légende ────────────────────────────────────────────────
+  legEl.innerHTML = `
+    <span><i class="puce" style="background:var(--tht)"></i>THT / HTB</span>
+    <span><i class="puce" style="background:var(--ht)"></i>HT</span>
+    <span><i class="puce" style="background:var(--hta)"></i>HTA (moyenne tension)</span>
+    <span><i class="puce" style="background:var(--bt)"></i>BT</span>
+  `;
+
+  // ── Sélecteur numéroté ─────────────────────────────────────
+  ETAPES.forEach(etape => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "btn-etape";
+    b.dataset.id = etape.id;
+    b.setAttribute("role", "tab");
+    b.setAttribute("aria-selected", "false");
+    b.textContent = `${etape.numero} · ${etape.nomBouton}`;
+    b.addEventListener("click", () => afficherFiche(etape.id));
+    selEl.appendChild(b);
+  });
+
+  // ── Affichage de la fiche technique ────────────────────────
+  function afficherFiche(id) {
+
+    const etape = ETAPES.find(e => e.id === id);
+    if (!etape) return;
+
+    // état actif sur le diagramme
+    diagEl.querySelectorAll(".etape-diag").forEach(el => {
+      const actif = el.dataset.id === id;
+      el.classList.toggle("actif", actif);
+      el.setAttribute("aria-pressed", String(actif));
+    });
+
+    // état actif sur le sélecteur
+    selEl.querySelectorAll(".btn-etape").forEach(el => {
+      const actif = el.dataset.id === id;
+      el.classList.toggle("actif", actif);
+      el.setAttribute("aria-selected", String(actif));
+    });
+
+    ficheEl.style.borderLeftColor = etape.couleur;
+
+    ficheEl.innerHTML = `
+      <div class="fiche-entete">
+        <div class="fiche-entete-titre">
+          <img src="${etape.image}" alt="" loading="lazy" onerror="this.style.display='none';">
+          <h3>${etape.numero} · ${etape.nomDiag}</h3>
+        </div>
+        <span class="fiche-domaine" style="background:${etape.couleur}">${etape.domaineLabel}</span>
       </div>
-
-      <div class="tp-row">
-        <span class="tag">Tle</span>
-        <span class="tag">Électricité</span>
-        <span class="tag">Effet Joule - </span><span class="tag">Transformateur</span>
+      <p class="fiche-intro">${etape.resume}</p>
+      <div class="fiche-grille">
+        <div class="fiche-bloc">
+          <div class="label">Rôle du transformateur</div>
+          <div class="valeur">${etape.role}</div>
+        </div>
+        <div class="fiche-bloc">
+          <div class="label">Type de ligne</div>
+          <div class="valeur">${etape.ligne}</div>
+        </div>
+        <div class="fiche-bloc">
+          <div class="label">Tension</div>
+          <div class="valeur">${etape.tension}</div>
+        </div>
       </div>
-
-    </div>
-
-  </div>
-
-  <div class="tp-header-numero">
-    <span class="tp-numero-txt">TP E02</span>
-  </div>
-
-</header>
-
-<div class="progress">
-  <div id="bar"></div>
-</div>
-
-<main id="content">
-
-<div class="section" data-type="objectif">
-
-  <div class="section-titre">
-    <div class="picto-section">🎯</div>
-    <h2>Capacités évaluées</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <ul>
-      <li>Représenter le schéma simplifié d'un réseau de distribution d'énergie électrique à l'échelle d'un pays et d'une installation domestique.</li>
-      <li>Justifier l'intérêt du transport d'énergie électrique à grande distance sous haute tension.</li>
-      <li>Mettre en évidence expérimentalement le rôle d'abaisseur ou d'élévateur de tension d'un transformateur.</li>
-      <li>Connaître la relation reliant puissance électrique dissipée par effet Joule, résistance et valeur efficace de l'intensité.</li>
-      <li>Savoir que l'effet Joule est responsable des pertes en ligne dans le transport et la distribution de l'électricité.</li>
-      <li>Connaître le rôle des transformateurs dans les réseaux de distribution d'énergie électrique.</li>
-    </ul>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="contexte-pro">
-
-  <div class="section-titre">
-    <div class="picto-section">🏭</div>
-    <h2>Contexte professionnel</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="filiere-select-bloc">
-      <label for="select-filiere-pro">Votre filière professionnelle :</label>
-      <select id="select-filiere-pro">
-        <option value="">-- Sélectionner une filière --</option>
-      </select>
-    </div>
-
-    <div id="contexte-pro-resultat" class="contexte-pro-resultat">
-      <p>Sélectionner votre filière professionnelle pour afficher le contexte et la problématique associée.</p>
-    </div>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="securite">
-
-  <div class="section-titre">
-    <div class="picto-section">⚠️</div>
-    <h2>Sécurité</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="info">
-      Ce TP utilise un transformateur d'atelier basse tension. Les
-      tensions manipulées restent faibles, mais les règles générales
-      de sécurité électrique s'appliquent.
-    </div>
-
-    <ul style="padding-left:1.5rem;line-height:2">
-      <li><strong>Transformateur :</strong> ne jamais toucher les enroulements sous tension ; couper l'alimentation avant toute modification du montage.</li>
-      <li><strong>Échauffement :</strong> un enroulement parcouru par un courant important peut chauffer ; le laisser refroidir avant manipulation prolongée.</li>
-      <li><strong>Protection :</strong> vérifier la présence d'un fusible ou d'un disjoncteur en amont du montage.</li>
-    </ul>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="materiel">
-
-  <div class="section-titre">
-    <div class="picto-section">🧪</div>
-    <h2>Matériel nécessaire</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <h3>Équipements</h3>
-    <div id="materiel-equipements" class="grille-materiel">
-    </div>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="preparation">
-
-  <div class="section-titre">
-    <div class="picto-section">⚗️</div>
-    <h2>Manipulations</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div id="tp02-message-filiere" class="info" style="display:none;"></div>
-
-    <div class="tabs-container">
-
-      <div class="tabs-header">
-        <button class="tab-btn actif" data-tab="reseau-distribution">Réseau de distribution</button>
-        <button class="tab-btn" data-tab="effet-joule">Effet Joule et pertes en ligne</button>
-        <button class="tab-btn" data-tab="transformateur">Transformateur</button>
+      <div class="fiche-repere"><strong>Repère :</strong> ${etape.repere}</div>
+      <div class="fiche-galerie">
+        ${etape.photos.map(p => `
+          <figure>
+            <img src="${p.src}" alt="${p.legende}" loading="lazy">
+            <figcaption>${p.legende}</figcaption>
+          </figure>
+        `).join("")}
       </div>
+    `;
+  }
 
-      <!-- ============================ -->
-      <!-- RÉSEAU DE DISTRIBUTION       -->
-      <!-- ============================ -->
+  // Étape affichée par défaut
+  afficherFiche("production");
 
-      <div class="tab-panel actif" id="reseau-distribution">
+})();
+</script>
 
-        <h3>Du site de production à l'installation domestique</h3>
-
-        <div class="info">
-          L'énergie électrique produite dans une centrale est élevée en
-          très haute tension pour être transportée sur de longues
-          distances, puis progressivement abaissée par des
-          transformateurs successifs jusqu'à la tension d'utilisation
-          domestique ou industrielle (230 V / 400 V).
-        </div>
-
-        <div class="schema-interactif-conteneur">
-          <iframe
-            src="./assets/schema-reseau-distribution.html"
-            title="Schéma interactif du réseau de distribution — de la centrale au client"
-            class="schema-interactif-frame"
-            loading="lazy">
-          </iframe>
-        </div>
-
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>Cliquer sur chaque étape du schéma interactif (ou sur les boutons numérotés) pour afficher sa fiche technique.</li>
-          <li>Pour chaque étape, relever le rôle du transformateur, le type de ligne et la tension associée.</li>
-          <li>Représenter le schéma simplifié du réseau en indiquant l'évolution de la tension.</li>
-        </ol>
-
-      </div>
-
-      <!-- ============================ -->
-      <!-- EFFET JOULE                  -->
-      <!-- ============================ -->
-
-      <div class="tab-panel" id="effet-joule">
-
-        <h3>Pertes en ligne par effet Joule</h3>
-
-        <div class="info">
-          Une ligne électrique possède une résistance R non nulle. La
-          puissance dissipée par effet Joule dans cette résistance vaut
-          P&#8321; = R × I², où I est la valeur efficace de l'intensité
-          qui parcourt la ligne.
-        </div>
-
-        <div class="form-row">
-
-          <div class="form-group">
-            <label for="joule-resistance">Résistance de la ligne R (Ω)</label>
-            <input id="joule-resistance" type="number" step="0.01">
-          </div>
-
-          <div class="form-group">
-            <label for="joule-intensite-bt">Intensité en basse tension (A)</label>
-            <input id="joule-intensite-bt" type="number" step="0.1">
-          </div>
-
-          <div class="form-group">
-            <label for="joule-intensite-ht">Intensité équivalente en haute tension (A)</label>
-            <input id="joule-intensite-ht" type="number" step="0.1">
-          </div>
-
-        </div>
-
-        <div id="joule-resultat" class="resultat-calcul">
-          Saisir la résistance de ligne et les deux intensités pour
-          comparer les pertes par effet Joule en basse et en haute
-          tension, à puissance transportée égale.
-        </div>
-
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>Mesurer ou relever la résistance d'une ligne de laboratoire modélisant une ligne de transport.</li>
-          <li>Pour une même puissance transportée, calculer l'intensité nécessaire en basse tension, puis en haute tension.</li>
-          <li>Comparer les puissances dissipées par effet Joule dans les deux cas.</li>
-        </ol>
-
-        <div class="mode-op">
-          <img src="./assets/images/e2-effet-joule.png" alt="Mode opératoire — pertes en ligne par effet Joule" class="mode-image">
-        </div>
-
-      </div>
-
-      <!-- ============================ -->
-      <!-- TRANSFORMATEUR               -->
-      <!-- ============================ -->
-
-      <div class="tab-panel" id="transformateur">
-
-        <h3>Rôle élévateur ou abaisseur du transformateur</h3>
-
-        <div class="info">
-          Un transformateur permet d'élever ou d'abaisser une tension
-          alternative. Le rapport entre la tension au secondaire et la
-          tension au primaire est lié au rapport du nombre de spires
-          des deux enroulements.
-        </div>
-
-        <div class="form-row">
-
-          <div class="form-group">
-            <label for="transfo-u1">Tension au primaire U₁ (V)</label>
-            <input id="transfo-u1" type="number" step="0.1">
-          </div>
-
-          <div class="form-group">
-            <label for="transfo-u2">Tension au secondaire U₂ (V)</label>
-            <input id="transfo-u2" type="number" step="0.1">
-          </div>
-
-        </div>
-
-        <div id="transfo-resultat" class="resultat-calcul">
-          Saisir les deux tensions mesurées pour déterminer si le
-          transformateur est élévateur ou abaisseur.
-        </div>
-
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>Alimenter l'enroulement primaire du transformateur avec une tension alternative basse tension.</li>
-          <li>Mesurer la tension efficace au primaire, puis au secondaire, à l'aide d'un voltmètre en position alternatif.</li>
-          <li>Saisir les deux valeurs mesurées et observer la conclusion affichée.</li>
-        </ol>
-
-        <div class="mode-op">
-          <img src="./assets/images/e2-transformateur.png" alt="Mode opératoire — rôle du transformateur" class="mode-image">
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="resultats">
-
-  <div class="section-titre">
-    <div class="picto-section">📊</div>
-    <h2>Tableau de résultats</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="table-responsive">
-
-      <table class="tableau-resultats">
-
-        <thead>
-          <tr>
-            <th>Grandeur</th>
-            <th>Résultat</th>
-          </tr>
-        </thead>
-
-        <tbody>
-
-          <tr>
-            <td>Rapport de transformation U₂ / U₁</td>
-            <td><input type="text" placeholder="sans unité"></td>
-          </tr>
-
-          <tr>
-            <td>Puissance perdue par effet Joule en basse tension</td>
-            <td><input type="text" placeholder="W"></td>
-          </tr>
-
-          <tr>
-            <td>Puissance perdue par effet Joule en haute tension</td>
-            <td><input type="text" placeholder="W"></td>
-          </tr>
-
-        </tbody>
-
-      </table>
-
-    </div>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="environnement">
-
-  <div class="section-titre">
-    <div class="picto-section">🌱</div>
-    <h2>Électricité et sobriété énergétique</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <h3>Bonnes pratiques au laboratoire</h3>
-
-    <ul style="padding-left:1.5rem;line-height:2">
-      <li>Couper l'alimentation du transformateur dès la fin des mesures.</li>
-      <li>Limiter la durée de fonctionnement en court-circuit lors des mesures d'intensité.</li>
-    </ul>
-
-    <h3 style="margin-top:var(--gap-md);">Limiter les pertes énergétiques</h3>
-
-    <p>
-      Le transport de l'énergie électrique sous haute tension permet de
-      limiter très fortement les pertes par effet Joule dans les lignes,
-      donc de réduire les émissions de gaz à effet de serre associées à
-      la production d'électricité nécessaire pour compenser ces pertes.
-    </p>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="bilan">
-
-  <div class="section-titre">
-    <div class="picto-section">📝</div>
-    <h2>Trace écrite - Compte rendu</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <h3>Identification</h3>
-
-    <div class="form-row">
-
-      <div class="form-group">
-        <label for="nom-eleve">Nom</label>
-        <input id="nom-eleve" type="text" placeholder="Nom">
-      </div>
-
-      <div class="form-group">
-        <label for="prenom-eleve">Prénom</label>
-        <input id="prenom-eleve" type="text" placeholder="Prénom">
-      </div>
-
-      <div class="form-group">
-        <label for="classe-eleve">Classe</label>
-        <input id="classe-eleve" type="text" placeholder="Classe">
-      </div>
-
-      <div class="form-group">
-        <label for="date-eleve">Date</label>
-        <input id="date-eleve" type="date">
-      </div>
-
-    </div>
-
-    <h3 style="margin-top:var(--gap-md);">Résumé du TP</h3>
-
-    <div class="zone-eleve">
-      <textarea id="resume-tp" rows="6" placeholder="Résumer les observations sur le réseau de distribution, l'effet Joule et le rôle du transformateur..."></textarea>
-    </div>
-
-    <h3 style="margin-top:var(--gap-md);">Questions</h3>
-
-    <div class="questions-bloc" data-tp="transport-energie">
-
-    <ol class="questions-tp">
-
-      <li>
-        <div class="question-entete">
-          <strong>
-            Représenter le schéma simplifié du réseau de distribution d'énergie électrique, de la centrale à l'installation domestique.
-          </strong>
-          <span class="cartouche" data-comp="APP">APP</span>
-        </div>
-        <div class="zone-eleve">
-          <textarea id="question1" rows="5" placeholder="Votre réponse..."></textarea>
-        </div>
-      </li>
-
-      <li>
-        <div class="question-entete">
-          <strong>
-            Justifier l'intérêt du transport de l'énergie électrique sous haute tension à partir des résultats obtenus sur l'effet Joule.
-          </strong>
-          <span class="cartouche" data-comp="ANA">ANA</span>
-        </div>
-        <div class="zone-eleve">
-          <textarea id="question2" rows="5" placeholder="Votre analyse..."></textarea>
-        </div>
-      </li>
-
-      <li>
-        <div class="question-entete">
-          <strong>
-            À partir des mesures réalisées, préciser si le transformateur étudié est élévateur ou abaisseur de tension.
-          </strong>
-          <span class="cartouche" data-comp="REA">REA</span>
-        </div>
-        <div class="zone-eleve">
-          <textarea id="question3" rows="4" placeholder="Votre réponse..."></textarea>
-        </div>
-      </li>
-
-      <li class="question-problematique">
-        <div class="question-entete">
-          <strong>Répondre à la problématique posée en début de TP :</strong>
-          <span class="cartouche" data-comp="VAL">VAL</span>
-        </div>
-        <p class="problematique-rappel" data-activite="transport-energie"></p>
-        <div class="zone-eleve">
-          <textarea id="question4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
-        </div>
-      </li>
-
-    </ol>
-
-    </div>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="auto-evaluation">
-
-  <div class="section-titre">
-    <div class="picto-section">📡</div>
-    <h2>Auto-évaluation des compétences</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <p class="info">
-      À la fin du TP, évaluez votre niveau de maîtrise pour chaque
-      compétence.
-    </p>
-
-    <div class="table-responsive">
-
-      <table class="tableau-resultats autoeval-table">
-
-        <thead>
-          <tr>
-            <th>Domaine</th>
-            <th>Sigle</th>
-            <th>Je suis capable de...</th>
-            <th>0</th>
-            <th>1</th>
-            <th>2</th>
-          </tr>
-        </thead>
-
-        <tbody>
-
-          <tr data-comp="APP">
-            <td>S'approprier</td>
-            <td>APP</td>
-            <td>Décrire les grandes étapes du réseau de distribution électrique.</td>
-            <td><input type="radio" name="APP" value="0"></td>
-            <td><input type="radio" name="APP" value="1"></td>
-            <td><input type="radio" name="APP" value="2"></td>
-          </tr>
-
-          <tr data-comp="REA">
-            <td>Réaliser</td>
-            <td>REA</td>
-            <td>Mesurer les tensions au primaire et au secondaire d'un transformateur.</td>
-            <td><input type="radio" name="REA" value="0"></td>
-            <td><input type="radio" name="REA" value="1"></td>
-            <td><input type="radio" name="REA" value="2"></td>
-          </tr>
-
-          <tr data-comp="ANA">
-            <td>Analyser / Raisonner</td>
-            <td>ANA</td>
-            <td>Justifier l'intérêt du transport sous haute tension à partir des pertes par effet Joule.</td>
-            <td><input type="radio" name="ANA" value="0"></td>
-            <td><input type="radio" name="ANA" value="1"></td>
-            <td><input type="radio" name="ANA" value="2"></td>
-          </tr>
-
-          <tr data-comp="VAL">
-            <td>Valider</td>
-            <td>VAL</td>
-            <td>Vérifier la cohérence du rapport de transformation mesuré.</td>
-            <td><input type="radio" name="VAL" value="0"></td>
-            <td><input type="radio" name="VAL" value="1"></td>
-            <td><input type="radio" name="VAL" value="2"></td>
-          </tr>
-
-          <tr data-comp="COM">
-            <td>Communiquer</td>
-            <td>COM</td>
-            <td>Représenter et légender le schéma d'un réseau de distribution électrique.</td>
-            <td><input type="radio" name="COM" value="0"></td>
-            <td><input type="radio" name="COM" value="1"></td>
-            <td><input type="radio" name="COM" value="2"></td>
-          </tr>
-
-        </tbody>
-
-      </table>
-
-    </div>
-
-    <div class="radar-actions" style="margin-top:var(--gap-lg);">
-      <button id="btn-radar" class="btn btn-primaire">
-        📊 Générer mon radar de compétences
-      </button>
-      <div id="radar-resultat" style="margin-top:var(--gap-md);"></div>
-    </div>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="impression_tp">
-
-  <div class="section-titre">
-    <div class="picto-section">📒</div>
-    <h2>Impression du compte-rendu</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <p class="info">
-      À la fin du TP, Imprimer votre TP en PDF.
-      Envoyer à l'enseignant votre Compte rendu en pièce jointe par la messagerie de l'ENT.
-    </p>
-
-    <div class="toolbar">
-      <button id="btn-imprimer" class="btn btn-primaire">
-        🖨 Imprimer le compte-rendu
-      </button>
-    </div>
-
-    <div class="info" style="margin-top:var(--gap-md);">
-      L'impression récupère automatiquement :
-      <ul>
-        <li>l'étape du réseau sélectionnée ;</li>
-        <li>le comparatif des pertes par effet Joule ;</li>
-        <li>les mesures de tension du transformateur ;</li>
-        <li>les résultats du tableau et les réponses aux questions ;</li>
-        <li>l'auto-évaluation des compétences.</li>
-      </ul>
-    </div>
-
-  </div>
-
-</div>
-
-<div class="nav-tp">
-
-  <button class="btn btn-secondaire" onclick="loadTP('tp01-puissance-energie')">
-    ← TP01
-  </button>
-
-  <button class="btn btn-primaire" onclick="loadTP('tp03-puissance-active')">
-    TP03 →
-  </button>
-
-</div>
-
-</main>
-
-<div id="cr-print-container" style="display:none;"></div>
-
-</section>
+</body>
+</html>
