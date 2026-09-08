@@ -48,10 +48,12 @@ export function message(id, texte, classe = "info") {
    RESOLUTION DES CHEMINS D'IMAGES   
    ============================================================ */
 
-const BASE =
-    window.location.hostname === "ppruvost.github.io"
-        ? "/laboratory/"
-        : "/";
+// Déduit le préfixe du site depuis l'URL réelle de la page, en
+// repérant le dossier "laboratory/" dans le chemin. Fonctionne quel
+// que soit le nom du dépôt GitHub Pages (ex. /tableau_sciences/laboratory/...),
+// un domaine personnalisé, ou un serveur local — sans valeur codée en dur.
+const _match = window.location.pathname.match(/^(.*\/laboratory\/)/);
+const BASE = _match ? _match[1] : "/";
 
 export function imgSrc(
     chemin,
