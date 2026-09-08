@@ -64,6 +64,9 @@ export function init() {
   initReseau();
   initEffetJoule();
   initTransformateur();
+  initTransformateurSimulateur();
+  initManipTransformateurReel();
+  initManipJouleReel();
 
   initMateriel({
     equipementId: 'materiel-equipements',
@@ -253,42 +256,13 @@ function initEffetJoule() {
 }
 
 // =================================================================
-// Onglet 3 — Rôle du transformateur (élévateur / abaisseur)
-// =================================================================
-function initTransformateur() {
-
-  const inputU1 = $('transfo-u1');
-  const inputU2 = $('transfo-u2');
-  const zoneResultat = $('transfo-resultat');
-
-  if (!inputU1 || !inputU2 || !zoneResultat) return;
-
-  function analyserTransformateur() {
-
-    const u1 = parseFloat(inputU1.value);
-    const u2 = parseFloat(inputU2.value);
-
-    if (Number.isNaN(u1) || Number.isNaN(u2) || u1 === 0) {
-      zoneResultat.textContent = 'Saisir les deux tensions mesurées pour déterminer si le transformateur est élévateur ou abaisseur.';
-      return;
-    }
-
-    const rapport = u2 / u1;
-    const role = rapport > 1 ? 'élévateur' : (rapport < 1 ? 'abaisseur' : 'ni élévateur ni abaisseur (rapport 1:1)');
-
-    zoneResultat.innerHTML = `
-      Rapport de transformation U₂ / U₁ = <strong>${arrondir(rapport, 2)}</strong><br>
-      Ce transformateur est donc <strong>${role}</strong> de tension.
-    `;
-  }
-
-  inputU1.addEventListener('input', analyserTransformateur);
-  inputU2.addEventListener('input', analyserTransformateur);
-}
-// =================================================================
 // Onglet 3 — Simulateur interactif : transformateur élévateur /
 // abaisseur, à partir du rapport de spires N2/N1.
 // =================================================================
+//
+// Complète (sans la remplacer) la fonction initTransformateur()
+// ci-dessous, qui gère la vérification à partir des mesures réelles
+// U1/U2 relevées sur le transformateur du poste de travail.
 
 function initTransformateurSimulateur() {
 
@@ -372,4 +346,138 @@ function initTransformateurSimulateur() {
   });
 
   simuler();
+}
+
+// =================================================================
+// Onglet 3 — Vérification expérimentale à partir des mesures réelles
+// (U1, U2 relevées au voltmètre sur le transformateur du poste de
+// travail). Complète le simulateur théorique ci-dessus.
+// =================================================================
+function initTransformateur() {
+
+  const inputU1 = $('transfo-u1');
+  const inputU2 = $('transfo-u2');
+  const zoneResultat = $('transfo-resultat');
+
+  if (!inputU1 || !inputU2 || !zoneResultat) return;
+
+  function analyserTransformateur() {
+
+    const u1 = parseFloat(inputU1.value);
+    const u2 = parseFloat(inputU2.value);
+
+    if (Number.isNaN(u1) || Number.isNaN(u2) || u1 === 0) {
+      zoneResultat.textContent = 'Saisir les deux tensions mesurées pour déterminer si le transformateur est élévateur ou abaisseur.';
+      return;
+    }
+
+    const rapport = u2 / u1;
+    const role = rapport > 1 ? 'élévateur' : (rapport < 1 ? 'abaisseur' : 'ni élévateur ni abaisseur (rapport 1:1)');
+
+    zoneResultat.innerHTML = `
+      Rapport de transformation U₂ / U₁ = <strong>${arrondir(rapport, 2)}</strong><br>
+      Ce transformateur est donc <strong>${role}</strong> de tension.
+    `;
+  }
+
+  inputU1.addEventListener('input', analyserTransformateur);
+  inputU2.addEventListener('input', analyserTransformateur);
+}
+
+// =================================================================
+// Onglet 4 — Manipulation réelle : vérification expérimentale du
+// rôle du transformateur et de l'effet Joule avec le matériel du
+// poste de travail (générateur 0-12V, transformateur, résistances,
+// multimètre).
+// =================================================================
+//
+// À ajouter dans tp02-transport-energie.js :
+//   1) les deux fonctions ci-dessous
+//   2) leurs appels dans init(), à côté des autres initXxx()
+
+function initManipTransformateurReel() {
+
+  const inputU1 = $('manip-transfo-u1');
+  const inputU2 = $('manip-transfo-u2');
+  const zoneResultat = $('manip-transfo-resultat');
+
+  if (!inputU1 || !inputU2 || !zoneResultat) return;
+
+  function analyser() {
+
+    const u1 = parseFloat(inputU1.value);
+    const u2 = parseFloat(inputU2.value);
+
+    if (Number.isNaN(u1) || Number.isNaN(u2) || u1 === 0) {
+      zoneResultat.textContent = 'Saisir les deux tensions mesurées pour vérifier si ce transformateur est élévateur ou abaisseur.';
+      return;
+    }
+
+    const rapport = u2 / u1;
+    const role = rapport > 1 ? 'élévateur' : (rapport < 1 ? 'abaisseur' : 'ni élévateur ni abaisseur (rapport 1:1)');
+
+    zoneResultat.innerHTML = `
+      Rapport de transformation mesuré U₂ / U₁ = <strong>${arrondir(rapport, 2)}</strong><br>
+      Le transformateur utilisé est donc <strong>${role}</strong> de tension.
+    `;
+  }
+
+  inputU1.addEventListener('input', analyser);
+  inputU2.addEventListener('input', analyser);
+}
+
+function initManipJouleReel() {
+
+  const inputR1 = $('manip-r1');
+  const inputI1 = $('manip-i1');
+  const inputR2 = $('manip-r2');
+  const inputI2 = $('manip-i2');
+  const selectRessenti1 = $('manip-ressenti-1');
+  const selectRessenti2 = $('manip-ressenti-2');
+
+  const zoneResultat = $('manip-joule-resultat');
+
+  if (!inputR1 || !inputI1 || !inputR2 || !inputI2 || !zoneResultat) return;
+
+  const LABEL_RESSENTI = {
+    froid: 'froid / à peine tiède',
+    tiede: 'tiède',
+    chaud: 'chaud',
+  };
+
+  function analyser() {
+
+    const r1 = parseFloat(inputR1.value);
+    const i1 = parseFloat(inputI1.value);
+    const r2 = parseFloat(inputR2.value);
+    const i2 = parseFloat(inputI2.value);
+
+    if ([r1, i1, r2, i2].some(Number.isNaN)) {
+      zoneResultat.textContent = 'Compléter le tableau ci-dessus (résistance, intensité mesurée et échauffement ressenti pour les deux essais) pour comparer les puissances dissipées par effet Joule.';
+      return;
+    }
+
+    const p1 = r1 * i1 * i1;
+    const p2 = r2 * i2 * i2;
+
+    const ressenti1 = LABEL_RESSENTI[selectRessenti1?.value] || null;
+    const ressenti2 = LABEL_RESSENTI[selectRessenti2?.value] || null;
+
+    let phraseRessenti = '';
+    if (ressenti1 && ressenti2) {
+      phraseRessenti = ` Cela correspond bien à un ressenti « ${ressenti1} » pour l'essai 1 et « ${ressenti2} » pour l'essai 2.`;
+    }
+
+    zoneResultat.innerHTML = `
+      Essai 1 : PJ = ${arrondir(r1, 1)} × ${arrondir(i1, 2)}² = <strong>${arrondir(p1, 2)} W</strong><br>
+      Essai 2 : PJ = ${arrondir(r2, 1)} × ${arrondir(i2, 2)}² = <strong>${arrondir(p2, 2)} W</strong><br>
+      Plus l'intensité qui traverse une résistance est grande, plus la puissance dissipée par effet Joule augmente rapidement (au carré de l'intensité).${phraseRessenti}
+    `;
+  }
+
+  [inputR1, inputI1, inputR2, inputI2].forEach((input) => {
+    input.addEventListener('input', analyser);
+  });
+  if (selectRessenti1) selectRessenti1.addEventListener('change', analyser);
+  if (selectRessenti2) selectRessenti2.addEventListener('change', analyser);
 }
