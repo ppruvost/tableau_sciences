@@ -158,6 +158,7 @@
         <button class="tab-btn actif" data-tab="reseau-distribution">Réseau de distribution</button>
         <button class="tab-btn" data-tab="effet-joule">Effet Joule et pertes en ligne</button>
         <button class="tab-btn" data-tab="transformateur">Transformateur</button>
+        <button class="tab-btn" data-tab="manipulation-reelle">Manipulation réelle</button>
       </div>
 
       <!-- ============================ -->
@@ -456,6 +457,128 @@
           <img src="./assets/images/9_distribution_transformateur_20kv.jpg" alt="Transformateur HTA/BT dans un poste de distribution réel" class="mode-image">
           <p class="mode-legende">Un transformateur de réseau (poste de distribution HTA/BT). En TP, vous utiliserez un transformateur d'atelier basse tension, mais le principe élévateur/abaisseur est identique.</p>
         </div>
+
+      </div>
+
+      <!-- ============================ -->
+      <!-- MANIPULATION RÉELLE          -->
+      <!-- ============================ -->
+
+      <div class="tab-panel" id="manipulation-reelle">
+
+        <h3>Manipulation avec le matériel du laboratoire</h3>
+
+        <div class="info">
+          Cette manipulation utilise uniquement du matériel basse
+          tension (12 V maximum, très basse tension de sécurité) pour
+          vérifier avec de vrais appareils ce que tu as observé dans
+          les simulateurs : le rôle du transformateur, et l'échauffement
+          d'une résistance parcourue par un courant.
+        </div>
+
+        <h4>Partie A — Le transformateur, en vrai</h4>
+
+        <ol class="etapes">
+          <li>Relier le générateur de tension alternative (réglé sur 6 V environ) aux deux bornes de l'enroulement primaire du transformateur.</li>
+          <li>Mettre le multimètre en position voltmètre alternatif (V~) et mesurer la tension U₁ directement aux bornes du primaire, générateur allumé.</li>
+          <li>Mesurer de la même façon la tension U₂ aux bornes de l'enroulement secondaire, à vide (sans rien brancher dessus).</li>
+          <li>Noter les deux valeurs mesurées ci-dessous.</li>
+        </ol>
+
+        <div class="form-row">
+
+          <div class="form-group">
+            <label for="manip-transfo-u1">Tension mesurée au primaire U₁ (V)</label>
+            <input id="manip-transfo-u1" type="number" step="0.1">
+          </div>
+
+          <div class="form-group">
+            <label for="manip-transfo-u2">Tension mesurée au secondaire U₂ (V)</label>
+            <input id="manip-transfo-u2" type="number" step="0.1">
+          </div>
+
+        </div>
+
+        <div id="manip-transfo-resultat" class="resultat-calcul">
+          Saisir les deux tensions mesurées pour vérifier si ce
+          transformateur est élévateur ou abaisseur.
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Partie B — Sentir l'effet Joule</h4>
+
+        <div class="info">
+          Ne jamais toucher directement une résistance qui chauffe :
+          approcher la main à quelques centimètres suffit pour sentir
+          la différence de température.
+        </div>
+
+        <ol class="etapes">
+          <li>Réaliser un circuit série : générateur (6 V~) → interrupteur → résistance R₁ → multimètre en position ampèremètre alternatif (A~) → retour au générateur.</li>
+          <li>Fermer l'interrupteur, relever l'intensité I₁ affichée par le multimètre, puis approcher la main de la résistance sans la toucher et noter la sensation.</li>
+          <li>Ouvrir le circuit, couper l'alimentation, remplacer R₁ par une résistance R₂ de valeur plus faible.</li>
+          <li>Refermer le circuit, relever l'intensité I₂, approcher à nouveau la main et comparer la sensation avec l'essai précédent.</li>
+        </ol>
+
+        <div class="table-responsive">
+
+          <table class="tableau-resultats">
+
+            <thead>
+              <tr>
+                <th>Essai</th>
+                <th>Résistance R (Ω)</th>
+                <th>Intensité I (A)</th>
+                <th>Échauffement ressenti</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td>1 (R₁, plus grande)</td>
+                <td><input id="manip-r1" type="number" step="0.1"></td>
+                <td><input id="manip-i1" type="number" step="0.01"></td>
+                <td>
+                  <select id="manip-ressenti-1">
+                    <option value="">--</option>
+                    <option value="froid">Froid / à peine tiède</option>
+                    <option value="tiede">Tiède</option>
+                    <option value="chaud">Chaud</option>
+                  </select>
+                </td>
+              </tr>
+
+              <tr>
+                <td>2 (R₂, plus faible)</td>
+                <td><input id="manip-r2" type="number" step="0.1"></td>
+                <td><input id="manip-i2" type="number" step="0.01"></td>
+                <td>
+                  <select id="manip-ressenti-2">
+                    <option value="">--</option>
+                    <option value="froid">Froid / à peine tiède</option>
+                    <option value="tiede">Tiède</option>
+                    <option value="chaud">Chaud</option>
+                  </select>
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <div id="manip-joule-resultat" class="resultat-calcul">
+          Compléter le tableau ci-dessus (résistance, intensité mesurée et échauffement ressenti pour les deux essais) pour comparer les puissances dissipées par effet Joule.
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Ce qu'il faut en retenir</h4>
+
+        <ul style="padding-left:1.5rem;line-height:2">
+          <li>La tension au secondaire d'un transformateur peut être mesurée directement au voltmètre : elle confirme si l'appareil élève ou abaisse la tension.</li>
+          <li>Plus l'intensité dans une résistance est grande, plus elle chauffe : c'est l'effet Joule, que l'on peut sentir avec la main, pas seulement calculer.</li>
+          <li>C'est exactement ce même échauffement qui se produit, à bien plus grande échelle, dans les lignes du réseau électrique.</li>
+        </ul>
 
       </div>
 
