@@ -220,7 +220,10 @@ function showQuestion() {
   const colors =
       ["red","blue","yellow","green"];
 
-  q.options.forEach((opt, idx) => {
+  const shuffledOptions =
+      shuffleArray(q.options);
+
+  shuffledOptions.forEach((opt, idx) => {
 
     const d =
         document.createElement(
