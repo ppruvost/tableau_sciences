@@ -84,12 +84,12 @@ export function init() {
   // pour MCC (non exigible en 1ère MCC, non repris en Tle TCI/TRPM).
   initOngletsParFiliere({
     mapping: {
-      '1ere-tci':  ['reseau-distribution', 'effet-joule', 'transformateur'],
-      '1ere-trpm': ['reseau-distribution', 'effet-joule', 'transformateur'],
+      '1ere-tci':  ['reseau-distribution', 'effet-joule', 'transformateur', 'manipulation-reelle'],
+      '1ere-trpm': ['reseau-distribution', 'effet-joule', 'transformateur', 'manipulation-reelle'],
       '1ere-mcc':  [],
       'tle-tci':   [],
       'tle-trpm':  [],
-      'tle-mcc':   ['reseau-distribution', 'effet-joule', 'transformateur'],
+      'tle-mcc':   ['reseau-distribution', 'effet-joule', 'transformateur', 'manipulation-reelle'],
     },
     messageId: 'tp02-message-filiere',
     messageTexte: "Ce TP n'est pas au programme de votre filière à ce niveau. Reportez-vous au niveau où le transport de l'énergie électrique est étudié dans votre spécialité.",
