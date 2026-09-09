@@ -63,33 +63,33 @@
     document.getElementById("tag-round").textContent = r.label;
     document.getElementById("zone-choix").style.display = "none";
     document.getElementById("zone-tally").style.display = "none";
-    document.getElementById("btn-reveal").style.display = "none";
+    document.getElementById("blackout-note").style.display = "none";
     document.getElementById("btn-show-answer").style.display = "none";
 
     renderStage(r.initial);
     runTimer(r.memoTime, () => {
-      // Blackout puis proposer la révélation
+      // Écran noir automatique de 2s, puis révélation automatique de la version modifiée
       const stage = document.getElementById("stage");
       stage.classList.add("blackout");
       stage.innerHTML = "";
-      document.getElementById("btn-reveal").style.display = "inline-block";
-    });
+      document.getElementById("blackout-note").style.display = "block";
 
-    document.getElementById("btn-reveal").onclick = () => {
-      document.getElementById("btn-reveal").style.display = "none";
-      renderStage(r.modified);
-      document.getElementById("zone-choix").style.display = "block";
-      const grid = document.getElementById("choices-grid");
-      grid.innerHTML = "";
-      r.choices.forEach((c, i) => {
-        const b = document.createElement("div");
-        b.className = "choice-btn";
-        b.textContent = c;
-        b.dataset.idx = i;
-        grid.appendChild(b);
-      });
-      document.getElementById("btn-show-answer").style.display = "inline-block";
-    };
+      setTimeout(() => {
+        document.getElementById("blackout-note").style.display = "none";
+        renderStage(r.modified);
+        document.getElementById("zone-choix").style.display = "block";
+        const grid = document.getElementById("choices-grid");
+        grid.innerHTML = "";
+        r.choices.forEach((c, i) => {
+          const b = document.createElement("div");
+          b.className = "choice-btn";
+          b.textContent = c;
+          b.dataset.idx = i;
+          grid.appendChild(b);
+        });
+        document.getElementById("btn-show-answer").style.display = "inline-block";
+      }, 2000);
+    });
 
     document.getElementById("btn-show-answer").onclick = () => {
       document.getElementById("btn-show-answer").style.display = "none";
