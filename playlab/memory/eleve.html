@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memory Mermoz — Joue !</title>
+<link rel="stylesheet" href="css/memory.css">
+</head>
+<body>
+
+<section id="screen-choix-manche" class="screen active" style="padding:16px;">
+  <h1 class="pixel-title" style="font-size:18px; text-align:center;">MEMORY MERMOZ</h1>
+  <p class="mini-note">Aucune inscription. Rien n'est enregistré ni envoyé : appuie sur le numéro de manche annoncé par l'animateur.</p>
+  <div class="round-grid" id="round-grid"></div>
+</section>
+
+<section id="screen-question" class="screen" style="padding:16px;">
+  <span class="tag" id="q-block"></span>
+  <h2 class="pixel-title" id="q-round" style="font-size:14px;"></h2>
+  <p style="font-weight:800; text-align:center;">Qu'est-ce qui a changé ?</p>
+  <div class="choices-grid" id="q-choices"></div>
+  <div id="q-feedback" style="display:none; text-align:center; font-weight:800; font-size:18px;"></div>
+  <button class="big-btn ghost" id="btn-back">⬅ CHOISIR UNE AUTRE MANCHE</button>
+</section>
+
+<script src="js/memory-data.js"></script>
+<script src="js/memory-eleve.js"></script>
+</body>
+</html>
