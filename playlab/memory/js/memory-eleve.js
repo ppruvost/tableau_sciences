@@ -36,7 +36,10 @@
   }
 
   function answer(idx, r, choicesEl) {
-    // Réponse locale uniquement — rien n'est envoyé ni conservé après avoir quitté la page.
+    const estCorrecte = idx === r.correct;
+    // Envoi anonyme : seul le couple (numéro de manche, bon/mauvais) part vers le compteur — jamais d'identité.
+    memorySubmitAnswer(r.id, estCorrecte);
+
     [...choicesEl.children].forEach((b, i) => {
       b.style.pointerEvents = "none";
       if (i === r.correct) b.classList.add("correct");
@@ -44,7 +47,7 @@
     });
     const fb = document.getElementById("q-feedback");
     fb.style.display = "block";
-    if (idx === r.correct) {
+    if (estCorrecte) {
       fb.textContent = "✅ Bonne réponse !";
       fb.style.color = "var(--good)";
     } else {
