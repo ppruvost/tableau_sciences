@@ -17,6 +17,7 @@ import { initImpressionCompteRendu } from './compte-rendu-mecanique.js';
 import { initMateriel } from '../../js/materiel.js';
 import laboratoryEquipment from '../../data/equipment.js';
 import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
+import { initAcquisitionExaoPression } from './exao-pression.js';
 
 const CONTEXTES_PRO = {
 
@@ -45,6 +46,7 @@ export function init() {
   initForceInverse();
   initBoyleMariotte();
   initTableauMesuresBoyleMariotte();
+  initAcquisitionExaoPression();
 
   initMateriel({
     equipementId: 'materiel-equipements',
@@ -64,9 +66,9 @@ export function init() {
     mapping: {
       '2nde-remi': [],
       '2nde-mcc':  [],
-      '1ere-tci':  ['vitesse-acceleration', 'pression-force'],
-      '1ere-trpm': ['vitesse-acceleration', 'pression-force'],
-      '1ere-mcc':  ['vitesse-acceleration', 'pression-force'],
+      '1ere-tci':  ['vitesse-acceleration', 'pression-force', 'acquisition-exao'],
+      '1ere-trpm': ['vitesse-acceleration', 'pression-force', 'acquisition-exao'],
+      '1ere-mcc':  ['vitesse-acceleration', 'pression-force', 'acquisition-exao'],
       'tle-tci':   [],
       'tle-trpm':  [],
       'tle-mcc':   [],
