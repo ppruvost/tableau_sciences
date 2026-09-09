@@ -1,8 +1,7 @@
 (function () {
   const rounds = window.MEMORY_ROUNDS;
   let current = -1;
-  let results = []; // { good, bad } per round index actually played
-  let timerInterval = null;
+  let pollInterval = null;
 
   const screens = {
     accueil: document.getElementById("screen-accueil"),
@@ -20,7 +19,12 @@
   /* global QRCode */
   new QRCode(document.getElementById("qrcode"), { text: eleveUrl, width: 180, height: 180 });
 
-  document.getElementById("btn-start").addEventListener("click", () => startRound(0));
+  document.getElementById("btn-start").addEventListener("click", async () => {
+    document.getElementById("btn-start").disabled = true;
+    document.getElementById("btn-start").textContent = "Préparation…";
+    await memoryResetSession(); // repart sur des compteurs à zéro pour cette séance
+    startRound(0);
+  });
 
   function buildItemEl(item) {
     const wrap = document.createElement("div");
@@ -58,7 +62,10 @@
   function startRound(index) {
     current = index;
     const r = rounds[index];
+    clearInterval(pollInterval);
     showScreen("jeu");
+    document.getElementById("btn-start").disabled = false;
+    document.getElementById("btn-start").textContent = "▶ DÉMARRER LA SÉANCE";
     document.getElementById("tag-block").textContent = r.block;
     document.getElementById("tag-round").textContent = r.label;
     document.getElementById("zone-choix").style.display = "none";
@@ -98,12 +105,24 @@
         else b.classList.add("wrong");
       });
       document.getElementById("zone-tally").style.display = "flex";
-      document.getElementById("count-good").textContent = "0";
-      document.getElementById("count-bad").textContent = "0";
+      startLivePolling(r.id);
     };
   }
 
+  // Interroge Supabase toutes les 1,5s pour afficher le compteur en direct pendant la manche en cours
+  function startLivePolling(roundId) {
+    clearInterval(pollInterval);
+    const update = async () => {
+      const { good, bad } = await memoryGetCounts(roundId);
+      document.getElementById("count-good").textContent = good;
+      document.getElementById("count-bad").textContent = bad;
+    };
+    update();
+    pollInterval = setInterval(update, 1500);
+  }
+
   function runTimer(seconds, onDone) {
+    let timerInterval;
     clearInterval(timerInterval);
     const bar = document.getElementById("timer-bar");
     let elapsed = 0;
@@ -119,21 +138,8 @@
     }, 100);
   }
 
-  document.getElementById("btn-add-good").addEventListener("click", () => {
-    const el = document.getElementById("count-good");
-    el.textContent = parseInt(el.textContent, 10) + 1;
-  });
-  document.getElementById("btn-add-bad").addEventListener("click", () => {
-    const el = document.getElementById("count-bad");
-    el.textContent = parseInt(el.textContent, 10) + 1;
-  });
-
   document.getElementById("btn-next").addEventListener("click", () => {
-    results[current] = {
-      label: rounds[current].label,
-      good: parseInt(document.getElementById("count-good").textContent, 10),
-      bad: parseInt(document.getElementById("count-bad").textContent, 10),
-    };
+    clearInterval(pollInterval);
     if (current + 1 < rounds.length) {
       startRound(current + 1);
     } else {
@@ -141,22 +147,25 @@
     }
   });
 
-  function showRecap() {
+  async function showRecap() {
     showScreen("recap");
-    let totalGood = 0, totalBad = 0;
     const barsWrap = document.getElementById("recap-bars");
+    barsWrap.innerHTML = "<p class='mini-note'>Chargement des résultats…</p>";
+    const map = await memoryGetAllCounts();
+    let totalGood = 0, totalBad = 0;
     barsWrap.innerHTML = "";
-    results.forEach(r => {
-      if (!r) return;
-      totalGood += r.good; totalBad += r.bad;
-      const total = r.good + r.bad || 1;
+    rounds.forEach(r => {
+      const c = map[r.id];
+      if (!c) return;
+      totalGood += c.good; totalBad += c.bad;
+      const total = c.good + c.bad || 1;
       const row = document.createElement("div");
       row.className = "bar-row";
       row.innerHTML = `
         <div class="bar-label">${r.label}</div>
         <div class="bar-track">
-          <div class="bar-good" style="width:${(r.good/total)*100}%"></div>
-          <div class="bar-bad" style="width:${(r.bad/total)*100}%"></div>
+          <div class="bar-good" style="width:${(c.good/total)*100}%"></div>
+          <div class="bar-bad" style="width:${(c.bad/total)*100}%"></div>
         </div>`;
       barsWrap.appendChild(row);
     });
@@ -165,7 +174,6 @@
   }
 
   document.getElementById("btn-restart").addEventListener("click", () => {
-    results = [];
     showScreen("accueil");
   });
 })();
