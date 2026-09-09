@@ -37,17 +37,15 @@
   </div>
 
   <div id="zone-tally" style="display:none; width:100%; flex-direction:column; align-items:center; gap:16px;">
-    <p class="mini-note">Demandez « qui a trouvé ? » puis cliquez pour compter les mains levées (aucune identité n'est jamais enregistrée).</p>
+    <p class="mini-note">Compteur en direct — chaque élève répond sur son téléphone, aucune identité n'est jamais enregistrée.</p>
     <div class="tally-row">
       <div class="tally-card good">
         <div>✅ Bonnes réponses</div>
         <div class="count" id="count-good">0</div>
-        <button class="big-btn" style="font-size:11px;padding:10px 16px;" id="btn-add-good">+1</button>
       </div>
       <div class="tally-card bad">
         <div>❌ Mauvaises réponses</div>
         <div class="count" id="count-bad">0</div>
-        <button class="big-btn pink" style="font-size:11px;padding:10px 16px;" id="btn-add-bad">+1</button>
       </div>
     </div>
     <button class="big-btn ghost" id="btn-next">MANCHE SUIVANTE ▶</button>
@@ -67,6 +65,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="js/memory-data.js"></script>
+<script src="js/memory-supabase.js"></script>
 <script src="js/memory-projecteur.js"></script>
 </body>
 </html>
