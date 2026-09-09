@@ -1,972 +1,883 @@
-<!--
-  Fragment SPA chargé dynamiquement par navigation.js.
-  Tous les chemins sont relatifs à la racine du site.
-  Aucun <script> dans ce fragment.
--->
-
-<section>
-
-<header class="tp-header">
-
-  <div class="tp-header-logo">
-    <div class="logo">
-      <span class="sci">Sci</span><span class="Lab">Lab</span>
-    </div>
-  </div>
-
-  <div class="tp-header-centre">
-
-    <h1>Cinématique et pression</h1>
-
-    <div class="tp-meta">
-
-      <div class="tp-row">
-        <span class="tag">1ère</span>
-        <span class="tag">Mécanique</span>
-        <span class="tag">Accélération - </span><span class="tag">Pression - </span><span class="tag">Boyle-Mariotte</span>
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="tp-header-numero">
-    <span class="tp-numero-txt">TP M03</span>
-  </div>
-
-</header>
-
-<div class="progress">
-  <div id="bar"></div>
-</div>
-
-<main id="content">
-
-<div class="section" data-type="objectif">
-
-  <div class="section-titre">
-    <div class="picto-section">🎯</div>
-    <h2>Capacités évaluées</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <ul>
-      <li>Mesurer des vitesses et des accélérations dans le cas d'un mouvement rectiligne.</li>
-      <li>Identifier la nature d'un mouvement à partir du graphe des vitesses.</li>
-      <li>Connaître la relation entre la variation de vitesse, l'accélération et la durée pour une accélération de valeur constante.</li>
-      <li>Mesurer la pression en un point d'un fluide et calculer une pression (P = F/S).</li>
-      <li>Vérifier expérimentalement la loi de Boyle-Mariotte.</li>
-      <li>Connaître la relation entre pression, volume, quantité de matière et température pour un gaz parfait.</li>
-    </ul>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="contexte-pro">
-
-  <div class="section-titre">
-    <div class="picto-section">🏭</div>
-    <h2>Contexte professionnel</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="filiere-select-bloc">
-      <label for="select-filiere-pro">Votre filière professionnelle :</label>
-      <select id="select-filiere-pro">
-        <option value="">-- Sélectionner une filière --</option>
-      </select>
-    </div>
-
-    <div id="contexte-pro-resultat" class="contexte-pro-resultat">
-      <p>Sélectionner votre filière professionnelle pour afficher le contexte et la problématique associée.</p>
-    </div>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="securite">
-
-  <div class="section-titre">
-    <div class="picto-section">⚠️</div>
-    <h2>Sécurité</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="info">
-      Ce TP met en œuvre un mobile en mouvement accéléré et une
-      seringue ou un vérin sous pression.
-    </div>
-
-    <ul style="padding-left:1.5rem;line-height:2">
-      <li><strong>Mobile accéléré :</strong> prévoir une zone d'arrêt dégagée en bout de course.</li>
-      <li><strong>Compression d'un gaz :</strong> ne jamais dépasser la pression maximale admissible de la seringue ou du manomètre.</li>
-      <li><strong>Relâchement brutal :</strong> tenir fermement le piston lors du relâchement de la pression.</li>
-    </ul>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="materiel">
-
-  <div class="section-titre">
-    <div class="picto-section">🧪</div>
-    <h2>Matériel nécessaire</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <h3>Équipements</h3>
-    <div id="materiel-equipements" class="grille-materiel">
-    </div>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="preparation">
-
-  <div class="section-titre">
-    <div class="picto-section">⚗️</div>
-    <h2>Manipulations</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div id="tp03m-message-filiere" class="info" style="display:none;"></div>
-
-    <div class="tabs-container">
-
-      <div class="tabs-header">
-        <button class="tab-btn actif" data-tab="vitesse-acceleration">Vitesse et accélération</button>
-        <button class="tab-btn" data-tab="pression-force">Pression et force pressante</button>
-        <button class="tab-btn" data-tab="acquisition-exao">Acquisition ExAO (pression)</button>
-      </div>
-
-      <!-- ============================ -->
-      <!-- VITESSE ET ACCÉLÉRATION       -->
-      <!-- ============================ -->
-
-      <div class="tab-panel actif" id="vitesse-acceleration">
-
-        <h3>Mesurer une accélération en mouvement rectiligne</h3>
-
-        <div class="info">
-          Pour une accélération constante, la variation de vitesse est
-          proportionnelle à la durée : Δv = a × Δt, soit
-          a = (v₂ - v₁) / (t₂ - t₁).
-        </div>
-
-        <div class="form-row">
-
-          <div class="form-group">
-            <label for="acc-t1">Instant t₁ (s)</label>
-            <input id="acc-t1" type="number" step="0.01">
-          </div>
-
-          <div class="form-group">
-            <label for="acc-v1">Vitesse v₁ (m/s)</label>
-            <input id="acc-v1" type="number" step="0.01">
-          </div>
-
-          <div class="form-group">
-            <label for="acc-t2">Instant t₂ (s)</label>
-            <input id="acc-t2" type="number" step="0.01">
-          </div>
-
-          <div class="form-group">
-            <label for="acc-v2">Vitesse v₂ (m/s)</label>
-            <input id="acc-v2" type="number" step="0.01">
-          </div>
-
-        </div>
-
-        <div id="acc-resultat" class="resultat-calcul">
-          Saisir deux instants et les vitesses correspondantes pour
-          calculer l'accélération moyenne entre ces deux instants.
-        </div>
-
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>Enregistrer le mouvement rectiligne d'un mobile (vidéo, chronophotographie ou ExAO).</li>
-          <li>Relever la vitesse du mobile à deux instants successifs.</li>
-          <li>Saisir ces valeurs pour calculer l'accélération moyenne, puis tracer le graphe des vitesses pour identifier la nature du mouvement.</li>
-        </ol>
-
-        <div class="mode-op">
-          <img src="./assets/images/m3-vitesse-acceleration.png" alt="Mode opératoire — vitesse et accélération d'un mouvement rectiligne" class="mode-image">
-        </div>
-
-      </div>
-
-      <!-- ============================ -->
-      <!-- PRESSION ET FORCE PRESSANTE   -->
-      <!-- ============================ -->
-
-      <div class="tab-panel" id="pression-force">
-
-        <h3>Pression, force pressante et loi de Boyle-Mariotte</h3>
-
-        <div class="info">
-          La pression exercée sur une surface est le quotient de la
-          force pressante par la surface pressée : P = F / S. Pour un
-          gaz parfait à température constante, la loi de
-          Boyle-Mariotte relie pression et volume : P₁ × V₁ = P₂ × V₂.
-        </div>
-
-        <div class="info">
-          Avec les deux dispositifs présentés plus bas (capteur
-          numérique ou manomètre relié à une seringue), la pression P
-          se lit directement sur l'appareil : F et S ne se mesurent
-          pas séparément avec ces montages. Pour relier la mesure à la
-          relation P = F/S :
-          <ul style="margin:.5rem 0 0;padding-left:1.2rem;">
-            <li><strong>S</strong> est la surface interne du piston de la seringue, calculable à partir de son diamètre interne d : S = π × (d/2)².</li>
-            <li><strong>F</strong> est la force pressante exercée sur ce piston : elle se déduit de la pression P lue sur le capteur ou le manomètre, grâce à F = P × S.</li>
-          </ul>
-        </div>
-
-        <h4 style="margin-top:var(--gap-lg);">Calculer S à partir du diamètre du piston</h4>
-
-        <div class="form-row">
-
-          <div class="form-group">
-            <label for="pf-diametre">Diamètre interne du piston d (mm)</label>
-            <input id="pf-diametre" type="number" step="0.1">
-          </div>
-
-        </div>
-
-        <div id="pf-diametre-resultat" class="resultat-calcul">
-          Saisir le diamètre interne du piston (indiqué sur la
-          seringue) pour calculer automatiquement la surface pressée S
-          et la reporter ci-dessous.
-        </div>
-
-        <h4 style="margin-top:var(--gap-lg);">Calcul direct : P = F / S</h4>
-
-        <div class="form-row">
-
-          <div class="form-group">
-            <label for="pf-force">Force pressante F (N)</label>
-            <input id="pf-force" type="number" step="0.1">
-          </div>
-
-          <div class="form-group">
-            <label for="pf-surface">Surface pressée S (cm²)</label>
-            <input id="pf-surface" type="number" step="0.01">
-          </div>
-
-        </div>
-
-        <div id="pf-resultat" class="resultat-calcul">
-          Saisir la force pressante et la surface pressée pour calculer
-          la pression correspondante.
-        </div>
-
-        <h4 style="margin-top:var(--gap-lg);">Calcul inverse : déduire F à partir de la pression lue sur le dispositif</h4>
-
-        <div class="info">
-          Cas d'usage réel avec les deux dispositifs photographiés : on
-          connaît la pression P affichée par le capteur ou le
-          manomètre, et la surface S du piston (calculée ci-dessus) ;
-          on en déduit la force pressante F exercée sur le piston.
-        </div>
-
-        <div class="form-row">
-
-          <div class="form-group">
-            <label for="pf-pression-lue">Pression lue P (hPa)</label>
-            <input id="pf-pression-lue" type="number" step="1">
-          </div>
-
-          <div class="form-group">
-            <label for="pf-surface-inverse">Surface pressée S (cm²)</label>
-            <input id="pf-surface-inverse" type="number" step="0.01">
-          </div>
-
-        </div>
-
-        <div id="pf-inverse-resultat" class="resultat-calcul">
-          Saisir la pression lue sur le dispositif et la surface du
-          piston pour déduire la force pressante F = P × S.
-        </div>
-
-        <h4 style="margin-top:var(--gap-lg);">Deux dispositifs pour étudier la pression d'un gaz enfermé</h4>
-
-        <div class="info">
-          Les deux dispositifs présentés ci-dessous permettent d'enfermer une
-          quantité d'air dans une seringue et de mesurer la pression du gaz
-          pour différents volumes, afin de vérifier la loi de Boyle-Mariotte.
-        </div>
-
-        <div class="grid grid-2 experiences-photos">
-
-          <div class="card experience-card">
-            <img src="./assets/images/m3-exp-capteur-numerique.jpg"
-                 alt="Seringue reliée par un tuyau à un capteur de pression numérique Jeulin affichant P = 1006 hPa"
-                 class="experience-image">
-            <h4>Dispositif A — Capteur de pression numérique</h4>
-            <p>
-              Une seringue est reliée par un tuyau souple à un capteur de
-              pression Jeulin. Le piston est déplacé à la main pour fixer le
-              volume de gaz enfermé ; la pression correspondante est lue
-              directement en hPa sur l'écran numérique du capteur.
-            </p>
-          </div>
-
-          <div class="card experience-card">
-            <img src="./assets/images/m3-exp-loi-mariotte.jpg"
-                 alt="Dispositif Loi de Mariotte : seringue graduée entraînée par une vis, reliée à un manomètre analogique à aiguille"
-                 class="experience-image">
-            <h4>Dispositif B — Vérin à vis et manomètre analogique</h4>
-            <p>
-              Une seringue graduée (0 à 60 cm³), entraînée par une vis
-              micrométrique fixée sur un support « Loi de Mariotte », est
-              reliée à un manomètre analogique gradué en bar et en hPa qui
-              affiche la pression du gaz enfermé pour chaque volume imposé.
-            </p>
-          </div>
-
-        </div>
-
-        <h4 style="margin-top:var(--gap-lg);">Calcul rapide entre deux points de mesure</h4>
-
-        <div class="form-row">
-
-          <div class="form-group">
-            <label for="bm-p1">Pression initiale P₁ (hPa)</label>
-            <input id="bm-p1" type="number" step="1">
-          </div>
-
-          <div class="form-group">
-            <label for="bm-v1">Volume initial V₁ (mL)</label>
-            <input id="bm-v1" type="number" step="0.1">
-          </div>
-
-          <div class="form-group">
-            <label for="bm-v2">Volume final V₂ (mL)</label>
-            <input id="bm-v2" type="number" step="0.1">
-          </div>
-
-        </div>
-
-        <div id="bm-resultat" class="resultat-calcul">
-          Saisir la pression et le volume initiaux, puis le volume
-          final, pour calculer la pression finale attendue par la loi
-          de Boyle-Mariotte.
-        </div>
-
-        <h4 style="margin-top:var(--gap-lg);">Tableau de mesures — vérification sur plusieurs points</h4>
-
-        <div class="info">
-          Avec l'un des deux dispositifs, relever la pression du gaz pour
-          plusieurs volumes différents, puis vérifier que le produit P × V
-          reste approximativement constant à température constante.
-        </div>
-
-        <div class="table-responsive">
-
-          <table class="tableau-resultats" id="bm-table">
-
-            <thead>
-              <tr>
-                <th>Mesure</th>
-                <th>Dispositif</th>
-                <th>Volume V (mL)</th>
-                <th>Pression P (hPa)</th>
-                <th>P × V (hPa·mL)</th>
-                <th></th>
-              </tr>
-            </thead>
-
-            <tbody id="bm-table-corps">
-              <!-- Lignes générées dynamiquement par tp03-cinematique-pression.js -->
-            </tbody>
-
-          </table>
-
-        </div>
-
-        <div class="toolbar" style="margin-top:var(--gap-sm);">
-          <button id="bm-ajouter-mesure" class="btn btn-secondaire" type="button">➕ Ajouter une mesure</button>
-        </div>
-
-        <div id="bm-table-resultat" class="resultat-calcul" style="margin-top:var(--gap-md);">
-          Ajouter au moins deux mesures (V, P) pour vérifier la constance
-          du produit P × V.
-        </div>
-
-        <h4 style="margin-top:var(--gap-lg);">Courbe P = f(V)</h4>
-
-        <div class="info">
-          La courbe se met à jour automatiquement à chaque saisie ou
-          modification d'une mesure (V, P) dans le tableau ci-dessus.
-          Les points rouges sont les mesures ; la courbe bleue est la
-          courbe théorique P = k / V (k = produit moyen P × V), tracée
-          dès que deux mesures exploitables sont disponibles.
-        </div>
-
-        <div class="legende-courbe">
-          <span><i style="background:#c0392b"></i> Points mesurés</span>
-          <span><i style="background:#1B6CA8"></i> Courbe théorique P = k / V</span>
-        </div>
-
-        <div class="graphe-boyle-mariotte">
-          <canvas id="bm-canvas-courbe"></canvas>
-        </div>
-
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>Mesurer la pression exercée par un vérin ou une presse sur une surface connue.</li>
-          <li>Choisir l'un des deux dispositifs (capteur numérique ou vérin à vis + manomètre analogique) et fermer le robinet de la seringue pour enfermer une quantité d'air.</li>
-          <li>Déplacer progressivement le piston (à la main ou à l'aide de la vis) pour imposer différents volumes ; relever à chaque fois le volume V et la pression P dans le tableau de mesures.</li>
-          <li>Calculer le produit P × V pour chaque mesure et comparer avec la pression prédite par la loi de Boyle-Mariotte.</li>
-        </ol>
-
-        <div class="mode-op">
-          <img src="./assets/images/m3-pression.png" alt="Mode opératoire — pression, force pressante et loi de Boyle-Mariotte" class="mode-image">
-        </div>
-
-      </div>
-
-      <!-- ============================ -->
-      <!-- ACQUISITION EXAO (PRESSION)   -->
-      <!-- ============================ -->
-
-      <div class="tab-panel" id="acquisition-exao">
-
-        <h3>Enregistrer la pression avec le pressiomètre ExAO</h3>
-
-        <div class="info">
-          Ce module permet d'enregistrer, pour chaque volume imposé à la
-          seringue graduée, la pression (en hPa) mesurée par le
-          pressiomètre Jeulin (réf. 251 181) relié en USB à
-          l'ordinateur, afin de vérifier la loi de Boyle-Mariotte.
-        </div>
-
-        <div class="info exaop-navigateur-requis">
-          <strong>Navigateur requis :</strong> le pressiomètre Jeulin
-          (réf. 251 181) se présente à l'ordinateur comme un
-          périphérique USB « HID » (comme un clavier ou une manette).
-          La détection automatique utilise donc l'API WebHID,
-          disponible sur Chrome, Edge et les navigateurs Chromium
-          (ordinateur uniquement), et nécessite une connexion
-          sécurisée (https:// ou localhost). Elle n'est pas disponible
-          sur Firefox ni Safari : utiliser le mode démonstration dans
-          ce cas. Une fois l'appareil autorisé une première fois, le
-          navigateur le reconnecte automatiquement aux ouvertures
-          suivantes, sans redemander de confirmation.
-        </div>
-
-        <div class="exaop-barre-etat">
-          <span id="exaop-etat-point" class="exaop-etat-point"></span>
-          <span id="exaop-etat-texte">Appareil non connecté</span>
-        </div>
-
-        <div class="toolbar exaop-toolbar">
-          <button id="exaop-btn-connecter" class="btn btn-primaire" type="button">🔌 Connecter l'appareil (USB)</button>
-          <button id="exaop-btn-deconnecter" class="btn btn-secondaire" type="button" disabled>🔌 Déconnecter</button>
-          <button id="exaop-btn-demo" class="btn btn-secondaire" type="button">🧪 Mode démonstration</button>
-          <button id="exaop-btn-recommencer" class="btn btn-danger" type="button">🔁 Recommencer le tableau</button>
-        </div>
-
-        <div id="exaop-message" class="info" style="display:none;"></div>
-
-        <details class="exaop-details-calibration" style="margin-top:var(--gap-md);">
-
-          <summary>⚙️ Réglage de la lecture des rapports HID (à faire une seule fois)</summary>
-
-          <div class="info" style="margin-top:var(--gap-sm);">
-            L'interface Jeulin envoie ses mesures sous forme d'un
-            rapport HID binaire — pas de documentation publique fiable
-            sur l'emplacement exact de la valeur de pression à
-            l'intérieur de ce rapport. La ligne ci-dessous affiche le
-            dernier rapport brut reçu (en hexadécimal) : faire varier
-            la pression (comprimer/relâcher la seringue) et observer
-            quel(s) octet(s) changent, puis régler les paramètres pour
-            que la valeur affichée corresponde à la réalité (pression
-            atmosphérique ≈ 1013 hPa au repos).
-          </div>
-
-          <div class="exaop-trame-brute">
-            Dernier rapport reçu (hexadécimal) : <code id="exaop-trame-texte">—</code>
-          </div>
-
-          <div class="form-row" style="margin-top:var(--gap-sm);">
-
-            <div class="form-group">
-              <label for="exaop-octet-depart">Octet de départ (0 = premier octet du rapport)</label>
-              <input id="exaop-octet-depart" type="number" min="0" step="1" value="1">
-            </div>
-
-            <div class="form-group">
-              <label for="exaop-longueur-octets">Nombre d'octets à lire</label>
-              <select id="exaop-longueur-octets">
-                <option value="1">1</option>
-                <option value="2" selected>2</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="exaop-boutisme">Ordre des octets</label>
-              <select id="exaop-boutisme">
-                <option value="little" selected>Petit-boutiste (little-endian)</option>
-                <option value="big">Grand-boutiste (big-endian)</option>
-              </select>
-            </div>
-
-          </div>
-
-          <div class="form-row">
-
-            <div class="form-group">
-              <label><input id="exaop-signe" type="checkbox"> Valeur signée</label>
-            </div>
-
-            <div class="form-group">
-              <label for="exaop-facteur">Facteur d'échelle</label>
-              <input id="exaop-facteur" type="number" step="0.001" value="1">
-            </div>
-
-            <div class="form-group">
-              <label for="exaop-decalage">Décalage additif (hPa)</label>
-              <input id="exaop-decalage" type="number" step="0.1" value="0">
-            </div>
-
-          </div>
-
-        </details>
-
-        <h4 style="margin-top:var(--gap-lg);">Pression instantanée</h4>
-
-        <div class="info">
-          Ajuster le piston de la seringue graduée sur le volume
-          demandé dans la ligne surlignée du tableau ci-dessous, puis
-          valider la mesure avec la touche <strong>Entrée</strong>
-          (ou le bouton dédié) une fois la pression stabilisée.
-        </div>
-
-        <div id="exaop-pression-instantanee" class="exaop-pression-instantanee">
-          <span class="exaop-pression-valeur">—</span>
-          <span class="exaop-pression-unite">hPa</span>
-        </div>
-
-        <div class="toolbar" style="margin-top:var(--gap-sm);">
-          <button id="exaop-btn-valider" class="btn btn-primaire" type="button" disabled>✅ Valider la mesure (Entrée)</button>
-        </div>
-
-        <h4 style="margin-top:var(--gap-lg);">Tableau de mesures — pression en fonction du volume</h4>
-
-        <div class="info">
-          Volumes imposés par la seringue graduée (60 mL à 0 mL, par
-          pas de 5 mL). En pratique, le piston ne peut généralement pas
-          être comprimé en dessous de 20 mL : il est normal que les
-          lignes correspondant aux volumes inférieurs restent vides.
-        </div>
-
-        <div class="table-responsive">
-
-          <table class="tableau-resultats" id="exaop-table">
-
-            <thead>
-              <tr>
-                <th>Volume V (mL)</th>
-                <th>Pression P (hPa)</th>
-                <th>P × V (hPa·mL)</th>
-                <th></th>
-              </tr>
-            </thead>
-
-            <tbody id="exaop-table-corps">
-              <!-- Lignes générées dynamiquement par exao-pression.js -->
-            </tbody>
-
-          </table>
-
-        </div>
-
-        <div id="exaop-table-resultat" class="resultat-calcul" style="margin-top:var(--gap-md);">
-          Valider au moins deux mesures pour vérifier la constance du
-          produit P × V.
-        </div>
-
-        <div class="toolbar" style="margin-top:var(--gap-sm);">
-          <button id="exaop-btn-export-csv" class="btn btn-secondaire" type="button">⬇ Exporter en CSV</button>
-        </div>
-
-        <h4 style="margin-top:var(--gap-lg);">Courbe P = f(V)</h4>
-
-        <div class="info">
-          La courbe se met à jour automatiquement à chaque mesure
-          validée dans le tableau ci-dessus. Les points rouges sont les
-          mesures ; la courbe bleue est la courbe théorique P = k / V
-          (k = produit moyen P × V), tracée dès que deux mesures
-          exploitables sont disponibles.
-        </div>
-
-        <div class="legende-courbe">
-          <span><i style="background:#c0392b"></i> Points mesurés</span>
-          <span><i style="background:#1B6CA8"></i> Courbe théorique P = k / V</span>
-        </div>
-
-        <div class="graphe-boyle-mariotte exaop-graphe">
-          <canvas id="exaop-canvas-courbe"></canvas>
-        </div>
-
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>Relier le pressiomètre Jeulin (réf. 251 181) à l'ordinateur par le câble USB, puis cliquer sur « Connecter l'appareil (USB) » et autoriser l'accès dans la fenêtre proposée par le navigateur (« Pressiometre » — Jeulin).</li>
-          <li>Ajuster le piston de la seringue sur le volume demandé (ligne surlignée du tableau), attendre la stabilisation de la pression instantanée affichée.</li>
-          <li>Valider la mesure avec la touche Entrée (ou le bouton « Valider ») : la ligne se remplit et le tableau passe automatiquement au volume suivant.</li>
-          <li>Recommencer pour chaque volume atteignable, puis observer la courbe P = f(V) et le produit P × V obtenus.</li>
-        </ol>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="resultats">
-
-  <div class="section-titre">
-    <div class="picto-section">📊</div>
-    <h2>Tableau de résultats</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="table-responsive">
-
-      <table class="tableau-resultats">
-
-        <thead>
-          <tr>
-            <th>Grandeur</th>
-            <th>Résultat</th>
-          </tr>
-        </thead>
-
-        <tbody>
-
-          <tr>
-            <td>Accélération moyenne mesurée</td>
-            <td><input type="text" placeholder="m/s²"></td>
-          </tr>
-
-          <tr>
-            <td>Nature du mouvement</td>
-            <td><input type="text" placeholder="uniforme / accéléré / ralenti"></td>
-          </tr>
-
-          <tr>
-            <td>Pression calculée (F/S)</td>
-            <td><input type="text" placeholder="Pa"></td>
-          </tr>
-
-        </tbody>
-
-      </table>
-
-    </div>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="environnement">
-
-  <div class="section-titre">
-    <div class="picto-section">🌱</div>
-    <h2>Mécanique et prévention</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <h3>Bonnes pratiques au laboratoire</h3>
-
-    <ul style="padding-left:1.5rem;line-height:2">
-      <li>Relâcher progressivement la pression d'un gaz comprimé en fin de manipulation.</li>
-      <li>Ramener le mobile en position initiale avant de ranger le matériel.</li>
-    </ul>
-
-    <h3 style="margin-top:var(--gap-md);">Pression et sécurité des équipements</h3>
-
-    <p>
-      Connaître la pression exercée par un vérin ou un système sous
-      pression permet de dimensionner correctement les équipements et
-      d'éviter tout dépassement des limites de sécurité indiquées par
-      le constructeur.
-    </p>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="bilan">
-
-  <div class="section-titre">
-    <div class="picto-section">📝</div>
-    <h2>Trace écrite - Compte rendu</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <h3>Identification</h3>
-
-    <div class="form-row">
-
-      <div class="form-group">
-        <label for="nom-eleve">Nom</label>
-        <input id="nom-eleve" type="text" placeholder="Nom">
-      </div>
-
-      <div class="form-group">
-        <label for="prenom-eleve">Prénom</label>
-        <input id="prenom-eleve" type="text" placeholder="Prénom">
-      </div>
-
-      <div class="form-group">
-        <label for="classe-eleve">Classe</label>
-        <input id="classe-eleve" type="text" placeholder="Classe">
-      </div>
-
-      <div class="form-group">
-        <label for="date-eleve">Date</label>
-        <input id="date-eleve" type="date">
-      </div>
-
-    </div>
-
-    <h3 style="margin-top:var(--gap-md);">Résumé du TP</h3>
-
-    <div class="zone-eleve">
-      <textarea id="resume-tp" rows="6" placeholder="Résumer les mesures d'accélération et l'étude de la pression réalisées..."></textarea>
-    </div>
-
-    <h3 style="margin-top:var(--gap-md);">Questions</h3>
-
-    <div class="questions-bloc" data-tp="cinematique-pression">
-
-    <ol class="questions-tp">
-
-      <li>
-        <div class="question-entete">
-          <strong>
-            À partir du graphe des vitesses, identifier la nature du mouvement étudié (uniforme, accéléré ou ralenti).
-          </strong>
-          <span class="cartouche" data-comp="ANA">ANA</span>
-        </div>
-        <div class="zone-eleve">
-          <textarea id="question1" rows="4" placeholder="Votre analyse..."></textarea>
-        </div>
-      </li>
-
-      <li>
-        <div class="question-entete">
-          <strong>
-            Calculer la pression exercée à partir de la force pressante et de la surface mesurées.
-          </strong>
-          <span class="cartouche" data-comp="REA">REA</span>
-        </div>
-        <div class="zone-eleve">
-          <textarea id="question2" rows="4" placeholder="Votre réponse..."></textarea>
-        </div>
-      </li>
-
-      <li>
-        <div class="question-entete">
-          <strong>
-            Comparer la pression finale mesurée avec celle prédite par la loi de Boyle-Mariotte et commenter l'écart éventuel.
-          </strong>
-          <span class="cartouche" data-comp="VAL">VAL</span>
-        </div>
-        <div class="zone-eleve">
-          <textarea id="question3" rows="5" placeholder="Votre analyse..."></textarea>
-        </div>
-      </li>
-
-      <li class="question-problematique">
-        <div class="question-entete">
-          <strong>Répondre à la problématique posée en début de TP :</strong>
-          <span class="cartouche" data-comp="COM">COM</span>
-        </div>
-        <p class="problematique-rappel" data-activite="cinematique-pression"></p>
-        <div class="zone-eleve">
-          <textarea id="question4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
-        </div>
-      </li>
-
-    </ol>
-
-    </div>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="auto-evaluation">
-
-  <div class="section-titre">
-    <div class="picto-section">📡</div>
-    <h2>Auto-évaluation des compétences</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <p class="info">
-      À la fin du TP, évaluez votre niveau de maîtrise pour chaque
-      compétence.
-    </p>
-
-    <div class="table-responsive">
-
-      <table class="tableau-resultats autoeval-table">
-
-        <thead>
-          <tr>
-            <th>Domaine</th>
-            <th>Sigle</th>
-            <th>Je suis capable de...</th>
-            <th>0</th>
-            <th>1</th>
-            <th>2</th>
-          </tr>
-        </thead>
-
-        <tbody>
-
-          <tr data-comp="APP">
-            <td>S'approprier</td>
-            <td>APP</td>
-            <td>Distinguer vitesse et accélération.</td>
-            <td><input type="radio" name="APP" value="0"></td>
-            <td><input type="radio" name="APP" value="1"></td>
-            <td><input type="radio" name="APP" value="2"></td>
-          </tr>
-
-          <tr data-comp="REA">
-            <td>Réaliser</td>
-            <td>REA</td>
-            <td>Mesurer une pression et relever un volume de gaz.</td>
-            <td><input type="radio" name="REA" value="0"></td>
-            <td><input type="radio" name="REA" value="1"></td>
-            <td><input type="radio" name="REA" value="2"></td>
-          </tr>
-
-          <tr data-comp="ANA">
-            <td>Analyser / Raisonner</td>
-            <td>ANA</td>
-            <td>Identifier la nature d'un mouvement à partir d'un graphe des vitesses.</td>
-            <td><input type="radio" name="ANA" value="0"></td>
-            <td><input type="radio" name="ANA" value="1"></td>
-            <td><input type="radio" name="ANA" value="2"></td>
-          </tr>
-
-          <tr data-comp="VAL">
-            <td>Valider</td>
-            <td>VAL</td>
-            <td>Vérifier expérimentalement la loi de Boyle-Mariotte.</td>
-            <td><input type="radio" name="VAL" value="0"></td>
-            <td><input type="radio" name="VAL" value="1"></td>
-            <td><input type="radio" name="VAL" value="2"></td>
-          </tr>
-
-          <tr data-comp="COM">
-            <td>Communiquer</td>
-            <td>COM</td>
-            <td>Exprimer une pression dans une unité adaptée à la situation.</td>
-            <td><input type="radio" name="COM" value="0"></td>
-            <td><input type="radio" name="COM" value="1"></td>
-            <td><input type="radio" name="COM" value="2"></td>
-          </tr>
-
-        </tbody>
-
-      </table>
-
-    </div>
-
-    <div class="radar-actions" style="margin-top:var(--gap-lg);">
-      <button id="btn-radar" class="btn btn-primaire">
-        📊 Générer mon radar de compétences
-      </button>
-      <div id="radar-resultat" style="margin-top:var(--gap-md);"></div>
-    </div>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="impression_tp">
-
-  <div class="section-titre">
-    <div class="picto-section">📒</div>
-    <h2>Impression du compte-rendu</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <p class="info">
-      À la fin du TP, Imprimer votre TP en PDF.
-      Envoyer à l'enseignant votre Compte rendu en pièce jointe par la messagerie de l'ENT.
-    </p>
-
-    <div class="toolbar">
-      <button id="btn-imprimer" class="btn btn-primaire">
-        🖨 Imprimer le compte-rendu
-      </button>
-    </div>
-
-    <div class="info" style="margin-top:var(--gap-md);">
-      L'impression récupère automatiquement :
-      <ul>
-        <li>l'accélération calculée ;</li>
-        <li>la pression calculée et la vérification de Boyle-Mariotte ;</li>
-        <li>les résultats du tableau et les réponses aux questions ;</li>
-        <li>l'auto-évaluation des compétences.</li>
-      </ul>
-    </div>
-
-  </div>
-
-</div>
-
-<div class="nav-tp">
-
-  <button class="btn btn-secondaire" onclick="loadTP('tp02-actions-mecaniques')">
-    ← TP02
-  </button>
-
-  <button class="btn btn-primaire" onclick="loadTP('tp04-equilibre-rotation-archimede')">
-    TP04 →
-  </button>
-
-</div>
-
-</main>
-
-<div id="cr-print-container" style="display:none;"></div>
-
-</section>
+/**
+ * tp-mecanique/js/tp03-cinematique-pression.js
+ *
+ * Contrôleur du TP03 « Cinématique et pression ».
+ * Chargé par navigation.js juste après l'injection du fragment
+ * tp-mecanique/modules/tp03-cinematique-pression.html dans #content.
+ *
+ * navigation.js exécute module.init() après l'import : le point
+ * d'entrée doit s'appeler init().
+ */
+
+import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../../js/utils.js';
+import { initContextePro, getFiliereSelectionnee } from '../../js/contexte-pro.js';
+import FILIERES_PRO from '../../data/filieres.js';
+import { initRadarCompetences } from '../../js/radar.js';
+import { initImpressionCompteRendu } from './compte-rendu-mecanique.js';
+import { initMateriel } from '../../js/materiel.js';
+import laboratoryEquipment from '../../data/equipment.js';
+import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
+import { initAcquisitionExaoPression } from './exao-pression.js';
+
+const CONTEXTES_PRO = {
+
+  '1ere-tci': {
+    contexte: "Un vérin pneumatique utilisé en chaudronnerie doit exercer une force pressante suffisante sur une pièce, tout en respectant la pression maximale admissible du circuit d'air comprimé.",
+    problematique: "Comment calculer la pression exercée par un vérin et vérifier son évolution lorsque le volume d'air comprimé varie ?",
+  },
+
+  '1ere-trpm': {
+    contexte: "Le déplacement rapide d'un chariot automatisé sur une machine-outil doit être maîtrisé en accélération pour éviter tout à-coup préjudiciable à la précision de l'usinage.",
+    problematique: "Comment caractériser l'accélération d'un chariot automatisé et la pression exercée par un vérin de serrage ?",
+  },
+
+  '1ere-mcc': {
+    contexte: "Le déplacement du tissu sous le pied-de-biche d'une machine à coudre doit être régulier, tandis que la pression exercée par ce pied-de-biche conditionne la qualité de l'entraînement du tissu.",
+    problematique: "Comment caractériser l'accélération du tissu entraîné et la pression exercée par le pied-de-biche ?",
+  },
+
+};
+
+export function init() {
+
+  initVitesseAcceleration();
+  initSimulateurAcceleration();
+  initPressionForce();
+  initSurfacePiston();
+  initForceInverse();
+  initBoyleMariotte();
+  initTableauMesuresBoyleMariotte();
+  initAcquisitionExaoPression();
+
+  initMateriel({
+    equipementId: 'materiel-equipements',
+    equipment: laboratoryEquipment,
+    categorie: 'CinematiquePression',
+  });
+
+  initContextePro({
+    filieres: FILIERES_PRO,
+    contextes: CONTEXTES_PRO,
+  });
+
+  // « Caractériser l'accélération et la vitesse » et « Distinguer
+  // pression et force pressante » sont communs aux trois filières en
+  // 1ère (TCI, TRPM, MCC), non repris ensuite.
+  initOngletsParFiliere({
+    mapping: {
+      '2nde-remi': [],
+      '2nde-mcc':  [],
+      '1ere-tci':  ['vitesse-acceleration', 'pression-force', 'acquisition-exao'],
+      '1ere-trpm': ['vitesse-acceleration', 'pression-force', 'acquisition-exao'],
+      '1ere-mcc':  ['vitesse-acceleration', 'pression-force', 'acquisition-exao'],
+      'tle-tci':   [],
+      'tle-trpm':  [],
+      'tle-mcc':   [],
+    },
+    messageId: 'tp03m-message-filiere',
+    messageTexte: "Ce TP n'est pas au programme de votre niveau : l'accélération et la pression sont étudiées en classe de 1ère.",
+  });
+
+  initSections();
+  initTabs();
+  initModesOperatoires();
+  initRadarCompetences();
+
+  initImpressionCompteRendu({
+    titre: 'Cinématique et pression',
+    tp: 'TP03',
+  });
+}
+
+// =================================================================
+// Onglet 1 — Accélération moyenne a = (v2 - v1) / (t2 - t1)
+// =================================================================
+function initVitesseAcceleration() {
+
+  const inputT1 = $('acc-t1');
+  const inputV1 = $('acc-v1');
+  const inputT2 = $('acc-t2');
+  const inputV2 = $('acc-v2');
+  const zoneResultat = $('acc-resultat');
+
+  if (!inputT1 || !inputV1 || !inputT2 || !inputV2 || !zoneResultat) return;
+
+  function calculer() {
+
+    const t1 = parseFloat(inputT1.value);
+    const v1 = parseFloat(inputV1.value);
+    const t2 = parseFloat(inputT2.value);
+    const v2 = parseFloat(inputV2.value);
+
+    if ([t1, v1, t2, v2].some(Number.isNaN) || t2 === t1) {
+      zoneResultat.textContent = 'Saisir deux instants et les vitesses correspondantes pour calculer l\'accélération moyenne entre ces deux instants.';
+      return;
+    }
+
+    const a = (v2 - v1) / (t2 - t1);
+    const nature = a > 0.05 ? 'le mouvement accélère' : (a < -0.05 ? 'le mouvement ralentit' : 'la vitesse reste globalement constante (mouvement uniforme)');
+
+    zoneResultat.innerHTML = `
+      Accélération moyenne a = <strong>${arrondir(a, 3)} m/s²</strong><br>
+      Entre ces deux instants, ${nature}.
+    `;
+  }
+
+  [inputT1, inputV1, inputT2, inputV2].forEach(input => input.addEventListener('input', calculer));
+}
+
+// =================================================================
+// Onglet 1 (bis) — Simulateur animé de mouvement rectiligne
+//
+// Remplace vidéo / chronophotographie / ExAO lorsqu'aucun de ces
+// moyens n'est disponible : anime un mobile sur un rail avec un
+// chronomètre et un compteur de vitesse. L'élève met l'enregistrement
+// en pause à deux instants de son choix, note les valeurs affichées
+// (bouton dédié), qui sont reportées automatiquement dans les champs
+// acc-t1 / acc-v1 / acc-t2 / acc-v2 pour déclencher le calcul de
+// initVitesseAcceleration() ci-dessus.
+//
+// Le mobile animé (nom + pictogramme) s'adapte à la filière
+// professionnelle choisie dans « Contexte professionnel », afin que
+// la situation simulée corresponde à celle de l'élève.
+// =================================================================
+const DUREE_SIMULATION = 6; // s
+
+const MOBILE_PAR_FILIERE = {
+  '1ere-tci':  { nom: 'la pièce déplacée sur la ligne de chaudronnerie', icone: '🔧' },
+  '1ere-trpm': { nom: 'le chariot automatisé de la machine-outil',       icone: '🤖' },
+  '1ere-mcc':  { nom: 'le tissu entraîné par la machine à coudre',       icone: '🧵' },
+};
+const MOBILE_PAR_DEFAUT = { nom: 'le mobile étudié', icone: '⚫' };
+
+function mobileSimule() {
+  const filiere = getFiliereSelectionnee();
+  return (filiere && MOBILE_PAR_FILIERE[filiere.cle]) || MOBILE_PAR_DEFAUT;
+}
+
+// Trois natures de mouvement possibles, tirées au hasard, avec des
+// paramètres physiquement réalistes pour un mobile de TP (chariot,
+// pièce, tissu...). La distance parcourue (xFin) sert ensuite à mettre
+// automatiquement à l'échelle le rail dessiné, quel que soit le tirage.
+function genererScenarioMouvement() {
+  const type = ['acceleree', 'ralentie', 'uniforme'][Math.floor(Math.random() * 3)];
+  let v0, a;
+
+  if (type === 'acceleree') {
+    v0 = Math.random() * 0.15;                 // 0 .. 0,15 m/s
+    a  = 0.05 + Math.random() * 0.06;           // 0,05 .. 0,11 m/s²
+  } else if (type === 'ralentie') {
+    v0 = 1.0 + Math.random() * 0.5;             // 1,0 .. 1,5 m/s
+    a  = -(0.06 + Math.random() * 0.09);        // -0,06 .. -0,15 m/s²
+  } else {
+    v0 = 0.5 + Math.random() * 0.6;             // 0,5 .. 1,1 m/s
+    a  = 0;
+  }
+
+  const T = DUREE_SIMULATION;
+  const xFin = Math.max(v0 * T + 0.5 * a * T * T, 0.3);
+
+  return { type, v0, a, T, xFin };
+}
+
+function initSimulateurAcceleration() {
+
+  const canvasScene   = $('acc-sim-canvas');
+  const canvasGraphe  = $('acc-sim-canvas-graphe');
+  const zoneTemps     = $('acc-sim-temps');
+  const zoneVitesse   = $('acc-sim-vitesse');
+  const zoneMobileNom = $('acc-sim-mobile-nom');
+  const zoneMessage   = $('acc-sim-message');
+  const btnToggle     = $('acc-sim-toggle');
+  const btnNouveau    = $('acc-sim-nouveau');
+  const btnNoter1     = $('acc-sim-noter1');
+  const btnNoter2     = $('acc-sim-noter2');
+
+  const inputT1 = $('acc-t1');
+  const inputV1 = $('acc-v1');
+  const inputT2 = $('acc-t2');
+  const inputV2 = $('acc-v2');
+
+  if (!canvasScene || !canvasGraphe || !btnToggle || !btnNouveau || !btnNoter1 || !btnNoter2) return;
+
+  let scenario = genererScenarioMouvement();
+  let simTime = 0;
+  let running = false;
+  let dernierTs = null;
+  let rafId = null;
+  let point1 = null; // { t, v } noté par l'élève
+  let point2 = null;
+
+  const position = t => scenario.v0 * t + 0.5 * scenario.a * t * t;
+  const vitesseA = t => Math.max(0, scenario.v0 + scenario.a * t);
+
+  function majNomMobile() {
+    if (zoneMobileNom) zoneMobileNom.textContent = mobileSimule().nom;
+  }
+
+  function declencherInput(el) {
+    if (el) el.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+
+  function majCadrans() {
+    if (zoneTemps) zoneTemps.textContent = `${arrondir(simTime, 2)} s`;
+    if (zoneVitesse) zoneVitesse.textContent = `${arrondir(vitesseA(simTime), 2)} m/s`;
+  }
+
+  function dessinerScene() {
+    const conteneur = canvasScene.parentElement;
+    const largeur = (conteneur && conteneur.clientWidth) || 600;
+    const hauteur = 150;
+    const dpr = window.devicePixelRatio || 1;
+
+    canvasScene.width = largeur * dpr;
+    canvasScene.height = hauteur * dpr;
+    const ctx = canvasScene.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, largeur, hauteur);
+
+    const margeG = 20, margeD = 30, yRail = hauteur - 40;
+    const pixelsParMetre = (largeur - margeG - margeD) / scenario.xFin;
+
+    ctx.strokeStyle = '#999';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(margeG, yRail);
+    ctx.lineTo(largeur - margeD, yRail);
+    ctx.stroke();
+
+    ctx.strokeStyle = '#ccc';
+    ctx.fillStyle = '#888';
+    ctx.font = '10px sans-serif';
+    ctx.textAlign = 'center';
+    const pasGrad = scenario.xFin / 5;
+    for (let i = 0; i <= 5; i++) {
+      const xm = i * pasGrad;
+      const xp = margeG + xm * pixelsParMetre;
+      ctx.beginPath();
+      ctx.moveTo(xp, yRail - 6);
+      ctx.lineTo(xp, yRail + 6);
+      ctx.stroke();
+      ctx.fillText(`${arrondir(xm, 1)} m`, xp, yRail + 20);
+    }
+
+    function marqueurInstant(pt, couleur, etiquette) {
+      if (!pt) return;
+      const xp = margeG + position(pt.t) * pixelsParMetre;
+      ctx.strokeStyle = couleur;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(xp, yRail - 34);
+      ctx.lineTo(xp, yRail + 10);
+      ctx.stroke();
+      ctx.fillStyle = couleur;
+      ctx.font = '10px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(etiquette, xp, yRail - 36);
+    }
+    marqueurInstant(point1, '#e67e22', 't₁');
+    marqueurInstant(point2, '#c0392b', 't₂');
+
+    const xMobile = margeG + position(simTime) * pixelsParMetre;
+    ctx.font = '28px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    ctx.fillText(mobileSimule().icone, xMobile, yRail - 4);
+  }
+
+  function dessinerGraphe() {
+    const conteneur = canvasGraphe.parentElement;
+    const largeur = (conteneur && conteneur.clientWidth) || 600;
+    const hauteur = 200;
+    const dpr = window.devicePixelRatio || 1;
+
+    canvasGraphe.width = largeur * dpr;
+    canvasGraphe.height = hauteur * dpr;
+    const ctx = canvasGraphe.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, largeur, hauteur);
+
+    const marge = 45;
+    const tMax = scenario.T;
+    const vMax = Math.max(scenario.v0, vitesseA(scenario.T)) * 1.2 || 1;
+
+    const xPix = t => marge + (t / tMax) * (largeur - marge - 15);
+    const yPix = v => hauteur - marge - (v / vMax) * (hauteur - marge - 15);
+
+    ctx.strokeStyle = '#e5e5e5';
+    ctx.fillStyle = '#666';
+    ctx.font = '10px sans-serif';
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= 5; i++) {
+      const t = (tMax * i) / 5;
+      const x = xPix(t);
+      ctx.beginPath();
+      ctx.moveTo(x, 10);
+      ctx.lineTo(x, hauteur - marge);
+      ctx.stroke();
+      ctx.textAlign = 'center';
+      ctx.fillText(arrondir(t, 1), x, hauteur - marge + 14);
+
+      const v = (vMax * i) / 5;
+      const y = yPix(v);
+      ctx.beginPath();
+      ctx.moveTo(marge, y);
+      ctx.lineTo(largeur - 15, y);
+      ctx.stroke();
+      ctx.textAlign = 'right';
+      ctx.fillText(arrondir(v, 2), marge - 6, y + 3);
+    }
+
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(marge, 10);
+    ctx.lineTo(marge, hauteur - marge);
+    ctx.lineTo(largeur - 15, hauteur - marge);
+    ctx.stroke();
+
+    ctx.fillStyle = '#333';
+    ctx.font = '11px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('t (s)', largeur / 2, hauteur - 6);
+    ctx.save();
+    ctx.translate(12, hauteur / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText('v (m/s)', 0, 0);
+    ctx.restore();
+
+    ctx.strokeStyle = '#1B6CA8';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    let premier = true;
+    for (let t = 0; t <= simTime; t += 0.05) {
+      const x = xPix(t), y = yPix(vitesseA(t));
+      if (premier) { ctx.moveTo(x, y); premier = false; } else ctx.lineTo(x, y);
+    }
+    ctx.lineTo(xPix(simTime), yPix(vitesseA(simTime)));
+    ctx.stroke();
+
+    function pointNote(pt, couleur, etiquette) {
+      if (!pt) return;
+      const x = xPix(pt.t), y = yPix(pt.v);
+      ctx.fillStyle = couleur;
+      ctx.beginPath();
+      ctx.arc(x, y, 5, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.font = '11px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(etiquette, x, y - 10);
+    }
+    pointNote(point1, '#e67e22', 'v₁');
+    pointNote(point2, '#c0392b', 'v₂');
+  }
+
+  function rafraichir() {
+    majCadrans();
+    dessinerScene();
+    dessinerGraphe();
+  }
+
+  function boucle(ts) {
+    if (!running) return;
+    if (dernierTs === null) dernierTs = ts;
+    const dt = (ts - dernierTs) / 1000;
+    dernierTs = ts;
+    simTime = Math.min(simTime + dt, scenario.T);
+    rafraichir();
+    if (simTime >= scenario.T) {
+      arreter(true);
+      return;
+    }
+    rafId = requestAnimationFrame(boucle);
+  }
+
+  function demarrer() {
+    if (simTime >= scenario.T) return;
+    running = true;
+    dernierTs = null;
+    btnToggle.textContent = '⏸️ Mettre en pause';
+    btnNoter1.disabled = true;
+    btnNoter2.disabled = true;
+    rafId = requestAnimationFrame(boucle);
+  }
+
+  function arreter(termine) {
+    running = false;
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = null;
+    btnToggle.textContent = termine ? '✅ Enregistrement terminé' : "▶️ Reprendre l'enregistrement";
+    btnToggle.disabled = !!termine;
+    if (simTime > 0) {
+      btnNoter1.disabled = false;
+      btnNoter2.disabled = false;
+    }
+  }
+
+  function nouveauMouvement() {
+    scenario = genererScenarioMouvement();
+    simTime = 0;
+    running = false;
+    dernierTs = null;
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = null;
+    point1 = null;
+    point2 = null;
+
+    btnToggle.disabled = false;
+    btnToggle.textContent = "▶️ Lancer l'enregistrement";
+    btnNoter1.disabled = true;
+    btnNoter2.disabled = true;
+    if (zoneMessage) zoneMessage.style.display = 'none';
+
+    [inputT1, inputV1, inputT2, inputV2].forEach(input => {
+      if (!input) return;
+      input.value = '';
+      declencherInput(input);
+    });
+
+    rafraichir();
+  }
+
+  function noterInstant(numero) {
+    const t = simTime;
+    const v = vitesseA(simTime);
+
+    if (numero === 1) {
+      point1 = { t, v };
+      if (inputT1) { inputT1.value = arrondir(t, 2); declencherInput(inputT1); }
+      if (inputV1) { inputV1.value = arrondir(v, 2); declencherInput(inputV1); }
+      if (zoneMessage) zoneMessage.style.display = 'none';
+    } else {
+      if (point1 && t <= point1.t && zoneMessage) {
+        zoneMessage.textContent = "L'instant 2 doit être postérieur à l'instant 1 : relancez l'enregistrement et mettez-le en pause plus tard pour le noter à nouveau.";
+        zoneMessage.style.display = 'block';
+      } else if (zoneMessage) {
+        zoneMessage.style.display = 'none';
+      }
+      point2 = { t, v };
+      if (inputT2) { inputT2.value = arrondir(t, 2); declencherInput(inputT2); }
+      if (inputV2) { inputV2.value = arrondir(v, 2); declencherInput(inputV2); }
+    }
+
+    dessinerScene();
+    dessinerGraphe();
+  }
+
+  btnToggle.addEventListener('click', () => (running ? arreter(false) : demarrer()));
+  btnNouveau.addEventListener('click', nouveauMouvement);
+  btnNoter1.addEventListener('click', () => noterInstant(1));
+  btnNoter2.addEventListener('click', () => noterInstant(2));
+
+  document.getElementById('select-filiere-pro')?.addEventListener('change', () => {
+    majNomMobile();
+    dessinerScene();
+  });
+
+  majNomMobile();
+  rafraichir();
+}
+
+// =================================================================
+// Onglet 2 — Pression et force pressante P = F / S
+// =================================================================
+function initPressionForce() {
+
+  const inputForce = $('pf-force');
+  const inputSurface = $('pf-surface');
+  const zoneResultat = $('pf-resultat');
+
+  if (!inputForce || !inputSurface || !zoneResultat) return;
+
+  function calculer() {
+
+    const f = parseFloat(inputForce.value);
+    const sCm2 = parseFloat(inputSurface.value);
+
+    if (Number.isNaN(f) || Number.isNaN(sCm2) || sCm2 === 0) {
+      zoneResultat.textContent = 'Saisir la force pressante et la surface pressée pour calculer la pression correspondante.';
+      return;
+    }
+
+    const sM2 = sCm2 * 1e-4;
+    const p = f / sM2;
+
+    zoneResultat.innerHTML = `
+      Pression P = F / S = <strong>${arrondir(p, 0)} Pa</strong>
+      (soit ${arrondir(p / 100, 1)} hPa)
+    `;
+  }
+
+  inputForce.addEventListener('input', calculer);
+  inputSurface.addEventListener('input', calculer);
+}
+
+// =================================================================
+// Onglet 2 (suite) — Surface du piston à partir de son diamètre
+// S = π × (d/2)², reportée automatiquement dans le champ pf-surface
+// pour être réutilisée par le calcul P = F/S ci-dessus.
+// =================================================================
+function initSurfacePiston() {
+
+  const inputDiametre = $('pf-diametre');
+  const inputSurface = $('pf-surface');
+  const zoneResultat = $('pf-diametre-resultat');
+
+  if (!inputDiametre || !inputSurface || !zoneResultat) return;
+
+  inputDiametre.addEventListener('input', () => {
+
+    const dMm = parseFloat(inputDiametre.value);
+
+    if (Number.isNaN(dMm) || dMm <= 0) {
+      zoneResultat.textContent = 'Saisir le diamètre interne du piston (indiqué sur la seringue) pour calculer automatiquement la surface pressée S et la reporter ci-dessous.';
+      return;
+    }
+
+    const rMm = dMm / 2;
+    const sMm2 = Math.PI * rMm * rMm;
+    const sCm2 = sMm2 / 100;
+
+    inputSurface.value = arrondir(sCm2, 3);
+    inputSurface.dispatchEvent(new Event('input'));
+
+    zoneResultat.innerHTML = `
+      Surface S = π × (d/2)² = <strong>${arrondir(sCm2, 3)} cm²</strong>
+      — reportée automatiquement dans le calcul P = F/S ci-dessus.
+    `;
+  });
+
+}
+
+// =================================================================
+// Onglet 2 (suite) — Calcul inverse F = P × S à partir de la
+// pression lue directement sur le capteur numérique ou le manomètre.
+// =================================================================
+function initForceInverse() {
+
+  const inputPression = $('pf-pression-lue');
+  const inputSurface = $('pf-surface-inverse');
+  const zoneResultat = $('pf-inverse-resultat');
+
+  if (!inputPression || !inputSurface || !zoneResultat) return;
+
+  function calculer() {
+
+    const pHpa = parseFloat(inputPression.value);
+    const sCm2 = parseFloat(inputSurface.value);
+
+    if (Number.isNaN(pHpa) || Number.isNaN(sCm2) || sCm2 === 0) {
+      zoneResultat.textContent = 'Saisir la pression lue sur le dispositif et la surface du piston pour déduire la force pressante F = P × S.';
+      return;
+    }
+
+    const pPa = pHpa * 100;
+    const sM2 = sCm2 * 1e-4;
+    const f = pPa * sM2;
+
+    zoneResultat.innerHTML = `
+      Force pressante F = P × S = <strong>${arrondir(f, 2)} N</strong>
+    `;
+  }
+
+  inputPression.addEventListener('input', calculer);
+  inputSurface.addEventListener('input', calculer);
+}
+
+// =================================================================
+// Onglet 2 (suite) — Loi de Boyle-Mariotte P1×V1 = P2×V2
+// =================================================================
+function initBoyleMariotte() {
+
+  const inputP1 = $('bm-p1');
+  const inputV1 = $('bm-v1');
+  const inputV2 = $('bm-v2');
+  const zoneResultat = $('bm-resultat');
+
+  if (!inputP1 || !inputV1 || !inputV2 || !zoneResultat) return;
+
+  function calculer() {
+
+    const p1 = parseFloat(inputP1.value);
+    const v1 = parseFloat(inputV1.value);
+    const v2 = parseFloat(inputV2.value);
+
+    if (Number.isNaN(p1) || Number.isNaN(v1) || Number.isNaN(v2) || v2 === 0) {
+      zoneResultat.textContent = 'Saisir la pression et le volume initiaux, puis le volume final, pour calculer la pression finale attendue par la loi de Boyle-Mariotte.';
+      return;
+    }
+
+    const p2 = (p1 * v1) / v2;
+
+    zoneResultat.innerHTML = `
+      D'après P₁×V₁ = P₂×V₂, pression finale attendue :
+      <strong>${arrondir(p2, 0)} hPa</strong>
+    `;
+  }
+
+  inputP1.addEventListener('input', calculer);
+  inputV1.addEventListener('input', calculer);
+  inputV2.addEventListener('input', calculer);
+}
+
+// =================================================================
+// Onglet 2 (suite) — Tableau de mesures (V, P) sur plusieurs points
+// pour les deux dispositifs expérimentaux (capteur numérique /
+// vérin à vis + manomètre analogique) et vérification de la
+// constance du produit P × V (loi de Boyle-Mariotte).
+// =================================================================
+let bmMesures = [];
+let bmProchainId = 1;
+let bmDernierPoints = [];
+
+function initTableauMesuresBoyleMariotte() {
+
+  const corps = $('bm-table-corps');
+  const boutonAjouter = $('bm-ajouter-mesure');
+  const zoneResultat = $('bm-table-resultat');
+
+  if (!corps || !boutonAjouter || !zoneResultat) return;
+
+  // Deux lignes de départ (vides) pour que l'élève voie immédiatement
+  // la structure du tableau à compléter.
+  bmMesures = [
+    { id: bmProchainId++, dispositif: 'numerique', volume: '', pression: '' },
+    { id: bmProchainId++, dispositif: 'numerique', volume: '', pression: '' },
+  ];
+
+  function ajouterLigne() {
+    bmMesures.push({ id: bmProchainId++, dispositif: 'numerique', volume: '', pression: '' });
+    rafraichir();
+  }
+
+  function supprimerLigne(id) {
+    if (bmMesures.length <= 1) return;
+    bmMesures = bmMesures.filter(m => m.id !== id);
+    rafraichir();
+  }
+
+  function majMesure(id, champ, valeur) {
+    const mesure = bmMesures.find(m => m.id === id);
+    if (mesure) mesure[champ] = valeur;
+    calculerVerification();
+  }
+
+  function calculerVerification() {
+
+    // Colonne P×V affichée pour chaque ligne du tableau.
+    bmMesures.forEach(m => {
+      const v = parseFloat(m.volume);
+      const p = parseFloat(m.pression);
+      const cellule = corps.querySelector(`tr[data-id="${m.id}"] .bm-pv`);
+      if (!cellule) return;
+      cellule.textContent = (!Number.isNaN(v) && !Number.isNaN(p)) ? arrondir(p * v, 0) : '—';
+    });
+
+    const points = bmMesures
+      .map(m => ({ v: parseFloat(m.volume), p: parseFloat(m.pression) }))
+      .filter(pt => !Number.isNaN(pt.v) && !Number.isNaN(pt.p) && pt.v > 0);
+
+    bmDernierPoints = points;
+    dessinerCourbeBoyleMariotte(points);
+
+    if (points.length < 2) {
+      zoneResultat.textContent = 'Ajouter au moins deux mesures (V, P) pour vérifier la constance du produit P × V.';
+      return;
+    }
+
+    const produits = points.map(pt => pt.p * pt.v);
+    const moyenne = produits.reduce((s, x) => s + x, 0) / produits.length;
+    const ecartMaxRelatif = Math.max(...produits.map(x => Math.abs(x - moyenne) / moyenne)) * 100;
+
+    const verdict = ecartMaxRelatif < 10
+      ? 'Le produit P × V reste approximativement constant : les mesures sont cohérentes avec la loi de Boyle-Mariotte.'
+      : "L'écart entre les valeurs de P × V dépasse 10 % : vérifier l'étanchéité du montage ou une éventuelle variation de température.";
+
+    zoneResultat.innerHTML = `
+      Produit moyen P × V ≈ <strong>${arrondir(moyenne, 0)} hPa·mL</strong>
+      (écart maximal à la moyenne : ${arrondir(ecartMaxRelatif, 1)} %)<br>
+      ${verdict}
+    `;
+  }
+
+  function rafraichir() {
+
+    corps.innerHTML = '';
+
+    bmMesures.forEach((m, index) => {
+
+      const ligne = document.createElement('tr');
+      ligne.dataset.id = m.id;
+
+      ligne.innerHTML = `
+        <td>${index + 1}</td>
+        <td>
+          <select class="bm-dispositif">
+            <option value="numerique" ${m.dispositif === 'numerique' ? 'selected' : ''}>Capteur numérique</option>
+            <option value="manometre" ${m.dispositif === 'manometre' ? 'selected' : ''}>Vérin + manomètre</option>
+          </select>
+        </td>
+        <td class="saisie"><input type="number" step="0.1" class="bm-volume" value="${m.volume}"></td>
+        <td class="saisie"><input type="number" step="1" class="bm-pression" value="${m.pression}"></td>
+        <td class="bm-pv">—</td>
+        <td><button type="button" class="btn btn-danger bm-supprimer" ${bmMesures.length <= 1 ? 'disabled' : ''}>🗑</button></td>
+      `;
+
+      corps.appendChild(ligne);
+
+      ligne.querySelector('.bm-dispositif').addEventListener('change', e => majMesure(m.id, 'dispositif', e.target.value));
+      ligne.querySelector('.bm-volume').addEventListener('input', e => majMesure(m.id, 'volume', e.target.value));
+      ligne.querySelector('.bm-pression').addEventListener('input', e => majMesure(m.id, 'pression', e.target.value));
+      ligne.querySelector('.bm-supprimer').addEventListener('click', () => supprimerLigne(m.id));
+
+    });
+
+    calculerVerification();
+
+  }
+
+  boutonAjouter.addEventListener('click', ajouterLigne);
+
+  window.addEventListener('resize', () => dessinerCourbeBoyleMariotte(bmDernierPoints));
+
+  // Redessine la courbe juste avant l'impression du compte-rendu (voir
+  // compte-rendu-mecanique.js), au cas où le canvas n'aurait jamais été
+  // affiché à sa taille définitive (onglet resté fermé, par exemple).
+  document.addEventListener('cr:avant-impression', () => dessinerCourbeBoyleMariotte(bmDernierPoints));
+
+  rafraichir();
+
+}
+
+// =================================================================
+// Onglet 2 (suite) — Tracé de la courbe P = f(V) : points mesurés
+// (rouge) et courbe théorique P = k / V (bleu), k étant le produit
+// moyen P × V calculé sur les mesures exploitables.
+// =================================================================
+function dessinerCourbeBoyleMariotte(points) {
+
+  const canvas = $('bm-canvas-courbe');
+  if (!canvas) return;
+
+  const conteneur = canvas.parentElement;
+  const largeurAffichee = (conteneur && conteneur.clientWidth) || 600;
+  const hauteurAffichee = 320;
+  const dpr = window.devicePixelRatio || 1;
+
+  canvas.width = largeurAffichee * dpr;
+  canvas.height = hauteurAffichee * dpr;
+
+  const ctx = canvas.getContext('2d');
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, largeurAffichee, hauteurAffichee);
+
+  const marge = 55;
+
+  if (points.length === 0) {
+    ctx.fillStyle = '#8a8a8a';
+    ctx.font = '14px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(
+      'Saisir des mesures (V, P) dans le tableau ci-dessus pour tracer la courbe.',
+      largeurAffichee / 2,
+      hauteurAffichee / 2
+    );
+    return;
+  }
+
+  const vMax = Math.max(...points.map(pt => pt.v)) * 1.15 || 1;
+  const pMax = Math.max(...points.map(pt => pt.p)) * 1.15 || 1;
+
+  const xPix = v => marge + (v / vMax) * (largeurAffichee - marge - 20);
+  const yPix = p => hauteurAffichee - marge - (p / pMax) * (hauteurAffichee - marge - 20);
+
+  // Graduations et quadrillage.
+  ctx.strokeStyle = '#e5e5e5';
+  ctx.fillStyle = '#666';
+  ctx.font = '11px sans-serif';
+  ctx.lineWidth = 1;
+
+  const nbDivisions = 5;
+  for (let i = 0; i <= nbDivisions; i++) {
+
+    const v = (vMax * i) / nbDivisions;
+    const x = xPix(v);
+    ctx.beginPath();
+    ctx.moveTo(x, 15);
+    ctx.lineTo(x, hauteurAffichee - marge);
+    ctx.stroke();
+    ctx.textAlign = 'center';
+    ctx.fillText(arrondir(v, 0), x, hauteurAffichee - marge + 16);
+
+    const p = (pMax * i) / nbDivisions;
+    const y = yPix(p);
+    ctx.beginPath();
+    ctx.moveTo(marge, y);
+    ctx.lineTo(largeurAffichee - 20, y);
+    ctx.stroke();
+    ctx.textAlign = 'right';
+    ctx.fillText(arrondir(p, 0), marge - 8, y + 4);
+
+  }
+
+  // Axes.
+  ctx.strokeStyle = '#333';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(marge, 15);
+  ctx.lineTo(marge, hauteurAffichee - marge);
+  ctx.lineTo(largeurAffichee - 20, hauteurAffichee - marge);
+  ctx.stroke();
+
+  ctx.fillStyle = '#333';
+  ctx.font = '13px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Volume V (mL)', largeurAffichee / 2, hauteurAffichee - 10);
+
+  ctx.save();
+  ctx.translate(16, hauteurAffichee / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText('Pression P (hPa)', 0, 0);
+  ctx.restore();
+
+  // Courbe théorique P = k / V, dès que deux mesures exploitables existent.
+  if (points.length >= 2) {
+
+    const produits = points.map(pt => pt.p * pt.v);
+    const k = produits.reduce((s, x) => s + x, 0) / produits.length;
+
+    ctx.strokeStyle = '#1B6CA8';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+
+    let depart = false;
+    const nbEtapes = 300;
+
+    for (let i = 1; i <= nbEtapes; i++) {
+      const v = (vMax * i) / nbEtapes;
+      const p = k / v;
+      if (p > pMax) continue;
+      const x = xPix(v);
+      const y = yPix(p);
+      if (!depart) { ctx.moveTo(x, y); depart = true; }
+      else ctx.lineTo(x, y);
+    }
+
+    ctx.stroke();
+
+  }
+
+  // Points mesurés.
+  points.forEach(pt => {
+    const x = xPix(pt.v);
+    const y = yPix(pt.p);
+    ctx.beginPath();
+    ctx.arc(x, y, 5, 0, 2 * Math.PI);
+    ctx.fillStyle = '#c0392b';
+    ctx.fill();
+    ctx.strokeStyle = '#7a1f14';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  });
+
+}
