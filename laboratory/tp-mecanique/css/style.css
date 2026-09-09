@@ -169,6 +169,81 @@
   color: var(--gris-fonce, #555);
 }
 
+/* ── Simulateur d'accélération (TP03, onglet « Vitesse et accélération »)
+   Anime le déplacement d'un mobile sur un rail lorsqu'aucune vidéo, ni
+   chronophotographie, ni acquisition ExAO n'est disponible : l'élève
+   relève lui-même deux instants (t, v) sur le tableau de bord simulé. ── */
+.simulateur-acceleration {
+  border: 1px solid var(--gris-clair);
+  border-radius: var(--r-md);
+  background: var(--blanc-paillasse);
+  padding: var(--gap-md);
+  margin: var(--gap-sm) 0 var(--gap-md);
+}
+
+.sim-acc-scene {
+  width: 100%;
+  margin-bottom: var(--gap-sm);
+}
+#acc-sim-canvas {
+  display: block;
+  width: 100% !important;
+  height: 150px !important;
+  background: var(--blanc);
+  border: 1px solid var(--gris-clair);
+  border-radius: var(--r-md);
+}
+
+.sim-acc-tableau-bord {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-md);
+  margin-bottom: var(--gap-sm);
+}
+.sim-acc-cadran {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: var(--gap-sm) var(--gap-md);
+  border: 1px solid var(--domaine-accent);
+  border-radius: var(--r-md);
+  background: var(--blanc);
+  min-width: 170px;
+}
+.sim-acc-cadran-label {
+  font-size: var(--fs-sm);
+  color: var(--gris-moyen);
+}
+.sim-acc-cadran-valeur {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--domaine-accent-fonce);
+  font-variant-numeric: tabular-nums;
+}
+
+.sim-acc-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-sm);
+  margin-bottom: var(--gap-sm);
+}
+
+.sim-acc-graphe {
+  position: relative;
+  width: 100%;
+  min-height: 200px;
+}
+#acc-sim-canvas-graphe {
+  display: block;
+  width: 100% !important;
+  height: 200px !important;
+  background: var(--blanc);
+  border: 1px solid var(--gris-clair);
+  border-radius: var(--r-md);
+}
+
 #exaop-table tbody tr {
   cursor: pointer;
 }
