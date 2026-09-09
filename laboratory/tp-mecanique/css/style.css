@@ -87,3 +87,100 @@
   border: 1px solid var(--gris-clair);
   border-radius: var(--r-md);
 }
+
+/* ── Onglet « Acquisition ExAO (pression) », TP03 ──────────────────
+   Canvas partagé avec la classe .graphe-boyle-mariotte (même mise en
+   page) ; styles propres au reste de l'interface d'acquisition. ── */
+#exaop-canvas-courbe {
+  display: block;
+  width: 100% !important;
+  height: 320px !important;
+  background: var(--blanc);
+  border: 1px solid var(--gris-clair);
+  border-radius: var(--r-md);
+}
+
+.exaop-navigateur-requis {
+  font-size: var(--fs-sm);
+}
+
+.exaop-barre-etat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: var(--gap-sm) 0;
+  font-weight: 600;
+}
+.exaop-etat-point {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--gris-clair);
+  flex-shrink: 0;
+}
+.exaop-etat-point.exaop-etat-connecte { background: #2e7d32; }
+.exaop-etat-point.exaop-etat-erreur   { background: #c0392b; }
+
+.exaop-toolbar {
+  flex-wrap: wrap;
+}
+
+.exaop-details-calibration {
+  border: 1px solid var(--gris-clair);
+  border-radius: var(--r-md);
+  padding: var(--gap-sm) var(--gap-md);
+  background: var(--blanc-paillasse);
+}
+.exaop-details-calibration summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--domaine-accent-fonce);
+}
+.exaop-trame-brute {
+  margin-top: var(--gap-sm);
+  font-size: var(--fs-sm);
+}
+.exaop-trame-brute code {
+  background: var(--blanc);
+  border: 1px solid var(--gris-clair);
+  border-radius: var(--r-sm);
+  padding: 2px 6px;
+}
+
+.exaop-pression-instantanee {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: var(--gap-sm) 0;
+  padding: var(--gap-sm) var(--gap-md);
+  border: 1px solid var(--domaine-accent);
+  border-radius: var(--r-md);
+  background: var(--blanc-paillasse);
+  width: fit-content;
+}
+.exaop-pression-valeur {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--domaine-accent-fonce);
+}
+.exaop-pression-unite {
+  font-size: var(--fs-md);
+  color: var(--gris-fonce, #555);
+}
+
+#exaop-table tbody tr {
+  cursor: pointer;
+}
+#exaop-table tbody tr.exaop-ligne-active {
+  background: rgba(var(--domaine-accent-rgb), .15);
+  outline: 2px solid var(--domaine-accent);
+  outline-offset: -2px;
+}
+#exaop-table tbody tr.exaop-ligne-hors-portee {
+  color: var(--gris-fonce, #888);
+  font-style: italic;
+}
+.exaop-refaire {
+  padding: 2px 8px;
+}
