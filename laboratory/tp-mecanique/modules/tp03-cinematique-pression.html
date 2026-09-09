@@ -150,6 +150,7 @@
       <div class="tabs-header">
         <button class="tab-btn actif" data-tab="vitesse-acceleration">Vitesse et accélération</button>
         <button class="tab-btn" data-tab="pression-force">Pression et force pressante</button>
+        <button class="tab-btn" data-tab="acquisition-exao">Acquisition ExAO (pression)</button>
       </div>
 
       <!-- ============================ -->
@@ -438,6 +439,174 @@
         <div class="mode-op">
           <img src="./assets/images/m3-pression.png" alt="Mode opératoire — pression, force pressante et loi de Boyle-Mariotte" class="mode-image">
         </div>
+
+      </div>
+
+      <!-- ============================ -->
+      <!-- ACQUISITION EXAO (PRESSION)   -->
+      <!-- ============================ -->
+
+      <div class="tab-panel" id="acquisition-exao">
+
+        <h3>Enregistrer la pression avec le pressiomètre ExAO</h3>
+
+        <div class="info">
+          Ce module permet d'enregistrer, pour chaque volume imposé à la
+          seringue graduée, la pression (en hPa) mesurée par le
+          pressiomètre Jeulin (réf. 251 181, interface Initio 2) relié
+          en USB à l'ordinateur, afin de vérifier la loi de
+          Boyle-Mariotte.
+        </div>
+
+        <div class="info exaop-navigateur-requis">
+          <strong>Navigateur requis :</strong> la détection automatique
+          de l'appareil utilise l'API Web Serial, disponible sur
+          Chrome, Edge et les navigateurs Chromium (ordinateur
+          uniquement), et nécessite une connexion sécurisée (https://
+          ou localhost). Elle n'est pas disponible sur Firefox ni
+          Safari : utiliser le mode démonstration dans ce cas.
+        </div>
+
+        <div class="exaop-barre-etat">
+          <span id="exaop-etat-point" class="exaop-etat-point"></span>
+          <span id="exaop-etat-texte">Appareil non connecté</span>
+        </div>
+
+        <div class="form-row">
+
+          <div class="form-group">
+            <label for="exaop-vitesse">Vitesse de transmission (bauds)</label>
+            <select id="exaop-vitesse">
+              <option value="9600" selected>9600 (réglage le plus courant)</option>
+              <option value="19200">19200</option>
+              <option value="38400">38400</option>
+              <option value="57600">57600</option>
+              <option value="115200">115200</option>
+            </select>
+          </div>
+
+        </div>
+
+        <div class="toolbar exaop-toolbar">
+          <button id="exaop-btn-connecter" class="btn btn-primaire" type="button">🔌 Connecter l'appareil (USB)</button>
+          <button id="exaop-btn-deconnecter" class="btn btn-secondaire" type="button" disabled>🔌 Déconnecter</button>
+          <button id="exaop-btn-demo" class="btn btn-secondaire" type="button">🧪 Mode démonstration</button>
+          <button id="exaop-btn-recommencer" class="btn btn-danger" type="button">🔁 Recommencer le tableau</button>
+        </div>
+
+        <div id="exaop-message" class="info" style="display:none;"></div>
+
+        <details class="exaop-details-calibration" style="margin-top:var(--gap-md);">
+
+          <summary>⚙️ Réglage de la lecture des trames (à faire une seule fois)</summary>
+
+          <div class="info" style="margin-top:var(--gap-sm);">
+            Chaque interface ExAO transmet ses mesures sous une forme de
+            texte propre à son constructeur. Si la valeur affichée
+            paraît incorrecte (0, vide, ou très éloignée de la pression
+            atmosphérique ≈ 1013 hPa), utiliser la zone ci-dessous :
+            elle affiche la dernière trame brute reçue de l'appareil,
+            pour ajuster si besoin le facteur d'échelle appliqué à la
+            valeur lue.
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="exaop-facteur">Facteur d'échelle appliqué à la valeur lue</label>
+              <input id="exaop-facteur" type="number" step="0.001" value="1">
+            </div>
+          </div>
+
+          <div class="exaop-trame-brute">
+            Dernière trame reçue : <code id="exaop-trame-texte">—</code>
+          </div>
+
+        </details>
+
+        <h4 style="margin-top:var(--gap-lg);">Pression instantanée</h4>
+
+        <div class="info">
+          Ajuster le piston de la seringue graduée sur le volume
+          demandé dans la ligne surlignée du tableau ci-dessous, puis
+          valider la mesure avec la touche <strong>Entrée</strong>
+          (ou le bouton dédié) une fois la pression stabilisée.
+        </div>
+
+        <div id="exaop-pression-instantanee" class="exaop-pression-instantanee">
+          <span class="exaop-pression-valeur">—</span>
+          <span class="exaop-pression-unite">hPa</span>
+        </div>
+
+        <div class="toolbar" style="margin-top:var(--gap-sm);">
+          <button id="exaop-btn-valider" class="btn btn-primaire" type="button" disabled>✅ Valider la mesure (Entrée)</button>
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Tableau de mesures — pression en fonction du volume</h4>
+
+        <div class="info">
+          Volumes imposés par la seringue graduée (60 mL à 0 mL, par
+          pas de 5 mL). En pratique, le piston ne peut généralement pas
+          être comprimé en dessous de 20 mL : il est normal que les
+          lignes correspondant aux volumes inférieurs restent vides.
+        </div>
+
+        <div class="table-responsive">
+
+          <table class="tableau-resultats" id="exaop-table">
+
+            <thead>
+              <tr>
+                <th>Volume V (mL)</th>
+                <th>Pression P (hPa)</th>
+                <th>P × V (hPa·mL)</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody id="exaop-table-corps">
+              <!-- Lignes générées dynamiquement par exao-pression.js -->
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <div id="exaop-table-resultat" class="resultat-calcul" style="margin-top:var(--gap-md);">
+          Valider au moins deux mesures pour vérifier la constance du
+          produit P × V.
+        </div>
+
+        <div class="toolbar" style="margin-top:var(--gap-sm);">
+          <button id="exaop-btn-export-csv" class="btn btn-secondaire" type="button">⬇ Exporter en CSV</button>
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Courbe P = f(V)</h4>
+
+        <div class="info">
+          La courbe se met à jour automatiquement à chaque mesure
+          validée dans le tableau ci-dessus. Les points rouges sont les
+          mesures ; la courbe bleue est la courbe théorique P = k / V
+          (k = produit moyen P × V), tracée dès que deux mesures
+          exploitables sont disponibles.
+        </div>
+
+        <div class="legende-courbe">
+          <span><i style="background:#c0392b"></i> Points mesurés</span>
+          <span><i style="background:#1B6CA8"></i> Courbe théorique P = k / V</span>
+        </div>
+
+        <div class="graphe-boyle-mariotte exaop-graphe">
+          <canvas id="exaop-canvas-courbe"></canvas>
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+
+        <ol class="etapes">
+          <li>Relier le pressiomètre Jeulin (réf. 251 181, interface Initio 2) à l'ordinateur par le câble USB, puis cliquer sur « Connecter l'appareil (USB) » et sélectionner le port correspondant dans la fenêtre proposée par le navigateur.</li>
+          <li>Ajuster le piston de la seringue sur le volume demandé (ligne surlignée du tableau), attendre la stabilisation de la pression instantanée affichée.</li>
+          <li>Valider la mesure avec la touche Entrée (ou le bouton « Valider ») : la ligne se remplit et le tableau passe automatiquement au volume suivant.</li>
+          <li>Recommencer pour chaque volume atteignable, puis observer la courbe P = f(V) et le produit P × V obtenus.</li>
+        </ol>
 
       </div>
 
