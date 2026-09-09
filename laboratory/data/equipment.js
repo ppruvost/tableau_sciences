@@ -399,6 +399,15 @@ const laboratoryEquipment = [
     },
     {
         domaine: "Mécanique",
+        nom: "Pressiomètre ExAO Jeulin (réf. 251 181, interface Initio 2)",
+        categorie: ["CinematiquePression"],
+        description: "Capteur de pression numérique relié en USB à l'ordinateur pour l'acquisition ExAO de la pression (loi de Boyle-Mariotte)",
+        lieu: "Salle B27 - ***",
+        image:"",
+        noticeUtilisation: ""
+    },
+    {
+        domaine: "Mécanique",
         nom: "Mètre ruban / règle graduée",
         categorie: ["Acoustique", "Cinematique", "ActionsMecaniques"],
         description: "Mesure des distances entre source et récepteur (atténuation avec la distance, méthode du retard) ; mesure de longueurs et de bras de levier en mécanique",
