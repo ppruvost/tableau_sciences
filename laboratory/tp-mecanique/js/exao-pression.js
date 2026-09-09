@@ -2,8 +2,14 @@
  * tp-mecanique/js/exao-pression.js
  *
  * 3ème onglet du TP03 « Cinématique et pression » : acquisition ExAO
- * du pressiomètre Jeulin (réf. 251 181, interface Initio 2) relié en
- * USB, via l'API Web Serial du navigateur.
+ * du pressiomètre Jeulin (réf. 251 181) relié en USB, via l'API
+ * WebHID du navigateur.
+ *
+ * Le pressiomètre a été identifié (via `lsusb`/`dmesg`) comme un
+ * périphérique USB HID standard (bInterfaceClass = 3), et non comme
+ * un port série classique — d'où l'usage de WebHID plutôt que de Web
+ * Serial. Identifiants USB confirmés : vendorId 0x0fd7, productId
+ * 0x6014.
  *
  * Principe :
  * - Le tableau propose une série FIXE de volumes (60 mL à 0 mL, pas de
@@ -16,15 +22,15 @@
  *   passe automatiquement à la ligne suivante non renseignée.
  *
  * IMPORTANT — calibration matérielle :
- * L'API Web Serial permet de lister/ouvrir un port série USB, mais la
- * trame exacte envoyée par l'interface Jeulin Initio 2 (texte ASCII,
- * binaire, unité, fréquence d'envoi...) n'est pas documentée
- * publiquement de façon fiable. `extraireValeur()` applique une
- * heuristique simple (premier nombre trouvé dans la ligne reçue, avec
- * un facteur d'échelle réglable dans l'onglet). Si les valeurs
- * affichées ne correspondent pas à la réalité, utiliser le bloc
- * dépliant « Réglage de la lecture des trames » : il affiche la
- * dernière trame brute reçue pour ajuster le facteur d'échelle.
+ * Le format exact du rapport HID envoyé par le pressiomètre (position
+ * de la valeur de pression dans le rapport, encodage, unité) n'est pas
+ * documenté publiquement de façon fiable. `traiterRapportHid()` lit un
+ * nombre d'octets configurable à un emplacement configurable (voir le
+ * bloc dépliant « Réglage de la lecture des rapports HID » dans
+ * l'onglet), avec un facteur d'échelle et un décalage réglables. Le
+ * dernier rapport brut reçu est affiché en hexadécimal pour permettre
+ * de repérer, en comprimant/relâchant la seringue, quel(s) octet(s)
+ * varient réellement.
  *
  * Convention SciLab : point d'entrée exporté en module ES, appelé par
  * tp03-cinematique-pression.js (import { initAcquisitionExaoPression }).
@@ -37,12 +43,16 @@ const VOLUMES_FIXES = [60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5, 0];
 
 export function initAcquisitionExaoPression() {
 
-  const zoneEtatPoint   = $('exaop-etat-point');
-  const zoneEtatTexte   = $('exaop-etat-texte');
-  const selectVitesse   = $('exaop-vitesse');
-  const inputFacteur    = $('exaop-facteur');
-  const zoneTrameTexte  = $('exaop-trame-texte');
-  const zoneMessage     = $('exaop-message');
+  const zoneEtatPoint       = $('exaop-etat-point');
+  const zoneEtatTexte       = $('exaop-etat-texte');
+  const inputOctetDepart    = $('exaop-octet-depart');
+  const selectLongueurOctets = $('exaop-longueur-octets');
+  const selectBoutisme      = $('exaop-boutisme');
+  const caseSigne           = $('exaop-signe');
+  const inputFacteur        = $('exaop-facteur');
+  const inputDecalage       = $('exaop-decalage');
+  const zoneTrameTexte      = $('exaop-trame-texte');
+  const zoneMessage         = $('exaop-message');
 
   const btnConnecter    = $('exaop-btn-connecter');
   const btnDeconnecter  = $('exaop-btn-deconnecter');
@@ -59,10 +69,6 @@ export function initAcquisitionExaoPression() {
   // Si le fragment n'est pas présent (ex. TP chargé partiellement), on
   // n'initialise rien plutôt que de planter sur un élément manquant.
   if (!corpsTableau || !btnConnecter) return;
-
-  let port = null;
-  let lecteurFlux = null;
-  let lectureEnCours = false;
 
   let connecte = false;
   let demoActif = false;
@@ -100,34 +106,88 @@ export function initAcquisitionExaoPression() {
   }
 
   /* ==============================================================
-     LECTURE DE LA TRAME (à calibrer selon l'appareil — voir en-tête)
+     IDENTIFIANT USB DU PRESSIOMÈTRE JEULIN (confirmé via lsusb)
      ============================================================== */
 
-  function extraireValeur(ligne) {
-    const correspondance = ligne.match(/-?\d+(?:[.,]\d+)?/);
-    if (!correspondance) return null;
-    return parseFloat(correspondance[0].replace(',', '.'));
+  const JEULIN_VENDOR_ID  = 0x0fd7;
+  const JEULIN_PRODUCT_ID = 0x6014;
+
+  /* ==============================================================
+     LECTURE DU RAPPORT HID (à calibrer selon l'octet exact — voir
+     le bloc dépliant « Réglage » dans l'onglet)
+     ============================================================== */
+
+  function octetsEnHexa(dataView) {
+    let hexa = '';
+    for (let i = 0; i < dataView.byteLength; i++) {
+      hexa += dataView.getUint8(i).toString(16).padStart(2, '0') + ' ';
+    }
+    return hexa.trim();
   }
 
-  function traiterTrame(ligne) {
-    zoneTrameTexte.textContent = ligne || '—';
-    const brut = extraireValeur(ligne);
-    if (brut === null) return;
+  function traiterRapportHid(dataView) {
+
+    zoneTrameTexte.textContent = octetsEnHexa(dataView);
+
+    const octetDepart = parseInt(inputOctetDepart.value, 10) || 0;
+    const longueur = parseInt(selectLongueurOctets.value, 10) || 2;
+    const grandBoutiste = selectBoutisme.value === 'big';
+    const signe = caseSigne.checked;
+
+    if (octetDepart + longueur > dataView.byteLength) return;
+
+    let brut;
+    if (longueur === 1) {
+      brut = signe ? dataView.getInt8(octetDepart) : dataView.getUint8(octetDepart);
+    } else {
+      brut = signe
+        ? dataView.getInt16(octetDepart, !grandBoutiste)
+        : dataView.getUint16(octetDepart, !grandBoutiste);
+    }
+
     const facteur = parseFloat(inputFacteur.value);
-    const valeur = brut * (Number.isFinite(facteur) ? facteur : 1);
+    const decalage = parseFloat(inputDecalage.value);
+    const valeur = brut * (Number.isFinite(facteur) ? facteur : 1) + (Number.isFinite(decalage) ? decalage : 0);
+
     dernierePressionLue = valeur;
     afficherPressionInstantanee(valeur);
   }
 
   /* ==============================================================
-     CONNEXION USB (Web Serial)
+     CONNEXION USB (WebHID)
      ============================================================== */
+
+  let peripheriqueHid = null;
+
+  function gererRapportEntrant(evenement) {
+    // evenement.data est un DataView contenant le rapport HID reçu.
+    traiterRapportHid(evenement.data);
+  }
+
+  async function ouvrirPeripherique(peripherique) {
+
+    if (!peripherique.opened) await peripherique.open();
+
+    peripheriqueHid = peripherique;
+    peripheriqueHid.addEventListener('inputreport', gererRapportEntrant);
+
+    if (demoActif) arreterDemo();
+
+    connecte = true;
+    afficherMessage('');
+    majEtat('connecte', `Appareil connecté (${peripherique.productName || 'pressiomètre'})`);
+
+    btnConnecter.disabled = true;
+    btnDeconnecter.disabled = false;
+    btnDemo.disabled = true;
+    btnValider.disabled = false;
+  }
 
   async function connecter() {
 
-    if (!('serial' in navigator)) {
+    if (!('hid' in navigator)) {
       afficherMessage(
-        "La détection USB (API Web Serial) n'est pas prise en charge par ce navigateur. Utiliser Chrome, Edge (ordinateur) ou choisir le mode démonstration ci-dessous.",
+        "La détection USB (API WebHID) n'est pas prise en charge par ce navigateur. Utiliser Chrome, Edge (ordinateur) ou choisir le mode démonstration ci-dessous.",
         'erreur'
       );
       return;
@@ -135,66 +195,44 @@ export function initAcquisitionExaoPression() {
 
     try {
 
-      port = await navigator.serial.requestPort();
-      const baudRate = parseInt(selectVitesse.value, 10) || 9600;
-      await port.open({ baudRate });
+      const peripheriques = await navigator.hid.requestDevice({
+        filters: [{ vendorId: JEULIN_VENDOR_ID, productId: JEULIN_PRODUCT_ID }],
+      });
 
-      if (demoActif) arreterDemo();
+      if (!peripheriques.length) return; // fenêtre fermée sans sélection
 
-      connecte = true;
-      afficherMessage('');
-      majEtat('connecte', `Appareil connecté (${baudRate} bauds)`);
-
-      btnConnecter.disabled = true;
-      btnDeconnecter.disabled = false;
-      btnDemo.disabled = true;
-      btnValider.disabled = false;
-
-      demarrerLectureFlux();
+      await ouvrirPeripherique(peripheriques[0]);
 
     } catch (err) {
-      majEtat('erreur', 'Connexion refusée ou aucun appareil sélectionné.');
+      majEtat('erreur', 'Connexion refusée ou appareil introuvable.');
     }
   }
 
-  async function demarrerLectureFlux() {
-
-    lectureEnCours = true;
-    const flux = port.readable.pipeThrough(new TextDecoderStream());
-    lecteurFlux = flux.getReader();
-    let tampon = '';
-
+  // Reconnexion automatique et silencieuse : si l'appareil a déjà été
+  // autorisé une fois pour ce site, le navigateur le rend disponible
+  // via getDevices() sans redemander de confirmation à l'ouverture du
+  // TP. C'est la « détection automatique » la plus proche de ce que
+  // permet l'API WebHID (impossible sans un premier geste manuel).
+  async function tenterReconnexionAutomatique() {
+    if (!('hid' in navigator)) return;
     try {
-      while (lectureEnCours) {
-
-        const { value, done } = await lecteurFlux.read();
-        if (done) break;
-
-        if (value) {
-          tampon += value;
-          let indexRetour;
-          while ((indexRetour = tampon.search(/[\r\n]/)) >= 0) {
-            const ligne = tampon.slice(0, indexRetour).trim();
-            tampon = tampon.slice(indexRetour + 1);
-            if (ligne) traiterTrame(ligne);
-          }
-        }
-      }
-    } catch (err) {
-      if (connecte) majEtat('erreur', 'Liaison interrompue avec l\'appareil.');
-    } finally {
-      try { lecteurFlux.releaseLock(); } catch { /* déjà libéré */ }
-    }
+      const peripheriques = await navigator.hid.getDevices();
+      const correspondant = peripheriques.find(
+        p => p.vendorId === JEULIN_VENDOR_ID && p.productId === JEULIN_PRODUCT_ID
+      );
+      if (correspondant) await ouvrirPeripherique(correspondant);
+    } catch { /* pas grave : l'élève connectera manuellement */ }
   }
 
   async function deconnecter() {
 
     connecte = false;
-    lectureEnCours = false;
 
-    try { await lecteurFlux?.cancel(); } catch { /* rien à faire */ }
-    try { await port?.close(); } catch { /* rien à faire */ }
-    port = null;
+    try {
+      peripheriqueHid?.removeEventListener('inputreport', gererRapportEntrant);
+      await peripheriqueHid?.close();
+    } catch { /* rien à faire */ }
+    peripheriqueHid = null;
 
     dernierePressionLue = null;
     afficherPressionInstantanee(null);
@@ -209,6 +247,16 @@ export function initAcquisitionExaoPression() {
 
   btnConnecter.addEventListener('click', connecter);
   btnDeconnecter.addEventListener('click', deconnecter);
+
+  // Si l'appareil est débranché physiquement pendant la séance.
+  if ('hid' in navigator) {
+    navigator.hid.addEventListener('disconnect', (evenement) => {
+      if (peripheriqueHid && evenement.device === peripheriqueHid) {
+        deconnecter();
+        majEtat('erreur', 'Appareil débranché.');
+      }
+    });
+  }
 
   /* ==============================================================
      MODE DÉMONSTRATION (valeurs simulées, sans matériel)
@@ -562,4 +610,5 @@ export function initAcquisitionExaoPression() {
      ============================================================== */
 
   rafraichirTableau();
+  tenterReconnexionAutomatique();
 }
