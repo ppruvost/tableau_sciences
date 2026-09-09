@@ -103,6 +103,35 @@ function construireSectionMesuresPression() {
   return { titre: 'Mesures de pression — loi de Boyle-Mariotte', items };
 }
 
+// Tableau ExAO (V, P) de l'onglet « Acquisition ExAO (pression) »,
+// construit à partir du tableau à volumes fixes #exaop-table-corps
+// généré par exao-pression.js. Retourne null si aucune mesure n'a
+// été validée, pour ne pas polluer le compte-rendu des élèves qui
+// n'ont pas utilisé cet onglet.
+function construireSectionMesuresExao() {
+  const lignes = document.querySelectorAll('#exaop-table-corps tr');
+  if (!lignes.length) return null;
+
+  const items = [...lignes]
+    .map(tr => {
+      const cellules = [...tr.children];
+      return {
+        volume: texte(cellules[0]),
+        pression: texte(cellules[1]),
+        pv: texte(cellules[2]),
+      };
+    })
+    .filter(m => m.pression && m.pression !== '—')
+    .map(m => ({
+      label: `V = ${m.volume} mL`,
+      valeur: `P = ${m.pression} hPa — P × V = ${m.pv} hPa·mL`,
+    }));
+
+  if (!items.length) return null;
+
+  return { titre: 'Acquisition ExAO — pression en fonction du volume', items };
+}
+
 /**
  * @param {Object} params
  * @param {string} params.titre - Titre du TP (ex. "Décrire un mouvement")
@@ -113,26 +142,36 @@ export function initImpressionCompteRendu({ titre, tp }) {
   if (!bouton) return;
   bouton.addEventListener('click', () => {
 
-    // Signale aux modules du TP (ex. la courbe P = f(V)) qu'une
+    // Signale aux modules du TP (ex. les courbes P = f(V)) qu'une
     // impression va avoir lieu, pour qu'ils puissent se redessiner
-    // une dernière fois avant la capture du canvas en image.
+    // une dernière fois avant la capture des canvas en image.
     document.dispatchEvent(new CustomEvent('cr:avant-impression'));
 
     const sectionMesuresPression = construireSectionMesuresPression();
+    const sectionMesuresExao = construireSectionMesuresExao();
 
     const sections = [
       construireSectionContextePro(),
       construireSectionResultats(),
       sectionMesuresPression,
+      sectionMesuresExao,
       ...construireSectionsQuestions(),
       construireSectionResume(),
     ].filter(Boolean);
 
-    // La courbe P = f(V) n'est incluse que si des mesures exploitables
-    // ont été saisies (évite un graphique vide dans le compte-rendu).
-    const canvasCourbe = sectionMesuresPression
-      ? document.getElementById('bm-canvas-courbe')
-      : null;
+    // Chaque courbe n'est incluse que si des mesures exploitables ont
+    // été saisies dans l'onglet correspondant (évite un graphique vide
+    // dans le compte-rendu).
+    const canvases = [
+      sectionMesuresPression && {
+        canvas: document.getElementById('bm-canvas-courbe'),
+        titre: 'Courbe P = f(V) — loi de Boyle-Mariotte (saisie manuelle)',
+      },
+      sectionMesuresExao && {
+        canvas: document.getElementById('exaop-canvas-courbe'),
+        titre: 'Courbe P = f(V) — acquisition ExAO',
+      },
+    ].filter(Boolean);
 
     genererCompteRendu({
       titre,
@@ -140,7 +179,7 @@ export function initImpressionCompteRendu({ titre, tp }) {
       tp,
       sections,
       noteFinale: true,
-      ...(canvasCourbe ? { canvas: canvasCourbe } : {}),
+      ...(canvases.length ? { canvases } : {}),
     });
   });
 }
