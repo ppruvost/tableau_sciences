@@ -11,10 +11,19 @@
 <!-- ÉCRAN D'ACCUEIL -->
 <section id="screen-accueil" class="screen active">
   <h1 class="pixel-title" style="font-size:28px;">MEMORY<br>MERMOZ</h1>
-  <p class="mini-note">Mémorisation visuelle ludique — jeu 100% anonyme, réponses sur smartphone.<br>Chaque élève scanne le QR code pour ouvrir la page de jeu (aucune inscription).</p>
+  <p class="mini-note">Mémorisation visuelle ludique — jeu anonyme (pseudo libre), réponses sur smartphone.<br>Chaque élève scanne le QR code, choisit un pseudo, puis attend le lancement.</p>
   <div id="qrcode"></div>
   <p class="mini-note" id="eleve-url-note"></p>
-  <button class="big-btn" id="btn-start">▶ DÉMARRER LA SÉANCE</button>
+
+  <div style="width:100%;">
+    <p class="mini-note" style="margin-bottom:6px;">👥 Participants connectés : <span id="participant-count">0</span></p>
+    <div id="participant-list" class="participant-list"></div>
+  </div>
+
+  <div class="tally-row">
+    <button class="big-btn ghost" id="btn-reset">🔄 NOUVELLE SÉANCE (réinitialiser)</button>
+    <button class="big-btn" id="btn-start">▶ DÉMARRER LA SÉANCE</button>
+  </div>
 </section>
 
 <!-- ÉCRAN DE JEU -->
@@ -37,7 +46,7 @@
   </div>
 
   <div id="zone-tally" style="display:none; width:100%; flex-direction:column; align-items:center; gap:16px;">
-    <p class="mini-note">Compteur en direct — chaque élève répond sur son téléphone, aucune identité n'est jamais enregistrée.</p>
+    <p class="mini-note">Compteur en direct — chaque élève répond sur son téléphone.<br><span id="reponses-recues"></span></p>
     <div class="tally-row">
       <div class="tally-card good">
         <div>✅ Bonnes réponses</div>
