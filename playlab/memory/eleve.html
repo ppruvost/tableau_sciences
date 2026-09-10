@@ -8,19 +8,39 @@
 </head>
 <body>
 
-<section id="screen-choix-manche" class="screen active" style="padding:16px;">
+<!-- ÉCRAN PSEUDO (façon Kahoot) -->
+<section id="screen-pseudo" class="screen active" style="padding:16px; gap:16px;">
   <h1 class="pixel-title" style="font-size:18px; text-align:center;">MEMORY MERMOZ</h1>
-  <p class="mini-note">Aucune inscription. Rien n'est enregistré ni envoyé : appuie sur le numéro de manche annoncé par l'animateur.</p>
-  <div class="round-grid" id="round-grid"></div>
+  <p class="mini-note">Choisis un pseudo (le tien ou un pseudo rigolo) pour rejoindre la partie. Il n'est visible que par l'animateur, sur l'écran de la classe.</p>
+  <input type="text" id="pseudo-input" class="pseudo-input" placeholder="Ton pseudo..." maxlength="20">
+  <button class="big-btn" id="btn-join">✅ REJOINDRE LA PARTIE</button>
 </section>
 
+<!-- ÉCRAN D'ATTENTE -->
+<section id="screen-attente" class="screen" style="padding:16px; text-align:center;">
+  <h1 class="pixel-title" style="font-size:16px;">C'EST BON, <span id="pseudo-affiche"></span> !</h1>
+  <p class="mini-note">En attente du lancement par l'animateur... garde le téléphone sous les yeux, la manche s'affichera automatiquement.</p>
+</section>
+
+<!-- ÉCRAN QUESTION -->
 <section id="screen-question" class="screen" style="padding:16px;">
   <span class="tag" id="q-block"></span>
   <h2 class="pixel-title" id="q-round" style="font-size:14px;"></h2>
   <p style="font-weight:800; text-align:center;">Qu'est-ce qui a changé ?</p>
   <div class="choices-grid" id="q-choices"></div>
   <div id="q-feedback" style="display:none; text-align:center; font-weight:800; font-size:18px;"></div>
-  <button class="big-btn ghost" id="btn-back">⬅ CHOISIR UNE AUTRE MANCHE</button>
+</section>
+
+<!-- ÉCRAN DÉJÀ RÉPONDU -->
+<section id="screen-deja-repondu" class="screen" style="padding:16px; text-align:center;">
+  <h1 class="pixel-title" style="font-size:16px;">✅ RÉPONSE ENVOYÉE</h1>
+  <p class="mini-note">En attente de la manche suivante...</p>
+</section>
+
+<!-- ÉCRAN FIN -->
+<section id="screen-fin" class="screen" style="padding:16px; text-align:center;">
+  <h1 class="pixel-title" style="font-size:18px;">🎉 SÉANCE TERMINÉE</h1>
+  <p class="mini-note">Merci d'avoir joué ! Regarde l'écran de la classe pour les résultats.</p>
 </section>
 
 <script src="js/memory-data.js"></script>
