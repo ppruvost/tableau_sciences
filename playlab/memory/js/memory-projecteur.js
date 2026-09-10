@@ -2,6 +2,7 @@
   const rounds = window.MEMORY_ROUNDS;
   let current = -1;
   let pollInterval = null;
+  let participantPollInterval = null;
 
   const screens = {
     accueil: document.getElementById("screen-accueil"),
@@ -19,10 +20,43 @@
   /* global QRCode */
   new QRCode(document.getElementById("qrcode"), { text: eleveUrl, width: 180, height: 180 });
 
+  // --- Petit utilitaire de mélange (Fisher-Yates) ---
+  function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  // --- Liste des participants (façon Kahoot), mise à jour en direct sur l'accueil ---
+  async function refreshParticipants() {
+    const list = await memoryGetParticipants();
+    document.getElementById("participant-count").textContent = list.length;
+    const wrap = document.getElementById("participant-list");
+    wrap.innerHTML = "";
+    list.forEach(p => {
+      const chip = document.createElement("span");
+      chip.className = "participant-chip";
+      chip.textContent = p.pseudo;
+      wrap.appendChild(chip);
+    });
+  }
+  participantPollInterval = setInterval(refreshParticipants, 2000);
+  refreshParticipants();
+
+  document.getElementById("btn-reset").addEventListener("click", async () => {
+    document.getElementById("btn-reset").disabled = true;
+    await memoryResetSession();
+    document.getElementById("btn-reset").disabled = false;
+    refreshParticipants();
+  });
+
   document.getElementById("btn-start").addEventListener("click", async () => {
     document.getElementById("btn-start").disabled = true;
     document.getElementById("btn-start").textContent = "Préparation…";
-    await memoryResetSession(); // repart sur des compteurs à zéro pour cette séance
+    clearInterval(participantPollInterval);
     startRound(0);
   });
 
@@ -64,6 +98,7 @@
     const r = rounds[index];
     clearInterval(pollInterval);
     showScreen("jeu");
+    memorySetSessionRound(r.id); // synchronise automatiquement tous les téléphones
     document.getElementById("btn-start").disabled = false;
     document.getElementById("btn-start").textContent = "▶ DÉMARRER LA SÉANCE";
     document.getElementById("tag-block").textContent = r.block;
@@ -87,11 +122,13 @@
         document.getElementById("zone-choix").style.display = "block";
         const grid = document.getElementById("choices-grid");
         grid.innerHTML = "";
-        r.choices.forEach((c, i) => {
+        // Mélange l'ordre d'affichage — la bonne réponse ne doit jamais être systématiquement au même endroit
+        const shuffled = shuffle(r.choices.map((text, i) => ({ text, isCorrect: i === r.correct })));
+        shuffled.forEach(c => {
           const b = document.createElement("div");
           b.className = "choice-btn";
-          b.textContent = c;
-          b.dataset.idx = i;
+          b.textContent = c.text;
+          b.dataset.correct = c.isCorrect ? "1" : "0";
           grid.appendChild(b);
         });
         document.getElementById("btn-show-answer").style.display = "inline-block";
@@ -101,7 +138,7 @@
     document.getElementById("btn-show-answer").onclick = () => {
       document.getElementById("btn-show-answer").style.display = "none";
       [...document.getElementById("choices-grid").children].forEach(b => {
-        if (parseInt(b.dataset.idx, 10) === r.correct) b.classList.add("correct");
+        if (b.dataset.correct === "1") b.classList.add("correct");
         else b.classList.add("wrong");
       });
       document.getElementById("zone-tally").style.display = "flex";
@@ -109,13 +146,18 @@
     };
   }
 
-  // Interroge Supabase toutes les 1,5s pour afficher le compteur en direct pendant la manche en cours
+  // Interroge Supabase régulièrement pour afficher le compteur en direct pendant la manche en cours
   function startLivePolling(roundId) {
     clearInterval(pollInterval);
     const update = async () => {
       const { good, bad } = await memoryGetCounts(roundId);
       document.getElementById("count-good").textContent = good;
       document.getElementById("count-bad").textContent = bad;
+      const participants = await memoryGetParticipants();
+      const total = participants.length;
+      const reponses = good + bad;
+      document.getElementById("reponses-recues").textContent =
+        total > 0 ? `${reponses} / ${total} participants ont répondu` : "";
     };
     update();
     pollInterval = setInterval(update, 1500);
@@ -143,6 +185,7 @@
     if (current + 1 < rounds.length) {
       startRound(current + 1);
     } else {
+      memorySetSessionRound(9999); // signale la fin aux téléphones
       showRecap();
     }
   });
@@ -175,5 +218,7 @@
 
   document.getElementById("btn-restart").addEventListener("click", () => {
     showScreen("accueil");
+    participantPollInterval = setInterval(refreshParticipants, 2000);
+    refreshParticipants();
   });
 })();
