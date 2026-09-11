@@ -334,6 +334,20 @@ document
     );
 
 
+document
+    .getElementById("openConvertisseur")
+    ?.addEventListener(
+        "click",
+        () => {
+
+            openTP(
+                "convertisseur/index.html"
+            );
+
+        }
+    );
+
+
 // =========================================================
 // PROGRESS BAR
 // =========================================================
