@@ -1,302 +1,579 @@
-/* =========================================================
-   CONVERTISSEUR D'UNITÉS — style.css
-   ========================================================= */
-
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Lato:wght@400;700&display=swap');
-
-:root {
-  --accent-1: #8B5CF6;
-  --accent-2: #5B21B6;
-  --accent-bg: #F5F3FF;
-  --texte: #1f2937;
-  --texte-clair: #6B7280;
-  --bordure: #E5E7EB;
-  --blanc: #ffffff;
-
-  --masses-1: #E87A0E;
-  --masses-2: #A8500A;
-  --longueurs-1: #1B6CA8;
-  --longueurs-2: #0D4F8A;
-  --aires-1: #10B981;
-  --aires-2: #059669;
-  --volumes-1: #8B5CF6;
-  --volumes-2: #5B21B6;
+/* =========================
+   RESET + BASE
+========================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* =========================
+   CHARTE GRAPHIQUE — UNE COULEUR PAR DOMAINE DE TP
+   Source unique de vérité pour toutes les teintes de domaine,
+   réutilisée ci-dessous par .tp-card et par le bandeau du viewer.
+   Chaque tp-<domaine>/css/style.css doit utiliser exactement ces
+   mêmes teintes pour rester cohérent avec cette page d'accueil.
+========================= */
+:root {
+    --domaine-statistiques-1: #E87A0E;
+    --domaine-statistiques-2: #A8500A;
+
+    --domaine-algebre-1: #1B6CA8;
+    --domaine-algebre-2: #0D4F8A;
+
+    --domaine-geometrie-1: #10B981;
+    --domaine-geometrie-2: #059669;
+
+    --domaine-algorithme-1: #C1440E;
+    --domaine-algorithme-2: #7A2E0E;
+
+    --domaine-convertisseur-1: #8B5CF6;
+    --domaine-convertisseur-2: #5B21B6;
 }
 
 body {
-  font-family: 'Lato', Arial, sans-serif;
-  background: var(--accent-bg);
-  color: var(--texte);
-  padding-bottom: 40px;
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    color: #222;
+    line-height: 1.5;
 }
 
-header {
-  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+/* =========================
+   MENU HORIZONTAL
+========================= */
+.top-menu {
+    display: flex;
+    flex-wrap: wrap; /* retour à la ligne si manque de place */
+    width: 100%;
+    background: #2c3e50;
+    color: white;
+}
+
+.menu-item {
+    flex: 1 1 auto;
+    min-width: 180px;
+    text-align: center;
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 15px;
+}
+
+.menu-item:hover {
+    background: #34495e;
+}
+
+.menu-item.active {
+    background: #e67e22;
+}
+
+/* =========================
+   CONTENU
+========================= */
+.container {
+    width: 100%;
+    max-width: 100%;
+    padding: 20px;
+}
+
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: clamp(22px, 3vw, 32px);
+}
+
+/* =========================
+   TABLE RESPONSIVE
+========================= */
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    background: white;
+    border-radius: 10px;
+}
+
+/* scrollbar plus fluide mobile */
+.table-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+
+table {
+    width: 100%;
+    min-width: 900px; /* garde structure desktop */
+    border-collapse: collapse;
+    background: white;
+}
+
+th,
+td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+    vertical-align: middle;
+    font-size: 14px;
+}
+
+th {
+    background: #ecf0f1;
+    font-weight: bold;
+}
+
+/* =========================
+   PICTOGRAMMES + VISUELS (LOUPE UNIFIÉE)
+========================= */
+
+.picto-container,
+.image-container {
+    display: inline-block;
+    position: relative;
+    margin: 0 4px;
+}
+
+/* style commun images */
+.picto,
+.table-image {
+    max-width: 100%;
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.25s ease;
+}
+
+/* tailles différentes */
+.picto {
+    width: 40px;
+}
+
+.table-image {
+    width: 60px;
+    border-radius: 6px;
+}
+
+/* effet loupe commun */
+.picto-container:hover .picto,
+.image-container:hover .table-image {
+    transform: scale(2.5);
+    position: relative;
+    z-index: 20;
+}
+/* =========================
+   IFRAME EXTERNE
+========================= */
+#external-frame {
+    width: 100%;
+    height: 90vh;
+    border: none;
+    border-radius: 10px;
+    background: white;
+}
+
+/* =========================
+   TABLETTE
+========================= */
+@media (max-width: 1024px) {
+    .menu-item {
+        min-width: 150px;
+        font-size: 14px;
+        padding: 14px 16px;
+    }
+
+    th,
+    td {
+        font-size: 13px;
+        padding: 8px;
+    }
+
+    .picto {
+        width: 34px;
+    }
+
+    table img {
+        max-width: 65px;
+    }
+}
+
+/* =========================
+   MOBILE
+========================= */
+@media (max-width: 768px) {
+    .top-menu {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .menu-item {
+        width: 100%;
+        min-width: unset;
+        padding: 14px;
+        font-size: 14px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .container {
+        padding: 12px;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    table {
+        min-width: 700px;
+    }
+
+    .picto {
+        width: 30px;
+    }
+
+    table img {
+        max-width: 55px;
+    }
+
+    #external-frame {
+        height: 75vh;
+    }
+}
+
+/* =========================
+   PETIT MOBILE
+========================= */
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    th,
+    td {
+        font-size: 12px;
+        padding: 7px;
+    }
+
+    .picto {
+        width: 26px;
+    }
+
+    table img {
+        max-width: 45px;
+    }
+
+    #external-frame {
+        height: 70vh;
+    }
+}
+
+/* =========================
+   PAGE DOMAINES TP
+========================= */
+
+.tp-title {
+    text-align: center;
+    margin: 30px 0;
+    font-size: 2.2rem;
+    color: #1f2937;
+}
+
+.tp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 25px;
+    padding: 20px;
+}
+
+.tp-card {
+    height: 180px;
+    border-radius: 20px;
+    color: white;
+    font-size: 1.3rem;
+    font-weight: bold;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    gap: 15px;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+.tp-card i {
+    font-size: 3rem;
+}
+
+.tp-card:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 12px 22px rgba(0,0,0,0.25);
+}
+
+/* Couleurs — une teinte par domaine, cf. bloc :root ci-dessus.
+   TP Chimie reste bleu (identité déjà établie dans
+   tp-chimie/css/style.css) ; TP Acoustique passe au cyan pour éviter
+   le doublon avec le bleu désormais réservé à la chimie. */
+
+.statistiques {
+    background: linear-gradient(135deg, var(--domaine-statistiques-1), var(--domaine-statistiques-2));
+}
+
+.algebre {
+    background: linear-gradient(135deg, var(--domaine-algebre-1), var(--domaine-algebre-2));
+}
+
+.geometrie {
+    background: linear-gradient(135deg, var(--domaine-geometrie-1), var(--domaine-geometrie-2));
+}
+
+.algorithme {
+    background: linear-gradient(135deg, var(--domaine-algorithme-1), var(--domaine-algorithme-2));
+}
+
+.convertisseur {
+    background: linear-gradient(135deg, var(--domaine-convertisseur-1), var(--domaine-convertisseur-2));
+}
+
+/* =========================
+   RESPONSIVE DOMAINES TP
+========================= */
+
+@media (max-width: 768px) {
+
+    .tp-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        padding: 10px;
+    }
+
+    .tp-card {
+        height: 140px;
+        font-size: 1.1rem;
+    }
+
+    .tp-card i {
+        font-size: 2.2rem;
+    }
+}
+
+/* =====================================
+   TP VIEWER
+===================================== */
+
+.tp-viewer {
+    position: fixed;
+    inset: 0;
+
+    width: 100%;
+    height: 100vh;
+
+    background: #0f1720;
+
+    z-index: 9999;
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* IMPORTANT */
+.tp-viewer.hidden {
+    display: none !important;
+}
+
+/* ===================================== */
+
+.viewer-topbar {
+    height: 60px;
+
+    background: #172432;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 20px;
+
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+
+    flex-shrink: 0;
+
+    transition: background .25s;
+}
+
+/* Bandeau du viewer teinté selon le domaine ouvert, si le JS
+   (js/app.js) pose un attribut data-domaine="..." sur #tpViewer au
+   moment de l'ouverture (ex. lors du clic sur la carte "TP Chimie",
+   ajouter tpViewer.dataset.domaine = "chimie"). Sans cet attribut,
+   le bandeau garde sa couleur neutre par défaut ci-dessus. */
+.tp-viewer[data-domaine="statistiques"] .viewer-topbar { background: linear-gradient(135deg, var(--domaine-statistiques-2), var(--domaine-statistiques-1)); }
+.tp-viewer[data-domaine="algebre"]   .viewer-topbar { background: linear-gradient(135deg, var(--domaine-algebre-2), var(--domaine-algebre-1)); }
+.tp-viewer[data-domaine="geometrie"]      .viewer-topbar { background: linear-gradient(135deg, var(--domaine-geometrie-2), var(--domaine-geometrie-1)); }
+.tp-viewer[data-domaine="algorithme"]  .viewer-topbar { background: linear-gradient(135deg, var(--domaine-algorithme-2), var(--domaine-algorithme-1)); }
+.tp-viewer[data-domaine="convertisseur"] .viewer-topbar { background: linear-gradient(135deg, var(--domaine-convertisseur-2), var(--domaine-convertisseur-1)); }
+
+.viewer-topbar h2 {
+    color: white;
+    font-size: 1.1rem;
+}
+
+.viewer-topbar button {
+    background: #ef4444;
+    border: none;
+
+    padding: 10px 16px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    color: white;
+    font-weight: bold;
+}
+
+/* ===================================== */
+
+#tpFrame {
+    flex: 1;
+
+    width: 100%;
+    height: calc(100vh - 60px);
+
+    border: none;
+
+    background: white;
+}
+
+/* ---- En-tête de section avec bouton ---- */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+#btn-print-labels {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: #1a56db;
   color: #fff;
-  padding: 26px 20px;
-  text-align: center;
+  border: none;
+  border-radius: 6px;
+  font-size: .875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .15s;
 }
-
-header h1 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.7rem;
+#btn-print-labels:hover { background: #1240a8; }
+ 
+/* ---- Colonne checkbox ---- */
+#table-body td:first-child,
+thead th:first-child { width: 36px; text-align: center; }
+ 
+/* ---- Modal overlay ---- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
 }
-
-header .sous-titre {
-  margin-top: 6px;
-  font-size: 0.95rem;
-  opacity: 0.9;
+.modal-box {
+  background: #fff;
+  border-radius: 10px;
+  width: min(480px, 94vw);
+  box-shadow: 0 8px 32px rgba(0,0,0,.25);
+  overflow: hidden;
 }
-
-main {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 24px 16px;
-}
-
-/* ===================== ONGLETS ===================== */
-
-.onglets {
+.modal-header {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-  margin-bottom: 22px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e5e7eb;
 }
-
-.onglet {
-  border: none;
-  cursor: pointer;
-  padding: 12px 22px;
-  border-radius: 12px;
-  font-family: 'Space Grotesk', sans-serif;
+.modal-header h3 {
+  margin: 0;
+  font-size: 1rem;
   font-weight: 600;
-  font-size: 0.95rem;
-  color: #fff;
-  opacity: 0.55;
-  transition: 0.2s;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #111827;
 }
-
-.onglet:hover {
-  opacity: 0.85;
-  transform: translateY(-2px);
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 2px 6px;
 }
-
-.onglet.actif {
-  opacity: 1;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-}
-
-.onglet[data-cat="masses"]    { background: linear-gradient(135deg, var(--masses-1), var(--masses-2)); }
-.onglet[data-cat="longueurs"] { background: linear-gradient(135deg, var(--longueurs-1), var(--longueurs-2)); }
-.onglet[data-cat="aires"]     { background: linear-gradient(135deg, var(--aires-1), var(--aires-2)); }
-.onglet[data-cat="volumes"]   { background: linear-gradient(135deg, var(--volumes-1), var(--volumes-2)); }
-
-/* ===================== PANNEAU ===================== */
-
-.panneau {
-  display: none;
-  background: var(--blanc);
-  border-radius: 18px;
-  padding: 22px;
-  box-shadow: 0 8px 22px rgba(0,0,0,0.08);
-  animation: apparition 0.25s ease;
-}
-
-.panneau.actif { display: block; }
-
-@keyframes apparition {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.panneau h2 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.3rem;
+.modal-close:hover { color: #111827; }
+.modal-body { padding: 20px; }
+.modal-info { font-size: .85rem; color: #374151; margin: 0 0 14px; line-height: 1.5; }
+.modal-selection-info {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: .83rem;
+  color: #1e40af;
   margin-bottom: 14px;
 }
-
-.panneau[data-cat="masses"]    h2 { color: var(--masses-2); }
-.panneau[data-cat="longueurs"] h2 { color: var(--longueurs-2); }
-.panneau[data-cat="aires"]     h2 { color: var(--aires-2); }
-.panneau[data-cat="volumes"]   h2 { color: var(--volumes-2); }
-
-/* ===================== SAISIE ===================== */
-
-.saisie {
+.modal-options { display: flex; flex-direction: column; gap: 8px; }
+.modal-option, .modal-opt-check {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 18px;
-}
-
-.saisie label {
-  font-weight: 700;
-  font-size: 0.95rem;
-}
-
-.saisie input[type="number"] {
-  flex: 1 1 180px;
-  padding: 10px 14px;
-  font-size: 1.05rem;
-  border: 2px solid var(--bordure);
-  border-radius: 10px;
-  font-family: 'Space Grotesk', sans-serif;
-  transition: 0.2s;
-}
-
-.saisie input[type="number"]:focus {
-  outline: none;
-  border-color: var(--accent-1);
-}
-
-.saisie select {
-  padding: 10px 14px;
-  font-size: 1rem;
-  border: 2px solid var(--bordure);
-  border-radius: 10px;
-  background: var(--blanc);
-  font-family: 'Space Grotesk', sans-serif;
+  gap: 8px;
+  font-size: .875rem;
+  color: #374151;
   cursor: pointer;
 }
-
-/* ===================== TABLEAU DE CONVERSION ===================== */
-
-.tableau-scroll {
-  overflow-x: auto;
-  border-radius: 12px;
-  border: 1px solid var(--bordure);
-}
-
-table.conversion {
-  border-collapse: collapse;
-  width: 100%;
-  min-width: 560px;
-  text-align: center;
-}
-
-table.conversion th,
-table.conversion td {
-  border: 1px solid var(--bordure);
-  padding: 0;
-}
-
-table.conversion thead th {
-  background: var(--accent-bg);
-  color: var(--texte);
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  font-size: 0.85rem;
-  padding: 10px 4px;
-}
-
-table.conversion thead th.unite-reference {
-  background: var(--accent-1);
-  color: #fff;
-}
-
-td.chiffre {
-  width: 42px;
-  height: 54px;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: var(--texte);
-  background: var(--blanc);
-  position: relative;
-}
-
-td.chiffre.reference {
-  background: var(--accent-bg);
-}
-
-td.chiffre.virgule-apres::after {
-  content: ",";
-  position: absolute;
-  right: -6px;
-  bottom: 2px;
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: var(--accent-2);
-  z-index: 2;
-}
-
-td.chiffre.virgule-apres {
-  border-right: 3px solid var(--accent-2);
-}
-
-/* ===================== RÉSULTATS ===================== */
-
-.resultats {
-  margin-top: 18px;
-}
-
-.resultats h3 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1rem;
-  color: var(--texte-clair);
-  margin-bottom: 8px;
-}
-
-.resultats ul {
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 8px;
-}
-
-.resultats li {
-  background: var(--accent-bg);
-  border-radius: 8px;
-  padding: 8px 10px;
-  font-size: 0.9rem;
-}
-
-.resultats li strong {
-  font-family: 'Space Grotesk', sans-serif;
-  color: var(--accent-2);
-}
-
-.note {
-  margin-top: 14px;
-  font-size: 0.85rem;
-  color: var(--texte-clair);
-  font-style: italic;
-}
-
-/* ===================== AIDE ===================== */
-
-.aide {
-  max-width: 1100px;
-  margin: 22px auto 0;
-  padding: 14px 18px;
-  background: #fff;
-  border-left: 4px solid var(--accent-1);
-  border-radius: 10px;
-  font-size: 0.9rem;
-  color: var(--texte-clair);
+.modal-footer {
   display: flex;
-  align-items: center;
+  justify-content: flex-end;
   gap: 10px;
+  padding: 14px 20px;
+  border-top: 1px solid #e5e7eb;
+  background: #f9fafb;
 }
-
-/* ===================== RESPONSIVE ===================== */
-
-@media (max-width: 600px) {
-  header h1 { font-size: 1.3rem; }
-  .onglet { padding: 10px 14px; font-size: 0.85rem; }
-  td.chiffre { width: 32px; height: 44px; font-size: 1.05rem; }
+.btn-primary {
+  padding: 9px 18px;
+  background: #1a56db;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: .875rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
+.btn-primary:hover { background: #1240a8; }
+.btn-secondary {
+  padding: 9px 18px;
+  background: #fff;
+  color: #374151;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: .875rem;
+  cursor: pointer;
+}
+.btn-secondary:hover { background: #f3f4f6; }
