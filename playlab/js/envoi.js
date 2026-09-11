@@ -1,4 +1,127 @@
 // =============================
+// CONTRÔLE D'ACCÈS ANTI-TRICHE
+// nom + prénom + appareil, verrou 10h, vérifié côté serveur (Supabase)
+// =============================
+const ACCES_DEVICE_KEY = "psci_device_id";
+
+function normaliserTexte(str) {
+
+  return (str || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .toLowerCase();
+
+}
+
+function setCookie(name, value, days) {
+
+  const expires =
+    new Date(Date.now() + days * 864e5)
+      .toUTCString();
+
+  document.cookie =
+    `${name}=${value}; expires=${expires}; path=/; SameSite=Lax`;
+
+}
+
+function getCookie(name) {
+
+  const match = document.cookie.match(
+    new RegExp(`(?:^|; )${name}=([^;]*)`)
+  );
+
+  return match
+    ? decodeURIComponent(match[1])
+    : null;
+
+}
+
+// Empreinte d'appareil : identifiant stable stocké en localStorage + cookie
+// (double stockage pour résister à un nettoyage partiel). Ce n'est PAS une
+// adresse MAC (inaccessible depuis un navigateur, par conception) mais une
+// empreinte de navigateur/appareil, suffisante pour détecter un changement
+// de pseudo sur le même appareil.
+function getDeviceId() {
+
+  let id =
+    localStorage.getItem(ACCES_DEVICE_KEY) ||
+    getCookie(ACCES_DEVICE_KEY);
+
+  if (id) {
+    localStorage.setItem(ACCES_DEVICE_KEY, id);
+    setCookie(ACCES_DEVICE_KEY, id, 400);
+    return id;
+  }
+
+  const empreinte = [
+    navigator.userAgent,
+    navigator.language,
+    navigator.hardwareConcurrency,
+    navigator.platform,
+    screen.width + "x" + screen.height + "x" + screen.colorDepth,
+    Intl.DateTimeFormat().resolvedOptions().timeZone
+  ].join("|");
+
+  let hash = 0;
+
+  for (let i = 0; i < empreinte.length; i++) {
+    hash = (hash << 5) - hash + empreinte.charCodeAt(i);
+    hash |= 0;
+  }
+
+  id =
+    "dev_" +
+    Math.abs(hash).toString(36) +
+    "_" +
+    Date.now().toString(36);
+
+  localStorage.setItem(ACCES_DEVICE_KEY, id);
+  setCookie(ACCES_DEVICE_KEY, id, 400);
+
+  return id;
+
+}
+
+// Vérifie ET enregistre la tentative en une seule fois côté serveur
+// (fonction Postgres sécurisée, voir setup_access_control.sql).
+// Renvoie { allowed: true } ou { allowed: false, remaining_minutes: n }.
+async function verifierAccesQuiz(nom, prenom, quiz) {
+
+  if (!SUPABASE_URL || !SUPABASE_KEY) {
+    throw new Error("Variables Supabase absentes");
+  }
+
+  const deviceId = getDeviceId();
+
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/rpc/check_and_register_quiz_attempt`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`
+      },
+      body: JSON.stringify({
+        p_nom: normaliserTexte(nom),
+        p_prenom: normaliserTexte(prenom),
+        p_quiz: quiz,
+        p_device_id: deviceId
+      })
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error(await res.text());
+  }
+
+  return res.json();
+
+}
+
+
+// =============================
 // MODERATION AUTOMATISME
 // prénom + automatisme + cooldown
 // =============================
