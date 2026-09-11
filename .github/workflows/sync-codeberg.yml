@@ -1,0 +1,27 @@
+name: Sync from Codeberg
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * *'   # optionnel, à adapter/supprimer
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GitHub repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Add Codeberg remote and pull
+        run: |
+          git remote add codeberg https://codeberg.org/mermoz/sciences.git
+          git fetch codeberg
+          git checkout main
+          git reset --hard codeberg/main
+
+      - name: Push to GitHub
+        run: |
+          git push origin main --force
