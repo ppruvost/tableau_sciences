@@ -1,0 +1,302 @@
+/* =========================================================
+   CONVERTISSEUR D'UNITÉS — style.css
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Lato:wght@400;700&display=swap');
+
+:root {
+  --accent-1: #8B5CF6;
+  --accent-2: #5B21B6;
+  --accent-bg: #F5F3FF;
+  --texte: #1f2937;
+  --texte-clair: #6B7280;
+  --bordure: #E5E7EB;
+  --blanc: #ffffff;
+
+  --masses-1: #E87A0E;
+  --masses-2: #A8500A;
+  --longueurs-1: #1B6CA8;
+  --longueurs-2: #0D4F8A;
+  --aires-1: #10B981;
+  --aires-2: #059669;
+  --volumes-1: #8B5CF6;
+  --volumes-2: #5B21B6;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Lato', Arial, sans-serif;
+  background: var(--accent-bg);
+  color: var(--texte);
+  padding-bottom: 40px;
+}
+
+header {
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  color: #fff;
+  padding: 26px 20px;
+  text-align: center;
+}
+
+header h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+header .sous-titre {
+  margin-top: 6px;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+/* ===================== ONGLETS ===================== */
+
+.onglets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 22px;
+}
+
+.onglet {
+  border: none;
+  cursor: pointer;
+  padding: 12px 22px;
+  border-radius: 12px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #fff;
+  opacity: 0.55;
+  transition: 0.2s;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.onglet:hover {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
+.onglet.actif {
+  opacity: 1;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+
+.onglet[data-cat="masses"]    { background: linear-gradient(135deg, var(--masses-1), var(--masses-2)); }
+.onglet[data-cat="longueurs"] { background: linear-gradient(135deg, var(--longueurs-1), var(--longueurs-2)); }
+.onglet[data-cat="aires"]     { background: linear-gradient(135deg, var(--aires-1), var(--aires-2)); }
+.onglet[data-cat="volumes"]   { background: linear-gradient(135deg, var(--volumes-1), var(--volumes-2)); }
+
+/* ===================== PANNEAU ===================== */
+
+.panneau {
+  display: none;
+  background: var(--blanc);
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+  animation: apparition 0.25s ease;
+}
+
+.panneau.actif { display: block; }
+
+@keyframes apparition {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.panneau h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.3rem;
+  margin-bottom: 14px;
+}
+
+.panneau[data-cat="masses"]    h2 { color: var(--masses-2); }
+.panneau[data-cat="longueurs"] h2 { color: var(--longueurs-2); }
+.panneau[data-cat="aires"]     h2 { color: var(--aires-2); }
+.panneau[data-cat="volumes"]   h2 { color: var(--volumes-2); }
+
+/* ===================== SAISIE ===================== */
+
+.saisie {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.saisie label {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.saisie input[type="number"] {
+  flex: 1 1 180px;
+  padding: 10px 14px;
+  font-size: 1.05rem;
+  border: 2px solid var(--bordure);
+  border-radius: 10px;
+  font-family: 'Space Grotesk', sans-serif;
+  transition: 0.2s;
+}
+
+.saisie input[type="number"]:focus {
+  outline: none;
+  border-color: var(--accent-1);
+}
+
+.saisie select {
+  padding: 10px 14px;
+  font-size: 1rem;
+  border: 2px solid var(--bordure);
+  border-radius: 10px;
+  background: var(--blanc);
+  font-family: 'Space Grotesk', sans-serif;
+  cursor: pointer;
+}
+
+/* ===================== TABLEAU DE CONVERSION ===================== */
+
+.tableau-scroll {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid var(--bordure);
+}
+
+table.conversion {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 560px;
+  text-align: center;
+}
+
+table.conversion th,
+table.conversion td {
+  border: 1px solid var(--bordure);
+  padding: 0;
+}
+
+table.conversion thead th {
+  background: var(--accent-bg);
+  color: var(--texte);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 10px 4px;
+}
+
+table.conversion thead th.unite-reference {
+  background: var(--accent-1);
+  color: #fff;
+}
+
+td.chiffre {
+  width: 42px;
+  height: 54px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--texte);
+  background: var(--blanc);
+  position: relative;
+}
+
+td.chiffre.reference {
+  background: var(--accent-bg);
+}
+
+td.chiffre.virgule-apres::after {
+  content: ",";
+  position: absolute;
+  right: -6px;
+  bottom: 2px;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--accent-2);
+  z-index: 2;
+}
+
+td.chiffre.virgule-apres {
+  border-right: 3px solid var(--accent-2);
+}
+
+/* ===================== RÉSULTATS ===================== */
+
+.resultats {
+  margin-top: 18px;
+}
+
+.resultats h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  color: var(--texte-clair);
+  margin-bottom: 8px;
+}
+
+.resultats ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.resultats li {
+  background: var(--accent-bg);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 0.9rem;
+}
+
+.resultats li strong {
+  font-family: 'Space Grotesk', sans-serif;
+  color: var(--accent-2);
+}
+
+.note {
+  margin-top: 14px;
+  font-size: 0.85rem;
+  color: var(--texte-clair);
+  font-style: italic;
+}
+
+/* ===================== AIDE ===================== */
+
+.aide {
+  max-width: 1100px;
+  margin: 22px auto 0;
+  padding: 14px 18px;
+  background: #fff;
+  border-left: 4px solid var(--accent-1);
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: var(--texte-clair);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ===================== RESPONSIVE ===================== */
+
+@media (max-width: 600px) {
+  header h1 { font-size: 1.3rem; }
+  .onglet { padding: 10px 14px; font-size: 0.85rem; }
+  td.chiffre { width: 32px; height: 44px; font-size: 1.05rem; }
+}
