@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Convertisseur d'unités — MathiLab</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+<body>
+
+<header>
+  <h1><i class="fa-solid fa-ruler-combined"></i> Convertisseur d'unités</h1>
+  <p class="sous-titre">Masses, longueurs, aires et volumes — tableaux de conversion interactifs</p>
+</header>
+
+<main>
+
+  <!-- ====== ONGLETS ====== -->
+  <nav class="onglets" id="onglets"></nav>
+
+  <!-- ====== PANNEAUX (générés en JS) ====== -->
+  <div id="panneaux"></div>
+
+  <p class="aide">
+    <i class="fa-solid fa-circle-info"></i>
+    Saisis une valeur, choisis son unité, puis lis le résultat directement dans le tableau :
+    chaque case correspond à un chiffre, et la virgule est toujours placée juste après la
+    colonne de l'unité de référence (g, m, m² ou m³).
+  </p>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
