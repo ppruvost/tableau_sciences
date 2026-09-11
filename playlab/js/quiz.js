@@ -110,7 +110,7 @@ function showBonusAnimation(bonus, element) {
 // ==============================
 //            DÉMARRAGE
 // ==============================
-startBtn.addEventListener("click", () => {
+startBtn.addEventListener("click", async () => {
 
   const nom = nomInput.value.trim();
   const prenom = prenomInput.value.trim();
@@ -124,6 +124,66 @@ startBtn.addEventListener("click", () => {
     prenomInput.focus();
     return;
   }
+
+  const titreQuiz = document.title || "";
+
+  const startBtnLabel = startBtn.textContent;
+
+  startBtn.disabled = true;
+  startBtn.textContent = "Vérification...";
+
+  try {
+
+    if (typeof verifierAccesQuiz !== "function") {
+      throw new Error(
+          "Contrôle d'accès non chargé (envoi.js manquant)"
+      );
+    }
+
+    const acces =
+        await verifierAccesQuiz(
+            nom,
+            prenom,
+            titreQuiz
+        );
+
+    if (!acces.allowed) {
+
+      const totalMin =
+          acces.remaining_minutes || 0;
+
+      const h = Math.floor(totalMin / 60);
+      const m = totalMin % 60;
+
+      alert(
+          `⛔ Accès refusé.\n${prenom}, tu as (ou cet appareil a) déjà fait ce quiz récemment.\nRéessaie dans ${h}h${String(m).padStart(2, "0")}.`
+      );
+
+      startBtn.disabled = false;
+      startBtn.textContent = startBtnLabel;
+
+      return;
+    }
+
+  } catch (err) {
+
+    console.error(
+        "Erreur contrôle d'accès :",
+        err
+    );
+
+    alert(
+        "❌ Impossible de vérifier l'accès au quiz (connexion internet ?). Réessaie."
+    );
+
+    startBtn.disabled = false;
+    startBtn.textContent = startBtnLabel;
+
+    return;
+  }
+
+  startBtn.disabled = false;
+  startBtn.textContent = startBtnLabel;
 
   score = 0;
   current = 0;
