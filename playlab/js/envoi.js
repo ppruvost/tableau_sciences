@@ -517,3 +517,139 @@ async function sendResults(
   }
 
 }
+
+// =============================
+// SUIVI EN DIRECT (page /suivi/)
+// Enregistre chaque tentative de quiz (automatisme, PlayMaths, PlaySciences) :
+// nom, prénom, horodatage de début/fin, score, statut.
+// Table Supabase attendue : quiz_sessions (voir sql/quiz_sessions.sql)
+// =============================
+const SUIVI_TABLE = "quiz_sessions";
+let suiviSessionId = null;
+
+function suiviDetecterCategorie() {
+
+  const chemin = window.location.pathname.toLowerCase();
+
+  if (chemin.includes("/playmaths/")) return "playmaths";
+  if (chemin.includes("/playsciences/")) return "playsciences";
+  if (chemin.includes("/automatisme")) return "automatisme"; // couvre automatisme, automatisme-1ere, automatisme-tle
+
+  return "autre";
+}
+
+// Enregistre le début du quiz. À appeler juste après le contrôle d'accès.
+async function suiviDemarrerSession(nom, prenom, quiz) {
+
+  suiviSessionId = null;
+
+  if (!SUPABASE_URL || !SUPABASE_KEY) return;
+
+  try {
+
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/${SUIVI_TABLE}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`,
+          Prefer: "return=representation"
+        },
+        body: JSON.stringify({
+          nom,
+          prenom,
+          quiz,
+          categorie: suiviDetecterCategorie(),
+          device_id: (typeof getDeviceId === "function") ? getDeviceId() : null,
+          status: "en_cours"
+        })
+      }
+    );
+
+    if (res.ok) {
+      const rows = await res.json();
+      if (rows && rows[0] && rows[0].id) {
+        suiviSessionId = rows[0].id;
+      }
+    } else {
+      console.error("Suivi : échec de l'enregistrement du début", await res.text());
+    }
+
+  } catch (e) {
+    console.error("Suivi : impossible d'enregistrer le début du quiz", e);
+  }
+}
+
+// Enregistre la fin (normale) du quiz avec le résultat.
+async function suiviTerminerSession({ score, total, note10, note20, playMathsPoints }) {
+
+  if (!suiviSessionId || !SUPABASE_URL || !SUPABASE_KEY) return;
+
+  const idAEnvoyer = suiviSessionId;
+  suiviSessionId = null; // évite un double envoi (ex: fermeture d'onglet juste après)
+
+  try {
+
+    await fetch(
+      `${SUPABASE_URL}/rest/v1/${SUIVI_TABLE}?id=eq.${idAEnvoyer}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`,
+          Prefer: "return=minimal"
+        },
+        body: JSON.stringify({
+          ended_at: new Date().toISOString(),
+          score,
+          total,
+          note_10: note10,
+          note_20: note20,
+          playmaths_points: playMathsPoints,
+          status: "termine"
+        })
+      }
+    );
+
+  } catch (e) {
+    console.error("Suivi : impossible d'enregistrer la fin du quiz", e);
+  }
+}
+
+// Marquage "best effort" d'un abandon si l'élève ferme/quitte la page
+// avant la fin (fonctionne dans la majorité des navigateurs récents grâce
+// à fetch(..., {keepalive:true}). Le tableau de suivi calcule aussi un
+// abandon "par timeout" en secours, au cas où cet évènement ne partirait pas.
+function suiviMarquerAbandonSync() {
+
+  if (!suiviSessionId || !SUPABASE_URL || !SUPABASE_KEY) return;
+
+  try {
+
+    fetch(
+      `${SUPABASE_URL}/rest/v1/${SUIVI_TABLE}?id=eq.${suiviSessionId}`,
+      {
+        method: "PATCH",
+        keepalive: true,
+        headers: {
+          "Content-Type": "application/json",
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`,
+          Prefer: "return=minimal"
+        },
+        body: JSON.stringify({
+          status: "abandonne",
+          ended_at: new Date().toISOString()
+        })
+      }
+    );
+
+  } catch (e) {
+    // silencieux : la page est en train de se fermer
+  }
+}
+
+window.addEventListener("pagehide", suiviMarquerAbandonSync);

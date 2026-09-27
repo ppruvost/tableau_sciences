@@ -326,31 +326,58 @@
       </a>
     </div>
 
-    <div class="fiche-puzzle" data-titre="Coordonnées et norme">
-      <h3>Fiche A — Calculer un déplacement</h3>
-      <p>A(2 ; 1) et B(7 ; 13) repèrent le départ et l'arrivée d'un déplacement. Calculer les coordonnées et la norme du vecteur AB avec l'onglet « Coordonnées, somme, produit, norme ».</p>
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-      </div>
-      <div class="zone-eleve"><textarea rows="5" placeholder="Coordonnées et norme obtenues..."></textarea></div>
+    <div class="sous-onglets" role="tablist">
+      <button class="sous-btn actif" data-sous="puzzle-sujet-a">Sujet A</button>
+      <button class="sous-btn" data-sous="puzzle-sujet-b">Sujet B</button>
+      <button class="sous-btn" data-sous="puzzle-synthese-panel">Synthèse</button>
     </div>
-
-    <div class="fiche-puzzle" data-titre="Somme de vecteurs">
-      <h3>Fiche B — Combiner deux forces</h3>
-      <p>Deux forces sont modélisées par u(5 ; 0) et v(0 ; 3). Calculer la force résultante u + v et sa norme.</p>
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+    <div class="sous-panel actif" id="puzzle-sujet-a">
+      <div class="fiche-puzzle" data-titre="Coordonnées et norme">
+        <div class="questions-bloc" data-tp="puzzle-a">
+          <ol class="questions-tp"><li>
+            <div class="question-entete"><strong>Sujet A — Coordonnées et norme</strong>
+              <span class="cartouche" data-comp="REA">REA</span></div>
+            <p class="info puzzle-contexte" id="puzzle-a-contexte"></p>
+            <p class="puzzle-problematique" id="puzzle-a-problematique"></p>
+            <ol id="puzzle-a-enonce" class="puzzle-questions"></ol>
+            <div class="form-row">
+              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+            </div>
+            <div class="zone-eleve"><textarea id="puzzle-a-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+          </li></ol>
+        </div>
       </div>
-      <div class="zone-eleve"><textarea rows="5" placeholder="Vecteur résultant et sa norme..."></textarea></div>
     </div>
-
-    <h3 style="margin-top:var(--gap-lg);">Synthèse puzzle</h3>
-    <div class="info">En groupe mélangé, comparer les deux approches : construction géométrique et calcul par coordonnées.</div>
-    <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Synthèse commune..."></textarea></div>
-
-  </div>
+    <div class="sous-panel" id="puzzle-sujet-b">
+      <div class="fiche-puzzle" data-titre="Somme de vecteurs">
+        <div class="questions-bloc" data-tp="puzzle-b">
+          <ol class="questions-tp"><li>
+            <div class="question-entete"><strong>Sujet B — Somme de vecteurs</strong>
+              <span class="cartouche" data-comp="ANA">ANA</span></div>
+            <p class="info puzzle-contexte" id="puzzle-b-contexte"></p>
+            <p class="puzzle-problematique" id="puzzle-b-problematique"></p>
+            <ol id="puzzle-b-enonce" class="puzzle-questions"></ol>
+            <div class="form-row">
+              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+            </div>
+            <div class="zone-eleve"><textarea id="puzzle-b-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+          </li></ol>
+        </div>
+      </div>
+    </div>
+    <div class="sous-panel" id="puzzle-synthese-panel">
+      <div class="info">En groupe mélangé, comparer les deux approches : construction géométrique et calcul par coordonnées.</div>
+      <div class="questions-bloc" data-tp="puzzle-synthese">
+      <ol class="questions-tp"><li>
+        <div class="question-entete"><strong>Synthèse — Réponse commune à la problématique</strong>
+          <span class="cartouche" data-comp="COM">COM</span></div>
+        <p class="problematique-rappel"></p>
+        <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs et différences entre les sujets, réponse argumentée..."></textarea></div>
+      </li></ol>
+      </div>
+    </div>
 
 </div>
 

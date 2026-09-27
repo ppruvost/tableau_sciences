@@ -14,6 +14,8 @@ import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-algorithme.js';
 import { initBoutonsPyLab } from '../../js/pylab.js';
 
+import { demarrerPuzzle } from '../../js/puzzle-onglet.js';
+import { A2 } from './puzzle-algorithme.js';
 const CONTEXTES_PRO = {
   '1ere-trpm': {
     contexte: "En atelier de réalisation mécanique, une série de mesures (dimension, temps d'usinage) peut être liée à une autre grandeur ; un contrôle qualité en deux étapes peut être représenté par un arbre pondéré.",
@@ -62,6 +64,8 @@ export function init() {
     filieres: FILIERES_PRO,
     contextes: CONTEXTES_PRO,
   });
+
+  demarrerPuzzle(A2);
   initBoutonsPyLab('.btn-pylab');
   initSections();
   initTabs();

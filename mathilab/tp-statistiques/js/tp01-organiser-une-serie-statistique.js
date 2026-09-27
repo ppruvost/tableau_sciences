@@ -603,6 +603,8 @@ function initialiserTP01() {
     contextes: CONTEXTES_S1
   });
 
+  demarrerPuzzle(MODELE_PUZZLE);
+
   initRegroupementClasses();
   initSerieQualitative();
   initEvolutionChronologique();

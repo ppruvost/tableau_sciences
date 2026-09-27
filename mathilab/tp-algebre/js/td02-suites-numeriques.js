@@ -18,6 +18,8 @@ import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-algebre.js';
 import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 
+import { initPuzzle, CADRES, fmt, polynome } from './puzzle-algebre.js';
+
 const CONTEXTES_TD02 = {
   '1ere-trpm': {
     contexte: "Le coût d'une intervention de maintenance comprend des frais fixes, puis un tarif horaire constant (variation constante) ; la valeur d'un équipement se déprécie d'un pourcentage fixe chaque année (taux fixe).",
@@ -60,6 +62,59 @@ const CONTEXTES_TD02 = {
     problematique: "Quel nombre de dossiers la structure devra-t-elle traiter dans n mois, et quel nombre cumulé sur la période ?",
   },
 };
+
+/* ============================================================
+   ACTIVITÉS PUZZLE — sujets A/B/C liés à la filière et au niveau
+   (mêmes clés que CONTEXTES_TD02)
+   ============================================================ */
+
+const PUZZLE_TD02 = {
+  '1ere-trpm': {
+    grandeurArith: 'le coût facturé (en €)', periodeArith: 'heure', u0A: 35, rA: 22,
+    grandeurGeo: 'la valeur de l’équipement (en €)', periodeGeo: 'année', u0G: 8000, qG: 0.90,
+  },
+  '1ere-tci': {
+    grandeurArith: 'le nombre de pièces produites', periodeArith: 'semaine', u0A: 200, rA: 15,
+    grandeurGeo: 'la valeur de l’équipement (en €)', periodeGeo: 'année', u0G: 12000, qG: 0.88,
+  },
+  '1ere-mcc': {
+    grandeurArith: 'le nombre de pièces confectionnées', periodeArith: 'semaine', u0A: 150, rA: 10,
+    grandeurGeo: 'la valeur de la machine à coudre (en €)', periodeGeo: 'année', u0G: 3000, qG: 0.85,
+  },
+  '1ere-log': {
+    grandeurArith: 'le coût facturé (en €)', periodeArith: 'kilomètre', u0A: 60, rA: 1.2,
+    grandeurGeo: 'le volume de colis traités', periodeGeo: 'mois', u0G: 800, qG: 1.05,
+  },
+  '1ere-agora': {
+    grandeurArith: 'le nombre de dossiers traités', periodeArith: 'semaine', u0A: 40, rA: 5,
+    grandeurGeo: 'le budget de fonctionnement (en €)', periodeGeo: 'année', u0G: 50000, qG: 1.03,
+  },
+  'tle-trpm': {
+    grandeurArith: 'la production journalière (en pièces usinées)', periodeArith: 'jour', u0A: 500, rA: 20,
+    grandeurGeo: 'la production journalière (en pièces usinées)', periodeGeo: 'jour', u0G: 500, qG: 1.04,
+  },
+  'tle-tci': {
+    grandeurArith: 'la production journalière (en pièces chaudronnées)', periodeArith: 'jour', u0A: 400, rA: 15,
+    grandeurGeo: 'la production journalière (en pièces chaudronnées)', periodeGeo: 'jour', u0G: 400, qG: 1.03,
+  },
+  'tle-mcc': {
+    grandeurArith: 'la production journalière (en pièces confectionnées)', periodeArith: 'jour', u0A: 300, rA: 10,
+    grandeurGeo: 'la valeur de la machine à coudre (en €)', periodeGeo: 'année', u0G: 3000, qG: 0.85,
+  },
+  'tle-log': {
+    grandeurArith: 'le volume de colis traités', periodeArith: 'mois', u0A: 800, rA: 60,
+    grandeurGeo: 'le volume de colis traités', periodeGeo: 'mois', u0G: 800, qG: 1.05,
+  },
+  'tle-agora': {
+    grandeurArith: 'le nombre de dossiers traités', periodeArith: 'mois', u0A: 200, rA: 15,
+    grandeurGeo: 'le nombre de dossiers traités', periodeGeo: 'mois', u0G: 200, qG: 1.06,
+  },
+};
+
+function pourcentageDepuisQ(q) {
+  const p = Math.round((q - 1) * 10000) / 100;
+  return p >= 0 ? `+${p} %` : `${p} %`;
+}
 
 const LIBELLES_RESULTATS = [
   ['nombreTermes', 'Nombre de termes calculés'],
@@ -241,6 +296,75 @@ function initComparerSuitesGeometriques() {
 }
 
 /* ============================================================
+   ACTIVITÉS PUZZLE — rendu dynamique selon filière et niveau
+   ============================================================ */
+
+function construirePuzzleTD02(cle) {
+  const d = PUZZLE_TD02[cle];
+  if (!d) return null;
+  const [niv, fil] = cle.split('-');
+  const tle = niv === 'tle';
+  const cadre = CADRES[fil];
+  const { grandeurArith: gA, periodeArith: pA, u0A, rA, grandeurGeo: gG, periodeGeo: pG, u0G, qG } = d;
+  const pct = pourcentageDepuisQ(qG);
+  const croit = qG > 1;
+  const cibleG = croit ? `u_n ⩾ ${fmt(2 * u0G)}` : `u_n ⩽ ${fmt(u0G / 2)}`;
+  const motG = croit ? 'doublé' : 'été divisée par deux';
+
+  const A = {
+    contexte: `${cadre}, ${gA} vaut ${fmt(u0A)} au départ, puis augmente de ${fmt(rA)} à chaque ${pA}.`,
+    problematique: tle
+      ? `Au bout de combien de ${pA}s la valeur initiale de ${gA} aura-t-elle doublé ?`
+      : `Quelle valeur atteindra ${gA} après 10 ${pA}s, et quelle sera la somme des 10 premières valeurs ?`,
+    questions: [
+      `Justifier que l'évolution est arithmétique et donner u0 et la raison r.`,
+      `Exprimer u_n en fonction de n.`,
+      `Calculer u10, la valeur après 10 ${pA}s.`,
+      tle ? `Résoudre l'inéquation u_n ⩾ ${fmt(2 * u0A)} pour trouver le plus petit entier n cherché.`
+          : `Calculer la somme S = u0 + u1 + … + u9 à l'aide de la formule.`,
+      `Répondre à la problématique par une phrase, avec l'unité.`],
+  };
+  const B = {
+    contexte: `${cadre}, ${gG} vaut ${fmt(u0G)} au départ, puis évolue de ${pct} à chaque ${pG}.`,
+    problematique: tle
+      ? `Au bout de combien de ${pG}s la valeur initiale de ${gG} aura-t-elle ${motG} ?`
+      : `Quelle valeur atteindra ${gG} après 10 ${pG}s, et quelle sera la somme des 10 premières valeurs ?`,
+    questions: [
+      `Justifier que l'évolution est géométrique et donner u0 et la raison q = 1 + t.`,
+      `Exprimer u_n = u0 × q^n en fonction de n.`,
+      `Calculer u10, la valeur après 10 ${pG}s.`,
+      tle ? `À l'aide de la calculatrice (tableau de valeurs), trouver le plus petit entier n tel que ${cibleG}.`
+          : `Calculer la somme S = u0 + u1 + … + u9 avec la formule u0 × (1 − q^10) / (1 − q).`,
+      `Répondre à la problématique par une phrase, avec l'unité.`],
+  };
+  const C = {
+    contexte: tle
+      ? `${cadre}, on compare deux évolutions : l'une à variation constante (+${fmt(rA)} par ${pA}), l'autre à taux fixe (${pct} par ${pG}).`
+      : `${cadre}, deux grandeurs sont suivies en parallèle : ${gA} (variation constante) et ${gG} (taux fixe de ${pct}).`,
+    problematique: tle
+      ? `Laquelle des deux évolutions atteint la première son seuil (doublement ou division par deux) ?`
+      : `Après 10 périodes, laquelle des deux grandeurs a le plus évolué, en pourcentage ?`,
+    questions: tle ? [
+      `Sujet A : déterminer le nombre de ${pA}s nécessaire pour que ${gA} double.`,
+      `Sujet B : déterminer le nombre de ${pG}s nécessaire pour que ${gG} ${croit ? 'double' : 'soit divisée par deux'}.`,
+      `Comparer les deux durées.`,
+      `Expliquer la différence entre une évolution à variation constante et une évolution à taux fixe sur le long terme.`,
+      `Répondre à la problématique par une recommandation argumentée.`
+    ] : [
+      `Calculer u10 pour la suite arithmétique (sujet A).`,
+      `Calculer u10 pour la suite géométrique (sujet B).`,
+      `Calculer, pour chacune, la variation relative (u10 − u0) / u0 en pourcentage.`,
+      `Comparer les deux résultats et expliquer la différence entre variation constante et taux fixe.`,
+      `Répondre à la problématique par une phrase.`],
+  };
+  return { A, B, C };
+}
+
+function initActivitesPuzzleTD02() {
+  initPuzzle(construirePuzzleTD02);
+}
+
+/* ============================================================
    INITIALISATION
    ============================================================ */
 
@@ -252,6 +376,8 @@ initComparerSuitesArithmetiques();
 
 initEtudierSuiteGeometrique();
 initComparerSuitesGeometriques();
+
+initActivitesPuzzleTD02();
 
 initRadarCompetences();
 initImpressionCompteRendu({ titre: 'Étudier et comparer des suites numériques', tp: 'TD02' });

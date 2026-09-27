@@ -128,6 +128,7 @@
         <button class="tab-btn" data-tab="couts-marginal-moyen">1ère · Coût marginal et coût moyen</button>
         <button class="tab-btn" data-tab="interets-composes">Tle · Intérêts composés</button>
         <button class="tab-btn" data-tab="amortissement">Tle · Tableau d'amortissement</button>
+        <button class="tab-btn" data-tab="activites-puzzle">🧩 Activités Puzzle</button>
       </div>
 
           <!-- ---------- INTÉRÊTS SIMPLES (1ère) ---------- -->
@@ -331,6 +332,86 @@
 
           </div>
 
+          <!-- ---------- ACTIVITÉS PUZZLE ---------- -->
+          <div class="tab-panel" id="activites-puzzle">
+        <h3>Activités Puzzle</h3>
+        <div id="puzzle-info" class="info">
+          Sélectionner votre filière professionnelle dans la section « Contexte
+          professionnel » ci-dessus pour afficher les trois sujets.
+        </div>
+        <div class="sous-onglets" role="tablist">
+          <button class="sous-btn actif" data-sous="puzzle-sujet-a">Sujet A</button>
+          <button class="sous-btn" data-sous="puzzle-sujet-b">Sujet B</button>
+          <button class="sous-btn" data-sous="puzzle-sujet-c">Sujet C</button>
+          <button class="sous-btn" data-sous="puzzle-synthese-panel">Synthèse</button>
+        </div>
+        <div class="sous-panel actif" id="puzzle-sujet-a">
+          <div class="fiche-puzzle" data-titre="1ère : intérêts simples · Tle : annuités constantes">
+            <div class="questions-bloc" data-tp="puzzle-a">
+              <ol class="questions-tp"><li>
+                <div class="question-entete"><strong>Sujet A — 1ère : intérêts simples · Tle : annuités constantes</strong>
+                  <span class="cartouche" data-comp="REA">REA</span></div>
+                <p class="info puzzle-contexte" id="puzzle-a-contexte"></p>
+                <p class="puzzle-problematique" id="puzzle-a-problematique"></p>
+                <ol id="puzzle-a-enonce" class="puzzle-questions"></ol>
+                <div class="form-row">
+                  <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                  <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+                </div>
+                <div class="zone-eleve"><textarea id="puzzle-a-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+              </li></ol>
+            </div>
+          </div>
+        </div>
+        <div class="sous-panel" id="puzzle-sujet-b">
+          <div class="fiche-puzzle" data-titre="1ère : intérêts composés · Tle : amortissement constant">
+            <div class="questions-bloc" data-tp="puzzle-b">
+              <ol class="questions-tp"><li>
+                <div class="question-entete"><strong>Sujet B — 1ère : intérêts composés · Tle : amortissement constant</strong>
+                  <span class="cartouche" data-comp="ANA">ANA</span></div>
+                <p class="info puzzle-contexte" id="puzzle-b-contexte"></p>
+                <p class="puzzle-problematique" id="puzzle-b-problematique"></p>
+                <ol id="puzzle-b-enonce" class="puzzle-questions"></ol>
+                <div class="form-row">
+                  <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                  <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+                </div>
+                <div class="zone-eleve"><textarea id="puzzle-b-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+              </li></ol>
+            </div>
+          </div>
+        </div>
+        <div class="sous-panel" id="puzzle-sujet-c">
+          <div class="fiche-puzzle" data-titre="Comparer et décider">
+            <div class="questions-bloc" data-tp="puzzle-c">
+              <ol class="questions-tp"><li>
+                <div class="question-entete"><strong>Sujet C — Comparer et décider</strong>
+                  <span class="cartouche" data-comp="VAL">VAL</span></div>
+                <p class="info puzzle-contexte" id="puzzle-c-contexte"></p>
+                <p class="puzzle-problematique" id="puzzle-c-problematique"></p>
+                <ol id="puzzle-c-enonce" class="puzzle-questions"></ol>
+                <div class="form-row">
+                  <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                  <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+                </div>
+                <div class="zone-eleve"><textarea id="puzzle-c-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+              </li></ol>
+            </div>
+          </div>
+        </div>
+        <div class="sous-panel" id="puzzle-synthese-panel">
+          <div class="info">En groupe mélangé, chaque expert présente son sujet aux autres. Comparer les trois situations et rédiger une réponse commune.</div>
+          <div class="questions-bloc" data-tp="puzzle-synthese">
+          <ol class="questions-tp"><li>
+            <div class="question-entete"><strong>Synthèse — Réponse commune à la problématique</strong>
+              <span class="cartouche" data-comp="COM">COM</span></div>
+            <p class="problematique-rappel"></p>
+            <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs et différences entre les sujets, réponse argumentée..."></textarea></div>
+          </li></ol>
+          </div>
+        </div>
+      </div>
+
     </div>
 
   </div>
@@ -384,78 +465,6 @@
       <li>Le <strong>coût marginal</strong> se rapproche de la dérivée du coût total, comme étudié en TD03.</li>
       <li>Un <strong>tableau d'amortissement</strong> permet de suivre, période après période, le capital restant dû d'un emprunt.</li>
     </ul>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="puzzle">
-
-  <div class="section-titre">
-    <div class="picto-section">🧩</div>
-    <h2>Activités Puzzle</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="toolbar">
-      <a class="btn btn-secondaire" href="../../numworks/emulator.html" target="_blank" rel="noopener">
-        🧮 Ouvrir la calculatrice NumWorks
-      </a>
-    </div>
-
-    <div class="info">
-      Situation étudiée — un artisan emprunte 8 000 € sur 4 ans au taux annuel de 3,5 %
-      pour financer un équipement.
-    </div>
-
-    <div class="fiche-puzzle" data-titre="Intérêts simples vs composés">
-      <h3>Fiche A — Comparer intérêts simples et intérêts composés</h3>
-      <ol>
-        <li>Calculer le montant obtenu si 8 000 € avaient été placés 4 ans à 3,5 % à intérêts simples.</li>
-        <li>Calculer le montant obtenu pour le même placement à intérêts composés.</li>
-        <li>Comparer les deux résultats.</li>
-      </ol>
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-      </div>
-      <div class="zone-eleve"><textarea rows="6" placeholder="Réponses du groupe expert : montant intérêts simples, montant intérêts composés, comparaison..."></textarea></div>
-    </div>
-
-    <div class="fiche-puzzle" data-titre="Tableau d'amortissement à annuités constantes">
-      <h3>Fiche B — Annuités constantes</h3>
-      <ol>
-        <li>Construire le tableau d'amortissement par annuités constantes.</li>
-        <li>Calculer le coût total de l'emprunt.</li>
-      </ol>
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-      </div>
-      <div class="zone-eleve"><textarea rows="6" placeholder="Réponses du groupe expert : tableau, coût total de l'emprunt..."></textarea></div>
-    </div>
-
-    <div class="fiche-puzzle" data-titre="Tableau d'amortissement constant">
-      <h3>Fiche C — Amortissement constant</h3>
-      <ol>
-        <li>Construire le tableau d'amortissement par amortissement constant.</li>
-        <li>Calculer le coût total de l'emprunt et le comparer à celui de la fiche B.</li>
-      </ol>
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-      </div>
-      <div class="zone-eleve"><textarea rows="6" placeholder="Réponses du groupe expert : tableau, coût total, comparaison avec la fiche B..."></textarea></div>
-    </div>
-
-    <h3 style="margin-top:var(--gap-lg);">Synthèse puzzle</h3>
-    <div class="info">
-      En groupe mélangé, rassembler les résultats des trois fiches pour conseiller
-      l'artisan sur le mode de financement et de remboursement le plus adapté.
-    </div>
-    <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Synthèse commune : intérêts simples/composés, comparaison des deux modes d'amortissement, conseil à l'artisan..."></textarea></div>
 
   </div>
 

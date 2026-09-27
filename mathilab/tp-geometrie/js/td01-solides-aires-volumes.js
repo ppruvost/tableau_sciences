@@ -12,6 +12,8 @@ import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-geometrie.js';
 import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 
+import { demarrerPuzzle } from '../../js/puzzle-onglet.js';
+import { G1 } from './puzzle-geometrie.js';
 const CONTEXTES_TD01 = {
   '2nde-remi': {
     contexte: "En atelier de réalisation mécanique, contrôler qu'une pièce est d'équerre, calculer le volume de matière d'une pièce cylindrique, ou changer d'échelle un plan sont des gestes courants.",
@@ -294,6 +296,8 @@ function initialiserTD01() {
     filieres: FILIERES_PRO,
     contextes: CONTEXTES_TD01
   });
+
+  demarrerPuzzle(G1);
 
   initAiresPerimetres();
   initVolumes();

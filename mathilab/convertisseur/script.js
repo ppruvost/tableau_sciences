@@ -30,9 +30,9 @@ const CATEGORIES = [
       { name: "dg", e: -1, w: 1 },
       { name: "cg", e: -2, w: 1 },
       { name: "mg", e: -3, w: 1 },
-      { name: "µg", e: -6, w: 3 }
+      { name: "µg", e: -6, w: 3, finAlignee: true }
     ],
-    note: "Entre le mg et le µg, l'écart vaut 3 rangs (comme pour un volume) : le µg occupe donc 3 cases."
+    note: "Le µg (10⁻⁶ g) est aligné à droite du groupe de 3 cases : seule cette dernière case vaut 1 µg. Les deux cases précédentes (plus claires) sont les dizaines et centaines de µg, sans nom d'usage."
   },
   {
     id: "longueurs",
@@ -47,9 +47,9 @@ const CATEGORIES = [
       { name: "dm", e: -1, w: 1 },
       { name: "cm", e: -2, w: 1 },
       { name: "mm", e: -3, w: 1 },
-      { name: "µm", e: -6, w: 3 }
+      { name: "µm", e: -6, w: 3, finAlignee: true }
     ],
-    note: "Entre le mm et le µm, l'écart vaut 3 rangs : le µm occupe donc 3 cases."
+    note: "Le µm (10⁻⁶ m) est aligné à droite du groupe de 3 cases : seule cette dernière case vaut 1 µm. Les deux cases précédentes (plus claires) sont les dizaines et centaines de µm, sans nom d'usage."
   },
   {
     id: "aires",
@@ -98,7 +98,11 @@ function construireCases(units) {
         unit: u.name,
         premiereDuGroupe: k === 0,
         largeurGroupe: u.w,
-        estReference: u.e === 0
+        estReference: u.e === 0,
+        // Pour un groupe "aligné à fin" (ex. µg/µm) seule la
+        // dernière case (k = w-1) vaut réellement 1 unité nommée ;
+        // les cases précédentes n'ont pas de nom d'usage.
+        estCaseNommee: !u.finAlignee || k === u.w - 1
       });
     }
   });
@@ -196,6 +200,7 @@ function construirePanneau(cat) {
     th.colSpan = u.w;
     th.textContent = u.name;
     if (u.e === 0) th.classList.add("unite-reference");
+    if (u.finAlignee) th.classList.add("unite-fin-alignee");
     trHead.appendChild(th);
   });
   thead.appendChild(trHead);
@@ -208,6 +213,7 @@ function construirePanneau(cat) {
     td.className = "chiffre";
     if (c.estReference) td.classList.add("reference");
     if (c.estReference && c.exp === 0) td.classList.add("virgule-apres");
+    if (!c.estCaseNommee) td.classList.add("case-sans-nom");
     td.dataset.exp = c.exp;
     td.textContent = "0";
     trBody.appendChild(td);

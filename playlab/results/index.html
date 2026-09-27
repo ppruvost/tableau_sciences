@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moyennes par automatisme — PlayLab</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top-bar">
+  <h1><span class="icon">📊</span> MOYENNES PAR AUTOMATISME</h1>
+  <div class="top-links">
+    <a href="../suivi/index.html" class="btn-link">Suivi en direct</a>
+    <a href="../index.html" class="btn-link">← Retour au PlayLab</a>
+  </div>
+</header>
+
+<section class="stat-cards">
+  <div class="stat-card">
+    <div class="stat-value" id="statEleves">0</div>
+    <div class="stat-label">👤 Élèves</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" id="statAutomatismes">0</div>
+    <div class="stat-label">🧩 Automatismes distincts</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" id="statTentatives">0</div>
+    <div class="stat-label">📝 Tentatives prises en compte</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" id="statMoyGen">–</div>
+    <div class="stat-label">🎯 Moyenne générale /10</div>
+  </div>
+</section>
+
+<section class="filters">
+  <div class="filter-group">
+    <label>ACTIVITÉ</label>
+    <select id="filterActivite">
+      <option value="">Toutes</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label>AUTOMATISME</label>
+    <select id="filterCode">
+      <option value="">Tous</option>
+    </select>
+  </div>
+  <div class="filter-group grow">
+    <label>NOM / PRÉNOM</label>
+    <input type="text" id="filterEleve" placeholder="Rechercher un élève…">
+  </div>
+  <div class="filter-group">
+    <label>DATE DÉBUT</label>
+    <input type="date" id="filterDateFrom">
+  </div>
+  <div class="filter-group">
+    <label>DATE FIN</label>
+    <input type="date" id="filterDateTo">
+  </div>
+  <div class="filter-group checkbox-group">
+    <label><input type="checkbox" id="autoRefresh" checked> ACTUALISATION AUTO (30 S)</label>
+  </div>
+  <button id="btnRefresh" class="btn-primary">🔄 Actualiser</button>
+  <button id="btnExport" class="btn-secondary">⬇️ Exporter en CSV</button>
+</section>
+
+<div id="loadingMsg" class="loading">Chargement des résultats…</div>
+<div id="errorMsg" class="error-msg" style="display:none;"></div>
+
+<section class="table-wrap">
+  <table id="resultsTable" style="display:none;">
+    <thead>
+      <tr>
+        <th data-sort="nom">Nom ▾</th>
+        <th data-sort="prenom">Prénom</th>
+        <th data-sort="code">Automatisme</th>
+        <th data-sort="intitule">Intitulé</th>
+        <th data-sort="tentatives">Tentatives</th>
+        <th data-sort="moyenne">Moyenne /10</th>
+        <th>Détail des scores</th>
+      </tr>
+    </thead>
+    <tbody id="resultsBody"></tbody>
+  </table>
+  <div id="emptyMsg" class="empty-msg" style="display:none;">Aucun résultat pour ces filtres.</div>
+</section>
+
+<footer class="foot-note">
+  Chaque ligne moyenne les tentatives d'un même élève sur un même automatisme (ex : plusieurs passages de A01 par le même élève ne comptent que pour une seule moyenne).
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

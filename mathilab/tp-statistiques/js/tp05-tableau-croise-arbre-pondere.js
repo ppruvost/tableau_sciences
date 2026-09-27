@@ -2,6 +2,8 @@
  * tp-statistiques/js/tp05-tableau-croise-arbre-pondere.js
  */
 import FILIERES_PRO from '../../data/filieres.js';
+import { demarrerPuzzle } from '../../js/puzzle-onglet.js';
+import { S5 as MODELE_PUZZLE } from './puzzle-statistiques.js';
 import { initContextePro, getFiliereSelectionnee } from '../../js/contexte-pro.js';
 import {regrouperEnClasses, classeModale, dessinerDiagrammeBarres, dessinerDiagrammeSecteurs } from '../../js/statistiques.js';
 import { initRadarCompetences } from '../../js/radar.js';
@@ -97,6 +99,8 @@ document.getElementById('select-filiere-pro')?.addEventListener('change', gererN
 
 initOngletsParFiliere();
 initContextePro({ filieres: FILIERES_PRO, contextes: CONTEXTES_S5 });
+
+  demarrerPuzzle(MODELE_PUZZLE);
 initTableauCroise();
 initArbrePondere();
 gererNiveauAffiche();

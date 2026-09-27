@@ -16,6 +16,8 @@ import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-algebre.js';
 import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 
+import { initPuzzle, CADRES, fmt, polynome } from './puzzle-algebre.js';
+
 const CONTEXTES_TD04 = {
   'tle-trpm': {
     contexte: "La température d'une pièce en refroidissement, ou l'usure d'un outil de coupe, suit une évolution exponentielle en fonction du temps.",
@@ -38,6 +40,78 @@ const CONTEXTES_TD04 = {
     problematique: "Au bout de combien de temps le stock de dossiers atteint-il un seuil donné ?",
   },
 };
+
+/* ============================================================
+   ACTIVITÉS PUZZLE — sujets A/B/C liés à la filière choisie
+   (mêmes clés que CONTEXTES_TD04). Chaque situation est modélisée
+   par la fraction restante à atteindre le seuil, sous la forme
+   x ↦ qˣ, avec 0 < q < 1 (évolution exponentielle décroissante).
+   ============================================================ */
+
+const PUZZLE_TD04 = {
+  'tle-trpm': {
+    q: 0.85, aB: 0.25, variable: 'minutes',
+    grandeur: 'l’écart de température restant entre la pièce et l’ambiante (en °C)',
+  },
+  'tle-tci': {
+    q: 0.80, aB: 0.20, variable: 'minutes',
+    grandeur: 'l’écart de température restant entre la pièce chaudronnée et l’ambiante (en °C)',
+  },
+  'tle-mcc': {
+    q: 0.75, aB: 0.10, variable: 'minutes',
+    grandeur: 'la proportion de teinture non encore absorbée par le tissu',
+  },
+  'tle-log': {
+    q: 0.90, aB: 0.15, variable: 'minutes',
+    grandeur: 'la proportion de la batterie restant à charger',
+  },
+  'tle-agora': {
+    q: 0.88, aB: 0.05, variable: 'jours',
+    grandeur: 'la proportion du stock de dossiers restant à traiter',
+  },
+};
+
+function construirePuzzleTD04(cle) {
+  const d = PUZZLE_TD04[cle];
+  if (!d) return null;
+  const cadre = CADRES[cle.split('-')[1]];
+  const { q, aB, variable, grandeur } = d;
+  const A = {
+    contexte: `${cadre}, on suit ${grandeur} : sa valeur est multipliée par ${fmt(q)} à chaque unité de temps (en ${variable}).`,
+    problematique: `Quelle fraction de la valeur initiale reste-t-il après 5, puis 10 ${variable}, et comment évolue-t-elle ?`,
+    questions: [
+      `Justifier que cette évolution est modélisée par la fonction f(x) = ${fmt(q)}^x.`,
+      `Calculer f(0), f(5) et f(10).`,
+      `Donner le sens de variation de f en justifiant (0 < q < 1).`,
+      `Représenter f graphiquement (calculatrice ou GeoGebra).`,
+      `Répondre à la problématique par une phrase.`],
+  };
+  const B = {
+    contexte: `${cadre}, un seuil d'alerte est fixé lorsque ${grandeur} n'est plus que ${fmt(aB * 100)} % de sa valeur initiale.`,
+    problematique: `Au bout de combien de ${variable} ce seuil est-il atteint ?`,
+    questions: [
+      `Écrire l'équation ${fmt(q)}^x = ${fmt(aB)} traduisant le seuil.`,
+      `Encadrer la solution à l'aide d'un tableau de valeurs (calculatrice).`,
+      `Affiner l'encadrement au dixième et justifier qu'il n'existe qu'une solution.`,
+      `Vérifier en calculant ${fmt(q)}^x pour la valeur trouvée.`,
+      `Répondre à la problématique par une phrase, avec l'unité.`],
+  };
+  const C = {
+    contexte: `${cadre}, on veut déterminer une durée exacte sans procéder par tâtonnements, en utilisant le logarithme décimal.`,
+    problematique: `Quelle durée faut-il pour que la valeur initiale de ${grandeur} soit divisée par deux, et comment la calculer avec le logarithme décimal ?`,
+    questions: [
+      `Rappeler la propriété log(a^x) = x × log(a).`,
+      `Appliquer le logarithme décimal aux deux membres de ${fmt(q)}^x = 0,5.`,
+      `Isoler x : x = log(0,5) / log(${fmt(q)}).`,
+      `Calculer x à la calculatrice et l'arrondir au dixième.`,
+      `Répondre à la problématique par une phrase, avec l'unité (${variable}).`],
+  };
+  return { A, B, C };
+}
+
+function initActivitesPuzzleTD04() {
+  initPuzzle(construirePuzzleTD04);
+}
 
 function formater(v) {
   return typeof v === 'number' ? v.toFixed(3) : v;
@@ -102,5 +176,6 @@ initOngletsParFiliere();
 initContextePro({ filieres: FILIERES_PRO, contextes: CONTEXTES_TD04 });
 initFonctionExponentielle();
 initFonctionLog();
+initActivitesPuzzleTD04();
 initRadarCompetences();
 initImpressionCompteRendu({ titre: 'Fonctions exponentielles et logarithme décimal', tp: 'TD04' });

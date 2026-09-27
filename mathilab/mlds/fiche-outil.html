@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fiche outil — MLDS Maths</title>
+
+<link rel="stylesheet" href="css/fiche-outil.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+<body>
+
+<div class="barre-actions">
+  <button type="button" onclick="window.close(); window.location.href='index.html';">
+    <i class="fa-solid fa-arrow-left"></i> Retour aux ateliers
+  </button>
+  <button type="button" onclick="window.print();">
+    <i class="fa-solid fa-print"></i> Imprimer la fiche
+  </button>
+</div>
+
+<header class="entete-fiche">
+  <h1><i class="fa-solid fa-life-ring"></i> Ma fiche outil — Calculer sans stress</h1>
+  <p>À garder sous la main pendant les ateliers... ou pour toutes les fois où tu adaptes une recette !</p>
+</header>
+
+<main class="fiche">
+
+  <!-- ====== PROPORTIONNALITÉ ====== -->
+  <section class="bloc-fiche prop">
+    <h2><i class="fa-solid fa-scale-balanced"></i> Adapter une quantité (proportionnalité)</h2>
+    <ol>
+      <li>Je repère la quantité de départ et pour combien de personnes/portions elle est prévue.</li>
+      <li>Je calcule <strong>« pour 1 »</strong> en divisant par le nombre de départ (si besoin).</li>
+      <li>Je multiplie ce résultat par le nouveau nombre de personnes/portions.</li>
+    </ol>
+    <div class="exemple">
+      <strong>Exemple :</strong> 1 portion de mug cake = 30 g de chocolat.<br>
+      Pour 3 portions : 30 g × 3 = <strong>90 g</strong> de chocolat.
+    </div>
+  </section>
+
+  <!-- ====== CONVERSIONS ====== -->
+  <section class="bloc-fiche conv">
+    <h2><i class="fa-solid fa-ruler-combined"></i> Convertir une unité</h2>
+    <table class="tableau-conversions">
+      <thead>
+        <tr><th>Grandeur</th><th>Relation</th><th>Exemple</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Masse</td><td>1 kg = 1000 g</td><td>0,5 kg = 500 g</td></tr>
+        <tr><td>Volume</td><td>1 L = 100 cl = 1000 ml</td><td>50 cl = 0,5 L</td></tr>
+        <tr><td>Temps</td><td>1 min = 60 s</td><td>1 min 30 = 90 s</td></tr>
+        <tr><td>Cuillères</td><td>1 c. à soupe = 3 c. à café</td><td>2 c.à.s = 6 c.à.c</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ====== POURCENTAGES ====== -->
+  <section class="bloc-fiche pct">
+    <h2><i class="fa-solid fa-percent"></i> Calculer un pourcentage d'une quantité</h2>
+    <div class="exemple">
+      <strong>Formule :</strong> (quantité × pourcentage) ÷ 100
+    </div>
+    <ol>
+      <li>Je multiplie la quantité par le pourcentage demandé.</li>
+      <li>Je divise le résultat par 100.</li>
+    </ol>
+    <div class="exemple">
+      <strong>Exemple :</strong> 20 % de 125 g de sucre → (125 × 20) ÷ 100 = <strong>25 g</strong>.<br>
+      Pour <em>réduire</em> : 125 g − 25 g = 100 g. Pour <em>augmenter</em> : 125 g + 25 g = 150 g.
+    </div>
+  </section>
+
+  <!-- ====== FRACTIONS ====== -->
+  <section class="bloc-fiche frac">
+    <h2><i class="fa-solid fa-mortar-pestle"></i> Repérer une fraction</h2>
+    <p>Une fraction, c'est une part d'un tout. Voici les plus courantes en cuisine :</p>
+
+    <div class="fractions-visuelles" aria-hidden="false">
+      <div class="fraction-item">
+        <div class="barre-fraction"><span style="flex:1"></span><span class="vide" style="flex:1"></span></div>
+        1/2 (la moitié)
+      </div>
+      <div class="fraction-item">
+        <div class="barre-fraction"><span style="flex:1"></span><span class="vide" style="flex:3"></span></div>
+        1/4 (le quart)
+      </div>
+      <div class="fraction-item">
+        <div class="barre-fraction"><span style="flex:1"></span><span class="vide" style="flex:2"></span></div>
+        1/3 (le tiers)
+      </div>
+      <div class="fraction-item">
+        <div class="barre-fraction"><span style="flex:2"></span><span class="vide" style="flex:1"></span></div>
+        2/3 (deux tiers)
+      </div>
+    </div>
+
+    <div class="exemple">
+      <strong>Astuce :</strong> une fraction a/b se lit « a parts sur b » : je divise le tout en b parts égales, puis j'en prends a.
+    </div>
+  </section>
+
+</main>
+
+</body>
+</html>

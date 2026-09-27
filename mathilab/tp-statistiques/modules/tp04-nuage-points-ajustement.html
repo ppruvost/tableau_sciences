@@ -401,116 +401,77 @@
       </a>
     </div>
 
-    <div class="fiche-puzzle" data-titre="Sport — entraînement et performance">
-
-      <h3>Fiche A — Sport : entraînement et performance</h3>
-
-      <p>On étudie la relation entre le temps d'entraînement hebdomadaire (en heures) et le temps mis pour courir un 10 km (en minutes), pour 10 coureurs :</p>
-
-      <div class="table-responsive">
-        <table class="tableau-resultats">
-          <thead><tr><th>Coureur</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th><th>I</th><th>J</th></tr></thead>
-          <tbody>
-            <tr><td>Entraînement (h)</td><td>2,5</td><td>4,0</td><td>1,5</td><td>3,0</td><td>5,0</td><td>3,5</td><td>2,0</td><td>4,5</td><td>1,0</td><td>3,8</td></tr>
-            <tr><td>Temps 10 km (min)</td><td>54</td><td>50</td><td>60</td><td>52</td><td>47</td><td>51</td><td>58</td><td>48</td><td>62</td><td>49</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <ol>
-        <li>Construire le nuage de points (x = temps d'entraînement, y = temps de course).</li>
-        <li>Déterminer l'équation de la droite d'ajustement affine et le coefficient de détermination R².</li>
-        <li>Estimer le temps de course pour un entraînement de 3,3 h.</li>
-      </ol>
-
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-      </div>
-
-      <div class="zone-eleve">
-        <textarea rows="6" placeholder="Réponses du groupe expert : équation de la droite, R², estimation..."></textarea>
-      </div>
-
+    <div class="sous-onglets" role="tablist">
+      <button class="sous-btn actif" data-sous="puzzle-sujet-a">Sujet A</button>
+      <button class="sous-btn" data-sous="puzzle-sujet-b">Sujet B</button>
+      <button class="sous-btn" data-sous="puzzle-sujet-c">Sujet C</button>
+      <button class="sous-btn" data-sous="puzzle-synthese-panel">Synthèse</button>
     </div>
-
-    <div class="fiche-puzzle" data-titre="Logistique — colis et temps de préparation">
-
-      <h3>Fiche B — Logistique : colis et temps de préparation</h3>
-
-      <p>Dans un entrepôt, on relève le nombre de colis par commande et le temps de préparation associé (en minutes) :</p>
-
-      <div class="table-responsive">
-        <table class="tableau-resultats">
-          <thead><tr><th>Commande</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th></tr></thead>
-          <tbody>
-            <tr><td>Nombre de colis</td><td>3</td><td>5</td><td>2</td><td>7</td><td>6</td><td>4</td><td>8</td><td>5</td></tr>
-            <tr><td>Temps (min)</td><td>6</td><td>10</td><td>5</td><td>14</td><td>13</td><td>8</td><td>15</td><td>11</td></tr>
-          </tbody>
-        </table>
+    <div class="sous-panel actif" id="puzzle-sujet-a">
+      <div class="fiche-puzzle" data-titre="Nuage de points">
+        <div class="questions-bloc" data-tp="puzzle-a">
+          <ol class="questions-tp"><li>
+            <div class="question-entete"><strong>Sujet A — Nuage de points</strong>
+              <span class="cartouche" data-comp="REA">REA</span></div>
+            <p class="info puzzle-contexte" id="puzzle-a-contexte"></p>
+            <p class="puzzle-problematique" id="puzzle-a-problematique"></p>
+            <ol id="puzzle-a-enonce" class="puzzle-questions"></ol>
+            <div class="form-row">
+              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+            </div>
+            <div class="zone-eleve"><textarea id="puzzle-a-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+          </li></ol>
+        </div>
       </div>
-
-      <ol>
-        <li>Construire le nuage de points (x = nombre de colis, y = temps de préparation).</li>
-        <li>Déterminer l'équation de la droite d'ajustement affine et le coefficient de détermination R².</li>
-        <li>Estimer le temps de préparation d'une commande de 10 colis (interpolation ou extrapolation ?).</li>
-      </ol>
-
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-      </div>
-
-      <div class="zone-eleve">
-        <textarea rows="6" placeholder="Réponses du groupe expert : équation de la droite, R², estimation..."></textarea>
-      </div>
-
     </div>
-
-    <div class="fiche-puzzle" data-titre="Couture — taille et consommation de tissu">
-
-      <h3>Fiche C — Couture : taille et consommation de tissu</h3>
-
-      <p>Dans un atelier de confection, on relève la taille de la cliente (en cm) et la quantité de tissu nécessaire pour une robe (en m) :</p>
-
-      <div class="table-responsive">
-        <table class="tableau-resultats">
-          <thead><tr><th>Taille (cm)</th><th>150</th><th>155</th><th>160</th><th>165</th><th>170</th><th>175</th><th>180</th></tr></thead>
-          <tbody><tr><td>Tissu (m)</td><td>2,2</td><td>2,3</td><td>2,4</td><td>2,5</td><td>2,6</td><td>2,7</td><td>2,8</td></tr></tbody>
-        </table>
+    <div class="sous-panel" id="puzzle-sujet-b">
+      <div class="fiche-puzzle" data-titre="Droite d’ajustement">
+        <div class="questions-bloc" data-tp="puzzle-b">
+          <ol class="questions-tp"><li>
+            <div class="question-entete"><strong>Sujet B — Droite d’ajustement</strong>
+              <span class="cartouche" data-comp="ANA">ANA</span></div>
+            <p class="info puzzle-contexte" id="puzzle-b-contexte"></p>
+            <p class="puzzle-problematique" id="puzzle-b-problematique"></p>
+            <ol id="puzzle-b-enonce" class="puzzle-questions"></ol>
+            <div class="form-row">
+              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+            </div>
+            <div class="zone-eleve"><textarea id="puzzle-b-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+          </li></ol>
+        </div>
       </div>
-
-      <ol>
-        <li>Construire le nuage de points (x = taille, y = quantité de tissu).</li>
-        <li>Déterminer l'équation de la droite d'ajustement affine et le coefficient de détermination R².</li>
-        <li>Interpoler la quantité de tissu pour une taille de 162 cm, puis extrapoler pour 185 cm.</li>
-      </ol>
-
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+    </div>
+    <div class="sous-panel" id="puzzle-sujet-c">
+      <div class="fiche-puzzle" data-titre="Interpoler / extrapoler">
+        <div class="questions-bloc" data-tp="puzzle-c">
+          <ol class="questions-tp"><li>
+            <div class="question-entete"><strong>Sujet C — Interpoler / extrapoler</strong>
+              <span class="cartouche" data-comp="VAL">VAL</span></div>
+            <p class="info puzzle-contexte" id="puzzle-c-contexte"></p>
+            <p class="puzzle-problematique" id="puzzle-c-problematique"></p>
+            <ol id="puzzle-c-enonce" class="puzzle-questions"></ol>
+            <div class="form-row">
+              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+            </div>
+            <div class="zone-eleve"><textarea id="puzzle-c-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+          </li></ol>
+        </div>
       </div>
-
-      <div class="zone-eleve">
-        <textarea rows="6" placeholder="Réponses du groupe expert : équation de la droite, R², interpolation, extrapolation..."></textarea>
+    </div>
+    <div class="sous-panel" id="puzzle-synthese-panel">
+      <div class="info">En groupe mélangé, comparer les trois étapes : allure du nuage, qualité de l’ajustement, fiabilité des prévisions. Dans quel cas peut-on faire confiance à une extrapolation ?</div>
+      <div class="questions-bloc" data-tp="puzzle-synthese">
+      <ol class="questions-tp"><li>
+        <div class="question-entete"><strong>Synthèse — Réponse commune à la problématique</strong>
+          <span class="cartouche" data-comp="COM">COM</span></div>
+        <p class="problematique-rappel"></p>
+        <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs et différences entre les sujets, réponse argumentée..."></textarea></div>
+      </li></ol>
       </div>
-
     </div>
-
-    <h3 style="margin-top:var(--gap-lg);">Synthèse puzzle (séance 2)</h3>
-
-    <div class="info">
-      En groupe mélangé, comparer les trois ajustements obtenus : dans
-      quel contexte le modèle affine est-il le plus fiable (R² le plus
-      proche de 1) ? La méthode utilisée était-elle la même dans les
-      trois cas ?
-    </div>
-
-    <div class="zone-eleve">
-      <textarea id="puzzle-synthese" rows="6" placeholder="Synthèse commune : comparaison des trois ajustements, méthode partagée..."></textarea>
-    </div>
-
-  </div>
 
 </div>
 

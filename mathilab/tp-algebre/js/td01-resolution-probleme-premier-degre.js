@@ -72,6 +72,50 @@ const CONTEXTES_TD01 = {
 };
 
 /* ============================================================
+   ACTIVITÉS PUZZLE — sujets A/B/C liés à la filière choisie
+   (mêmes clés que CONTEXTES_TD01)
+   ============================================================ */
+
+const PUZZLE_TD01 = {
+  '2nde-remi': {
+    unite: 'la durée de l’intervention (en heures)',
+    ficheA: { a: 25, b: 15, cible: 190,
+      contexte: "Un technicien de maintenance facture 15 € de déplacement, puis 25 € par heure d'intervention sur une machine de l'atelier.",
+      problematique: "Un client a réglé une facture de 190 € : combien d'heures le technicien a-t-il travaillé ?" },
+    ficheB: { a: 25, b: 15, budget: 150,
+      contexte: "Le service maintenance dispose d'un budget maximal de 150 € pour dépanner une machine, avec la même tarification (15 € de déplacement + 25 € par heure).",
+      problematique: "Quelle durée d'intervention maximale peut-on commander sans dépasser ce budget ?" },
+    ficheC: { a1: 25, b1: 15, a2: 20, b2: 30,
+      contexte: "Deux entreprises proposent d'intervenir sur une machine : la première facture 15 € + 25 € par heure, la seconde 30 € + 20 € par heure.",
+      problematique: "Quelle entreprise faut-il choisir selon la durée d'intervention prévue ?" },
+  },
+  '2nde-mcc': {
+    unite: 'le nombre de pièces contrôlées',
+    ficheA: { a: 15, b: 40, cible: 190,
+      contexte: "Un atelier de confection facture un forfait de 40 € de mise en route, puis 15 € par pièce contrôlée.",
+      problematique: "Une facture de 190 € a été émise : combien de pièces ont été contrôlées ?" },
+    ficheB: { a: 15, b: 40, budget: 160,
+      contexte: "Une commande de contrôle qualité ne doit pas dépasser 160 € (40 € de forfait + 15 € par pièce).",
+      problematique: "Combien de pièces peut-on faire contrôler au maximum ?" },
+    ficheC: { a1: 15, b1: 40, a2: 12, b2: 55,
+      contexte: "Deux ateliers proposent le contrôle des pièces : le premier facture 40 € + 15 € par pièce, le second 55 € + 12 € par pièce.",
+      problematique: "Quel atelier choisir selon le nombre de pièces à contrôler ?" },
+  },
+  '2nde-gatl': {
+    unite: 'la distance parcourue (en km)',
+    ficheA: { a: 1.2, b: 60, cible: 300,
+      contexte: "Un transporteur facture 60 € de prise en charge, puis 1,2 € par kilomètre parcouru.",
+      problematique: "Une facture de 300 € a été payée : quelle distance a été parcourue ?" },
+    ficheB: { a: 1.2, b: 60, budget: 250,
+      contexte: "Le budget transport d'une livraison est limité à 250 € (60 € de prise en charge + 1,2 € par km).",
+      problematique: "Quelle distance maximale peut-on parcourir sans dépasser ce budget ?" },
+    ficheC: { a1: 1.2, b1: 60, a2: 1.5, b2: 40,
+      contexte: "Deux transporteurs sont consultés : le premier facture 60 € + 1,2 € par km, le second 40 € + 1,5 € par km.",
+      problematique: "Quel transporteur choisir selon la distance à parcourir ?" },
+  },
+};
+
+/* ============================================================
    PROBLÈMES DE MISE EN ÉQUATION (onglet 4)
    ============================================================ */
 
@@ -628,6 +672,72 @@ function initOngletProbleme() {
 }
 
 /* ============================================================
+   ACTIVITÉS PUZZLE — rendu dynamique selon la filière choisie
+   ============================================================ */
+
+function rendreActivitesPuzzleTD01(cle) {
+  const sujet = cle ? PUZZLE_TD01[cle] : null;
+  const info = document.getElementById('puzzle-info');
+  const cote = (a, b) => `${texteCoefficient(a)}${texteConstanteSignee(b)}`;
+  const f = formaterNombre;
+
+  ['a', 'b', 'c'].forEach(l => {
+    ['contexte', 'problematique', 'enonce'].forEach(k => {
+      const el = document.getElementById(`puzzle-${l}-${k}`);
+      if (el) el.innerHTML = '';
+    });
+  });
+  if (!sujet) { if (info) info.hidden = false; return; }
+  if (info) info.textContent = "Chaque sujet (A, B, C) a son propre contexte et sa propre problématique : 4 questions pour progresser, puis une 5e question pour répondre à la problématique.";
+
+  const { unite } = sujet;
+  const A = sujet.ficheA, B = sujet.ficheB, C = sujet.ficheC;
+  const defs = {
+    a: [A, [
+      `Définir l'inconnue x (${unite}) et écrire l'expression du coût total en fonction de x.`,
+      `Traduire la situation par l'équation ${cote(A.a, A.b)} = ${f(A.cible)}.`,
+      `Résoudre cette équation en détaillant chaque étape.`,
+      `Vérifier la solution en calculant le coût total pour cette valeur de x.`,
+      `Répondre à la problématique par une phrase, avec l'unité.`]],
+    b: [B, [
+      `Définir l'inconnue x (${unite}) et écrire l'expression du coût total en fonction de x.`,
+      `Traduire la contrainte de budget par l'inéquation ${cote(B.a, B.b)} ⩽ ${f(B.budget)}.`,
+      `Résoudre cette inéquation en détaillant chaque étape.`,
+      `Exprimer l'ensemble des solutions sous forme d'intervalle de ℝ, sachant que x ≥ 0.`,
+      `Répondre à la problématique par une phrase, avec l'unité.`]],
+    c: [C, [
+      `Écrire le coût de chaque offre en fonction de x (${unite}) : ${cote(C.a1, C.b1)} et ${cote(C.a2, C.b2)}.`,
+      `Écrire puis résoudre l'équation traduisant l'égalité des deux coûts.`,
+      `Calculer les deux coûts pour une valeur de x inférieure, puis supérieure à la solution trouvée.`,
+      `En déduire, selon la valeur de x, l'offre la moins chère.`,
+      `Répondre à la problématique par une recommandation argumentée.`]],
+  };
+  Object.entries(defs).forEach(([l, [fiche, qs]]) => {
+    document.getElementById(`puzzle-${l}-contexte`).textContent = fiche.contexte;
+    document.getElementById(`puzzle-${l}-problematique`).innerHTML = `<strong>Problématique :</strong> ${fiche.problematique}`;
+    document.getElementById(`puzzle-${l}-enonce`).innerHTML = qs.map(q => `<li>${q}</li>`).join('');
+  });
+}
+
+function initSousOngletsPuzzleTD01() {
+  const barre = document.querySelector('#activites-puzzle .sous-onglets');
+  if (!barre) return;
+  const panneau = document.getElementById('activites-puzzle');
+  barre.querySelectorAll('.sous-btn').forEach(btn => btn.addEventListener('click', () => {
+    barre.querySelectorAll('.sous-btn').forEach(x => x.classList.toggle('actif', x === btn));
+    panneau.querySelectorAll('.sous-panel').forEach(p => p.classList.toggle('actif', p.id === btn.dataset.sous));
+  }));
+}
+
+function initActivitesPuzzleTD01() {
+  initSousOngletsPuzzleTD01();
+  const select = document.getElementById('select-filiere-pro');
+  if (!select) return;
+  select.addEventListener('change', () => rendreActivitesPuzzleTD01(select.value || null));
+  rendreActivitesPuzzleTD01(select.value || null);
+}
+
+/* ============================================================
    INITIALISATION
    ============================================================ */
 
@@ -644,6 +754,7 @@ function initialiserTD01() {
   initGenerateurIntervalle();
   initQuizIntervalles();
   initOngletProbleme();
+  initActivitesPuzzleTD01();
 
   initRadarCompetences();
 

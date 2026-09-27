@@ -129,6 +129,7 @@
         <button class="tab-btn" data-tab="ar-comparer">1ère · Comparer deux évolutions</button>
         <button class="tab-btn" data-tab="geo-etudier">Tle · Étudier une suite géométrique</button>
         <button class="tab-btn" data-tab="geo-comparer">Tle · Comparer deux évolutions</button>
+        <button class="tab-btn" data-tab="activites-puzzle">🧩 Activités Puzzle</button>
       </div>
 
           <div class="tab-panel actif" id="ar-etudier">
@@ -347,6 +348,86 @@
 
           </div>
 
+          <!-- ---------- ACTIVITÉS PUZZLE ---------- -->
+          <div class="tab-panel" id="activites-puzzle">
+        <h3>Activités Puzzle</h3>
+        <div id="puzzle-info" class="info">
+          Sélectionner votre filière professionnelle dans la section « Contexte
+          professionnel » ci-dessus pour afficher les trois sujets.
+        </div>
+        <div class="sous-onglets" role="tablist">
+          <button class="sous-btn actif" data-sous="puzzle-sujet-a">Sujet A</button>
+          <button class="sous-btn" data-sous="puzzle-sujet-b">Sujet B</button>
+          <button class="sous-btn" data-sous="puzzle-sujet-c">Sujet C</button>
+          <button class="sous-btn" data-sous="puzzle-synthese-panel">Synthèse</button>
+        </div>
+        <div class="sous-panel actif" id="puzzle-sujet-a">
+          <div class="fiche-puzzle" data-titre="Suite arithmétique">
+            <div class="questions-bloc" data-tp="puzzle-a">
+              <ol class="questions-tp"><li>
+                <div class="question-entete"><strong>Sujet A — Suite arithmétique</strong>
+                  <span class="cartouche" data-comp="REA">REA</span></div>
+                <p class="info puzzle-contexte" id="puzzle-a-contexte"></p>
+                <p class="puzzle-problematique" id="puzzle-a-problematique"></p>
+                <ol id="puzzle-a-enonce" class="puzzle-questions"></ol>
+                <div class="form-row">
+                  <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                  <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+                </div>
+                <div class="zone-eleve"><textarea id="puzzle-a-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+              </li></ol>
+            </div>
+          </div>
+        </div>
+        <div class="sous-panel" id="puzzle-sujet-b">
+          <div class="fiche-puzzle" data-titre="Suite géométrique">
+            <div class="questions-bloc" data-tp="puzzle-b">
+              <ol class="questions-tp"><li>
+                <div class="question-entete"><strong>Sujet B — Suite géométrique</strong>
+                  <span class="cartouche" data-comp="ANA">ANA</span></div>
+                <p class="info puzzle-contexte" id="puzzle-b-contexte"></p>
+                <p class="puzzle-problematique" id="puzzle-b-problematique"></p>
+                <ol id="puzzle-b-enonce" class="puzzle-questions"></ol>
+                <div class="form-row">
+                  <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                  <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+                </div>
+                <div class="zone-eleve"><textarea id="puzzle-b-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+              </li></ol>
+            </div>
+          </div>
+        </div>
+        <div class="sous-panel" id="puzzle-sujet-c">
+          <div class="fiche-puzzle" data-titre="Comparer deux évolutions">
+            <div class="questions-bloc" data-tp="puzzle-c">
+              <ol class="questions-tp"><li>
+                <div class="question-entete"><strong>Sujet C — Comparer deux évolutions</strong>
+                  <span class="cartouche" data-comp="VAL">VAL</span></div>
+                <p class="info puzzle-contexte" id="puzzle-c-contexte"></p>
+                <p class="puzzle-problematique" id="puzzle-c-problematique"></p>
+                <ol id="puzzle-c-enonce" class="puzzle-questions"></ol>
+                <div class="form-row">
+                  <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                  <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+                </div>
+                <div class="zone-eleve"><textarea id="puzzle-c-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+              </li></ol>
+            </div>
+          </div>
+        </div>
+        <div class="sous-panel" id="puzzle-synthese-panel">
+          <div class="info">En groupe mélangé, chaque expert présente son sujet aux autres. Comparer les trois situations et rédiger une réponse commune.</div>
+          <div class="questions-bloc" data-tp="puzzle-synthese">
+          <ol class="questions-tp"><li>
+            <div class="question-entete"><strong>Synthèse — Réponse commune à la problématique</strong>
+              <span class="cartouche" data-comp="COM">COM</span></div>
+            <p class="problematique-rappel"></p>
+            <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs et différences entre les sujets, réponse argumentée..."></textarea></div>
+          </li></ol>
+          </div>
+        </div>
+      </div>
+
     </div>
 
   </div>
@@ -402,76 +483,6 @@
       <li>La <strong>raison q</strong> d'une suite géométrique correspond au coefficient multiplicateur appliqué à chaque période.</li>
       <li>La <strong>somme des n premiers termes</strong> permet de connaître un cumul (production totale, capital cumulé...) sur n périodes.</li>
     </ul>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="puzzle">
-
-  <div class="section-titre">
-    <div class="picto-section">🧩</div>
-    <h2>Activités Puzzle</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="toolbar">
-      <a class="btn btn-secondaire" href="../../numworks/emulator.html" target="_blank" rel="noopener">
-        🧮 Ouvrir la calculatrice NumWorks
-      </a>
-    </div>
-
-    <div class="info">
-      Situation étudiée — une machine produit 500 pièces le premier jour.
-    </div>
-
-    <div class="fiche-puzzle" data-titre="Évolution à variation constante (1ère)">
-      <h3>Fiche A — Si la production augmente de 20 pièces chaque jour</h3>
-      <ol>
-        <li>Modéliser la production par une suite arithmétique : donner u0 et r.</li>
-        <li>Calculer la production du 10ème jour et la production cumulée sur 10 jours.</li>
-      </ol>
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-      </div>
-      <div class="zone-eleve"><textarea rows="6" placeholder="Réponses du groupe expert : u0, r, production du 10ème jour, cumul..."></textarea></div>
-    </div>
-
-    <div class="fiche-puzzle" data-titre="Évolution à taux fixe (Tle)">
-      <h3>Fiche B — Si la production augmente de 4 % chaque jour</h3>
-      <ol>
-        <li>Modéliser la production par une suite géométrique : donner u0 et q.</li>
-        <li>Calculer la production du 10ème jour et la production cumulée sur 10 jours.</li>
-      </ol>
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-      </div>
-      <div class="zone-eleve"><textarea rows="6" placeholder="Réponses du groupe expert : u0, q, production du 10ème jour, cumul..."></textarea></div>
-    </div>
-
-    <div class="fiche-puzzle" data-titre="Comparer les deux modèles">
-      <h3>Fiche C — Comparer les deux modèles d'évolution</h3>
-      <ol>
-        <li>Comparer les deux productions cumulées sur 10 jours (fiches A et B).</li>
-        <li>Laquelle des deux évolutions devient la plus favorable à long terme ? Pourquoi ?</li>
-      </ol>
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-      </div>
-      <div class="zone-eleve"><textarea rows="6" placeholder="Réponses du groupe expert : comparaison, conclusion..."></textarea></div>
-    </div>
-
-    <h3 style="margin-top:var(--gap-lg);">Synthèse puzzle</h3>
-    <div class="info">
-      En groupe mélangé, rassembler les résultats des trois fiches pour comparer
-      les deux types de modélisation.
-    </div>
-    <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Synthèse commune : suite arithmétique, suite géométrique, comparaison..."></textarea></div>
 
   </div>
 

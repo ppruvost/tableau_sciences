@@ -456,3 +456,40 @@ const MEMORY_ROUNDS = [
 
 if (typeof window !== "undefined") window.MEMORY_ROUNDS = MEMORY_ROUNDS;
 if (typeof module !== "undefined") module.exports = MEMORY_ROUNDS;
+
+// --- Rendu partagé d'une scène (utilisé par l'écran animateur ET par le téléphone élève,
+//     pour garantir que les deux affichent exactement la même image) ---
+const MemoryRender = {
+  buildItemEl(item) {
+    const wrap = document.createElement("div");
+    wrap.className = "item pulse";
+    if (item.type === "shape") {
+      const el = document.createElement("div");
+      el.className = `shape shape-color-fill ${item.shape} color-${item.color}`;
+      const scale = item.scale || 1;
+      const rotate = item.rotate || 0;
+      const baseRotate = item.shape === "losange" ? 45 : 0;
+      el.style.transform = `scale(${scale}) rotate(${baseRotate + rotate}deg)`;
+      wrap.appendChild(el);
+    } else if (item.type === "animal") {
+      const el = document.createElement("div");
+      el.className = "emoji";
+      el.textContent = item.emoji;
+      el.style.transform = `scale(${item.scale || 1})`;
+      wrap.appendChild(el);
+    } else if (item.type === "number") {
+      const el = document.createElement("div");
+      el.className = "number-chip" + (item.changed ? " changed" : "");
+      el.textContent = item.value;
+      wrap.appendChild(el);
+    }
+    return wrap;
+  },
+  renderStage(stageEl, items) {
+    if (!stageEl) return;
+    stageEl.classList.remove("blackout");
+    stageEl.innerHTML = "";
+    items.forEach(it => stageEl.appendChild(this.buildItemEl(it)));
+  }
+};
+if (typeof window !== "undefined") window.MemoryRender = MemoryRender;

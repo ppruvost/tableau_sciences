@@ -422,97 +422,77 @@
 
   <div class="section-corps">
 
-    <div class="fiche-puzzle" data-titre="Temps d'utilisation d'une machine">
-
-      <h3>Fiche A — Temps d'utilisation d'une machine</h3>
-
-      <p>Une entreprise suit l'utilisation d'une machine de production sur une semaine. On relève le nombre d'heures d'utilisation par jour :</p>
-
-      <div class="table-responsive">
-        <table class="tableau-resultats">
-          <thead><tr><th>Jour</th><th>Lundi</th><th>Mardi</th><th>Mercredi</th><th>Jeudi</th><th>Vendredi</th></tr></thead>
-          <tbody><tr><td>Heures</td><td>6</td><td>8</td><td>7</td><td>5</td><td>9</td></tr></tbody>
-        </table>
-      </div>
-
-      <ol>
-        <li>Calculer la durée totale et la durée moyenne d'utilisation par jour.</li>
-        <li>Construire le diagramme en bâtons de cette série.</li>
-        <li>Identifier le jour le plus et le moins utilisé.</li>
-      </ol>
-
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-      </div>
-
-      <div class="zone-eleve">
-        <textarea rows="6" placeholder="Réponses du groupe expert : durée totale, durée moyenne, jour le plus/moins utilisé, description du diagramme..."></textarea>
-      </div>
-
+    <div class="sous-onglets" role="tablist">
+      <button class="sous-btn actif" data-sous="puzzle-sujet-a">Sujet A</button>
+      <button class="sous-btn" data-sous="puzzle-sujet-b">Sujet B</button>
+      <button class="sous-btn" data-sous="puzzle-sujet-c">Sujet C</button>
+      <button class="sous-btn" data-sous="puzzle-synthese-panel">Synthèse</button>
     </div>
-
-    <div class="fiche-puzzle" data-titre="Absences des employés">
-
-      <h3>Fiche B — Suivi des absences des employés</h3>
-
-      <p>Une entreprise analyse les absences de ses 20 employés sur le mois dernier. Nombre d'absences (en jours) de chaque employé :</p>
-
-      <p style="font-family:monospace;">0, 1, 0, 2, 1, 3, 0, 2, 1, 0, 2, 0, 1, 0, 2, 3, 1, 0, 1, 2</p>
-
-      <ol>
-        <li>Organiser ces données dans un tableau de fréquences (nombre de jours d'absence, effectif, fréquence en %).</li>
-        <li>Calculer le nombre total d'absences et le nombre moyen d'absences par employé.</li>
-        <li>Identifier le nombre d'absences le plus fréquent (le mode), et construire un diagramme en secteurs.</li>
-      </ol>
-
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+    <div class="sous-panel actif" id="puzzle-sujet-a">
+      <div class="fiche-puzzle" data-titre="Temps d’utilisation d’une machine">
+        <div class="questions-bloc" data-tp="puzzle-a">
+          <ol class="questions-tp"><li>
+            <div class="question-entete"><strong>Sujet A — Temps d’utilisation d’une machine</strong>
+              <span class="cartouche" data-comp="REA">REA</span></div>
+            <p class="info puzzle-contexte" id="puzzle-a-contexte"></p>
+            <p class="puzzle-problematique" id="puzzle-a-problematique"></p>
+            <ol id="puzzle-a-enonce" class="puzzle-questions"></ol>
+            <div class="form-row">
+              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+            </div>
+            <div class="zone-eleve"><textarea id="puzzle-a-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+          </li></ol>
+        </div>
       </div>
-
-      <div class="zone-eleve">
-        <textarea rows="6" placeholder="Réponses du groupe : tableau de fréquences, total, moyenne, mode, description du diagramme en secteurs..."></textarea>
+    </div>
+    <div class="sous-panel" id="puzzle-sujet-b">
+      <div class="fiche-puzzle" data-titre="Absences des employés">
+        <div class="questions-bloc" data-tp="puzzle-b">
+          <ol class="questions-tp"><li>
+            <div class="question-entete"><strong>Sujet B — Absences des employés</strong>
+              <span class="cartouche" data-comp="ANA">ANA</span></div>
+            <p class="info puzzle-contexte" id="puzzle-b-contexte"></p>
+            <p class="puzzle-problematique" id="puzzle-b-problematique"></p>
+            <ol id="puzzle-b-enonce" class="puzzle-questions"></ol>
+            <div class="form-row">
+              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+            </div>
+            <div class="zone-eleve"><textarea id="puzzle-b-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+          </li></ol>
+        </div>
       </div>
-
     </div>
-
-    <div class="fiche-puzzle" data-titre="Enquête taille des élèves — regroupement en classes">
-
-      <h3>Fiche C — Enquête taille des élèves (regroupement en classes)</h3>
-
-      <p>Une enquête a mesuré la taille (en cm) de 20 élèves de 15 à 17 ans :</p>
-
-      <p style="font-family:monospace;">173, 169, 174, 179, 169, 166, 179, 172, 166, 172, 170, 170, 175, 162, 169, 169, 162, 175, 164, 171</p>
-
-      <ol>
-        <li>Regrouper cette série en 4 classes de même amplitude (par exemple à partir de 162 cm).</li>
-        <li>Compléter un tableau classes / effectifs / fréquences.</li>
-        <li>Construire le diagramme en colonnes correspondant.</li>
-      </ol>
-
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+    <div class="sous-panel" id="puzzle-sujet-c">
+      <div class="fiche-puzzle" data-titre="Enquête taille des élèves">
+        <div class="questions-bloc" data-tp="puzzle-c">
+          <ol class="questions-tp"><li>
+            <div class="question-entete"><strong>Sujet C — Enquête taille des élèves</strong>
+              <span class="cartouche" data-comp="VAL">VAL</span></div>
+            <p class="info puzzle-contexte" id="puzzle-c-contexte"></p>
+            <p class="puzzle-problematique" id="puzzle-c-problematique"></p>
+            <ol id="puzzle-c-enonce" class="puzzle-questions"></ol>
+            <div class="form-row">
+              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+            </div>
+            <div class="zone-eleve"><textarea id="puzzle-c-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+          </li></ol>
+        </div>
       </div>
-
-      <div class="zone-eleve">
-        <textarea rows="6" placeholder="Réponses du groupe expert : classes choisies, tableau des effectifs, description du diagramme en colonnes..."></textarea>
+    </div>
+    <div class="sous-panel" id="puzzle-synthese-panel">
+      <div class="info">En groupe mélangé, chaque expert présente son sujet aux autres. Comparer les trois façons de représenter une série (bâtons, secteurs, histogramme) : laquelle convient le mieux à chaque type de données ?</div>
+      <div class="questions-bloc" data-tp="puzzle-synthese">
+      <ol class="questions-tp"><li>
+        <div class="question-entete"><strong>Synthèse — Réponse commune à la problématique</strong>
+          <span class="cartouche" data-comp="COM">COM</span></div>
+        <p class="problematique-rappel"></p>
+        <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs et différences entre les sujets, réponse argumentée..."></textarea></div>
+      </li></ol>
       </div>
-
     </div>
-
-    <h3 style="margin-top:var(--gap-lg);">Synthèse puzzle</h3>
-
-    <div class="info">
-      En groupe mélangé, chaque expert présente sa fiche aux autres. Comparer les trois façons de représenter une série (bâtons, secteurs, colonnes) : laquelle convient le mieux à chaque type de données ?
-    </div>
-
-    <div class="zone-eleve">
-      <textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs et différences entre les fiches..."></textarea>
-    </div>
-
-  </div>
 
 </div>
 

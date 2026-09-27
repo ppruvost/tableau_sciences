@@ -14,6 +14,8 @@ import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-algorithme.js';
 import { initBoutonsPyLab } from '../../js/pylab.js';
 
+import { demarrerPuzzle } from '../../js/puzzle-onglet.js';
+import { A4 } from './puzzle-algorithme.js';
 const CONTEXTES_PRO = {
   '2nde-remi': {
     contexte: "En atelier de réalisation mécanique, une pièce ou un procédé peuvent se modéliser par une fonction (coût, dimension) ; un investissement ou une facture d'achat de matière nécessite un calcul d'intérêt ou de remise.",
@@ -74,6 +76,8 @@ export function init() {
     filieres: FILIERES_PRO,
     contextes: CONTEXTES_PRO,
   });
+
+  demarrerPuzzle(A4);
   initBoutonsPyLab('.btn-pylab');
   initSections();
   initTabs();

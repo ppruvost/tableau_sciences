@@ -208,6 +208,16 @@ table.conversion thead th.unite-reference {
   color: #fff;
 }
 
+table.conversion thead th.unite-fin-alignee {
+  text-align: right;
+  padding-right: 10px;
+}
+
+td.chiffre.case-sans-nom {
+  color: var(--texte-clair);
+  background: #FAFAFB;
+}
+
 td.chiffre {
   width: 42px;
   height: 54px;

@@ -14,12 +14,6 @@
     screens[name].classList.add("active");
   }
 
-  // --- QR code vers la page élève (même dossier) ---
-  const eleveUrl = new URL("eleve.html", window.location.href).href;
-  document.getElementById("eleve-url-note").textContent = eleveUrl;
-  /* global QRCode */
-  new QRCode(document.getElementById("qrcode"), { text: eleveUrl, width: 180, height: 180 });
-
   // --- Petit utilitaire de mélange (Fisher-Yates) ---
   function shuffle(arr) {
     const a = [...arr];
@@ -60,37 +54,25 @@
     startRound(0);
   });
 
-  function buildItemEl(item) {
-    const wrap = document.createElement("div");
-    wrap.className = "item pulse";
-    if (item.type === "shape") {
-      const el = document.createElement("div");
-      el.className = `shape shape-color-fill ${item.shape} color-${item.color}`;
-      const scale = item.scale || 1;
-      const rotate = item.rotate || 0;
-      const baseRotate = item.shape === "losange" ? 45 : 0;
-      el.style.transform = `scale(${scale}) rotate(${baseRotate + rotate}deg)`;
-      wrap.appendChild(el);
-    } else if (item.type === "animal") {
-      const el = document.createElement("div");
-      el.className = "emoji";
-      el.textContent = item.emoji;
-      el.style.transform = `scale(${item.scale || 1})`;
-      wrap.appendChild(el);
-    } else if (item.type === "number") {
-      const el = document.createElement("div");
-      el.className = "number-chip" + (item.changed ? " changed" : "");
-      el.textContent = item.value;
-      wrap.appendChild(el);
-    }
-    return wrap;
+  // --- QR code vers la page élève (même dossier) ---
+  // Isolé dans un try/catch et placé APRÈS le branchement des boutons ci-dessus :
+  // si la librairie QRCode (chargée depuis un CDN externe) ne s'est pas chargée
+  // à temps (réseau coupé/filtré, cache, etc.), le reste de la page — et surtout
+  // le bouton "DÉMARRER LA SÉANCE" — continue de fonctionner normalement.
+  try {
+    const eleveUrl = new URL("eleve.html", window.location.href).href;
+    document.getElementById("eleve-url-note").textContent = eleveUrl;
+    /* global QRCode */
+    if (typeof QRCode === "undefined") throw new Error("Librairie QRCode non chargée");
+    new QRCode(document.getElementById("qrcode"), { text: eleveUrl, width: 180, height: 180 });
+  } catch (e) {
+    console.error("QR code indisponible :", e);
+    const qrEl = document.getElementById("qrcode");
+    if (qrEl) qrEl.textContent = "QR code indisponible (vérifiez la connexion). Donnez l'adresse eleve.html à la classe.";
   }
 
   function renderStage(items) {
-    const stage = document.getElementById("stage");
-    stage.classList.remove("blackout");
-    stage.innerHTML = "";
-    items.forEach(it => stage.appendChild(buildItemEl(it)));
+    MemoryRender.renderStage(document.getElementById("stage"), items);
   }
 
   function startRound(index) {
@@ -98,7 +80,11 @@
     const r = rounds[index];
     clearInterval(pollInterval);
     showScreen("jeu");
-    memorySetSessionRound(r.id); // synchronise automatiquement tous les téléphones
+    // NB : on NE synchronise PAS les téléphones ici. Si on le faisait maintenant,
+    // memory-eleve.js afficherait le QCM instantanément sur les portables — pendant
+    // que le vidéoprojecteur n'affiche encore que la phase de mémorisation (avant
+    // même l'écran noir et la révélation). Les téléphones sont synchronisés plus bas,
+    // uniquement au moment où les choix apparaissent réellement à l'écran.
     document.getElementById("btn-start").disabled = false;
     document.getElementById("btn-start").textContent = "▶ DÉMARRER LA SÉANCE";
     document.getElementById("tag-block").textContent = r.block;
@@ -120,6 +106,7 @@
         document.getElementById("blackout-note").style.display = "none";
         renderStage(r.modified);
         document.getElementById("zone-choix").style.display = "block";
+        memorySetSessionRound(r.id); // synchronise les téléphones seulement maintenant, en même temps que les choix apparaissent à l'écran
         const grid = document.getElementById("choices-grid");
         grid.innerHTML = "";
         // Mélange l'ordre d'affichage — la bonne réponse ne doit jamais être systématiquement au même endroit

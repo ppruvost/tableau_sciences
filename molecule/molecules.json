@@ -229,6 +229,22 @@
   "structure": "28\nmethyl red initial structure\nC       0.0000    1.4000    0.0000\nC       1.2000    0.7000    0.0000\nC       1.2000   -0.7000    0.0000\nC       0.0000   -1.4000    0.0000\nC      -1.2000   -0.7000    0.0000\nC      -1.2000    0.7000    0.0000\nN       2.4000    0.0000    0.0000\nN       3.6000    0.0000    0.0000\nC       4.8000    0.0000    0.0000\nC       6.0000    0.7000    0.0000\nC       6.0000   -0.7000    0.0000\nC       7.2000    0.0000    0.0000\nC       8.4000    0.7000    0.0000\nC       8.4000   -0.7000    0.0000\nC       9.6000    0.0000    0.0000\nO       9.6000    1.2000    0.0000\nO       9.6000   -1.2000    0.0000\nN       2.4000    1.2000    0.0000\nC       3.6000    1.9000    0.0000\nC       4.8000    2.6000    0.0000\nH       4.8000    3.6000    0.0000\nH       4.8000    2.6000    1.0900\nH       3.6000    1.9000    1.0900\nH       6.0000    1.8000    0.0000\nH       6.0000   -1.8000    0.0000\nH       8.4000    1.8000    0.0000\nH       8.4000   -1.8000    0.0000\n"
 },
   {
+  "nom": "sulfate de cuivre(II)",
+  "aliases": ["CuSO4", "copper(II) sulfate", "copper sulfate", "sulfate de cuivre"],
+  "formule": "CuO4S",
+  "masse": 159.607,
+  "_comment": "composé ionique : Cu2+ représenté séparé du tétraèdre SO4^2- (pas de liaison covalente Cu-O), conforme à la représentation usuelle du sulfate de cuivre",
+  "structure": "6\nCuSO4 ionic pair\nCu      0.0000    0.0000    0.0000\nS       3.0000    0.0000    0.0000\nO       3.8600    0.8600    0.8600\nO       3.8600   -0.8600   -0.8600\nO       2.1400    0.8600   -0.8600\nO       2.1400   -0.8600    0.8600\n"
+},
+{
+  "nom": "sulfate de zinc",
+  "aliases": ["ZnSO4", "zinc sulfate", "vitriol blanc"],
+  "formule": "O4SZn",
+  "masse": 161.442,
+  "_comment": "composé ionique : Zn2+ représenté séparé du tétraèdre SO4^2- (pas de liaison covalente Zn-O), conforme à la représentation usuelle du sulfate de zinc",
+  "structure": "6\nZnSO4 ionic pair\nZn      0.0000    0.0000    0.0000\nS       3.0000    0.0000    0.0000\nO       3.8600    0.8600    0.8600\nO       3.8600   -0.8600   -0.8600\nO       2.1400    0.8600   -0.8600\nO       2.1400   -0.8600    0.8600\n"
+},
+  {
   "nom": "chlorure de potassium",
   "aliases": ["KCl", "potassium chloride", "sel de potassium"],
   "formule": "KCl",

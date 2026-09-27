@@ -122,6 +122,48 @@ const ECHANTILLONS_IONS = [
 ];
 
 /* ==========================================================
+   SERIE DE DILUTIONS PAR 2 (D0 à D5) — complément onglet Dilution
+   D0 = concentration de la solution mère saisie par l'élève ;
+   D1 à D5 sont calculés automatiquement (Cn = C0 / 2^n) et
+   affichés en lecture seule.
+   ========================================================== */
+const IDS_SERIE_DILUTION = ["dil-serie-d0", "dil-serie-d1", "dil-serie-d2", "dil-serie-d3", "dil-serie-d4", "dil-serie-d5"];
+
+function calculerSerieDilution() {
+    const champ0 = $("dil-serie-d0");
+    if (!champ0) return;
+
+    const c0 = parseFloat(champ0.value);
+
+    for (let n = 1; n <= 5; n++) {
+        const champ = $(`dil-serie-d${n}`);
+        if (!champ) continue;
+
+        if (!Number.isFinite(c0) || c0 <= 0) {
+            champ.value = "";
+            continue;
+        }
+
+        const cn = c0 / Math.pow(2, n);
+        champ.value = cn.toFixed(4);
+    }
+}
+
+function initSerieDilution() {
+    const champ0 = $("dil-serie-d0");
+    if (!champ0) return;
+
+    // D1 à D5 sont calculés automatiquement : lecture seule.
+    for (let n = 1; n <= 5; n++) {
+        const champ = $(`dil-serie-d${n}`);
+        if (champ) champ.readOnly = true;
+    }
+
+    champ0.addEventListener("input", calculerSerieDilution);
+    calculerSerieDilution();
+}
+
+/* ==========================================================
    VARIABLES
    ========================================================== */
 let reactifCourant = null;
@@ -145,6 +187,7 @@ export function init() {
     initReactifSelect();
     initCalculsDissolution();
     initCalculsDilution();
+    initSerieDilution();
     initTabIdentificationIons();
     initMateriel({
         verreId: "materiel-verrerie",
@@ -563,6 +606,14 @@ function lancerCompteRendu() {
                 { label: "Volume final V₂", valeur: `${$("v2-hcl")?.value || "—"} mL` },
                 { label: "Volume à prélever V₁", valeur: `${$("res-hcl")?.textContent?.replace("Volume à prélever : ", "") || "—"}` }
             ]
+        },
+        {
+            titre: "Série de dilutions par 2 (D0 à D5)",
+            groupe: "dilution",
+            items: IDS_SERIE_DILUTION.map((id, n) => ({
+                label: `Concentration D${n}`,
+                valeur: `${$(id)?.value || "—"} mol/L`
+            }))
         },
         {
             titre: "Test d'identification d'ion",

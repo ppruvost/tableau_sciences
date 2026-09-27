@@ -477,121 +477,89 @@ print("Fréquence d'apparition de la lettre", lettre, ":", frequence)</textarea>
       </a>
     </div>
 
-    <div class="fiche-puzzle" data-titre="REMI — simuler un taux de non-conformité">
-
-      <h3>Fiche A — REMI : simuler un taux de non-conformité</h3>
-
-      <p>Un atelier annonce un taux de pièces non conformes de 8 % (p = 0,08). Compléter et ouvrir dans PyLab la fonction <code>estimer_probabilite(n, p)</code> avec n = 2000 et p = 0,08.</p>
-
-      <div class="code-exercice" data-titre="REMI — simulation">
-        <textarea class="code-editeur-python" spellcheck="false">import random
-
-def estimer_probabilite(n, p):
-    nb_succes = 0
-
-    # TODO : compléter la boucle
-
-    return nb_succes / n
-
-frequence = estimer_probabilite(2000, 0.08)
-print("Fréquence de pièces non conformes :", frequence)</textarea>
-        <div class="toolbar">
-          <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
+    <div class="sous-onglets" role="tablist">
+      <button class="sous-btn actif" data-sous="puzzle-sujet-a">Sujet A</button>
+      <button class="sous-btn" data-sous="puzzle-sujet-b">Sujet B</button>
+      <button class="sous-btn" data-sous="puzzle-sujet-c">Sujet C</button>
+      <button class="sous-btn" data-sous="puzzle-synthese-panel">Synthèse</button>
+    </div>
+    <div class="sous-panel actif" id="puzzle-sujet-a">
+      <div class="fiche-puzzle" data-titre="REMI — non-conformité">
+        <div class="questions-bloc" data-tp="puzzle-a">
+          <ol class="questions-tp"><li>
+            <div class="question-entete"><strong>Sujet A — REMI — non-conformité</strong>
+              <span class="cartouche" data-comp="REA">REA</span></div>
+            <p class="info puzzle-contexte" id="puzzle-a-contexte"></p>
+            <p class="puzzle-problematique" id="puzzle-a-problematique"></p>
+            <ol id="puzzle-a-enonce" class="puzzle-questions"></ol>
+                <div class="code-exercice" data-titre="REMI — non-conformité">
+                  <textarea class="code-editeur-python" id="puzzle-a-code" spellcheck="false"></textarea>
+                  <div class="toolbar"><button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button></div>
+                </div>
+            <div class="form-row">
+              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+            </div>
+            <div class="zone-eleve"><textarea id="puzzle-a-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+          </li></ol>
         </div>
       </div>
-
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-      </div>
-
-      <div class="zone-eleve">
-        <textarea rows="5" placeholder="Réponse du groupe expert : fréquence obtenue, comparaison à p = 0,08..."></textarea>
-      </div>
-
     </div>
-
-    <div class="fiche-puzzle" data-titre="GATL — simuler un taux de retard">
-
-      <h3>Fiche B — GATL : simuler un taux de retard</h3>
-
-      <p>Un transporteur annonce un taux de retard de 10 % (p = 0,10). Compléter et ouvrir dans PyLab la fonction <code>estimer_probabilite(n, p)</code> avec n = 2000 et p = 0,10.</p>
-
-      <div class="code-exercice" data-titre="GATL — simulation">
-        <textarea class="code-editeur-python" spellcheck="false">import random
-
-def estimer_probabilite(n, p):
-    nb_succes = 0
-
-    # TODO : compléter la boucle
-
-    return nb_succes / n
-
-frequence = estimer_probabilite(2000, 0.10)
-print("Fréquence de livraisons en retard :", frequence)</textarea>
-        <div class="toolbar">
-          <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
+    <div class="sous-panel" id="puzzle-sujet-b">
+      <div class="fiche-puzzle" data-titre="GATL — retard">
+        <div class="questions-bloc" data-tp="puzzle-b">
+          <ol class="questions-tp"><li>
+            <div class="question-entete"><strong>Sujet B — GATL — retard</strong>
+              <span class="cartouche" data-comp="ANA">ANA</span></div>
+            <p class="info puzzle-contexte" id="puzzle-b-contexte"></p>
+            <p class="puzzle-problematique" id="puzzle-b-problematique"></p>
+            <ol id="puzzle-b-enonce" class="puzzle-questions"></ol>
+                <div class="code-exercice" data-titre="GATL — retard">
+                  <textarea class="code-editeur-python" id="puzzle-b-code" spellcheck="false"></textarea>
+                  <div class="toolbar"><button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button></div>
+                </div>
+            <div class="form-row">
+              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+            </div>
+            <div class="zone-eleve"><textarea id="puzzle-b-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+          </li></ol>
         </div>
       </div>
-
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-      </div>
-
-      <div class="zone-eleve">
-        <textarea rows="5" placeholder="Réponse du groupe expert : fréquence obtenue, comparaison à p = 0,10..."></textarea>
-      </div>
-
     </div>
-
-    <div class="fiche-puzzle" data-titre="MCC — simuler un taux de retouche">
-
-      <h3>Fiche C — MCC : simuler un taux de retouche</h3>
-
-      <p>Un atelier de confection annonce un taux de retouche de 15 % (p = 0,15). Compléter et ouvrir dans PyLab la fonction <code>estimer_probabilite(n, p)</code> avec n = 2000 et p = 0,15.</p>
-
-      <div class="code-exercice" data-titre="MCC — simulation">
-        <textarea class="code-editeur-python" spellcheck="false">import random
-
-def estimer_probabilite(n, p):
-    nb_succes = 0
-
-    # TODO : compléter la boucle
-
-    return nb_succes / n
-
-frequence = estimer_probabilite(2000, 0.15)
-print("Fréquence de pièces à retoucher :", frequence)</textarea>
-        <div class="toolbar">
-          <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
+    <div class="sous-panel" id="puzzle-sujet-c">
+      <div class="fiche-puzzle" data-titre="MCC — retouche">
+        <div class="questions-bloc" data-tp="puzzle-c">
+          <ol class="questions-tp"><li>
+            <div class="question-entete"><strong>Sujet C — MCC — retouche</strong>
+              <span class="cartouche" data-comp="VAL">VAL</span></div>
+            <p class="info puzzle-contexte" id="puzzle-c-contexte"></p>
+            <p class="puzzle-problematique" id="puzzle-c-problematique"></p>
+            <ol id="puzzle-c-enonce" class="puzzle-questions"></ol>
+                <div class="code-exercice" data-titre="MCC — retouche">
+                  <textarea class="code-editeur-python" id="puzzle-c-code" spellcheck="false"></textarea>
+                  <div class="toolbar"><button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button></div>
+                </div>
+            <div class="form-row">
+              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+            </div>
+            <div class="zone-eleve"><textarea id="puzzle-c-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+          </li></ol>
         </div>
       </div>
-
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+    </div>
+    <div class="sous-panel" id="puzzle-synthese-panel">
+      <div class="info">En groupe mélangé, vérifier que la même fonction complétée fonctionne pour les trois filières, seule la probabilité p change. Comparer les fréquences obtenues.</div>
+      <div class="questions-bloc" data-tp="puzzle-synthese">
+      <ol class="questions-tp"><li>
+        <div class="question-entete"><strong>Synthèse — Réponse commune à la problématique</strong>
+          <span class="cartouche" data-comp="COM">COM</span></div>
+        <p class="problematique-rappel"></p>
+        <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs et différences entre les sujets, réponse argumentée..."></textarea></div>
+      </li></ol>
       </div>
-
-      <div class="zone-eleve">
-        <textarea rows="5" placeholder="Réponse du groupe expert : fréquence obtenue, comparaison à p = 0,15..."></textarea>
-      </div>
-
     </div>
-
-    <h3 style="margin-top:var(--gap-lg);">Synthèse puzzle (séance 2)</h3>
-
-    <div class="info">
-      En groupe mélangé, vérifier que la même fonction complétée
-      fonctionne pour les trois filières, seule la probabilité p
-      change. Cela confirme-t-il que la boucle écrite est correcte ?
-    </div>
-
-    <div class="zone-eleve">
-      <textarea id="puzzle-synthese" rows="6" placeholder="Synthèse commune : la fonction est-elle bien la même dans les trois cas ? Comparaison des fréquences obtenues..."></textarea>
-    </div>
-
-  </div>
 
 </div>
 

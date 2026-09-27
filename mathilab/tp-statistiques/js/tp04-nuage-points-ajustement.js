@@ -2,6 +2,8 @@
  * tp-statistiques/js/tp04-nuage-points-ajustement.js
  */
 import FILIERES_PRO from '../../data/filieres.js';
+import { demarrerPuzzle } from '../../js/puzzle-onglet.js';
+import { S4 as MODELE_PUZZLE } from './puzzle-statistiques.js';
 import { initContextePro, getFiliereSelectionnee } from '../../js/contexte-pro.js';
 import {regrouperEnClasses, classeModale, dessinerDiagrammeBarres, dessinerDiagrammeSecteurs } from '../../js/statistiques.js';
 import { initRadarCompetences } from '../../js/radar.js';
@@ -178,6 +180,8 @@ document.getElementById('select-filiere-pro')?.addEventListener('change', gererN
 
 initOngletsParFiliere();
 initContextePro({ filieres: FILIERES_PRO, contextes: CONTEXTES_S4 });
+
+  demarrerPuzzle(MODELE_PUZZLE);
 initNuageAffine();
 initInterpolerExtrapoler();
 initNonAffine();

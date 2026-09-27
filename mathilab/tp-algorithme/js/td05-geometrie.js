@@ -13,6 +13,8 @@ import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-algorithme.js';
 import { initBoutonsPyLab } from '../../js/pylab.js';
 
+import { demarrerPuzzle } from '../../js/puzzle-onglet.js';
+import { A5 } from './puzzle-algorithme.js';
 const CONTEXTES_PRO = {
   '2nde-remi': {
     contexte: "En atelier de réalisation mécanique, contrôler qu'une pièce est d'équerre, calculer le volume de matière d'une pièce cylindrique, ou construire un plan sont des gestes courants.",
@@ -33,6 +35,8 @@ export function init() {
     filieres: FILIERES_PRO,
     contextes: CONTEXTES_PRO,
   });
+
+  demarrerPuzzle(A5);
   initBoutonsPyLab('.btn-pylab');
   initSections();
   initTabs();

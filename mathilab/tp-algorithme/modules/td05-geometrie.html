@@ -365,41 +365,77 @@ print("Longueur de l'arc pour un angle de", angle_degres, "° :", longueur_arc, 
       </a>
     </div>
 
-    <div class="fiche-puzzle" data-titre="Triplets pythagoriciens">
-      <h3>Fiche A — Rechercher des triplets</h3>
-      <p>Exécuter le programme « Rechercher des triplets pythagoriciens » avec limite = 100, puis relever tous les triplets trouvés.</p>
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-      </div>
-      <div class="zone-eleve"><textarea rows="5" placeholder="Triplets trouvés, nombre total..."></textarea></div>
+    <div class="sous-onglets" role="tablist">
+      <button class="sous-btn actif" data-sous="puzzle-sujet-a">Sujet A</button>
+      <button class="sous-btn" data-sous="puzzle-sujet-b">Sujet B</button>
+      <button class="sous-btn" data-sous="puzzle-sujet-c">Sujet C</button>
+      <button class="sous-btn" data-sous="puzzle-synthese-panel">Synthèse</button>
     </div>
-
-    <div class="fiche-puzzle" data-titre="Aires et volumes">
-      <h3>Fiche B — Calculer une pièce réelle</h3>
-      <p>Choisir une pièce de votre filière modélisable par un carré ou un cylindre, et adapter les deux premiers programmes de l'onglet « Aires, volumes et proportionnalité ».</p>
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+    <div class="sous-panel actif" id="puzzle-sujet-a">
+      <div class="fiche-puzzle" data-titre="Rechercher des triplets">
+        <div class="questions-bloc" data-tp="puzzle-a">
+          <ol class="questions-tp"><li>
+            <div class="question-entete"><strong>Sujet A — Rechercher des triplets</strong>
+              <span class="cartouche" data-comp="REA">REA</span></div>
+            <p class="info puzzle-contexte" id="puzzle-a-contexte"></p>
+            <p class="puzzle-problematique" id="puzzle-a-problematique"></p>
+            <ol id="puzzle-a-enonce" class="puzzle-questions"></ol>
+            <div class="form-row">
+              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+            </div>
+            <div class="zone-eleve"><textarea id="puzzle-a-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+          </li></ol>
+        </div>
       </div>
-      <div class="zone-eleve"><textarea rows="5" placeholder="Pièce choisie, résultats obtenus..."></textarea></div>
     </div>
-
-    <div class="fiche-puzzle" data-titre="Construction GeoGebra">
-      <h3>Fiche C — Construire un autre triangle rectangle</h3>
-      <p>Reprendre le protocole de construction GéoGébra avec un triplet pythagoricien différent (par exemple 5, 12, 13) et vérifier la relation de Pythagore.</p>
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+    <div class="sous-panel" id="puzzle-sujet-b">
+      <div class="fiche-puzzle" data-titre="Calculer une pièce réelle">
+        <div class="questions-bloc" data-tp="puzzle-b">
+          <ol class="questions-tp"><li>
+            <div class="question-entete"><strong>Sujet B — Calculer une pièce réelle</strong>
+              <span class="cartouche" data-comp="ANA">ANA</span></div>
+            <p class="info puzzle-contexte" id="puzzle-b-contexte"></p>
+            <p class="puzzle-problematique" id="puzzle-b-problematique"></p>
+            <ol id="puzzle-b-enonce" class="puzzle-questions"></ol>
+            <div class="form-row">
+              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+            </div>
+            <div class="zone-eleve"><textarea id="puzzle-b-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+          </li></ol>
+        </div>
       </div>
-      <div class="zone-eleve"><textarea rows="5" placeholder="Longueurs, angle mesuré, vérification..."></textarea></div>
     </div>
-
-    <h3 style="margin-top:var(--gap-lg);">Synthèse puzzle</h3>
-    <div class="info">En groupe mélangé, comparer les trois approches : recherche numérique de triplets, calculs de grandeurs, construction dynamique.</div>
-    <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Synthèse commune..."></textarea></div>
-
-  </div>
+    <div class="sous-panel" id="puzzle-sujet-c">
+      <div class="fiche-puzzle" data-titre="Construire un triangle rectangle">
+        <div class="questions-bloc" data-tp="puzzle-c">
+          <ol class="questions-tp"><li>
+            <div class="question-entete"><strong>Sujet C — Construire un triangle rectangle</strong>
+              <span class="cartouche" data-comp="VAL">VAL</span></div>
+            <p class="info puzzle-contexte" id="puzzle-c-contexte"></p>
+            <p class="puzzle-problematique" id="puzzle-c-problematique"></p>
+            <ol id="puzzle-c-enonce" class="puzzle-questions"></ol>
+            <div class="form-row">
+              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+            </div>
+            <div class="zone-eleve"><textarea id="puzzle-c-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+          </li></ol>
+        </div>
+      </div>
+    </div>
+    <div class="sous-panel" id="puzzle-synthese-panel">
+      <div class="info">En groupe mélangé, comparer les trois approches : recherche numérique de triplets, calculs de grandeurs, construction dynamique.</div>
+      <div class="questions-bloc" data-tp="puzzle-synthese">
+      <ol class="questions-tp"><li>
+        <div class="question-entete"><strong>Synthèse — Réponse commune à la problématique</strong>
+          <span class="cartouche" data-comp="COM">COM</span></div>
+        <p class="problematique-rappel"></p>
+        <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs et différences entre les sujets, réponse argumentée..."></textarea></div>
+      </li></ol>
+      </div>
+    </div>
 
 </div>
 

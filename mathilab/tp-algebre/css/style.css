@@ -227,3 +227,11 @@
   background: var(--domaine-accent);
   color: white;
 }
+
+/* Puzzle — sous-onglets Sujet A / B / C / Synthèse */
+.sous-onglets { display:flex; gap:.4rem; flex-wrap:wrap; margin:1rem 0; }
+.sous-btn { padding:.4rem .9rem; border:1px solid var(--domaine-accent, #1b6ca8); border-radius:999px; background:#fff; color:var(--domaine-accent-fonce, #0d4f8a); cursor:pointer; font:inherit; }
+.sous-btn.actif { background:var(--domaine-accent, #1b6ca8); color:#fff; }
+.sous-panel { display:none; }
+.sous-panel.actif { display:block; }
+.puzzle-problematique { font-weight:600; color:var(--domaine-accent-fonce, #0d4f8a); }

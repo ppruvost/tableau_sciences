@@ -2,6 +2,8 @@
  * tp-statistiques/js/tp02-comparer-des-series-statistiques.js
  */
 import FILIERES_PRO from '../../data/filieres.js';
+import { demarrerPuzzle } from '../../js/puzzle-onglet.js';
+import { S2 as MODELE_PUZZLE } from './puzzle-statistiques.js';
 import { initContextePro } from '../../js/contexte-pro.js';
 import {regrouperEnClasses, classeModale, dessinerDiagrammeBarres, dessinerDiagrammeSecteurs } from '../../js/statistiques.js';
 import { initRadarCompetences } from '../../js/radar.js';
@@ -120,6 +122,8 @@ function initComparaison() {
 
 initOngletsParFiliere();
 initContextePro({ filieres: FILIERES_PRO, contextes: CONTEXTES_S2 });
+
+  demarrerPuzzle(MODELE_PUZZLE);
 initIndicateursSerie();
 initComparaison();
 initRadarCompetences();

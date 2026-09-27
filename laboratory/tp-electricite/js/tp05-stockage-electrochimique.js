@@ -41,15 +41,8 @@ const CONTEXTES_PRO = {
 
 };
 
-const DEMI_REACTIONS = {
-  'cu-zn': "À l'électrode de zinc (oxydation) : Zn → Zn²⁺ + 2e⁻. À l'électrode de cuivre (réduction) : Cu²⁺ + 2e⁻ → Cu.",
-  'cu-fe': "À l'électrode de fer (oxydation) : Fe → Fe²⁺ + 2e⁻. À l'électrode de cuivre (réduction) : Cu²⁺ + 2e⁻ → Cu.",
-  'zn-fe': "À l'électrode de zinc (oxydation) : Zn → Zn²⁺ + 2e⁻. À l'électrode de fer (réduction) : Fe²⁺ + 2e⁻ → Fe.",
-};
-
 export function init() {
 
-  initPile();
   initAccumulateur();
 
   initMateriel({
@@ -75,7 +68,7 @@ export function init() {
       '1ere-mcc':  [],
       'tle-tci':   [],
       'tle-trpm':  [],
-      'tle-mcc':   ['pile', 'accumulateur'],
+      'tle-mcc':   ['accumulateur'],
     },
     messageId: 'tp05e-message-filiere',
     messageTexte: "Ce TP n'est pas au programme de votre filière : le stockage électrochimique de l'énergie concerne la filière Métiers de la couture et de la confection, en Terminale.",
@@ -93,26 +86,7 @@ export function init() {
 }
 
 // =================================================================
-// Onglet 1 — Pile et demi-réactions d'oxydoréduction
-// =================================================================
-function initPile() {
-
-  const select = $('pile-select');
-  const zoneInfo = $('pile-demi-reactions');
-
-  if (!select || !zoneInfo) return;
-
-  select.addEventListener('change', () => {
-
-    const texte = DEMI_REACTIONS[select.value];
-
-    zoneInfo.textContent = texte
-      || 'Sélectionner un couple d\'électrodes pour afficher les demi-réactions attendues à chaque électrode.';
-  });
-}
-
-// =================================================================
-// Onglet 2 — Énergie stockée et suivi de la décharge
+// Charge, décharge et énergie stockée d'un accumulateur
 // =================================================================
 function initAccumulateur() {
 
@@ -151,6 +125,34 @@ function initAccumulateur() {
     inputCapacite.addEventListener('input', calculerEnergie);
     inputTension.addEventListener('input', calculerEnergie);
     if (inputMasse) inputMasse.addEventListener('input', calculerEnergie);
+  }
+
+  // Temps de charge / décharge : Δt = Q / I
+  const inputCourant = $('acc-courant');
+  const zoneTemps = $('acc-temps-resultat');
+
+  if (inputCapacite && inputCourant && zoneTemps) {
+
+    function calculerTemps() {
+
+      const c = parseFloat(inputCapacite.value);
+      const i = parseFloat(inputCourant.value);
+
+      if (Number.isNaN(c) || Number.isNaN(i) || i === 0) {
+        zoneTemps.textContent = 'Saisir également un courant de charge ou de décharge pour calculer le temps correspondant.';
+        return;
+      }
+
+      const dureeH = c / i;
+
+      zoneTemps.innerHTML = `
+        Temps de charge / décharge : <strong>${arrondir(dureeH, 2)} h</strong>
+        (soit ${arrondir(dureeH * 60, 0)} min)
+      `;
+    }
+
+    inputCapacite.addEventListener('input', calculerTemps);
+    inputCourant.addEventListener('input', calculerTemps);
   }
 
   const btnAjouter = $('dech-ajouter');

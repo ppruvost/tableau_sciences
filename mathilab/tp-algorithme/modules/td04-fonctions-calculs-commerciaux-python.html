@@ -624,41 +624,77 @@ print("Taux moyen pondéré des deux placements :", round(taux_moyen * 100, 3), 
       </a>
     </div>
 
-    <div class="fiche-puzzle" data-titre="Balayage">
-      <h3>Fiche A — Résoudre par balayage</h3>
-      <p>Exécuter le programme « Résoudre f(x) = g(x) par balayage » (1ère) ou son équivalent selon votre niveau.</p>
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-      </div>
-      <div class="zone-eleve"><textarea rows="5" placeholder="Solution(s) trouvée(s)..."></textarea></div>
+    <div class="sous-onglets" role="tablist">
+      <button class="sous-btn actif" data-sous="puzzle-sujet-a">Sujet A</button>
+      <button class="sous-btn" data-sous="puzzle-sujet-b">Sujet B</button>
+      <button class="sous-btn" data-sous="puzzle-sujet-c">Sujet C</button>
+      <button class="sous-btn" data-sous="puzzle-synthese-panel">Synthèse</button>
     </div>
-
-    <div class="fiche-puzzle" data-titre="Tangente">
-      <h3>Fiche B — Explorer la tangente dans GéoGébra</h3>
-      <p>Suivre le protocole de l'onglet « Tangente (GeoGebra) » avec une fonction différente : f(x) = -0.5x² + 3x.</p>
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+    <div class="sous-panel actif" id="puzzle-sujet-a">
+      <div class="fiche-puzzle" data-titre="Résoudre par balayage">
+        <div class="questions-bloc" data-tp="puzzle-a">
+          <ol class="questions-tp"><li>
+            <div class="question-entete"><strong>Sujet A — Résoudre par balayage</strong>
+              <span class="cartouche" data-comp="REA">REA</span></div>
+            <p class="info puzzle-contexte" id="puzzle-a-contexte"></p>
+            <p class="puzzle-problematique" id="puzzle-a-problematique"></p>
+            <ol id="puzzle-a-enonce" class="puzzle-questions"></ol>
+            <div class="form-row">
+              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+            </div>
+            <div class="zone-eleve"><textarea id="puzzle-a-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+          </li></ol>
+        </div>
       </div>
-      <div class="zone-eleve"><textarea rows="5" placeholder="Observations sur la pente de la tangente..."></textarea></div>
     </div>
-
-    <div class="fiche-puzzle" data-titre="Calculs commerciaux">
-      <h3>Fiche C — Comparer deux financements</h3>
-      <p>Exécuter le programme d'intérêts composés (Tle) avec deux taux différents pour le même capital et comparer les résultats.</p>
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+    <div class="sous-panel" id="puzzle-sujet-b">
+      <div class="fiche-puzzle" data-titre="Tangente (GeoGebra)">
+        <div class="questions-bloc" data-tp="puzzle-b">
+          <ol class="questions-tp"><li>
+            <div class="question-entete"><strong>Sujet B — Tangente (GeoGebra)</strong>
+              <span class="cartouche" data-comp="ANA">ANA</span></div>
+            <p class="info puzzle-contexte" id="puzzle-b-contexte"></p>
+            <p class="puzzle-problematique" id="puzzle-b-problematique"></p>
+            <ol id="puzzle-b-enonce" class="puzzle-questions"></ol>
+            <div class="form-row">
+              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+            </div>
+            <div class="zone-eleve"><textarea id="puzzle-b-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+          </li></ol>
+        </div>
       </div>
-      <div class="zone-eleve"><textarea rows="5" placeholder="Comparaison des deux résultats..."></textarea></div>
     </div>
-
-    <h3 style="margin-top:var(--gap-lg);">Synthèse puzzle</h3>
-    <div class="info">En groupe mélangé, relier balayage, tangente et calculs commerciaux : en quoi ces trois activités réinvestissent-elles des notions déjà vues ?</div>
-    <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Synthèse commune..."></textarea></div>
-
-  </div>
+    <div class="sous-panel" id="puzzle-sujet-c">
+      <div class="fiche-puzzle" data-titre="Comparer deux financements">
+        <div class="questions-bloc" data-tp="puzzle-c">
+          <ol class="questions-tp"><li>
+            <div class="question-entete"><strong>Sujet C — Comparer deux financements</strong>
+              <span class="cartouche" data-comp="VAL">VAL</span></div>
+            <p class="info puzzle-contexte" id="puzzle-c-contexte"></p>
+            <p class="puzzle-problematique" id="puzzle-c-problematique"></p>
+            <ol id="puzzle-c-enonce" class="puzzle-questions"></ol>
+            <div class="form-row">
+              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+            </div>
+            <div class="zone-eleve"><textarea id="puzzle-c-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+          </li></ol>
+        </div>
+      </div>
+    </div>
+    <div class="sous-panel" id="puzzle-synthese-panel">
+      <div class="info">En groupe mélangé, relier balayage, tangente et calculs commerciaux : en quoi ces trois activités réinvestissent-elles des notions déjà vues ?</div>
+      <div class="questions-bloc" data-tp="puzzle-synthese">
+      <ol class="questions-tp"><li>
+        <div class="question-entete"><strong>Synthèse — Réponse commune à la problématique</strong>
+          <span class="cartouche" data-comp="COM">COM</span></div>
+        <p class="problematique-rappel"></p>
+        <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs et différences entre les sujets, réponse argumentée..."></textarea></div>
+      </li></ol>
+      </div>
+    </div>
 
 </div>
 

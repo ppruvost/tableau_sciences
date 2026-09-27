@@ -349,6 +349,26 @@ document
 
 
 // =========================================================
+// MLDS — remobilisation (bouton décagone, cf. index.html)
+// =========================================================
+
+document
+    .getElementById("openMLDS")
+    ?.addEventListener(
+        "click",
+        () => {
+
+            tpViewer.dataset.domaine = "mlds";
+
+            openTP(
+                "mlds/index.html"
+            );
+
+        }
+    );
+
+
+// =========================================================
 // PROGRESS BAR
 // =========================================================
 

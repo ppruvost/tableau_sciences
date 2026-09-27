@@ -2,6 +2,8 @@
  * tp-statistiques/js/tp03-fluctuation-frequence-probabilites.js
  */
 import FILIERES_PRO from '../../data/filieres.js';
+import { demarrerPuzzle } from '../../js/puzzle-onglet.js';
+import { S3 as MODELE_PUZZLE } from './puzzle-statistiques.js';
 import { initContextePro } from '../../js/contexte-pro.js';
 import {regrouperEnClasses, classeModale, dessinerDiagrammeBarres, dessinerDiagrammeSecteurs } from '../../js/statistiques.js';
 import { initRadarCompetences } from '../../js/radar.js';
@@ -132,6 +134,8 @@ function initArbreDenombrement() {
 
 initOngletsParFiliere();
 initContextePro({ filieres: FILIERES_PRO, contextes: CONTEXTES_S3 });
+
+  demarrerPuzzle(MODELE_PUZZLE);
 initFluctuation();
 initStabilisation();
 initArbreDenombrement();

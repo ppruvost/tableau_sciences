@@ -130,6 +130,7 @@
         <button class="tab-btn" data-tab="derivation-variations">1ère · Dérivation et variations</button>
         <button class="tab-btn" data-tab="fonction-cube">Tle · La fonction cube</button>
         <button class="tab-btn" data-tab="polynome-degre3">Tle · Polynôme de degré 3</button>
+        <button class="tab-btn" data-tab="activites-puzzle">🧩 Activités Puzzle</button>
       </div>
 
           <!-- ---------- RÉSOLUTION GRAPHIQUE (1ère) ---------- -->
@@ -411,6 +412,89 @@
 
           </div>
 
+          <!-- ---------- ACTIVITÉS PUZZLE ---------- -->
+          <div class="tab-panel" id="activites-puzzle">
+        <h3>Activités Puzzle</h3>
+        <div class="toolbar">
+          <a class="btn btn-secondaire" href="../../numworks/emulator.html" target="_blank" rel="noopener">🧮 Ouvrir la calculatrice NumWorks</a>
+        </div>
+        <div id="puzzle-info" class="info">
+          Sélectionner votre filière professionnelle dans la section « Contexte
+          professionnel » ci-dessus pour afficher les trois sujets.
+        </div>
+        <div class="sous-onglets" role="tablist">
+          <button class="sous-btn actif" data-sous="puzzle-sujet-a">Sujet A</button>
+          <button class="sous-btn" data-sous="puzzle-sujet-b">Sujet B</button>
+          <button class="sous-btn" data-sous="puzzle-sujet-c">Sujet C</button>
+          <button class="sous-btn" data-sous="puzzle-synthese-panel">Synthèse</button>
+        </div>
+        <div class="sous-panel actif" id="puzzle-sujet-a">
+          <div class="fiche-puzzle" data-titre="Dérivée et variations">
+            <div class="questions-bloc" data-tp="puzzle-a">
+              <ol class="questions-tp"><li>
+                <div class="question-entete"><strong>Sujet A — Dérivée et variations</strong>
+                  <span class="cartouche" data-comp="REA">REA</span></div>
+                <p class="info puzzle-contexte" id="puzzle-a-contexte"></p>
+                <p class="puzzle-problematique" id="puzzle-a-problematique"></p>
+                <ol id="puzzle-a-enonce" class="puzzle-questions"></ol>
+                <div class="form-row">
+                  <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                  <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+                </div>
+                <div class="zone-eleve"><textarea id="puzzle-a-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+              </li></ol>
+            </div>
+          </div>
+        </div>
+        <div class="sous-panel" id="puzzle-sujet-b">
+          <div class="fiche-puzzle" data-titre="Valeur extrême">
+            <div class="questions-bloc" data-tp="puzzle-b">
+              <ol class="questions-tp"><li>
+                <div class="question-entete"><strong>Sujet B — Valeur extrême</strong>
+                  <span class="cartouche" data-comp="ANA">ANA</span></div>
+                <p class="info puzzle-contexte" id="puzzle-b-contexte"></p>
+                <p class="puzzle-problematique" id="puzzle-b-problematique"></p>
+                <ol id="puzzle-b-enonce" class="puzzle-questions"></ol>
+                <div class="form-row">
+                  <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                  <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+                </div>
+                <div class="zone-eleve"><textarea id="puzzle-b-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+              </li></ol>
+            </div>
+          </div>
+        </div>
+        <div class="sous-panel" id="puzzle-sujet-c">
+          <div class="fiche-puzzle" data-titre="Interpréter la courbe">
+            <div class="questions-bloc" data-tp="puzzle-c">
+              <ol class="questions-tp"><li>
+                <div class="question-entete"><strong>Sujet C — Interpréter la courbe</strong>
+                  <span class="cartouche" data-comp="VAL">VAL</span></div>
+                <p class="info puzzle-contexte" id="puzzle-c-contexte"></p>
+                <p class="puzzle-problematique" id="puzzle-c-problematique"></p>
+                <ol id="puzzle-c-enonce" class="puzzle-questions"></ol>
+                <div class="form-row">
+                  <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                  <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+                </div>
+                <div class="zone-eleve"><textarea id="puzzle-c-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+              </li></ol>
+            </div>
+          </div>
+        </div>
+        <div class="sous-panel" id="puzzle-synthese-panel">
+          <div class="info">En groupe mélangé, chaque expert présente son sujet aux autres. Comparer les trois situations et rédiger une réponse commune.</div>
+          <div class="questions-bloc" data-tp="puzzle-synthese">
+          <ol class="questions-tp"><li>
+            <div class="question-entete"><strong>Synthèse — Réponse commune à la problématique</strong>
+              <span class="cartouche" data-comp="COM">COM</span></div>
+            <p class="problematique-rappel"></p>
+            <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs et différences entre les sujets, réponse argumentée..."></textarea></div>
+          </li></ol>
+          </div>
+        </div>
+      </div>
+
     </div>
 
   </div>
@@ -466,80 +550,6 @@
       <li>Le <strong>sommet d'une parabole</strong> correspond souvent à un optimum (coût minimal, rendement maximal).</li>
       <li>La <strong>dérivée</strong> renseigne sur le sens de variation, et un <strong>extremum local</strong> correspond à un changement de signe de la dérivée.</li>
     </ul>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="puzzle">
-
-  <div class="section-titre">
-    <div class="picto-section">🧩</div>
-    <h2>Activités Puzzle</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="toolbar">
-      <a class="btn btn-secondaire" href="../../numworks/emulator.html" target="_blank" rel="noopener">
-        🧮 Ouvrir la calculatrice NumWorks
-      </a>
-    </div>
-
-    <div class="info">
-      Fonction étudiée — le coût de fabrication (en centaines d'euros) d'une série de
-      pièces est modélisé, pour x compris entre 0 et 6 (en centaines de pièces), par
-      f(x) = x³ − 9x² + 24x + 10.
-    </div>
-
-    <div class="fiche-puzzle" data-titre="Dérivée">
-      <h3>Fiche A — Calculer la dérivée</h3>
-      <ol>
-        <li>Calculer f'(x).</li>
-        <li>Résoudre f'(x) = 0.</li>
-        <li>Étudier le signe de f'(x) sur [0 ; 6].</li>
-      </ol>
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-      </div>
-      <div class="zone-eleve"><textarea rows="6" placeholder="Réponses du groupe expert : f'(x), racines, signe..."></textarea></div>
-    </div>
-
-    <div class="fiche-puzzle" data-titre="Tableau de variations">
-      <h3>Fiche B — Tableau de variations</h3>
-      <ol>
-        <li>Dresser le tableau de variations de f sur [0 ; 6].</li>
-        <li>Identifier les extremums locaux et leur valeur.</li>
-      </ol>
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-      </div>
-      <div class="zone-eleve"><textarea rows="6" placeholder="Réponses du groupe expert : tableau de variations, extremums..."></textarea></div>
-    </div>
-
-    <div class="fiche-puzzle" data-titre="Interprétation">
-      <h3>Fiche C — Interpréter dans le contexte professionnel</h3>
-      <ol>
-        <li>Pour quelle quantité de pièces le coût est-il minimal sur [0 ; 6] ?</li>
-        <li>Combien de quantités de pièces donnent un coût de 20 centaines d'euros ?</li>
-        <li>Quelle recommandation feriez-vous à l'atelier ?</li>
-      </ol>
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-      </div>
-      <div class="zone-eleve"><textarea rows="6" placeholder="Réponses du groupe expert : quantité optimale, nombre de solutions, recommandation..."></textarea></div>
-    </div>
-
-    <h3 style="margin-top:var(--gap-lg);">Synthèse puzzle</h3>
-    <div class="info">
-      En groupe mélangé, rassembler les résultats des trois fiches pour rédiger une
-      analyse complète du coût de fabrication.
-    </div>
-    <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Synthèse commune : dérivée, tableau de variations, interprétation professionnelle..."></textarea></div>
 
   </div>
 

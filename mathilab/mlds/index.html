@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MLDS Maths — Coup de pouce cuisine — MathiLab</title>
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+<body>
+
+<header class="entete">
+  <h1><i class="fa-solid fa-mug-hot"></i> MLDS Maths — Coup de pouce cuisine</h1>
+  <p class="sous-titre">
+    Des recettes sucrées au micro-ondes pour reprendre en douceur les maths du quotidien :
+    proportionnalité, conversions, pourcentages, fractions.
+  </p>
+  <button type="button" class="btn-fiche-outil">
+    <i class="fa-solid fa-life-ring"></i> Fiche outil (aide-mémoire)
+  </button>
+</header>
+
+<main>
+
+  <!-- ====== VUE ACCUEIL ====== -->
+  <section id="vue-accueil" class="vue vue-active">
+    <div id="grille-ateliers" class="grille-ateliers"></div>
+
+    <p class="aide-accueil">
+      <i class="fa-solid fa-circle-info"></i>
+      Choisis un atelier. Chaque atelier compte 5 questions courtes, avec une explication à chaque
+      réponse. Il n'y a pas de note : tu peux recommencer un atelier autant de fois que tu veux.
+    </p>
+  </section>
+
+  <!-- ====== VUE ATELIER (questions) ====== -->
+  <section id="vue-atelier" class="vue">
+
+    <div class="entete-atelier">
+      <div>
+        <p class="sous-cat" id="atelier-sous-titre"></p>
+        <h2 id="atelier-titre"></h2>
+      </div>
+      <button type="button" id="btn-retour-accueil" class="btn-retour">
+        <i class="fa-solid fa-arrow-left"></i> Ateliers
+      </button>
+    </div>
+
+    <!-- Écran d'introduction de l'atelier -->
+    <div id="bloc-intro" class="bloc-intro">
+      <p id="atelier-intro"></p>
+      <button type="button" id="btn-commencer-atelier" class="btn-principal">
+        <i class="fa-solid fa-play"></i> Commencer
+      </button>
+    </div>
+
+    <!-- Écran de question -->
+    <div id="bloc-question" class="cachee">
+
+      <div class="progression">
+        <p class="progression-texte" id="progression-texte"></p>
+        <div class="progression-piste">
+          <div class="progression-barre" id="progression-barre"></div>
+        </div>
+      </div>
+
+      <div class="carte-question">
+        <p id="enonce-question"></p>
+        <div id="zone-choix" class="zone-choix"></div>
+        <div id="zone-feedback" class="zone-feedback cachee"></div>
+        <button type="button" id="btn-suivant" class="btn-principal cachee"></button>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ====== VUE BILAN ====== -->
+  <section id="vue-recap" class="vue">
+    <div class="carte-recap">
+      <i class="fa-solid fa-medal"></i>
+      <p class="sous-cat" id="recap-titre"></p>
+      <p id="recap-score-nb"></p>
+      <p id="recap-message"></p>
+      <div class="recap-actions">
+        <button type="button" id="btn-rejouer" class="btn-secondaire">
+          <i class="fa-solid fa-rotate-right"></i> Refaire l'atelier
+        </button>
+        <button type="button" id="btn-recap-accueil" class="btn-principal">
+          <i class="fa-solid fa-list"></i> Voir les autres ateliers
+        </button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="js/ateliers.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

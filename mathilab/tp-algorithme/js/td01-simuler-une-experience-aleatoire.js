@@ -15,6 +15,8 @@ import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-algorithme.js';
 import { initBoutonsPyLab } from '../../js/pylab.js';
 
+import { demarrerPuzzle } from '../../js/puzzle-onglet.js';
+import { A1 } from './puzzle-algorithme.js';
 const CONTEXTES_PRO = {
 
   '2nde-remi': {
@@ -40,6 +42,8 @@ export function init() {
     filieres: FILIERES_PRO,
     contextes: CONTEXTES_PRO,
   });
+
+  demarrerPuzzle(A1);
 
   initBoutonsPyLab('.btn-pylab');
 

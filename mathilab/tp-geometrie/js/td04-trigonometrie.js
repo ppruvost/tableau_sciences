@@ -13,6 +13,8 @@ import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-geometrie.js';
 import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 
+import { demarrerPuzzle } from '../../js/puzzle-onglet.js';
+import { G4 } from './puzzle-geometrie.js';
 const CONTEXTES_TD04 = {
   '1ere-trpm': {
     contexte: "En usinage, un angle de coupe ou une rotation de pièce sur un tour se décrivent à l'aide du cercle trigonométrique.",
@@ -128,6 +130,8 @@ function initialiserTD04() {
     filieres: FILIERES_PRO,
     contextes: CONTEXTES_TD04
   });
+
+  demarrerPuzzle(G4);
 
   initCercleTrigo();
   filtrerOngletsParFiliere();

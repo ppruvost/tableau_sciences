@@ -53,8 +53,6 @@
   <div class="section-corps">
 
     <ul>
-      <li>Réaliser expérimentalement une pile et mesurer la tension à ses bornes.</li>
-      <li>Déterminer les transformations se produisant sur chacune des électrodes, les équations de demi-réactions étant données.</li>
       <li>Étudier expérimentalement la charge et la décharge d'un accumulateur.</li>
       <li>Calculer l'énergie stockée par un accumulateur à partir de sa capacité et de la tension d'utilisation.</li>
       <li>Comparer l'énergie stockée par unité de masse pour un type d'accumulateur donné.</li>
@@ -103,12 +101,10 @@
   <div class="section-corps">
 
     <div class="info">
-      Ce TP met en œuvre des solutions ioniques pour la pile et un
-      accumulateur rechargeable.
+      Ce TP met en œuvre un accumulateur rechargeable et son chargeur.
     </div>
 
     <ul style="padding-left:1.5rem;line-height:2">
-      <li><strong>Solutions ioniques :</strong> porter les équipements de protection individuelle (lunettes, gants) et respecter les consignes de tri sélectif des déchets chimiques.</li>
       <li><strong>Accumulateur :</strong> ne jamais court-circuiter ses bornes ; respecter les tensions et intensités maximales indiquées par le constructeur lors de la charge.</li>
       <li><strong>Fin de manipulation :</strong> décharger et débrancher l'accumulateur avant de ranger le matériel.</li>
     </ul>
@@ -156,63 +152,14 @@
     <div class="tabs-container">
 
       <div class="tabs-header">
-        <button class="tab-btn actif" data-tab="pile">Piles et oxydoréduction</button>
-        <button class="tab-btn" data-tab="accumulateur">Charge et décharge d'un accumulateur</button>
-      </div>
-
-      <!-- ============================ -->
-      <!-- PILE                         -->
-      <!-- ============================ -->
-
-      <div class="tab-panel actif" id="pile">
-
-        <h3>Réaliser une pile et mesurer sa tension</h3>
-
-        <div class="info">
-          Une pile transforme de l'énergie chimique en énergie
-          électrique grâce à des réactions d'oxydoréduction se
-          produisant simultanément à chacune de ses deux électrodes.
-        </div>
-
-        <div class="form-group">
-          <label for="pile-select">Couple d'électrodes étudié</label>
-          <select id="pile-select">
-            <option value="">-- Sélectionner un couple --</option>
-            <option value="cu-zn">Cuivre / Zinc</option>
-            <option value="cu-fe">Cuivre / Fer</option>
-            <option value="zn-fe">Zinc / Fer</option>
-          </select>
-        </div>
-
-        <div id="pile-demi-reactions" class="resultat-calcul">
-          Sélectionner un couple d'électrodes pour afficher les
-          demi-réactions attendues à chaque électrode.
-        </div>
-
-        <div class="form-group" style="max-width:260px;margin-top:var(--gap-md);">
-          <label for="pile-tension">Tension mesurée aux bornes de la pile (V)</label>
-          <input id="pile-tension" type="number" step="0.01">
-        </div>
-
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>Préparer les deux demi-piles avec les électrodes et les solutions ioniques associées, reliées par un pont salin.</li>
-          <li>Relier les deux électrodes à un voltmètre et mesurer la tension à vide de la pile.</li>
-          <li>Identifier, à partir des équations de demi-réactions fournies, l'électrode siège de l'oxydation et celle siège de la réduction.</li>
-        </ol>
-
-        <div class="mode-op">
-          <img src="./assets/images/e5-pile.png" alt="Mode opératoire — réalisation d'une pile" class="mode-image">
-        </div>
-
+        <button class="tab-btn actif" data-tab="accumulateur">Charge et décharge d'un accumulateur</button>
       </div>
 
       <!-- ============================ -->
       <!-- ACCUMULATEUR                 -->
       <!-- ============================ -->
 
-      <div class="tab-panel" id="accumulateur">
+      <div class="tab-panel actif" id="accumulateur">
 
         <h3>Charge, décharge et énergie stockée</h3>
 
@@ -222,6 +169,49 @@
           cette énergie sous forme électrique. L'énergie stockée dépend
           de sa capacité et de sa tension d'utilisation.
         </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Pile ou accumulateur : quelle différence ?</h4>
+
+        <p>
+          Une pile et un accumulateur sont tous deux des convertisseurs
+          d'énergie chimique en énergie électrique, mais ils diffèrent
+          par leur <strong>réversibilité</strong>. Une pile n'est
+          utilisable qu'une seule fois : lorsque les réactifs introduits
+          à sa fabrication sont épuisés, elle est déchargée et
+          inutilisable. Un accumulateur, au contraire, peut être
+          rechargé un grand nombre de fois grâce à un chargeur qui
+          impose un courant de sens opposé à celui de la décharge : ce
+          processus, appelé <strong>électrolyse</strong>, convertit
+          l'énergie électrique reçue en énergie chimique stockée. On
+          parle abusivement de « pile rechargeable » alors qu'il s'agit,
+          en toute rigueur, d'un accumulateur.
+        </p>
+
+        <div class="info" style="display:flex;flex-direction:column;gap:.6rem;font-family:inherit;">
+          <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;">
+            <strong style="min-width:110px;">Pile</strong>
+            <span>énergie chimique</span>
+            <span style="color:var(--gris-moyen);">— décharge →</span>
+            <span>énergie électrique</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;">
+            <strong style="min-width:110px;">Accumulateur</strong>
+            <span>énergie chimique</span>
+            <span style="color:var(--gris-moyen);">⇄ décharge / charge ⇄</span>
+            <span>énergie électrique</span>
+          </div>
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Caractéristiques d'un accumulateur</h4>
+
+        <ul style="padding-left:1.5rem;line-height:2">
+          <li><strong>Tension nominale</strong> (en V) : tension moyenne observée aux bornes de l'accumulateur sur la plus grande partie de sa courbe de décharge. Elle dépend du couple redox utilisé.</li>
+          <li><strong>Capacité nominale</strong> Q (en Ah) : quantité d'électricité que peut restituer l'accumulateur, telle que Q = I × Δt (I en ampère, Δt en seconde pour une capacité exprimée en coulomb ; 1 C = 1/3600 Ah).</li>
+          <li><strong>Énergie stockée</strong> E (en Wh) : E = U × Q, où U est la tension d'utilisation (V) et Q la capacité (Ah).</li>
+          <li><strong>Temps de charge ou de décharge</strong> Δt : Δt = Q / I, rapport de la capacité nominale au courant de charge ou de décharge.</li>
+          <li><strong>Densité énergétique</strong> (en Wh/kg ou Wh/L) : énergie stockée rapportée à la masse (densité massique) ou au volume (densité volumique) de l'accumulateur.</li>
+          <li><strong>Nombre de cycles</strong> : nombre de fois où l'accumulateur peut restituer le même niveau d'énergie après chaque recharge — une décharge incomplète répétée peut entraîner un « effet mémoire » qui réduit sa capacité.</li>
+        </ul>
 
         <div class="form-row">
 
@@ -247,7 +237,31 @@
           pour calculer l'énergie stockée et l'énergie massique.
         </div>
 
+        <div class="form-row" style="margin-top:var(--gap-md);">
+
+          <div class="form-group">
+            <label for="acc-courant">Courant de charge / décharge (A)</label>
+            <input id="acc-courant" type="number" step="0.1">
+          </div>
+
+          <div class="form-group" style="justify-content:flex-end;">
+            <span class="tag" style="align-self:flex-start;">Δt = Q / I</span>
+          </div>
+
+        </div>
+
+        <div id="acc-temps-resultat" class="resultat-calcul">
+          Saisir également un courant de charge ou de décharge pour calculer le temps correspondant.
+        </div>
+
         <h4 style="margin-top:var(--gap-lg);">Suivi de la décharge</h4>
+
+        <div class="info">
+          Au cours de la décharge, la tension reste d'abord proche de
+          la tension nominale avant de chuter plus nettement en fin de
+          décharge : c'est cette allure de courbe qu'il s'agit de
+          retrouver expérimentalement.
+        </div>
 
         <div class="form-row">
 
@@ -301,6 +315,78 @@
           <img src="./assets/images/e5-accumulateur.png" alt="Mode opératoire — charge et décharge d'un accumulateur" class="mode-image">
         </div>
 
+        <h4 style="margin-top:var(--gap-lg);">Exemples d'accumulateurs</h4>
+
+        <div class="table-responsive">
+          <table class="tableau-resultats">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Abréviation</th>
+                <th>Domaine d'application</th>
+                <th>Tension d'un élément (V)</th>
+                <th>Énergie massique (Wh/kg)</th>
+                <th>Nombre de cycles max.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Plomb-dioxyde de plomb</td>
+                <td>Pb-PbO₂</td>
+                <td>Industrie automobile, alimentations de secours</td>
+                <td>2,1</td>
+                <td>15 à 40</td>
+                <td>800</td>
+              </tr>
+              <tr>
+                <td>Nickel-fer</td>
+                <td>Ni-Fe</td>
+                <td>Transports ferroviaires, sous-marins</td>
+                <td>1,2</td>
+                <td>30</td>
+                <td>4 000</td>
+              </tr>
+              <tr>
+                <td>Nickel-hydrure métallique</td>
+                <td>NiMH</td>
+                <td>Appareils électriques et électroniques, véhicules électriques et hybrides</td>
+                <td>1,2</td>
+                <td>jusqu'à 100</td>
+                <td>1 200</td>
+              </tr>
+              <tr>
+                <td>Lithium-ion</td>
+                <td>Li-ion</td>
+                <td>Électronique portable, véhicule électrique, spatial</td>
+                <td>3 à 3,6</td>
+                <td>jusqu'à 200</td>
+                <td>1 200</td>
+              </tr>
+              <tr>
+                <td>Lithium-polymère</td>
+                <td>Li-Po</td>
+                <td>Électronique portable, modélisme, automobile</td>
+                <td>3,7</td>
+                <td>120</td>
+                <td>300</td>
+              </tr>
+              <tr>
+                <td>Lithium-fer-phosphate</td>
+                <td>LFP</td>
+                <td>Robotique</td>
+                <td>3,3</td>
+                <td>200</td>
+                <td>3 000</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="tp-source" style="font-size:var(--fs-xs);color:var(--gris-moyen);margin-top:.4rem;">
+          Source des données : Ministère de l'Éducation nationale, de l'Enseignement supérieur et de la Recherche (DGESCO),
+          <a href="https://eduscol.education.gouv.fr/sites/default/files/document/ra25-lycee-pro-phychi-essentielstockagepdf-111666.pdf" target="_blank" rel="noopener">« L'essentiel sur le stockage de l'énergie électrique »</a>,
+          éduscol, mai 2025.
+        </p>
+
       </div>
 
     </div>
@@ -333,8 +419,13 @@
         <tbody>
 
           <tr>
-            <td>Tension mesurée de la pile</td>
+            <td>Tension nominale mesurée en décharge</td>
             <td><input type="text" placeholder="V"></td>
+          </tr>
+
+          <tr>
+            <td>Temps de décharge observé</td>
+            <td><input type="text" placeholder="min"></td>
           </tr>
 
           <tr>
@@ -370,16 +461,50 @@
     <h3>Bonnes pratiques au laboratoire</h3>
 
     <ul style="padding-left:1.5rem;line-height:2">
-      <li>Trier les déchets chimiques issus des demi-piles selon les consignes de l'établissement.</li>
       <li>Ne pas jeter un accumulateur usagé avec les déchets ménagers ; utiliser une filière de collecte dédiée.</li>
+      <li>Respecter les consignes du fabricant pour la charge, afin de préserver la durée de vie et la sécurité de l'accumulateur.</li>
     </ul>
 
     <h3 style="margin-top:var(--gap-md);">Stockage de l'énergie et transition énergétique</h3>
 
     <p>
+      On distingue le <strong>stockage embarqué</strong>, présent au
+      quotidien dans les applications mobiles (batteries de véhicules,
+      de téléphones...) et de capacité de l'ordre du kilowattheure, du
+      <strong>stockage stationnaire</strong>, qui contribue à
+      équilibrer production et consommation sur les réseaux électriques
+      en stockant l'électricité produite en période creuse pour la
+      restituer lors des pics de demande. Ces installations stationnaires
+      vont de quelques kWh à plusieurs GWh.
+    </p>
+
+    <p>
+      Le stockage de l'électricité est un enjeu majeur de la transition
+      énergétique : il conditionne notamment le développement des
+      énergies renouvelables intermittentes (solaire, éolien). D'après
+      le conseil mondial de l'énergie éolienne (GWEC), environ 3 % de la
+      puissance électrique produite dans le monde est aujourd'hui
+      stockée dans des installations stationnaires, une part qui
+      pourrait atteindre 6 % en 2040 selon les projections de Bloomberg
+      NEF, avec une capacité mondiale installée passant de moins de
+      10 GWh en 2019 à plus de 1 000 GWh à cette échéance.
+    </p>
+
+    <p>
       Le choix d'un type d'accumulateur repose notamment sur son
       énergie massique, qui conditionne l'autonomie d'un appareil ou
-      d'un véhicule électrique pour une masse embarquée donnée.
+      d'un véhicule électrique pour une masse embarquée donnée. Piles
+      et accumulateurs contiennent par ailleurs des substances
+      dangereuses pour l'environnement et la santé (nickel, cadmium,
+      plomb, lithium...) : une filière de collecte et de recyclage
+      dédiée existe en Europe depuis 1991, au titre de la
+      responsabilité élargie des producteurs.
+    </p>
+
+    <p class="tp-source" style="font-size:var(--fs-xs);color:var(--gris-moyen);">
+      Source : Ministère de l'Éducation nationale, de l'Enseignement supérieur et de la Recherche (DGESCO),
+      <a href="https://eduscol.education.gouv.fr/sites/default/files/document/ra25-lycee-pro-phychi-essentielstockagepdf-111666.pdf" target="_blank" rel="noopener">« L'essentiel sur le stockage de l'énergie électrique »</a>,
+      éduscol, mai 2025 (<a href="https://eduscol.education.gouv.fr/5898/programmes-et-ressources-en-physique-chimie-voie-professionnelle" target="_blank" rel="noopener">ressources physique-chimie voie professionnelle</a>).
     </p>
 
   </div>
@@ -425,7 +550,7 @@
     <h3 style="margin-top:var(--gap-md);">Résumé du TP</h3>
 
     <div class="zone-eleve">
-      <textarea id="resume-tp" rows="6" placeholder="Résumer les observations sur la pile réalisée et l'essai de décharge de l'accumulateur..."></textarea>
+      <textarea id="resume-tp" rows="6" placeholder="Résumer la différence entre pile et accumulateur, ainsi que les résultats de l'essai de charge/décharge..."></textarea>
     </div>
 
     <h3 style="margin-top:var(--gap-md);">Questions</h3>
@@ -437,7 +562,7 @@
       <li>
         <div class="question-entete">
           <strong>
-            À partir des demi-réactions fournies, identifier l'électrode siège de l'oxydation et celle siège de la réduction dans la pile étudiée.
+            Expliquer la différence fondamentale entre une pile électrochimique et un accumulateur, du point de vue de la réversibilité des réactions mises en jeu.
           </strong>
           <span class="cartouche" data-comp="APP">APP</span>
         </div>
@@ -461,7 +586,7 @@
       <li>
         <div class="question-entete">
           <strong>
-            Comparer l'énergie massique de l'accumulateur étudié à celle d'un autre type d'accumulateur (à partir d'une ressource documentaire fournie par l'enseignant).
+            Comparer l'énergie massique de l'accumulateur étudié à celle d'un autre type d'accumulateur, à partir du tableau « Exemples d'accumulateurs » ci-dessus.
           </strong>
           <span class="cartouche" data-comp="ANA">ANA</span>
         </div>
@@ -533,7 +658,7 @@
           <tr data-comp="REA">
             <td>Réaliser</td>
             <td>REA</td>
-            <td>Réaliser une pile et suivre la décharge d'un accumulateur.</td>
+            <td>Suivre la charge et la décharge d'un accumulateur.</td>
             <td><input type="radio" name="REA" value="0"></td>
             <td><input type="radio" name="REA" value="1"></td>
             <td><input type="radio" name="REA" value="2"></td>
@@ -607,8 +732,7 @@
     <div class="info" style="margin-top:var(--gap-md);">
       L'impression récupère automatiquement :
       <ul>
-        <li>le couple d'électrodes étudié et la tension de la pile ;</li>
-        <li>le suivi de décharge de l'accumulateur ;</li>
+        <li>le suivi de charge/décharge de l'accumulateur ;</li>
         <li>les résultats du tableau et les réponses aux questions ;</li>
         <li>l'auto-évaluation des compétences.</li>
       </ul>

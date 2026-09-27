@@ -152,6 +152,20 @@
         background:#fff !important;
     }
 
+    /* Force l'impression des couleurs (fond, bordure, texte) même si
+       l'utilisateur n'a pas coché « Graphiques d'arrière-plan » dans la
+       boîte de dialogue d'impression du navigateur — sans quoi tout le
+       compte-rendu (logo, filet d'en-tête, pastilles de compétence)
+       sort en niveaux de gris. */
+    html,
+    body,
+    #cr-print-container,
+    #cr-print-container * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+
     body.cr-printing{
 
         background:#fff !important;

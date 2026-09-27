@@ -20,6 +20,8 @@ import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-algebre.js';
 import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 
+import { initPuzzle, CADRES, fmt, polynome } from './puzzle-algebre.js';
+
 const CONTEXTES_TD03 = {
   '1ere-trpm': {
     contexte: "Lors d'une opération d'usinage sur tour ou fraiseuse, le volume de matière enlevée sur une pièce mécanique évolue en fonction d'une dimension de passe selon une fonction polynôme de degré 2 ou 3.",
@@ -63,8 +65,130 @@ const CONTEXTES_TD03 = {
   },
 };
 
+/* ============================================================
+   ACTIVITÉS PUZZLE — fonctions coût par filière
+   1ère : f(x) = a(x − x0)² + m   |   Tle : f'(x) = 3(x − r1)(x − r2)
+   ============================================================ */
+
+const PUZZLE_TD03 = {
+  trpm: { variable: 'la quantité de pièces usinées', cout: 'le coût de fabrication (en €)', a: 2, x0: 10, m: 100, r1: 2, r2: 8, c: 150 },
+  tci: { variable: 'la quantité de pièces chaudronnées', cout: 'le coût de fabrication (en €)', a: 1, x0: 20, m: 50, r1: 1, r2: 5, c: 80 },
+  mcc: { variable: 'le nombre de pièces confectionnées', cout: 'le coût de production (en €)', a: 1, x0: 15, m: 40, r1: 1, r2: 7, c: 150 },
+  log: { variable: 'le nombre de points de livraison', cout: 'le coût global de la tournée (en €)', a: 3, x0: 8, m: 120, r1: 2, r2: 10, c: 300 },
+  agora: { variable: 'le nombre de dossiers traités', cout: 'le coût de gestion (en €)', a: 2, x0: 12, m: 90, r1: 3, r2: 11, c: 250 },
+};
+
+function construirePuzzleTD03(cle) {
+  const [niv, fil] = cle.split('-');
+  const d = PUZZLE_TD03[fil];
+  if (!d) return null;
+  const cadre = CADRES[fil];
+  const { variable, cout } = d;
+  const u = `x représente ${variable}`;
+
+  if (niv !== 'tle') {
+    const { a, x0, m } = d;
+    const expr = polynome([a, -2 * a * x0, a * x0 * x0 + m]);
+    const seuil = m + 25 * a;
+    return {
+      A: {
+        contexte: `${cadre}, ${cout} est modélisé par f(x) = ${expr}, où ${u}.`,
+        problematique: `Pour quelle valeur de x le coût est-il minimal ?`,
+        questions: [
+          `Calculer la dérivée f'(x).`,
+          `Résoudre f'(x) = 0.`,
+          `Étudier le signe de f'(x).`,
+          `En déduire le sens de variation de f.`,
+          `Répondre à la problématique par une phrase, avec l'unité.`] },
+      B: {
+        contexte: `${cadre}, le responsable veut connaître le meilleur coût atteignable avec f(x) = ${expr}, où ${u}.`,
+        problematique: `Quel est le coût minimal, et pour quelle valeur de x est-il atteint ?`,
+        questions: [
+          `Calculer f'(x).`,
+          `Dresser le tableau de variations de f.`,
+          `Calculer la valeur extrême de f.`,
+          `Interpréter cette valeur dans la situation.`,
+          `Répondre à la problématique par une phrase, avec l'unité.`] },
+      C: {
+        contexte: `${cadre}, le coût doit rester acceptable : il ne doit pas dépasser ${fmt(seuil)} €. On garde f(x) = ${expr}, où ${u}.`,
+        problematique: `Pour quelles valeurs de x le coût reste-t-il inférieur ou égal à ${fmt(seuil)} € ?`,
+        questions: [
+          `Représenter f graphiquement (NumWorks ou GeoGebra) et tracer la droite y = ${fmt(seuil)}.`,
+          `Lire graphiquement les solutions de f(x) = ${fmt(seuil)}.`,
+          `Résoudre algébriquement f(x) = ${fmt(seuil)} (discriminant).`,
+          `En déduire l'intervalle des solutions de f(x) ⩽ ${fmt(seuil)}.`,
+          `Répondre à la problématique par une phrase, avec l'unité.`] },
+    };
+  }
+  const { r1, r2, c } = d;
+  const f = x => x ** 3 - 1.5 * (r1 + r2) * x ** 2 + 3 * r1 * r2 * x + c;
+  const expr = polynome([1, -1.5 * (r1 + r2), 3 * r1 * r2, c]);
+  const fmax = f(r1), fmin = f(r2), k = Math.round((c + fmax) / 2);
+  return {
+    A: {
+      contexte: `${cadre}, ${cout} est modélisé par f(x) = ${expr}, où ${u}.`,
+      problematique: `Pour quelle valeur de x le coût de fabrication est-il minimal ?`,
+      questions: [
+        `Calculer la dérivée f'(x).`,
+        `Résoudre f'(x) = 0 (discriminant).`,
+        `Étudier le signe de f'(x).`,
+        `Dresser le tableau de variations de f (maximum et minimum locaux).`,
+        `Répondre à la problématique par une phrase, avec l'unité.`] },
+    B: {
+      contexte: `${cadre}, le responsable veut connaître le coût le plus bas envisageable avec f(x) = ${expr}, où ${u}.`,
+      problematique: `Quel est le coût minimal atteignable ?`,
+      questions: [
+        `Calculer f'(x) et ses racines.`,
+        `Calculer f(${r1}) et f(${r2}).`,
+        `Dresser le tableau de variations complet de f.`,
+        `Identifier le minimum local et interpréter sa valeur.`,
+        `Répondre à la problématique par une phrase, avec l'unité.`] },
+    C: {
+      contexte: `${cadre}, un client impose un coût de ${fmt(k)} €. Le coût suit f(x) = ${expr}, où ${u}.`,
+      problematique: `Pour combien de valeurs de x (x ⩾ 0) le coût est-il exactement égal à ${fmt(k)} € ?`,
+      questions: [
+        `Calculer f(0), f(${r1}) et f(${r2}).`,
+        `Situer ${fmt(k)} par rapport à ces valeurs.`,
+        `À l'aide du tableau de variations, déterminer le nombre de solutions de f(x) = ${fmt(k)}.`,
+        `Vérifier avec la courbe tracée à la calculatrice.`,
+        `Répondre à la problématique par une phrase.`] },
+  };
+}
+
 function formater(v) {
   return typeof v === 'number' ? v.toFixed(2) : v;
+}
+
+/**
+ * Formate un coefficient : 2 décimales maximum, sans décimales si entier.
+ * -1.7999999999999998 → "1.80" (valeur absolue), 24 → "24"
+ */
+function formaterCoef(v) {
+  const arrondi = Number(v.toFixed(2));
+  return Number.isInteger(arrondi) ? String(arrondi) : arrondi.toFixed(2);
+}
+
+/**
+ * Construit l'écriture d'un polynôme à partir de ses coefficients
+ * (du plus haut degré au plus bas), avec gestion des signes.
+ * formaterPolynome([-1.7999999999999998, 24, 50])           → "-1.80x² + 24x + 50"
+ * formaterPolynome([1, -4], ['x', ''])                       → "x - 4"
+ */
+function formaterPolynome(coefs, puissances = ['x²', 'x', '']) {
+  const termes = coefs
+    .map((c, i) => ({ c: Number(c.toFixed(2)), p: puissances[i] || '' }))
+    .filter(({ c }) => c !== 0);
+
+  if (termes.length === 0) return '0';
+
+  return termes
+    .map(({ c, p }, i) => {
+      const abs = Math.abs(c);
+      const corps = (abs === 1 && p) ? p : `${formaterCoef(abs)}${p}`;
+      if (i === 0) return c < 0 ? `-${corps}` : corps;
+      return `${c < 0 ? '-' : '+'} ${corps}`;
+    })
+    .join(' ');
 }
 
 /* ============================================================
@@ -200,10 +324,10 @@ function calculerTangente() {
   const { m, p, fn: tangente } = equationTangente(f, fPrime, x0);
 
   document.getElementById('tg-tbody').innerHTML = `
-    <tr><td>f'(x)</td><td>${dA}x + ${dB}</td></tr>
+    <tr><td>f'(x)</td><td>${formaterPolynome([dA, dB], ['x', ''])}</td></tr>
     <tr><td>f'(${x0}) (nombre dérivé)</td><td>${formater(m)}</td></tr>
     <tr><td>f(${x0})</td><td>${formater(f(x0))}</td></tr>
-    <tr><td>Équation de la tangente en x0 = ${x0}</td><td>y = ${formater(m)}x + ${formater(p)}</td></tr>
+    <tr><td>Équation de la tangente en x0 = ${x0}</td><td>y = ${formaterPolynome([m, p], ['x', ''])}</td></tr>
   `;
 
   const sommetX = -dB / (2 * dA);
@@ -265,7 +389,7 @@ function etudierPolynomeDegre3() {
   const { discriminant, racines } = resoudreTrinome(derivee);
 
   document.getElementById('pd-tbody-derivee').innerHTML = `
-    <tr><td>f'(x)</td><td>${derivee[0]}x² + ${derivee[1]}x + ${derivee[2]}</td></tr>
+    <tr><td>f'(x)</td><td>${formaterPolynome(derivee)}</td></tr>
     <tr><td>Discriminant de f'</td><td>${discriminant === null ? '—' : formater(discriminant)}</td></tr>
     <tr><td>Point(s) critique(s) sur ]${xMin} ; ${xMax}[</td><td>${racines.length ? racines.filter((x) => x > xMin && x < xMax).map(formater).join(' ; ') : 'aucun'}</td></tr>
   `;
@@ -324,6 +448,8 @@ initDerivationVariations();
 
 initFonctionCube();
 initPolynomeDegre3();
+
+initPuzzle(construirePuzzleTD03);
 
 initRadarCompetences();
 initImpressionCompteRendu({ titre: 'Étudier des fonctions', tp: 'TD03' });

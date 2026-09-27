@@ -13,6 +13,8 @@ import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-algorithme.js';
 import { initBoutonsPyLab } from '../../js/pylab.js';
 
+import { demarrerPuzzle } from '../../js/puzzle-onglet.js';
+import { A3 } from './puzzle-algorithme.js';
 const CONTEXTES_PRO = {
   '1ere-trpm': {
     contexte: "Une machine d'usinage peut augmenter sa cadence chaque jour d'une quantité fixe (suite arithmétique) ou d'un pourcentage fixe (suite géométrique).",
@@ -61,6 +63,8 @@ export function init() {
     filieres: FILIERES_PRO,
     contextes: CONTEXTES_PRO,
   });
+
+  demarrerPuzzle(A3);
   initBoutonsPyLab('.btn-pylab');
   initSections();
   initTabs();

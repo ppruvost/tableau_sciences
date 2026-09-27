@@ -185,6 +185,12 @@ startBtn.addEventListener("click", async () => {
   startBtn.disabled = false;
   startBtn.textContent = startBtnLabel;
 
+  // >>> SUIVI EN DIRECT (page /suivi/) <<<
+  if (typeof suiviDemarrerSession === "function") {
+    await suiviDemarrerSession(nom, prenom, titreQuiz);
+  }
+  // <<< FIN SUIVI >>>
+
   score = 0;
   current = 0;
   playMathsPoints = 0;
@@ -595,6 +601,23 @@ function endQuiz() {
       Math.round(
           (score / total) * 20
       );
+
+  const noteSur10 =
+      Math.round(
+          (score / total) * 10
+      );
+
+  // >>> SUIVI EN DIRECT (page /suivi/) <<<
+  if (typeof suiviTerminerSession === "function") {
+    suiviTerminerSession({
+      score,
+      total,
+      note10: noteSur10,
+      note20: noteSur20,
+      playMathsPoints
+    });
+  }
+  // <<< FIN SUIVI >>>
 
   questionBox.textContent =
 `Quiz terminé !

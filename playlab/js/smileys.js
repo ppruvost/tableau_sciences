@@ -53,12 +53,20 @@ function startGame() {
 /* CREATE ITEMS */
 function createItems() {
   itemsContainer.innerHTML = "";
-  const spacing = 95;
+  /* on répartit les items sur la largeur RÉELLE du cartouche
+     (et non plus sur une largeur fixe en px), pour que le dernier
+     objet reste toujours atteignable, même sur petit écran */
+  const trackWidth = track.offsetWidth;
+  itemsContainer.style.width = `${trackWidth}px`;
+  const startX = 60;   // marge de départ (après le smiley)
+  const endMargin = 70; // marge avant le bord droit du cartouche
+  const usableWidth = Math.max(trackWidth - startX - endMargin, 0);
+  const spacing = usableWidth / (sequence.length - 1);
   sequence.forEach((emoji, index) => {
     const item = document.createElement("div");
     item.className = "item";
     item.innerText = emoji;
-    item.style.left = `${140 + index * spacing}px`;
+    item.style.left = `${startX + index * spacing}px`;
     itemsContainer.appendChild(item);
   });
   items = [...document.querySelectorAll(".item")];

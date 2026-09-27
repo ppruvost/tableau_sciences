@@ -119,6 +119,7 @@
         <button class="tab-btn" data-tab="tab-inequation">Inéquation</button>
         <button class="tab-btn" data-tab="tab-intervalles">Intervalles de ℝ</button>
         <button class="tab-btn" data-tab="tab-probleme">Traduire un problème</button>
+        <button class="tab-btn" data-tab="activites-puzzle">🧩 Activités Puzzle</button>
       </div>
 
       <!-- ---------- ONGLET 1 : ÉQUATION DU PREMIER DEGRÉ ---------- -->
@@ -252,6 +253,86 @@
         <p id="pb-interpretation" class="resultat-calcul"></p>
       </div>
 
+      <!-- ---------- ONGLET 5 : ACTIVITÉS PUZZLE (sous-onglets) ---------- -->
+      <div class="tab-panel" id="activites-puzzle">
+        <h3>Activités Puzzle</h3>
+        <div id="puzzle-info" class="info">
+          Sélectionner votre filière professionnelle dans la section « Contexte
+          professionnel » ci-dessus pour afficher les trois sujets.
+        </div>
+        <div class="sous-onglets" role="tablist">
+          <button class="sous-btn actif" data-sous="puzzle-sujet-a">Sujet A</button>
+          <button class="sous-btn" data-sous="puzzle-sujet-b">Sujet B</button>
+          <button class="sous-btn" data-sous="puzzle-sujet-c">Sujet C</button>
+          <button class="sous-btn" data-sous="puzzle-synthese-panel">Synthèse</button>
+        </div>
+        <div class="sous-panel actif" id="puzzle-sujet-a">
+          <div class="fiche-puzzle" data-titre="Résoudre une équation">
+            <div class="questions-bloc" data-tp="puzzle-a">
+              <ol class="questions-tp"><li>
+                <div class="question-entete"><strong>Sujet A — Résoudre une équation</strong>
+                  <span class="cartouche" data-comp="REA">REA</span></div>
+                <p class="info puzzle-contexte" id="puzzle-a-contexte"></p>
+                <p class="puzzle-problematique" id="puzzle-a-problematique"></p>
+                <ol id="puzzle-a-enonce" class="puzzle-questions"></ol>
+                <div class="form-row">
+                  <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                  <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+                </div>
+                <div class="zone-eleve"><textarea id="puzzle-a-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+              </li></ol>
+            </div>
+          </div>
+        </div>
+        <div class="sous-panel" id="puzzle-sujet-b">
+          <div class="fiche-puzzle" data-titre="Résoudre une inéquation">
+            <div class="questions-bloc" data-tp="puzzle-b">
+              <ol class="questions-tp"><li>
+                <div class="question-entete"><strong>Sujet B — Résoudre une inéquation</strong>
+                  <span class="cartouche" data-comp="ANA RAI">ANA RAI</span></div>
+                <p class="info puzzle-contexte" id="puzzle-b-contexte"></p>
+                <p class="puzzle-problematique" id="puzzle-b-problematique"></p>
+                <ol id="puzzle-b-enonce" class="puzzle-questions"></ol>
+                <div class="form-row">
+                  <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                  <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+                </div>
+                <div class="zone-eleve"><textarea id="puzzle-b-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+              </li></ol>
+            </div>
+          </div>
+        </div>
+        <div class="sous-panel" id="puzzle-sujet-c">
+          <div class="fiche-puzzle" data-titre="Comparer deux offres">
+            <div class="questions-bloc" data-tp="puzzle-c">
+              <ol class="questions-tp"><li>
+                <div class="question-entete"><strong>Sujet C — Comparer deux offres</strong>
+                  <span class="cartouche" data-comp="VAL">VAL</span></div>
+                <p class="info puzzle-contexte" id="puzzle-c-contexte"></p>
+                <p class="puzzle-problematique" id="puzzle-c-problematique"></p>
+                <ol id="puzzle-c-enonce" class="puzzle-questions"></ol>
+                <div class="form-row">
+                  <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                  <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+                </div>
+                <div class="zone-eleve"><textarea id="puzzle-c-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+              </li></ol>
+            </div>
+          </div>
+        </div>
+        <div class="sous-panel" id="puzzle-synthese-panel">
+          <div class="info">En groupe mélangé, chaque expert présente son sujet aux autres. Comparer les trois situations : quand utilise-t-on une équation, une inéquation ?</div>
+          <div class="questions-bloc" data-tp="puzzle-synthese">
+          <ol class="questions-tp"><li>
+            <div class="question-entete"><strong>Synthèse — Réponse commune à la problématique</strong>
+              <span class="cartouche" data-comp="COM">COM</span></div>
+            <p class="problematique-rappel"></p>
+            <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs et différences entre les sujets, réponse argumentée..."></textarea></div>
+          </li></ol>
+          </div>
+        </div>
+      </div>
+
     </div>
 
   </div>
@@ -329,105 +410,6 @@
       <li>Une <strong>inéquation</strong> traduit une contrainte (ne pas dépasser un budget, atteindre au moins un seuil).</li>
       <li>La <strong>notation en intervalle</strong> permet d'exprimer clairement un ensemble de valeurs acceptables, ce qui sera réutilisé tout au long de l'année en algèbre comme en analyse.</li>
     </ul>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="puzzle">
-
-  <div class="section-titre">
-    <div class="picto-section">🧩</div>
-    <h2>Activités Puzzle</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="info">
-      Situation étudiée — un atelier facture chaque intervention 15 € de
-      déplacement, plus 25 € par heure de main-d'œuvre.
-    </div>
-
-    <div class="fiche-puzzle" data-titre="Résoudre une équation">
-
-      <h3>Fiche A — Résoudre une équation</h3>
-
-      <p>Pour la situation ci-dessus :</p>
-
-      <ol>
-        <li>Écrire l'équation donnant le coût total en fonction du nombre d'heures x.</li>
-        <li>Résoudre cette équation pour un coût total de 190 €.</li>
-        <li>Vérifier le résultat par le calcul.</li>
-      </ol>
-
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-      </div>
-
-      <div class="zone-eleve">
-        <textarea rows="6" placeholder="Réponses du groupe expert : équation, résolution, vérification..."></textarea>
-      </div>
-
-    </div>
-
-    <div class="fiche-puzzle" data-titre="Résoudre une inéquation">
-
-      <h3>Fiche B — Résoudre une inéquation</h3>
-
-      <p>Pour la même situation, un client dispose d'un budget maximal de 150 €.</p>
-
-      <ol>
-        <li>Écrire l'inéquation correspondant à cette contrainte de budget.</li>
-        <li>La résoudre et exprimer le résultat sous forme d'intervalle de ℝ.</li>
-        <li>Interpréter ce résultat en nombre d'heures maximum.</li>
-      </ol>
-
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-      </div>
-
-      <div class="zone-eleve">
-        <textarea rows="6" placeholder="Réponses du groupe expert : inéquation, résolution, interprétation..."></textarea>
-      </div>
-
-    </div>
-
-    <div class="fiche-puzzle" data-titre="Comparer deux offres">
-
-      <h3>Fiche C — Comparer deux offres</h3>
-
-      <p>Un second atelier facture 30 € de déplacement, puis 20 € par heure.</p>
-
-      <ol>
-        <li>Écrire l'équation traduisant l'égalité des deux coûts.</li>
-        <li>La résoudre : à partir de combien d'heures la seconde offre devient-elle plus avantageuse ?</li>
-        <li>Formuler une recommandation selon le nombre d'heures prévu.</li>
-      </ol>
-
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-      </div>
-
-      <div class="zone-eleve">
-        <textarea rows="6" placeholder="Réponses du groupe expert : équation, résolution, recommandation..."></textarea>
-      </div>
-
-    </div>
-
-    <h3 style="margin-top:var(--gap-lg);">Synthèse puzzle</h3>
-
-    <div class="info">
-      En groupe mélangé, chaque expert présente sa fiche aux autres. Comparer les
-      trois situations : quand utilise-t-on une équation, une inéquation ?
-    </div>
-
-    <div class="zone-eleve">
-      <textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs et différences entre les fiches..."></textarea>
-    </div>
 
   </div>
 

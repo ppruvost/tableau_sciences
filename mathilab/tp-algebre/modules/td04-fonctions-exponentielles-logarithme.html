@@ -117,6 +117,7 @@
       <div class="tabs-header">
         <button class="tab-btn actif" data-tab="fonction-exponentielle">Fonction exponentielle de base q</button>
         <button class="tab-btn" data-tab="fonction-log">Fonction logarithme décimal</button>
+        <button class="tab-btn" data-tab="activites-puzzle">🧩 Activités Puzzle</button>
       </div>
 
       <!-- ============================ -->
@@ -215,6 +216,86 @@
 
       </div>
 
+      <!-- ---------- ACTIVITÉS PUZZLE ---------- -->
+      <div class="tab-panel" id="activites-puzzle">
+        <h3>Activités Puzzle</h3>
+        <div id="puzzle-info" class="info">
+          Sélectionner votre filière professionnelle dans la section « Contexte
+          professionnel » ci-dessus pour afficher les trois sujets.
+        </div>
+        <div class="sous-onglets" role="tablist">
+          <button class="sous-btn actif" data-sous="puzzle-sujet-a">Sujet A</button>
+          <button class="sous-btn" data-sous="puzzle-sujet-b">Sujet B</button>
+          <button class="sous-btn" data-sous="puzzle-sujet-c">Sujet C</button>
+          <button class="sous-btn" data-sous="puzzle-synthese-panel">Synthèse</button>
+        </div>
+        <div class="sous-panel actif" id="puzzle-sujet-a">
+          <div class="fiche-puzzle" data-titre="Étudier la fonction q^x">
+            <div class="questions-bloc" data-tp="puzzle-a">
+              <ol class="questions-tp"><li>
+                <div class="question-entete"><strong>Sujet A — Étudier la fonction q^x</strong>
+                  <span class="cartouche" data-comp="REA">REA</span></div>
+                <p class="info puzzle-contexte" id="puzzle-a-contexte"></p>
+                <p class="puzzle-problematique" id="puzzle-a-problematique"></p>
+                <ol id="puzzle-a-enonce" class="puzzle-questions"></ol>
+                <div class="form-row">
+                  <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                  <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+                </div>
+                <div class="zone-eleve"><textarea id="puzzle-a-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+              </li></ol>
+            </div>
+          </div>
+        </div>
+        <div class="sous-panel" id="puzzle-sujet-b">
+          <div class="fiche-puzzle" data-titre="Résoudre q^x = a">
+            <div class="questions-bloc" data-tp="puzzle-b">
+              <ol class="questions-tp"><li>
+                <div class="question-entete"><strong>Sujet B — Résoudre q^x = a</strong>
+                  <span class="cartouche" data-comp="ANA">ANA</span></div>
+                <p class="info puzzle-contexte" id="puzzle-b-contexte"></p>
+                <p class="puzzle-problematique" id="puzzle-b-problematique"></p>
+                <ol id="puzzle-b-enonce" class="puzzle-questions"></ol>
+                <div class="form-row">
+                  <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                  <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+                </div>
+                <div class="zone-eleve"><textarea id="puzzle-b-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+              </li></ol>
+            </div>
+          </div>
+        </div>
+        <div class="sous-panel" id="puzzle-sujet-c">
+          <div class="fiche-puzzle" data-titre="Logarithme décimal">
+            <div class="questions-bloc" data-tp="puzzle-c">
+              <ol class="questions-tp"><li>
+                <div class="question-entete"><strong>Sujet C — Logarithme décimal</strong>
+                  <span class="cartouche" data-comp="VAL">VAL</span></div>
+                <p class="info puzzle-contexte" id="puzzle-c-contexte"></p>
+                <p class="puzzle-problematique" id="puzzle-c-problematique"></p>
+                <ol id="puzzle-c-enonce" class="puzzle-questions"></ol>
+                <div class="form-row">
+                  <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                  <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+                </div>
+                <div class="zone-eleve"><textarea id="puzzle-c-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+              </li></ol>
+            </div>
+          </div>
+        </div>
+        <div class="sous-panel" id="puzzle-synthese-panel">
+          <div class="info">En groupe mélangé, chaque expert présente son sujet aux autres. Comparer les trois situations et rédiger une réponse commune.</div>
+          <div class="questions-bloc" data-tp="puzzle-synthese">
+          <ol class="questions-tp"><li>
+            <div class="question-entete"><strong>Synthèse — Réponse commune à la problématique</strong>
+              <span class="cartouche" data-comp="COM">COM</span></div>
+            <p class="problematique-rappel"></p>
+            <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs et différences entre les sujets, réponse argumentée..."></textarea></div>
+          </li></ol>
+          </div>
+        </div>
+      </div>
+
     </div>
 
   </div>
@@ -291,111 +372,6 @@
       <li>Le <strong>logarithme décimal</strong> est l'outil qui permet d'isoler x lorsque x apparaît en exposant.</li>
       <li>Résoudre <strong>qˣ = a</strong> ou <strong>log(x) = a</strong>, c'est répondre à la question « à quel instant, ou pour quelle grandeur, atteint-on un seuil donné ? ».</li>
     </ul>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="puzzle">
-
-  <div class="section-titre">
-    <div class="picto-section">🧩</div>
-    <h2>Activités Puzzle</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="toolbar">
-      <a class="btn btn-secondaire" href="../../numworks/emulator.html" target="_blank" rel="noopener">
-        🧮 Ouvrir la calculatrice NumWorks
-      </a>
-    </div>
-
-    <div class="info">
-      Situation étudiée — la tension aux bornes d'un condensateur en charge est
-      modélisée par u(t) = 12 × (1 − 1,5⁻ᵗ), où t est exprimé en secondes.
-    </div>
-
-    <div class="fiche-puzzle" data-titre="Étude de la fonction">
-
-      <h3>Fiche A — Étudier x ↦ 1,5⁻ˣ</h3>
-
-      <p>À l'aide de la calculatrice ou d'un tableur :</p>
-
-      <ol>
-        <li>Calculer 1,5⁻ˣ pour x = 0, 1, 2, 3, 5.</li>
-        <li>Déterminer le sens de variation de cette fonction.</li>
-        <li>Représenter graphiquement cette fonction.</li>
-      </ol>
-
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-      </div>
-
-      <div class="zone-eleve">
-        <textarea rows="6" placeholder="Réponses du groupe expert : valeurs calculées, sens de variation, courbe..."></textarea>
-      </div>
-
-    </div>
-
-    <div class="fiche-puzzle" data-titre="Résolution d'équation">
-
-      <h3>Fiche B — Résoudre une équation exponentielle</h3>
-
-      <p>Pour la même situation :</p>
-
-      <ol>
-        <li>Résoudre 1,5⁻ᵗ = 0,25.</li>
-        <li>En déduire à quel instant t la tension u(t) atteint 9 V.</li>
-      </ol>
-
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-      </div>
-
-      <div class="zone-eleve">
-        <textarea rows="6" placeholder="Réponses du groupe expert : résolution, instant t, méthode utilisée..."></textarea>
-      </div>
-
-    </div>
-
-    <div class="fiche-puzzle" data-titre="Logarithme décimal">
-
-      <h3>Fiche C — Utiliser le logarithme décimal</h3>
-
-      <p>À l'aide de la calculatrice ou d'un tableur :</p>
-
-      <ol>
-        <li>Calculer log(2), log(10), log(100).</li>
-        <li>Résoudre log(x) = 2,5.</li>
-        <li>Expliquer le lien entre log(x) = a et 10^a = x.</li>
-      </ol>
-
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-      </div>
-
-      <div class="zone-eleve">
-        <textarea rows="6" placeholder="Réponses du groupe expert : valeurs de log, résolution, explication du lien..."></textarea>
-      </div>
-
-    </div>
-
-    <h3 style="margin-top:var(--gap-lg);">Synthèse puzzle (séance 2)</h3>
-
-    <div class="info">
-      En groupe mélangé, rassembler les résultats des trois fiches (étude de la
-      fonction, résolution d'équation, logarithme décimal) pour rédiger une analyse
-      complète de la charge du condensateur.
-    </div>
-
-    <div class="zone-eleve">
-      <textarea id="puzzle-synthese" rows="6" placeholder="Synthèse commune : fonction exponentielle, résolution, logarithme décimal..."></textarea>
-    </div>
 
   </div>
 

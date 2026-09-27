@@ -15,6 +15,8 @@ import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 /* Module ouvert à toutes les filières professionnelles à ce niveau
    (aucune restriction de groupement mentionnée dans le référentiel
    pour la géométrie dans l'espace en 1ère). */
+import { demarrerPuzzle } from '../../js/puzzle-onglet.js';
+import { G2 } from './puzzle-geometrie.js';
 const CONTEXTES_TD02 = {
   '1ere-trpm': {
     contexte: "En usinage, une pièce mécanique résulte souvent de l'assemblage de plusieurs solides usuels, et sa coupe en plan technique correspond à une section par un plan.",
@@ -45,6 +47,8 @@ function initialiserTD02() {
     filieres: FILIERES_PRO,
     contextes: CONTEXTES_TD02
   });
+
+  demarrerPuzzle(G2);
 
   initRadarCompetences();
 

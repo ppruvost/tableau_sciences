@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suivi Memory — PlayLab</title>
+<link rel="stylesheet" href="../../suivi/css/suivi.css">
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="top">
+    <h1 class="pixel-title">🧠 SUIVI MEMORY</h1>
+    <a class="back-link" href="../index.html">← Retour à l'écran animateur</a>
+  </header>
+
+  <p class="foot-note" style="margin-bottom:16px; font-size:14px;">
+    Manche en cours : <strong id="ronde-actuelle">—</strong>
+  </p>
+
+  <div class="stats-row">
+    <div class="stat-card wait">
+      <div class="num" id="stat-cours">0</div>
+      <div class="lbl">🔵 En cours / connectés</div>
+    </div>
+    <div class="stat-card good">
+      <div class="num" id="stat-termine">0</div>
+      <div class="lbl">✅ Ont joué jusqu'au bout</div>
+    </div>
+    <div class="stat-card bad">
+      <div class="num" id="stat-abandon">0</div>
+      <div class="lbl">❌ Ne répondent plus</div>
+    </div>
+  </div>
+
+  <div class="filters">
+
+    <div class="field">
+      <label for="filtre-seuil-jamais">N'a jamais répondu depuis</label>
+      <select id="filtre-seuil-jamais">
+        <option value="2">2 manches</option>
+        <option value="3" selected>3 manches</option>
+        <option value="5">5 manches</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="filtre-seuil-arret">A arrêté de répondre depuis</label>
+      <select id="filtre-seuil-arret">
+        <option value="2">2 manches</option>
+        <option value="3" selected>3 manches</option>
+        <option value="5">5 manches</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label class="checkfield" style="margin-top:8px;">
+        <input type="checkbox" id="filtre-auto" checked>
+        Actualisation auto (4 s)
+      </label>
+    </div>
+
+    <button class="btn" id="btn-refresh">🔄 Actualiser</button>
+
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Pseudo</th>
+          <th>Connecté à</th>
+          <th>Dernière manche répondue</th>
+          <th>Score</th>
+          <th>Statut</th>
+        </tr>
+      </thead>
+      <tbody id="tbody-participants"></tbody>
+    </table>
+    <div class="empty-state" id="etat-vide" style="display:none;">
+      Aucun participant n'a encore rejoint la séance.
+    </div>
+  </div>
+
+  <p class="foot-note" id="derniere-maj"></p>
+  <p class="foot-note">
+    🔵 En cours · ✅ A répondu jusqu'à la fin (ou proche) de la séance · ❌ N'a jamais répondu depuis plusieurs manches, ou a arrêté de répondre en cours de route
+  </p>
+
+</div>
+
+<script src="../js/memory-data.js"></script>
+<script src="../js/memory-supabase.js"></script>
+<script src="js/memory-suivi.js"></script>
+</body>
+</html>

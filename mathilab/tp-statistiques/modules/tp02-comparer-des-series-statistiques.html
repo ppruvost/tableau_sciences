@@ -409,92 +409,77 @@
       175, 164, 171.
     </div>
 
-    <div class="fiche-puzzle" data-titre="Indicateurs de position">
-
-      <h3>Fiche A — Indicateurs de position</h3>
-
-      <p>À l'aide de la calculatrice ou d'un tableur, déterminer pour la série ci-dessus :</p>
-
-      <ol>
-        <li>La moyenne.</li>
-        <li>La médiane.</li>
-        <li>Le mode (la valeur la plus fréquente).</li>
-      </ol>
-
-      <p class="info">Expliquer avec vos mots ce que représente chacun de ces trois indicateurs.</p>
-
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-      </div>
-
-      <div class="zone-eleve">
-        <textarea rows="6" placeholder="Réponses du groupe expert : moyenne, médiane, mode, explications..."></textarea>
-      </div>
-
+    <div class="sous-onglets" role="tablist">
+      <button class="sous-btn actif" data-sous="puzzle-sujet-a">Sujet A</button>
+      <button class="sous-btn" data-sous="puzzle-sujet-b">Sujet B</button>
+      <button class="sous-btn" data-sous="puzzle-sujet-c">Sujet C</button>
+      <button class="sous-btn" data-sous="puzzle-synthese-panel">Synthèse</button>
     </div>
-
-    <div class="fiche-puzzle" data-titre="Indicateurs de dispersion">
-
-      <h3>Fiche B — Indicateurs de dispersion</h3>
-
-      <p>À l'aide de la calculatrice ou d'un tableur, déterminer pour la même série :</p>
-
-      <ol>
-        <li>La valeur minimale, la valeur maximale et l'étendue.</li>
-        <li>L'écart type.</li>
-        <li>Le premier quartile Q1 et le troisième quartile Q3, puis l'écart interquartile Q3 − Q1.</li>
-      </ol>
-
-      <p class="info">Expliquer à quoi sert chacun de ces indicateurs de dispersion.</p>
-
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+    <div class="sous-panel actif" id="puzzle-sujet-a">
+      <div class="fiche-puzzle" data-titre="Indicateurs de position">
+        <div class="questions-bloc" data-tp="puzzle-a">
+          <ol class="questions-tp"><li>
+            <div class="question-entete"><strong>Sujet A — Indicateurs de position</strong>
+              <span class="cartouche" data-comp="REA">REA</span></div>
+            <p class="info puzzle-contexte" id="puzzle-a-contexte"></p>
+            <p class="puzzle-problematique" id="puzzle-a-problematique"></p>
+            <ol id="puzzle-a-enonce" class="puzzle-questions"></ol>
+            <div class="form-row">
+              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+            </div>
+            <div class="zone-eleve"><textarea id="puzzle-a-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+          </li></ol>
+        </div>
       </div>
-
-      <div class="zone-eleve">
-        <textarea rows="6" placeholder="Réponses du groupe expert : étendue, écart type, Q1, Q3, écart interquartile, explications..."></textarea>
+    </div>
+    <div class="sous-panel" id="puzzle-sujet-b">
+      <div class="fiche-puzzle" data-titre="Indicateurs de dispersion">
+        <div class="questions-bloc" data-tp="puzzle-b">
+          <ol class="questions-tp"><li>
+            <div class="question-entete"><strong>Sujet B — Indicateurs de dispersion</strong>
+              <span class="cartouche" data-comp="ANA">ANA</span></div>
+            <p class="info puzzle-contexte" id="puzzle-b-contexte"></p>
+            <p class="puzzle-problematique" id="puzzle-b-problematique"></p>
+            <ol id="puzzle-b-enonce" class="puzzle-questions"></ol>
+            <div class="form-row">
+              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+            </div>
+            <div class="zone-eleve"><textarea id="puzzle-b-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+          </li></ol>
+        </div>
       </div>
-
     </div>
-
-    <div class="fiche-puzzle" data-titre="Boîte à moustaches">
-
-      <h3>Fiche C — Construire la boîte à moustaches</h3>
-
-      <p>À partir du minimum, de Q1, de la médiane, de Q3 et du maximum de la série (à demander au groupe de la fiche B si besoin, ou à recalculer), construire la boîte à moustaches de la série.</p>
-
-      <ol>
-        <li>Placer les 5 valeurs sur un axe gradué.</li>
-        <li>Tracer la boîte (de Q1 à Q3) et les moustaches (du minimum à Q1, de Q3 au maximum).</li>
-        <li>Que peut-on dire de la répartition des tailles à partir de cette boîte à moustaches ?</li>
-      </ol>
-
-      <div class="form-row">
-        <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-        <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+    <div class="sous-panel" id="puzzle-sujet-c">
+      <div class="fiche-puzzle" data-titre="Boîte à moustaches">
+        <div class="questions-bloc" data-tp="puzzle-c">
+          <ol class="questions-tp"><li>
+            <div class="question-entete"><strong>Sujet C — Boîte à moustaches</strong>
+              <span class="cartouche" data-comp="VAL">VAL</span></div>
+            <p class="info puzzle-contexte" id="puzzle-c-contexte"></p>
+            <p class="puzzle-problematique" id="puzzle-c-problematique"></p>
+            <ol id="puzzle-c-enonce" class="puzzle-questions"></ol>
+            <div class="form-row">
+              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+            </div>
+            <div class="zone-eleve"><textarea id="puzzle-c-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+          </li></ol>
+        </div>
       </div>
-
-      <div class="zone-eleve">
-        <textarea rows="6" placeholder="Réponses du groupe expert : description de la boîte à moustaches construite, interprétation..."></textarea>
+    </div>
+    <div class="sous-panel" id="puzzle-synthese-panel">
+      <div class="info">En groupe mélangé, rassembler les résultats des trois sujets (position, dispersion, boîte à moustaches) pour rédiger une analyse complète de la série.</div>
+      <div class="questions-bloc" data-tp="puzzle-synthese">
+      <ol class="questions-tp"><li>
+        <div class="question-entete"><strong>Synthèse — Réponse commune à la problématique</strong>
+          <span class="cartouche" data-comp="COM">COM</span></div>
+        <p class="problematique-rappel"></p>
+        <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs et différences entre les sujets, réponse argumentée..."></textarea></div>
+      </li></ol>
       </div>
-
     </div>
-
-    <h3 style="margin-top:var(--gap-lg);">Synthèse puzzle (séance 2)</h3>
-
-    <div class="info">
-      En groupe mélangé, rassembler les résultats des trois fiches (position,
-      dispersion, boîte à moustaches) pour rédiger une analyse complète de
-      la série des tailles.
-    </div>
-
-    <div class="zone-eleve">
-      <textarea id="puzzle-synthese" rows="6" placeholder="Synthèse commune : indicateurs de position, de dispersion, et lecture de la boîte à moustaches..."></textarea>
-    </div>
-
-  </div>
 
 </div>
 

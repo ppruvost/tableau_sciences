@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suivi en direct — PlayLab</title>
+<link rel="stylesheet" href="css/suivi.css">
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="top">
+    <h1 class="pixel-title">📋 SUIVI EN DIRECT</h1>
+    <a class="back-link" href="../index.html">← Retour au PlayLab</a>
+  </header>
+
+  <div class="stats-row">
+    <div class="stat-card wait">
+      <div class="num" id="stat-cours">0</div>
+      <div class="lbl">🔵 En cours</div>
+    </div>
+    <div class="stat-card good">
+      <div class="num" id="stat-termine">0</div>
+      <div class="lbl">✅ Terminés</div>
+    </div>
+    <div class="stat-card bad">
+      <div class="num" id="stat-abandon">0</div>
+      <div class="lbl">❌ Abandonnés</div>
+    </div>
+  </div>
+
+  <div class="filters">
+
+    <div class="field">
+      <label for="filtre-date">Date</label>
+      <input type="date" id="filtre-date">
+    </div>
+
+    <div class="field">
+      <label for="filtre-categorie">Activité</label>
+      <select id="filtre-categorie">
+        <option value="tous">Toutes</option>
+        <option value="automatisme">Automatisme</option>
+        <option value="playmaths">PlayMaths</option>
+        <option value="playsciences">PlaySciences</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="filtre-recherche">Nom / prénom</label>
+      <input type="text" id="filtre-recherche" placeholder="Rechercher...">
+    </div>
+
+    <div class="field">
+      <label for="filtre-seuil">Seuil d'abandon</label>
+      <select id="filtre-seuil">
+        <option value="10">10 min sans réponse</option>
+        <option value="15" selected>15 min sans réponse</option>
+        <option value="20">20 min sans réponse</option>
+        <option value="30">30 min sans réponse</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label class="checkfield" style="margin-top:8px;">
+        <input type="checkbox" id="filtre-auto" checked>
+        Actualisation auto (5 s)
+      </label>
+    </div>
+
+    <button class="btn" id="btn-refresh">🔄 Actualiser</button>
+
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Activité</th>
+          <th>Quiz</th>
+          <th>Date</th>
+          <th>Début</th>
+          <th>Fin</th>
+          <th>Durée</th>
+          <th>Score</th>
+          <th>Statut</th>
+        </tr>
+      </thead>
+      <tbody id="tbody-sessions"></tbody>
+    </table>
+    <div class="empty-state" id="etat-vide" style="display:none;">
+      Aucune session pour ces filtres.
+    </div>
+  </div>
+
+  <p class="foot-note" id="derniere-maj"></p>
+  <p class="foot-note">
+    🔵 En cours · ✅ Terminé jusqu'au bout · ❌ Abandonné (fermé avant la fin, ou sans activité au-delà du seuil choisi)
+  </p>
+
+</div>
+
+<script src="js/suivi-supabase.js"></script>
+<script src="js/suivi.js"></script>
+</body>
+</html>

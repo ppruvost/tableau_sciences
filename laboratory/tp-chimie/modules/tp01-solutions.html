@@ -694,6 +694,71 @@
             conserver les solutions correctement étiquetées pour une réutilisation ultérieure et éliminer les solutions non réutilisables dans le bidon de déchets adapté.
           </p>
 
+          <!-- ====================================================== -->
+          <!-- APPLICATION - SERIE DE DILUTIONS PAR 2 (complément)    -->
+          <!-- ====================================================== -->
+
+          <h4 style="margin-top:var(--gap-lg);">Application — Série de dilutions par 2</h4>
+
+          <p class="info">
+            À partir d'une solution mère colorée S0, préparer une série de 6 tubes
+            à essai D0 à D5 : D0 contient S0 non diluée ; pour chaque tube suivant,
+            mélanger 5 mL du tube précédent avec 5 mL d'eau déminéralisée (dilution
+            par 2 à chaque étape).
+          </p>
+
+          <figure class="figure-tp">
+            <img src="./assets/images/c1-serie-dilution.jpg"
+                 alt="Série de 6 tubes à essai contenant une solution violette, dilution par 2 successive du plus concentré (D0, à droite) au plus dilué (D5, à gauche)"
+                 class="mode-image">
+            <figcaption>Série de dilutions par 2 de la solution mère S0 (D0 à droite → D5 à gauche)</figcaption>
+          </figure>
+
+          <ol class="etapes">
+            <li>Préparer 6 tubes à essai propres et les numéroter D0 à D5.</li>
+            <li>Verser 10 mL de solution mère S0 dans le tube D0.</li>
+            <li>Prélever 5 mL du tube D0, les verser dans le tube D1, puis ajouter 5 mL d'eau déminéralisée et homogénéiser.</li>
+            <li>Répéter l'opération de proche en proche (5 mL du tube précédent + 5 mL d'eau) jusqu'au tube D5.</li>
+            <li>Placer les tubes côte à côte dans un portoir devant un fond blanc et comparer les teintes obtenues.</li>
+          </ol>
+
+          <div class="table-responsive">
+            <table class="tableau-resultats">
+              <caption>Concentration de chaque tube de la série</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Tube</th>
+                  <th scope="col">D0</th>
+                  <th scope="col">D1</th>
+                  <th scope="col">D2</th>
+                  <th scope="col">D3</th>
+                  <th scope="col">D4</th>
+                  <th scope="col">D5</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Facteur de dilution</th>
+                  <td>1</td>
+                  <td>2</td>
+                  <td>4</td>
+                  <td>8</td>
+                  <td>16</td>
+                  <td>32</td>
+                </tr>
+                <tr>
+                  <th scope="row">Concentration (mol/L)</th>
+                  <td><input id="dil-serie-d0" type="text" placeholder="C0"></td>
+                  <td><input id="dil-serie-d1" type="text" placeholder="C0/2"></td>
+                  <td><input id="dil-serie-d2" type="text" placeholder="C0/4"></td>
+                  <td><input id="dil-serie-d3" type="text" placeholder="C0/8"></td>
+                  <td><input id="dil-serie-d4" type="text" placeholder="C0/16"></td>
+                  <td><input id="dil-serie-d5" type="text" placeholder="C0/32"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
       </div>
 
 
@@ -1024,6 +1089,22 @@
         </div>
         <div class="zone-eleve">
           <textarea id="question2" rows="5" placeholder="Calculs et réponse..."></textarea>
+        </div>
+      </li>
+
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            En prenant C0 la concentration du tube D0 de la série de dilutions
+            par 2, calculer la concentration de chaque tube D0 à D5, puis
+            indiquer si la teinte observée sur la photo évolue de façon
+            cohérente avec ces concentrations.
+          </strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-dilution-serie" rows="5" placeholder="Calculs, tableau de concentrations et interprétation de la photo..."></textarea>
         </div>
       </li>
 

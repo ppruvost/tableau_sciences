@@ -13,6 +13,8 @@ import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-geometrie.js';
 import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 
+import { demarrerPuzzle } from '../../js/puzzle-onglet.js';
+import { G3 } from './puzzle-geometrie.js';
 const CONTEXTES_TD03 = {
   '1ere-trpm': {
     contexte: "En usinage, une force de coupe ou un déplacement d'outil se modélisent par un vecteur : direction, sens et intensité.",
@@ -224,6 +226,8 @@ function initialiserTD03() {
     filieres: FILIERES_PRO,
     contextes: CONTEXTES_TD03
   });
+
+  demarrerPuzzle(G3);
 
   initVecteursPlan();
   initVecteursEspace();
