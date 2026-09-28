@@ -71,8 +71,37 @@
     if (qrEl) qrEl.textContent = "QR code indisponible (vérifiez la connexion). Donnez l'adresse eleve.html à la classe.";
   }
 
+  function buildItemEl(item) {
+    const wrap = document.createElement("div");
+    wrap.className = "item pulse";
+    if (item.type === "shape") {
+      const el = document.createElement("div");
+      el.className = `shape shape-color-fill ${item.shape} color-${item.color}`;
+      const scale = item.scale || 1;
+      const rotate = item.rotate || 0;
+      const baseRotate = item.shape === "losange" ? 45 : 0;
+      el.style.transform = `scale(${scale}) rotate(${baseRotate + rotate}deg)`;
+      wrap.appendChild(el);
+    } else if (item.type === "animal") {
+      const el = document.createElement("div");
+      el.className = "emoji";
+      el.textContent = item.emoji;
+      el.style.transform = `scale(${item.scale || 1})`;
+      wrap.appendChild(el);
+    } else if (item.type === "number") {
+      const el = document.createElement("div");
+      el.className = "number-chip" + (item.changed ? " changed" : "");
+      el.textContent = item.value;
+      wrap.appendChild(el);
+    }
+    return wrap;
+  }
+
   function renderStage(items) {
-    MemoryRender.renderStage(document.getElementById("stage"), items);
+    const stage = document.getElementById("stage");
+    stage.classList.remove("blackout");
+    stage.innerHTML = "";
+    items.forEach(it => stage.appendChild(buildItemEl(it)));
   }
 
   function startRound(index) {

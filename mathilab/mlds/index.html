@@ -21,7 +21,7 @@
   </button>
 </header>
 
-<main>
+<main id="content">
 
   <!-- ====== VUE ACCUEIL ====== -->
   <section id="vue-accueil" class="vue vue-active">
@@ -32,6 +32,20 @@
       Choisis un atelier. Chaque atelier compte 5 questions courtes, avec une explication à chaque
       réponse. Il n'y a pas de note : tu peux recommencer un atelier autant de fois que tu veux.
     </p>
+
+    <div class="banniere-defi">
+      <div class="banniere-defi-texte">
+        <h2><i class="fa-solid fa-people-group"></i> Le défi du plan de travail</h2>
+        <p>
+          Une autre façon de faire des maths : à deux ou en petit groupe, sans QCM,
+          en manipulant des dominos pour explorer un vrai problème — pas de bonne
+          ou de mauvaise réponse immédiate, juste des essais et une découverte.
+        </p>
+      </div>
+      <a href="defi-collectif.html" target="_blank" class="btn-principal">
+        <i class="fa-solid fa-arrow-up-right-from-square"></i> Lancer le défi
+      </a>
+    </div>
   </section>
 
   <!-- ====== VUE ATELIER (questions) ====== -->
@@ -48,7 +62,7 @@
     </div>
 
     <!-- Écran d'introduction de l'atelier -->
-    <div id="bloc-intro" class="bloc-intro">
+    <div id="bloc-intro" class="bloc-intro card">
       <p id="atelier-intro"></p>
       <button type="button" id="btn-commencer-atelier" class="btn-principal">
         <i class="fa-solid fa-play"></i> Commencer
@@ -65,7 +79,7 @@
         </div>
       </div>
 
-      <div class="carte-question">
+      <div class="carte-question card">
         <p id="enonce-question"></p>
         <div id="zone-choix" class="zone-choix"></div>
         <div id="zone-feedback" class="zone-feedback cachee"></div>
@@ -78,7 +92,7 @@
 
   <!-- ====== VUE BILAN ====== -->
   <section id="vue-recap" class="vue">
-    <div class="carte-recap">
+    <div class="carte-recap card">
       <i class="fa-solid fa-medal"></i>
       <p class="sous-cat" id="recap-titre"></p>
       <p id="recap-score-nb"></p>
@@ -95,6 +109,22 @@
   </section>
 
 </main>
+
+<footer class="pied-source">
+  <p>
+    <i class="fa-solid fa-book"></i>
+    <strong>Source pédagogique :</strong> GIGANT, Gauthier. <em>Le décrochage scolaire : maintenir
+    l'intérêt des décrocheurs en mathématiques.</em> Mémoire de master MEEF second degré
+    mathématiques, INSPE de l'académie de Besançon — Université de Franche-Comté, 2021.
+    <a href="https://dumas.ccsd.cnrs.fr/dumas-03810176v1" target="_blank" rel="noopener">
+      Disponible sur HAL (dumas-03810176)
+    </a>.
+    Ce mémoire montre que, face à des élèves en risque de décrochage, une séance de jeu
+    mathématique manipulable en petit groupe engage bien davantage qu'un parcours d'exercices
+    individuel — d'où le « Défi du plan de travail » proposé ci-dessus, directement inspiré du
+    problème de pavage étudié par l'auteur.
+  </p>
+</footer>
 
 <script src="js/ateliers.js"></script>
 <script src="js/app.js"></script>

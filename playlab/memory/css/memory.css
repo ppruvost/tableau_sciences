@@ -86,13 +86,6 @@ body {
 }
 .stage.blackout { background: #000; }
 
-/* Version réduite utilisée sur le téléphone élève (écran plus petit que le vidéoprojecteur) */
-.stage-mini { min-height: 120px; padding: 16px; gap: 14px; }
-.stage-mini .shape,
-.stage-mini .shape-color-fill { width: 44px; height: 44px; }
-.stage-mini .emoji { font-size: 34px; }
-.stage-mini .number-chip { font-size: 16px; padding: 10px 12px; min-width: 38px; }
-
 .item {
   display: flex;
   align-items: center;

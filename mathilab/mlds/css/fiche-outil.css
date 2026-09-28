@@ -1,0 +1,172 @@
+/* =========================================================
+   MLDS MATHS — fiche-outil.css
+   Même socle que style.css (global → reset → tp → print →
+   domaine) pour que la fiche outil partage exactement la même
+   typographie, les mêmes couleurs d'état et les mêmes rayons/
+   ombres que le reste de MathiLab, y compris à l'impression
+   (print.css est déjà prévu pour ça).
+   ========================================================= */
+
+@import url("../../css/global.css");
+@import url("../../css/reset.css");
+@import url("../../css/tp.css");
+@import url("../../css/print.css");
+@import url("../../css/domaine.css");
+
+:root {
+  --domaine-accent:       #FF8C42;
+  --domaine-accent-fonce: #E85D4B;
+  --domaine-accent-rgb:   255, 140, 66;
+
+  --prop-1: #1B6CA8; --prop-2: #0D4F8A;
+  --conv-1: #8B5CF6; --conv-2: #5B21B6;
+  --pct-1:  #34A853; --pct-2:  #1E7E42;
+  --frac-1: #E85D4B; --frac-2: #C6362B;
+}
+
+/* ---- Barre d'actions (retour / impression) ---- */
+
+.barre-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--gap-sm) 20px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.barre-actions button {
+  border: 2px solid var(--gris-ardoise);
+  background: #fff;
+  color: var(--gris-ardoise);
+  border-radius: var(--r-pill);
+  padding: 10px 18px;
+  font-family: var(--font-titre);
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  transition: var(--duree-normale);
+}
+
+.barre-actions button:hover { background: var(--gris-ardoise); color: #fff; }
+
+/* ---- En-tête (dégradé + sticky déjà fournis par domaine.css) ---- */
+
+header.entete-fiche h1 {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+header.entete-fiche p {
+  margin-top: 6px;
+  font-family: var(--font-corps);
+  opacity: 0.95;
+}
+
+/* ---- Contenu ---- */
+
+main.fiche {
+  max-width: var(--largeur-contenu);
+  margin: 0 auto;
+  padding: var(--gap-md) 18px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
+}
+
+.bloc-fiche {
+  background: #fff;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--gris-clair);
+  border-left: 10px solid var(--accent, var(--gris-moyen));
+  box-shadow: var(--ombre-carte);
+  padding: var(--gap-md);
+  page-break-inside: avoid;
+}
+
+.bloc-fiche.prop  { --accent: var(--prop-2); }
+.bloc-fiche.conv  { --accent: var(--conv-2); }
+.bloc-fiche.pct   { --accent: var(--pct-2); }
+.bloc-fiche.frac  { --accent: var(--frac-2); }
+
+.bloc-fiche h2 {
+  font-size: 1.25rem;
+  color: var(--accent, var(--gris-ardoise));
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: var(--gap-sm);
+}
+
+.bloc-fiche ol,
+.bloc-fiche ul {
+  margin-left: 22px;
+  line-height: 1.7;
+  list-style: revert;
+}
+
+.exemple {
+  margin-top: var(--gap-sm);
+  background: var(--blanc-paillasse);
+  border-radius: var(--r-md);
+  padding: 12px 16px;
+  font-family: var(--font-corps);
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.exemple strong { color: var(--accent, var(--gris-ardoise)); }
+
+table.tableau-conversions {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 6px;
+}
+
+table.tableau-conversions th,
+table.tableau-conversions td {
+  border: 1px solid var(--gris-clair);
+  padding: 8px 10px;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+table.tableau-conversions th { background: var(--blanc-paillasse); }
+
+.fractions-visuelles {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: var(--gap-sm);
+}
+
+.fraction-item {
+  text-align: center;
+  font-family: var(--font-titre);
+  font-weight: 700;
+  min-width: 90px;
+}
+
+.barre-fraction {
+  display: flex;
+  height: 26px;
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  border: 1px solid var(--gris-clair);
+  margin-bottom: 6px;
+}
+
+.barre-fraction span { background: var(--frac-2); border-right: 1px solid #fff; }
+.barre-fraction span.vide { background: var(--gris-clair); }
+
+@media print {
+  .barre-actions { display: none !important; }
+  .bloc-fiche { box-shadow: none; }
+  main.fiche { max-width: 100%; }
+}

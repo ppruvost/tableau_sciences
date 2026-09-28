@@ -98,9 +98,6 @@
     document.getElementById("q-block").textContent = r.block;
     document.getElementById("q-round").textContent = r.label;
     document.getElementById("q-feedback").style.display = "none";
-    // Affiche la scène révélée (version "modified"), la même que celle projetée en classe :
-    // sans cette image, les élèves n'ont que le texte des choix pour répondre.
-    MemoryRender.renderStage(document.getElementById("q-stage"), r.modified);
     const choicesEl = document.getElementById("q-choices");
     choicesEl.innerHTML = "";
     const shuffled = shuffle(r.choices.map((text, i) => ({ text, isCorrect: i === r.correct })));

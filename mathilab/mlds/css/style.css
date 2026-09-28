@@ -1,0 +1,181 @@
+/* =========================================================
+   DÉFI COLLECTIF — style.css
+   Même socle que le reste de MLDS (global → reset → tp → print →
+   domaine). Identité bleu/violet propre à cette page : c'est une
+   AUTRE approche pédagogique que les ateliers QCM, pas un cinquième
+   atelier — d'où un --domaine-accent différent de celui d'index.html.
+   Pas de rouge/vert de correction (inspiré de GIGANT, 2021) : la
+   grille utilise des couleurs neutres, sans jugement de réussite.
+   ========================================================= */
+
+@import url("../../css/global.css");
+@import url("../../css/reset.css");
+@import url("../../css/tp.css");
+@import url("../../css/print.css");
+@import url("../../css/domaine.css");
+
+:root {
+  --domaine-accent:       #4338CA;
+  --domaine-accent-fonce: #3730A3;
+  --domaine-accent-rgb:   67, 56, 202;
+}
+
+header h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: clamp(1.4rem, 4vw, 1.9rem);
+}
+
+header p {
+  margin-top: var(--gap-xs);
+  max-width: 640px;
+  margin-inline: auto;
+  font-family: var(--font-corps);
+  opacity: 0.95;
+}
+
+.lien-retour {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: var(--gap-sm);
+  background: rgba(255,255,255,0.18);
+  border: 2px solid #fff;
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: var(--r-pill);
+  text-decoration: none;
+  font-family: var(--font-titre);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.lien-retour:hover { background: #fff; color: var(--domaine-accent); text-decoration: none; }
+
+main#content {
+  max-width: var(--largeur-contenu);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
+}
+
+.carte {
+  background: #fff;
+  border: 1px solid var(--gris-clair);
+  border-radius: var(--r-lg);
+  box-shadow: var(--ombre-carte);
+  padding: var(--gap-md);
+}
+
+.carte h2 {
+  font-size: 1.15rem;
+  margin-bottom: var(--gap-sm);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--domaine-accent);
+}
+
+.carte p { font-family: var(--font-corps); line-height: 1.6; margin-bottom: 8px; }
+
+/* ---- Contrôles ---- */
+
+.controles { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: var(--gap-sm); }
+
+.controles button {
+  background: var(--blanc-paillasse);
+  border: 2px solid var(--gris-clair);
+  border-radius: var(--r-pill);
+  padding: 10px 16px;
+  font-family: var(--font-titre);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--gris-ardoise);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  transition: var(--duree-normale);
+}
+
+.controles button:hover { border-color: var(--domaine-accent); color: var(--domaine-accent); }
+.controles button.actif { background: var(--domaine-accent); color: #fff; border-color: var(--domaine-accent); }
+
+/* ---- Grille ---- */
+
+.zone-grille { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+
+.grille-defi {
+  display: grid;
+  gap: 4px;
+  width: min(90vw, 340px);
+  aspect-ratio: 1 / 1;
+}
+
+.case-defi {
+  border: 2px solid var(--gris-clair);
+  border-radius: var(--r-sm);
+  background: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  transition: var(--duree-rapide);
+}
+
+.case-defi:hover { border-color: var(--domaine-accent); }
+
+.case-defi.mug {
+  background: var(--etat-attention-bg);
+  border-color: #F0C040;
+  cursor: default;
+  color: var(--etat-attention-fg);
+}
+
+.case-defi.selectionnee { border-color: var(--domaine-accent); background: var(--bleu-tres-clair); }
+
+.statut-grille { font-family: var(--font-corps); font-size: 0.92rem; color: var(--gris-texte-clair); text-align: center; }
+.message-defi { font-family: var(--font-corps); font-size: 0.88rem; color: var(--domaine-accent); min-height: 1.2em; text-align: center; }
+
+/* ---- Questions guidées ---- */
+
+.questions-guidees details {
+  border: 1px solid var(--gris-clair);
+  border-radius: var(--r-md);
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  background: var(--blanc-paillasse);
+}
+
+.questions-guidees summary { font-family: var(--font-titre); cursor: pointer; font-weight: 700; }
+.questions-guidees details details { margin-top: 10px; background: #fff; }
+.questions-guidees p { margin-top: 8px; line-height: 1.6; font-family: var(--font-corps); }
+
+.conjecture-finale { border-color: var(--domaine-accent); }
+
+textarea.zone-conjecture {
+  width: 100%;
+  min-height: 90px;
+  margin-top: 10px;
+  border-radius: var(--r-md);
+  border: 2px solid var(--gris-clair);
+  padding: 10px 12px;
+  font-family: var(--font-corps);
+  font-size: 0.95rem;
+  resize: vertical;
+}
+
+.note-conjecture { font-size: 0.8rem; color: var(--gris-texte-clair); margin-top: 6px; }
+
+.pied-source-defi {
+  font-family: var(--font-corps);
+  font-size: 0.82rem;
+  color: var(--gris-texte-clair);
+  line-height: 1.6;
+}
+
+.pied-source-defi a { color: var(--domaine-accent); }
