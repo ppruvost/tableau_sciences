@@ -25,3 +25,26 @@
    formulaires, tableaux, EPI, matériel, radar, graphique,
    histogramme, cartouches, auto-évaluation...) vient de tp.css et
    css/domaine.css. */
+
+/* ════════════════════════════════════════════════════════════════
+   TP01 — onglet « Solutions commerciales » (Tle)
+   Mise en forme des sous-titres et listes de l'onglet ; tout le
+   reste (formulaires, tableaux, messages) vient de tp.css.
+   ════════════════════════════════════════════════════════════════ */
+.sc-suite {
+  margin-top: var(--gap-lg);
+}
+
+.sc-liste {
+  padding-left: 1.5rem;
+  line-height: 1.8;
+}
+
+/* Champs de l'onglet : les libellés peuvent passer sur 2 lignes ; on aligne
+   les champs sur le bas de la rangée pour qu'ils restent sur la même ligne.
+   (Sous 500 px, tp.css passe déjà les champs en colonne.) */
+@media (min-width: 501px) {
+  .sc-champs {
+    align-items: flex-end;
+  }
+}

@@ -36,6 +36,12 @@
         <span class="tag">Dissolution - </span><span class="tag">Dilution</span>
        </div>
 
+      <div class="tp-row">
+        <span class="tag">Tle</span>
+        <span class="tag">Chimie</span>
+        <span class="tag">Dilution d'une solution commerciale</span>
+      </div>
+
     </div>
 
   </div>
@@ -102,6 +108,10 @@
 
       <li>
         Identifier un ion en solution par une réaction de précipitation caractéristique, et exploiter le résultat pour interpréter une situation concrète.
+      </li>
+
+      <li>
+        Déterminer la concentration molaire d'une solution commerciale à partir de son titre massique et de sa masse volumique, puis préparer par dilution une solution de concentration donnée (0,1 mol·L⁻¹) en choisissant la verrerie de prélèvement adaptée. (Tle)
       </li>
 
     </ul>
@@ -328,6 +338,10 @@
 
         <button class="tab-btn" data-tab="identification-ions">
           Identification d'ions
+        </button>
+
+        <button class="tab-btn" data-tab="solutions-commerciales">
+          Solutions commerciales
         </button>
 
       </div>
@@ -857,6 +871,259 @@
 
       </div>
 
+      <!-- ============================ -->
+      <!-- SOLUTIONS COMMERCIALES (Tle)  -->
+      <!-- ============================ -->
+
+      <div class="tab-panel" id="solutions-commerciales">
+
+        <h3>Dilution d'une solution commerciale</h3>
+
+        <p class="info">
+          Les solutions du commerce (acide chlorhydrique à 23 %, vinaigre blanc à 9,5°,
+          solution mère de soude à 50 g·L⁻¹...) ne sont pas étiquetées en mol·L⁻¹ : il faut
+          d'abord calculer leur concentration molaire, puis le volume à prélever. Cet onglet
+          prépare les solutions de NaOH, HCl et CH₃COOH à 0,1 mol·L⁻¹ utilisées dans le
+          TP C02-4 « Solution acido-basique ».
+        </p>
+
+        <p class="info">
+          Mêmes notations que dans l'onglet « Dilution » : solution mère C₁ (V₁) et solution fille C₂ (V₂).
+        </p>
+
+        <div class="calcul-guide">
+
+          <h4>1. Principe et formules</h4>
+
+          <p>
+            Une solution diluée (fille) est obtenue en prélevant un volume V₁ de solution mère
+            de concentration C₁, puis en complétant avec de l'eau distillée jusqu'au volume V₂
+            d'une fiole jaugée. La quantité de matière de soluté se conserve pendant la dilution :
+          </p>
+
+          <div class="formule">C₁ × V₁ = C₂ × V₂ donc V₁ = (C₂ × V₂) / C₁</div>
+          <div class="formule">Facteur de dilution : F = C₁ / C₂ = V₂ / V₁</div>
+
+          <p>
+            Quand la solution mère est commerciale, sa concentration molaire se déduit de son
+            titre massique et de sa masse volumique :
+          </p>
+
+          <div class="formule">Cm₁ = P × ρ puis C₁ = Cm₁ / M</div>
+
+          <ul>
+            <li>P : titre massique exprimé en fraction (23 % → 0,23) ; ρ : masse volumique en g·L⁻¹ (1,115 g·mL⁻¹ = 1 115 g·L⁻¹) ; M : masse molaire en g·mol⁻¹.</li>
+            <li>Vinaigre : le degré d'acidité (9,5°) indique le nombre de grammes d'acide éthanoïque pour 100 g de vinaigre, donc P = 9,5 %.</li>
+            <li>Solution mère donnée en concentration massique (NaOH à 50 g·L⁻¹) : C₁ = Cm₁ / M directement.</li>
+          </ul>
+
+        </div>
+
+        <div class="calcul-guide">
+
+          <h4>2. Calcul du volume à prélever</h4>
+
+          <div class="form-row sc-champs">
+
+            <div class="form-group">
+              <label for="sc-solution">Solution à préparer</label>
+              <select id="sc-solution">
+                <option value="">-- Sélectionner --</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="sc-mode">Solution mère donnée par</label>
+              <select id="sc-mode">
+                <option value="cm">Concentration massique Cm₁ (g·L⁻¹)</option>
+                <option value="titre">Titre massique P (%) et masse volumique ρ</option>
+              </select>
+            </div>
+
+          </div>
+
+          <p id="sc-description" class="info hidden"></p>
+
+          <div class="form-row sc-champs">
+
+            <div class="form-group" id="sc-groupe-cm">
+              <label for="sc-cm0">Concentration massique Cm₁ (g/L)</label>
+              <input id="sc-cm0" type="number" step="0.01" min="0">
+            </div>
+
+            <div class="form-group hidden" id="sc-groupe-titre">
+              <label for="sc-titre">Titre massique P (%)</label>
+              <input id="sc-titre" type="number" step="0.1" min="0" max="100">
+            </div>
+
+            <div class="form-group hidden" id="sc-groupe-rho">
+              <label for="sc-rho">Masse volumique ρ (g/L)</label>
+              <input id="sc-rho" type="number" step="1" min="0">
+            </div>
+
+            <div class="form-group">
+              <label for="sc-M">Masse molaire M (g/mol)</label>
+              <input id="sc-M" type="number" step="0.01" min="0">
+            </div>
+
+            <div class="form-group">
+              <label for="sc-c1">Concentration visée C₂ (mol/L)</label>
+              <input id="sc-c1" type="number" value="0.100" step="0.001" min="0">
+            </div>
+
+            <div class="form-group">
+              <label for="sc-v1">Volume final V₂ (mL)</label>
+              <input id="sc-v1" type="number" value="100.0" step="0.1" min="0">
+            </div>
+
+            <div class="form-group">
+              <label for="sc-u-lecture">Incertitude de lecture u(V) (mL, valeur indicative)</label>
+              <input id="sc-u-lecture" type="number" value="0.05" step="0.01" min="0">
+            </div>
+
+          </div>
+
+          <div class="form-row sc-champs">
+
+            <div class="form-group">
+              <label for="sc-out-cm0">Concentration massique Cm₁</label>
+              <div class="input-unite">
+                <input id="sc-out-cm0" type="text" readonly>
+                <span>g·L⁻¹</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="sc-out-c0">Concentration molaire C₁</label>
+              <div class="input-unite">
+                <input id="sc-out-c0" type="text" readonly>
+                <span>mol·L⁻¹</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="sc-out-v0">Volume à prélever V₁</label>
+              <div class="input-unite">
+                <input id="sc-out-v0" type="text" readonly>
+                <span>mL</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="sc-out-f">Facteur de dilution F</label>
+              <input id="sc-out-f" type="text" readonly>
+            </div>
+
+          </div>
+
+          <div id="sc-details" class="resultat-calcul" aria-live="polite"></div>
+
+          <div id="sc-verrerie" class="resultat-calcul" aria-live="polite"></div>
+
+        </div>
+
+        <h4 class="sc-suite">3. Sécurité de la solution mère</h4>
+
+        <div id="securite-bloc-sc"></div>
+
+        <ul id="sc-consignes" class="sc-liste"></ul>
+
+        <p class="warning">
+          ⚠ Toujours ajouter la solution concentrée à l'eau, jamais l'inverse. Ne jamais
+          pipeter directement dans le flacon : verser d'abord un peu de solution dans un bécher.
+        </p>
+
+        <h4 class="sc-suite">4. Récapitulatif des trois préparations</h4>
+
+        <p class="info">
+          Solutions filles de concentration C₂ = 0,100 mol·L⁻¹ dans une fiole jaugée de
+          V₂ = 100,0 mL (quantité de soluté visée : n = 0,100 × 0,100 = 0,0100 mol = 10,0 mmol).
+        </p>
+
+        <div class="table-responsive">
+          <table class="tableau-resultats">
+            <caption>Volume de solution mère à prélever pour 100 mL de solution à 0,100 mol·L⁻¹</caption>
+            <thead>
+              <tr>
+                <th scope="col">Solution</th>
+                <th scope="col">Solution mère (C₁)</th>
+                <th scope="col">Prélèvement V₁</th>
+                <th scope="col">Facteur de dilution</th>
+                <th scope="col">Verrerie de prélèvement</th>
+              </tr>
+            </thead>
+            <tbody id="sc-tbody-recap">
+            </tbody>
+          </table>
+        </div>
+
+        <h4 class="sc-suite">5. Protocole — dilution d'une solution commerciale</h4>
+
+        <ol class="etapes">
+          <li>Mettre les lunettes, la blouse et les gants. Pour l'acide chlorhydrique commercial, travailler sous la hotte (vapeurs de chlorure d'hydrogène).</li>
+          <li>Verser un peu de solution mère (15 à 20 mL) dans un bécher propre et sec.</li>
+          <li>Introduire environ 50 mL d'eau distillée dans la fiole jaugée de 100,0 mL : la solution mère s'ajoute toujours à l'eau.</li>
+          <li>Rincer la pipette graduée avec un peu de solution mère, puis prélever exactement le volume V₁ calculé (le bas du ménisque tangente la graduation).</li>
+          <li>Verser V₁ dans la fiole contenant déjà l'eau distillée.</li>
+          <li>Boucher, agiter doucement, ajouter de l'eau distillée jusqu'aux trois quarts de la fiole et homogénéiser.</li>
+          <li>Compléter à la pissette jusqu'au trait de jauge : les dernières gouttes se mettent au goutte à goutte (bas du ménisque sur le trait).</li>
+          <li>Boucher et homogénéiser par retournements successifs (au moins 10).</li>
+          <li>Étiqueter : formule et concentration (« 0,100 mol·L⁻¹ » pour NaOH, « ≈ 0,1 mol·L⁻¹ » pour HCl et CH₃COOH), date, nom du groupe. Fermer la solution de soude avec un bouchon en plastique et non en verre rodé.</li>
+        </ol>
+
+        <p class="success">
+          🌱 Préparer strictement le volume nécessaire (100 mL suffisent pour un binôme). Les
+          solutions acides ou basiques non utilisées sont neutralisées (pH entre 6 et 8) avant
+          rejet, selon les consignes de l'établissement.
+        </p>
+
+        <h4 class="sc-suite">6. Mes résultats</h4>
+
+        <div class="table-responsive">
+          <table class="tableau-resultats">
+            <thead>
+              <tr>
+                <th scope="col">Solution</th>
+                <th scope="col">Concentration visée C₂</th>
+                <th scope="col">V₁ calculé</th>
+                <th scope="col">V₁ réellement prélevé (mL)</th>
+                <th scope="col">C obtenue = C₁ × V₁ / V₂ (mol/L)</th>
+                <th scope="col">Écart relatif</th>
+                <th scope="col">C mesurée par titrage (mol/L, facultatif)</th>
+                <th scope="col">Écart relatif (titrage)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td id="sc-table-nom">—</td>
+                <td id="sc-table-c1">—</td>
+                <td id="sc-table-v0">—</td>
+                <td><input id="sc-v0-reel" type="number" step="0.01" min="0" placeholder="mL"></td>
+                <td><input id="sc-c-obtenue" type="text" readonly placeholder="auto"></td>
+                <td id="sc-ecart-rel">—</td>
+                <td><input id="sc-c-titrage" type="number" step="0.001" min="0" placeholder="mol/L"></td>
+                <td id="sc-ecart-titrage">—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="sc-res-ecart" class="resultat-calcul"></div>
+
+        <h4 class="sc-suite">7. Remarques générales</h4>
+
+        <div class="info">
+          <ul class="sc-liste">
+            <li><strong>Concentrations réelles :</strong> les valeurs indiquées sur les flacons commerciaux (23 %, 9,5°) sont approximatives et la masse volumique varie avec la température. Les solutions de HCl et de CH₃COOH ont donc une concentration voisine de 0,1 mol·L⁻¹ ; pour une valeur exacte, effectuer un titrage avec une solution étalon.</li>
+            <li><strong>NaOH :</strong> la solution mère à 50 g·L⁻¹ doit aussi être vérifiée par titrage, car NaOH est hygroscopique et se carbonate au contact de l'air.</li>
+            <li><strong>Autre volume V₂ :</strong> on recalcule V₁ = (C₂ × V₂) / C₁. Exemple pour 250,0 mL de NaOH : V₁ = 0,100 × 250,0 / 1,25 = 20,0 mL.</li>
+            <li><strong>Précision :</strong> préférer la verrerie jaugée à la verrerie graduée et éviter, si possible, les prélèvements inférieurs à 2 mL (passer alors par une solution intermédiaire ou une fiole plus grande).</li>
+            <li><strong>Rejets :</strong> les solutions non utilisées sont neutralisées (pH entre 6 et 8) avant rejet, selon les consignes de l'établissement.</li>
+          </ul>
+        </div>
+
+      </div>
+
 
     </div>
 
@@ -1240,6 +1507,104 @@
 
     </div>
 
+    <!-- ===================================================== -->
+    <!-- SOLUTIONS COMMERCIALES (Tle) -->
+    <!-- ===================================================== -->
+
+    <div class="questions-bloc" data-tp="solutions-commerciales" hidden>
+
+    <ol class="questions-tp">
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Expliquer comment déduire la concentration molaire C₁ d'une solution
+            commerciale à partir de son titre massique P et de sa masse volumique ρ
+            (préciser les unités). Pour le vinaigre blanc à 9,5°, que signifie le
+            degré d'acidité ?
+          </strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="sc-q1" rows="5" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Pour la solution attribuée par votre professeur (NaOH à 50 g·L⁻¹, HCl à 23 %
+            ou vinaigre à 9,5°), calculer C₁ puis le volume V₁ à prélever pour préparer
+            100,0 mL de solution à 0,100 mol·L⁻¹. Détailler les calculs et vérifier le
+            résultat avec le facteur de dilution F = C₁ / C₂ = V₂ / V₁.
+          </strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="sc-q2" rows="6" placeholder="Calculs et réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Pour l'acide chlorhydrique, le volume à prélever est inférieur à 2 mL.
+            Expliquer pourquoi cela pose un problème de précision, puis proposer deux
+            méthodes pour l'améliorer (solution intermédiaire, fiole de 250 mL) en
+            calculant les volumes correspondants.
+          </strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="sc-q3" rows="6" placeholder="Votre analyse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Comparer le volume réellement prélevé au volume théorique, calculer l'écart
+            relatif sur la concentration obtenue, puis expliquer pourquoi les
+            concentrations des solutions de HCl et de CH₃COOH ne sont que voisines de
+            0,1 mol·L⁻¹ et comment déterminer leur valeur exacte.
+          </strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="sc-q4" rows="6" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            En lien avec le contexte professionnel de votre filière, citer les consignes
+            de sécurité propres à la solution utilisée (hotte, acide versé dans l'eau,
+            bouchon en plastique pour la soude...) et expliquer comment les solutions
+            non utilisées doivent être traitées avant rejet.
+          </strong>
+          <span class="cartouche" data-comp="COM">COM</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="sc-q5" rows="5" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique posée en début de TP :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="solutions-commerciales"></p>
+        <div class="zone-eleve">
+          <textarea id="sc-q6" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
+        </div>
+      </li>
+
+    </ol>
+
+    </div>
+
   </div>
 
 </div>
@@ -1382,7 +1747,7 @@
       L'impression récupère automatiquement :
 
       <ul>
-        <li>les paramètres de la dissolution et de la dilution ;</li>
+        <li>les paramètres de la dissolution et de la dilution (dont la dilution d'une solution commerciale) ;</li>
         <li>les résultats du tableau ;</li>
         <li>les réponses aux questions ;</li>
         <li>l'auto-évaluation des compétences.</li>
