@@ -57,7 +57,8 @@
       <li>Regrouper par classes une série statistique.</li>
       <li>Organiser des données statistiques en choisissant un mode de représentation adapté, à l'aide des fonctions statistiques d'une calculatrice ou d'un tableur.</li>
       <li>Extraire des informations d'une représentation d'une série statistique (diagramme en secteurs, en bâtons, en colonnes, à lignes brisées).</li>
-      
+    </ul>
+
   </div>
 
 </div>
@@ -120,6 +121,7 @@
   <button class="tab-btn actif" data-tab="regrouper-classes">Regrouper une série en classes</button>
   <button class="tab-btn" data-tab="representer-qualitative">Représenter une série qualitative</button>
   <button class="tab-btn" data-tab="representer-chronologique">Représenter une évolution (lignes brisées)</button>
+        <button class="tab-btn" data-tab="activites-puzzle">🧩 Activités Puzzle</button>
 </div>
 
       <!-- ============================ -->
@@ -325,6 +327,90 @@
 
       </div>
 
+      <!-- ---------- ACTIVITÉS PUZZLE (onglet indépendant) ---------- -->
+      <div class="tab-panel" id="activites-puzzle">
+
+        <h3>Activités Puzzle</h3>
+
+        <div id="puzzle-info" class="info">
+          Sélectionner votre filière professionnelle dans la section « Contexte professionnel »
+          ci-dessus pour afficher les sujets.
+        </div>
+
+          <div class="sous-onglets" role="tablist">
+        <button class="sous-btn actif" data-sous="puzzle-sujet-a">Sujet A</button>
+        <button class="sous-btn" data-sous="puzzle-sujet-b">Sujet B</button>
+        <button class="sous-btn" data-sous="puzzle-sujet-c">Sujet C</button>
+        <button class="sous-btn" data-sous="puzzle-synthese-panel">Synthèse</button>
+      </div>
+      <div class="sous-panel actif" id="puzzle-sujet-a">
+        <div class="fiche-puzzle" data-titre="Temps d’utilisation d’une machine">
+          <div class="questions-bloc" data-tp="puzzle-a">
+            <ol class="questions-tp"><li>
+              <div class="question-entete"><strong>Sujet A — Temps d’utilisation d’une machine</strong>
+                <span class="cartouche" data-comp="REA">REA</span></div>
+              <p class="info puzzle-contexte" id="puzzle-a-contexte"></p>
+              <p class="puzzle-problematique" id="puzzle-a-problematique"></p>
+              <ol id="puzzle-a-enonce" class="puzzle-questions"></ol>
+              <div class="form-row">
+                <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+              </div>
+              <div class="zone-eleve"><textarea id="puzzle-a-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+            </li></ol>
+          </div>
+        </div>
+      </div>
+      <div class="sous-panel" id="puzzle-sujet-b">
+        <div class="fiche-puzzle" data-titre="Absences des employés">
+          <div class="questions-bloc" data-tp="puzzle-b">
+            <ol class="questions-tp"><li>
+              <div class="question-entete"><strong>Sujet B — Absences des employés</strong>
+                <span class="cartouche" data-comp="ANA">ANA</span></div>
+              <p class="info puzzle-contexte" id="puzzle-b-contexte"></p>
+              <p class="puzzle-problematique" id="puzzle-b-problematique"></p>
+              <ol id="puzzle-b-enonce" class="puzzle-questions"></ol>
+              <div class="form-row">
+                <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+              </div>
+              <div class="zone-eleve"><textarea id="puzzle-b-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+            </li></ol>
+          </div>
+        </div>
+      </div>
+      <div class="sous-panel" id="puzzle-sujet-c">
+        <div class="fiche-puzzle" data-titre="Enquête taille des élèves">
+          <div class="questions-bloc" data-tp="puzzle-c">
+            <ol class="questions-tp"><li>
+              <div class="question-entete"><strong>Sujet C — Enquête taille des élèves</strong>
+                <span class="cartouche" data-comp="VAL">VAL</span></div>
+              <p class="info puzzle-contexte" id="puzzle-c-contexte"></p>
+              <p class="puzzle-problematique" id="puzzle-c-problematique"></p>
+              <ol id="puzzle-c-enonce" class="puzzle-questions"></ol>
+              <div class="form-row">
+                <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+              </div>
+              <div class="zone-eleve"><textarea id="puzzle-c-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+            </li></ol>
+          </div>
+        </div>
+      </div>
+      <div class="sous-panel" id="puzzle-synthese-panel">
+        <div class="info">En groupe mélangé, chaque expert présente son sujet aux autres. Comparer les trois façons de représenter une série (bâtons, secteurs, histogramme) : laquelle convient le mieux à chaque type de données ?</div>
+        <div class="questions-bloc" data-tp="puzzle-synthese">
+        <ol class="questions-tp"><li>
+          <div class="question-entete"><strong>Synthèse — Réponse commune à la problématique</strong>
+            <span class="cartouche" data-comp="COM">COM</span></div>
+          <p class="problematique-rappel"></p>
+          <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs et différences entre les sujets, réponse argumentée..."></textarea></div>
+        </li></ol>
+        </div>
+      </div>
+
+      </div>
+
     </div>
 
   </div>
@@ -412,90 +498,6 @@
 
 </div>
 
-<div class="section" data-type="puzzle">
-
-  <div class="section-titre">
-    <div class="picto-section">🧩</div>
-    <h2>Activités Puzzle</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="sous-onglets" role="tablist">
-      <button class="sous-btn actif" data-sous="puzzle-sujet-a">Sujet A</button>
-      <button class="sous-btn" data-sous="puzzle-sujet-b">Sujet B</button>
-      <button class="sous-btn" data-sous="puzzle-sujet-c">Sujet C</button>
-      <button class="sous-btn" data-sous="puzzle-synthese-panel">Synthèse</button>
-    </div>
-    <div class="sous-panel actif" id="puzzle-sujet-a">
-      <div class="fiche-puzzle" data-titre="Temps d’utilisation d’une machine">
-        <div class="questions-bloc" data-tp="puzzle-a">
-          <ol class="questions-tp"><li>
-            <div class="question-entete"><strong>Sujet A — Temps d’utilisation d’une machine</strong>
-              <span class="cartouche" data-comp="REA">REA</span></div>
-            <p class="info puzzle-contexte" id="puzzle-a-contexte"></p>
-            <p class="puzzle-problematique" id="puzzle-a-problematique"></p>
-            <ol id="puzzle-a-enonce" class="puzzle-questions"></ol>
-            <div class="form-row">
-              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-            </div>
-            <div class="zone-eleve"><textarea id="puzzle-a-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
-          </li></ol>
-        </div>
-      </div>
-    </div>
-    <div class="sous-panel" id="puzzle-sujet-b">
-      <div class="fiche-puzzle" data-titre="Absences des employés">
-        <div class="questions-bloc" data-tp="puzzle-b">
-          <ol class="questions-tp"><li>
-            <div class="question-entete"><strong>Sujet B — Absences des employés</strong>
-              <span class="cartouche" data-comp="ANA">ANA</span></div>
-            <p class="info puzzle-contexte" id="puzzle-b-contexte"></p>
-            <p class="puzzle-problematique" id="puzzle-b-problematique"></p>
-            <ol id="puzzle-b-enonce" class="puzzle-questions"></ol>
-            <div class="form-row">
-              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-            </div>
-            <div class="zone-eleve"><textarea id="puzzle-b-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
-          </li></ol>
-        </div>
-      </div>
-    </div>
-    <div class="sous-panel" id="puzzle-sujet-c">
-      <div class="fiche-puzzle" data-titre="Enquête taille des élèves">
-        <div class="questions-bloc" data-tp="puzzle-c">
-          <ol class="questions-tp"><li>
-            <div class="question-entete"><strong>Sujet C — Enquête taille des élèves</strong>
-              <span class="cartouche" data-comp="VAL">VAL</span></div>
-            <p class="info puzzle-contexte" id="puzzle-c-contexte"></p>
-            <p class="puzzle-problematique" id="puzzle-c-problematique"></p>
-            <ol id="puzzle-c-enonce" class="puzzle-questions"></ol>
-            <div class="form-row">
-              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-            </div>
-            <div class="zone-eleve"><textarea id="puzzle-c-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
-          </li></ol>
-        </div>
-      </div>
-    </div>
-    <div class="sous-panel" id="puzzle-synthese-panel">
-      <div class="info">En groupe mélangé, chaque expert présente son sujet aux autres. Comparer les trois façons de représenter une série (bâtons, secteurs, histogramme) : laquelle convient le mieux à chaque type de données ?</div>
-      <div class="questions-bloc" data-tp="puzzle-synthese">
-      <ol class="questions-tp"><li>
-        <div class="question-entete"><strong>Synthèse — Réponse commune à la problématique</strong>
-          <span class="cartouche" data-comp="COM">COM</span></div>
-        <p class="problematique-rappel"></p>
-        <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs et différences entre les sujets, réponse argumentée..."></textarea></div>
-      </li></ol>
-      </div>
-    </div>
-
-</div>
-
 <div class="section" data-type="bilan">
 
   <div class="section-titre">
@@ -540,59 +542,140 @@
 
     <h3 style="margin-top:var(--gap-md);">Questions</h3>
 
-    <div class="questions-bloc" data-tp="organiser-serie-statistique">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="activite-realisee">Activité réalisée</label>
+        <select id="activite-realisee">
+          <option value="">-- Choisir l'activité réalisée --</option>
+          <option value="classes" data-tabs="regrouper-classes">Regrouper une série en classes</option>
+          <option value="qualitative" data-tabs="representer-qualitative">Représenter une série qualitative</option>
+          <option value="chronologique" data-tabs="representer-chronologique">Représenter une évolution (lignes brisées)</option>
+          <option value="puzzle" data-tabs="activites-puzzle">🧩 Activités Puzzle</option>
+        </select>
+      </div>
+    </div>
 
+    <p id="activite-vide" class="info">Choisir l'activité réalisée : seules les questions correspondantes s'affichent.</p>
+    <p id="activite-avertissement" class="warning" hidden>Choisir d'abord l'activité réalisée avant d'imprimer le compte-rendu.</p>
+
+    <!-- ===== Regrouper une série en classes ===== -->
+    <div class="questions-bloc" data-tp="organiser-serie-statistique-classes" data-activite="classes" hidden>
     <ol class="questions-tp">
-
       <li>
         <div class="question-entete">
-          <strong>
-            Expliquer la démarche suivie pour regrouper une série de mesures en classes.
-          </strong>
+          <strong>Expliquer la démarche suivie pour regrouper une série de mesures en classes.</strong>
           <span class="cartouche" data-comp="APP">APP</span>
         </div>
-        <div class="zone-eleve">
-          <textarea id="question1" rows="4" placeholder="Votre réponse..."></textarea>
-        </div>
+        <div class="zone-eleve"><textarea id="question-classes-1" rows="4" placeholder="Votre réponse..."></textarea></div>
       </li>
-
       <li>
         <div class="question-entete">
-          <strong>
-            À partir du diagramme en colonnes obtenu, identifier la classe modale et justifier.
-          </strong>
+          <strong>À partir du diagramme en colonnes obtenu, identifier la classe modale et justifier.</strong>
           <span class="cartouche" data-comp="REA">REA</span>
         </div>
-        <div class="zone-eleve">
-          <textarea id="question2" rows="4" placeholder="Votre réponse..."></textarea>
-        </div>
+        <div class="zone-eleve"><textarea id="question-classes-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
       </li>
-
-      <li>
-        <div class="question-entete">
-          <strong>
-            Comparer le diagramme en bâtons et le diagramme en secteurs de la série qualitative étudiée : quelles informations chacun met-il le mieux en évidence ?
-          </strong>
-          <span class="cartouche" data-comp="ANA">ANA</span>
-        </div>
-        <div class="zone-eleve">
-          <textarea id="question3" rows="5" placeholder="Votre analyse..."></textarea>
-        </div>
-      </li>
-
       <li class="question-problematique">
         <div class="question-entete">
           <strong>Répondre à la problématique posée en début de TD :</strong>
           <span class="cartouche" data-comp="VAL">VAL</span>
         </div>
         <p class="problematique-rappel" data-activite="organiser-serie-statistique"></p>
-        <div class="zone-eleve">
-          <textarea id="question4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea>
-        </div>
+        <div class="zone-eleve"><textarea id="question-classes-3" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
       </li>
-
     </ol>
+    </div>
 
+    <!-- ===== Représenter une série qualitative ===== -->
+    <div class="questions-bloc" data-tp="organiser-serie-statistique-qualitative" data-activite="qualitative" hidden>
+    <ol class="questions-tp">
+      <li>
+        <div class="question-entete">
+          <strong>Citer les représentations adaptées à une série qualitative et rappeler comment calculer l'angle d'un secteur.</strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-qualitative-1" rows="4" placeholder="Votre réponse..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Donner les fréquences et les angles des secteurs de la série qualitative étudiée.</strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-qualitative-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Comparer le diagramme en bâtons et le diagramme en secteurs de la série qualitative étudiée : quelles informations chacun met-il le mieux en évidence ?</strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-qualitative-3" rows="5" placeholder="Votre analyse..."></textarea></div>
+      </li>
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique posée en début de TD :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="organiser-serie-statistique"></p>
+        <div class="zone-eleve"><textarea id="question-qualitative-4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+    </ol>
+    </div>
+
+    <!-- ===== Représenter une évolution (lignes brisées) ===== -->
+    <div class="questions-bloc" data-tp="organiser-serie-statistique-chronologique" data-activite="chronologique" hidden>
+    <ol class="questions-tp">
+      <li>
+        <div class="question-entete">
+          <strong>Expliquer ce qu'est une série chronologique et à quoi sert une ligne brisée.</strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-chronologique-1" rows="4" placeholder="Votre réponse..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Relever la valeur maximale, la valeur minimale et la variation entre deux dates de l'évolution étudiée.</strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-chronologique-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Décrire l'évolution observée (tendance, périodes de hausse ou de baisse) et proposer une explication liée à la situation.</strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-chronologique-3" rows="5" placeholder="Votre analyse..."></textarea></div>
+      </li>
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique posée en début de TD :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="organiser-serie-statistique"></p>
+        <div class="zone-eleve"><textarea id="question-chronologique-4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+    </ol>
+    </div>
+
+    <!-- ===== Activités puzzle ===== -->
+    <div class="questions-bloc" data-tp="organiser-serie-statistique-puzzle" data-activite="puzzle" hidden>
+    <ol class="questions-tp">
+      <li>
+        <div class="question-entete">
+          <strong>Indiquer le sujet traité par votre groupe (A, B ou C) et résumer la démarche suivie.</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-puzzle-1" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique de votre sujet en vous appuyant sur vos résultats :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="organiser-serie-statistique"></p>
+        <div class="zone-eleve"><textarea id="question-puzzle-2" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+    </ol>
+    <p class="info">Les fiches Sujet A, B, C et la synthèse remplies dans l'onglet « Activités Puzzle » sont jointes automatiquement au compte-rendu.</p>
     </div>
 
   </div>

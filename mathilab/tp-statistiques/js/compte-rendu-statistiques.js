@@ -8,6 +8,11 @@
  */
 
 import { genererCompteRendu } from '../../js/compte-rendu.js';
+import {
+  initAffichageQuestionsParActivite,
+  construireSectionsQuestionsActivite,
+  verifierActiviteChoisie,
+} from '../../js/questions-par-activite.js';
 
 function texte(el) {
   return (el?.textContent || '').trim();
@@ -15,18 +20,6 @@ function texte(el) {
 
 function valeur(el) {
   return (el?.value || '').trim();
-}
-
-// Une section "notation" (question + compétence + zone de réponse)
-// par <li> de .questions-tp, au format attendu par compte-rendu.js.
-function construireSectionsQuestions() {
-
-  return [...document.querySelectorAll('.questions-tp > li')].map(li => ({
-    titre: texte(li.querySelector('.question-entete strong')),
-    notation: true,
-    competence: texte(li.querySelector('.cartouche')),
-    texte: valeur(li.querySelector('.zone-eleve textarea')),
-  }));
 }
 
 // Résumé du TD, en texte libre.
@@ -64,26 +57,6 @@ function construireSectionResultats() {
   return { titre: 'Tableau de résultats', items };
 }
 
-// Une section par fiche puzzle (.fiche-puzzle), lue génériquement :
-// titre = data-titre de la fiche, texte = réponse du groupe expert.
-function construireSectionsPuzzle() {
-
-  return [...document.querySelectorAll('.fiche-puzzle')].map(fiche => ({
-    titre: `Fiche puzzle — ${fiche.dataset.titre || ''}`,
-    texte: valeur(fiche.querySelector('.zone-eleve textarea')),
-  }));
-}
-
-// Synthèse de la séance 2 (groupes puzzle mélangés).
-function construireSectionSynthesePuzzle() {
-
-  const zone = document.getElementById('puzzle-synthese');
-
-  if (!zone) return null;
-
-  return { titre: 'Synthèse puzzle (Séance 2)', texte: valeur(zone) };
-}
-
 /**
  * @param {Object} params
  * @param {string} params.titre - Titre du TP (ex. "Puissance et énergie électrique")
@@ -91,18 +64,22 @@ function construireSectionSynthesePuzzle() {
  */
 export function initImpressionCompteRendu({ titre, tp }) {
 
+  // Seules les questions de l'activité réalisée sont affichées et reprises
+  // (fiches puzzle et synthèse comprises si l'activité puzzle est choisie).
+  initAffichageQuestionsParActivite();
+
   const bouton = document.getElementById('btn-imprimer');
 
   if (!bouton) return;
 
   bouton.addEventListener('click', () => {
 
+    if (!verifierActiviteChoisie()) return;
+
     const sections = [
       construireSectionResultats(),
-      ...construireSectionsQuestions(),
+      ...construireSectionsQuestionsActivite(),
       construireSectionResume(),
-      ...construireSectionsPuzzle(),
-      construireSectionSynthesePuzzle(),
     ].filter(Boolean);
 
     genererCompteRendu({

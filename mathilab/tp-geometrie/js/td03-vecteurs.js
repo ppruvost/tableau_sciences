@@ -11,6 +11,7 @@ import FILIERES_PRO from '../../data/filieres.js';
 import { initContextePro } from '../../js/contexte-pro.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-geometrie.js';
+import { initAtelierStatique } from './atelier-statique.js';
 import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 
 import { demarrerPuzzle } from '../../js/puzzle-onglet.js';
@@ -155,8 +156,9 @@ function initVecteursEspace() {
 }
 
 /* ============================================================
-   FILTRAGE DES ONGLETS SELON LA FILIÈRE (groupement B uniquement
-   pour l'onglet "Vecteurs dans l'espace", niveau Tle)
+   FILTRAGE DES ONGLETS SELON LA FILIÈRE (data-filieres) :
+   - Vecteurs dans l'espace : groupement B (TRPM, TCI, MCC), Tle
+   - Activités atelier : TRPM, TCI, logistique
    ============================================================ */
 
 function filtrerOngletsParFiliere() {
@@ -185,7 +187,7 @@ function filtrerOngletsParFiliere() {
       const panneau = document.getElementById(bouton.dataset.tab);
       if (!visible) {
         unOngletCache = true;
-        if (panneau) panneau.classList.remove('actif');
+        if (panneau) { panneau.classList.remove('actif'); panneau.hidden = true; }
         bouton.classList.remove('actif');
       } else if (!premierVisible) {
         premierVisible = bouton;
@@ -198,13 +200,16 @@ function filtrerOngletsParFiliere() {
     if (!activeVisible && premierVisible) {
       premierVisible.classList.add('actif');
       const panneau = document.getElementById(premierVisible.dataset.tab);
-      if (panneau) panneau.classList.add('actif');
+      if (panneau) { panneau.classList.add('actif'); panneau.hidden = false; }
     }
 
     if (zoneMessage) {
       if (unOngletCache && filiere) {
+        const noms = [...document.querySelectorAll('.tabs-header .tab-btn')]
+          .filter((bouton) => bouton.style.display === 'none')
+          .map((bouton) => `« ${bouton.textContent.trim()} »`);
         zoneMessage.style.display = 'block';
-        zoneMessage.textContent = "L'onglet « Vecteurs dans l'espace » (Terminale) est réservé au groupement B (TRPM, TCI, MCC) : il n'apparaît pas pour votre filière.";
+        zoneMessage.textContent = `${noms.length > 1 ? 'Les onglets' : "L'onglet"} ${noms.join(', ')} ${noms.length > 1 ? 'ne sont pas proposés' : "n'est pas proposé"} pour votre filière.`;
       } else {
         zoneMessage.style.display = 'none';
       }
@@ -231,6 +236,7 @@ function initialiserTD03() {
 
   initVecteursPlan();
   initVecteursEspace();
+  initAtelierStatique();
   filtrerOngletsParFiliere();
 
   initRadarCompetences();

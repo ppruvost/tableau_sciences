@@ -52,3 +52,12 @@
 .sous-panel.actif { display:block; }
 .puzzle-problematique { font-weight:600; color:var(--domaine-accent-fonce, #0d4f8a); }
 
+
+/* Trace écrite : blocs de questions masqués selon l'activité réalisée */
+.questions-bloc[hidden] { display:none !important; }
+#activite-realisee { width:100%; max-width:34rem; }
+
+/* Activités atelier */
+#activites-atelier .tableau-resultats input[type="text"],
+#activites-atelier .tableau-resultats input[type="number"] { width:100%; min-width:6rem; }
+#activites-atelier .resultat-calcul { line-height:1.8; }

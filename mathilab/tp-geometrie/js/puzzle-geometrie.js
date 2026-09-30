@@ -63,54 +63,152 @@ export const G2 = {
   }),
 };
 
-/* ---------- TD03 : vecteurs (1ère plan, Tle espace) ---------- */
+/* ---------- TD03 : vecteurs (1ère plan, Tle espace) ----------
+   Chaque filière a ses propres situations et valeurs numériques.
+   - 1ère (et Tle hors groupement B) : vecteurs du plan
+   - Tle groupement B (TRPM, TCI, MCC) : vecteurs de l'espace
+   Toutes les normes sont « entières » pour faciliter la vérification. */
 const G3_LIB = {
-  trpm: { n: "une force de coupe", n2: "un déplacement d'outil" }, tci: { n: "un effort de cintrage", n2: "un déplacement de tôle" },
-  mcc: { n: "une tension de fil", n2: "un déplacement d'aiguille" }, log: { n: "un trajet de livraison", n2: "un déplacement de marchandise" },
-  agora: { n: "un déplacement de dossier", n2: "un second déplacement" },
+  trpm: {
+    plan: {
+      A: { ctx: `la table d'une fraiseuse déplace l'outil du point A(2 ; 1) au point B(7 ; 13), coordonnées exprimées en mm dans le repère de la pièce`,
+           interp: `longueur du déplacement de l'outil, en mm`, pb: `Quelles sont les coordonnées et la longueur du déplacement de l'outil ?` },
+      B: { ctx: `l'outil subit un effort d'avance u(50 ; 0) et un effort de pénétration v(0 ; 120), exprimés en N`,
+           interp: `intensité de l'effort résultant, en N`, pb: `Quel est l'effort résultant sur l'outil et quelle est son intensité ?` },
+      C: { ctx: `après le déplacement AB (A(2 ; 1), B(7 ; 13), en mm), une correction de réglage modélisée par le vecteur w(3 ; 3) est appliquée à l'outil`,
+           pb: `Quel est le déplacement final AB + w et quelle est sa longueur ?` },
+    },
+    espace: {
+      A: { ctx: `l'outil d'une fraiseuse cinq axes passe du point A(1 ; 2 ; 0) au point B(4 ; 6 ; 12), coordonnées exprimées en mm`,
+           pb: `Quelle est la longueur du déplacement de l'outil dans l'espace ?` },
+      B: { ctx: `deux efforts de coupe sont modélisés par les vecteurs u(2 ; 4 ; 6) et v(1 ; 2 ; 3), exprimés en N`,
+           pb: `Ces deux efforts de coupe ont-ils la même direction ?` },
+      C: { ctx: `deux déplacements de l'outil sont modélisés par AB(3 ; 4 ; 12) et CD(6 ; 8 ; 24), exprimés en mm`,
+           pb: `Ces deux déplacements ont-ils la même direction, et comment comparer leurs longueurs ?` },
+    },
+  },
+  tci: {
+    plan: {
+      A: { ctx: `un chalumeau de découpe se déplace du point A(1 ; 2) au point B(9 ; 17) sur une tôle, coordonnées exprimées en cm`,
+           interp: `longueur du trajet du chalumeau, en cm`, pb: `Quelles sont les coordonnées et la longueur du trajet du chalumeau ?` },
+      B: { ctx: `un galet de cintrage exerce sur un tube un effort horizontal u(240 ; 0) et un effort vertical v(0 ; 70), exprimés en daN`,
+           interp: `intensité de l'effort résultant, en daN`, pb: `Quel est l'effort résultant sur le tube et quelle est son intensité ?` },
+      C: { ctx: `après le déplacement AB (A(1 ; 2), B(9 ; 17), en cm), la tôle est décalée du vecteur w(−8 ; 9)`,
+           pb: `Quel est le déplacement final AB + w et quelle est sa longueur ?` },
+    },
+    espace: {
+      A: { ctx: `un point de soudure passe de A(0 ; 1 ; 2) à B(2 ; 4 ; 8) sur une virole, coordonnées exprimées en cm`,
+           pb: `Quelle est la longueur du déplacement du point de soudure dans l'espace ?` },
+      B: { ctx: `deux efforts s'exercent sur un support : u(4 ; −2 ; 8) et v(−2 ; 1 ; −4), exprimés en daN`,
+           pb: `Ces deux efforts ont-ils la même direction, et sont-ils de même sens ?` },
+      C: { ctx: `deux déplacements de pièce sont modélisés par AB(2 ; 3 ; 6) et CD(−4 ; −6 ; −12), exprimés en cm`,
+           pb: `Ces deux déplacements ont-ils la même direction, et comment comparer leurs longueurs ?` },
+    },
+  },
+  mcc: {
+    plan: {
+      A: { ctx: `sur un patron, l'aiguille doit aller du point de piqûre A(1 ; 2) au point B(10 ; 14), coordonnées exprimées en cm`,
+           interp: `longueur du déplacement de l'aiguille, en cm`, pb: `Quelles sont les coordonnées et la longueur du déplacement de l'aiguille ?` },
+      B: { ctx: `un fil est tendu par deux forces perpendiculaires u(6 ; 0) et v(0 ; 8), exprimées en N`,
+           interp: `intensité de la tension résultante, en N`, pb: `Quelle est la tension résultante dans le fil et quelle est son intensité ?` },
+      C: { ctx: `après le déplacement AB (A(1 ; 2), B(10 ; 14), en cm), le tissu est décalé du vecteur w(6 ; 8)`,
+           pb: `Quel est le déplacement final AB + w et quelle est sa longueur ?` },
+    },
+    espace: {
+      A: { ctx: `sur un mannequin en trois dimensions, un point de couture passe de A(1 ; 0 ; 2) à B(3 ; 6 ; 11), coordonnées exprimées en cm`,
+           pb: `Quelle est la longueur du déplacement du point de couture dans l'espace ?` },
+      B: { ctx: `deux tensions de fil sont modélisées par u(3 ; 6 ; 9) et v(1 ; 2 ; 4), exprimées en N`,
+           pb: `Ces deux tensions de fil ont-elles la même direction ?` },
+      C: { ctx: `deux déplacements sont modélisés par AB(2 ; 6 ; 9) et CD(1 ; 3 ; 4,5), exprimés en cm`,
+           pb: `Ces deux déplacements ont-ils la même direction, et comment comparer leurs longueurs ?` },
+    },
+  },
+  remi: {
+    plan: {
+      A: { ctx: `un technicien déplace un capteur du point A(1 ; 2) au point B(7 ; 10) sur un bâti, coordonnées exprimées en dm`,
+           interp: `longueur du déplacement du capteur, en dm`, pb: `Quelles sont les coordonnées et la longueur du déplacement du capteur ?` },
+      B: { ctx: `un support de machine subit un effort horizontal u(30 ; 0) et un effort vertical v(0 ; 40), exprimés en daN`,
+           interp: `intensité de l'effort résultant, en daN`, pb: `Quel est l'effort résultant sur le support et quelle est son intensité ?` },
+      C: { ctx: `après le déplacement AB (A(1 ; 2), B(7 ; 10), en dm), le capteur est encore décalé du vecteur w(5 ; 0)`,
+           pb: `Quel est le déplacement final AB + w et quelle est sa longueur ?` },
+    },
+  },
+  gatl: {
+    plan: {
+      A: { ctx: `un véhicule de livraison va du dépôt A(1 ; 2) à la plateforme B(9 ; 8), coordonnées exprimées en km`,
+           interp: `distance à vol d'oiseau entre le dépôt et la plateforme, en km`, pb: `Quelles sont les coordonnées et la longueur du trajet du véhicule ?` },
+      B: { ctx: `un camion parcourt u(12 ; 0) vers l'est puis v(0 ; 16) vers le nord, exprimés en km`,
+           interp: `distance à vol d'oiseau entre le départ et l'arrivée, en km`, pb: `Quel est le déplacement résultant du camion et quelle est sa longueur ?` },
+      C: { ctx: `après le trajet AB (A(1 ; 2), B(9 ; 8), en km), le véhicule doit encore rejoindre un client par le déplacement w(4 ; 3)`,
+           pb: `Quel est le déplacement final AB + w et quelle est sa longueur ?` },
+    },
+  },
+  log: {
+    plan: {
+      A: { ctx: `un chariot élévateur va du point A(2 ; 1) au point B(11 ; 13) dans l'entrepôt, coordonnées exprimées en m`,
+           interp: `distance parcourue en ligne droite, en m`, pb: `Quelles sont les coordonnées et la longueur du trajet du chariot ?` },
+      B: { ctx: `un chariot avance de u(7 ; 0) le long d'un quai, puis de v(0 ; 24) le long d'une allée, exprimés en m`,
+           interp: `distance en ligne droite entre le départ et l'arrivée, en m`, pb: `Quel est le déplacement résultant du chariot et quelle est sa longueur ?` },
+      C: { ctx: `après le trajet AB (A(2 ; 1), B(11 ; 13), en m), le chariot doit encore se déplacer de w(3 ; 4)`,
+           pb: `Quel est le déplacement final AB + w et quelle est sa longueur ?` },
+    },
+  },
+  agora: {
+    plan: {
+      A: { ctx: `sur le plan d'un étage, un dossier passe du service A(1 ; 1) au service B(4 ; 5), coordonnées exprimées en m`,
+           interp: `distance à vol d'oiseau entre les deux services, en m`, pb: `Quelles sont les coordonnées et la longueur du déplacement du dossier ?` },
+      B: { ctx: `un coursier parcourt un premier couloir u(6 ; 0) puis un second couloir v(0 ; 8), exprimés en m`,
+           interp: `distance à vol d'oiseau entre le départ et l'arrivée, en m`, pb: `Quel est le déplacement résultant du coursier et quelle est sa longueur ?` },
+      C: { ctx: `après le trajet AB (A(1 ; 1), B(4 ; 5), en m), le dossier est encore transféré selon le vecteur w(2 ; 8)`,
+           pb: `Quel est le déplacement final AB + w et quelle est sa longueur ?` },
+    },
+  },
 };
+
+// Filières du groupement B : seules à aborder les vecteurs de l'espace en Tle.
+const G3_GROUPEMENT_B = ['trpm', 'tci', 'mcc'];
+
 export const G3 = {
   params: G3_LIB,
-  build: (P, N, cad) => {
-    if (N === 'tle') return {
-      A: { contexte: `${cad}, un point de départ A(1 ; 2 ; 0) et un point d'arrivée B(4 ; 6 ; 12) repèrent ${P.n2} dans l'espace.`,
-        problematique: `Quelle est la longueur de ce déplacement dans l'espace ?`, questions: [
+  build: (P, N, cad, fil) => {
+    const espace = N === 'tle' && G3_GROUPEMENT_B.includes(fil) && P.espace;
+    if (espace) {
+      const E = P.espace;
+      return {
+        A: { contexte: `${cad}, ${E.A.ctx}.`, problematique: E.A.pb, questions: [
           `Calculer les coordonnées du vecteur AB (xB − xA ; yB − yA ; zB − zA).`,
           `Rappeler la formule de la norme d'un vecteur de l'espace.`,
           `Calculer la norme de AB.`,
-          `Interpréter cette norme dans la situation (distance parcourue).`, R5] },
-      B: { contexte: `${cad}, deux vecteurs de l'espace sont donnés : u(2 ; 4 ; 6) et v(1 ; 2 ; 3), modélisant ${P.n}.`,
-        problematique: `Ces deux vecteurs représentent-ils la même direction ?`, questions: [
+          `Interpréter cette norme dans la situation (longueur du déplacement).`, R5] },
+        B: { contexte: `${cad}, ${E.B.ctx}.`, problematique: E.B.pb, questions: [
           `Rappeler la condition de colinéarité de deux vecteurs de l'espace.`,
           `Chercher un réel k tel que u = k × v sur chaque coordonnée.`,
-          `Vérifier que ce réel k convient pour les trois coordonnées.`,
-          `Conclure sur la colinéarité de u et v.`, R5] },
-      C: { contexte: `${cad}, on combine les deux résultats précédents (norme dans l'espace et colinéarité) pour analyser ${P.n2}.`,
-        problematique: `Comment décider si deux déplacements dans l'espace ont la même direction et comparer leurs longueurs ?`, questions: [
-          `Rappeler la méthode pour calculer une norme dans l'espace.`,
-          `Rappeler la méthode pour tester la colinéarité de deux vecteurs.`,
-          `Appliquer ces deux méthodes à un exemple choisi par le groupe.`,
-          `Discuter des cas où colinéarité et normes égales suffisent à conclure à l'égalité de deux vecteurs.`, R5] },
-    };
+          `Vérifier si ce réel k convient pour les trois coordonnées.`,
+          `Conclure sur la colinéarité de u et v et, si elle existe, sur le sens des deux vecteurs.`, R5] },
+        C: { contexte: `${cad}, ${E.C.ctx}.`, problematique: E.C.pb, questions: [
+          `Calculer la norme du premier vecteur (AB).`,
+          `Calculer la norme du second vecteur (CD).`,
+          `Tester la colinéarité de AB et CD à l'aide de leurs coordonnées.`,
+          `Comparer les deux normes et relier ce résultat à la colinéarité.`, R5] },
+      };
+    }
+    const L = P.plan;
     return {
-      A: { contexte: `${cad}, un point de départ A(2 ; 1) et un point d'arrivée B(7 ; 13) repèrent ${P.n2}.`,
-        problematique: `Quelles sont les coordonnées et la longueur de ce déplacement ?`, questions: [
-          `Calculer les coordonnées du vecteur AB.`,
-          `Rappeler la formule de la norme d'un vecteur du plan.`,
-          `Calculer la norme de AB.`,
-          `Interpréter cette norme dans la situation (distance).`, R5] },
-      B: { contexte: `${cad}, deux vecteurs u(5 ; 0) et v(0 ; 3) modélisent ${P.n}.`,
-        problematique: `Quel est le vecteur résultant de u et v, et quelle est son intensité ?`, questions: [
-          `Calculer les coordonnées du vecteur somme u + v.`,
-          `Représenter u, v et u + v sur un repère (règle du parallélogramme).`,
-          `Calculer la norme du vecteur résultant.`,
-          `Interpréter cette norme dans la situation.`, R5] },
-      C: { contexte: `${cad}, on combine un déplacement AB (A(2 ; 1), B(7 ; 13)) avec une action modélisée par le vecteur v(0 ; 3).`,
-        problematique: `Quel est le vecteur final AB + v, et quelle est sa longueur ?`, questions: [
-          `Calculer les coordonnées du vecteur AB.`,
-          `Calculer les coordonnées du vecteur somme AB + v.`,
-          `Calculer la norme de ce vecteur somme.`,
-          `Comparer cette norme à celle de AB seul.`, R5] },
+      A: { contexte: `${cad}, ${L.A.ctx}.`, problematique: L.A.pb, questions: [
+        `Calculer les coordonnées du vecteur AB (xB − xA ; yB − yA).`,
+        `Rappeler la formule de la norme d'un vecteur du plan.`,
+        `Calculer la norme de AB.`,
+        `Interpréter cette norme dans la situation (${L.A.interp}).`, R5] },
+      B: { contexte: `${cad}, ${L.B.ctx}.`, problematique: L.B.pb, questions: [
+        `Calculer les coordonnées du vecteur somme u + v.`,
+        `Représenter u, v et u + v sur un repère (règle du parallélogramme).`,
+        `Calculer la norme du vecteur u + v.`,
+        `Interpréter cette norme dans la situation (${L.B.interp}).`, R5] },
+      C: { contexte: `${cad}, ${L.C.ctx}.`, problematique: L.C.pb, questions: [
+        `Calculer les coordonnées du vecteur AB.`,
+        `Calculer les coordonnées du vecteur somme AB + w.`,
+        `Calculer la norme de ce vecteur somme.`,
+        `Comparer cette norme à celle de AB seul et expliquer la différence.`, R5] },
     };
   },
 };

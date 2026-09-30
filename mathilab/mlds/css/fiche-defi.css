@@ -1,0 +1,226 @@
+/* =========================================================
+   MLDS MATHS — fiche-defi.css
+   Fiche imprimable du « Défi du plan de travail » (sans note).
+   Même socle que defi-collectif.css (global → reset → tp → print →
+   domaine) et même identité indigo : c'est la fiche de l'approche
+   « manipuler et discuter », pas un exercice noté. Aucun rouge/vert
+   de correction, aucune case « Note ».
+   ========================================================= */
+
+@import url("../../css/global.css");
+@import url("../../css/reset.css");
+@import url("../../css/tp.css");
+@import url("../../css/print.css");
+@import url("../../css/domaine.css");
+
+:root {
+  --domaine-accent:       #4338CA;
+  --domaine-accent-fonce: #3730A3;
+  --domaine-accent-rgb:   67, 56, 202;
+}
+
+/* ---- Barre d'actions (retour / impression) ---- */
+
+.barre-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--gap-sm) 20px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-barre {
+  border: 2px solid var(--gris-ardoise);
+  background: #fff;
+  color: var(--gris-ardoise);
+  border-radius: var(--r-pill);
+  padding: 10px 18px;
+  font-family: var(--font-titre);
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  text-decoration: none;
+  transition: var(--duree-normale);
+}
+
+.btn-barre:hover { background: var(--gris-ardoise); color: #fff; text-decoration: none; }
+
+/* ---- En-tête ---- */
+
+header.entete-fiche h1 {
+  font-size: clamp(1.3rem, 4vw, 1.9rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+header.entete-fiche p {
+  margin-top: 6px;
+  max-width: 640px;
+  margin-inline: auto;
+  font-family: var(--font-corps);
+  opacity: 0.95;
+}
+
+/* ---- Contenu ---- */
+
+main.fiche {
+  max-width: var(--largeur-contenu);
+  margin: 0 auto;
+  padding: var(--gap-md) 18px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
+}
+
+.bloc-fiche {
+  background: #fff;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--gris-clair);
+  border-left: 10px solid var(--domaine-accent);
+  box-shadow: var(--ombre-carte);
+  padding: var(--gap-md);
+  page-break-inside: avoid;
+}
+
+.bloc-fiche h2 {
+  font-size: 1.2rem;
+  color: var(--domaine-accent-fonce);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: var(--gap-sm);
+}
+
+.bloc-fiche p { line-height: 1.7; margin-bottom: 8px; }
+
+.bloc-fiche .consigne { font-size: 0.95rem; opacity: 0.9; }
+
+.bloc-fiche.identite { display: flex; gap: 24px; flex-wrap: wrap; }
+.bloc-fiche.identite p { margin: 0; }
+
+/* ---- Traits à remplir ---- */
+
+.trait {
+  display: inline-block;
+  border-bottom: 2px dotted var(--gris-moyen);
+  height: 1.1em;
+  vertical-align: baseline;
+}
+.trait.long  { width: min(420px, 60vw); }
+.trait.court { width: 130px; }
+
+.ligne {
+  border-bottom: 2px dotted var(--gris-moyen);
+  height: 2.1rem;
+}
+
+.question { font-weight: 700; margin-top: var(--gap-sm); }
+
+/* ---- Grilles à dessiner ---- */
+
+.essais {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: var(--gap-md);
+}
+
+.essai { page-break-inside: avoid; }
+
+.essai h3 {
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.pastille {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--domaine-accent);
+  color: #fff;
+  font-weight: 800;
+}
+
+.grille {
+  display: grid;
+  gap: 0;
+  border: 3px solid var(--gris-ardoise);
+  width: fit-content;
+  background: #fff;
+}
+
+.grille.g3 .case { width: 52px; height: 52px; }
+.grille.g5 .case { width: 38px; height: 38px; }
+
+.case {
+  border: 1.5px solid var(--gris-moyen);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+}
+
+.case.four {
+  background: var(--gris-ardoise);
+  color: #fff;
+}
+
+.ligne-reponse { margin-top: 8px; font-size: 0.92rem; }
+
+.coche {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border: 2px solid var(--gris-ardoise);
+  border-radius: 3px;
+  vertical-align: -2px;
+}
+
+/* ---- Tableau ---- */
+
+.tableau-essais {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableau-essais th,
+.tableau-essais td {
+  border: 1px solid var(--gris-moyen);
+  padding: 8px 10px;
+  text-align: left;
+  font-size: 0.92rem;
+}
+
+.tableau-essais td { height: 2.4rem; }
+.tableau-essais td:first-child { font-weight: 800; width: 60px; text-align: center; }
+.tableau-essais th { background: var(--blanc-paillasse); }
+
+/* ---- Source ---- */
+
+.pied-source {
+  font-size: 0.82rem;
+  opacity: 0.8;
+  line-height: 1.5;
+}
+
+/* ---- Impression : une page A4 lisible, sans barre ni ombres ---- */
+
+@media print {
+  .barre-actions { display: none !important; }
+  .bloc-fiche { box-shadow: none; }
+  main.fiche { max-width: 100%; padding: 0; gap: 10px; }
+  .case.four { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .pastille  { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  @page { size: A4; margin: 12mm; }
+}

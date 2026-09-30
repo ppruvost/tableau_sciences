@@ -8,6 +8,12 @@
  */
 
 import { genererCompteRendu } from '../../js/compte-rendu.js';
+import {
+  initAffichageQuestionsParActivite,
+  construireSectionsQuestionsActivite,
+  verifierActiviteChoisie,
+  panneauxActiviteChoisie,
+} from '../../js/questions-par-activite.js';
 
 function texte(el) {
   return (el?.textContent || '').trim();
@@ -15,18 +21,6 @@ function texte(el) {
 
 function valeur(el) {
   return (el?.value || '').trim();
-}
-
-// Une section "notation" (question + compétence + zone de réponse)
-// par <li> de .questions-tp, au format attendu par compte-rendu.js.
-function construireSectionsQuestions() {
-
-  return [...document.querySelectorAll('.questions-tp > li')].map(li => ({
-    titre: texte(li.querySelector('.question-entete strong')),
-    notation: true,
-    competence: texte(li.querySelector('.cartouche')),
-    texte: valeur(li.querySelector('.zone-eleve textarea')),
-  }));
 }
 
 // Résumé du TD, en texte libre.
@@ -39,35 +33,26 @@ function construireSectionResume() {
   return { titre: 'Résumé du TD', texte: valeur(zone) };
 }
 
-// Une section par exercice de code (.code-exercice) : le programme
-// Python final écrit/modifié par l'élève avant envoi vers PyLab.
+// Une section par exercice de code (.code-exercice) de l'activité réalisée :
+// le programme Python final écrit/modifié par l'élève avant envoi vers PyLab.
+// Les codes des fiches puzzle ne sont repris que s'ils sont remplis.
 // Le résultat d'exécution reste dans l'onglet PyLab (outil externe,
 // comme NumWorks) — à reporter à la main dans le tableau de résultats.
 function construireSectionsCode() {
 
-  return [...document.querySelectorAll('.code-exercice')].map(bloc => ({
-    titre: `Code Python — ${bloc.dataset.titre || ''}`,
-    texte: valeur(bloc.querySelector('.code-editeur-python')),
-  }));
-}
+  const panneaux = panneauxActiviteChoisie();
 
-// Une section par fiche puzzle (.fiche-puzzle), lue génériquement.
-function construireSectionsPuzzle() {
-
-  return [...document.querySelectorAll('.fiche-puzzle')].map(fiche => ({
-    titre: `Fiche puzzle — ${fiche.dataset.titre || ''}`,
-    texte: valeur(fiche.querySelector('.zone-eleve textarea')),
-  }));
-}
-
-// Synthèse de la séance 2 (groupes puzzle mélangés).
-function construireSectionSynthesePuzzle() {
-
-  const zone = document.getElementById('puzzle-synthese');
-
-  if (!zone) return null;
-
-  return { titre: 'Synthèse puzzle (Séance 2)', texte: valeur(zone) };
+  return [...document.querySelectorAll('.code-exercice')]
+    .filter(bloc => panneaux.some(p => p.contains(bloc)))
+    .map(bloc => ({
+      bloc,
+      code: valeur(bloc.querySelector('.code-editeur-python')),
+    }))
+    .filter(({ bloc, code }) => code || !bloc.closest('.fiche-puzzle'))
+    .map(({ bloc, code }) => ({
+      titre: `Code Python — ${bloc.dataset.titre || ''}`,
+      texte: code,
+    }));
 }
 
 /**
@@ -77,18 +62,22 @@ function construireSectionSynthesePuzzle() {
  */
 export function initImpressionCompteRendu({ titre, tp }) {
 
+  // Seules les questions et les codes de l'activité réalisée sont affichés
+  // et repris (fiches puzzle et synthèse comprises si le puzzle est choisi).
+  initAffichageQuestionsParActivite();
+
   const bouton = document.getElementById('btn-imprimer');
 
   if (!bouton) return;
 
   bouton.addEventListener('click', () => {
 
+    if (!verifierActiviteChoisie()) return;
+
     const sections = [
       ...construireSectionsCode(),
-      ...construireSectionsQuestions(),
+      ...construireSectionsQuestionsActivite(),
       construireSectionResume(),
-      ...construireSectionsPuzzle(),
-      construireSectionSynthesePuzzle(),
     ].filter(Boolean);
 
     genererCompteRendu({

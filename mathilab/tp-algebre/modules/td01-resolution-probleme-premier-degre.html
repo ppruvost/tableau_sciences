@@ -459,63 +459,147 @@
 
     <h3 style="margin-top:var(--gap-md);">Questions</h3>
 
-    <div class="questions-bloc" data-tp="resolution-probleme-premier-degre">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="activite-realisee">Activité réalisée</label>
+        <select id="activite-realisee">
+          <option value="">-- Choisir l'activité réalisée --</option>
+          <option value="equation-inequation" data-tabs="tab-equation tab-inequation">Équation et inéquation</option>
+          <option value="intervalles" data-tabs="tab-intervalles">Intervalles de ℝ</option>
+          <option value="probleme" data-tabs="tab-probleme">Traduire un problème</option>
+          <option value="puzzle" data-tabs="activites-puzzle">🧩 Activités Puzzle</option>
+        </select>
+      </div>
+    </div>
 
+    <p id="activite-vide" class="info">Choisir l'activité réalisée : seules les questions correspondantes s'affichent.</p>
+    <p id="activite-avertissement" class="warning" hidden>Choisir d'abord l'activité réalisée avant d'imprimer le compte-rendu.</p>
+
+    <!-- ===== Équation et inéquation ===== -->
+    <div class="questions-bloc" data-tp="resolution-probleme-premier-degre-equation-inequation" data-activite="equation-inequation" hidden>
     <ol class="questions-tp">
-
       <li>
         <div class="question-entete">
           <strong>Expliquer, dans vos propres mots, la différence entre résoudre une équation et résoudre une inéquation du premier degré.</strong>
           <span class="cartouche" data-comp="APP">APP</span>
         </div>
-        <div class="zone-eleve">
-          <textarea id="question1" rows="3" placeholder="Votre réponse..."></textarea>
-        </div>
+        <div class="zone-eleve"><textarea id="question-equation-inequation-1" rows="4" placeholder="Votre réponse..."></textarea></div>
       </li>
-
       <li>
         <div class="question-entete">
           <strong>À partir de l'onglet « Équation », résoudre 4x − 7 = 13 et détailler chaque étape.</strong>
           <span class="cartouche" data-comp="REA">REA</span>
         </div>
-        <div class="zone-eleve">
-          <textarea id="question2" rows="3" placeholder="Votre réponse..."></textarea>
-        </div>
+        <div class="zone-eleve"><textarea id="question-equation-inequation-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
       </li>
-
       <li>
         <div class="question-entete">
           <strong>Pourquoi le sens d'une inégalité change-t-il lorsqu'on multiplie ou divise les deux membres par un nombre négatif ? Illustrer avec un exemple.</strong>
-          <span class="cartouche" data-comp="ANA RAI">ANA RAI</span>
+          <span class="cartouche" data-comp="ANA">ANA</span>
         </div>
-        <div class="zone-eleve">
-          <textarea id="question3" rows="3" placeholder="Votre réponse..."></textarea>
-        </div>
+        <div class="zone-eleve"><textarea id="question-equation-inequation-3" rows="5" placeholder="Votre analyse..."></textarea></div>
       </li>
-
       <li>
         <div class="question-entete">
           <strong>Vérifier, par le calcul, qu'une valeur proposée est bien solution de l'inéquation étudiée dans l'onglet « Inéquation ».</strong>
           <span class="cartouche" data-comp="VAL">VAL</span>
         </div>
-        <div class="zone-eleve">
-          <textarea id="question4" rows="3" placeholder="Votre réponse..."></textarea>
-        </div>
+        <div class="zone-eleve"><textarea id="question-equation-inequation-4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
       </li>
-
       <li class="question-problematique">
         <div class="question-entete">
           <strong>Répondre à la problématique posée en début de TD :</strong>
           <span class="cartouche" data-comp="COM">COM</span>
         </div>
         <p class="problematique-rappel" data-activite="resolution-probleme-premier-degre"></p>
-        <div class="zone-eleve">
-          <textarea id="question5" rows="4" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea>
-        </div>
+        <div class="zone-eleve"><textarea id="question-equation-inequation-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
       </li>
-
     </ol>
+    </div>
 
+    <!-- ===== Intervalles de ℝ ===== -->
+    <div class="questions-bloc" data-tp="resolution-probleme-premier-degre-intervalles" data-activite="intervalles" hidden>
+    <ol class="questions-tp">
+      <li>
+        <div class="question-entete">
+          <strong>Donner la définition des intervalles de ℝ et expliquer le rôle des crochets (ouvert ou fermé).</strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-intervalles-1" rows="4" placeholder="Votre réponse..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Écrire la solution de l'inéquation étudiée sous forme d'intervalle et la représenter sur une droite graduée.</strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-intervalles-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
+      </li>
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique posée en début de TD :</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
+        </div>
+        <p class="problematique-rappel" data-activite="resolution-probleme-premier-degre"></p>
+        <div class="zone-eleve"><textarea id="question-intervalles-3" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+    </ol>
+    </div>
+
+    <!-- ===== Traduire un problème ===== -->
+    <div class="questions-bloc" data-tp="resolution-probleme-premier-degre-probleme" data-activite="probleme" hidden>
+    <ol class="questions-tp">
+      <li>
+        <div class="question-entete">
+          <strong>Indiquer les étapes pour traduire un problème par une équation (choix de l'inconnue, mise en équation, résolution, réponse).</strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-probleme-1" rows="4" placeholder="Votre réponse..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Écrire l'équation qui traduit le problème étudié et la résoudre.</strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-probleme-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Vérifier que la solution trouvée convient à l'énoncé et rédiger la réponse avec l'unité.</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-probleme-3" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique posée en début de TD :</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
+        </div>
+        <p class="problematique-rappel" data-activite="resolution-probleme-premier-degre"></p>
+        <div class="zone-eleve"><textarea id="question-probleme-4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+    </ol>
+    </div>
+
+    <!-- ===== Activités puzzle ===== -->
+    <div class="questions-bloc" data-tp="resolution-probleme-premier-degre-puzzle" data-activite="puzzle" hidden>
+    <ol class="questions-tp">
+      <li>
+        <div class="question-entete">
+          <strong>Indiquer le sujet traité par votre groupe (A, B ou C) et résumer la démarche suivie.</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-puzzle-1" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique de votre sujet en vous appuyant sur vos résultats :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="resolution-probleme-premier-degre"></p>
+        <div class="zone-eleve"><textarea id="question-puzzle-2" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+    </ol>
+    <p class="info">Les fiches Sujet A, B, C et la synthèse remplies dans l'onglet « Activités Puzzle » sont jointes automatiquement au compte-rendu.</p>
     </div>
 
   </div>

@@ -132,6 +132,7 @@
       <div class="tabs-header">
         <button class="tab-btn actif" data-tab="tableau-croise">Tableau croisé et probabilité conditionnelle</button>
         <button class="tab-btn" data-tab="arbre-pondere" data-niveau="tle" style="display:none;">Arbre pondéré et indépendance (Tle)</button>
+        <button class="tab-btn" data-tab="activites-puzzle">🧩 Activités Puzzle</button>
       </div>
 
       <!-- ============================================= -->
@@ -271,6 +272,104 @@
 
       </div>
 
+      <!-- ---------- ACTIVITÉS PUZZLE (onglet indépendant) ---------- -->
+      <div class="tab-panel" id="activites-puzzle">
+
+        <h3>Activités Puzzle</h3>
+
+        <div id="puzzle-info" class="info">
+          Sélectionner votre filière professionnelle dans la section « Contexte professionnel »
+          ci-dessus pour afficher les sujets.
+        </div>
+
+          <div class="info">
+        Organisation en <strong>classe puzzle</strong> : chaque groupe
+        expert calcule une probabilité conditionnelle dans un contexte
+        logistique différent. En séance 2, les groupes puzzle mélangés
+        comparent les quatre méthodes, identiques malgré des contextes
+        différents.
+      </div>
+
+      <div class="toolbar">
+        <a class="btn btn-secondaire" href="../../roue/index.html" target="_blank" rel="noopener">
+          🎡 Ouvrir la roue (tirage des groupes)
+        </a>
+      </div>
+
+      <div class="sous-onglets" role="tablist">
+        <button class="sous-btn actif" data-sous="puzzle-sujet-a">Sujet A</button>
+        <button class="sous-btn" data-sous="puzzle-sujet-b">Sujet B</button>
+        <button class="sous-btn" data-sous="puzzle-sujet-c">Sujet C</button>
+        <button class="sous-btn" data-sous="puzzle-synthese-panel">Synthèse</button>
+      </div>
+      <div class="sous-panel actif" id="puzzle-sujet-a">
+        <div class="fiche-puzzle" data-titre="Tableau croisé">
+          <div class="questions-bloc" data-tp="puzzle-a">
+            <ol class="questions-tp"><li>
+              <div class="question-entete"><strong>Sujet A — Tableau croisé</strong>
+                <span class="cartouche" data-comp="REA">REA</span></div>
+              <p class="info puzzle-contexte" id="puzzle-a-contexte"></p>
+              <p class="puzzle-problematique" id="puzzle-a-problematique"></p>
+              <ol id="puzzle-a-enonce" class="puzzle-questions"></ol>
+              <div class="form-row">
+                <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+              </div>
+              <div class="zone-eleve"><textarea id="puzzle-a-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+            </li></ol>
+          </div>
+        </div>
+      </div>
+      <div class="sous-panel" id="puzzle-sujet-b">
+        <div class="fiche-puzzle" data-titre="Probabilité conditionnelle">
+          <div class="questions-bloc" data-tp="puzzle-b">
+            <ol class="questions-tp"><li>
+              <div class="question-entete"><strong>Sujet B — Probabilité conditionnelle</strong>
+                <span class="cartouche" data-comp="ANA">ANA</span></div>
+              <p class="info puzzle-contexte" id="puzzle-b-contexte"></p>
+              <p class="puzzle-problematique" id="puzzle-b-problematique"></p>
+              <ol id="puzzle-b-enonce" class="puzzle-questions"></ol>
+              <div class="form-row">
+                <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+              </div>
+              <div class="zone-eleve"><textarea id="puzzle-b-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+            </li></ol>
+          </div>
+        </div>
+      </div>
+      <div class="sous-panel" id="puzzle-sujet-c">
+        <div class="fiche-puzzle" data-titre="Arbre pondéré">
+          <div class="questions-bloc" data-tp="puzzle-c">
+            <ol class="questions-tp"><li>
+              <div class="question-entete"><strong>Sujet C — Arbre pondéré</strong>
+                <span class="cartouche" data-comp="VAL">VAL</span></div>
+              <p class="info puzzle-contexte" id="puzzle-c-contexte"></p>
+              <p class="puzzle-problematique" id="puzzle-c-problematique"></p>
+              <ol id="puzzle-c-enonce" class="puzzle-questions"></ol>
+              <div class="form-row">
+                <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+              </div>
+              <div class="zone-eleve"><textarea id="puzzle-c-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+            </li></ol>
+          </div>
+        </div>
+      </div>
+      <div class="sous-panel" id="puzzle-synthese-panel">
+        <div class="info">En groupe mélangé, vérifier que les trois experts ont suivi la même méthode (tableau croisé, puis P_E(D) = P(E∩D) / P(E), puis arbre pondéré), malgré des contextes différents.</div>
+        <div class="questions-bloc" data-tp="puzzle-synthese">
+        <ol class="questions-tp"><li>
+          <div class="question-entete"><strong>Synthèse — Réponse commune à la problématique</strong>
+            <span class="cartouche" data-comp="COM">COM</span></div>
+          <p class="problematique-rappel"></p>
+          <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs et différences entre les sujets, réponse argumentée..."></textarea></div>
+        </li></ol>
+        </div>
+      </div>
+
+      </div>
+
     </div>
 
   </div>
@@ -352,104 +451,6 @@
 
 </div>
 
-<div class="section" data-type="puzzle">
-
-  <div class="section-titre">
-    <div class="picto-section">🧩</div>
-    <h2>Activités Puzzle</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="info">
-      Organisation en <strong>classe puzzle</strong> : chaque groupe
-      expert calcule une probabilité conditionnelle dans un contexte
-      logistique différent. En séance 2, les groupes puzzle mélangés
-      comparent les quatre méthodes, identiques malgré des contextes
-      différents.
-    </div>
-
-    <div class="toolbar">
-      <a class="btn btn-secondaire" href="../../roue/index.html" target="_blank" rel="noopener">
-        🎡 Ouvrir la roue (tirage des groupes)
-      </a>
-    </div>
-
-    <div class="sous-onglets" role="tablist">
-      <button class="sous-btn actif" data-sous="puzzle-sujet-a">Sujet A</button>
-      <button class="sous-btn" data-sous="puzzle-sujet-b">Sujet B</button>
-      <button class="sous-btn" data-sous="puzzle-sujet-c">Sujet C</button>
-      <button class="sous-btn" data-sous="puzzle-synthese-panel">Synthèse</button>
-    </div>
-    <div class="sous-panel actif" id="puzzle-sujet-a">
-      <div class="fiche-puzzle" data-titre="Tableau croisé">
-        <div class="questions-bloc" data-tp="puzzle-a">
-          <ol class="questions-tp"><li>
-            <div class="question-entete"><strong>Sujet A — Tableau croisé</strong>
-              <span class="cartouche" data-comp="REA">REA</span></div>
-            <p class="info puzzle-contexte" id="puzzle-a-contexte"></p>
-            <p class="puzzle-problematique" id="puzzle-a-problematique"></p>
-            <ol id="puzzle-a-enonce" class="puzzle-questions"></ol>
-            <div class="form-row">
-              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-            </div>
-            <div class="zone-eleve"><textarea id="puzzle-a-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
-          </li></ol>
-        </div>
-      </div>
-    </div>
-    <div class="sous-panel" id="puzzle-sujet-b">
-      <div class="fiche-puzzle" data-titre="Probabilité conditionnelle">
-        <div class="questions-bloc" data-tp="puzzle-b">
-          <ol class="questions-tp"><li>
-            <div class="question-entete"><strong>Sujet B — Probabilité conditionnelle</strong>
-              <span class="cartouche" data-comp="ANA">ANA</span></div>
-            <p class="info puzzle-contexte" id="puzzle-b-contexte"></p>
-            <p class="puzzle-problematique" id="puzzle-b-problematique"></p>
-            <ol id="puzzle-b-enonce" class="puzzle-questions"></ol>
-            <div class="form-row">
-              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-            </div>
-            <div class="zone-eleve"><textarea id="puzzle-b-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
-          </li></ol>
-        </div>
-      </div>
-    </div>
-    <div class="sous-panel" id="puzzle-sujet-c">
-      <div class="fiche-puzzle" data-titre="Arbre pondéré">
-        <div class="questions-bloc" data-tp="puzzle-c">
-          <ol class="questions-tp"><li>
-            <div class="question-entete"><strong>Sujet C — Arbre pondéré</strong>
-              <span class="cartouche" data-comp="VAL">VAL</span></div>
-            <p class="info puzzle-contexte" id="puzzle-c-contexte"></p>
-            <p class="puzzle-problematique" id="puzzle-c-problematique"></p>
-            <ol id="puzzle-c-enonce" class="puzzle-questions"></ol>
-            <div class="form-row">
-              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-            </div>
-            <div class="zone-eleve"><textarea id="puzzle-c-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
-          </li></ol>
-        </div>
-      </div>
-    </div>
-    <div class="sous-panel" id="puzzle-synthese-panel">
-      <div class="info">En groupe mélangé, vérifier que les trois experts ont suivi la même méthode (tableau croisé, puis P_E(D) = P(E∩D) / P(E), puis arbre pondéré), malgré des contextes différents.</div>
-      <div class="questions-bloc" data-tp="puzzle-synthese">
-      <ol class="questions-tp"><li>
-        <div class="question-entete"><strong>Synthèse — Réponse commune à la problématique</strong>
-          <span class="cartouche" data-comp="COM">COM</span></div>
-        <p class="problematique-rappel"></p>
-        <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs et différences entre les sujets, réponse argumentée..."></textarea></div>
-      </li></ol>
-      </div>
-    </div>
-
-</div>
-
 <div class="section" data-type="bilan">
 
   <div class="section-titre">
@@ -494,59 +495,111 @@
 
     <h3 style="margin-top:var(--gap-md);">Questions</h3>
 
-    <div class="questions-bloc" data-tp="tableau-croise-arbre-pondere">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="activite-realisee">Activité réalisée</label>
+        <select id="activite-realisee">
+          <option value="">-- Choisir l'activité réalisée --</option>
+          <option value="tableau-croise" data-tabs="tableau-croise">Tableau croisé et probabilité conditionnelle</option>
+          <option value="arbre-pondere" data-tabs="arbre-pondere">Arbre pondéré et indépendance (Tle)</option>
+          <option value="puzzle" data-tabs="activites-puzzle">🧩 Activités Puzzle</option>
+        </select>
+      </div>
+    </div>
 
+    <p id="activite-vide" class="info">Choisir l'activité réalisée : seules les questions correspondantes s'affichent.</p>
+    <p id="activite-avertissement" class="warning" hidden>Choisir d'abord l'activité réalisée avant d'imprimer le compte-rendu.</p>
+
+    <!-- ===== Tableau croisé et probabilité conditionnelle ===== -->
+    <div class="questions-bloc" data-tp="tableau-croise-arbre-pondere-tableau-croise" data-activite="tableau-croise" hidden>
     <ol class="questions-tp">
-
       <li>
         <div class="question-entete">
-          <strong>
-            Donner la définition de la probabilité conditionnelle P<sub>A</sub>(B) et la calculer pour votre situation.
-          </strong>
+          <strong>Donner la définition de la probabilité conditionnelle P_A(B) et la calculer pour votre situation.</strong>
           <span class="cartouche" data-comp="APP">APP</span>
         </div>
-        <div class="zone-eleve">
-          <textarea id="question1" rows="4" placeholder="Votre réponse..."></textarea>
-        </div>
+        <div class="zone-eleve"><textarea id="question-tableau-croise-1" rows="4" placeholder="Votre réponse..."></textarea></div>
       </li>
-
       <li>
         <div class="question-entete">
-          <strong>
-            Calculer P(A∪B) à partir de P(A), P(B) et P(A∩B).
-          </strong>
+          <strong>Calculer P(A∪B) à partir de P(A), P(B) et P(A∩B).</strong>
           <span class="cartouche" data-comp="REA">REA</span>
         </div>
-        <div class="zone-eleve">
-          <textarea id="question2" rows="4" placeholder="Votre réponse..."></textarea>
-        </div>
+        <div class="zone-eleve"><textarea id="question-tableau-croise-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
       </li>
-
       <li>
         <div class="question-entete">
-          <strong>
-            En comparant P(B) et la ou les probabilités conditionnelles obtenues, les événements étudiés semblent-ils indépendants ? Justifier.
-          </strong>
+          <strong>En comparant P(B) et la ou les probabilités conditionnelles obtenues, les événements étudiés semblent-ils indépendants ? Justifier.</strong>
           <span class="cartouche" data-comp="ANA">ANA</span>
         </div>
-        <div class="zone-eleve">
-          <textarea id="question3" rows="5" placeholder="Votre analyse..."></textarea>
-        </div>
+        <div class="zone-eleve"><textarea id="question-tableau-croise-3" rows="5" placeholder="Votre analyse..."></textarea></div>
       </li>
-
       <li class="question-problematique">
         <div class="question-entete">
           <strong>Répondre à la problématique posée en début de TD :</strong>
           <span class="cartouche" data-comp="VAL">VAL</span>
         </div>
         <p class="problematique-rappel" data-activite="tableau-croise-arbre-pondere"></p>
-        <div class="zone-eleve">
-          <textarea id="question4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea>
-        </div>
+        <div class="zone-eleve"><textarea id="question-tableau-croise-4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
       </li>
-
     </ol>
+    </div>
 
+    <!-- ===== Arbre pondéré et indépendance (Tle) ===== -->
+    <div class="questions-bloc" data-tp="tableau-croise-arbre-pondere-arbre-pondere" data-activite="arbre-pondere" hidden>
+    <ol class="questions-tp">
+      <li>
+        <div class="question-entete">
+          <strong>Rappeler la formule des probabilités totales et la condition d'indépendance de deux événements.</strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-arbre-pondere-1" rows="4" placeholder="Votre réponse..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Compléter l'arbre pondéré étudié et calculer P(B) par la formule des probabilités totales.</strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-arbre-pondere-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Les événements A et B sont-ils indépendants ? Justifier par le calcul.</strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-arbre-pondere-3" rows="5" placeholder="Votre analyse..."></textarea></div>
+      </li>
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique posée en début de TD :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="tableau-croise-arbre-pondere"></p>
+        <div class="zone-eleve"><textarea id="question-arbre-pondere-4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+    </ol>
+    </div>
+
+    <!-- ===== Activités puzzle ===== -->
+    <div class="questions-bloc" data-tp="tableau-croise-arbre-pondere-puzzle" data-activite="puzzle" hidden>
+    <ol class="questions-tp">
+      <li>
+        <div class="question-entete">
+          <strong>Indiquer le sujet traité par votre groupe (A, B ou C) et résumer la démarche suivie.</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-puzzle-1" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique de votre sujet en vous appuyant sur vos résultats :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="tableau-croise-arbre-pondere"></p>
+        <div class="zone-eleve"><textarea id="question-puzzle-2" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+    </ol>
+    <p class="info">Les fiches Sujet A, B, C et la synthèse remplies dans l'onglet « Activités Puzzle » sont jointes automatiquement au compte-rendu.</p>
     </div>
 
   </div>

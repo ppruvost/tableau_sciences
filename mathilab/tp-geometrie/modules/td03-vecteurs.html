@@ -24,7 +24,7 @@
         <span class="tag">1ère</span>
         <span class="tag">Tle</span>
         <span class="tag">Géométrie</span>
-        <span class="tag">Coordonnées - </span><span class="tag">Somme et produit par un réel - </span><span class="tag">Norme</span>
+        <span class="tag">Coordonnées - </span><span class="tag">Somme et produit par un réel - </span><span class="tag">Norme - </span><span class="tag">Statique et RDM (atelier)</span>
       </div>
 
     </div>
@@ -115,6 +115,8 @@
         <button class="tab-btn actif" data-tab="construire-vecteurs">1ère · Construire et reconnaître des vecteurs</button>
         <button class="tab-btn" data-tab="coordonnees-plan">1ère · Coordonnées, somme, produit, norme</button>
         <button class="tab-btn" data-tab="vecteurs-espace" data-filieres="trpm,tci,mcc">Tle · Vecteurs dans l'espace</button>
+        <button class="tab-btn" data-tab="activites-atelier" data-filieres="trpm,tci,log">🛠 Activités atelier</button>
+        <button class="tab-btn" data-tab="activites-puzzle">🧩 Activités Puzzle</button>
       </div>
 
       <!-- ---------- 1ère : CONSTRUIRE ET RECONNAÎTRE ---------- -->
@@ -252,6 +254,217 @@
 
       </div>
 
+      <!-- ---------- ACTIVITÉS ATELIER : statique et RDM (TP mécanique) ---------- -->
+      <div class="tab-panel" id="activites-atelier" data-filieres="trpm,tci,log">
+
+        <h3>Activités atelier : des vecteurs aux efforts sur une installation</h3>
+
+        <div class="info">
+          En atelier, une force est un <strong>vecteur</strong> : point d'application,
+          droite d'action, sens et intensité (la norme). Les notions de ce TD servent
+          à vérifier qu'une suspension ou une soudure est bien dimensionnée
+          (situations du pré-séparateur, du répartiteur bidirectionnel, du clapet anti-retour
+          et du support de détecteur).
+        </div>
+
+        <div class="sous-onglets" role="tablist">
+          <button class="sous-btn actif" data-atelier="atelier-poids">1. Poids et bilan des actions</button>
+          <button class="sous-btn" data-atelier="atelier-equilibre">2. Équilibre : moments et résultante</button>
+          <button class="sous-btn" data-atelier="atelier-soudure">3. Résistance d'une soudure</button>
+        </div>
+
+        <!-- 1. POIDS -->
+        <div class="sous-panel actif" id="atelier-poids">
+          <h4>Le poids : un vecteur vertical dirigé vers le bas</h4>
+          <ol class="etapes">
+            <li>Le poids se calcule par <code>P = m × g</code> (P en newtons, m en kg, g = 10 m/s²).</li>
+            <li>Il s'applique au centre de gravité G, sa droite d'action est verticale, son sens est vers le bas.</li>
+            <li>Dans un repère (O ; x ; y) avec y vers le haut, ses coordonnées sont <code>(0 ; −P)</code> et sa norme est P.</li>
+          </ol>
+          <div class="form-row">
+            <div class="form-group"><label for="at-masse">Masse m (kg)</label><input id="at-masse" type="number" step="any" value="300"></div>
+            <div class="form-group"><label for="at-g">g (m/s²)</label><input id="at-g" type="number" step="any" value="10"></div>
+            <div class="form-group"><label>&nbsp;</label><button id="at-poids-calc" type="button" class="btn btn-primaire">▶ Calculer le poids</button></div>
+          </div>
+          <div id="at-poids-res" class="resultat-calcul"></div>
+
+          <h4 style="margin-top:var(--gap-lg);">Bilan des actions mécaniques (à compléter sur le sujet)</h4>
+          <div class="table-responsive">
+            <table class="tableau-resultats">
+              <thead><tr><th>Action</th><th>Point d'application</th><th>Droite d'action</th><th>Sens</th><th>Intensité</th></tr></thead>
+              <tbody>
+                <tr><td>Poids P</td><td>G</td><td>verticale</td><td>vers le bas</td><td>P = m × g (connue)</td></tr>
+                <tr><td>Action A (tige, élingue, pied…)</td><td>A</td><td>verticale (hypothèse)</td><td>?</td><td>?</td></tr>
+                <tr><td>Action B (tige, élingue, pied…)</td><td>B</td><td>verticale (hypothèse)</td><td>?</td><td>?</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 2. ÉQUILIBRE -->
+        <div class="sous-panel" id="atelier-equilibre">
+          <h4>Forces verticales parallèles : théorème des moments puis de la résultante</h4>
+          <ol class="etapes">
+            <li>On place les points sur un axe horizontal (positions en mm) : A et B sont les appuis, chaque charge a une position.</li>
+            <li>Théorème des moments en A : <code>B × (xB − xA) = Σ F × (x − xA)</code>, d'où B.</li>
+            <li>Théorème de la résultante : la somme des vecteurs forces est le vecteur nul, d'où <code>A = ΣF − B</code>.</li>
+          </ol>
+
+          <div class="toolbar">
+            <button type="button" class="btn btn-secondaire" data-preset-eq="separateur">Pré-séparateur (TP3)</button>
+            <button type="button" class="btn btn-secondaire" data-preset-eq="clapet">Clapet anti-retour (TP2)</button>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group"><label for="at-xa">Position de A (mm)</label><input id="at-xa" type="number" step="any" value="0"></div>
+            <div class="form-group"><label for="at-xb">Position de B (mm)</label><input id="at-xb" type="number" step="any" value="608"></div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="tableau-resultats">
+              <thead><tr><th>Charge (vers le bas)</th><th>Intensité (N)</th><th>Position (mm)</th></tr></thead>
+              <tbody>
+                <tr><td><input id="at-f1-nom" type="text" value="P (poids)"></td><td><input id="at-f1-n" type="number" step="any" value="3000"></td><td><input id="at-f1-x" type="number" step="any" value="400"></td></tr>
+                <tr><td><input id="at-f2-nom" type="text" value=""></td><td><input id="at-f2-n" type="number" step="any" value=""></td><td><input id="at-f2-x" type="number" step="any" value=""></td></tr>
+                <tr><td><input id="at-f3-nom" type="text" value=""></td><td><input id="at-f3-n" type="number" step="any" value=""></td><td><input id="at-f3-x" type="number" step="any" value=""></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="toolbar"><button id="at-eq-calc" type="button" class="btn btn-primaire">▶ Calculer les efforts en A et B</button></div>
+          <div id="at-eq-res" class="resultat-calcul"></div>
+
+          <div class="info" style="margin-top:var(--gap-md);">
+            Si les trois forces ne sont pas parallèles (élingues inclinées), on utilise la
+            méthode graphique : les trois droites d'action sont concourantes et le
+            dynamique des forces est fermé.
+          </div>
+        </div>
+
+        <!-- 3. SOUDURE -->
+        <div class="sous-panel" id="atelier-soudure">
+          <h4>Un cordon de soudure travaille au cisaillement</h4>
+          <ol class="etapes">
+            <li>Section cisaillée des cordons : <code>S = n × a × L</code> (n cordons de gorge a et de longueur L).</li>
+            <li>Résistance élastique au glissement <code>Rg = Re / 2</code>, puis pratique <code>Rpg = Rg / s</code>.</li>
+            <li>Contrainte <code>τ = T / S</code> (en N/mm² = MPa) et condition de résistance <code>τ ≤ Rpg</code>.</li>
+            <li>Longueur minimale : <code>Lmin = T / (n × a × Rpg)</code>.</li>
+          </ol>
+
+          <div class="toolbar">
+            <button type="button" class="btn btn-secondaire" data-preset-sd="detecteur">Support de détecteur (TP2 RDM)</button>
+            <button type="button" class="btn btn-secondaire" data-preset-sd="oreille">Oreille de levage (TP1 RDM)</button>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group"><label for="at-T">Effort T (N)</label><input id="at-T" type="number" step="any" value="540"></div>
+            <div class="form-group"><label for="at-Re">Re (MPa)</label><input id="at-Re" type="number" step="any" value="175"></div>
+            <div class="form-group"><label for="at-s">Coefficient s</label><input id="at-s" type="number" step="any" value="5"></div>
+            <div class="form-group"><label for="at-a">Gorge a (mm)</label><input id="at-a" type="number" step="any" value="3"></div>
+            <div class="form-group"><label for="at-n">Nombre de cordons n</label><input id="at-n" type="number" step="1" min="1" value="1"></div>
+            <div class="form-group"><label for="at-L">Longueur L (mm, facultative)</label><input id="at-L" type="number" step="any" value=""></div>
+            <div class="form-group"><label>&nbsp;</label><button id="at-sd-calc" type="button" class="btn btn-primaire">▶ Vérifier la soudure</button></div>
+          </div>
+          <div id="at-sd-res" class="resultat-calcul"></div>
+        </div>
+
+        <div class="zone-eleve">
+          <textarea id="atelier-notes" rows="4" placeholder="Notes de l'activité atelier : schéma, bilan des actions, calculs..."></textarea>
+        </div>
+
+      </div>
+
+      <!-- ---------- ACTIVITÉS PUZZLE (onglet indépendant, sujets A / B / C) ---------- -->
+      <div class="tab-panel" id="activites-puzzle">
+
+        <h3>Activités Puzzle</h3>
+
+        <div id="puzzle-info" class="info">
+          Sélectionner votre filière professionnelle dans la section « Contexte professionnel »
+          ci-dessus pour afficher les trois sujets.
+        </div>
+
+        <div class="toolbar">
+          <a class="btn btn-secondaire" href="../../roue/index.html" target="_blank" rel="noopener">
+            🎡 Ouvrir la roue (tirage des groupes)
+          </a>
+        </div>
+
+        <div class="sous-onglets" role="tablist">
+          <button class="sous-btn actif" data-sous="puzzle-sujet-a">Sujet A</button>
+          <button class="sous-btn" data-sous="puzzle-sujet-b">Sujet B</button>
+          <button class="sous-btn" data-sous="puzzle-sujet-c">Sujet C</button>
+          <button class="sous-btn" data-sous="puzzle-synthese-panel">Synthèse</button>
+        </div>
+
+        <div class="sous-panel actif" id="puzzle-sujet-a">
+          <div class="fiche-puzzle" data-titre="Coordonnées et norme">
+            <div class="questions-bloc" data-tp="puzzle-a">
+              <ol class="questions-tp"><li>
+                <div class="question-entete"><strong>Sujet A — Coordonnées et norme</strong>
+                  <span class="cartouche" data-comp="REA">REA</span></div>
+                <p class="info puzzle-contexte" id="puzzle-a-contexte"></p>
+                <p class="puzzle-problematique" id="puzzle-a-problematique"></p>
+                <ol id="puzzle-a-enonce" class="puzzle-questions"></ol>
+                <div class="form-row">
+                  <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                  <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+                </div>
+                <div class="zone-eleve"><textarea id="puzzle-a-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+              </li></ol>
+            </div>
+          </div>
+        </div>
+        <div class="sous-panel" id="puzzle-sujet-b">
+          <div class="fiche-puzzle" data-titre="Somme de vecteurs ou colinéarité">
+            <div class="questions-bloc" data-tp="puzzle-b">
+              <ol class="questions-tp"><li>
+                <div class="question-entete"><strong>Sujet B — Somme de vecteurs ou colinéarité</strong>
+                  <span class="cartouche" data-comp="ANA">ANA</span></div>
+                <p class="info puzzle-contexte" id="puzzle-b-contexte"></p>
+                <p class="puzzle-problematique" id="puzzle-b-problematique"></p>
+                <ol id="puzzle-b-enonce" class="puzzle-questions"></ol>
+                <div class="form-row">
+                  <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                  <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+                </div>
+                <div class="zone-eleve"><textarea id="puzzle-b-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+              </li></ol>
+            </div>
+          </div>
+        </div>
+        <div class="sous-panel" id="puzzle-sujet-c">
+          <div class="fiche-puzzle" data-titre="Combiner ou comparer des vecteurs">
+            <div class="questions-bloc" data-tp="puzzle-c">
+              <ol class="questions-tp"><li>
+                <div class="question-entete"><strong>Sujet C — Combiner ou comparer des vecteurs</strong>
+                  <span class="cartouche" data-comp="VAL">VAL</span></div>
+                <p class="info puzzle-contexte" id="puzzle-c-contexte"></p>
+                <p class="puzzle-problematique" id="puzzle-c-problematique"></p>
+                <ol id="puzzle-c-enonce" class="puzzle-questions"></ol>
+                <div class="form-row">
+                  <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                  <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+                </div>
+                <div class="zone-eleve"><textarea id="puzzle-c-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+              </li></ol>
+            </div>
+          </div>
+        </div>
+        <div class="sous-panel" id="puzzle-synthese-panel">
+          <div class="info">En groupe mélangé, comparer les trois approches : coordonnées et norme, somme ou colinéarité, combinaison de vecteurs.</div>
+          <div class="questions-bloc" data-tp="puzzle-synthese">
+            <ol class="questions-tp"><li>
+              <div class="question-entete"><strong>Synthèse — Réponse commune à la problématique</strong>
+                <span class="cartouche" data-comp="COM">COM</span></div>
+              <p class="problematique-rappel"></p>
+              <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs et différences entre les sujets, réponse argumentée..."></textarea></div>
+            </li></ol>
+          </div>
+        </div>
+
+      </div>
+
     </div>
 
   </div>
@@ -276,6 +489,8 @@
           <tr><td>u + v et k·u calculés (plan, 1ère)</td><td><input type="text" placeholder="valeurs"></td></tr>
           <tr><td>Coordonnées et norme du vecteur AB (espace, Tle — si concerné)</td><td><input type="text" placeholder="valeurs"></td></tr>
           <tr><td>u et v sont-ils colinéaires ? (espace, Tle — si concerné)</td><td><input type="text" placeholder="oui / non"></td></tr>
+          <tr><td>Poids P et efforts en A et B (atelier — si concerné)</td><td><input type="text" placeholder="valeurs en N"></td></tr>
+          <tr><td>Contrainte τ, Rpg et conclusion sur la soudure (atelier — si concerné)</td><td><input type="text" placeholder="valeurs en MPa"></td></tr>
         </tbody>
       </table>
     </div>
@@ -310,77 +525,6 @@
 
 </div>
 
-<div class="section" data-type="puzzle">
-
-  <div class="section-titre">
-    <div class="picto-section">🧩</div>
-    <h2>Activités Puzzle</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="toolbar">
-      <a class="btn btn-secondaire" href="../../roue/index.html" target="_blank" rel="noopener">
-        🎡 Ouvrir la roue (tirage des groupes)
-      </a>
-    </div>
-
-    <div class="sous-onglets" role="tablist">
-      <button class="sous-btn actif" data-sous="puzzle-sujet-a">Sujet A</button>
-      <button class="sous-btn" data-sous="puzzle-sujet-b">Sujet B</button>
-      <button class="sous-btn" data-sous="puzzle-synthese-panel">Synthèse</button>
-    </div>
-    <div class="sous-panel actif" id="puzzle-sujet-a">
-      <div class="fiche-puzzle" data-titre="Coordonnées et norme">
-        <div class="questions-bloc" data-tp="puzzle-a">
-          <ol class="questions-tp"><li>
-            <div class="question-entete"><strong>Sujet A — Coordonnées et norme</strong>
-              <span class="cartouche" data-comp="REA">REA</span></div>
-            <p class="info puzzle-contexte" id="puzzle-a-contexte"></p>
-            <p class="puzzle-problematique" id="puzzle-a-problematique"></p>
-            <ol id="puzzle-a-enonce" class="puzzle-questions"></ol>
-            <div class="form-row">
-              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-            </div>
-            <div class="zone-eleve"><textarea id="puzzle-a-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
-          </li></ol>
-        </div>
-      </div>
-    </div>
-    <div class="sous-panel" id="puzzle-sujet-b">
-      <div class="fiche-puzzle" data-titre="Somme de vecteurs">
-        <div class="questions-bloc" data-tp="puzzle-b">
-          <ol class="questions-tp"><li>
-            <div class="question-entete"><strong>Sujet B — Somme de vecteurs</strong>
-              <span class="cartouche" data-comp="ANA">ANA</span></div>
-            <p class="info puzzle-contexte" id="puzzle-b-contexte"></p>
-            <p class="puzzle-problematique" id="puzzle-b-problematique"></p>
-            <ol id="puzzle-b-enonce" class="puzzle-questions"></ol>
-            <div class="form-row">
-              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-            </div>
-            <div class="zone-eleve"><textarea id="puzzle-b-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
-          </li></ol>
-        </div>
-      </div>
-    </div>
-    <div class="sous-panel" id="puzzle-synthese-panel">
-      <div class="info">En groupe mélangé, comparer les deux approches : construction géométrique et calcul par coordonnées.</div>
-      <div class="questions-bloc" data-tp="puzzle-synthese">
-      <ol class="questions-tp"><li>
-        <div class="question-entete"><strong>Synthèse — Réponse commune à la problématique</strong>
-          <span class="cartouche" data-comp="COM">COM</span></div>
-        <p class="problematique-rappel"></p>
-        <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs et différences entre les sujets, réponse argumentée..."></textarea></div>
-      </li></ol>
-      </div>
-    </div>
-
-</div>
-
 <div class="section" data-type="bilan">
 
   <div class="section-titre">
@@ -405,9 +549,25 @@
 
     <h3 style="margin-top:var(--gap-md);">Questions</h3>
 
-    <div class="questions-bloc" data-tp="vecteurs">
-    <ol class="questions-tp">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="activite-realisee">Activité réalisée</label>
+        <select id="activite-realisee">
+          <option value="">-- Choisir l'activité réalisée --</option>
+          <option value="plan" data-tabs="construire-vecteurs coordonnees-plan">1ère · Vecteurs du plan (construire, coordonnées, norme)</option>
+          <option value="espace" data-tabs="vecteurs-espace">Tle · Vecteurs dans l'espace</option>
+          <option value="atelier" data-tabs="activites-atelier">🛠 Activités atelier</option>
+          <option value="puzzle" data-tabs="activites-puzzle">🧩 Activités Puzzle</option>
+        </select>
+      </div>
+    </div>
 
+    <p id="activite-vide" class="info">Choisir l'activité réalisée : seules les questions correspondantes s'affichent.</p>
+    <p id="activite-avertissement" class="warning" hidden>Choisir d'abord l'activité réalisée avant d'imprimer le compte-rendu.</p>
+
+    <!-- ===== Vecteurs du plan ===== -->
+    <div class="questions-bloc" data-tp="vecteurs-plan" data-activite="plan" hidden>
+    <ol class="questions-tp">
       <li>
         <div class="question-entete">
           <strong>Rappeler la définition d'un vecteur (direction, sens, norme) et donner la formule des coordonnées de AB.</strong>
@@ -415,7 +575,6 @@
         </div>
         <div class="zone-eleve"><textarea id="question1" rows="4" placeholder="Votre réponse..."></textarea></div>
       </li>
-
       <li>
         <div class="question-entete">
           <strong>Donner les coordonnées et la norme du vecteur AB étudié, ainsi que le résultat de u + v.</strong>
@@ -423,15 +582,6 @@
         </div>
         <div class="zone-eleve"><textarea id="question2" rows="4" placeholder="Votre réponse..."></textarea></div>
       </li>
-
-      <li>
-        <div class="question-entete">
-          <strong>Expliquer comment reconnaître, à l'aide de leurs coordonnées, que deux vecteurs sont colinéaires.</strong>
-          <span class="cartouche" data-comp="ANA">ANA</span>
-        </div>
-        <div class="zone-eleve"><textarea id="question3" rows="5" placeholder="Votre analyse..."></textarea></div>
-      </li>
-
       <li class="question-problematique">
         <div class="question-entete">
           <strong>Répondre à la problématique posée en début de TD :</strong>
@@ -440,8 +590,91 @@
         <p class="problematique-rappel" data-activite="vecteurs"></p>
         <div class="zone-eleve"><textarea id="question4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
       </li>
-
     </ol>
+    </div>
+
+    <!-- ===== Vecteurs de l'espace ===== -->
+    <div class="questions-bloc" data-tp="vecteurs-espace" data-activite="espace" hidden>
+    <ol class="questions-tp">
+      <li>
+        <div class="question-entete">
+          <strong>Donner la formule de la norme d'un vecteur de l'espace et calculer les coordonnées et la norme du vecteur AB étudié.</strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-espace1" rows="4" placeholder="Votre réponse..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Expliquer comment reconnaître, à l'aide de leurs coordonnées, que deux vecteurs sont colinéaires.</strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question3" rows="5" placeholder="Votre analyse..."></textarea></div>
+      </li>
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique posée en début de TD :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="vecteurs"></p>
+        <div class="zone-eleve"><textarea id="question-espace3" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+    </ol>
+    </div>
+
+    <!-- ===== Activités atelier ===== -->
+    <div class="questions-bloc" data-tp="vecteurs-atelier" data-activite="atelier" hidden>
+    <ol class="questions-tp">
+      <li>
+        <div class="question-entete">
+          <strong>Calculer le poids de l'ensemble étudié et donner ses caractéristiques (point d'application, droite d'action, sens, intensité).</strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-atelier1" rows="4" placeholder="Formule, calcul, résultat avec l'unité..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Écrire le théorème des moments en A puis le théorème de la résultante, et en déduire les efforts en A et B.</strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-atelier2" rows="5" placeholder="Équations, calculs, résultats en newtons..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Vérifier la résistance d'une soudure : calculer Rpg, la contrainte τ (ou la longueur minimale de cordon) et conclure.</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-atelier3" rows="5" placeholder="Rg, Rpg, S, τ, comparaison et conclusion..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Expliquer en quoi un effort est un vecteur et comment les notions du TD (somme, norme, colinéarité) servent à l'étudier.</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-atelier4" rows="5" placeholder="Votre explication..."></textarea></div>
+      </li>
+    </ol>
+    </div>
+
+    <!-- ===== Activités puzzle ===== -->
+    <div class="questions-bloc" data-tp="vecteurs-puzzle" data-activite="puzzle" hidden>
+    <ol class="questions-tp">
+      <li>
+        <div class="question-entete">
+          <strong>Indiquer le sujet traité par votre groupe (A, B ou C) et résumer la démarche suivie.</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-puzzle1" rows="4" placeholder="Sujet traité, méthode employée..."></textarea></div>
+      </li>
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique de votre sujet en vous appuyant sur vos résultats :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="vecteurs"></p>
+        <div class="zone-eleve"><textarea id="question-puzzle2" rows="5" placeholder="Réponse argumentée, avec l'unité..."></textarea></div>
+      </li>
+    </ol>
+    <p class="info">Les fiches Sujet A, B, C et la synthèse remplies dans l'onglet « Activités Puzzle » sont jointes automatiquement au compte-rendu.</p>
     </div>
 
   </div>
@@ -510,8 +743,8 @@
       L'impression récupère automatiquement :
       <ul>
         <li>le tableau de résultats ;</li>
-        <li>les réponses aux questions ;</li>
-        <li>les fiches puzzle et l'auto-évaluation des compétences.</li>
+        <li>les réponses aux questions de l'activité réalisée ;</li>
+        <li>les fiches puzzle (si l'activité puzzle est choisie) et l'auto-évaluation des compétences.</li>
       </ul>
     </div>
 

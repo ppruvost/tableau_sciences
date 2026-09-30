@@ -5,9 +5,17 @@
  * js/compte-rendu.js (genererCompteRendu) à partir du DOM du TD
  * d'algèbre actuellement affiché, et câble le bouton #btn-imprimer
  * dessus.
+ *
+ * Seules les questions de l'activité réalisée (liste #activite-realisee)
+ * sont reprises : voir js/questions-par-activite.js.
  */
 
 import { genererCompteRendu } from '../../js/compte-rendu.js';
+import {
+  initAffichageQuestionsParActivite,
+  construireSectionsQuestionsActivite,
+  verifierActiviteChoisie,
+} from '../../js/questions-par-activite.js';
 
 function texte(el) {
   return (el?.textContent || '').trim();
@@ -15,17 +23,6 @@ function texte(el) {
 
 function valeur(el) {
   return (el?.value || '').trim();
-}
-
-// Une section "notation" (question + compétence + zone de réponse)
-// par <li> de .questions-tp, au format attendu par compte-rendu.js.
-function construireSectionsQuestions() {
-  return [...document.querySelectorAll('.questions-tp > li')].map(li => ({
-    titre: texte(li.querySelector('.question-entete strong')),
-    notation: true,
-    competence: texte(li.querySelector('.cartouche')),
-    texte: valeur(li.querySelector('.zone-eleve textarea')),
-  }));
 }
 
 // Résumé du TD, en texte libre.
@@ -74,13 +71,17 @@ function construireSectionOutils() {
  * @param {string} params.tp    - Identifiant du TD (ex. "S1")
  */
 export function initImpressionCompteRendu({ titre, tp }) {
+  initAffichageQuestionsParActivite();
+
   const bouton = document.getElementById('btn-imprimer');
   if (!bouton) return;
 
   bouton.addEventListener('click', () => {
+    if (!verifierActiviteChoisie()) return;
+
     const sections = [
       construireSectionOutils(),
-      ...construireSectionsQuestions(),
+      ...construireSectionsQuestionsActivite(),
       construireSectionResume(),
     ].filter(Boolean);
 

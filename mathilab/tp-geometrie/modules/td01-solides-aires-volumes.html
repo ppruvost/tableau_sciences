@@ -113,6 +113,7 @@
         <button class="tab-btn" data-tab="pythagore">Théorème de Pythagore</button>
         <button class="tab-btn" data-tab="thales">Théorème de Thalès</button>
         <button class="tab-btn" data-tab="agrandissement">Agrandissement / réduction</button>
+        <button class="tab-btn" data-tab="activites-puzzle">🧩 Activités Puzzle</button>
       </div>
 
       <!-- ---------- AIRES ET PÉRIMÈTRES ---------- -->
@@ -328,6 +329,96 @@
 
       </div>
 
+      <!-- ---------- ACTIVITÉS PUZZLE (onglet indépendant) ---------- -->
+      <div class="tab-panel" id="activites-puzzle">
+
+        <h3>Activités Puzzle</h3>
+
+        <div id="puzzle-info" class="info">
+          Sélectionner votre filière professionnelle dans la section « Contexte professionnel »
+          ci-dessus pour afficher les sujets.
+        </div>
+
+        <div class="toolbar">
+        <a class="btn btn-secondaire" href="../../roue/index.html" target="_blank" rel="noopener">
+          🎡 Ouvrir la roue (tirage des groupes)
+        </a>
+      </div>
+
+      <div class="sous-onglets" role="tablist">
+        <button class="sous-btn actif" data-sous="puzzle-sujet-a">Sujet A</button>
+        <button class="sous-btn" data-sous="puzzle-sujet-b">Sujet B</button>
+        <button class="sous-btn" data-sous="puzzle-sujet-c">Sujet C</button>
+        <button class="sous-btn" data-sous="puzzle-synthese-panel">Synthèse</button>
+      </div>
+      <div class="sous-panel actif" id="puzzle-sujet-a">
+        <div class="fiche-puzzle" data-titre="Pythagore">
+          <div class="questions-bloc" data-tp="puzzle-a">
+            <ol class="questions-tp"><li>
+              <div class="question-entete"><strong>Sujet A — Pythagore</strong>
+                <span class="cartouche" data-comp="REA">REA</span></div>
+              <p class="info puzzle-contexte" id="puzzle-a-contexte"></p>
+              <p class="puzzle-problematique" id="puzzle-a-problematique"></p>
+              <ol id="puzzle-a-enonce" class="puzzle-questions"></ol>
+              <div class="form-row">
+                <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+              </div>
+              <div class="zone-eleve"><textarea id="puzzle-a-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+            </li></ol>
+          </div>
+        </div>
+      </div>
+      <div class="sous-panel" id="puzzle-sujet-b">
+        <div class="fiche-puzzle" data-titre="Thalès">
+          <div class="questions-bloc" data-tp="puzzle-b">
+            <ol class="questions-tp"><li>
+              <div class="question-entete"><strong>Sujet B — Thalès</strong>
+                <span class="cartouche" data-comp="ANA">ANA</span></div>
+              <p class="info puzzle-contexte" id="puzzle-b-contexte"></p>
+              <p class="puzzle-problematique" id="puzzle-b-problematique"></p>
+              <ol id="puzzle-b-enonce" class="puzzle-questions"></ol>
+              <div class="form-row">
+                <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+              </div>
+              <div class="zone-eleve"><textarea id="puzzle-b-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+            </li></ol>
+          </div>
+        </div>
+      </div>
+      <div class="sous-panel" id="puzzle-sujet-c">
+        <div class="fiche-puzzle" data-titre="Agrandissement">
+          <div class="questions-bloc" data-tp="puzzle-c">
+            <ol class="questions-tp"><li>
+              <div class="question-entete"><strong>Sujet C — Agrandissement</strong>
+                <span class="cartouche" data-comp="VAL">VAL</span></div>
+              <p class="info puzzle-contexte" id="puzzle-c-contexte"></p>
+              <p class="puzzle-problematique" id="puzzle-c-problematique"></p>
+              <ol id="puzzle-c-enonce" class="puzzle-questions"></ol>
+              <div class="form-row">
+                <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+              </div>
+              <div class="zone-eleve"><textarea id="puzzle-c-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+            </li></ol>
+          </div>
+        </div>
+      </div>
+      <div class="sous-panel" id="puzzle-synthese-panel">
+        <div class="info">En groupe mélangé, comparer les trois approches : contrôle d’angle droit, calcul de longueur, changement d’échelle.</div>
+        <div class="questions-bloc" data-tp="puzzle-synthese">
+        <ol class="questions-tp"><li>
+          <div class="question-entete"><strong>Synthèse — Réponse commune à la problématique</strong>
+            <span class="cartouche" data-comp="COM">COM</span></div>
+          <p class="problematique-rappel"></p>
+          <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs et différences entre les sujets, réponse argumentée..."></textarea></div>
+        </li></ol>
+        </div>
+      </div>
+
+      </div>
+
     </div>
 
   </div>
@@ -388,96 +479,6 @@
 
 </div>
 
-<div class="section" data-type="puzzle">
-
-  <div class="section-titre">
-    <div class="picto-section">🧩</div>
-    <h2>Activités Puzzle</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="toolbar">
-      <a class="btn btn-secondaire" href="../../roue/index.html" target="_blank" rel="noopener">
-        🎡 Ouvrir la roue (tirage des groupes)
-      </a>
-    </div>
-
-    <div class="sous-onglets" role="tablist">
-      <button class="sous-btn actif" data-sous="puzzle-sujet-a">Sujet A</button>
-      <button class="sous-btn" data-sous="puzzle-sujet-b">Sujet B</button>
-      <button class="sous-btn" data-sous="puzzle-sujet-c">Sujet C</button>
-      <button class="sous-btn" data-sous="puzzle-synthese-panel">Synthèse</button>
-    </div>
-    <div class="sous-panel actif" id="puzzle-sujet-a">
-      <div class="fiche-puzzle" data-titre="Pythagore">
-        <div class="questions-bloc" data-tp="puzzle-a">
-          <ol class="questions-tp"><li>
-            <div class="question-entete"><strong>Sujet A — Pythagore</strong>
-              <span class="cartouche" data-comp="REA">REA</span></div>
-            <p class="info puzzle-contexte" id="puzzle-a-contexte"></p>
-            <p class="puzzle-problematique" id="puzzle-a-problematique"></p>
-            <ol id="puzzle-a-enonce" class="puzzle-questions"></ol>
-            <div class="form-row">
-              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-            </div>
-            <div class="zone-eleve"><textarea id="puzzle-a-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
-          </li></ol>
-        </div>
-      </div>
-    </div>
-    <div class="sous-panel" id="puzzle-sujet-b">
-      <div class="fiche-puzzle" data-titre="Thalès">
-        <div class="questions-bloc" data-tp="puzzle-b">
-          <ol class="questions-tp"><li>
-            <div class="question-entete"><strong>Sujet B — Thalès</strong>
-              <span class="cartouche" data-comp="ANA">ANA</span></div>
-            <p class="info puzzle-contexte" id="puzzle-b-contexte"></p>
-            <p class="puzzle-problematique" id="puzzle-b-problematique"></p>
-            <ol id="puzzle-b-enonce" class="puzzle-questions"></ol>
-            <div class="form-row">
-              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-            </div>
-            <div class="zone-eleve"><textarea id="puzzle-b-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
-          </li></ol>
-        </div>
-      </div>
-    </div>
-    <div class="sous-panel" id="puzzle-sujet-c">
-      <div class="fiche-puzzle" data-titre="Agrandissement">
-        <div class="questions-bloc" data-tp="puzzle-c">
-          <ol class="questions-tp"><li>
-            <div class="question-entete"><strong>Sujet C — Agrandissement</strong>
-              <span class="cartouche" data-comp="VAL">VAL</span></div>
-            <p class="info puzzle-contexte" id="puzzle-c-contexte"></p>
-            <p class="puzzle-problematique" id="puzzle-c-problematique"></p>
-            <ol id="puzzle-c-enonce" class="puzzle-questions"></ol>
-            <div class="form-row">
-              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-            </div>
-            <div class="zone-eleve"><textarea id="puzzle-c-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
-          </li></ol>
-        </div>
-      </div>
-    </div>
-    <div class="sous-panel" id="puzzle-synthese-panel">
-      <div class="info">En groupe mélangé, comparer les trois approches : contrôle d’angle droit, calcul de longueur, changement d’échelle.</div>
-      <div class="questions-bloc" data-tp="puzzle-synthese">
-      <ol class="questions-tp"><li>
-        <div class="question-entete"><strong>Synthèse — Réponse commune à la problématique</strong>
-          <span class="cartouche" data-comp="COM">COM</span></div>
-        <p class="problematique-rappel"></p>
-        <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs et différences entre les sujets, réponse argumentée..."></textarea></div>
-      </li></ol>
-      </div>
-    </div>
-
-</div>
-
 <div class="section" data-type="bilan">
 
   <div class="section-titre">
@@ -502,43 +503,133 @@
 
     <h3 style="margin-top:var(--gap-md);">Questions</h3>
 
-    <div class="questions-bloc" data-tp="solides-aires-volumes">
-    <ol class="questions-tp">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="activite-realisee">Activité réalisée</label>
+        <select id="activite-realisee">
+          <option value="">-- Choisir l'activité réalisée --</option>
+          <option value="aires-volumes" data-tabs="aires-perimetres volumes">Aires, périmètres et volumes</option>
+          <option value="pythagore-thales" data-tabs="pythagore thales">Théorèmes de Pythagore et de Thalès</option>
+          <option value="agrandissement" data-tabs="agrandissement">Agrandissement / réduction</option>
+          <option value="puzzle" data-tabs="activites-puzzle">🧩 Activités Puzzle</option>
+        </select>
+      </div>
+    </div>
 
+    <p id="activite-vide" class="info">Choisir l'activité réalisée : seules les questions correspondantes s'affichent.</p>
+    <p id="activite-avertissement" class="warning" hidden>Choisir d'abord l'activité réalisée avant d'imprimer le compte-rendu.</p>
+
+    <!-- ===== Aires, périmètres et volumes ===== -->
+    <div class="questions-bloc" data-tp="solides-aires-volumes-aires-volumes" data-activite="aires-volumes" hidden>
+    <ol class="questions-tp">
       <li>
         <div class="question-entete">
-          <strong>Énoncer le théorème de Pythagore et le théorème de Thalès.</strong>
+          <strong>Donner les formules d'aire et de périmètre de la figure étudiée, puis la formule de volume du solide étudié.</strong>
           <span class="cartouche" data-comp="APP">APP</span>
         </div>
-        <div class="zone-eleve"><textarea id="question1" rows="4" placeholder="Votre réponse..."></textarea></div>
+        <div class="zone-eleve"><textarea id="question-aires-volumes-1" rows="4" placeholder="Votre réponse..."></textarea></div>
       </li>
-
       <li>
         <div class="question-entete">
-          <strong>Donner les résultats obtenus pour le volume calculé et pour l'application du théorème de Thalès.</strong>
+          <strong>Donner l'aire, le périmètre ou le volume obtenu dans l'activité, avec l'unité.</strong>
           <span class="cartouche" data-comp="REA">REA</span>
         </div>
-        <div class="zone-eleve"><textarea id="question2" rows="4" placeholder="Votre réponse..."></textarea></div>
+        <div class="zone-eleve"><textarea id="question-aires-volumes-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
       </li>
-
-      <li>
-        <div class="question-entete">
-          <strong>Expliquer pourquoi une aire est multipliée par k² (et non par k) lors d'un agrandissement de coefficient k.</strong>
-          <span class="cartouche" data-comp="ANA">ANA</span>
-        </div>
-        <div class="zone-eleve"><textarea id="question3" rows="5" placeholder="Votre analyse..."></textarea></div>
-      </li>
-
       <li class="question-problematique">
         <div class="question-entete">
           <strong>Répondre à la problématique posée en début de TD :</strong>
           <span class="cartouche" data-comp="VAL">VAL</span>
         </div>
         <p class="problematique-rappel" data-activite="solides-aires-volumes"></p>
-        <div class="zone-eleve"><textarea id="question4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+        <div class="zone-eleve"><textarea id="question-aires-volumes-3" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
       </li>
-
     </ol>
+    </div>
+
+    <!-- ===== Théorèmes de Pythagore et de Thalès ===== -->
+    <div class="questions-bloc" data-tp="solides-aires-volumes-pythagore-thales" data-activite="pythagore-thales" hidden>
+    <ol class="questions-tp">
+      <li>
+        <div class="question-entete">
+          <strong>Énoncer le théorème de Pythagore et le théorème de Thalès.</strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-pythagore-thales-1" rows="4" placeholder="Votre réponse..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Donner les résultats obtenus pour l'application du théorème de Pythagore et du théorème de Thalès.</strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-pythagore-thales-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Expliquer comment reconnaître, dans une situation, quel théorème utiliser (triangle rectangle ou droites parallèles).</strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-pythagore-thales-3" rows="5" placeholder="Votre analyse..."></textarea></div>
+      </li>
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique posée en début de TD :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="solides-aires-volumes"></p>
+        <div class="zone-eleve"><textarea id="question-pythagore-thales-4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+    </ol>
+    </div>
+
+    <!-- ===== Agrandissement / réduction ===== -->
+    <div class="questions-bloc" data-tp="solides-aires-volumes-agrandissement" data-activite="agrandissement" hidden>
+    <ol class="questions-tp">
+      <li>
+        <div class="question-entete">
+          <strong>Indiquer comment sont modifiées les longueurs, les aires et les volumes lors d'un agrandissement de coefficient k.</strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-agrandissement-1" rows="4" placeholder="Votre réponse..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Expliquer pourquoi une aire est multipliée par k² (et non par k) lors d'un agrandissement de coefficient k.</strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-agrandissement-2" rows="5" placeholder="Votre analyse..."></textarea></div>
+      </li>
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique posée en début de TD :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="solides-aires-volumes"></p>
+        <div class="zone-eleve"><textarea id="question-agrandissement-3" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+    </ol>
+    </div>
+
+    <!-- ===== Activités puzzle ===== -->
+    <div class="questions-bloc" data-tp="solides-aires-volumes-puzzle" data-activite="puzzle" hidden>
+    <ol class="questions-tp">
+      <li>
+        <div class="question-entete">
+          <strong>Indiquer le sujet traité par votre groupe (A, B ou C) et résumer la démarche suivie.</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-puzzle-1" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique de votre sujet en vous appuyant sur vos résultats :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="solides-aires-volumes"></p>
+        <div class="zone-eleve"><textarea id="question-puzzle-2" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+    </ol>
+    <p class="info">Les fiches Sujet A, B, C et la synthèse remplies dans l'onglet « Activités Puzzle » sont jointes automatiquement au compte-rendu.</p>
     </div>
 
   </div>

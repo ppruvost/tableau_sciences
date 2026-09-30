@@ -1,35 +1,25 @@
 /**
  * tp-geometrie/js/compte-rendu-geometrie.js
  *
- * Construit la configuration attendue par le module partagé
- * js/compte-rendu.js (genererCompteRendu) à partir du DOM du TD
- * de géométrie actuellement affiché, et câble le bouton #btn-imprimer
- * dessus.
+ * Construit la configuration attendue par js/compte-rendu.js
+ * (genererCompteRendu) à partir des SEULES questions affichées selon
+ * l'activité réalisée (voir js/questions-par-activite.js), et câble le
+ * bouton #btn-imprimer.
  *
- * Convention identique à tp-algebre/js/compte-rendu-algebre.js et
- * tp-statistiques/js/compte-rendu-statistiques.js.
+ * L'affichage des questions par activité est initialisé ici : il suffit
+ * donc que chaque TD appelle initImpressionCompteRendu().
  */
 
 import { genererCompteRendu } from '../../js/compte-rendu.js';
+import {
+  initAffichageQuestionsParActivite,
+  construireSectionsQuestionsActivite,
+  verifierActiviteChoisie,
+  valeur,
+} from '../../js/questions-par-activite.js';
 
-function texte(el) {
-  return (el?.textContent || '').trim();
-}
-
-function valeur(el) {
-  return (el?.value || '').trim();
-}
-
-// Une section "notation" (question + compétence + zone de réponse)
-// par <li> de .questions-tp, au format attendu par compte-rendu.js.
-function construireSectionsQuestions() {
-  return [...document.querySelectorAll('.questions-tp > li')].map(li => ({
-    titre: texte(li.querySelector('.question-entete strong')),
-    notation: true,
-    competence: texte(li.querySelector('.cartouche')),
-    texte: valeur(li.querySelector('.zone-eleve textarea')),
-  }));
-}
+// Conservé pour compatibilité avec les TD qui l'importaient déjà.
+export { initAffichageQuestionsParActivite };
 
 // Résumé du TD, en texte libre.
 function construireSectionResume() {
@@ -44,12 +34,16 @@ function construireSectionResume() {
  * @param {string} params.tp    - Identifiant du TD (ex. "TD01")
  */
 export function initImpressionCompteRendu({ titre, tp }) {
+  initAffichageQuestionsParActivite();
+
   const bouton = document.getElementById('btn-imprimer');
   if (!bouton) return;
 
   bouton.addEventListener('click', () => {
+    if (!verifierActiviteChoisie()) return;
+
     const sections = [
-      ...construireSectionsQuestions(),
+      ...construireSectionsQuestionsActivite(),
       construireSectionResume(),
     ].filter(Boolean);
 

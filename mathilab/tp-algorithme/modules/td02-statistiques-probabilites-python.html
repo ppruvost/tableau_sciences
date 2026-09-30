@@ -128,6 +128,7 @@
         <button class="tab-btn" data-tab="probas-1ere">1ère · Probabilités (réunion et intersection)</button>
         <button class="tab-btn" data-tab="stats-tle">Tle · Ajustement d'un nuage de points</button>
         <button class="tab-btn" data-tab="probas-tle">Tle · Arbre pondéré, probabilités totales et indépendance</button>
+        <button class="tab-btn" data-tab="activites-puzzle">🧩 Activités Puzzle</button>
       </div>
 
       <!-- ---------- 1ère : STATISTIQUES À DEUX VARIABLES ---------- -->
@@ -422,6 +423,96 @@ print("P(B) par la formule des probabilités totales :", p_b_formule)</textarea>
 
       </div>
 
+      <!-- ---------- ACTIVITÉS PUZZLE (onglet indépendant) ---------- -->
+      <div class="tab-panel" id="activites-puzzle">
+
+        <h3>Activités Puzzle</h3>
+
+        <div id="puzzle-info" class="info">
+          Sélectionner votre filière professionnelle dans la section « Contexte professionnel »
+          ci-dessus pour afficher les sujets.
+        </div>
+
+          <div class="toolbar">
+        <a class="btn btn-secondaire" href="../../roue/index.html" target="_blank" rel="noopener">
+          🎡 Ouvrir la roue (tirage des groupes)
+        </a>
+      </div>
+
+      <div class="sous-onglets" role="tablist">
+        <button class="sous-btn actif" data-sous="puzzle-sujet-a">Sujet A</button>
+        <button class="sous-btn" data-sous="puzzle-sujet-b">Sujet B</button>
+        <button class="sous-btn" data-sous="puzzle-sujet-c">Sujet C</button>
+        <button class="sous-btn" data-sous="puzzle-synthese-panel">Synthèse</button>
+      </div>
+      <div class="sous-panel actif" id="puzzle-sujet-a">
+        <div class="fiche-puzzle" data-titre="Indicateurs et ajustement">
+          <div class="questions-bloc" data-tp="puzzle-a">
+            <ol class="questions-tp"><li>
+              <div class="question-entete"><strong>Sujet A — Indicateurs et ajustement</strong>
+                <span class="cartouche" data-comp="REA">REA</span></div>
+              <p class="info puzzle-contexte" id="puzzle-a-contexte"></p>
+              <p class="puzzle-problematique" id="puzzle-a-problematique"></p>
+              <ol id="puzzle-a-enonce" class="puzzle-questions"></ol>
+              <div class="form-row">
+                <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+              </div>
+              <div class="zone-eleve"><textarea id="puzzle-a-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+            </li></ol>
+          </div>
+        </div>
+      </div>
+      <div class="sous-panel" id="puzzle-sujet-b">
+        <div class="fiche-puzzle" data-titre="Réunion et intersection">
+          <div class="questions-bloc" data-tp="puzzle-b">
+            <ol class="questions-tp"><li>
+              <div class="question-entete"><strong>Sujet B — Réunion et intersection</strong>
+                <span class="cartouche" data-comp="ANA">ANA</span></div>
+              <p class="info puzzle-contexte" id="puzzle-b-contexte"></p>
+              <p class="puzzle-problematique" id="puzzle-b-problematique"></p>
+              <ol id="puzzle-b-enonce" class="puzzle-questions"></ol>
+              <div class="form-row">
+                <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+              </div>
+              <div class="zone-eleve"><textarea id="puzzle-b-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+            </li></ol>
+          </div>
+        </div>
+      </div>
+      <div class="sous-panel" id="puzzle-sujet-c">
+        <div class="fiche-puzzle" data-titre="Indépendance">
+          <div class="questions-bloc" data-tp="puzzle-c">
+            <ol class="questions-tp"><li>
+              <div class="question-entete"><strong>Sujet C — Indépendance</strong>
+                <span class="cartouche" data-comp="VAL">VAL</span></div>
+              <p class="info puzzle-contexte" id="puzzle-c-contexte"></p>
+              <p class="puzzle-problematique" id="puzzle-c-problematique"></p>
+              <ol id="puzzle-c-enonce" class="puzzle-questions"></ol>
+              <div class="form-row">
+                <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
+                <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
+              </div>
+              <div class="zone-eleve"><textarea id="puzzle-c-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
+            </li></ol>
+          </div>
+        </div>
+      </div>
+      <div class="sous-panel" id="puzzle-synthese-panel">
+        <div class="info">En groupe mélangé, comparer les trois approches : listes et ajustement, simulation de réunion/intersection, simulation d’arbre pondéré.</div>
+        <div class="questions-bloc" data-tp="puzzle-synthese">
+        <ol class="questions-tp"><li>
+          <div class="question-entete"><strong>Synthèse — Réponse commune à la problématique</strong>
+            <span class="cartouche" data-comp="COM">COM</span></div>
+          <p class="problematique-rappel"></p>
+          <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs et différences entre les sujets, réponse argumentée..."></textarea></div>
+        </li></ol>
+        </div>
+      </div>
+
+      </div>
+
     </div>
 
   </div>
@@ -483,96 +574,6 @@ print("P(B) par la formule des probabilités totales :", p_b_formule)</textarea>
 
 </div>
 
-<div class="section" data-type="puzzle">
-
-  <div class="section-titre">
-    <div class="picto-section">🧩</div>
-    <h2>Activités Puzzle</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="toolbar">
-      <a class="btn btn-secondaire" href="../../roue/index.html" target="_blank" rel="noopener">
-        🎡 Ouvrir la roue (tirage des groupes)
-      </a>
-    </div>
-
-    <div class="sous-onglets" role="tablist">
-      <button class="sous-btn actif" data-sous="puzzle-sujet-a">Sujet A</button>
-      <button class="sous-btn" data-sous="puzzle-sujet-b">Sujet B</button>
-      <button class="sous-btn" data-sous="puzzle-sujet-c">Sujet C</button>
-      <button class="sous-btn" data-sous="puzzle-synthese-panel">Synthèse</button>
-    </div>
-    <div class="sous-panel actif" id="puzzle-sujet-a">
-      <div class="fiche-puzzle" data-titre="Indicateurs et ajustement">
-        <div class="questions-bloc" data-tp="puzzle-a">
-          <ol class="questions-tp"><li>
-            <div class="question-entete"><strong>Sujet A — Indicateurs et ajustement</strong>
-              <span class="cartouche" data-comp="REA">REA</span></div>
-            <p class="info puzzle-contexte" id="puzzle-a-contexte"></p>
-            <p class="puzzle-problematique" id="puzzle-a-problematique"></p>
-            <ol id="puzzle-a-enonce" class="puzzle-questions"></ol>
-            <div class="form-row">
-              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-            </div>
-            <div class="zone-eleve"><textarea id="puzzle-a-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
-          </li></ol>
-        </div>
-      </div>
-    </div>
-    <div class="sous-panel" id="puzzle-sujet-b">
-      <div class="fiche-puzzle" data-titre="Réunion et intersection">
-        <div class="questions-bloc" data-tp="puzzle-b">
-          <ol class="questions-tp"><li>
-            <div class="question-entete"><strong>Sujet B — Réunion et intersection</strong>
-              <span class="cartouche" data-comp="ANA">ANA</span></div>
-            <p class="info puzzle-contexte" id="puzzle-b-contexte"></p>
-            <p class="puzzle-problematique" id="puzzle-b-problematique"></p>
-            <ol id="puzzle-b-enonce" class="puzzle-questions"></ol>
-            <div class="form-row">
-              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-            </div>
-            <div class="zone-eleve"><textarea id="puzzle-b-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
-          </li></ol>
-        </div>
-      </div>
-    </div>
-    <div class="sous-panel" id="puzzle-sujet-c">
-      <div class="fiche-puzzle" data-titre="Indépendance">
-        <div class="questions-bloc" data-tp="puzzle-c">
-          <ol class="questions-tp"><li>
-            <div class="question-entete"><strong>Sujet C — Indépendance</strong>
-              <span class="cartouche" data-comp="VAL">VAL</span></div>
-            <p class="info puzzle-contexte" id="puzzle-c-contexte"></p>
-            <p class="puzzle-problematique" id="puzzle-c-problematique"></p>
-            <ol id="puzzle-c-enonce" class="puzzle-questions"></ol>
-            <div class="form-row">
-              <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-              <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-            </div>
-            <div class="zone-eleve"><textarea id="puzzle-c-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
-          </li></ol>
-        </div>
-      </div>
-    </div>
-    <div class="sous-panel" id="puzzle-synthese-panel">
-      <div class="info">En groupe mélangé, comparer les trois approches : listes et ajustement, simulation de réunion/intersection, simulation d’arbre pondéré.</div>
-      <div class="questions-bloc" data-tp="puzzle-synthese">
-      <ol class="questions-tp"><li>
-        <div class="question-entete"><strong>Synthèse — Réponse commune à la problématique</strong>
-          <span class="cartouche" data-comp="COM">COM</span></div>
-        <p class="problematique-rappel"></p>
-        <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs et différences entre les sujets, réponse argumentée..."></textarea></div>
-      </li></ol>
-      </div>
-    </div>
-
-</div>
-
 <div class="section" data-type="bilan">
 
   <div class="section-titre">
@@ -597,43 +598,176 @@ print("P(B) par la formule des probabilités totales :", p_b_formule)</textarea>
 
     <h3 style="margin-top:var(--gap-md);">Questions</h3>
 
-    <div class="questions-bloc" data-tp="statistiques-probabilites-python">
-    <ol class="questions-tp">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="activite-realisee">Activité réalisée</label>
+        <select id="activite-realisee">
+          <option value="">-- Choisir l'activité réalisée --</option>
+          <option value="stats-1ere" data-tabs="stats-1ere">1ère · Statistiques à deux variables</option>
+          <option value="probas-1ere" data-tabs="probas-1ere">1ère · Probabilités (réunion et intersection)</option>
+          <option value="stats-tle" data-tabs="stats-tle">Tle · Ajustement d'un nuage de points</option>
+          <option value="probas-tle" data-tabs="probas-tle">Tle · Arbre pondéré, probabilités totales et indépendance</option>
+          <option value="puzzle" data-tabs="activites-puzzle">🧩 Activités Puzzle</option>
+        </select>
+      </div>
+    </div>
 
+    <p id="activite-vide" class="info">Choisir l'activité réalisée : seules les questions correspondantes s'affichent.</p>
+    <p id="activite-avertissement" class="warning" hidden>Choisir d'abord l'activité réalisée avant d'imprimer le compte-rendu.</p>
+
+    <!-- ===== 1ère · Statistiques à deux variables ===== -->
+    <div class="questions-bloc" data-tp="statistiques-probabilites-python-stats-1ere" data-activite="stats-1ere" hidden>
+    <ol class="questions-tp">
       <li>
         <div class="question-entete">
-          <strong>Expliquer ce que représente une liste Python dans le contexte d'une série statistique, et donner le rôle de la fonction <code>len()</code>.</strong>
+          <strong>Expliquer ce que représente une liste Python dans le contexte d'une série statistique, et donner le rôle de la fonction len().</strong>
           <span class="cartouche" data-comp="APP">APP</span>
         </div>
-        <div class="zone-eleve"><textarea id="question1" rows="4" placeholder="Votre réponse..."></textarea></div>
+        <div class="zone-eleve"><textarea id="question-stats-1ere-1" rows="4" placeholder="Votre réponse..."></textarea></div>
       </li>
-
       <li>
         <div class="question-entete">
-          <strong>Donner l'équation réduite de la droite d'ajustement obtenue et le coefficient de détermination associé.</strong>
+          <strong>Donner les moyennes et les coordonnées du point moyen calculées par le programme.</strong>
           <span class="cartouche" data-comp="REA">REA</span>
         </div>
-        <div class="zone-eleve"><textarea id="question2" rows="4" placeholder="Votre réponse..."></textarea></div>
+        <div class="zone-eleve"><textarea id="question-stats-1ere-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
       </li>
-
-      <li>
-        <div class="question-entete">
-          <strong>À partir des simulations, expliquer la différence entre P(A∪B), P(A∩B) et le test d'indépendance de deux événements.</strong>
-          <span class="cartouche" data-comp="ANA">ANA</span>
-        </div>
-        <div class="zone-eleve"><textarea id="question3" rows="5" placeholder="Votre analyse..."></textarea></div>
-      </li>
-
       <li class="question-problematique">
         <div class="question-entete">
           <strong>Répondre à la problématique posée en début de TD :</strong>
           <span class="cartouche" data-comp="VAL">VAL</span>
         </div>
         <p class="problematique-rappel" data-activite="statistiques-probabilites-python"></p>
-        <div class="zone-eleve"><textarea id="question4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+        <div class="zone-eleve"><textarea id="question-stats-1ere-3" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
       </li>
-
     </ol>
+    </div>
+
+    <!-- ===== 1ère · Probabilités (réunion et intersection) ===== -->
+    <div class="questions-bloc" data-tp="statistiques-probabilites-python-probas-1ere" data-activite="probas-1ere" hidden>
+    <ol class="questions-tp">
+      <li>
+        <div class="question-entete">
+          <strong>Rappeler la formule P(A∪B) = P(A) + P(B) − P(A∩B).</strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-probas-1ere-1" rows="4" placeholder="Votre réponse..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Donner les fréquences simulées de A∪B et de A∩B et les comparer aux probabilités théoriques.</strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-probas-1ere-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>À partir des simulations, expliquer la différence entre P(A∪B) et P(A∩B).</strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-probas-1ere-3" rows="5" placeholder="Votre analyse..."></textarea></div>
+      </li>
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique posée en début de TD :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="statistiques-probabilites-python"></p>
+        <div class="zone-eleve"><textarea id="question-probas-1ere-4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+    </ol>
+    </div>
+
+    <!-- ===== Tle · Ajustement d'un nuage de points ===== -->
+    <div class="questions-bloc" data-tp="statistiques-probabilites-python-stats-tle" data-activite="stats-tle" hidden>
+    <ol class="questions-tp">
+      <li>
+        <div class="question-entete">
+          <strong>Expliquer le principe d'un ajustement affine par la méthode des moindres carrés (programme Python).</strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-stats-tle-1" rows="4" placeholder="Votre réponse..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Donner l'équation réduite de la droite d'ajustement obtenue et le coefficient de détermination associé.</strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-stats-tle-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Interpréter le coefficient de détermination : l'ajustement est-il satisfaisant ?</strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-stats-tle-3" rows="5" placeholder="Votre analyse..."></textarea></div>
+      </li>
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique posée en début de TD :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="statistiques-probabilites-python"></p>
+        <div class="zone-eleve"><textarea id="question-stats-tle-4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+    </ol>
+    </div>
+
+    <!-- ===== Tle · Arbre pondéré, probabilités totales et indépendance ===== -->
+    <div class="questions-bloc" data-tp="statistiques-probabilites-python-probas-tle" data-activite="probas-tle" hidden>
+    <ol class="questions-tp">
+      <li>
+        <div class="question-entete">
+          <strong>Rappeler la formule des probabilités totales et la condition d'indépendance de deux événements.</strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-probas-tle-1" rows="4" placeholder="Votre réponse..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Donner la probabilité calculée et la fréquence simulée pour l'événement étudié.</strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-probas-tle-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>À partir des simulations, expliquer le test d'indépendance de deux événements.</strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-probas-tle-3" rows="5" placeholder="Votre analyse..."></textarea></div>
+      </li>
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique posée en début de TD :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="statistiques-probabilites-python"></p>
+        <div class="zone-eleve"><textarea id="question-probas-tle-4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+    </ol>
+    </div>
+
+    <!-- ===== Activités puzzle ===== -->
+    <div class="questions-bloc" data-tp="statistiques-probabilites-python-puzzle" data-activite="puzzle" hidden>
+    <ol class="questions-tp">
+      <li>
+        <div class="question-entete">
+          <strong>Indiquer le sujet traité par votre groupe (A, B ou C) et résumer la démarche suivie.</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-puzzle-1" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique de votre sujet en vous appuyant sur vos résultats :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="statistiques-probabilites-python"></p>
+        <div class="zone-eleve"><textarea id="question-puzzle-2" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+    </ol>
+    <p class="info">Les fiches Sujet A, B, C et la synthèse remplies dans l'onglet « Activités Puzzle » sont jointes automatiquement au compte-rendu.</p>
     </div>
 
   </div>
