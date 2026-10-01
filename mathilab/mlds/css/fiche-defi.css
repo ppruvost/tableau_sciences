@@ -52,6 +52,7 @@
 /* ---- En-tête ---- */
 
 header.entete-fiche h1 {
+  color: var(--blanc);
   font-size: clamp(1.3rem, 4vw, 1.9rem);
   display: flex;
   align-items: center;

@@ -14,14 +14,16 @@
 @import url("../../css/domaine.css");
 
 :root {
-  --domaine-accent:       #FF8C42;
-  --domaine-accent-fonce: #E85D4B;
-  --domaine-accent-rgb:   255, 140, 66;
+  /* Identité MLDS (identique à css/style.css) */
+  --domaine-accent:       #E85D4B;
+  --domaine-accent-fonce: #B8432F;
+  --domaine-accent-rgb:   232, 93, 75;
 
-  --prop-1: #1B6CA8; --prop-2: #0D4F8A;
-  --conv-1: #8B5CF6; --conv-2: #5B21B6;
-  --pct-1:  #34A853; --pct-2:  #1E7E42;
-  --frac-1: #E85D4B; --frac-2: #C6362B;
+  /* Teintes par notion = charte de ../../style.css */
+  --prop-1: #1B6CA8; --prop-2: #0D4F8A;   /* Algèbre       */
+  --conv-1: #8B5CF6; --conv-2: #5B21B6;   /* Convertisseur */
+  --pct-1:  #E87A0E; --pct-2:  #A8500A;   /* Statistiques  */
+  --frac-1: #10B981; --frac-2: #059669;   /* Géométrie     */
 }
 
 /* ---- Barre d'actions (retour / impression) ---- */
@@ -56,6 +58,7 @@
 /* ---- En-tête (dégradé + sticky déjà fournis par domaine.css) ---- */
 
 header.entete-fiche h1 {
+  color: var(--blanc);
   font-size: clamp(1.4rem, 4vw, 2rem);
   display: flex;
   align-items: center;

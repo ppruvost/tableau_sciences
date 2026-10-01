@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ORPHY – Mesure de pression (capsule 1500 hPa)</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>ORPHY portable – Pression</h1>
+  <p>Micrelec M11310 · capsule 0–1500 hPa · EA0 · ±1 % · volume du tube 6,15 cm³</p>
+</header>
+
+<div id="warn" class="warn" hidden>
+  ⚠ Web Serial n'est pas disponible dans ce navigateur. Utilisez <b>Chrome, Chromium ou Edge</b>
+  et ouvrez la page via <code>http://localhost</code> ou un fichier local (pas Firefox).
+</div>
+
+<main>
+  <section class="card">
+    <h2>1. Connexion USB</h2>
+    <div class="row">
+      <label>Débit (bauds)
+        <select id="baud">
+          <option>9600</option><option>19200</option><option>38400</option>
+          <option>57600</option><option selected>115200</option><option>230400</option>
+        </select>
+      </label>
+      <label>Bits / parité / stop
+        <select id="fmt">
+          <option value="8N1" selected>8 N 1</option>
+          <option value="8E1">8 E 1</option>
+          <option value="8O1">8 O 1</option>
+          <option value="8N2">8 N 2</option>
+        </select>
+      </label>
+    </div>
+    <div class="row">
+      <label class="chk"><input id="dtr" type="checkbox" checked> DTR</label>
+      <label class="chk"><input id="rts" type="checkbox" checked> RTS</label>
+    </div>
+    <div class="row">
+      <button id="btnConnect" class="primary">Connecter l'ORPHY</button>
+      <button id="btnDisconnect" disabled>Déconnecter</button>
+      <button id="btnSim">Mode simulation</button>
+      <button id="btnScan">Scan automatique (débits × DTR/RTS)</button>
+      <span id="status" class="badge off">Déconnecté</span>
+    </div>
+    <p class="hint">Choisissez dans la liste le port « USB Serial / FTDI / ttyUSB0 » (Linux) ou « COMx » (Windows).</p>
+  </section>
+
+  <section class="card big">
+    <h2>2. Mesure EA0</h2>
+    <div class="value"><span id="pHpa">---</span> <small>hPa</small></div>
+    <div class="sub"><span id="pKpa">---</span> kPa · <span id="pBar">---</span> bar · incertitude ±<span id="pTol">15</span> hPa</div>
+    <div class="gauge"><div id="gaugeBar"></div></div>
+    <canvas id="chart" width="900" height="260"></canvas>
+    <div class="row">
+      <button id="btnClear">Effacer la courbe</button>
+      <button id="btnCsv">Exporter CSV</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>3. Interprétation des données reçues</h2>
+    <div class="row">
+      <label>Les valeurs reçues sont
+        <select id="mode">
+          <option value="hpa" selected>déjà en hPa</option>
+          <option value="lin">brutes (conversion linéaire 2 points)</option>
+        </select>
+      </label>
+      <label>Séparateur de trames
+        <select id="sep">
+          <option value="line" selected>ligne (\n ou \r)</option>
+        </select>
+      </label>
+    </div>
+    <div id="linBox" class="row" hidden>
+      <label>Brute bas <input id="r1" type="number" step="any" value="0"></label>
+      <label>= hPa <input id="p1" type="number" step="any" value="0"></label>
+      <label>Brute haut <input id="r2" type="number" step="any" value="5"></label>
+      <label>= hPa <input id="p2" type="number" step="any" value="1500"></label>
+    </div>
+    <p class="hint">Exemple : capteur 0–5 V → 0–1500 hPa : brute 0 = 0 hPa ; brute 5 = 1500 hPa. Ajustez selon la documentation ou la calibration de votre capsule.</p>
+  </section>
+
+  <section class="card">
+    <h2>4. Commandes / terminal</h2>
+    <div class="row">
+      <input id="cmd" type="text" placeholder="Commande à envoyer à l'ORPHY" style="flex:1">
+      <select id="eol">
+        <option value="\r\n">CR+LF</option><option value="\n">LF</option>
+        <option value="\r">CR</option><option value="">aucun</option>
+      </select>
+      <button id="btnSend">Envoyer</button>
+    </div>
+    <div class="row">
+      <label>Interrogation automatique (ms, 0 = non)
+        <input id="poll" type="number" min="0" value="0" step="100">
+      </label>
+      <label class="chk"><input id="hex" type="checkbox"> Afficher en hexadécimal</label>
+      <label class="chk"><input id="hexSend" type="checkbox"> Envoyer en hexadécimal (ex : 02 41 0D)</label>
+      <button id="btnClearLog">Vider le terminal</button>
+    </div>
+    <pre id="log" class="log"></pre>
+  </section>
+
+  <section class="card">
+    <h2>5. Loi de Boyle-Mariotte (P·V = constante)</h2>
+    <div class="row">
+      <label>Volume du tube (cm³) <input id="vTube" type="number" step="0.01" value="6.15"></label>
+      <label>Volume seringue ajouté (cm³) <input id="vSyr" type="number" step="0.5" value="0"></label>
+      <button id="btnAdd" class="primary">Relever le point</button>
+      <button id="btnClearBoyle">Effacer</button>
+      <button id="btnCsvBoyle">CSV</button>
+    </div>
+    <table>
+      <thead><tr><th>#</th><th>V total (cm³)</th><th>1/V (cm⁻³)</th><th>P (hPa)</th><th>P·V (hPa·cm³)</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+    <p id="boyleRes" class="hint"></p>
+    <canvas id="chartB" width="600" height="260"></canvas>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

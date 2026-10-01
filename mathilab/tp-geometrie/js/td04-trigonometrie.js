@@ -88,7 +88,7 @@ function filtrerOngletsParFiliere() {
 
       const panneau = document.getElementById(bouton.dataset.tab);
       if (!visible) {
-        if (panneau) panneau.classList.remove('actif');
+        if (panneau) { panneau.classList.remove('actif'); panneau.hidden = true; }
         bouton.classList.remove('actif');
       } else {
         toutCache = false;
@@ -100,7 +100,7 @@ function filtrerOngletsParFiliere() {
     if (!activeVisible && premierVisible) {
       premierVisible.classList.add('actif');
       const panneau = document.getElementById(premierVisible.dataset.tab);
-      if (panneau) panneau.classList.add('actif');
+      if (panneau) { panneau.classList.add('actif'); panneau.hidden = false; }
     }
 
     if (zoneMessage) {

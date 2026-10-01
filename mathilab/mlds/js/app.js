@@ -53,11 +53,16 @@ function demarrerAtelier(id) {
   indexQuestion = 0;
   reponses = [];
 
+  const numero = ATELIERS.indexOf(atelierCourant) + 1;
+
   $("atelier-titre").textContent = atelierCourant.titre;
   $("atelier-sous-titre").textContent = atelierCourant.sousTitre;
+  $("atelier-nb").textContent = `${atelierCourant.questions.length} questions`;
+  $("atelier-numero").textContent = `M${numero}`;
   $("atelier-intro").textContent = atelierCourant.intro;
 
   vueAtelier.dataset.couleur = atelierCourant.couleur;
+  majBarre(0);
 
   afficherIntroOuQuestion(true);
 
@@ -90,8 +95,7 @@ function afficherQuestion() {
   $("progression-texte").textContent =
     `Question ${indexQuestion + 1} sur ${atelierCourant.questions.length}`;
 
-  const pct = Math.round((indexQuestion / atelierCourant.questions.length) * 100);
-  $("progression-barre").style.width = pct + "%";
+  majBarre(Math.round((indexQuestion / atelierCourant.questions.length) * 100));
 
   $("enonce-question").textContent = q.enonce;
 
@@ -205,7 +209,28 @@ function afficherRecap() {
 function basculerVue(vue) {
   [vueAccueil, vueAtelier, vueRecap].forEach((v) => v.classList.remove("vue-active"));
   vue.classList.add("vue-active");
+
+  if (vue === vueAccueil) majBarre(0);
+  if (vue === vueRecap) majBarre(100);
+
+  majNavigation(vue === vueAccueil ? null : atelierCourant);
   window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* Barre de progression du bandeau (même élément #bar que les autres TP) */
+function majBarre(pct) {
+  const barre = $("bar");
+  if (barre) barre.style.width = pct + "%";
+}
+
+/* Bouton actif de la barre de navigation : atelier en cours, ou Accueil */
+function majNavigation(atelier) {
+  document.querySelectorAll("nav button[data-atelier], nav button[data-vue]").forEach((btn) => {
+    const actif = atelier
+      ? btn.dataset.atelier === atelier.id
+      : btn.dataset.vue === "accueil";
+    btn.classList.toggle("active", actif);
+  });
 }
 
 
@@ -218,6 +243,18 @@ $("btn-suivant")?.addEventListener("click", questionSuivante);
 $("btn-retour-accueil")?.addEventListener("click", () => basculerVue(vueAccueil));
 $("btn-rejouer")?.addEventListener("click", () => demarrerAtelier(atelierCourant.id));
 $("btn-recap-accueil")?.addEventListener("click", () => basculerVue(vueAccueil));
+
+document.querySelectorAll("nav button[data-atelier]").forEach((btn) => {
+  btn.addEventListener("click", () => demarrerAtelier(btn.dataset.atelier));
+});
+
+document.querySelector('nav button[data-vue="accueil"]')
+  ?.addEventListener("click", () => basculerVue(vueAccueil));
+
+/* Sections repliables (même comportement que les TP : clic sur le titre) */
+document.querySelectorAll(".section-titre").forEach((titre) => {
+  titre.addEventListener("click", () => titre.parentElement.classList.toggle("fermee"));
+});
 
 document.querySelectorAll(".btn-fiche-outil").forEach((btn) => {
   btn.addEventListener("click", () => window.open("fiche-outil.html", "_blank"));

@@ -1,11 +1,18 @@
 /* =========================================================
-   DÉFI COLLECTIF — style.css
-   Même socle que le reste de MLDS (global → reset → tp → print →
-   domaine). Identité bleu/violet propre à cette page : c'est une
-   AUTRE approche pédagogique que les ateliers QCM, pas un cinquième
-   atelier — d'où un --domaine-accent différent de celui d'index.html.
-   Pas de rouge/vert de correction (inspiré de GIGANT, 2021) : la
-   grille utilise des couleurs neutres, sans jugement de réussite.
+   MLDS MATHS — style.css (page d'accueil des ateliers)
+   Même socle que les autres TP (global → reset → tp → print →
+   domaine) : bandeau, navigation, sections repliables et cartes
+   viennent de css/tp.css et css/domaine.css. Ce fichier ne
+   définit que l'identité MLDS et les composants propres aux
+   ateliers QCM.
+
+   CHARTE DE COULEURS (source : ../../style.css, bloc :root)
+   - Domaine MLDS : corail/orange (--domaine-mlds-1 / -2).
+   - Une teinte par notion, reprise du domaine de TP le plus proche :
+       proportionnalité  → Algèbre – Analyse    (bleu)
+       conversions       → Convertisseur        (violet)
+       pourcentages      → Statistique et proba (orange)
+       fractions/mesures → Géométrie            (vert)
    ========================================================= */
 
 @import url("../../css/global.css");
@@ -15,167 +22,255 @@
 @import url("../../css/domaine.css");
 
 :root {
-  --domaine-accent:       #4338CA;
-  --domaine-accent-fonce: #3730A3;
-  --domaine-accent-rgb:   67, 56, 202;
+  /* Identité du domaine MLDS. Le bandeau reçoit du texte blanc : on
+     part donc du corail (--domaine-mlds-2) et on fonce vers un brique,
+     pour garder un contraste lisible sur toute la largeur. */
+  --domaine-accent:       #E85D4B;
+  --domaine-accent-fonce: #B8432F;
+  --domaine-accent-rgb:   232, 93, 75;
+
+  /* Teintes par notion (identiques à la charte de ../../style.css) */
+  --prop-1: #1B6CA8; --prop-2: #0D4F8A;   /* Algèbre          */
+  --conv-1: #8B5CF6; --conv-2: #5B21B6;   /* Convertisseur    */
+  --pct-1:  #E87A0E; --pct-2:  #A8500A;   /* Statistiques     */
+  --frac-1: #10B981; --frac-2: #059669;   /* Géométrie        */
 }
 
+/* Une notion = trois variables d'accent. Posées sur un élément
+   (bouton de nav, carte, vue atelier), elles recolorent tout ce qui
+   utilise var(--domaine-accent) à l'intérieur : .tp-header, boutons… */
+.prop, [data-couleur="prop"] {
+  --domaine-accent: var(--prop-1); --domaine-accent-fonce: var(--prop-2); --domaine-accent-rgb: 27, 108, 168;
+}
+.conv, [data-couleur="conv"] {
+  --domaine-accent: var(--conv-1); --domaine-accent-fonce: var(--conv-2); --domaine-accent-rgb: 139, 92, 246;
+}
+.pct, [data-couleur="pct"] {
+  --domaine-accent: var(--pct-1);  --domaine-accent-fonce: var(--pct-2);  --domaine-accent-rgb: 232, 122, 14;
+}
+.frac, [data-couleur="frac"] {
+  --domaine-accent: var(--frac-1); --domaine-accent-fonce: var(--frac-2); --domaine-accent-rgb: 16, 185, 129;
+}
+
+/* ── Bandeau : titre principal en BLANC ──────────────────────────
+   reset.css colore tous les h1 en gris ardoise ; domaine.css ne
+   redéfinit pas la couleur du h1 du bandeau (les pages de TP
+   n'importent pas reset.css). On la fixe donc ici. */
 header h1 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  font-size: clamp(1.4rem, 4vw, 1.9rem);
+  color: var(--blanc);
 }
 
-header p {
-  margin-top: var(--gap-xs);
-  max-width: 640px;
-  margin-inline: auto;
-  font-family: var(--font-corps);
-  opacity: 0.95;
-}
+/* ── Navigation ─────────────────────────────────────────────── */
+nav button i { margin-right: 4px; }
 
-.lien-retour {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: var(--gap-sm);
-  background: rgba(255,255,255,0.18);
-  border: 2px solid #fff;
+/* Bouton de ressource (fiche outil) : identité MLDS, plein pour
+   se distinguer des ateliers */
+nav button.nav-ressource {
+  background: var(--domaine-accent);
   color: #fff;
-  padding: 8px 18px;
-  border-radius: var(--r-pill);
-  text-decoration: none;
-  font-family: var(--font-titre);
-  font-weight: 700;
-  font-size: 0.9rem;
+  border-color: var(--domaine-accent);
+}
+nav button.nav-ressource:hover {
+  background: var(--domaine-accent-fonce);
+  border-color: var(--domaine-accent-fonce);
+  color: #fff;
 }
 
-.lien-retour:hover { background: #fff; color: var(--domaine-accent); text-decoration: none; }
+/* ── Vues ───────────────────────────────────────────────────── */
+.vue { display: none; }
+.vue.vue-active { display: block; }
+.cachee { display: none !important; }
 
-main#content {
-  max-width: var(--largeur-contenu);
+/* ── Cartes d'atelier (accueil) — même gabarit que .tp-card ─── */
+.grille-ateliers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.carte-atelier {
+  min-height: 180px;
+  border: none;
+  border-radius: 20px;
+  padding: 18px 14px;
+  color: #fff;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
-  gap: var(--gap-md);
-}
-
-.carte {
-  background: #fff;
-  border: 1px solid var(--gris-clair);
-  border-radius: var(--r-lg);
-  box-shadow: var(--ombre-carte);
-  padding: var(--gap-md);
-}
-
-.carte h2 {
-  font-size: 1.15rem;
-  margin-bottom: var(--gap-sm);
-  display: flex;
   align-items: center;
-  gap: 8px;
-  color: var(--domaine-accent);
-}
-
-.carte p { font-family: var(--font-corps); line-height: 1.6; margin-bottom: 8px; }
-
-/* ---- Contrôles ---- */
-
-.controles { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: var(--gap-sm); }
-
-.controles button {
-  background: var(--blanc-paillasse);
-  border: 2px solid var(--gris-clair);
-  border-radius: var(--r-pill);
-  padding: 10px 16px;
-  font-family: var(--font-titre);
-  font-weight: 700;
-  font-size: 0.9rem;
-  color: var(--gris-ardoise);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
+  justify-content: center;
   gap: 6px;
-  min-height: 44px;
+  text-align: center;
+  font-family: var(--font-titre);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, .15);
+  background: linear-gradient(135deg, var(--domaine-accent), var(--domaine-accent-fonce));
   transition: var(--duree-normale);
 }
 
-.controles button:hover { border-color: var(--domaine-accent); color: var(--domaine-accent); }
-.controles button.actif { background: var(--domaine-accent); color: #fff; border-color: var(--domaine-accent); }
-
-/* ---- Grille ---- */
-
-.zone-grille { display: flex; flex-direction: column; align-items: center; gap: 14px; }
-
-.grille-defi {
-  display: grid;
-  gap: 4px;
-  width: min(90vw, 340px);
-  aspect-ratio: 1 / 1;
+.carte-atelier:hover,
+.carte-atelier:focus-visible {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 12px 22px rgba(0, 0, 0, .25);
 }
 
-.case-defi {
-  border: 2px solid var(--gris-clair);
-  border-radius: var(--r-sm);
-  background: #fff;
-  cursor: pointer;
-  display: flex;
+.carte-atelier i { font-size: 2.6rem; margin-bottom: 4px; }
+.carte-souscat { font-size: .8rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; opacity: .9; }
+.carte-titre   { font-size: 1.25rem; font-weight: 700; line-height: 1.2; }
+.carte-nb      { font-size: .8rem; opacity: .9; }
+
+.aide-accueil {
+  margin-top: var(--gap-md);
+  padding: var(--gap-sm) var(--gap-md);
+  background: var(--info-bg);
+  border-radius: var(--r-md);
+  font-size: .95rem;
+  color: var(--gris-ardoise);
+}
+.aide-accueil i { color: var(--domaine-accent); margin-right: 6px; }
+
+/* ── Boutons ────────────────────────────────────────────────── */
+.btn-principal,
+.btn-secondaire,
+.btn-retour {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  font-size: 1.3rem;
-  transition: var(--duree-rapide);
+  gap: 8px;
+  min-height: 46px;
+  padding: 10px 20px;
+  border-radius: var(--r-pill);
+  font-family: var(--font-titre);
+  font-weight: 700;
+  font-size: .95rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: var(--duree-normale);
 }
 
-.case-defi:hover { border-color: var(--domaine-accent); }
+.btn-principal {
+  background: var(--domaine-accent);
+  color: #fff;
+  border: 2px solid var(--domaine-accent);
+  margin-top: var(--gap-sm);
+}
+.btn-principal:hover { background: var(--domaine-accent-fonce); border-color: var(--domaine-accent-fonce); text-decoration: none; }
 
-.case-defi.mug {
+.btn-secondaire {
+  background: #fff;
+  color: var(--domaine-accent-fonce);
+  border: 2px solid var(--domaine-accent);
+}
+.btn-secondaire:hover { background: var(--domaine-accent); color: #fff; }
+
+.btn-retour {
+  background: #fff;
+  color: var(--gris-ardoise);
+  border: 2px solid var(--gris-clair);
+  min-height: 40px;
+  padding: 6px 16px;
+  font-size: .85rem;
+}
+.btn-retour:hover { border-color: var(--domaine-accent); color: var(--domaine-accent); }
+
+.barre-retour { margin-bottom: var(--gap-md); }
+
+/* ── Atelier : le .tp-header reprend la teinte de la notion ──── */
+#vue-atelier .tp-header { box-shadow: var(--ombre-carte); }
+
+.enonce-question {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  margin-bottom: var(--gap-md);
+}
+
+.zone-choix {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.choix-reponse {
+  min-height: 56px;
+  padding: 12px 16px;
+  background: #fff;
+  border: 2px solid var(--gris-clair);
+  border-radius: var(--r-md);
+  font-family: var(--font-titre);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--gris-ardoise);
+  cursor: pointer;
+  transition: var(--duree-normale);
+}
+
+.choix-reponse:hover:not(:disabled) {
+  border-color: var(--domaine-accent);
+  color: var(--domaine-accent-fonce);
+  background: rgba(var(--domaine-accent-rgb), .07);
+}
+
+.choix-reponse:disabled { cursor: default; }
+
+.choix-reponse.bonne-reponse {
+  background: var(--etat-succes-bg);
+  border-color: var(--etat-succes-accent);
+  color: var(--etat-succes-fg);
+}
+
+/* Pas de rouge agressif : l'erreur est signalée en ambre, sans jugement */
+.choix-reponse.mauvaise-reponse {
   background: var(--etat-attention-bg);
   border-color: #F0C040;
-  cursor: default;
   color: var(--etat-attention-fg);
 }
 
-.case-defi.selectionnee { border-color: var(--domaine-accent); background: var(--bleu-tres-clair); }
-
-.statut-grille { font-family: var(--font-corps); font-size: 0.92rem; color: var(--gris-texte-clair); text-align: center; }
-.message-defi { font-family: var(--font-corps); font-size: 0.88rem; color: var(--domaine-accent); min-height: 1.2em; text-align: center; }
-
-/* ---- Questions guidées ---- */
-
-.questions-guidees details {
-  border: 1px solid var(--gris-clair);
+.zone-feedback {
+  margin-top: var(--gap-md);
+  padding: var(--gap-sm) var(--gap-md);
   border-radius: var(--r-md);
-  padding: 10px 14px;
-  margin-bottom: 10px;
-  background: var(--blanc-paillasse);
+  border-left: 6px solid var(--domaine-accent);
+  background: rgba(var(--domaine-accent-rgb), .08);
+}
+.zone-feedback.feedback-ok { border-left-color: var(--etat-succes-accent); background: var(--resultat-bg); }
+.zone-feedback.feedback-a-revoir { border-left-color: #F0C040; background: var(--etat-attention-bg); }
+.feedback-titre { font-family: var(--font-titre); font-weight: 700; margin-bottom: 4px; }
+.feedback-ok .feedback-titre { color: var(--resultat-titre); }
+.feedback-a-revoir .feedback-titre { color: var(--etat-attention-fg); }
+
+/* ── Bilan ──────────────────────────────────────────────────── */
+.carte-recap { text-align: center; }
+.carte-recap > i { font-size: 3rem; color: var(--domaine-accent); margin-bottom: var(--gap-xs); }
+.sous-cat {
+  font-family: var(--font-titre);
+  font-weight: 600;
+  font-size: .85rem;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--gris-moyen);
+}
+.recap-score {
+  font-family: var(--font-titre);
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: var(--domaine-accent-fonce);
+  line-height: 1.2;
+}
+.recap-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: var(--gap-md); }
+.recap-actions .btn-principal { margin-top: 0; }
+
+/* ── Source pédagogique ─────────────────────────────────────── */
+.pied-source { font-size: .85rem; color: var(--gris-moyen); line-height: 1.6; }
+.pied-source i { color: var(--domaine-accent); margin-right: 4px; }
+.pied-source a { color: var(--domaine-accent-fonce); }
+
+/* ── Mobile ─────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  nav { padding: 12px var(--gap-sm); gap: 8px; }
+  nav button { font-size: .8rem; padding: 8px 12px; }
+  .zone-choix { grid-template-columns: 1fr; }
+  .carte-atelier { min-height: 140px; }
 }
 
-.questions-guidees summary { font-family: var(--font-titre); cursor: pointer; font-weight: 700; }
-.questions-guidees details details { margin-top: 10px; background: #fff; }
-.questions-guidees p { margin-top: 8px; line-height: 1.6; font-family: var(--font-corps); }
-
-.conjecture-finale { border-color: var(--domaine-accent); }
-
-textarea.zone-conjecture {
-  width: 100%;
-  min-height: 90px;
-  margin-top: 10px;
-  border-radius: var(--r-md);
-  border: 2px solid var(--gris-clair);
-  padding: 10px 12px;
-  font-family: var(--font-corps);
-  font-size: 0.95rem;
-  resize: vertical;
+@media (prefers-reduced-motion: reduce) {
+  .carte-atelier, .choix-reponse { transition: none; }
+  .carte-atelier:hover, .carte-atelier:focus-visible { transform: none; }
 }
-
-.note-conjecture { font-size: 0.8rem; color: var(--gris-texte-clair); margin-top: 6px; }
-
-.pied-source-defi {
-  font-family: var(--font-corps);
-  font-size: 0.82rem;
-  color: var(--gris-texte-clair);
-  line-height: 1.6;
-}
-
-.pied-source-defi a { color: var(--domaine-accent); }
