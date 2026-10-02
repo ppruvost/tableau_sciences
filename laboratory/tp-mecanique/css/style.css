@@ -259,3 +259,390 @@
 .exaop-refaire {
   padding: 2px 8px;
 }
+
+/* ════════════════════════════════════════════════════════════════
+   SIMULATEUR DE FLEXION (TP04, onglet « Flexion d'une poutre »)
+   Poutre sur deux appuis, diagrammes V et Mf, contraintes, flèche,
+   jusqu'à la rupture. Tous les états sont distingués par une icône,
+   un libellé ET un style de bordure (pas par la couleur seule).
+   ════════════════════════════════════════════════════════════════ */
+
+.flex-presets {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gap-sm);
+  margin-bottom: var(--gap-md);
+}
+.flex-presets-label {
+  font-weight: 700;
+  color: var(--domaine-accent-fonce);
+}
+
+.flex-simulateur {
+  display: grid;
+  grid-template-columns: minmax(250px, 320px) minmax(0, 1fr);
+  gap: var(--gap-md);
+  align-items: start;
+}
+@media (max-width: 880px) {
+  .flex-simulateur { grid-template-columns: minmax(0, 1fr); }
+}
+
+.flex-commandes,
+.flex-affichage {
+  min-width: 0;
+}
+
+/* ── Commandes ── */
+.flex-groupe {
+  min-width: 0;
+  margin: 0 0 var(--gap-sm);
+  padding: var(--gap-sm) var(--gap-md);
+  border: 1px solid var(--gris-clair);
+  border-radius: var(--r-md);
+  background: var(--blanc-paillasse);
+}
+.flex-groupe legend {
+  padding: 0 .4rem;
+  font-weight: 700;
+  color: var(--domaine-accent-fonce);
+}
+.flex-groupe select,
+.flex-groupe input[type="number"] {
+  width: 100%;
+  box-sizing: border-box;
+}
+.flex-groupe input[type="range"] {
+  width: 100%;
+  accent-color: var(--domaine-accent);
+}
+.flex-groupe .form-row .form-group {
+  min-width: 90px;
+}
+.flex-groupe [hidden] {
+  display: none !important;
+}
+.flex-boutons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-sm);
+  margin: var(--gap-sm) 0;
+}
+
+/* ── Bandeau d'état de la poutre ── */
+.flex-etat {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin-bottom: var(--gap-sm);
+  padding: var(--gap-sm) var(--gap-md);
+  border: 2px solid var(--gris-clair);
+  border-radius: var(--r-md);
+  background: var(--blanc);
+  font-weight: 700;
+  color: var(--gris-ardoise);
+}
+.flex-etat[data-etat="ok"] {
+  border-style: solid;
+  border-color: var(--domaine-accent);
+  background: rgba(var(--domaine-accent-rgb), .08);
+  color: var(--domaine-accent-fonce);
+}
+.flex-etat[data-etat="fleche"],
+.flex-etat[data-etat="contrainte"] {
+  border-style: dashed;
+  border-color: var(--etat-attention-fg);
+  background: var(--etat-attention-bg);
+  color: var(--etat-attention-fg);
+}
+.flex-etat[data-etat="rupture"] {
+  border-style: double;
+  border-width: 5px;
+  border-color: var(--danger-texte);
+  background: var(--danger-bg);
+  color: var(--danger-texte);
+}
+
+/* ── Dessins SVG ── */
+.flex-svg-defilement {
+  overflow-x: auto;
+  margin-bottom: var(--gap-sm);
+  border: 1px solid var(--gris-clair);
+  border-radius: var(--r-md);
+  background: var(--blanc);
+}
+.flex-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.flex-svg--scene,
+.flex-svg--diagrammes {
+  min-width: 540px;
+}
+
+.flex-texte {
+  font-family: var(--font-corps);
+  font-size: 13px;
+  fill: var(--gris-ardoise);
+}
+.flex-texte--titre  { font-weight: 700; fill: var(--domaine-accent-fonce); }
+.flex-texte--valeur { font-weight: 700; fill: var(--domaine-accent-fonce); }
+.flex-texte--note   { font-size: 11px; fill: var(--gris-moyen); }
+.flex-texte--lettre { font-weight: 700; font-size: 15px; fill: var(--domaine-accent-fonce); }
+.flex-texte--charge { font-weight: 700; fill: var(--noir-crayon); }
+.flex-texte--alerte { font-weight: 700; fill: var(--danger-texte); }
+
+.flex-poutre {
+  fill: rgba(var(--domaine-accent-rgb), .30);
+  stroke: var(--domaine-accent-fonce);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+.flex-poutre--rompue {
+  fill: var(--danger-bg);
+  stroke: var(--danger-texte);
+  stroke-dasharray: 7 3;
+}
+.flex-appui {
+  fill: var(--blanc);
+  stroke: var(--gris-ardoise);
+  stroke-width: 2;
+}
+.flex-appui-sol {
+  stroke: var(--gris-ardoise);
+  stroke-width: 3;
+  fill: none;
+}
+.flex-charge {
+  stroke: var(--noir-crayon);
+  stroke-width: 2.5;
+  fill: none;
+}
+.flex-reaction {
+  stroke: var(--domaine-accent);
+  stroke-width: 3;
+  fill: none;
+}
+.flex-pointe-charge   { fill: var(--noir-crayon); }
+.flex-pointe-reaction { fill: var(--domaine-accent); }
+.flex-pointe-cote     { fill: var(--gris-moyen); }
+.flex-cote {
+  stroke: var(--gris-moyen);
+  stroke-width: 1.2;
+  fill: none;
+}
+.flex-fissure {
+  stroke: var(--danger-texte);
+  stroke-width: 3;
+  fill: none;
+  stroke-linejoin: miter;
+}
+.flex-rotule {
+  fill: none;
+  stroke: var(--danger-texte);
+  stroke-width: 3;
+  stroke-dasharray: 5 3;
+}
+
+.flex-axe {
+  stroke: var(--gris-moyen);
+  stroke-width: 1.5;
+}
+.flex-repere {
+  stroke: var(--gris-moyen);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+}
+.flex-diag-v,
+.flex-diag-m {
+  fill: rgba(var(--domaine-accent-rgb), .18);
+  stroke: var(--domaine-accent-fonce);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+.flex-diag-m {
+  fill: rgba(var(--domaine-accent-rgb), .28);
+}
+.flex-point-max {
+  fill: var(--domaine-accent-fonce);
+  stroke: var(--blanc);
+  stroke-width: 2;
+}
+
+/* Secousse brève à l'instant de la rupture */
+@keyframes flex-secousse {
+  0%   { transform: translate(0, 0); }
+  20%  { transform: translate(-5px, 2px); }
+  40%  { transform: translate(5px, -2px); }
+  60%  { transform: translate(-3px, 1px); }
+  80%  { transform: translate(3px, 0); }
+  100% { transform: translate(0, 0); }
+}
+.flex-scene--secousse {
+  animation: flex-secousse .5s ease-in-out 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .flex-scene--secousse { animation: none; }
+}
+
+/* ── Indicateurs ── */
+.flex-titre {
+  margin: var(--gap-md) 0 var(--gap-sm);
+  color: var(--domaine-accent-fonce);
+}
+.flex-resultats {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 150px;
+  gap: var(--gap-md);
+  align-items: start;
+}
+@media (max-width: 640px) {
+  .flex-resultats { grid-template-columns: minmax(0, 1fr); }
+}
+.flex-indicateurs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: var(--gap-sm);
+}
+.flex-indic {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+  padding: var(--gap-xs) var(--gap-sm);
+  border: 1px solid var(--gris-clair);
+  border-left: 4px solid var(--domaine-accent);
+  border-radius: var(--r-md);
+  background: var(--blanc);
+}
+.flex-indic-label {
+  font-size: var(--fs-sm);
+  color: var(--gris-moyen);
+}
+.flex-indic-valeur {
+  font-size: var(--fs-md);
+  font-weight: 700;
+  color: var(--domaine-accent-fonce);
+}
+.flex-indic[data-etat="fleche"],
+.flex-indic[data-etat="contrainte"] {
+  border-left-style: dashed;
+  border-left-color: var(--etat-attention-fg);
+}
+.flex-indic[data-etat="rupture"] {
+  border-left-style: double;
+  border-left-width: 8px;
+  border-left-color: var(--danger-texte);
+  background: var(--danger-bg);
+}
+.flex-indic[data-etat="rupture"] .flex-indic-valeur {
+  color: var(--danger-texte);
+}
+
+.flex-section-bloc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--gap-xs);
+  border: 1px solid var(--gris-clair);
+  border-radius: var(--r-md);
+  background: var(--blanc);
+}
+.flex-svg--section {
+  max-width: 150px;
+}
+.flex-section-forme {
+  fill: rgba(var(--domaine-accent-rgb), .35);
+  stroke: var(--domaine-accent-fonce);
+  stroke-width: 2;
+}
+.flex-axe-neutre {
+  stroke: var(--gris-moyen);
+  stroke-width: 1;
+  stroke-dasharray: 5 3;
+}
+.flex-section-legende {
+  font-size: var(--fs-xs);
+  color: var(--gris-moyen);
+}
+
+/* ── Jauge σmax / σ limite ── */
+.flex-jauge {
+  margin-top: var(--gap-md);
+}
+.flex-jauge-barre {
+  position: relative;
+  height: 22px;
+  border: 2px solid var(--gris-ardoise);
+  border-radius: var(--r-md);
+  background: var(--blanc);
+  overflow: visible;
+}
+.flex-jauge-remplissage {
+  height: 100%;
+  width: 0;
+  border-radius: 5px 0 0 5px;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--domaine-accent) 0 8px,
+    var(--domaine-accent-fonce) 8px 16px
+  );
+  transition: width .08s linear;
+}
+.flex-jauge-repere {
+  position: absolute;
+  top: -6px;
+  bottom: -6px;
+  width: 0;
+  border-left: 3px dashed var(--danger-texte);
+}
+.flex-jauge-repere::after {
+  content: "σadm";
+  position: absolute;
+  top: -1.2em;
+  left: -1.4em;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  color: var(--danger-texte);
+}
+.flex-jauge-graduation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: .2rem;
+  font-size: var(--fs-xs);
+  color: var(--gris-moyen);
+}
+.flex-jauge-texte {
+  margin: .3rem 0 0;
+  font-size: var(--fs-sm);
+  color: var(--gris-ardoise);
+}
+
+/* ── Détail des calculs ── */
+.flex-calcul {
+  margin: 0;
+  padding-left: 1.5rem;
+  line-height: 1.7;
+}
+.flex-calcul li {
+  margin-bottom: var(--gap-xs);
+  padding: var(--gap-xs) var(--gap-sm);
+  border-left: 3px solid rgba(var(--domaine-accent-rgb), .45);
+  background: var(--blanc-paillasse);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  overflow-wrap: anywhere;
+}
+
+/* ── Relevés ── */
+.flex-table-releves td {
+  font-size: var(--fs-sm);
+}
+.flex-releves-vide {
+  margin: .4rem 0 0;
+  font-size: var(--fs-sm);
+  color: var(--gris-moyen);
+}
+.flex-releves-vide[hidden] {
+  display: none;
+}

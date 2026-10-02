@@ -132,6 +132,25 @@ function construireSectionMesuresExao() {
   return { titre: 'Acquisition ExAO — pression en fonction du volume', items };
 }
 
+// Relevés de l'onglet « Flexion d'une poutre » (TP04), construits à partir
+// du tableau dynamique #flex-releves-corps généré par flexion-poutre.js.
+// Retourne null si aucun relevé n'a été fait, pour ne pas polluer le
+// compte-rendu des élèves qui n'ont pas utilisé cet onglet.
+function construireSectionRelevesFlexion() {
+  const lignes = document.querySelectorAll('#flex-releves-corps tr');
+  if (!lignes.length) return null;
+
+  const items = [...lignes].map(tr => {
+    const c = [...tr.children].map(td => texte(td));
+    return {
+      label: `Relevé ${c[0]} — ${c[1]}`,
+      valeur: `${c[2]} — Mf max = ${c[3]} — σmax = ${c[4]} — f = ${c[5]} — ${c[6]}`,
+    };
+  });
+
+  return { titre: 'Flexion d\'une poutre — relevés du simulateur', items };
+}
+
 /**
  * @param {Object} params
  * @param {string} params.titre - Titre du TP (ex. "Décrire un mouvement")
@@ -155,6 +174,7 @@ export function initImpressionCompteRendu({ titre, tp }) {
       construireSectionResultats(),
       sectionMesuresPression,
       sectionMesuresExao,
+      construireSectionRelevesFlexion(),
       ...construireSectionsQuestions(),
       construireSectionResume(),
     ].filter(Boolean);

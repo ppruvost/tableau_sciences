@@ -24,7 +24,7 @@
         <span class="tag">1ère</span>
         <span class="tag">Tle</span>
         <span class="tag">Mécanique</span>
-        <span class="tag">Moment - </span><span class="tag">Archimède</span>
+        <span class="tag">Moment - </span><span class="tag">Archimède</span><span class="tag">Flexion</span>
       </div>
 
     </div>
@@ -158,6 +158,7 @@
       <div class="tabs-header">
         <button class="tab-btn actif" data-tab="equilibre-rotation">Équilibre en rotation (moments)</button>
         <button class="tab-btn" data-tab="archimede">Force d'Archimède</button>
+        <button class="tab-btn" data-tab="flexion-poutre">Flexion d'une poutre</button>
       </div>
 
       <!-- ============================ -->
@@ -285,6 +286,220 @@
         <div class="mode-op">
           <img src="./assets/images/m4-archimede.png" alt="Mode opératoire — détermination de la force d'Archimède" class="mode-image">
         </div>
+
+
+      </div>
+
+      <!-- ============================ -->
+      <!-- FLEXION D'UNE POUTRE          -->
+      <!-- ============================ -->
+
+      <div class="tab-panel" id="flexion-poutre">
+
+        <h3>Flexion d'une poutre sur deux appuis : jusqu'à la rupture</h3>
+
+        <div class="info">
+          Une poutre posée sur deux appuis et chargée verticalement fléchit.
+          Le moment fléchissant maximal Mf max (un moment de force, en N·m)
+          crée dans la poutre une contrainte σmax = Mf max / Wx. La poutre
+          résiste tant que σmax ≤ σadm ; elle rompt lorsque σmax atteint la
+          contrainte limite du matériau. Faire varier les paramètres
+          ci-dessous et observer l'effet de chacun.
+        </div>
+
+        <div class="flex-presets">
+          <span class="flex-presets-label">Situations du cours :</span>
+          <button type="button" class="btn btn-outline" id="flex-btn-ex1">Exercice 1 · poutre IPE en acier</button>
+          <button type="button" class="btn btn-outline" id="flex-btn-ex2">Exercice 2 · gîte en sapin</button>
+        </div>
+
+        <div class="flex-simulateur">
+
+          <!-- ───────── Commandes ───────── -->
+          <div class="flex-commandes">
+
+            <fieldset class="flex-groupe">
+              <legend>1 · Poutre</legend>
+
+              <div class="form-group">
+                <label for="flex-materiau">Matériau</label>
+                <select id="flex-materiau">
+                  <option value="sapin" selected>Sapin (σadm = 11 N/mm²)</option>
+                  <option value="acier">Acier S235 (σadm = 100 N/mm²)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="flex-section">Type de section</label>
+                <select id="flex-section">
+                  <option value="rect" selected>Rectangulaire (b × h)</option>
+                  <option value="ipe">Profilé IPE</option>
+                </select>
+              </div>
+
+              <div id="flex-groupe-rect">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="flex-b">b (mm)</label>
+                    <input id="flex-b" type="number" min="5" max="600" step="1" value="63">
+                  </div>
+                  <div class="form-group">
+                    <label for="flex-h">h (mm)</label>
+                    <input id="flex-h" type="number" min="5" max="600" step="1" value="150">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="flex-orientation">Pose de la poutre</label>
+                  <select id="flex-orientation">
+                    <option value="chant" selected>Sur chant (h dans le plan des charges)</option>
+                    <option value="plat">À plat (b dans le plan des charges)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div id="flex-groupe-ipe" hidden>
+                <div class="form-group">
+                  <label for="flex-ipe">Profilé</label>
+                  <select id="flex-ipe">
+                    <option value="IPE 100">IPE 100 (Wx = 34,2 cm³)</option>
+                    <option value="IPE 120" selected>IPE 120 (Wx = 53,0 cm³)</option>
+                    <option value="IPE 140">IPE 140 (Wx = 77,3 cm³)</option>
+                    <option value="IPE 160">IPE 160 (Wx = 109 cm³)</option>
+                    <option value="IPE 180">IPE 180 (Wx = 146 cm³)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="flex-portee">Portée l entre appuis (m)</label>
+                <input id="flex-portee" type="number" min="0.5" max="12" step="0.1" value="3">
+              </div>
+            </fieldset>
+
+            <fieldset class="flex-groupe">
+              <legend>2 · Charge</legend>
+
+              <div class="form-group">
+                <label for="flex-type">Type de charge</label>
+                <select id="flex-type">
+                  <option value="repartie" selected>Répartie sur toute la poutre (q)</option>
+                  <option value="ponctuelle">Ponctuelle (Q)</option>
+                </select>
+              </div>
+
+              <div class="form-group" id="flex-groupe-position" hidden>
+                <label for="flex-position">Position de Q : la, distance depuis A (m)</label>
+                <input id="flex-position" type="number" min="0.05" max="12" step="0.05" value="1.5">
+              </div>
+
+              <div class="form-group">
+                <label for="flex-charge-input" id="flex-charge-label">Charge q (N/m)</label>
+                <input id="flex-charge-input" type="number" min="0" step="1" value="1500">
+              </div>
+
+              <div class="form-group">
+                <label for="flex-charge-range">Curseur de charge (0 à <span id="flex-charge-max">—</span>)</label>
+                <input id="flex-charge-range" type="range" min="0" max="100" step="1" value="0">
+              </div>
+
+              <div class="flex-boutons">
+                <button type="button" class="btn btn-primaire" id="flex-btn-rupture" aria-pressed="false">💥 Charger jusqu'à la rupture</button>
+                <button type="button" class="btn btn-secondaire" id="flex-btn-zero">↺ Charge à zéro</button>
+                <button type="button" class="btn btn-outline btn-toggle actif" id="flex-btn-amplifier" aria-pressed="true">🔍 Amplifier la déformation</button>
+              </div>
+            </fieldset>
+
+          </div>
+
+          <!-- ───────── Affichage ───────── -->
+          <div class="flex-affichage">
+
+            <div id="flex-etat" class="flex-etat" data-etat="repos" role="status" aria-live="polite">
+              ○ Aucune charge appliquée : la poutre est au repos.
+            </div>
+
+            <div class="flex-svg-defilement">
+              <svg id="flex-scene" class="flex-svg flex-svg--scene" viewBox="0 0 640 275" role="img" aria-label="Poutre sur deux appuis A et B, sa charge, ses réactions d'appuis et sa déformation"></svg>
+            </div>
+
+            <div class="flex-svg-defilement">
+              <svg id="flex-diagrammes" class="flex-svg flex-svg--diagrammes" viewBox="0 0 640 345" role="img" aria-label="Diagrammes de l'effort tranchant V et du moment fléchissant Mf le long de la poutre"></svg>
+            </div>
+
+          </div>
+
+        </div>
+
+        <h4 class="flex-titre">Résultats en direct</h4>
+
+        <div class="flex-resultats">
+
+          <div class="flex-indicateurs">
+            <div class="flex-indic"><span class="flex-indic-label">Réaction R<sub>A</sub></span><span class="flex-indic-valeur" id="flex-ind-ra">—</span></div>
+            <div class="flex-indic"><span class="flex-indic-label">Réaction R<sub>B</sub></span><span class="flex-indic-valeur" id="flex-ind-rb">—</span></div>
+            <div class="flex-indic"><span class="flex-indic-label">Moment fléchissant max Mf max</span><span class="flex-indic-valeur" id="flex-ind-mf">—</span></div>
+            <div class="flex-indic"><span class="flex-indic-label">Module de résistance W<sub>x</sub></span><span class="flex-indic-valeur" id="flex-ind-wx">—</span></div>
+            <div class="flex-indic flex-indic--sigma"><span class="flex-indic-label">Contrainte max σ<sub>max</sub></span><span class="flex-indic-valeur" id="flex-ind-sigma">—</span></div>
+            <div class="flex-indic"><span class="flex-indic-label">Contrainte admissible σ<sub>adm</sub></span><span class="flex-indic-valeur" id="flex-ind-adm">—</span></div>
+            <div class="flex-indic"><span class="flex-indic-label">Contrainte limite (rupture)</span><span class="flex-indic-valeur" id="flex-ind-lim">—</span></div>
+            <div class="flex-indic"><span class="flex-indic-label">Coefficient de sécurité réel k = σ limite / σ<sub>max</sub></span><span class="flex-indic-valeur" id="flex-ind-k">—</span></div>
+            <div class="flex-indic"><span class="flex-indic-label">Flèche maximale f</span><span class="flex-indic-valeur" id="flex-ind-fleche">—</span></div>
+            <div class="flex-indic"><span class="flex-indic-label">Flèche admissible f<sub>adm</sub> = l / 250</span><span class="flex-indic-valeur" id="flex-ind-fadm">—</span></div>
+          </div>
+
+          <div class="flex-section-bloc">
+            <svg id="flex-section-svg" class="flex-svg flex-svg--section" viewBox="0 0 120 140" role="img" aria-label="Section droite de la poutre, avec la fibre neutre"></svg>
+            <span class="flex-section-legende">Section droite</span>
+          </div>
+
+        </div>
+
+        <div class="flex-jauge" aria-hidden="true">
+          <div class="flex-jauge-barre">
+            <div class="flex-jauge-remplissage" id="flex-jauge-remplissage"></div>
+            <div class="flex-jauge-repere" id="flex-jauge-adm"></div>
+          </div>
+          <div class="flex-jauge-graduation"><span>0</span><span>σ limite : rupture</span></div>
+        </div>
+        <p class="flex-jauge-texte" id="flex-jauge-texte"></p>
+
+        <h4 class="flex-titre">Détail des calculs (méthode en 6 étapes)</h4>
+
+        <ol class="flex-calcul" id="flex-calcul"></ol>
+
+        <h4 class="flex-titre">Relevés de mesures</h4>
+
+        <div class="toolbar flex-boutons">
+          <button type="button" class="btn btn-primaire" id="flex-btn-releve">📌 Relever la situation actuelle</button>
+          <button type="button" class="btn btn-secondaire" id="flex-btn-efface">🗑 Effacer les relevés</button>
+        </div>
+
+        <div class="table-responsive">
+          <table class="tableau-resultats flex-table-releves">
+            <thead>
+              <tr>
+                <th>N°</th>
+                <th>Poutre</th>
+                <th>Charge</th>
+                <th>Mf max</th>
+                <th>σ<sub>max</sub></th>
+                <th>Flèche f</th>
+                <th>État</th>
+              </tr>
+            </thead>
+            <tbody id="flex-releves-corps"></tbody>
+          </table>
+        </div>
+        <p class="flex-releves-vide" id="flex-releves-vide">Aucun relevé : régler la poutre et la charge, puis cliquer sur « Relever la situation actuelle ».</p>
+
+        <h4 class="flex-titre">Protocole</h4>
+
+        <ol class="etapes">
+          <li>Charger l'exercice 2 (gîte en sapin) et vérifier que le simulateur redonne les valeurs du corrigé : R<sub>A</sub> = R<sub>B</sub> = 2 250 N, Mf max = 1 687,5 N·m, σ<sub>max</sub> = 7,14 N/mm², f = 8,9 mm.</li>
+          <li>Augmenter la charge avec le curseur, ou avec « Charger jusqu'à la rupture » : relever la charge pour laquelle σ<sub>max</sub> dépasse σ<sub>adm</sub>, puis celle qui provoque la rupture.</li>
+          <li>Poser la même poutre à plat, puis doubler la portée : relever à chaque fois σ<sub>max</sub> et la flèche pour une même charge, et expliquer ce qui change.</li>
+          <li>Charger l'exercice 1 (poutre IPE en acier) et chercher le plus petit profilé IPE qui supporte Q = 6 000 N sans dépasser σ<sub>adm</sub>.</li>
+        </ol>
 
       </div>
 

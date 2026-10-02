@@ -19,6 +19,7 @@ import { initMateriel } from '../../js/materiel.js';
 import glassware from '../../data/glassware.js';
 import laboratoryEquipment from '../../data/equipment.js';
 import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
+import { initFlexionPoutre } from './flexion-poutre.js';
 
 const G = 9.81; // N/kg
 
@@ -60,6 +61,7 @@ export function init() {
 
   initEquilibreRotation();
   initArchimede();
+  initFlexionPoutre();
 
   initMateriel({
     verreId: 'materiel-verrerie',
@@ -81,15 +83,15 @@ export function init() {
     mapping: {
       '2nde-remi': [],
       '2nde-mcc':  [],
-      '1ere-tci':  ['equilibre-rotation', 'archimede'],
-      '1ere-trpm': ['equilibre-rotation', 'archimede'],
+      '1ere-tci':  ['equilibre-rotation', 'archimede', 'flexion-poutre'],
+      '1ere-trpm': ['equilibre-rotation', 'archimede', 'flexion-poutre'],
       '1ere-mcc':  [],
       'tle-tci':   [],
       'tle-trpm':  [],
       'tle-mcc':   ['archimede'],
     },
     messageId: 'tp04m-message-filiere',
-    messageTexte: "Ce TP n'est pas au programme de votre filière à ce niveau. L'équilibre en rotation concerne TCI/TRPM en 1ère ; la force d'Archimède concerne TCI/TRPM en 1ère et Métiers de la couture et de la confection en Terminale.",
+    messageTexte: "Ce TP n'est pas au programme de votre filière à ce niveau. L'équilibre en rotation concerne TCI/TRPM en 1ère ; la force d'Archimède concerne TCI/TRPM en 1ère et Métiers de la couture et de la confection en Terminale ; la flexion d'une poutre concerne TCI/TRPM en 1ère.",
   });
 
   initSections();
