@@ -2012,18 +2012,6 @@ function lancerCompteRendu() {
     });
 
 
-    const resume =
-        lireTexte("resume-tp");
-
-    if (resume) {
-
-        sections.push({
-            titre: "Résumé du TP",
-            texte: resume
-        });
-
-    }
-
 
     genererCompteRendu({
 

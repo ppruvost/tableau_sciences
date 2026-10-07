@@ -177,6 +177,14 @@
           domestique ou industrielle (230 V / 400 V).
         </div>
 
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+
+        <ol class="etapes">
+          <li>Cliquer sur chaque étape du schéma interactif (ou sur les boutons numérotés) pour afficher sa fiche technique.</li>
+          <li>Pour chaque étape, relever le rôle du transformateur, le type de ligne et la tension associée.</li>
+          <li>Représenter le schéma simplifié du réseau en indiquant l'évolution de la tension.</li>
+        </ol>
+
         <div class="schema-interactif-conteneur">
           <iframe
             src="./assets/schema-reseau-distribution.html"
@@ -186,13 +194,6 @@
           </iframe>
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>Cliquer sur chaque étape du schéma interactif (ou sur les boutons numérotés) pour afficher sa fiche technique.</li>
-          <li>Pour chaque étape, relever le rôle du transformateur, le type de ligne et la tension associée.</li>
-          <li>Représenter le schéma simplifié du réseau en indiquant l'évolution de la tension.</li>
-        </ol>
 
       </div>
 
@@ -212,6 +213,19 @@
           même puissance électrique par deux lignes identiques (même
           résistance R), l'une en basse tension, l'autre en haute
           tension : observez l'échauffement du câble dans chaque cas.
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+
+        <ol class="etapes">
+          <li>Régler la puissance transportée P et la résistance R de la ligne modélisée.</li>
+          <li>Pour cette même puissance, comparer l'intensité et l'échauffement du câble en basse tension puis en haute tension.</li>
+          <li>Faire varier U₂ pour observer l'effet d'une tension de transport plus élevée sur les pertes par effet Joule.</li>
+        </ol>
+
+        <div class="mode-op">
+          <img src="./assets/images/5_transport_pylone_trianon_400kv.jpg" alt="Ligne de transport à très haute tension — c'est dans ce type de ligne que se produisent les pertes par effet Joule" class="mode-image">
+          <p class="mode-legende">Une ligne de transport à très haute tension : plus l'intensité qui la parcourt est faible, moins elle dissipe d'énergie par effet Joule.</p>
         </div>
 
         <div class="joule-simu" id="joule-simu">
@@ -312,18 +326,6 @@
 
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>Régler la puissance transportée P et la résistance R de la ligne modélisée.</li>
-          <li>Pour cette même puissance, comparer l'intensité et l'échauffement du câble en basse tension puis en haute tension.</li>
-          <li>Faire varier U₂ pour observer l'effet d'une tension de transport plus élevée sur les pertes par effet Joule.</li>
-        </ol>
-
-        <div class="mode-op">
-          <img src="./assets/images/5_transport_pylone_trianon_400kv.jpg" alt="Ligne de transport à très haute tension — c'est dans ce type de ligne que se produisent les pertes par effet Joule" class="mode-image">
-          <p class="mode-legende">Une ligne de transport à très haute tension : plus l'intensité qui la parcourt est faible, moins elle dissipe d'énergie par effet Joule.</p>
-        </div>
 
       </div>
 
@@ -342,6 +344,19 @@
           des deux enroulements : U₂ / U₁ = N₂ / N₁. Le simulateur
           ci-dessous permet d'explorer cette relation avant de la
           vérifier expérimentalement.
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+
+        <ol class="etapes">
+          <li>Dans le simulateur, régler N₁ et N₂ puis observer l'effet sur U₂ pour une tension U₁ donnée.</li>
+          <li>Alimenter l'enroulement primaire du transformateur réel avec une tension alternative basse tension.</li>
+          <li>Mesurer la tension efficace au primaire, puis au secondaire, à l'aide d'un voltmètre en position alternatif, et saisir les deux valeurs mesurées ci-dessus.</li>
+        </ol>
+
+        <div class="mode-op">
+          <img src="./assets/images/9_distribution_transformateur_20kv.jpg" alt="Transformateur HTA/BT dans un poste de distribution réel" class="mode-image">
+          <p class="mode-legende">Un transformateur de réseau (poste de distribution HTA/BT). En TP, vous utiliserez un transformateur d'atelier basse tension, mais le principe élévateur/abaisseur est identique.</p>
         </div>
 
         <div class="transfo-simu" id="transfo-simu">
@@ -445,18 +460,6 @@
           transformateur est élévateur ou abaisseur.
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>Dans le simulateur, régler N₁ et N₂ puis observer l'effet sur U₂ pour une tension U₁ donnée.</li>
-          <li>Alimenter l'enroulement primaire du transformateur réel avec une tension alternative basse tension.</li>
-          <li>Mesurer la tension efficace au primaire, puis au secondaire, à l'aide d'un voltmètre en position alternatif, et saisir les deux valeurs mesurées ci-dessus.</li>
-        </ol>
-
-        <div class="mode-op">
-          <img src="./assets/images/9_distribution_transformateur_20kv.jpg" alt="Transformateur HTA/BT dans un poste de distribution réel" class="mode-image">
-          <p class="mode-legende">Un transformateur de réseau (poste de distribution HTA/BT). En TP, vous utiliserez un transformateur d'atelier basse tension, mais le principe élévateur/abaisseur est identique.</p>
-        </div>
 
       </div>
 
@@ -588,54 +591,6 @@
 
 </div>
 
-<div class="section" data-type="resultats">
-
-  <div class="section-titre">
-    <div class="picto-section">📊</div>
-    <h2>Tableau de résultats</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="table-responsive">
-
-      <table class="tableau-resultats">
-
-        <thead>
-          <tr>
-            <th>Grandeur</th>
-            <th>Résultat</th>
-          </tr>
-        </thead>
-
-        <tbody>
-
-          <tr>
-            <td>Rapport de transformation U₂ / U₁</td>
-            <td><input type="text" placeholder="sans unité"></td>
-          </tr>
-
-          <tr>
-            <td>Puissance perdue par effet Joule en basse tension</td>
-            <td><input type="text" placeholder="W"></td>
-          </tr>
-
-          <tr>
-            <td>Puissance perdue par effet Joule en haute tension</td>
-            <td><input type="text" placeholder="W"></td>
-          </tr>
-
-        </tbody>
-
-      </table>
-
-    </div>
-
-  </div>
-
-</div>
-
 <div class="section" data-type="environnement">
 
   <div class="section-titre">
@@ -702,11 +657,6 @@
 
     </div>
 
-    <h3 style="margin-top:var(--gap-md);">Résumé du TP</h3>
-
-    <div class="zone-eleve">
-      <textarea id="resume-tp" rows="6" placeholder="Résumer les observations sur le réseau de distribution, l'effet Joule et le rôle du transformateur..."></textarea>
-    </div>
 
     <h3 style="margin-top:var(--gap-md);">Questions</h3>
 
@@ -887,10 +837,7 @@
     <div class="info" style="margin-top:var(--gap-md);">
       L'impression récupère automatiquement :
       <ul>
-        <li>l'étape du réseau sélectionnée ;</li>
-        <li>le comparatif des pertes par effet Joule ;</li>
-        <li>les mesures de tension du transformateur ;</li>
-        <li>les résultats du tableau et les réponses aux questions ;</li>
+        <li>les réponses aux questions ;</li>
         <li>l'auto-évaluation des compétences.</li>
       </ul>
     </div>

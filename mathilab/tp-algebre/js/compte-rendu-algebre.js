@@ -25,13 +25,6 @@ function valeur(el) {
   return (el?.value || '').trim();
 }
 
-// Résumé du TD, en texte libre.
-function construireSectionResume() {
-  const zone = document.getElementById('resume-tp');
-  if (!zone) return null;
-  return { titre: 'Résumé du TD', texte: valeur(zone) };
-}
-
 // Récapitulatif des outils interactifs travaillés (équation résolue,
 // inéquation résolue, intervalle généré, énoncé traduit), lu
 // génériquement pour ne dépendre d'aucun onglet en particulier.
@@ -82,7 +75,6 @@ export function initImpressionCompteRendu({ titre, tp }) {
     const sections = [
       construireSectionOutils(),
       ...construireSectionsQuestionsActivite(),
-      construireSectionResume(),
     ].filter(Boolean);
 
     genererCompteRendu({

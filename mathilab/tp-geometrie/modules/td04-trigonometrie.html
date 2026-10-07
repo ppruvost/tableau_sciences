@@ -117,6 +117,9 @@
       <button type="button" class="btn btn-secondaire" onclick="loadGeoGebraClassic()">
         📐 Ouvrir GéoGébra Classic
       </button>
+      <a class="btn btn-secondaire" href="../../numworks/emulator.html" target="_blank" rel="noopener">
+        🧮 Ouvrir la calculatrice NumWorks
+      </a>
     </div>
 
     <div class="tabs-container">
@@ -136,6 +139,15 @@
           Saisir un angle en degrés : sa mesure en radians, ainsi que le
           cosinus et le sinus correspondants, se calculent automatiquement.
         </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
+
+        <ol class="etapes" style="margin-bottom:var(--gap-lg);">
+          <li>Ouvrir GéoGébra Classic et taper : <code>c=Cercle((0,0),1)</code> pour tracer le cercle trigonométrique.</li>
+          <li>Créer un curseur α entre 0 et 2π (outil Curseur, ou <code>α=Curseur(0,2π)</code>).</li>
+          <li>Placer le point image : <code>M=(cos(α),sin(α))</code>.</li>
+          <li>Faire varier α et observer les coordonnées de M : que représentent-elles ?</li>
+        </ol>
 
         <div class="form-row">
           <div class="form-group"><label for="ct-degres">Angle (degrés)</label><input id="ct-degres" type="number" step="1" value="60"></div>
@@ -159,14 +171,6 @@
           </table>
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Explorer dans GéoGébra</h4>
-
-        <ol class="etapes">
-          <li>Ouvrir GéoGébra Classic et taper : <code>c=Cercle((0,0),1)</code> pour tracer le cercle trigonométrique.</li>
-          <li>Créer un curseur α entre 0 et 2π (outil Curseur, ou <code>α=Curseur(0,2π)</code>).</li>
-          <li>Placer le point image : <code>M=(cos(α),sin(α))</code>.</li>
-          <li>Faire varier α et observer les coordonnées de M : que représentent-elles ?</li>
-        </ol>
 
         <div class="zone-eleve">
           <textarea rows="4" placeholder="Observations sur les coordonnées de M en fonction de α..."></textarea>
@@ -186,12 +190,15 @@
           l'aide de l'identité cos(x) = sin(x + π/2).
         </div>
 
-        <ol class="etapes">
+        <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
+
+        <ol class="etapes" style="margin-bottom:var(--gap-lg);">
           <li>Dans GéoGébra, tracer la fonction sinus : <code>f(x)=sin(x)</code>.</li>
           <li>Tracer la fonction cosinus par translation : <code>g(x)=f(x+π/2)</code>, puis comparer à <code>h(x)=cos(x)</code> : les deux courbes sont-elles confondues ?</li>
           <li>Mesurer, à l'aide du curseur, la période de la fonction sinus : au bout de quelle valeur la courbe se répète-t-elle ?</li>
           <li>Relever les valeurs maximale et minimale atteintes par sin(x) sur ℝ.</li>
         </ol>
+
 
         <div class="zone-eleve">
           <textarea rows="4" placeholder="Période observée, valeurs extrêmes, vérification cos(x) = sin(x + π/2)..."></textarea>
@@ -230,10 +237,6 @@
               <p class="info puzzle-contexte" id="puzzle-a-contexte"></p>
               <p class="puzzle-problematique" id="puzzle-a-problematique"></p>
               <ol id="puzzle-a-enonce" class="puzzle-questions"></ol>
-              <div class="form-row">
-                <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-                <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-              </div>
               <div class="zone-eleve"><textarea id="puzzle-a-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
             </li></ol>
           </div>
@@ -248,10 +251,6 @@
               <p class="info puzzle-contexte" id="puzzle-b-contexte"></p>
               <p class="puzzle-problematique" id="puzzle-b-problematique"></p>
               <ol id="puzzle-b-enonce" class="puzzle-questions"></ol>
-              <div class="form-row">
-                <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-                <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-              </div>
               <div class="zone-eleve"><textarea id="puzzle-b-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
             </li></ol>
           </div>
@@ -266,10 +265,6 @@
               <p class="info puzzle-contexte" id="puzzle-c-contexte"></p>
               <p class="puzzle-problematique" id="puzzle-c-problematique"></p>
               <ol id="puzzle-c-enonce" class="puzzle-questions"></ol>
-              <div class="form-row">
-                <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-                <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-              </div>
               <div class="zone-eleve"><textarea id="puzzle-c-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
             </li></ol>
           </div>
@@ -295,56 +290,7 @@
 
 </div>
 
-<div class="section" data-type="resultats">
 
-  <div class="section-titre">
-    <div class="picto-section">📋</div>
-    <h2>Tableau de résultats</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="table-responsive">
-      <table class="tableau-resultats">
-        <thead><tr><th>Grandeur</th><th>Résultat</th></tr></thead>
-        <tbody>
-          <tr><td>Angle converti en radians</td><td><input type="text" placeholder="valeur"></td></tr>
-          <tr><td>Cosinus et sinus obtenus</td><td><input type="text" placeholder="valeurs"></td></tr>
-          <tr><td>Période de la fonction sinus observée dans GéoGébra</td><td><input type="text" placeholder="valeur"></td></tr>
-        </tbody>
-      </table>
-    </div>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="lien-metiers">
-
-  <div class="section-titre">
-    <div class="picto-section">🔗</div>
-    <h2>Mathématiques et sciences : un même langage</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <p>
-      Une grandeur sinusoïdale — tension électrique, vibration, rotation
-      périodique — se décrit exactement par une fonction du type
-      a·sin(x). Cercle trigonométrique et fonction sinus sont les deux
-      faces d'un même outil.
-    </p>
-
-    <ul style="padding-left:1.5rem;line-height:2">
-      <li>Le <strong>radian</strong> est l'unité naturelle pour décrire une rotation ou un enroulement.</li>
-      <li>La <strong>périodicité</strong> de la fonction sinus traduit le caractère répétitif d'un phénomène cyclique.</li>
-    </ul>
-
-  </div>
-
-</div>
 
 <div class="section" data-type="bilan">
 
@@ -365,8 +311,6 @@
       <div class="form-group"><label for="date-eleve">Date</label><input id="date-eleve" type="date"></div>
     </div>
 
-    <h3 style="margin-top:var(--gap-md);">Résumé du TD</h3>
-    <div class="zone-eleve"><textarea id="resume-tp" rows="6" placeholder="Résumer les conversions d'angles et l'étude des fonctions sinus/cosinus..."></textarea></div>
 
     <h3 style="margin-top:var(--gap-md);">Questions</h3>
 
@@ -535,7 +479,6 @@
     <div class="info" style="margin-top:var(--gap-md);">
       L'impression récupère automatiquement :
       <ul>
-        <li>le tableau de résultats ;</li>
         <li>les réponses aux questions ;</li>
         <li>les fiches puzzle et l'auto-évaluation des compétences.</li>
       </ul>

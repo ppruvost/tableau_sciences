@@ -290,10 +290,6 @@ function updateDissolutionInfo() {
     if (masseMolaireSpan) masseMolaireSpan.textContent = (produit.masseMolaire || 0).toFixed(2);
     if (mDissolutionInput) mDissolutionInput.value = (produit.masseMolaire || 0).toFixed(2);
 
-    // Mettre à jour le nom dans le tableau des résultats
-    const nomSelTable = $("nom-sel-table");
-    if (nomSelTable) nomSelTable.textContent = produit.nom || '-';
-
     // Recalculer la masse à peser
     calculDissolution();
 }
@@ -309,17 +305,8 @@ function calculDissolution() {
 
     if (!resDissolution) return;
 
-    // Recopie de la concentration visée et du volume dans le tableau de résultats
-    const tableVolume = $("table-volume-dissolution");
-    const tableTheo = $("table-theo-dissolution");
-    if (tableVolume) tableVolume.textContent = v > 0 ? `${formaterNombre(v, 0)} mL` : "—";
-    if (tableTheo) tableTheo.textContent = c > 0 ? `${formaterNombre(c, 2)} mol·L⁻¹` : "—";
-
     if (!$("reactif")?.value || c <= 0 || v <= 0 || m <= 0) {
         resDissolution.value = "";
-        const tableMasseVide = $("table-masse-dissolution");
-        if (tableMasseVide) tableMasseVide.textContent = "—";
-        calculerEcart();
         return;
     }
 
@@ -328,13 +315,6 @@ function calculDissolution() {
 
     resDissolution.value = masse.toFixed(4);
 
-    const tableMasseDissolution = $("table-masse-dissolution");
-    if (tableMasseDissolution) {
-        tableMasseDissolution.textContent = `${masse.toFixed(4)} g`;
-    }
-
-    // La masse théorique a changé : recalculer concentration obtenue et écart
-    calculerEcart();
 }
 
 /* ==========================================================
@@ -345,17 +325,6 @@ function initCalculsDissolution() {
     $("v-dissolution")?.addEventListener("input", calculDissolution);
     // Écouter aussi les changements de masse molaire (au cas où)
     $("m-dissolution")?.addEventListener("input", calculDissolution);
-
-    // Tableau de résultats : la concentration obtenue est calculée
-    // automatiquement à partir de la masse réellement pesée
-    const cObtenue = $("c-exp-saisie");
-    if (cObtenue) {
-        cObtenue.readOnly = true;
-        cObtenue.tabIndex = -1;
-        cObtenue.placeholder = "auto";
-    }
-    $("masse-exp-pesee")?.addEventListener("input", calculerEcart);
-    $("masse-exp-pesee")?.addEventListener("change", calculerEcart);
 }
 
 /* ==========================================================
@@ -463,58 +432,6 @@ function calculerErreursPesee() {
         if ($("syn-qual-1g")) $("syn-qual-1g").textContent = evaluerQualitePesee(rel1g);
     } else if (synth) {
         synth.classList.add("hidden");
-    }
-}
-
-/**
- * Tableau de résultats (dissolution) :
- *  - masse théorique  m_th  = C_visée × V × M
- *  - concentration obtenue  C_obt = m_pesée / (M × V)
- *  - écart relatif  = |C_obt − C_visée| / C_visée × 100
- *    (identique à |m_pesée − m_th| / m_th × 100)
- */
-function calculerEcart() {
-    const cVisee = lireNombre($("c-dissolution"));      // mol/L
-    const vMl = lireNombre($("v-dissolution"));         // mL
-    const masseMolaire = lireNombre($("m-dissolution")); // g/mol
-    const masseExp = lireNombre($("masse-exp-pesee"));  // g
-
-    const cObtenueInput = $("c-exp-saisie");
-    const resEcartDiv = $("res-ecart");
-    const tableEcart = $("table-ecart");
-
-    const reinitialiser = (message) => {
-        if (cObtenueInput) cObtenueInput.value = "";
-        if (tableEcart) tableEcart.textContent = "—";
-        if (resEcartDiv) resEcartDiv.textContent = message;
-    };
-
-    if (!$("reactif")?.value || cVisee <= 0 || vMl <= 0 || masseMolaire <= 0) {
-        reinitialiser("Sélectionner un réactif et renseigner C et V.");
-        return;
-    }
-
-    if (masseExp <= 0) {
-        reinitialiser("Saisir la masse mesurée.");
-        return;
-    }
-
-    const vL = vMl / 1000;
-    const masseTheo = cVisee * vL * masseMolaire;
-    const cObtenue = masseExp / (masseMolaire * vL);
-
-    const ecartAbsoluMasse = Math.abs(masseExp - masseTheo);
-    const ecartAbsoluC = Math.abs(cObtenue - cVisee);
-    const ecartRelatif = (ecartAbsoluC / cVisee) * 100;
-
-    if (cObtenueInput) cObtenueInput.value = cObtenue.toFixed(4);
-    if (tableEcart) tableEcart.textContent = `${formaterNombre(ecartRelatif, 2)} %`;
-    if (resEcartDiv) {
-        resEcartDiv.textContent =
-            `C obtenue = ${formaterNombre(cObtenue, 4)} mol·L⁻¹ | ` +
-            `Écart sur la masse : ${formaterNombre(ecartAbsoluMasse, 4)} g | ` +
-            `Écart sur la concentration : ${formaterNombre(ecartAbsoluC, 4)} mol·L⁻¹ | ` +
-            `Écart relatif : ${formaterNombre(ecartRelatif, 2)} %`;
     }
 }
 
@@ -1164,9 +1081,6 @@ function lancerCompteRendu() {
     const cDissolution = $("c-dissolution")?.value || "—";
     const vDissolution = $("v-dissolution")?.value || "—";
     const masseTheo = $("res-dissolution")?.value || "—";
-    const masseExp = $("masse-exp-pesee")?.value || "—";
-    const cObtenue = $("c-exp-saisie")?.value || "—";
-    const ecartRelatif = $("table-ecart")?.textContent?.trim() || "—";
     const filiereChoisie = getFiliereSelectionnee();
 
     const sections = [];
@@ -1189,10 +1103,7 @@ function lancerCompteRendu() {
                 { label: "Masse molaire M", valeur: `${masseMolaire} g/mol` },
                 { label: "Concentration C", valeur: `${cDissolution} mol/L` },
                 { label: "Volume V", valeur: `${vDissolution} mL` },
-                { label: "Masse théorique m", valeur: `${masseTheo} g` },
-                { label: "Masse pesée", valeur: `${masseExp} g` },
-                { label: "Concentration obtenue", valeur: `${cObtenue} mol/L` },
-                { label: "Écart relatif", valeur: ecartRelatif }
+                { label: "Masse théorique m", valeur: `${masseTheo} g` }
             ]
         },
         {
@@ -1272,14 +1183,6 @@ function lancerCompteRendu() {
             texte: (zone.value || "").trim()
         });
     });
-
-    const resume = lireTexte("resume-tp");
-    if (resume) {
-        sections.push({
-            titre: "Résumé du TP",
-            texte: resume
-        });
-    }
 
     genererCompteRendu({
         domaine: "Chimie",

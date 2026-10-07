@@ -15,18 +15,10 @@ import {
   initAffichageQuestionsParActivite,
   construireSectionsQuestionsActivite,
   verifierActiviteChoisie,
-  valeur,
 } from '../../js/questions-par-activite.js';
 
 // Conservé pour compatibilité avec les TD qui l'importaient déjà.
 export { initAffichageQuestionsParActivite };
-
-// Résumé du TD, en texte libre.
-function construireSectionResume() {
-  const zone = document.getElementById('resume-tp');
-  if (!zone) return null;
-  return { titre: 'Résumé du TD', texte: valeur(zone) };
-}
 
 /**
  * @param {Object} params
@@ -44,7 +36,6 @@ export function initImpressionCompteRendu({ titre, tp }) {
 
     const sections = [
       ...construireSectionsQuestionsActivite(),
-      construireSectionResume(),
     ].filter(Boolean);
 
     genererCompteRendu({

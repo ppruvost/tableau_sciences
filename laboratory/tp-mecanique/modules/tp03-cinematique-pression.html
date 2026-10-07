@@ -167,6 +167,18 @@
           a = (v₂ - v₁) / (t₂ - t₁).
         </div>
 
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+
+        <ol class="etapes">
+          <li>Enregistrer le mouvement rectiligne d'un mobile (vidéo, chronophotographie, ExAO ou simulateur ci-dessus).</li>
+          <li>Relever la vitesse du mobile à deux instants successifs.</li>
+          <li>Saisir ces valeurs pour calculer l'accélération moyenne, puis tracer le graphe des vitesses pour identifier la nature du mouvement.</li>
+        </ol>
+
+        <div class="mode-op">
+          <img src="./assets/images/m3-vitesse-acceleration.png" alt="Mode opératoire — vitesse et accélération d'un mouvement rectiligne" class="mode-image">
+        </div>
+
         <h4 style="margin-top:var(--gap-lg);">Simulateur : enregistrer un mouvement rectiligne</h4>
 
         <div class="info">
@@ -249,17 +261,6 @@
           calculer l'accélération moyenne entre ces deux instants.
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>Enregistrer le mouvement rectiligne d'un mobile (vidéo, chronophotographie, ExAO ou simulateur ci-dessus).</li>
-          <li>Relever la vitesse du mobile à deux instants successifs.</li>
-          <li>Saisir ces valeurs pour calculer l'accélération moyenne, puis tracer le graphe des vitesses pour identifier la nature du mouvement.</li>
-        </ol>
-
-        <div class="mode-op">
-          <img src="./assets/images/m3-vitesse-acceleration.png" alt="Mode opératoire — vitesse et accélération d'un mouvement rectiligne" class="mode-image">
-        </div>
 
       </div>
 
@@ -288,6 +289,19 @@
             <li><strong>S</strong> est la surface interne du piston de la seringue, calculable à partir de son diamètre interne d : S = π × (d/2)².</li>
             <li><strong>F</strong> est la force pressante exercée sur ce piston : elle se déduit de la pression P lue sur le capteur ou le manomètre, grâce à F = P × S.</li>
           </ul>
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+
+        <ol class="etapes">
+          <li>Mesurer la pression exercée par un vérin ou une presse sur une surface connue.</li>
+          <li>Choisir l'un des deux dispositifs (capteur numérique ou vérin à vis + manomètre analogique) et fermer le robinet de la seringue pour enfermer une quantité d'air.</li>
+          <li>Déplacer progressivement le piston (à la main ou à l'aide de la vis) pour imposer différents volumes ; relever à chaque fois le volume V et la pression P dans le tableau de mesures.</li>
+          <li>Calculer le produit P × V pour chaque mesure et comparer avec la pression prédite par la loi de Boyle-Mariotte.</li>
+        </ol>
+
+        <div class="mode-op">
+          <img src="./assets/images/m3-pression.png" alt="Mode opératoire — pression, force pressante et loi de Boyle-Mariotte" class="mode-image">
         </div>
 
         <h4 style="margin-top:var(--gap-lg);">Calculer S à partir du diamètre du piston</h4>
@@ -480,18 +494,6 @@
           <canvas id="bm-canvas-courbe"></canvas>
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>Mesurer la pression exercée par un vérin ou une presse sur une surface connue.</li>
-          <li>Choisir l'un des deux dispositifs (capteur numérique ou vérin à vis + manomètre analogique) et fermer le robinet de la seringue pour enfermer une quantité d'air.</li>
-          <li>Déplacer progressivement le piston (à la main ou à l'aide de la vis) pour imposer différents volumes ; relever à chaque fois le volume V et la pression P dans le tableau de mesures.</li>
-          <li>Calculer le produit P × V pour chaque mesure et comparer avec la pression prédite par la loi de Boyle-Mariotte.</li>
-        </ol>
-
-        <div class="mode-op">
-          <img src="./assets/images/m3-pression.png" alt="Mode opératoire — pression, force pressante et loi de Boyle-Mariotte" class="mode-image">
-        </div>
 
       </div>
 
@@ -509,6 +511,15 @@
           pressiomètre Jeulin (réf. 251 181) relié en USB à
           l'ordinateur, afin de vérifier la loi de Boyle-Mariotte.
         </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+
+        <ol class="etapes">
+          <li>Relier le pressiomètre Jeulin (réf. 251 181) à l'ordinateur par le câble USB, puis cliquer sur « Connecter l'appareil (USB) » et autoriser l'accès dans la fenêtre proposée par le navigateur (« Pressiometre » — Jeulin).</li>
+          <li>Ajuster le piston de la seringue sur le volume demandé (ligne surlignée du tableau), attendre la stabilisation de la pression instantanée affichée.</li>
+          <li>Valider la mesure avec la touche Entrée (ou le bouton « Valider ») : la ligne se remplit et le tableau passe automatiquement au volume suivant.</li>
+          <li>Recommencer pour chaque volume atteignable, puis observer la courbe P = f(V) et le produit P × V obtenus.</li>
+        </ol>
 
         <div class="info exaop-navigateur-requis">
           <strong>Navigateur requis :</strong> le pressiomètre Jeulin
@@ -679,64 +690,8 @@
           <canvas id="exaop-canvas-courbe"></canvas>
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>Relier le pressiomètre Jeulin (réf. 251 181) à l'ordinateur par le câble USB, puis cliquer sur « Connecter l'appareil (USB) » et autoriser l'accès dans la fenêtre proposée par le navigateur (« Pressiometre » — Jeulin).</li>
-          <li>Ajuster le piston de la seringue sur le volume demandé (ligne surlignée du tableau), attendre la stabilisation de la pression instantanée affichée.</li>
-          <li>Valider la mesure avec la touche Entrée (ou le bouton « Valider ») : la ligne se remplit et le tableau passe automatiquement au volume suivant.</li>
-          <li>Recommencer pour chaque volume atteignable, puis observer la courbe P = f(V) et le produit P × V obtenus.</li>
-        </ol>
 
       </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="resultats">
-
-  <div class="section-titre">
-    <div class="picto-section">📊</div>
-    <h2>Tableau de résultats</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="table-responsive">
-
-      <table class="tableau-resultats">
-
-        <thead>
-          <tr>
-            <th>Grandeur</th>
-            <th>Résultat</th>
-          </tr>
-        </thead>
-
-        <tbody>
-
-          <tr>
-            <td>Accélération moyenne mesurée</td>
-            <td><input type="text" placeholder="m/s²"></td>
-          </tr>
-
-          <tr>
-            <td>Nature du mouvement</td>
-            <td><input type="text" placeholder="uniforme / accéléré / ralenti"></td>
-          </tr>
-
-          <tr>
-            <td>Pression calculée (F/S)</td>
-            <td><input type="text" placeholder="Pa"></td>
-          </tr>
-
-        </tbody>
-
-      </table>
 
     </div>
 
@@ -810,11 +765,6 @@
 
     </div>
 
-    <h3 style="margin-top:var(--gap-md);">Résumé du TP</h3>
-
-    <div class="zone-eleve">
-      <textarea id="resume-tp" rows="6" placeholder="Résumer les mesures d'accélération et l'étude de la pression réalisées..."></textarea>
-    </div>
 
     <h3 style="margin-top:var(--gap-md);">Questions</h3>
 
@@ -995,9 +945,8 @@
     <div class="info" style="margin-top:var(--gap-md);">
       L'impression récupère automatiquement :
       <ul>
-        <li>l'accélération calculée ;</li>
-        <li>la pression calculée et la vérification de Boyle-Mariotte ;</li>
-        <li>les résultats du tableau et les réponses aux questions ;</li>
+        <li>les mesures de pression (loi de Boyle-Mariotte et acquisition ExAO) et leurs courbes ;</li>
+        <li>les réponses aux questions ;</li>
         <li>l'auto-évaluation des compétences.</li>
       </ul>
     </div>

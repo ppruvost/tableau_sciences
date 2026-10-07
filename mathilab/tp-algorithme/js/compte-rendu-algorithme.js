@@ -23,21 +23,11 @@ function valeur(el) {
   return (el?.value || '').trim();
 }
 
-// Résumé du TD, en texte libre.
-function construireSectionResume() {
-
-  const zone = document.getElementById('resume-tp');
-
-  if (!zone) return null;
-
-  return { titre: 'Résumé du TD', texte: valeur(zone) };
-}
-
 // Une section par exercice de code (.code-exercice) de l'activité réalisée :
 // le programme Python final écrit/modifié par l'élève avant envoi vers PyLab.
 // Les codes des fiches puzzle ne sont repris que s'ils sont remplis.
 // Le résultat d'exécution reste dans l'onglet PyLab (outil externe,
-// comme NumWorks) — à reporter à la main dans le tableau de résultats.
+// comme NumWorks) — à reporter à la main dans les réponses aux questions.
 function construireSectionsCode() {
 
   const panneaux = panneauxActiviteChoisie();
@@ -77,7 +67,6 @@ export function initImpressionCompteRendu({ titre, tp }) {
     const sections = [
       ...construireSectionsCode(),
       ...construireSectionsQuestionsActivite(),
-      construireSectionResume(),
     ].filter(Boolean);
 
     genererCompteRendu({

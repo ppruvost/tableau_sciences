@@ -142,6 +142,13 @@
               automatiquement.
             </div>
 
+            <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
+            <ol class="etapes" style="margin-bottom:var(--gap-lg);">
+              <li>Identifier le capital initial c0 et le taux par période t de la situation.</li>
+              <li>Appliquer la formule cn = c0 × (1 + t × n).</li>
+              <li>Un taux proportionnel se déduit d'un taux annuel par simple division.</li>
+            </ol>
+
             <div class="form-row">
               <div class="form-group"><label for="is-c0">Capital initial c0 (€)</label><input id="is-c0" type="number" step="10" value="5000"></div>
               <div class="form-group"><label for="is-t">Taux par période t (ex. 0,03 pour 3 %)</label><input id="is-t" type="number" step="0.001" value="0.03"></div>
@@ -172,12 +179,6 @@
 
             <div id="tp-resultat" class="info"></div>
 
-            <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
-            <ol class="etapes">
-              <li>Identifier le capital initial c0 et le taux par période t de la situation.</li>
-              <li>Appliquer la formule cn = c0 × (1 + t × n).</li>
-              <li>Un taux proportionnel se déduit d'un taux annuel par simple division.</li>
-            </ol>
 
           </div>
 
@@ -191,6 +192,13 @@
               quantité x : le coût total, le coût marginal (exact et approché par la
               dérivée) et le coût moyen unitaire se calculent automatiquement.
             </div>
+
+            <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
+            <ol class="etapes" style="margin-bottom:var(--gap-lg);">
+              <li>Le coût marginal exact Cm(x) = C(x + 1) − C(x) mesure le coût de production d'une unité supplémentaire.</li>
+              <li>Le coût marginal approché C'(x) (dérivée) donne une bonne approximation de Cm(x) pour x assez grand.</li>
+              <li>Le coût moyen unitaire C(x) / x permet de comparer le coût par pièce selon la quantité produite.</li>
+            </ol>
 
             <div class="form-row">
               <div class="form-group"><label for="ct-a">a</label><input id="ct-a" type="number" step="0.01" value="0.5"></div>
@@ -210,12 +218,6 @@
               </table>
             </div>
 
-            <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
-            <ol class="etapes">
-              <li>Le coût marginal exact Cm(x) = C(x + 1) − C(x) mesure le coût de production d'une unité supplémentaire.</li>
-              <li>Le coût marginal approché C'(x) (dérivée) donne une bonne approximation de Cm(x) pour x assez grand.</li>
-              <li>Le coût moyen unitaire C(x) / x permet de comparer le coût par pièce selon la quantité produite.</li>
-            </ol>
 
           </div>
 
@@ -228,6 +230,13 @@
               Saisir le capital initial c0, le taux par période t et le nombre de
               périodes n : le capital final cn = c0 (1 + t)ⁿ se calcule automatiquement.
             </div>
+
+            <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
+            <ol class="etapes" style="margin-bottom:var(--gap-lg);">
+              <li>Identifier le capital initial c0 et le taux par période t de la situation.</li>
+              <li>Appliquer la formule cn = c0 (1 + t)ⁿ pour calculer le capital après n périodes.</li>
+              <li>Pour trouver la durée nécessaire, utiliser le logarithme : n = log(cible / c0) / log(1 + t).</li>
+            </ol>
 
             <div class="form-row">
               <div class="form-group"><label for="ic-c0">Capital initial c0 (€)</label><input id="ic-c0" type="number" step="10" value="5000"></div>
@@ -253,12 +262,6 @@
 
             <div id="ic-resultat-duree" class="info"></div>
 
-            <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
-            <ol class="etapes">
-              <li>Identifier le capital initial c0 et le taux par période t de la situation.</li>
-              <li>Appliquer la formule cn = c0 (1 + t)ⁿ pour calculer le capital après n périodes.</li>
-              <li>Pour trouver la durée nécessaire, utiliser le logarithme : n = log(cible / c0) / log(1 + t).</li>
-            </ol>
 
           </div>
 
@@ -272,6 +275,13 @@
               choisir le mode de remboursement : le tableau d'amortissement et le coût
               total de l'emprunt se calculent automatiquement.
             </div>
+
+            <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
+            <ol class="etapes" style="margin-bottom:var(--gap-lg);">
+              <li>Distinguer les deux modes : annuités constantes (annuité fixe, amortissement variable) et amortissement constant (amortissement fixe, annuité variable).</li>
+              <li>Compléter chaque ligne du tableau à partir du capital restant dû en début de période.</li>
+              <li>Le coût de l'emprunt est la somme de tous les intérêts versés sur la durée.</li>
+            </ol>
 
             <div class="form-row">
               <div class="form-group"><label for="am-capital">Capital emprunté (€)</label><input id="am-capital" type="number" step="100" value="10000"></div>
@@ -323,12 +333,6 @@
 
             <div id="tm-resultat" class="info"></div>
 
-            <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
-            <ol class="etapes">
-              <li>Distinguer les deux modes : annuités constantes (annuité fixe, amortissement variable) et amortissement constant (amortissement fixe, annuité variable).</li>
-              <li>Compléter chaque ligne du tableau à partir du capital restant dû en début de période.</li>
-              <li>Le coût de l'emprunt est la somme de tous les intérêts versés sur la durée.</li>
-            </ol>
 
           </div>
 
@@ -354,10 +358,6 @@
                 <p class="info puzzle-contexte" id="puzzle-a-contexte"></p>
                 <p class="puzzle-problematique" id="puzzle-a-problematique"></p>
                 <ol id="puzzle-a-enonce" class="puzzle-questions"></ol>
-                <div class="form-row">
-                  <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-                  <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-                </div>
                 <div class="zone-eleve"><textarea id="puzzle-a-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
               </li></ol>
             </div>
@@ -372,10 +372,6 @@
                 <p class="info puzzle-contexte" id="puzzle-b-contexte"></p>
                 <p class="puzzle-problematique" id="puzzle-b-problematique"></p>
                 <ol id="puzzle-b-enonce" class="puzzle-questions"></ol>
-                <div class="form-row">
-                  <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-                  <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-                </div>
                 <div class="zone-eleve"><textarea id="puzzle-b-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
               </li></ol>
             </div>
@@ -390,10 +386,6 @@
                 <p class="info puzzle-contexte" id="puzzle-c-contexte"></p>
                 <p class="puzzle-problematique" id="puzzle-c-problematique"></p>
                 <ol id="puzzle-c-enonce" class="puzzle-questions"></ol>
-                <div class="form-row">
-                  <div class="form-group"><label>Groupe</label><input type="text" placeholder="A, B, C..."></div>
-                  <div class="form-group"><label>Rôle (roue)</label><input type="text" placeholder="Rapporteur, Médiateur..."></div>
-                </div>
                 <div class="zone-eleve"><textarea id="puzzle-c-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
               </li></ol>
             </div>
@@ -418,57 +410,7 @@
 
 </div>
 
-<div class="section" data-type="resultats">
 
-  <div class="section-titre">
-    <div class="picto-section">📋</div>
-    <h2>Tableau de résultats</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="table-responsive">
-      <table class="tableau-resultats">
-        <thead><tr><th>Grandeur</th><th>Résultat</th></tr></thead>
-        <tbody>
-          <tr><td>Capital obtenu à intérêts simples (1ère)</td><td><input type="text" placeholder="valeur en €"></td></tr>
-          <tr><td>Coût marginal / coût moyen étudié (1ère)</td><td><input type="text" placeholder="valeur en €"></td></tr>
-          <tr><td>Capital obtenu à intérêts composés (Tle)</td><td><input type="text" placeholder="valeur en €"></td></tr>
-          <tr><td>Coût total de l'emprunt étudié (Tle)</td><td><input type="text" placeholder="valeur en €"></td></tr>
-        </tbody>
-      </table>
-    </div>
-
-  </div>
-
-</div>
-
-<div class="section" data-type="lien-metiers">
-
-  <div class="section-titre">
-    <div class="picto-section">🔗</div>
-    <h2>Mathématiques et sciences : un même langage</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <p>
-      Un capital placé ou emprunté évolue comme une suite arithmétique (intérêts
-      simples) ou géométrique (intérêts composés) de raison (1 + t) : cn = c0 (1 + t)ⁿ
-      prolonge la formule un = u0 × qⁿ étudiée en TD02.
-    </p>
-
-    <ul style="padding-left:1.5rem;line-height:2">
-      <li>Le <strong>taux par période</strong> joue le rôle de la raison d'une suite arithmétique (intérêts simples) ou géométrique (intérêts composés).</li>
-      <li>Le <strong>coût marginal</strong> se rapproche de la dérivée du coût total, comme étudié en TD03.</li>
-      <li>Un <strong>tableau d'amortissement</strong> permet de suivre, période après période, le capital restant dû d'un emprunt.</li>
-    </ul>
-
-  </div>
-
-</div>
 
 <div class="section" data-type="bilan">
 
@@ -489,11 +431,6 @@
       <div class="form-group"><label for="date-eleve">Date</label><input id="date-eleve" type="date"></div>
     </div>
 
-    <h3 style="margin-top:var(--gap-md);">Résumé du TD</h3>
-
-    <div class="zone-eleve">
-      <textarea id="resume-tp" rows="6" placeholder="Résumer les calculs d'intérêts, de coûts et la construction du tableau d'amortissement..."></textarea>
-    </div>
 
     <h3 style="margin-top:var(--gap-md);">Questions</h3>
 
@@ -720,7 +657,6 @@
     <div class="info" style="margin-top:var(--gap-md);">
       L'impression récupère automatiquement :
       <ul>
-        <li>le tableau de résultats ;</li>
         <li>les réponses aux questions ;</li>
         <li>l'auto-évaluation des compétences.</li>
       </ul>
