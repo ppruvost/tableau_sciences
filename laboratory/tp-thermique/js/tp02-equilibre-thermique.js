@@ -75,9 +75,6 @@ function initMelange() {
   const outputTfTheo = $('melange-tf-theo');
   const inputTfExp = $('melange-tf-exp');
   const outputEcart = $('melange-ecart');
-  const tableTfTheo = $('table-tf-theo');
-  const tableTfExp = $('table-tf-exp');
-  const tableTfEcart = $('table-tf-ecart');
 
   if (!inputM1 || !inputT1 || !inputM2 || !inputT2 || !outputTfTheo) return;
 
@@ -92,20 +89,16 @@ function initMelange() {
 
     if ([m1, t1, m2, t2].some(Number.isNaN) || (m1 + m2) === 0) {
       outputTfTheo.textContent = '—';
-      if (tableTfTheo) tableTfTheo.textContent = '—';
       dernierTfTheo = null;
       calculerEcart();
-      calculerEcartTableau();
       return;
     }
 
     dernierTfTheo = (m1 * t1 + m2 * t2) / (m1 + m2);
 
     outputTfTheo.textContent = `${arrondir(dernierTfTheo, 1)} °C`;
-    if (tableTfTheo) tableTfTheo.textContent = `${arrondir(dernierTfTheo, 1)} °C`;
 
     calculerEcart();
-    calculerEcartTableau();
   }
 
   function calculerEcart() {
@@ -125,31 +118,11 @@ function initMelange() {
     outputEcart.textContent = `${signe}${arrondir(ecart, 1)} °C`;
   }
 
-  // Ligne "Température finale du mélange" du Tableau de résultats :
-  // champ expérimental indépendant de celui de l'onglet Manipulations.
-  function calculerEcartTableau() {
-
-    if (!tableTfEcart || !tableTfExp) return;
-
-    const exp = parseFloat(tableTfExp.value);
-
-    if (dernierTfTheo === null || Number.isNaN(exp)) {
-      tableTfEcart.textContent = '—';
-      return;
-    }
-
-    const ecart = exp - dernierTfTheo;
-    const signe = ecart >= 0 ? '+' : '';
-
-    tableTfEcart.textContent = `${signe}${arrondir(ecart, 1)} °C`;
-  }
-
   [inputM1, inputT1, inputM2, inputT2].forEach(el =>
     el.addEventListener('input', calculerTheo)
   );
 
   if (inputTfExp) inputTfExp.addEventListener('input', calculerEcart);
-  if (tableTfExp) tableTfExp.addEventListener('input', calculerEcartTableau);
 
   calculerTheo();
 }
@@ -164,7 +137,6 @@ function initEnergie() {
   const inputC = $('energie-c');
   const inputDeltaT = $('energie-delta-t');
   const outputQ = $('energie-q');
-  const tableQTheo = $('table-q-theo');
 
   if (!inputMasse || !inputC || !inputDeltaT || !outputQ) return;
 
@@ -176,7 +148,6 @@ function initEnergie() {
 
     if ([masseG, c, deltaT].some(Number.isNaN)) {
       outputQ.textContent = '—';
-      if (tableQTheo) tableQTheo.textContent = '—';
       return;
     }
 
@@ -184,7 +155,6 @@ function initEnergie() {
     const q = masseKg * c * deltaT;
 
     outputQ.textContent = `${arrondir(q, 0)} J`;
-    if (tableQTheo) tableQTheo.textContent = `${arrondir(q, 0)} J`;
   }
 
   [inputMasse, inputC, inputDeltaT].forEach(el =>

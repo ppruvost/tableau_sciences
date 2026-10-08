@@ -46,7 +46,6 @@ export function init() {
   initCaracteristiqueEclairement();
   initCaracteristiqueLongueurOnde();
   initEnergiePhoton();
-  initTableauEcarts();
 
   initMateriel({
     equipementId: 'materiel-equipements',
@@ -198,33 +197,3 @@ function initEnergiePhoton() {
   });
 }
 
-// =================================================================
-// Tableau de résultats — écart énergie photon attendue/calculée
-// =================================================================
-function initTableauEcarts() {
-
-  const inputRef = $('ref-energie-photon');
-  const inputMesuree = $('mesuree-energie-photon');
-  const outputEcart = $('ecart-energie-photon');
-
-  if (!inputRef || !inputMesuree || !outputEcart) return;
-
-  function calculer() {
-
-    const ref = parseFloat(inputRef.value);
-    const mesuree = parseFloat(inputMesuree.value);
-
-    if (Number.isNaN(ref) || Number.isNaN(mesuree)) {
-      outputEcart.textContent = '—';
-      return;
-    }
-
-    const ecart = mesuree - ref;
-    const signe = ecart >= 0 ? '+' : '';
-
-    outputEcart.textContent = `${signe}${ecart.toExponential(2)} J`;
-  }
-
-  inputRef.addEventListener('input', calculer);
-  inputMesuree.addEventListener('input', calculer);
-}

@@ -3,148 +3,82 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Le défi du plan de travail — MLDS Maths — MathiLab</title>
-
-<link rel="stylesheet" href="css/defi-collectif.css">
+<title>Ma fiche-outil — MLDS Maths — MathiLab</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/fiche-outil.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
 </head>
 <body>
 
-<header class="entete-defi">
-  <h1><i class="fa-solid fa-people-group"></i> Le défi du plan de travail</h1>
-  <p>À faire à deux ou en petit groupe. Pas de bonne ou de mauvaise réponse immédiate : on manipule, on essaie, on discute.</p>
-  <a href="index.html" class="lien-retour"><i class="fa-solid fa-arrow-left"></i> Retour aux ateliers</a>
-  <a href="fiche-defi.html" target="_blank" rel="noopener" class="lien-retour"><i class="fa-solid fa-print"></i> Ma fiche à imprimer</a>
+<div class="barre-actions">
+  <a href="index.html" class="btn-barre"><i class="fa-solid fa-arrow-left"></i> Retour aux ateliers</a>
+  <button type="button" onclick="window.print();"><i class="fa-solid fa-print"></i> Imprimer la fiche</button>
+</div>
+
+<header class="entete-fiche">
+  <h1><i class="fa-solid fa-utensils"></i> Ma fiche-outil — Les maths de la cuisine</h1>
+  <p>Les méthodes des quatre ateliers, sur une seule page. À garder à côté de toi pendant les recettes.</p>
 </header>
 
-<main id="content">
+<main class="fiche">
 
-  <section class="carte">
-    <h2><i class="fa-solid fa-lightbulb"></i> La situation</h2>
-    <p>
-      Dans la salle B27, le plan de travail près du micro-ondes est une grille carrée de petites
-      cases. Il faut y ranger des <strong>plats rectangulaires</strong> (chacun occupe exactement
-      <strong>2 cases</strong> voisines), tout autour du <strong>four à micro-ondes</strong>
-      (<i class="fa-solid fa-mug-hot"></i>) qui, lui, bloque toujours une case.
-    </p>
-    <p>
-      <strong>Question à explorer en groupe :</strong> arrive-t-on <em>toujours</em> à recouvrir
-      entièrement le reste du plan de travail avec des plats, quelle que soit la taille de la
-      grille et la position du four ? Manipule la grille ci-dessous pour chercher.
-    </p>
+  <section class="bloc-fiche prop">
+    <h2><i class="fa-solid fa-scale-balanced"></i> Adapter une recette (proportionnalité)</h2>
+    <ol>
+      <li>Repère la quantité pour <strong>1 part</strong> (ou pour le nombre de personnes de départ).</li>
+      <li>Calcule par <strong>combien</strong> tu multiplies (ou divises) le nombre de personnes.</li>
+      <li>Multiplie (ou divise) <strong>toutes</strong> les quantités par ce même nombre.</li>
+    </ol>
+    <p class="exemple"><strong>Exemple :</strong> le mug cake utilise 30 g de chocolat pour 1 portion. Pour 3 portions : 30 × 3 = <strong>90 g</strong>.</p>
   </section>
 
-  <section class="carte">
-    <h2><i class="fa-solid fa-table-cells"></i> Le plan de travail</h2>
-
-    <div class="controles">
-      <button type="button" data-taille="3" id="btn-taille-3">Grille 3 × 3</button>
-      <button type="button" data-taille="5" id="btn-taille-5">Grille 5 × 5</button>
-      <button type="button" id="btn-deplacer-four"><i class="fa-solid fa-mug-hot"></i> Déplacer le four</button>
-      <button type="button" id="btn-effacer-plats"><i class="fa-solid fa-eraser"></i> Retirer tous les plats</button>
-    </div>
-
-    <div class="zone-grille">
-      <div id="grille-defi" class="grille-defi"></div>
-      <p id="statut-grille" class="statut-grille"></p>
-      <p id="message-defi" class="message-defi" aria-live="polite"></p>
-    </div>
-
-    <p class="note-conjecture" style="margin-top:14px;">
-      <i class="fa-solid fa-circle-info"></i>
-      Clique sur une case libre puis sur une case juste à côté (pas en diagonale) pour poser un
-      plat. Clique sur un plat déjà posé pour le retirer.
-    </p>
+  <section class="bloc-fiche conv">
+    <h2><i class="fa-solid fa-ruler-combined"></i> Le bon dosage (conversions)</h2>
+    <table class="tableau-conversions">
+      <thead><tr><th>Pour passer de…</th><th>à…</th><th>Je fais…</th></tr></thead>
+      <tbody>
+        <tr><td>minutes</td><td>secondes</td><td>× 60</td></tr>
+        <tr><td>secondes</td><td>minutes</td><td>÷ 60</td></tr>
+        <tr><td>centilitres (cl)</td><td>litres (L)</td><td>÷ 100</td></tr>
+        <tr><td>grammes (g)</td><td>kilogrammes (kg)</td><td>÷ 1 000</td></tr>
+        <tr><td>1 cuillère à soupe</td><td>cuillères à café</td><td>= 3 c.à.c</td></tr>
+      </tbody>
+    </table>
+    <p class="exemple"><strong>Exemple :</strong> 1 min 30 = 60 s + 30 s = <strong>90 s</strong>. Et 50 cl = 50 ÷ 100 = <strong>0,5 L</strong>.</p>
   </section>
 
-  <section class="carte">
-    <h2><i class="fa-solid fa-comments"></i> Questions à discuter en groupe</h2>
-
-    <p class="note-conjecture">
-      <i class="fa-solid fa-print"></i>
-      Tu préfères écrire sur papier ? Ouvre la <a href="fiche-defi.html" target="_blank" rel="noopener">fiche à imprimer</a>
-      (grilles à dessiner, tableau des essais, conjecture) : elle n'est pas notée.
-    </p>
-
-    <div class="questions-guidees">
-
-      <details>
-        <summary>1. Four au centre d'une grille 3 × 3</summary>
-        <p>Place le four au centre de la grille 3 × 3 (position de départ). Essayez de recouvrir
-        toutes les autres cases avec des plats. Est-ce possible ?</p>
-        <details>
-          <summary>Un indice si vous êtes bloqués</summary>
-          <p>Comptez combien de cases il reste à recouvrir une fois le four posé. Un plat couvre
-          toujours 2 cases : ce nombre de cases restantes est-il pair ou impair ?</p>
-        </details>
-      </details>
-
-      <details>
-        <summary>2. Four dans un coin</summary>
-        <p>Utilisez le bouton « Déplacer le four » pour le mettre dans un coin de la grille 3 × 3.
-        Essayez à nouveau de tout recouvrir. Qu'est-ce qui change (ou pas) ?</p>
-        <details>
-          <summary>Un indice si vous êtes bloqués</summary>
-          <p>Essayez plusieurs coins, puis un bord (ni coin, ni centre). Notez à chaque fois si
-          vous réussissez.</p>
-        </details>
-      </details>
-
-      <details>
-        <summary>3. Et sur une grille 5 × 5 ?</summary>
-        <p>Passez à la grille 5 × 5. Recommencez avec le four au centre, puis dans un coin. Que
-        remarquez-vous par rapport à la grille 3 × 3 ?</p>
-        <details>
-          <summary>Un indice si vous êtes bloqués</summary>
-          <p>Combien y a-t-il de cases en tout dans une grille 5 × 5 ? Une fois le four posé,
-          combien en reste-t-il ? Ce nombre est-il pair ou impair ?</p>
-        </details>
-      </details>
-
-      <details class="conjecture-finale">
-        <summary>4. Votre conjecture</summary>
-        <p>D'après tous vos essais, à quelle condition arrive-t-on <em>toujours</em> à recouvrir
-        entièrement le plan de travail, quelle que soit la position du four ? Écrivez votre
-        réponse ci-dessous avant d'en discuter avec un autre groupe ou votre professeur.</p>
-        <textarea class="zone-conjecture" placeholder="Notre conjecture : ..." aria-label="Zone pour écrire votre conjecture"></textarea>
-        <p class="note-conjecture">
-          Ce que tu écris ici reste uniquement dans ton navigateur, le temps de la séance : rien
-          n'est envoyé ni enregistré. Pense à la recopier si tu veux la garder.
-        </p>
-
-        <details>
-          <summary>Une piste (à lire seulement après avoir cherché !)</summary>
-          <p>
-            Un plat couvre toujours un nombre <strong>pair</strong> de cases. Sur une grille de
-            côté impair (3, 5, 7...), le nombre total de cases est impair ; une fois le four posé,
-            il reste donc un nombre <strong>pair</strong> de cases — c'est encourageant, mais cela
-            ne suffit pas toujours à garantir la réussite : la <em>position</em> du four compte
-            aussi. Essayez de justifier avec votre groupe pourquoi certaines positions
-            fonctionnent et d'autres non, en observant vos grilles comme un damier (cases claires
-            / cases foncées en alternance).
-          </p>
-        </details>
-      </details>
-
-    </div>
+  <section class="bloc-fiche pct">
+    <h2><i class="fa-solid fa-percent"></i> Ajuster une recette (pourcentages)</h2>
+    <ol>
+      <li><strong>Trouver le pourcentage d'une quantité :</strong> quantité × pourcentage ÷ 100.</li>
+      <li><strong>Diminuer :</strong> quantité de départ − le résultat du calcul.</li>
+      <li><strong>Augmenter :</strong> quantité de départ + le résultat du calcul.</li>
+    </ol>
+    <p class="exemple"><strong>Repères :</strong> 10 % = ÷ 10 ; 50 % = la moitié ; 100 % = le double une fois ajouté.<br>
+    <strong>Exemple :</strong> retirer 20 % de 125 g de sucre : 125 × 20 ÷ 100 = 25 g, donc 125 − 25 = <strong>100 g</strong>.</p>
   </section>
 
-  <p class="pied-source-defi">
-    <i class="fa-solid fa-book"></i>
-    Ce défi est directement inspiré du problème « Paver la cuisine » présenté dans :
-    GIGANT, Gauthier. <em>Le décrochage scolaire : maintenir l'intérêt des décrocheurs en
-    mathématiques.</em> Mémoire de master MEEF second degré mathématiques, INSPE de l'académie de
-    Besançon — Université de Franche-Comté, 2021 —
-    <a href="https://dumas.ccsd.cnrs.fr/dumas-03810176v1" target="_blank" rel="noopener">
-      dumas-03810176 sur HAL
-    </a>.
-    L'auteur y montre que ce type de séance de jeu manipulable en groupe a engagé des élèves à
-    risque de décrochage bien davantage qu'un parcours d'exercices individuel, en leur permettant
-    de participer et de raisonner sans craindre l'erreur.
-  </p>
+  <section class="bloc-fiche frac">
+    <h2><i class="fa-solid fa-mortar-pestle"></i> Doser comme un pro (fractions)</h2>
+    <p>Une fraction se lit « nombre de parts prises / nombre de parts au total ».</p>
+    <div class="fractions-visuelles">
+      <div class="fraction-item">
+        <div class="barre-fraction"><span></span><span class="vide"></span></div>
+        1/2
+      </div>
+      <div class="fraction-item">
+        <div class="barre-fraction"><span></span><span></span><span class="vide"></span></div>
+        2/3
+      </div>
+      <div class="fraction-item">
+        <div class="barre-fraction"><span></span><span class="vide"></span><span class="vide"></span><span class="vide"></span></div>
+        1/4
+      </div>
+    </div>
+    <p class="exemple"><strong>Exemple :</strong> cuisiner pour 2 personnes quand la recette est prévue pour 4 : 2/4 = <strong>1/2</strong> de la recette.</p>
+  </section>
 
 </main>
 
-<script src="js/defi-collectif.js"></script>
 </body>
 </html>

@@ -67,7 +67,6 @@ export function init() {
   initNiveauDepuisPression();
   initNiveauDepuisIntensite();
   initAttenuationDistance();
-  initTableauEcarts();
 
   initMateriel({
     equipementId: 'materiel-equipements',
@@ -201,33 +200,3 @@ function redessinerTableauAttenuation(tbody, points) {
   });
 }
 
-// =================================================================
-// Tableau de résultats — écart entre niveau attendu et mesuré
-// =================================================================
-function initTableauEcarts() {
-
-  const inputRef = $('ref-niveau-reference');
-  const inputMesuree = $('mesuree-niveau-reference');
-  const outputEcart = $('ecart-niveau-reference');
-
-  if (!inputRef || !inputMesuree || !outputEcart) return;
-
-  function calculer() {
-
-    const ref = parseFloat(inputRef.value);
-    const mesuree = parseFloat(inputMesuree.value);
-
-    if (Number.isNaN(ref) || Number.isNaN(mesuree)) {
-      outputEcart.textContent = '—';
-      return;
-    }
-
-    const ecart = mesuree - ref;
-    const signe = ecart >= 0 ? '+' : '';
-
-    outputEcart.textContent = `${signe}${arrondir(ecart, 1)} dB`;
-  }
-
-  inputRef.addEventListener('input', calculer);
-  inputMesuree.addEventListener('input', calculer);
-}

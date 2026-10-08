@@ -45,7 +45,6 @@ export function init() {
   initPt100();
   initThermocouple();
   initIRCristaux();
-  initTableauEcarts();
 
   initMateriel({
     verreId: 'materiel-verrerie',
@@ -300,41 +299,4 @@ function initIRCristaux() {
 
   inputIR.addEventListener('input', calculer);
   inputContact.addEventListener('input', calculer);
-}
-
-// =================================================================
-// Tableau de résultats — calcul automatique de l'écart
-// (référence vs mesurée) pour les 4 capteurs comparés
-// =================================================================
-const CAPTEURS_TABLEAU = ['thermistance', 'pt100', 'thermocouple', 'infrarouge'];
-
-function initTableauEcarts() {
-
-  CAPTEURS_TABLEAU.forEach(capteur => {
-
-    const inputRef = $(`ref-${capteur}`);
-    const inputMesuree = $(`mesuree-${capteur}`);
-    const outputEcart = $(`ecart-${capteur}`);
-
-    if (!inputRef || !inputMesuree || !outputEcart) return;
-
-    function calculer() {
-
-      const ref = parseFloat(inputRef.value);
-      const mesuree = parseFloat(inputMesuree.value);
-
-      if (Number.isNaN(ref) || Number.isNaN(mesuree)) {
-        outputEcart.textContent = '—';
-        return;
-      }
-
-      const ecart = mesuree - ref;
-      const signe = ecart >= 0 ? '+' : '';
-
-      outputEcart.textContent = `${signe}${arrondir(ecart, 2)} °C`;
-    }
-
-    inputRef.addEventListener('input', calculer);
-    inputMesuree.addEventListener('input', calculer);
-  });
 }

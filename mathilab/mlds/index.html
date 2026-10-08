@@ -3,193 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MLDS Maths — Coup de pouce cuisine — MathiLab</title>
-
+<title>MLDS Maths — Ateliers cuisine — MathiLab</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
 </head>
 <body>
 
-<!-- ====== BANDEAU DU DOMAINE (même structure que tp-statistiques, tp-algebre…) ====== -->
-<header>
-  <h1>
-    <span>MLDS Maths — Coup de pouce cuisine :</span>
-    <span>Comment reprendre en douceur les maths du quotidien (proportionnalité, conversions, pourcentages, fractions) à partir de recettes sucrées au micro-ondes ?</span>
-  </h1>
-  <div class="progress">
-    <div id="bar"></div>
-  </div>
+<header class="entete-mlds">
+  <h1><i class="fa-solid fa-utensils"></i> MLDS Maths — Ateliers cuisine</h1>
+  <p>Des maths avec des recettes au micro-ondes. Pas de note : on essaie, on lit l'explication, on recommence.</p>
+  <a href="../index.html" class="lien-retour"><i class="fa-solid fa-arrow-left"></i> Retour à MathiLab</a>
 </header>
 
-<!-- ====== NAVIGATION : un bouton par atelier, dans la couleur de sa notion ====== -->
-<nav>
-  <button type="button" class="active" data-vue="accueil">
-    <i class="fa-solid fa-house"></i> Accueil des ateliers
-  </button>
-  <button type="button" class="prop" data-atelier="proportionnalite">
-    M1. Adapter une recette : proportionnalité
-  </button>
-  <button type="button" class="conv" data-atelier="conversions">
-    M2. Le bon dosage : conversions d'unités
-  </button>
-  <button type="button" class="pct" data-atelier="pourcentages">
-    M3. Ajuster une recette : pourcentages
-  </button>
-  <button type="button" class="frac" data-atelier="fractions">
-    M4. Doser comme un pro : fractions et mesures
-  </button>
-  <button type="button" class="nav-ressource btn-fiche-outil">
-    <i class="fa-solid fa-life-ring"></i> Fiche outil (aide-mémoire)
-  </button>
-</nav>
+<main id="content" class="contenu-mlds">
 
-<main id="content">
+  <section id="vue-liste">
+    <h2 class="titre-section"><i class="fa-solid fa-list-check"></i> Choisis un atelier</h2>
+    <div id="ateliers-grille" class="ateliers-grille"></div>
 
-  <!-- ====== VUE ACCUEIL ====== -->
-  <section id="vue-accueil" class="vue vue-active">
-
-    <div class="section" data-type="objectif">
-      <div class="section-titre">
-        <div class="picto-section">🍰</div>
-        <h2>Choisis un atelier</h2>
-        <span class="chevron">▼</span>
-      </div>
-      <div class="section-corps">
-        <div id="grille-ateliers" class="grille-ateliers"></div>
-
-        <p class="aide-accueil">
-          <i class="fa-solid fa-circle-info"></i>
-          Chaque atelier compte 5 questions courtes, avec une explication à chaque réponse.
-          Il n'y a pas de note : tu peux recommencer un atelier autant de fois que tu veux.
-        </p>
-      </div>
-    </div>
-
-    <div class="section" data-type="environnement">
-      <div class="section-titre">
-        <div class="picto-section">👥</div>
-        <h2>Le défi du plan de travail</h2>
-        <span class="chevron">▼</span>
-      </div>
-      <div class="section-corps">
-        <p>
-          Une autre façon de faire des maths : à deux ou en petit groupe, sans QCM,
-          en manipulant des dominos pour explorer un vrai problème — pas de bonne
-          ou de mauvaise réponse immédiate, juste des essais et une découverte.
-        </p>
-        <a href="defi-collectif.html" target="_blank" rel="noopener" class="btn-principal">
-          <i class="fa-solid fa-arrow-up-right-from-square"></i> Lancer le défi
-        </a>
-      </div>
-    </div>
-
-  </section>
-
-  <!-- ====== VUE ATELIER (questions) ====== -->
-  <section id="vue-atelier" class="vue">
-
-    <div class="tp-header">
-      <div class="tp-header-logo">
-        <div class="logo"><span class="sci">Mathi</span><span class="Lab">Lab</span></div>
-      </div>
-      <div class="tp-header-centre">
-        <h1 id="atelier-titre"></h1>
-        <div class="tp-meta">
-          <div class="tp-row">
-            <span class="tag">MLDS</span>
-            <span class="tag" id="atelier-sous-titre"></span>
-            <span class="tag" id="atelier-nb"></span>
-          </div>
-        </div>
-      </div>
-      <div class="tp-header-numero">
-        <span class="tp-numero-txt" id="atelier-numero"></span>
-      </div>
-    </div>
-
-    <div class="barre-retour">
-      <button type="button" id="btn-retour-accueil" class="btn-retour">
-        <i class="fa-solid fa-arrow-left"></i> Tous les ateliers
-      </button>
-    </div>
-
-    <!-- Écran d'introduction de l'atelier -->
-    <div id="bloc-intro" class="section" data-type="objectif">
-      <div class="section-titre">
-        <div class="picto-section">🎯</div>
-        <h2>Objectif de l'atelier</h2>
-        <span class="chevron">▼</span>
-      </div>
-      <div class="section-corps">
-        <p id="atelier-intro"></p>
-        <button type="button" id="btn-commencer-atelier" class="btn-principal">
-          <i class="fa-solid fa-play"></i> Commencer
-        </button>
-      </div>
-    </div>
-
-    <!-- Écran de question -->
-    <div id="bloc-question" class="section cachee" data-type="protocole">
-      <div class="section-titre">
-        <div class="picto-section">✏️</div>
-        <h2 id="progression-texte">Question</h2>
-        <span class="chevron">▼</span>
-      </div>
-      <div class="section-corps">
-        <p id="enonce-question" class="enonce-question"></p>
-        <div id="zone-choix" class="zone-choix"></div>
-        <div id="zone-feedback" class="zone-feedback cachee"></div>
-        <button type="button" id="btn-suivant" class="btn-principal cachee"></button>
-      </div>
-    </div>
-
-  </section>
-
-  <!-- ====== VUE BILAN ====== -->
-  <section id="vue-recap" class="vue">
-    <div class="section" data-type="bilan">
-      <div class="section-titre">
-        <div class="picto-section">🏅</div>
-        <h2>Bilan de l'atelier</h2>
-        <span class="chevron">▼</span>
-      </div>
-      <div class="section-corps carte-recap">
-        <i class="fa-solid fa-medal"></i>
-        <p class="sous-cat" id="recap-titre"></p>
-        <p class="recap-score" id="recap-score-nb"></p>
-        <p id="recap-message"></p>
-        <div class="recap-actions">
-          <button type="button" id="btn-rejouer" class="btn-secondaire">
-            <i class="fa-solid fa-rotate-right"></i> Refaire l'atelier
-          </button>
-          <button type="button" id="btn-recap-accueil" class="btn-principal">
-            <i class="fa-solid fa-list"></i> Voir les autres ateliers
-          </button>
-        </div>
-      </div>
+    <h2 class="titre-section"><i class="fa-solid fa-compass"></i> Pour aller plus loin</h2>
+    <div class="liens-outils">
+      <a class="carte-lien" href="defi-collectif.html">
+        <i class="fa-solid fa-people-group"></i>
+        <span><strong>Le défi du plan de travail</strong><br>À faire en groupe, avec une grille à manipuler.</span>
+      </a>
+      <a class="carte-lien" href="fiche-outil.html" target="_blank" rel="noopener">
+        <i class="fa-solid fa-print"></i>
+        <span><strong>Fiche-outil à imprimer</strong><br>Les méthodes des 4 ateliers sur une page.</span>
+      </a>
+      <a class="carte-lien" href="fiche-defi.html" target="_blank" rel="noopener">
+        <i class="fa-solid fa-pencil"></i>
+        <span><strong>Fiche du défi à imprimer</strong><br>Grilles à dessiner, tableau des essais.</span>
+      </a>
+      <a class="carte-lien" href="parcours.html">
+        <i class="fa-solid fa-route"></i>
+        <span><strong>Générateur de parcours</strong><br>Pour l'enseignant : positionnement et plan de travail.</span>
+      </a>
     </div>
   </section>
 
-  <!-- ====== SOURCE PÉDAGOGIQUE ====== -->
-  <div class="card pied-source">
-    <p>
-      <i class="fa-solid fa-book"></i>
-      <strong>Source pédagogique :</strong> GIGANT, Gauthier. <em>Le décrochage scolaire : maintenir
-      l'intérêt des décrocheurs en mathématiques.</em> Mémoire de master MEEF second degré
-      mathématiques, INSPE de l'académie de Besançon — Université de Franche-Comté, 2021.
-      <a href="https://dumas.ccsd.cnrs.fr/dumas-03810176v1" target="_blank" rel="noopener">
-        Disponible sur HAL (dumas-03810176)
-      </a>.
-      Ce mémoire montre que, face à des élèves en risque de décrochage, une séance de jeu
-      mathématique manipulable en petit groupe engage bien davantage qu'un parcours d'exercices
-      individuel — d'où le « Défi du plan de travail » proposé ci-dessus, directement inspiré du
-      problème de pavage étudié par l'auteur.
-    </p>
-  </div>
+  <section id="vue-atelier" class="carte" hidden>
+    <button type="button" id="btn-retour-liste" class="btn-simple"><i class="fa-solid fa-arrow-left"></i> Tous les ateliers</button>
+    <div id="atelier-contenu" aria-live="polite"></div>
+  </section>
 
 </main>
 
 <script src="js/ateliers.js"></script>
-<script src="js/app.js"></script>
+<script src="js/ateliers-app.js"></script>
 </body>
 </html>

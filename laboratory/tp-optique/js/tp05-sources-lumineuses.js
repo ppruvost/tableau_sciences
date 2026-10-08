@@ -46,7 +46,6 @@ export function init() {
   initSpectresEmission();
   initEfficaciteEnergetique();
   initProprietesLaser();
-  initTableauEcarts();
 
   initMateriel({
     equipementId: 'materiel-equipements',
@@ -196,33 +195,3 @@ function initProprietesLaser() {
   inputLoin.addEventListener('input', calculer);
 }
 
-// =================================================================
-// Tableau de résultats — écart efficacité énergétique lampe LED
-// =================================================================
-function initTableauEcarts() {
-
-  const inputRef = $('ref-efficacite-led');
-  const inputMesuree = $('mesuree-efficacite-led');
-  const outputEcart = $('ecart-efficacite-led');
-
-  if (!inputRef || !inputMesuree || !outputEcart) return;
-
-  function calculer() {
-
-    const ref = parseFloat(inputRef.value);
-    const mesuree = parseFloat(inputMesuree.value);
-
-    if (Number.isNaN(ref) || Number.isNaN(mesuree)) {
-      outputEcart.textContent = '—';
-      return;
-    }
-
-    const ecart = mesuree - ref;
-    const signe = ecart >= 0 ? '+' : '';
-
-    outputEcart.textContent = `${signe}${arrondir(ecart, 1)} lm/W`;
-  }
-
-  inputRef.addEventListener('input', calculer);
-  inputMesuree.addEventListener('input', calculer);
-}

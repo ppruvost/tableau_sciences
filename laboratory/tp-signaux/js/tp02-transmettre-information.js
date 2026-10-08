@@ -55,7 +55,6 @@ export function init() {
   initPropagationLibreGuidee();
   initChaineGenerale();
   initFibreOptique();
-  initTableauEcarts();
 
   initMateriel({
     equipementId: 'materiel-equipements',
@@ -238,33 +237,3 @@ function initFibreOptique() {
   calculerAngleCritique();
 }
 
-// =================================================================
-// Tableau de résultats — écart entre angle critique attendu et calculé
-// =================================================================
-function initTableauEcarts() {
-
-  const inputRef = $('ref-angle-critique');
-  const inputMesuree = $('mesuree-angle-critique');
-  const outputEcart = $('ecart-angle-critique');
-
-  if (!inputRef || !inputMesuree || !outputEcart) return;
-
-  function calculer() {
-
-    const ref = parseFloat(inputRef.value);
-    const mesuree = parseFloat(inputMesuree.value);
-
-    if (Number.isNaN(ref) || Number.isNaN(mesuree)) {
-      outputEcart.textContent = '—';
-      return;
-    }
-
-    const ecart = mesuree - ref;
-    const signe = ecart >= 0 ? '+' : '';
-
-    outputEcart.textContent = `${signe}${arrondir(ecart, 2)} °`;
-  }
-
-  inputRef.addEventListener('input', calculer);
-  inputMesuree.addEventListener('input', calculer);
-}

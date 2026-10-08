@@ -69,7 +69,6 @@ export function init() {
   initMilieuMateriel();
   initVitessePropagation();
   initLongueurOnde();
-  initTableauEcarts();
   initExaoAcquisition();
 
   initMateriel({
@@ -199,40 +198,4 @@ function initLongueurOnde() {
 
   inputVitesse.addEventListener('input', calculer);
   inputFrequence.addEventListener('input', calculer);
-}
-
-// =================================================================
-// Tableau de résultats — écarts vitesse air / eau
-// =================================================================
-const MILIEUX_TABLEAU = ['air', 'eau'];
-
-function initTableauEcarts() {
-
-  MILIEUX_TABLEAU.forEach(milieu => {
-
-    const inputRef = $(`ref-vitesse-${milieu}`);
-    const inputMesuree = $(`mesuree-vitesse-${milieu}`);
-    const outputEcart = $(`ecart-vitesse-${milieu}`);
-
-    if (!inputRef || !inputMesuree || !outputEcart) return;
-
-    function calculer() {
-
-      const ref = parseFloat(inputRef.value);
-      const mesuree = parseFloat(inputMesuree.value);
-
-      if (Number.isNaN(ref) || Number.isNaN(mesuree)) {
-        outputEcart.textContent = '—';
-        return;
-      }
-
-      const ecart = mesuree - ref;
-      const signe = ecart >= 0 ? '+' : '';
-
-      outputEcart.textContent = `${signe}${arrondir(ecart, 0)} m/s`;
-    }
-
-    inputRef.addEventListener('input', calculer);
-    inputMesuree.addEventListener('input', calculer);
-  });
 }

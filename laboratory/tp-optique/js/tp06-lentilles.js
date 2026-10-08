@@ -46,7 +46,6 @@ export function init() {
   initDifferencierLentilles();
   initDistanceFocale();
   initConjugaisonGrandissement();
-  initTableauEcarts();
 
   initMateriel({
     equipementId: 'materiel-equipements',
@@ -202,41 +201,3 @@ function initConjugaisonGrandissement() {
   inputF.addEventListener('input', calculer);
 }
 
-// =================================================================
-// Tableau de résultats — écarts distance focale et position OA'
-// =================================================================
-function initTableauEcarts() {
-
-  const paires = [
-    { ref: 'ref-focale', mesuree: 'mesuree-focale', ecart: 'ecart-focale' },
-    { ref: 'ref-oa-prime', mesuree: 'mesuree-oa-prime', ecart: 'ecart-oa-prime' },
-  ];
-
-  paires.forEach(({ ref, mesuree, ecart }) => {
-
-    const inputRef = $(ref);
-    const inputMesuree = $(mesuree);
-    const outputEcart = $(ecart);
-
-    if (!inputRef || !inputMesuree || !outputEcart) return;
-
-    function calculer() {
-
-      const valeurRef = parseFloat(inputRef.value);
-      const valeurMesuree = parseFloat(inputMesuree.value);
-
-      if (Number.isNaN(valeurRef) || Number.isNaN(valeurMesuree)) {
-        outputEcart.textContent = '—';
-        return;
-      }
-
-      const delta = valeurMesuree - valeurRef;
-      const signe = delta >= 0 ? '+' : '';
-
-      outputEcart.textContent = `${signe}${arrondir(delta, 1)} cm`;
-    }
-
-    inputRef.addEventListener('input', calculer);
-    inputMesuree.addEventListener('input', calculer);
-  });
-}

@@ -196,6 +196,18 @@
           sont liées par la relation λ = c / f.
         </div>
 
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+
+        <ol class="etapes">
+          <li>Relever la fréquence de fonctionnement d'un routeur wifi (2,4 GHz ou 5 GHz) et calculer la longueur d'onde associée.</li>
+          <li>Relever la fréquence d'une bande de téléphonie mobile utilisée localement et calculer sa longueur d'onde.</li>
+          <li>Comparer les deux longueurs d'onde obtenues et leur ordre de grandeur.</li>
+        </ol>
+
+        <div class="mode-op">
+          <img src="./assets/images/s1-relation-lambda-c-f.png" alt="Mode opératoire — relation longueur d'onde/célérité/fréquence" class="mode-image">
+        </div>
+
         <div class="formule">
           λ = c / f, avec c = 3,00 × 10⁸ m/s
         </div>
@@ -221,17 +233,6 @@
           2.4e9).
         </p>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>Relever la fréquence de fonctionnement d'un routeur wifi (2,4 GHz ou 5 GHz) et calculer la longueur d'onde associée.</li>
-          <li>Relever la fréquence d'une bande de téléphonie mobile utilisée localement et calculer sa longueur d'onde.</li>
-          <li>Comparer les deux longueurs d'onde obtenues et leur ordre de grandeur.</li>
-        </ol>
-
-        <div class="mode-op">
-          <img src="./assets/images/s1-relation-lambda-c-f.png" alt="Mode opératoire — relation longueur d'onde/célérité/fréquence" class="mode-image">
-        </div>
 
       </div>
 
@@ -248,6 +249,17 @@
           électromagnétique appartient à l'un des domaines du spectre :
           gamma, X, UV, visible, infrarouge (IR), micro-ondes ou ondes
           hertziennes.
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+
+        <ol class="etapes">
+          <li>Reprendre les longueurs d'onde calculées dans l'onglet précédent (wifi, téléphonie) et identifier leur domaine spectral.</li>
+          <li>Tester d'autres longueurs d'onde fournies (rayons X médicaux, UV d'une lampe de bronzage, IR d'une télécommande...) et vérifier leur position sur la frise.</li>
+        </ol>
+
+        <div class="mode-op">
+          <img src="./assets/images/s1-domaine-spectral.png" alt="Mode opératoire — identification du domaine spectral" class="mode-image">
         </div>
 
         <div class="form-row">
@@ -269,16 +281,6 @@
         <div id="spectre-em" class="spectre-em-conteneur">
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>Reprendre les longueurs d'onde calculées dans l'onglet précédent (wifi, téléphonie) et identifier leur domaine spectral.</li>
-          <li>Tester d'autres longueurs d'onde fournies (rayons X médicaux, UV d'une lampe de bronzage, IR d'une télécommande...) et vérifier leur position sur la frise.</li>
-        </ol>
-
-        <div class="mode-op">
-          <img src="./assets/images/s1-domaine-spectral.png" alt="Mode opératoire — identification du domaine spectral" class="mode-image">
-        </div>
 
       </div>
 
@@ -295,6 +297,17 @@
           ondes électromagnétiques dans des domaines spécifiques : wifi
           et téléphonie (ondes hertziennes), télécommande (IR), badge
           RFID, four à micro-ondes, radiographie médicale (X)...
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+
+        <ol class="etapes">
+          <li>Recenser au moins cinq objets ou dispositifs de la vie courante utilisant des ondes électromagnétiques.</li>
+          <li>Pour chacun, identifier le domaine spectral utilisé et le rôle (émission, détection ou les deux).</li>
+        </ol>
+
+        <div class="mode-op">
+          <img src="./assets/images/s1-sources-vie-courante.png" alt="Mode opératoire — recensement des sources et détecteurs" class="mode-image">
         </div>
 
         <div class="table-responsive">
@@ -351,71 +364,8 @@
 
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>Recenser au moins cinq objets ou dispositifs de la vie courante utilisant des ondes électromagnétiques.</li>
-          <li>Pour chacun, identifier le domaine spectral utilisé et le rôle (émission, détection ou les deux).</li>
-        </ol>
-
-        <div class="mode-op">
-          <img src="./assets/images/s1-sources-vie-courante.png" alt="Mode opératoire — recensement des sources et détecteurs" class="mode-image">
-        </div>
 
       </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-<!-- ====================================================== -->
-<!-- TABLEAU DES RÉSULTATS                                   -->
-<!-- ====================================================== -->
-
-<div class="section" data-type="resultats">
-
-  <div class="section-titre">
-    <div class="picto-section">📊</div>
-    <h2>Tableau de résultats</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="table-responsive">
-
-      <table class="tableau-resultats">
-
-        <thead>
-          <tr>
-            <th>Dispositif</th>
-            <th>Fréquence donnée (Hz)</th>
-            <th>Longueur d'onde calculée (m)</th>
-            <th>Domaine spectral</th>
-          </tr>
-        </thead>
-
-        <tbody>
-
-          <tr>
-            <td>Wifi (2,4 GHz)</td>
-            <td><input id="ref-frequence-wifi" type="number" step="any" value="2.4e9"></td>
-            <td><input id="mesuree-longueur-wifi" type="number" step="any" placeholder="calculée"></td>
-            <td id="domaine-wifi">—</td>
-          </tr>
-
-          <tr>
-            <td>Téléphonie mobile</td>
-            <td><input id="ref-frequence-tel" type="number" step="any" placeholder="Ex : 1.8e9"></td>
-            <td><input id="mesuree-longueur-tel" type="number" step="any" placeholder="calculée"></td>
-            <td id="domaine-tel">—</td>
-          </tr>
-
-        </tbody>
-
-      </table>
 
     </div>
 
@@ -496,11 +446,6 @@
 
     </div>
 
-    <h3 style="margin-top:var(--gap-md);">Résumé du TP</h3>
-
-    <div class="zone-eleve">
-      <textarea id="resume-tp" rows="6" placeholder="Résumer les calculs et identifications réalisés sur le spectre électromagnétique..."></textarea>
-    </div>
 
     <h3 style="margin-top:var(--gap-md);">Questions</h3>
 
@@ -711,9 +656,6 @@
     <div class="info" style="margin-top:var(--gap-md);">
       L'impression récupère automatiquement :
       <ul>
-        <li>les calculs de longueur d'onde et fréquence ;</li>
-        <li>les domaines spectraux identifiés ;</li>
-        <li>les résultats du tableau ;</li>
         <li>les réponses aux questions ;</li>
         <li>l'auto-évaluation des compétences.</li>
       </ul>

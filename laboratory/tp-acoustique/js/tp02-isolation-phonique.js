@@ -40,7 +40,6 @@ const CONTEXTES_PRO = {
 export function init() {
   initMesureAttenuation();
   initClassementIsolants();
-  initTableauEcarts();
 
   initMateriel({
     equipementId: 'materiel-equipements',
@@ -150,33 +149,3 @@ function redessinerTableauIsolants(tbody, isolants) {
   });
 }
 
-// =================================================================
-// Tableau de résultats — écart entre atténuation attendue et mesurée
-// =================================================================
-function initTableauEcarts() {
-
-  const inputRef = $('ref-attenuation');
-  const inputMesuree = $('mesuree-attenuation');
-  const outputEcart = $('ecart-attenuation');
-
-  if (!inputRef || !inputMesuree || !outputEcart) return;
-
-  function calculer() {
-
-    const ref = parseFloat(inputRef.value);
-    const mesuree = parseFloat(inputMesuree.value);
-
-    if (Number.isNaN(ref) || Number.isNaN(mesuree)) {
-      outputEcart.textContent = '—';
-      return;
-    }
-
-    const ecart = mesuree - ref;
-    const signe = ecart >= 0 ? '+' : '';
-
-    outputEcart.textContent = `${signe}${arrondir(ecart, 1)} dB`;
-  }
-
-  inputRef.addEventListener('input', calculer);
-  inputMesuree.addEventListener('input', calculer);
-}

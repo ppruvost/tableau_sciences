@@ -53,7 +53,6 @@ export function init() {
   initPeriodeFrequence();
   initNiveauIntensite();
   initClassementSons();
-  initTableauEcarts();
 
   initMateriel({
     equipementId: 'materiel-equipements',
@@ -240,42 +239,5 @@ function redessinerTableauClassement(tbody, sons) {
     `;
 
     tbody.appendChild(tr);
-  });
-}
-
-// =================================================================
-// Tableau de résultats — calcul automatique de l'écart
-// (référence vs calculée) pour la fréquence et le niveau sonore
-// =================================================================
-const MESURES_TABLEAU = ['frequence', 'niveau'];
-
-function initTableauEcarts() {
-
-  MESURES_TABLEAU.forEach(mesure => {
-
-    const inputRef = $(`ref-${mesure}`);
-    const inputMesuree = $(`mesuree-${mesure}`);
-    const outputEcart = $(`ecart-${mesure}`);
-
-    if (!inputRef || !inputMesuree || !outputEcart) return;
-
-    function calculer() {
-
-      const ref = parseFloat(inputRef.value);
-      const mesuree = parseFloat(inputMesuree.value);
-
-      if (Number.isNaN(ref) || Number.isNaN(mesuree)) {
-        outputEcart.textContent = '—';
-        return;
-      }
-
-      const ecart = mesuree - ref;
-      const signe = ecart >= 0 ? '+' : '';
-
-      outputEcart.textContent = `${signe}${arrondir(ecart, 1)}`;
-    }
-
-    inputRef.addEventListener('input', calculer);
-    inputMesuree.addEventListener('input', calculer);
   });
 }

@@ -41,7 +41,6 @@ export function init() {
   initLoiReflexion();
   initLoiRefraction();
   initAngleLimite();
-  initTableauEcarts();
 
   initMateriel({
     equipementId: 'materiel-equipements',
@@ -237,41 +236,3 @@ function initAngleLimite() {
   }
 }
 
-// =================================================================
-// Tableau de résultats — écarts indice n2 et angle limite
-// =================================================================
-function initTableauEcarts() {
-
-  const paires = [
-    { ref: 'ref-indice-n2', mesuree: 'mesuree-indice-n2', ecart: 'ecart-indice-n2', decimales: 3, unite: '' },
-    { ref: 'ref-angle-limite', mesuree: 'mesuree-angle-limite', ecart: 'ecart-angle-limite', decimales: 1, unite: ' °' },
-  ];
-
-  paires.forEach(({ ref, mesuree, ecart, decimales, unite }) => {
-
-    const inputRef = $(ref);
-    const inputMesuree = $(mesuree);
-    const outputEcart = $(ecart);
-
-    if (!inputRef || !inputMesuree || !outputEcart) return;
-
-    function calculer() {
-
-      const valeurRef = parseFloat(inputRef.value);
-      const valeurMesuree = parseFloat(inputMesuree.value);
-
-      if (Number.isNaN(valeurRef) || Number.isNaN(valeurMesuree)) {
-        outputEcart.textContent = '—';
-        return;
-      }
-
-      const delta = valeurMesuree - valeurRef;
-      const signe = delta >= 0 ? '+' : '';
-
-      outputEcart.textContent = `${signe}${arrondir(delta, decimales)}${unite}`;
-    }
-
-    inputRef.addEventListener('input', calculer);
-    inputMesuree.addEventListener('input', calculer);
-  });
-}

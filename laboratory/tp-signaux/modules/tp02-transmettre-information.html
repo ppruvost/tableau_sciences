@@ -196,6 +196,17 @@
           optique).
         </div>
 
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+
+        <ol class="etapes">
+          <li>Recenser au moins quatre systèmes de transmission d'informations utilisés dans la vie courante ou en atelier.</li>
+          <li>Pour chacun, identifier le type d'onde utilisé et le mode de propagation (libre ou guidée).</li>
+        </ol>
+
+        <div class="mode-op">
+          <img src="./assets/images/s2-propagation-libre-guidee.png" alt="Mode opératoire — propagation libre ou guidée" class="mode-image">
+        </div>
+
         <div class="table-responsive">
           <table class="tableau-resultats">
             <thead>
@@ -244,16 +255,6 @@
 
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>Recenser au moins quatre systèmes de transmission d'informations utilisés dans la vie courante ou en atelier.</li>
-          <li>Pour chacun, identifier le type d'onde utilisé et le mode de propagation (libre ou guidée).</li>
-        </ol>
-
-        <div class="mode-op">
-          <img src="./assets/images/s2-propagation-libre-guidee.png" alt="Mode opératoire — propagation libre ou guidée" class="mode-image">
-        </div>
 
       </div>
 
@@ -270,6 +271,18 @@
           électromagnétique), une chaîne de transmission d'informations
           repose sur le même principe : un émetteur, un canal de
           propagation, un récepteur.
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+
+        <ol class="etapes">
+          <li>Choisir un système de transmission dans la liste proposée.</li>
+          <li>Identifier, pour ce système, quel élément joue le rôle d'émetteur, de canal de propagation et de récepteur.</li>
+          <li>Recommencer pour les deux autres systèmes proposés.</li>
+        </ol>
+
+        <div class="mode-op">
+          <img src="./assets/images/s2-chaine-generale.png" alt="Schéma de la chaîne de transmission générale" class="mode-image">
         </div>
 
         <div class="form-row">
@@ -330,17 +343,6 @@
           Sélectionner un système puis compléter le schéma avant de vérifier.
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>Choisir un système de transmission dans la liste proposée.</li>
-          <li>Identifier, pour ce système, quel élément joue le rôle d'émetteur, de canal de propagation et de récepteur.</li>
-          <li>Recommencer pour les deux autres systèmes proposés.</li>
-        </ol>
-
-        <div class="mode-op">
-          <img src="./assets/images/s2-chaine-generale.png" alt="Schéma de la chaîne de transmission générale" class="mode-image">
-        </div>
 
       </div>
 
@@ -358,6 +360,19 @@
           la gaine (indice n₂ &lt; n₁). Au-delà d'un angle d'incidence
           critique θc, tout le rayon lumineux est réfléchi, sans perte
           par réfraction.
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+
+        <ol class="etapes">
+          <li>Relever (ou utiliser les valeurs par défaut) les indices de réfraction du cœur et de la gaine de la fibre optique disponible.</li>
+          <li>Calculer l'angle critique θc à l'aide de la relation ci-dessus.</li>
+          <li>Envoyer le faisceau laser à l'entrée de la fibre selon différents angles d'incidence et noter, pour chacun, si le faisceau reste guidé jusqu'à la sortie.</li>
+          <li>Comparer chaque angle testé à l'angle critique calculé.</li>
+        </ol>
+
+        <div class="mode-op">
+          <img src="./assets/images/s2-fibre-optique.png" alt="Mode opératoire — réflexion totale dans une fibre optique" class="mode-image">
         </div>
 
         <div class="formule">
@@ -401,66 +416,8 @@
 
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>Relever (ou utiliser les valeurs par défaut) les indices de réfraction du cœur et de la gaine de la fibre optique disponible.</li>
-          <li>Calculer l'angle critique θc à l'aide de la relation ci-dessus.</li>
-          <li>Envoyer le faisceau laser à l'entrée de la fibre selon différents angles d'incidence et noter, pour chacun, si le faisceau reste guidé jusqu'à la sortie.</li>
-          <li>Comparer chaque angle testé à l'angle critique calculé.</li>
-        </ol>
-
-        <div class="mode-op">
-          <img src="./assets/images/s2-fibre-optique.png" alt="Mode opératoire — réflexion totale dans une fibre optique" class="mode-image">
-        </div>
 
       </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-<!-- ====================================================== -->
-<!-- TABLEAU DES RÉSULTATS                                   -->
-<!-- ====================================================== -->
-
-<div class="section" data-type="resultats">
-
-  <div class="section-titre">
-    <div class="picto-section">📊</div>
-    <h2>Tableau de résultats</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="table-responsive">
-
-      <table class="tableau-resultats">
-
-        <thead>
-          <tr>
-            <th>Grandeur</th>
-            <th>Valeur attendue</th>
-            <th>Valeur mesurée / calculée</th>
-            <th>Écart</th>
-          </tr>
-        </thead>
-
-        <tbody>
-
-          <tr>
-            <td>Angle critique θc (°)</td>
-            <td><input id="ref-angle-critique" type="number" step="0.1" placeholder="attendu"></td>
-            <td><input id="mesuree-angle-critique" type="number" step="0.1" placeholder="calculé"></td>
-            <td id="ecart-angle-critique">—</td>
-          </tr>
-
-        </tbody>
-
-      </table>
 
     </div>
 
@@ -543,11 +500,6 @@
 
     </div>
 
-    <h3 style="margin-top:var(--gap-md);">Résumé du TP</h3>
-
-    <div class="zone-eleve">
-      <textarea id="resume-tp" rows="6" placeholder="Résumer les systèmes de transmission étudiés et le principe de la fibre optique..."></textarea>
-    </div>
 
     <h3 style="margin-top:var(--gap-md);">Questions</h3>
 
@@ -759,10 +711,6 @@
     <div class="info" style="margin-top:var(--gap-md);">
       L'impression récupère automatiquement :
       <ul>
-        <li>le recensement des systèmes de transmission (type d'onde, propagation) ;</li>
-        <li>les schémas de chaîne de transmission vérifiés ;</li>
-        <li>le calcul de l'angle critique de la fibre optique ;</li>
-        <li>les résultats du tableau ;</li>
         <li>les réponses aux questions ;</li>
         <li>l'auto-évaluation des compétences.</li>
       </ul>

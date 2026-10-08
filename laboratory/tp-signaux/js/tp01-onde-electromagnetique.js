@@ -65,7 +65,6 @@ export function init() {
   initRelationLambdaCF();
   initDomaineSpectral();
   initSourcesVieCourante();
-  initTableauEcarts();
 
   initMateriel({
     equipementId: 'materiel-equipements',
@@ -254,41 +253,5 @@ function initSourcesVieCourante() {
     selectDomaine.value = '';
     selectRole.value = '';
     inputObjet.focus();
-  });
-}
-
-// =================================================================
-// Tableau de résultats — longueur d'onde et domaine pour wifi/téléphonie
-// =================================================================
-const DISPOSITIFS_TABLEAU = ['wifi', 'tel'];
-
-function initTableauEcarts() {
-
-  DISPOSITIFS_TABLEAU.forEach(dispositif => {
-
-    const inputFrequence = $(`ref-frequence-${dispositif}`);
-    const inputLongueur = $(`mesuree-longueur-${dispositif}`);
-    const outputDomaine = $(`domaine-${dispositif}`);
-
-    if (!inputFrequence || !inputLongueur || !outputDomaine) return;
-
-    function calculer() {
-
-      const frequence = parseFloat(inputFrequence.value);
-
-      if (Number.isNaN(frequence) || frequence <= 0) {
-        outputDomaine.textContent = '—';
-        return;
-      }
-
-      const longueurOnde = CELERITE / frequence;
-      inputLongueur.value = longueurOnde;
-
-      const domaine = identifierDomaine(longueurOnde);
-      outputDomaine.textContent = domaine ? domaine.label : 'Hors échelle';
-    }
-
-    inputFrequence.addEventListener('input', calculer);
-    calculer();
   });
 }

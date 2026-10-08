@@ -66,7 +66,6 @@ export function init() {
   initDecompositionRecomposition();
   initEchelleLongueursOnde();
   initIrUvSante();
-  initTableauResultats();
 
   initMateriel({
     equipementId: 'materiel-equipements',
@@ -269,37 +268,3 @@ function initIrUvSante() {
   });
 }
 
-// =================================================================
-// Tableau de résultats — domaine identifié pour UV/IR de référence
-// =================================================================
-function initTableauResultats() {
-
-  const paires = [
-    { input: 'ref-longueur-uv', output: 'domaine-uv-ref' },
-    { input: 'ref-longueur-ir', output: 'domaine-ir-ref' },
-  ];
-
-  paires.forEach(({ input, output }) => {
-
-    const inputEl = $(input);
-    const outputEl = $(output);
-
-    if (!inputEl || !outputEl) return;
-
-    function calculer() {
-
-      const nm = parseFloat(inputEl.value);
-
-      if (Number.isNaN(nm)) {
-        outputEl.textContent = '—';
-        return;
-      }
-
-      const domaine = identifierDomaineVisible(nm);
-      outputEl.textContent = domaine ? domaine.label : 'Hors échelle';
-    }
-
-    inputEl.addEventListener('input', calculer);
-    calculer();
-  });
-}

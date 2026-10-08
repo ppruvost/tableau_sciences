@@ -200,6 +200,19 @@
           réglage du GBF inchangés.
         </div>
 
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+
+        <ol class="etapes">
+          <li>Régler le GBF et le haut-parleur à un niveau constant, et fixer la distance entre le haut-parleur et le sonomètre.</li>
+          <li>Mesurer le niveau sonore sans matériau interposé et le saisir ci-dessus.</li>
+          <li>Interposer le matériau isolant à tester dans le caisson d'isolation phonique, sans modifier ni le réglage ni la distance.</li>
+          <li>Mesurer le niveau sonore avec le matériau interposé et le saisir ci-dessus : l'atténuation se calcule automatiquement.</li>
+        </ol>
+
+        <div class="mode-op">
+          <img src="./assets/images/a2-mesure-attenuation.png" alt="Mode opératoire — mesure de l'atténuation phonique" class="mode-image">
+        </div>
+
         <div class="formule">
           Atténuation (dB) = Niveau sans matériau − Niveau avec matériau
         </div>
@@ -225,18 +238,6 @@
 
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>Régler le GBF et le haut-parleur à un niveau constant, et fixer la distance entre le haut-parleur et le sonomètre.</li>
-          <li>Mesurer le niveau sonore sans matériau interposé et le saisir ci-dessus.</li>
-          <li>Interposer le matériau isolant à tester dans le caisson d'isolation phonique, sans modifier ni le réglage ni la distance.</li>
-          <li>Mesurer le niveau sonore avec le matériau interposé et le saisir ci-dessus : l'atténuation se calcule automatiquement.</li>
-        </ol>
-
-        <div class="mode-op">
-          <img src="./assets/images/a2-mesure-attenuation.png" alt="Mode opératoire — mesure de l'atténuation phonique" class="mode-image">
-        </div>
 
       </div>
 
@@ -252,6 +253,18 @@
           Reproduire la mesure précédente pour plusieurs matériaux
           (mousse acoustique, laine de verre, bois, plexiglas...) afin
           de les classer du plus isolant au moins isolant.
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+
+        <ol class="etapes">
+          <li>Tester successivement au moins trois matériaux isolants disponibles, dans les mêmes conditions de réglage et de distance.</li>
+          <li>Saisir pour chacun le matériau, l'épaisseur et l'atténuation mesurée : le tableau se reclasse automatiquement du plus isolant au moins isolant.</li>
+          <li>Identifier le matériau le plus performant pour une épaisseur donnée.</li>
+        </ol>
+
+        <div class="mode-op">
+          <img src="./assets/images/a2-classement-isolants.png" alt="Mode opératoire — comparaison des matériaux isolants" class="mode-image">
         </div>
 
         <div class="table-responsive">
@@ -294,65 +307,8 @@
 
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>Tester successivement au moins trois matériaux isolants disponibles, dans les mêmes conditions de réglage et de distance.</li>
-          <li>Saisir pour chacun le matériau, l'épaisseur et l'atténuation mesurée : le tableau se reclasse automatiquement du plus isolant au moins isolant.</li>
-          <li>Identifier le matériau le plus performant pour une épaisseur donnée.</li>
-        </ol>
-
-        <div class="mode-op">
-          <img src="./assets/images/a2-classement-isolants.png" alt="Mode opératoire — comparaison des matériaux isolants" class="mode-image">
-        </div>
 
       </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-<!-- ====================================================== -->
-<!-- TABLEAU DES RÉSULTATS                                   -->
-<!-- ====================================================== -->
-
-<div class="section" data-type="resultats">
-
-  <div class="section-titre">
-    <div class="picto-section">📊</div>
-    <h2>Tableau de résultats</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="table-responsive">
-
-      <table class="tableau-resultats">
-
-        <thead>
-          <tr>
-            <th>Matériau de référence</th>
-            <th>Atténuation attendue (dB)</th>
-            <th>Atténuation mesurée (dB)</th>
-            <th>Écart</th>
-          </tr>
-        </thead>
-
-        <tbody>
-
-          <tr>
-            <td>Matériau testé</td>
-            <td><input id="ref-attenuation" type="number" step="1" placeholder="attendue"></td>
-            <td><input id="mesuree-attenuation" type="number" step="1" placeholder="mesurée"></td>
-            <td id="ecart-attenuation">—</td>
-          </tr>
-
-        </tbody>
-
-      </table>
 
     </div>
 
@@ -435,11 +391,6 @@
 
     </div>
 
-    <h3 style="margin-top:var(--gap-md);">Résumé du TP</h3>
-
-    <div class="zone-eleve">
-      <textarea id="resume-tp" rows="6" placeholder="Résumer les matériaux testés, le protocole suivi et les résultats obtenus..."></textarea>
-    </div>
 
     <h3 style="margin-top:var(--gap-md);">Questions</h3>
 
@@ -649,8 +600,6 @@
     <div class="info" style="margin-top:var(--gap-md);">
       L'impression récupère automatiquement :
       <ul>
-        <li>les mesures d'atténuation phonique ;</li>
-        <li>les résultats du tableau ;</li>
         <li>les réponses aux questions ;</li>
         <li>l'auto-évaluation des compétences.</li>
       </ul>

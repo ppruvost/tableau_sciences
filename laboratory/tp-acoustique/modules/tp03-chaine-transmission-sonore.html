@@ -191,6 +191,18 @@
           sonore.
         </div>
 
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+
+        <ol class="etapes">
+          <li>Relier l'émetteur piézoélectrique au GBF, volume au minimum.</li>
+          <li>Appliquer successivement plusieurs tensions et fréquences, en notant le son perçu à chaque essai.</li>
+          <li>Observer l'effet d'une tension nulle : vérifier qu'aucun son n'est émis.</li>
+        </ol>
+
+        <div class="mode-op">
+          <img src="./assets/images/a3-emetteur-piezo.png" alt="Mode opératoire — émetteur piézoélectrique" class="mode-image">
+        </div>
+
         <div class="form-row">
 
           <div class="form-group">
@@ -226,17 +238,6 @@
           </table>
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>Relier l'émetteur piézoélectrique au GBF, volume au minimum.</li>
-          <li>Appliquer successivement plusieurs tensions et fréquences, en notant le son perçu à chaque essai.</li>
-          <li>Observer l'effet d'une tension nulle : vérifier qu'aucun son n'est émis.</li>
-        </ol>
-
-        <div class="mode-op">
-          <img src="./assets/images/a3-emetteur-piezo.png" alt="Mode opératoire — émetteur piézoélectrique" class="mode-image">
-        </div>
 
       </div>
 
@@ -252,6 +253,18 @@
           Un récepteur piézoélectrique transforme, à l'inverse, une
           vibration mécanique reçue en tension électrique, mesurable au
           multimètre ou à l'oscilloscope.
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+
+        <ol class="etapes">
+          <li>Placer le récepteur piézoélectrique face à l'émetteur, relié à un multimètre en position tension.</li>
+          <li>Relever la tension reçue pour plusieurs distances croissantes entre émetteur et récepteur.</li>
+          <li>Observer comment la tension reçue évolue lorsque la distance augmente.</li>
+        </ol>
+
+        <div class="mode-op">
+          <img src="./assets/images/a3-recepteur-piezo.png" alt="Mode opératoire — récepteur piézoélectrique" class="mode-image">
         </div>
 
         <div class="form-row">
@@ -293,17 +306,6 @@
           <p class="info">Ajouter au moins 2 points pour afficher le graphique.</p>
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>Placer le récepteur piézoélectrique face à l'émetteur, relié à un multimètre en position tension.</li>
-          <li>Relever la tension reçue pour plusieurs distances croissantes entre émetteur et récepteur.</li>
-          <li>Observer comment la tension reçue évolue lorsque la distance augmente.</li>
-        </ol>
-
-        <div class="mode-op">
-          <img src="./assets/images/a3-recepteur-piezo.png" alt="Mode opératoire — récepteur piézoélectrique" class="mode-image">
-        </div>
 
       </div>
 
@@ -319,6 +321,17 @@
           Toute transmission d'informations par canal sonore comporte
           trois éléments : un émetteur, un milieu de propagation et un
           récepteur.
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+
+        <ol class="etapes">
+          <li>À partir des deux manipulations précédentes, identifier le rôle de chaque élément de la chaîne.</li>
+          <li>Compléter le schéma ci-dessus puis vérifier.</li>
+        </ol>
+
+        <div class="mode-op">
+          <img src="./assets/images/a3-schema-chaine.png" alt="Schéma de la chaîne de transmission par canal sonore" class="mode-image">
         </div>
 
         <div class="form-row">
@@ -366,64 +379,8 @@
           Compléter le schéma puis cliquer sur « Vérifier ».
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>À partir des deux manipulations précédentes, identifier le rôle de chaque élément de la chaîne.</li>
-          <li>Compléter le schéma ci-dessus puis vérifier.</li>
-        </ol>
-
-        <div class="mode-op">
-          <img src="./assets/images/a3-schema-chaine.png" alt="Schéma de la chaîne de transmission par canal sonore" class="mode-image">
-        </div>
 
       </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-<!-- ====================================================== -->
-<!-- TABLEAU DES RÉSULTATS                                   -->
-<!-- ====================================================== -->
-
-<div class="section" data-type="resultats">
-
-  <div class="section-titre">
-    <div class="picto-section">📊</div>
-    <h2>Tableau de résultats</h2>
-    <span class="chevron">▼</span>
-  </div>
-
-  <div class="section-corps">
-
-    <div class="table-responsive">
-
-      <table class="tableau-resultats">
-
-        <thead>
-          <tr>
-            <th>Mesure</th>
-            <th>Valeur attendue</th>
-            <th>Valeur mesurée</th>
-            <th>Écart</th>
-          </tr>
-        </thead>
-
-        <tbody>
-
-          <tr>
-            <td>Tension reçue à distance de référence (mV)</td>
-            <td><input id="ref-tension-recue" type="number" step="1" placeholder="attendue"></td>
-            <td><input id="mesuree-tension-recue" type="number" step="1" placeholder="mesurée"></td>
-            <td id="ecart-tension-recue">—</td>
-          </tr>
-
-        </tbody>
-
-      </table>
 
     </div>
 
@@ -505,11 +462,6 @@
 
     </div>
 
-    <h3 style="margin-top:var(--gap-md);">Résumé du TP</h3>
-
-    <div class="zone-eleve">
-      <textarea id="resume-tp" rows="6" placeholder="Résumer le fonctionnement de l'émetteur, du récepteur et de la chaîne de transmission..."></textarea>
-    </div>
 
     <h3 style="margin-top:var(--gap-md);">Questions</h3>
 
@@ -718,8 +670,6 @@
     <div class="info" style="margin-top:var(--gap-md);">
       L'impression récupère automatiquement :
       <ul>
-        <li>les essais réalisés sur l'émetteur et le récepteur piézoélectriques ;</li>
-        <li>les résultats du tableau ;</li>
         <li>les réponses aux questions ;</li>
         <li>l'auto-évaluation des compétences.</li>
       </ul>
