@@ -153,10 +153,10 @@ const ATELIERS = [
         explication: "2 c.à.s × 3 c.à.c = 6 c.à.c. On multiplie le nombre de cuillères à soupe par 3."
       },
       {
-        enonce: "Le mug cookie utilise « 1 jaune d'œuf » (l'œuf entier étant composé d'un jaune et d'un blanc). Quelle fraction de l'œuf entier représente le jaune seul ?",
+        enonce: "Un œuf se sépare en 2 éléments : 1 jaune et 1 blanc. Le mug cookie utilise seulement « 1 jaune ». Sur les 2 éléments de l'œuf, quelle fraction représente le jaune ?",
         choix: ["1/4", "1/2", "1/3", "2/3"],
         bonne: 1,
-        explication: "Un œuf se sépare en deux parties : le jaune et le blanc. Le jaune seul représente donc la moitié, soit 1/2."
+        explication: "On prend 1 élément (le jaune) sur 2 (jaune + blanc) : cela s'écrit 1/2, « un demi »."
       },
       {
         enonce: "Pour les îles flottantes, une recette utilise 2 blancs d'œuf sur les 3 prévus par la recette d'origine. Quelle fraction du total cela représente-t-il ?",

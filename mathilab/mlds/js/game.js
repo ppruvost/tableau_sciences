@@ -1,5 +1,5 @@
 /**
- * games.js — Activités bonus ("Jeux & activités") pour le parcours MLDS.
+ * game.js — Activités bonus ("Jeux & activités") pour le parcours MLDS.
  * Contenu des jeux "Chercher la petite bête" et "Le mercure s'affole" :
  * source Agoralude (www.agoralude.com), fiches gratuites pour ateliers mémoire,
  * usage non commercial — reproduites ici avec attribution, pour un usage

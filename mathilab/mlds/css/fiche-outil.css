@@ -37,7 +37,9 @@
   flex-wrap: wrap;
 }
 
-.barre-actions button {
+.barre-actions button,
+.barre-actions a.btn-barre {
+  text-decoration: none;
   border: 2px solid var(--gris-ardoise);
   background: #fff;
   color: var(--gris-ardoise);
@@ -53,7 +55,8 @@
   transition: var(--duree-normale);
 }
 
-.barre-actions button:hover { background: var(--gris-ardoise); color: #fff; }
+.barre-actions button:hover,
+.barre-actions a.btn-barre:hover { background: var(--gris-ardoise); color: #fff; }
 
 /* ---- En-tête (dégradé + sticky déjà fournis par domaine.css) ---- */
 

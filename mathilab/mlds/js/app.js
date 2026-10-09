@@ -104,6 +104,7 @@ function renderSidebar() {
   const currentIdx = order.indexOf(state.step);
 
   aside.innerHTML = `
+    <p class="brand-sub" style="margin-bottom:10px"><a href="index.html" style="color:inherit">← Retour aux ateliers MLDS</a></p>
     <p class="brand">Parcours MLDS</p>
     <p class="brand-sub">Remobilisation &amp; consolidation<br>Algèbre · Géométrie · TP cuisine (micro-ondes)</p>
     <div class="tabbar">

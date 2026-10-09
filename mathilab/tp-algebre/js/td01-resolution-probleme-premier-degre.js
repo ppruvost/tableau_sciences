@@ -159,7 +159,7 @@ const PROBLEMES = [
     a: 1.2,
     b: 60,
     c: 300,
-    equationsAcceptees: ['1.2x+60=300', '60+1.2x=300'],
+    equationsAcceptees: ['1.2x+60=300', '60+1.2x=300', '1.20x+60=300', '60+1.20x=300'],
     interpretation: "x est une distance en kilomètres : le trajet fait 200 km."
   }
 
