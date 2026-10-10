@@ -1,0 +1,40 @@
+/* Panneau « Retrouve ton historique » — autonome (utilisé par index.html et parcours.html). */
+.mlds-id {
+  --mlds-accent: var(--domaine-accent, #1B6CA8);
+  --mlds-accent-fonce: var(--domaine-accent-fonce, #0D4F8A);
+  background: #fff; color: #1b2a4a;
+  border: 1px solid #cfd6e2; border-left: 8px solid var(--mlds-accent);
+  border-radius: 12px; padding: 16px 18px; line-height: 1.55;
+}
+.mlds-id h2 { display: flex; align-items: center; gap: 10px; font-size: 1.2rem; margin: 0 0 6px; color: var(--mlds-accent-fonce); }
+.mlds-id p { margin: 6px 0; }
+.mlds-id-ok { border-left-color: #1c7c54; }
+.mlds-id-off { border-left-color: #8a94a6; color: #445070; }
+.mlds-bonjour i { color: #1c7c54; }
+.mlds-form { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); align-items: end; margin-top: 10px; }
+.mlds-champ { display: flex; flex-direction: column; gap: 4px; }
+.mlds-champ label { font-weight: 600; font-size: .95rem; }
+.mlds-champ input {
+  min-height: 44px; padding: 8px 10px; font: inherit; color: inherit;
+  border: 2px solid #8a94a6; border-radius: 8px; background: #fff;
+}
+.mlds-champ input:focus-visible, .mlds-btn:focus-visible, .mlds-info summary:focus-visible {
+  outline: 3px solid var(--mlds-accent); outline-offset: 2px;
+}
+.mlds-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+.mlds-btn {
+  min-height: 44px; padding: 8px 16px; font: inherit; font-weight: 700; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background: #fff; color: #1b2a4a; border: 2px solid #1b2a4a; border-radius: 999px;
+}
+.mlds-btn:hover:not(:disabled) { background: #1b2a4a; color: #fff; }
+.mlds-btn:disabled { opacity: .6; cursor: wait; }
+.mlds-btn-principal { background: var(--mlds-accent-fonce); border-color: var(--mlds-accent-fonce); color: #fff; }
+.mlds-btn-principal:hover:not(:disabled) { background: #0b2f55; border-color: #0b2f55; }
+.mlds-btn-danger { border-color: #a32d22; color: #a32d22; }
+.mlds-btn-danger:hover:not(:disabled) { background: #a32d22; color: #fff; }
+.mlds-etat { min-height: 1.4em; font-weight: 600; }
+.mlds-info { margin-top: 8px; font-size: .92rem; }
+.mlds-info summary { cursor: pointer; font-weight: 600; }
+@media (prefers-reduced-motion: reduce) { .mlds-btn { transition: none; } }
+@media print { .mlds-id { display: none; } }

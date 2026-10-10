@@ -20,6 +20,11 @@
   --conv-1: #8B5CF6; --conv-2: #5B21B6;
   --pct-1:  #E87A0E; --pct-2:  #A8500A;
   --frac-1: #10B981; --frac-2: #059669;
+  --eq-1: #0891B2; --eq-2: #0E6B83;
+  --geo-1: #DB2777; --geo-2: #9D174D;
+  --nombres-1: #4F46E5; --nombres-2: #3730A3;
+  --stat-1: #65A30D; --stat-2: #3F6212;
+  --probl-1: #475569; --probl-2: #1E293B;
 }
 
 header.entete-mlds h1 {
@@ -70,6 +75,11 @@ header.entete-mlds p { margin-top: 6px; opacity: .95; }
 .carte-atelier.conv { --accent: var(--conv-1); --accent-fonce: var(--conv-2); }
 .carte-atelier.pct  { --accent: var(--pct-1);  --accent-fonce: var(--pct-2); }
 .carte-atelier.frac { --accent: var(--frac-1); --accent-fonce: var(--frac-2); }
+.carte-atelier.eq { --accent: var(--eq-1); --accent-fonce: var(--eq-2); }
+.carte-atelier.geo { --accent: var(--geo-1); --accent-fonce: var(--geo-2); }
+.carte-atelier.nombres { --accent: var(--nombres-1); --accent-fonce: var(--nombres-2); }
+.carte-atelier.stat { --accent: var(--stat-1); --accent-fonce: var(--stat-2); }
+.carte-atelier.probl { --accent: var(--probl-1); --accent-fonce: var(--probl-2); }
 
 /* ---- Liens vers les outils ---- */
 .liens-outils {
@@ -117,7 +127,7 @@ header.entete-mlds p { margin-top: 6px; opacity: .95; }
 }
 .choix button:hover:not(:disabled) { border-color: var(--accent, var(--domaine-accent)); }
 .choix button:disabled { cursor: default; }
-.choix button.choisi { border-color: var(--accent-fonce, var(--domaine-accent-fonce)); background: var(--blanc-paillasse, #f4f6f8); }
+.choix button.choisi { border-color: #a32d22; background: #fdf0ee; }
 .choix button.bonne  { border-color: var(--frac-2); background: #ecfdf5; }
 
 .retour-reponse {
@@ -129,4 +139,34 @@ header.entete-mlds p { margin-top: 6px; opacity: .95; }
 .bilan p { font-size: 1.15rem; margin-bottom: 14px; }
 .actions-atelier { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
 
+/* ---- Marques de réponse (icône + texte, pas la couleur seule) ---- */
+.choix button .marque { display: block; margin-top: 4px; font-weight: 700; font-size: .92rem; }
+.choix button.bonne .marque { color: #0b5e3c; }
+.choix button.choisi .marque { color: #a32d22; }
+
+/* ---- Sources, groupes, historique ---- */
+.source-atelier { margin-top: 8px; font-size: .92rem; color: var(--gris-texte-clair, #445070); }
+.source-atelier a { color: inherit; }
+.note-groupe { margin: -4px 0 12px; color: var(--gris-texte-clair, #445070); }
+.etat-historique { min-height: 1.4em; font-size: 1rem !important; color: var(--gris-texte-clair, #445070); }
+.pied-mlds { max-width: var(--largeur-contenu, 1000px); margin: 0 auto; padding: 8px 18px 28px; font-size: .92rem; color: var(--gris-texte-clair, #445070); }
+.pied-mlds a { color: inherit; font-weight: 600; }
+#vue-historique[hidden] { display: none; }
+.histo-defile { overflow-x: auto; }
+.histo-table { width: 100%; border-collapse: collapse; margin: 8px 0 18px; }
+.histo-table th, .histo-table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--gris-clair, #ddd); vertical-align: middle; }
+.histo-table thead th { font-size: .92rem; color: var(--gris-texte-clair, #445070); }
+.histo-liste { list-style: none; padding: 0; display: grid; gap: 8px; }
+.histo-liste i { color: var(--domaine-accent-fonce); margin-right: 6px; }
+.vide { color: var(--gris-texte-clair, #445070); }
+.sr-seulement { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
 @media print { .btn-simple, .liens-outils { display: none !important; } }
+
+/* ---- Page sources ---- */
+.source-ref { padding: 12px 0; border-bottom: 1px solid var(--gris-clair, #ddd); }
+.source-ref:last-child { border-bottom: 0; }
+.source-ref:target { background: rgba(var(--domaine-accent-rgb), .08); outline: 3px solid rgba(var(--domaine-accent-rgb), .35); border-radius: 8px; padding-left: 10px; }
+.source-ref p { margin: 4px 0; line-height: 1.55; }
+.source-titre { font-weight: 700; }
+.source-fichier { font-size: .9rem; color: var(--gris-texte-clair, #445070); }

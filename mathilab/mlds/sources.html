@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sources et références — MLDS Maths — MathiLab</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+<body>
+
+<header class="entete-mlds">
+  <h1><i class="fa-solid fa-book-open"></i> Sources et références</h1>
+  <p>D'où viennent les exercices et les méthodes du module MLDS.</p>
+  <a href="index.html" class="lien-retour"><i class="fa-solid fa-arrow-left"></i> Retour aux ateliers</a>
+</header>
+
+<main id="content" class="contenu-mlds">
+
+  <section class="carte">
+    <h2 class="titre-section"><i class="fa-solid fa-circle-info"></i> Comment lire cette page</h2>
+    <p>Les énoncés des ateliers « Des problèmes pour s'entraîner » et les modules du parcours individuel s'appuient sur les documents ci-dessous. Les énoncés sont repris ou adaptés (reformulés, mis en QCM) ; les explications et les coups de pouce sont rédigés pour ce module. Pour les conditions de réutilisation, consulter les documents d'origine sur <strong>eduscol.education.fr</strong>.</p>
+  </section>
+
+  <section class="carte">
+    <h2 class="titre-section"><i class="fa-solid fa-file-lines"></i> Documents utilisés</h2>
+    <div id="liste-sources"></div>
+  </section>
+
+  <section class="carte">
+    <h2 class="titre-section"><i class="fa-solid fa-link"></i> Quel atelier vient d'où ?</h2>
+    <div class="histo-defile">
+      <table class="histo-table">
+        <caption class="sr-seulement">Correspondance entre ateliers et sources</caption>
+        <thead><tr><th scope="col">Atelier ou module</th><th scope="col">Source principale</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Mettre en équation</th><td>Fiche « Résoudre un problème du premier degré » ; guide collège (problèmes se modélisant par une équation)</td></tr>
+          <tr><th scope="row">Aires et Pythagore</th><td>Fiche « Reconnaître des figures usuelles et déterminer l'aire des surfaces associées »</td></tr>
+          <tr><th scope="row">Fractions et puissances de 10</th><td>Fiche « Manipuler les nombres rationnels en écriture fractionnaire »</td></tr>
+          <tr><th scope="row">Fréquences et statistiques</th><td>Fiche « Décoder un texte par analyse fréquentielle »</td></tr>
+          <tr><th scope="row">Résoudre un problème en 4 temps</th><td>Guides « La résolution de problèmes mathématiques » (cours moyen et collège)</td></tr>
+          <tr><th scope="row">Défi du plan de travail</th><td>Mémoire de GIGANT, Gauthier (INSPE de Besançon, 2021)</td></tr>
+          <tr><th scope="row">Ateliers cuisine (proportionnalité, conversions, pourcentages, fractions)</th><td>Création MathiLab à partir de recettes au micro-ondes</td></tr>
+          <tr><th scope="row">Parcours individuel</th><td>Déroulé de séance, protocoles de résolution et pistes de différenciation des quatre fiches ; modèle en quatre phases du guide cours moyen</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="carte">
+    <h2 class="titre-section"><i class="fa-solid fa-triangle-exclamation"></i> Notes de lecture sur les fiches</h2>
+    <p>En adaptant les exercices, quelques valeurs des fiches d'origine ont été recalculées :</p>
+    <ul class="histo-liste">
+      <li><i class="fa-solid fa-pen" aria-hidden="true"></i> Parc d'attractions (fiche « Résoudre un problème du premier degré », situation 7) : avec un total de 309 €, l'oubli des parenthèses mène à 5x − 22 = 309, donc 66,20 €. L'analyse des distracteurs de la fiche écrit 339 au lieu de 309.</li>
+      <li><i class="fa-solid fa-pen" aria-hidden="true"></i> Virus au microscope (fiche « Manipuler les nombres rationnels… », situation 7) : avec 2,6 × 10⁻² m et un grossissement de × 2 200, on obtient 1,18 × 10⁻⁵ m, soit environ 11 800 nm, valeur absente des réponses proposées. Les réponses correspondent à 2,6 × 10⁻⁴ m (118 nm). Cet exercice n'est donc pas repris tel quel.</li>
+      <li><i class="fa-solid fa-pen" aria-hidden="true"></i> Distance de freinage (même fiche, situation 8) : sur route sèche, 12 = 4,8 × 10⁻³ × v² donne v = 50 km/h, valeur absente des réponses proposées.</li>
+      <li><i class="fa-solid fa-pen" aria-hidden="true"></i> Note moyenne de la classe (fiche « Décoder un texte… », situation 8) : le diagramme donne 279 points pour 22 élèves, soit 12,68, arrondi à 13, valeur absente des réponses proposées.</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="pied-mlds">
+  <p>Les références ci-dessus proviennent des documents fournis avec le projet. À vérifier sur les documents d'origine avant toute diffusion.</p>
+</footer>
+
+<script src="js/sources.js"></script>
+<script>
+(function () {
+  var zone = document.getElementById("liste-sources");
+  Object.keys(window.SOURCES).forEach(function (id) {
+    var s = window.SOURCES[id];
+    var bloc = document.createElement("article");
+    bloc.id = id;
+    bloc.className = "source-ref";
+    var t = document.createElement("p");
+    t.className = "source-titre";
+    t.textContent = s.complet;
+    bloc.appendChild(t);
+    var r = document.createElement("p");
+    r.textContent = "Repris ou adapté : " + s.repris;
+    bloc.appendChild(r);
+    if (s.fichier) {
+      var f = document.createElement("p");
+      f.className = "source-fichier";
+      f.textContent = "Fichier consulté : " + s.fichier;
+      bloc.appendChild(f);
+    }
+    zone.appendChild(bloc);
+  });
+})();
+</script>
+</body>
+</html>

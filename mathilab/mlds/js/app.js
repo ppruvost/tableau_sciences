@@ -5,6 +5,8 @@
 
 const SEUILS = { rouge: 0.8, orange: 1.6 }; // moyenne des items (0 à 2)
 const STORAGE_KEY = "mlds_dossiers_v1";
+const cloud = window.MLDSCloud || null; // historique en ligne (js/historique.js), facultatif
+let syncTimer = null;
 
 const state = {
   view: "parcours",  // parcours | jeux
@@ -13,7 +15,9 @@ const state = {
   eleve: { nom: "", prenom: "", classe: "", referent: "", date: "" },
   reponses: {},   // { competenceId: [note0, note1, note2] }
   suivi: {},      // { moduleKey: { fait: bool, note: string } }
-  dossierId: null
+  dossierId: null,
+  ddn: "",        // date de naissance : jamais stockée en local, sert seulement à retrouver le dossier en ligne
+  cloudMsg: ""
 };
 
 // ---------------------------------------------------------------- Storage --
@@ -39,6 +43,36 @@ function saveDossier() {
   } catch (e) {
     console.warn("Sauvegarde locale impossible :", e);
   }
+  syncCloud();
+}
+
+// ------------------------------------------------------ Historique en ligne
+// On n'envoie que les réponses du positionnement et les modules réalisés.
+// Les notes de suivi (texte libre) restent sur cet ordinateur.
+function etatPourCloud() {
+  const faits = {};
+  Object.keys(state.suivi).forEach((k) => { if (state.suivi[k] && state.suivi[k].fait) faits[k] = true; });
+  return { reponses: state.reponses, faits, classe: state.eleve.classe || "" };
+}
+
+function syncCloud() {
+  if (!cloud || !cloud.session()) return;
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(() => cloud.sauverEtat("positionnement", etatPourCloud()), 900);
+}
+
+function restaurerDepuisCloud(res) {
+  const e = res && res.etats && res.etats.positionnement;
+  if (!e || !e.details) return false;
+  const d = e.details;
+  const avant = state.suivi || {};
+  state.reponses = d.reponses || {};
+  state.suivi = {};
+  Object.keys(d.faits || {}).forEach((k) => {
+    state.suivi[k] = { fait: true, note: (avant[k] && avant[k].note) || "" };
+  });
+  if (d.classe && !state.eleve.classe) state.eleve.classe = d.classe;
+  return true;
 }
 
 function slug(str) {
@@ -106,7 +140,7 @@ function renderSidebar() {
   aside.innerHTML = `
     <p class="brand-sub" style="margin-bottom:10px"><a href="index.html" style="color:inherit">← Retour aux ateliers MLDS</a></p>
     <p class="brand">Parcours MLDS</p>
-    <p class="brand-sub">Remobilisation &amp; consolidation<br>Algèbre · Géométrie · TP cuisine (micro-ondes)</p>
+    <p class="brand-sub">Remobilisation &amp; consolidation<br>Algèbre · Nombres · Géométrie · Données · Problèmes · TP cuisine</p>
     <div class="tabbar">
       <button type="button" class="tab-btn ${state.view === "parcours" ? "active" : ""}" data-view="parcours">📋 Parcours</button>
       <button type="button" class="tab-btn ${state.view === "jeux" ? "active" : ""}" data-view="jeux">🎲 Jeux &amp; activités</button>
@@ -132,7 +166,16 @@ function renderSidebar() {
         ? `<div class="eleve-recap"><strong>${escapeHtml(state.eleve.prenom)} ${escapeHtml(state.eleve.nom)}</strong>${state.eleve.classe ? escapeHtml(state.eleve.classe) : ""}${state.eleve.date ? "<br>" + escapeHtml(state.eleve.date) : ""}</div>`
         : ""
     }
+    ${
+      cloud && cloud.session()
+        ? `<p class="cloud-statut">✓ Historique en ligne actif<br><a href="index.html#historique">Mon historique</a> · <button type="button" class="lien-bouton" id="btn-deconnexion">Changer d'élève</button></p>`
+        : ""
+    }
+    <p class="cloud-statut"><a href="sources.html">Sources et références</a></p>
   `;
+
+  const btnDeco = aside.querySelector("#btn-deconnexion");
+  if (btnDeco) btnDeco.addEventListener("click", () => { cloud.deconnecter(); });
 
   aside.querySelectorAll(".tab-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -160,7 +203,7 @@ function renderIdentite() {
 
   section.innerHTML = `
     <h1>Nouveau dossier de positionnement</h1>
-    <p class="intro">Renseigne les informations de l'élève avant de démarrer le positionnement. Le parcours généré porte sur les mathématiques : algèbre, géométrie, et des TP de recettes sucrées au micro-ondes pour travailler volumes et proportionnalité en situation concrète.</p>
+    <p class="intro">Renseigne les informations de l'élève avant de démarrer le positionnement. Le parcours généré couvre l'algèbre, les nombres et calculs, la géométrie, les données, la résolution de problèmes et des TP de recettes sucrées au micro-ondes. Les modules s'appuient sur les fiches d'accompagnement renforcé d'Eduscol (voir les sources).</p>
     ${
       dossierIds.length
         ? `<div class="field" style="max-width:420px">
@@ -201,28 +244,78 @@ function renderIdentite() {
         <input id="date" type="date" value="${escapeHtml(state.eleve.date)}">
       </div>
     </div>
+    ${
+      cloud && cloud.disponible()
+        ? `<div class="row">
+      <div class="field">
+        <label for="ddn">Date de naissance (pour retrouver ton dossier en ligne)</label>
+        <input id="ddn" type="date" value="${escapeHtml(state.ddn)}">
+      </div>
+    </div>
+    <p class="cloud-aide">Facultatif. Avec ton prénom, ton nom et ta date de naissance, ton positionnement et tes modules réalisés sont enregistrés en ligne : tu les retrouves sur n'importe quel ordinateur. Ton nom, ton prénom et ta date de naissance ne sont jamais enregistrés en clair (seule ta classe l'est, si tu l'écris), et les notes de suivi restent sur cet ordinateur. Sans date de naissance, le dossier reste uniquement ici.</p>`
+        : ""
+    }
+    <p class="cloud-message" id="cloud-message" role="status" aria-live="polite">${escapeHtml(state.cloudMsg)}</p>
     <div class="actions">
       <button class="primary" id="btn-start">Commencer le positionnement</button>
+      ${cloud && cloud.disponible() ? '<button class="secondary" id="btn-retrouver" type="button">Retrouver mon dossier en ligne</button>' : ""}
     </div>
   `;
+  state.cloudMsg = "";
 
-  section.querySelector("#btn-start").addEventListener("click", () => {
+  async function demarrer(retrouver) {
     state.eleve.prenom = section.querySelector("#prenom").value.trim();
     state.eleve.nom = section.querySelector("#nom").value.trim();
     state.eleve.classe = section.querySelector("#classe").value.trim();
     state.eleve.referent = section.querySelector("#referent").value.trim();
     state.eleve.date = section.querySelector("#date").value || new Date().toISOString().slice(0, 10);
+    const ddnEl = section.querySelector("#ddn");
+    state.ddn = ddnEl ? ddnEl.value : "";
     if (!state.eleve.prenom && !state.eleve.nom) {
       alert("Indique au moins un prénom ou un nom pour créer le dossier.");
       return;
     }
+    const message = section.querySelector("#cloud-message");
+
+    if (cloud && cloud.disponible() && state.ddn) {
+      if (!state.eleve.prenom || !state.eleve.nom) {
+        message.textContent = "Pour l'historique en ligne, renseigne ton prénom ET ton nom.";
+        return;
+      }
+      message.textContent = "Recherche de ton dossier en ligne…";
+      try {
+        const res = await cloud.ouvrirSession({ nom: state.eleve.nom, prenom: state.eleve.prenom, ddn: state.ddn, classe: state.eleve.classe });
+        if (retrouver && res.nouveau) {
+          state.cloudMsg = "Aucun dossier trouvé : un nouveau dossier vient d'être créé. Si tu pensais en avoir déjà un, vérifie l'orthographe de ton prénom, de ton nom et de ta date de naissance.";
+          render();
+          return;
+        }
+        const restaure = restaurerDepuisCloud(res);
+        state.cloudMsg = restaure ? "Dossier retrouvé : on reprend où tu t'étais arrêté(e)." : "Historique en ligne activé pour ce dossier.";
+      } catch (e) {
+        if (retrouver) {
+          state.cloudMsg = "L'historique en ligne ne répond pas (" + e.message + "). Réessaie dans un instant, ou commence sans historique.";
+          render();
+          return;
+        }
+        state.cloudMsg = "L'historique en ligne est indisponible : le dossier reste sur cet ordinateur.";
+      }
+    } else if (cloud && cloud.session()) {
+      // Pas de date de naissance : on coupe la session pour ne jamais mélanger deux élèves.
+      cloud.deconnecter();
+    }
+
     if (!state.dossierId) {
       state.dossierId = slug(`${state.eleve.prenom}-${state.eleve.nom}-${state.eleve.classe}`) + "-" + Date.now().toString(36);
     }
     saveDossier();
-    state.step = "positionnement";
+    state.step = positionnementComplet() && retrouver ? "plan" : "positionnement";
     render();
-  });
+  }
+
+  section.querySelector("#btn-start").addEventListener("click", () => demarrer(false));
+  const btnRetrouver = section.querySelector("#btn-retrouver");
+  if (btnRetrouver) btnRetrouver.addEventListener("click", () => demarrer(true));
 
   const chargerEl = section.querySelector("#charger");
   if (chargerEl) {
@@ -230,6 +323,7 @@ function renderIdentite() {
       const id = e.target.value;
       if (!id) return;
       const d = dossiers[id];
+      if (cloud && cloud.session()) cloud.deconnecter(); // un dossier local n'est jamais synchronisé avec la session d'un autre élève
       state.dossierId = id;
       state.eleve = d.eleve;
       state.reponses = d.reponses || {};
@@ -246,7 +340,10 @@ function renderIdentite() {
 function renderPositionnement() {
   const section = document.createElement("section");
   const header = document.createElement("div");
+  const bandeau = state.cloudMsg ? `<p class="cloud-message" role="status">${escapeHtml(state.cloudMsg)}</p>` : "";
+  state.cloudMsg = "";
   header.innerHTML = `
+    ${bandeau}
     <h1>Positionnement</h1>
     <p class="intro">Pour chaque affirmation, indique le niveau de l'élève : <strong>0</strong> = ne sait pas faire, <strong>1</strong> = sait faire avec aide, <strong>2</strong> = sait faire seul(e). Le niveau de la compétence se calcule automatiquement.</p>
   `;
@@ -280,6 +377,12 @@ function renderPositionnement() {
   btnSuite.addEventListener("click", () => {
     if (!positionnementComplet()) return;
     saveDossier();
+    if (cloud && cloud.session()) {
+      const niveaux = {};
+      PARCOURS_DATA.forEach((d) => d.competences.forEach((c) => { niveaux[c.id] = competenceNiveau(c.id); }));
+      const maitrisees = Object.values(niveaux).filter((n) => n === "vert").length;
+      cloud.enregistrer("positionnement", "parcours", "Positionnement terminé (" + maitrisees + " compétence(s) maîtrisée(s) sur " + Object.keys(niveaux).length + ")", maitrisees, Object.keys(niveaux).length, { niveaux });
+    }
     state.step = "plan";
     render();
   });
@@ -406,11 +509,16 @@ function renderPlan() {
   const totalModules = plan.reduce((acc, d) => acc + d.modules.length, 0);
 
   const header = document.createElement("div");
+  const bandeauPlan = state.cloudMsg ? `<p class="cloud-message" role="status">${escapeHtml(state.cloudMsg)}</p>` : "";
+  state.cloudMsg = "";
   header.innerHTML = `
+    ${bandeauPlan}
     <h1>Plan de travail personnalisé</h1>
     <p class="intro">Parcours généré pour ${escapeHtml(state.eleve.prenom)} ${escapeHtml(state.eleve.nom)}${state.eleve.classe ? " · " + escapeHtml(state.eleve.classe) : ""} le ${escapeHtml(state.eleve.date)}. Les modules « remobilisation » précèdent les modules « consolidation », domaine par domaine.</p>
   `;
   section.appendChild(header);
+
+  if (window.SEANCE_55) section.appendChild(renderSeance55());
 
   if (totalModules === 0) {
     const empty = document.createElement("div");
@@ -437,6 +545,16 @@ function renderPlan() {
     }
   });
 
+  const sourcesIds = sourcesDuPlan(plan);
+  if (sourcesIds.length && window.SOURCES) {
+    const bloc = document.createElement("section");
+    bloc.className = "sources-plan";
+    bloc.innerHTML = `<h2 class="domaine-title">Sources</h2>
+      <ul>${sourcesIds.map((id) => `<li>${escapeHtml(window.SOURCES[id].complet)}</li>`).join("")}</ul>
+      <p class="module-meta"><a href="sources.html">Détail des sources et notes de lecture</a></p>`;
+    section.appendChild(bloc);
+  }
+
   const actions = document.createElement("div");
   actions.className = "actions";
   const btnRetour = document.createElement("button");
@@ -462,6 +580,23 @@ function renderPlan() {
   return section;
 }
 
+function sourcesDuPlan(plan) {
+  const ids = [];
+  plan.forEach(({ modules }) => modules.forEach(({ competence }) => (competence.sources || []).forEach((id) => {
+    if (window.SOURCES && window.SOURCES[id] && !ids.includes(id)) ids.push(id);
+  })));
+  return ids;
+}
+
+function renderSeance55() {
+  const d = document.createElement("details");
+  d.className = "seance-55";
+  d.innerHTML = `<summary>Déroulé type d'une séance de 55 minutes</summary>
+    <ol>${window.SEANCE_55.etapes.map((e) => `<li><strong>${escapeHtml(e.duree)} — ${escapeHtml(e.titre)}.</strong> ${escapeHtml(e.detail)}</li>`).join("")}</ol>
+    <p class="module-meta">${window.citerSources ? window.citerSources(window.SEANCE_55.sources) : ""}</p>`;
+  return d;
+}
+
 function renderModuleCard({ key, competence, type, niveau, module }) {
   const card = document.createElement("div");
   card.className = `module-card ${niveau}`;
@@ -474,8 +609,16 @@ function renderModuleCard({ key, competence, type, niveau, module }) {
     </div>
     <p class="module-meta">Compétence : ${escapeHtml(competence.label)} · Durée indicative : ${escapeHtml(module.duree)}</p>
     <p class="objectif"><strong>Objectif —</strong> ${escapeHtml(module.objectif)}</p>
+    ${competence.flash ? `<p class="flash"><strong>Question flash d'entrée —</strong> ${escapeHtml(competence.flash)}</p>` : ""}
     <ul>${module.activites.map((a) => `<li>${escapeHtml(a)}</li>`).join("")}</ul>
+    ${
+      competence.coupsDePouce && competence.coupsDePouce.length
+        ? `<details class="coups-de-pouce"><summary>Coups de pouce</summary><ol>${competence.coupsDePouce.map((c) => `<li>${escapeHtml(c)}</li>`).join("")}</ol></details>`
+        : ""
+    }
     <p class="module-meta">Ressources : ${escapeHtml(module.ressources.join(", "))}</p>
+    ${competence.atelier ? `<p class="no-print"><a class="lien-atelier" href="index.html#atelier=${encodeURIComponent(competence.atelier)}">Faire l'atelier QCM associé</a></p>` : ""}
+    ${competence.sources && window.citerSources ? `<p class="module-meta sources-ligne">${window.citerSources(competence.sources)}</p>` : ""}
     <div class="module-suivi no-print">
       <input type="checkbox" id="fait-${key}" ${suivi.fait ? "checked" : ""}>
       <label for="fait-${key}">Module réalisé</label>
@@ -490,6 +633,9 @@ function renderModuleCard({ key, competence, type, niveau, module }) {
     if (!state.suivi[key]) state.suivi[key] = { fait: false, note: "" };
     state.suivi[key].fait = e.target.checked;
     saveDossier();
+    if (e.target.checked && cloud && cloud.session()) {
+      cloud.enregistrer("module", key, module.titre, undefined, undefined, { type, competence: competence.id });
+    }
   });
   card.querySelector(`#note-${key}`).addEventListener("blur", (e) => {
     if (!state.suivi[key]) state.suivi[key] = { fait: false, note: "" };
@@ -531,6 +677,10 @@ function exportMarkdown(plan) {
       lines.push(`- Durée indicative : ${module.duree}`);
       lines.push(`- Objectif : ${module.objectif}`);
       lines.push(`- Activités : ${module.activites.join(" ; ")}`);
+      if (competence.flash) lines.push(`- Question flash d'entrée : ${competence.flash}`);
+      if (competence.coupsDePouce && competence.coupsDePouce.length) lines.push(`- Coups de pouce : ${competence.coupsDePouce.join(" ; ")}`);
+      if (competence.atelier) lines.push(`- Atelier QCM associé : index.html#atelier=${competence.atelier}`);
+      if (competence.sources && window.citerSourcesTexte) lines.push(`- Sources : ${window.citerSourcesTexte(competence.sources)}`);
       lines.push(`- Ressources : ${module.ressources.join(", ")}`);
       lines.push(`- Réalisé : ${suivi.fait ? "oui" : "non"}`);
       if (suivi.note) lines.push(`- Notes : ${suivi.note}`);
@@ -541,6 +691,14 @@ function exportMarkdown(plan) {
       lines.push("");
     }
   });
+
+  const ids = sourcesDuPlan(plan);
+  if (ids.length) {
+    lines.push("## Sources");
+    lines.push("");
+    ids.forEach((id) => lines.push(`- ${window.SOURCES[id].complet}`));
+    lines.push("");
+  }
 
   const blob = new Blob([lines.join("\n")], { type: "text/markdown;charset=utf-8" });
   const url = URL.createObjectURL(blob);
@@ -554,4 +712,5 @@ function exportMarkdown(plan) {
 }
 
 // ------------------------------------------------------------------ Init --
+window.addEventListener("mlds:session", () => render());
 render();

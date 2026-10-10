@@ -6,6 +6,7 @@
 <title>MLDS Maths — Ateliers cuisine — MathiLab</title>
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/historique.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
 </head>
 <body>
@@ -18,9 +19,10 @@
 
 <main id="content" class="contenu-mlds">
 
+  <div id="panneau-eleve"></div>
+
   <section id="vue-liste">
-    <h2 class="titre-section"><i class="fa-solid fa-list-check"></i> Choisis un atelier</h2>
-    <div id="ateliers-grille" class="ateliers-grille"></div>
+    <div id="ateliers-groupes"></div>
 
     <h2 class="titre-section"><i class="fa-solid fa-compass"></i> Pour aller plus loin</h2>
     <div class="liens-outils">
@@ -38,9 +40,18 @@
       </a>
       <a class="carte-lien" href="parcours.html">
         <i class="fa-solid fa-route"></i>
-        <span><strong>Générateur de parcours</strong><br>Pour l'enseignant : positionnement et plan de travail.</span>
+        <span><strong>Mon parcours individuel</strong><br>Positionnement, plan de travail et suivi.</span>
+      </a>
+      <a class="carte-lien" href="sources.html">
+        <i class="fa-solid fa-book-open"></i>
+        <span><strong>Sources et références</strong><br>D'où viennent les exercices.</span>
       </a>
     </div>
+  </section>
+
+  <section id="vue-historique" class="carte" hidden>
+    <button type="button" id="btn-retour-liste-histo" class="btn-simple"><i class="fa-solid fa-arrow-left"></i> Tous les ateliers</button>
+    <div id="historique-contenu" aria-live="polite"></div>
   </section>
 
   <section id="vue-atelier" class="carte" hidden>
@@ -50,7 +61,15 @@
 
 </main>
 
+<footer class="pied-mlds">
+  <p>Ateliers inspirés des fiches Eduscol « Accompagnement renforcé » (2de pro, déc. 2022) et des guides « La résolution de problèmes mathématiques ». <a href="sources.html">Voir toutes les sources</a>.</p>
+</footer>
+
+<script src="js/supabase-config.js"></script>
+<script src="js/historique.js"></script>
+<script src="js/sources.js"></script>
 <script src="js/ateliers.js"></script>
+<script src="js/ateliers-fiches.js"></script>
 <script src="js/ateliers-app.js"></script>
 </body>
 </html>

@@ -519,3 +519,21 @@ button:disabled { opacity: 0.45; cursor: not-allowed; }
   .sidebar { display: none; }
   .main { padding: 24px; }
 }
+
+
+/* ---------- Historique en ligne, sources, coups de pouce ---------- */
+.cloud-statut { font-size: 0.85rem; color: var(--ink-soft); margin: 18px 0 0; line-height: 1.6; }
+.cloud-statut a, .lien-bouton { color: var(--ink); font-weight: 600; }
+.lien-bouton { background: none; border: 0; padding: 0; font: inherit; font-weight: 600; text-decoration: underline; cursor: pointer; }
+.cloud-aide { font-size: 0.9rem; color: var(--ink-soft); max-width: 62ch; }
+.cloud-message { min-height: 1.4em; font-weight: 600; color: var(--ink); }
+.flash { background: var(--paper); border-left: 4px solid var(--amber); padding: 8px 12px; border-radius: 6px; font-size: 0.92rem; }
+.coups-de-pouce, .seance-55 { margin: 10px 0; font-size: 0.92rem; }
+.coups-de-pouce summary, .seance-55 summary { cursor: pointer; font-weight: 600; }
+.coups-de-pouce summary:focus-visible, .seance-55 summary:focus-visible, .lien-atelier:focus-visible, .lien-bouton:focus-visible { outline: 3px solid var(--amber-dark); outline-offset: 2px; }
+.seance-55 { background: var(--paper-raised); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 14px; margin-bottom: 18px; }
+.lien-atelier { display: inline-block; font-weight: 600; color: var(--ink); text-decoration: underline; }
+.sources-ligne a, .seance-55 a { color: inherit; }
+.sources-plan { margin-top: 28px; font-size: 0.9rem; color: var(--ink-soft); }
+.sources-plan ul { padding-left: 18px; }
+@media print { .coups-de-pouce[open] summary { display: none; } }
