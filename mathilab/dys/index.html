@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Parcours Dys : outils et ressources accessibles pour accompagner la dyscalculie.">
+<title>Parcours Dys — Dyscalculie</title>
+<link rel="icon" href="data:,">
+
+<!-- Police : Atkinson Hyperlegible (le CSS doit prévoir une pile de secours : system-ui, Arial, sans-serif) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+<a class="skip" href="#contenu">Aller au contenu</a>
+
+<main id="contenu" tabindex="-1">
+  <div id="app"></div>
+  <noscript>
+    <p>Cette application nécessite JavaScript pour fonctionner. Merci de l’activer dans votre navigateur.</p>
+  </noscript>
+</main>
+
+<!-- Ordre important : data.js → tools.js → app.js (defer conserve l'ordre d'exécution) -->
+<script src="./js/data.js" defer></script>
+<script src="./js/tools.js" defer></script>
+<script src="./js/app.js" defer></script>
+</body>
+</html>

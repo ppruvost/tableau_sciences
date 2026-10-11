@@ -1,3 +1,5 @@
+@import url('css/fonts.css');  /* Atkinson Hyperlegible, hébergée en local */
+
 /* =========================
    RESET + BASE
 ========================= */
@@ -38,7 +40,7 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Atkinson Hyperlegible', 'Segoe UI', Arial, sans-serif;
     background: #f4f4f4;
     color: #222;
     line-height: 1.5;

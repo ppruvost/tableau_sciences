@@ -7,6 +7,7 @@
  * ============================================================
  */
 
+import { exposerOutils } from './outils-geogebra.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initContextePro } from '../../js/contexte-pro.js';
 import { initRadarCompetences } from '../../js/radar.js';
@@ -225,6 +226,7 @@ function filtrerOngletsParFiliere() {
    ============================================================ */
 
 function initialiserTD03() {
+  exposerOutils();
   initOngletsParFiliere();
 
   initContextePro({

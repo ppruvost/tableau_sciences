@@ -11,6 +11,12 @@
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+
+  <!-- Bouton Dys : même forme que MLDS (classes partagées), seule la couleur change.
+       Supprimer ce bloc pour garder exactement la couleur du bouton MLDS. -->
+  <style>
+    .tp-card.mlds.dys:not(:hover):not(:focus-visible) { background: #1D6F7A; }
+  </style>
 </head>
 
 <body>
@@ -64,6 +70,16 @@
           </button>
         </div>
 
+        <!-- DYS : même rangée, même taille et même forme décagone que MLDS
+             (ouverture gérée par js/app.js, id="openDys") -->
+        <div class="tp-card-outil-wrap mlds-wrap dys-wrap">
+          <button type="button" id="openDys" class="tp-card tp-card-outil mlds dys" data-domaine="dys"
+            aria-label="Ouvrir le parcours Dys Maths : outils et activités pour les élèves dyscalculiques">
+            <i class="fas fa-shapes"></i>
+            <span>Dys Maths</span>
+          </button>
+        </div>
+
       </div>
     </div>
 
@@ -85,7 +101,7 @@
 
     <!-- ====== EXTERNE ====== -->
     <div id="external-content" class="section">
-      <iframe id="external-frame"></iframe>
+      <iframe id="external-frame" title="Contenu externe"></iframe>
     </div>
 
   </div>
@@ -115,6 +131,7 @@
       setActive(element);
     }
 
+    window.setActive = setActive;
     window.showSection = showSection;
     window.loadInFrame = loadInFrame;
   </script>
@@ -128,7 +145,7 @@
       <h2>Travaux Dirigés</h2>
       <button id="closeViewer">✖ Fermer</button>
     </div>
-    <iframe id="tpFrame"></iframe>
+    <iframe id="tpFrame" title="Travaux dirigés"></iframe>
   </div>
 
 

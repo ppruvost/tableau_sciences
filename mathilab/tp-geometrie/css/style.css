@@ -61,3 +61,30 @@
 #activites-atelier .tableau-resultats input[type="text"],
 #activites-atelier .tableau-resultats input[type="number"] { width:100%; min-width:6rem; }
 #activites-atelier .resultat-calcul { line-height:1.8; }
+
+/* ---------- Cadre GéoGébra intégré (outils-geogebra.js) ---------- */
+.cadre-geogebra {
+  margin: 12px 0 18px;
+  border: 1px solid #cfd8e3;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+}
+.cadre-geogebra-entete {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 10px;
+  background: #f3f6fa;
+  font-size: .9rem;
+}
+.cadre-geogebra iframe {
+  display: block;
+  width: 100%;
+  height: 560px;
+  border: 0;
+}
+@media (max-width: 700px) {
+  .cadre-geogebra iframe { height: 420px; }
+}

@@ -6,7 +6,9 @@
 // ==============================
 const SUPABASE_URL = "https://obsqakmhtvfuwnoxoksr.supabase.co";
 const SUPABASE_KEY = "sb_publishable_6FzuHhDBYOOSiAR9J-CiCA_KBfcyfhu";
-const TABLE_NAME = "quiz_sessions";
+// Les données élèves ne sont plus lisibles directement : la page appelle la
+// fonction serveur quiz_resultats_prof, protégée par le code enseignant.
+const CODE_PROF_CLE = "psci_code_prof";
 
 // Seuls les statuts listés ici sont pris en compte dans les moyennes
 // (une session en cours ou abandonnée n'a pas de score exploitable).
@@ -133,8 +135,19 @@ async function loadData() {
 
   try {
     const client = await initSupabase();
-    const { data, error } = await client.from(TABLE_NAME).select("*");
-    if (error) throw error;
+
+    let code = sessionStorage.getItem(CODE_PROF_CLE);
+    if (!code) {
+      code = window.prompt("Code enseignant :");
+      if (!code) throw new Error("code enseignant requis");
+    }
+
+    const { data, error } = await client.rpc("quiz_resultats_prof", { p_code: code });
+    if (error) {
+      sessionStorage.removeItem(CODE_PROF_CLE);
+      throw error;
+    }
+    sessionStorage.setItem(CODE_PROF_CLE, code);
 
     allRows = (data || []).filter(isStatutValide).filter((r) => parseScoreSur10(r) !== null);
 
@@ -145,7 +158,7 @@ async function loadData() {
     errorMsg.textContent =
       "Impossible de charger les résultats (" +
       (err.message || err) +
-      "). Vérifiez le nom de la table/des colonnes en tête de script.js.";
+      "). Rechargez la page pour saisir à nouveau le code enseignant.";
     errorMsg.style.display = "block";
   } finally {
     loadingMsg.style.display = "none";

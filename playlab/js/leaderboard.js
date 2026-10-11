@@ -77,15 +77,20 @@ async function loadLeaderboard() {
     // On récupère plus de 10 lignes en amont (ex. 100) car la déduplication
     // par prénom (casse/accents confondus) va réduire le nombre de lignes :
     // il faut une marge suffisante pour pouvoir reconstituer un top 10 complet.
+    // La fonction serveur quiz_classement ne renvoie que prénom, score et date :
+    // aucun nom de famille n'est accessible depuis le navigateur.
     const res = await fetch(
 
-      `${SUPABASE_URL}/rest/v1/scores?select=prenom,score,date_score&order=score.desc,date_score.desc&limit=100`,
+      `${SUPABASE_URL}/rest/v1/rpc/quiz_classement`,
 
       {
+        method: "POST",
         headers: {
+          "Content-Type": "application/json",
           apikey: SUPABASE_KEY,
           Authorization: `Bearer ${SUPABASE_KEY}`
-        }
+        },
+        body: JSON.stringify({ p_limite: 100 })
       }
 
     );

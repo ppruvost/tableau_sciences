@@ -6,7 +6,7 @@
    variables plutôt que des couleurs/tailles en dur.
    ════════════════════════════════════════════════════════════════ */
 
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Fira+Code:wght@400;500&family=Lato:wght@300;400;700&display=swap');
+@import url('fonts.css');  /* Atkinson Hyperlegible, hébergée en local */
 
 :root {
 
@@ -82,9 +82,9 @@
   --niveau-terminale-bg: var(--epi-blouse-bg);  --niveau-terminale-fg: var(--violet-kmno4);
 
   /* ── 9. Typographie ── */
-  --font-titre: 'Space Grotesk', sans-serif;
-  --font-corps: 'Lato', sans-serif;
-  --font-code:  'Fira Code', monospace;
+  --font-titre: 'Atkinson Hyperlegible', 'Segoe UI', Arial, sans-serif;
+  --font-corps: 'Atkinson Hyperlegible', 'Segoe UI', Arial, sans-serif;
+  --font-code:  'Atkinson Hyperlegible Mono', 'Atkinson Hyperlegible', ui-monospace, monospace;
 
   --fs-xs:  0.75rem;
   --fs-sm:  0.85rem;

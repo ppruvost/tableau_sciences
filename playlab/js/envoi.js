@@ -182,55 +182,56 @@ function remainingCooldown(prenom, automatisme){
 
 
 // =============================
-// ENVOI SCORE SUPABASE (leaderboard)
+// APPEL DES FONCTIONS SUPABASE (RPC)
+// Les tables ne sont plus accessibles directement depuis le navigateur :
+// tout passe par des fonctions dédiées (voir supabase/quiz_fonctions.sql).
 // =============================
-async function envoyerScore(prenom, score){
+async function appelRpcSupabase(nom, params = {}, options = {}) {
 
   if (!SUPABASE_URL || !SUPABASE_KEY) {
-
-    throw new Error(
-      "Variables Supabase absentes"
-    );
-
+    throw new Error("Variables Supabase absentes");
   }
+
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/rpc/${nom}`,
+    {
+      method: "POST",
+      keepalive: !!options.keepalive,
+      headers: {
+        "Content-Type": "application/json",
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`
+      },
+      body: JSON.stringify(params)
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error(await res.text());
+  }
+
+  // Les fonctions qui ne renvoient rien répondent 204 / corps vide
+  const texte = await res.text();
+  return texte ? JSON.parse(texte) : null;
+
+}
+
+
+// =============================
+// ENVOI SCORE SUPABASE (leaderboard)
+// =============================
+// Enregistre uniquement le prénom et les points : le nom de famille
+// n'est jamais envoyé au classement.
+async function envoyerScore(prenom, score){
 
   try {
 
-    const res =
-      await fetch(
-
-        `${SUPABASE_URL}/rest/v1/scores`,
-
-        {
-          method:"POST",
-
-          headers:{
-            "Content-Type":"application/json",
-            apikey: SUPABASE_KEY,
-            Authorization:
-              `Bearer ${SUPABASE_KEY}`
-          },
-
-          body: JSON.stringify({
-            prenom,
-            score
-          })
-
-        }
-
-      );
-
-    if(!res.ok){
-
-      throw new Error(
-        await res.text()
-      );
-
-    }
-
-    console.log(
-      "Score ajouté avec succès"
+    await appelRpcSupabase(
+      "quiz_enregistrer_score",
+      { p_prenom: prenom, p_score: score }
     );
+
+    console.log("Score ajouté avec succès");
 
     return true;
 
@@ -238,10 +239,7 @@ async function envoyerScore(prenom, score){
 
   catch(err){
 
-    console.error(
-      "Erreur Supabase :",
-      err
-    );
+    console.error("Erreur Supabase :", err);
 
     throw err;
 
@@ -524,8 +522,8 @@ async function sendResults(
 // nom, prénom, horodatage de début/fin, score, statut.
 // Table Supabase attendue : quiz_sessions (voir sql/quiz_sessions.sql)
 // =============================
-const SUIVI_TABLE = "quiz_sessions";
 let suiviSessionId = null;
+let suiviSessionJeton = null; // jeton secret renvoyé par le serveur au début de la session
 
 function suiviDetecterCategorie() {
 
@@ -542,39 +540,26 @@ function suiviDetecterCategorie() {
 async function suiviDemarrerSession(nom, prenom, quiz) {
 
   suiviSessionId = null;
+  suiviSessionJeton = null;
 
   if (!SUPABASE_URL || !SUPABASE_KEY) return;
 
   try {
 
-    const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/${SUIVI_TABLE}`,
+    const session = await appelRpcSupabase(
+      "quiz_demarrer_session",
       {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          apikey: SUPABASE_KEY,
-          Authorization: `Bearer ${SUPABASE_KEY}`,
-          Prefer: "return=representation"
-        },
-        body: JSON.stringify({
-          nom,
-          prenom,
-          quiz,
-          categorie: suiviDetecterCategorie(),
-          device_id: (typeof getDeviceId === "function") ? getDeviceId() : null,
-          status: "en_cours"
-        })
+        p_nom: nom,
+        p_prenom: prenom,
+        p_quiz: quiz,
+        p_categorie: suiviDetecterCategorie(),
+        p_device_id: (typeof getDeviceId === "function") ? getDeviceId() : null
       }
     );
 
-    if (res.ok) {
-      const rows = await res.json();
-      if (rows && rows[0] && rows[0].id) {
-        suiviSessionId = rows[0].id;
-      }
-    } else {
-      console.error("Suivi : échec de l'enregistrement du début", await res.text());
+    if (session && session.id && session.jeton) {
+      suiviSessionId = session.id;
+      suiviSessionJeton = session.jeton;
     }
 
   } catch (e) {
@@ -585,32 +570,28 @@ async function suiviDemarrerSession(nom, prenom, quiz) {
 // Enregistre la fin (normale) du quiz avec le résultat.
 async function suiviTerminerSession({ score, total, note10, note20, playMathsPoints }) {
 
-  if (!suiviSessionId || !SUPABASE_URL || !SUPABASE_KEY) return;
+  if (!suiviSessionId || !suiviSessionJeton) return;
 
   const idAEnvoyer = suiviSessionId;
-  suiviSessionId = null; // évite un double envoi (ex: fermeture d'onglet juste après)
+  const jetonAEnvoyer = suiviSessionJeton;
+
+  // évite un double envoi (ex: fermeture d'onglet juste après)
+  suiviSessionId = null;
+  suiviSessionJeton = null;
 
   try {
 
-    await fetch(
-      `${SUPABASE_URL}/rest/v1/${SUIVI_TABLE}?id=eq.${idAEnvoyer}`,
+    await appelRpcSupabase(
+      "quiz_terminer_session",
       {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          apikey: SUPABASE_KEY,
-          Authorization: `Bearer ${SUPABASE_KEY}`,
-          Prefer: "return=minimal"
-        },
-        body: JSON.stringify({
-          ended_at: new Date().toISOString(),
-          score,
-          total,
-          note_10: note10,
-          note_20: note20,
-          playmaths_points: playMathsPoints,
-          status: "termine"
-        })
+        p_id: idAEnvoyer,
+        p_jeton: jetonAEnvoyer,
+        p_statut: "termine",
+        p_score: score,
+        p_total: total,
+        p_note_10: note10,
+        p_note_20: note20,
+        p_points: playMathsPoints
       }
     );
 
@@ -625,31 +606,21 @@ async function suiviTerminerSession({ score, total, note10, note20, playMathsPoi
 // abandon "par timeout" en secours, au cas où cet évènement ne partirait pas.
 function suiviMarquerAbandonSync() {
 
-  if (!suiviSessionId || !SUPABASE_URL || !SUPABASE_KEY) return;
+  if (!suiviSessionId || !suiviSessionJeton) return;
 
   try {
 
-    fetch(
-      `${SUPABASE_URL}/rest/v1/${SUIVI_TABLE}?id=eq.${suiviSessionId}`,
+    appelRpcSupabase(
+      "quiz_terminer_session",
       {
-        method: "PATCH",
-        keepalive: true,
-        headers: {
-          "Content-Type": "application/json",
-          apikey: SUPABASE_KEY,
-          Authorization: `Bearer ${SUPABASE_KEY}`,
-          Prefer: "return=minimal"
-        },
-        body: JSON.stringify({
-          status: "abandonne",
-          ended_at: new Date().toISOString()
-        })
-      }
-    );
+        p_id: suiviSessionId,
+        p_jeton: suiviSessionJeton,
+        p_statut: "abandonne"
+      },
+      { keepalive: true }
+    ).catch(() => {});
 
   } catch (e) {
     // silencieux : la page est en train de se fermer
   }
 }
-
-window.addEventListener("pagehide", suiviMarquerAbandonSync);

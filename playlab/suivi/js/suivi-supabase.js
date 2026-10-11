@@ -9,28 +9,54 @@ const SUIVI_HEADERS = {
   Authorization: `Bearer ${SUIVI_SUPABASE_KEY}`,
 };
 
+// Code enseignant : demandé une fois par onglet, conservé le temps de la session.
+const SUIVI_CODE_CLE = "psci_code_prof";
+let suiviCodeRefuse = false;
+
+function suiviObtenirCode() {
+
+  let code = sessionStorage.getItem(SUIVI_CODE_CLE);
+
+  if (!code && !suiviCodeRefuse) {
+    code = window.prompt("Code enseignant :");
+    if (!code) suiviCodeRefuse = true; // ne pas redemander toutes les 5 s
+  }
+
+  return code || null;
+}
+
 // Récupère les sessions de quiz dont la date de début est comprise
-// entre dateDebutISO (incluse) et dateFinISO (exclue).
+// entre dateDebutISO (incluse) et dateFinISO (exclue), via la fonction
+// serveur quiz_resultats_prof (protégée par le code enseignant).
 async function suiviChargerSessions(dateDebutISO, dateFinISO) {
 
-  const params = new URLSearchParams({
-    select: "id,nom,prenom,quiz,categorie,started_at,ended_at,score,total,note_10,note_20,playmaths_points,status",
-    started_at: `gte.${dateDebutISO}`,
-    order: "started_at.desc",
-  });
+  const code = suiviObtenirCode();
 
-  const url =
-    `${SUIVI_SUPABASE_URL}/rest/v1/quiz_sessions?${params.toString()}` +
-    `&started_at=lt.${encodeURIComponent(dateFinISO)}`;
+  if (!code) return [];
 
   try {
 
-    const res = await fetch(url, { headers: SUIVI_HEADERS });
+    const res = await fetch(
+      `${SUIVI_SUPABASE_URL}/rest/v1/rpc/quiz_resultats_prof`,
+      {
+        method: "POST",
+        headers: { ...SUIVI_HEADERS, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          p_code: code,
+          p_debut: dateDebutISO,
+          p_fin: dateFinISO
+        })
+      }
+    );
 
     if (!res.ok) {
       console.error("Suivi : réponse Supabase non OK", await res.text());
+      sessionStorage.removeItem(SUIVI_CODE_CLE);
+      suiviCodeRefuse = true; // code invalide : recharger la page pour réessayer
       return [];
     }
+
+    sessionStorage.setItem(SUIVI_CODE_CLE, code);
 
     return await res.json();
 
