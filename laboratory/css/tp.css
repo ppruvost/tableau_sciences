@@ -27,21 +27,11 @@
      18. Onglets
      19. Progression pédagogique & sidebar
      20. Chronomètre, capsule concentration/arrondi, tooltip
-     21. Navigation inter-TP
-     22. Animations (déplacées dans animations.css)
-     23. RESPONSIVE (centralisé — aucun @media ailleurs, y compris les
-         cibles tactiles agrandies pour usage tactile en labo)
+     21. Auto-évaluation (écran)
+     22. Animations
+     23. RESPONSIVE (centralisé — aucun @media ailleurs)
+     24. IMPRESSION (layout général, hors compte-rendu)
      25. Préférences de mouvement réduit
-
-   Notes de cohérence avec le code actuel :
-   - Les styles d'auto-évaluation à l'écran (.autoeval-print) sont dans
-     la section 8 (TABLEAUX), avec .table/.tableau-resultats, plutôt que
-     dans une section dédiée : il n'existe pas de section « Auto-évaluation »
-     séparée malgré l'ancien intitulé de ce sommaire.
-   - Il n'y a pas de section « 24. IMPRESSION » dans ce fichier : le layout
-     général d'impression vit dans css/print.css, hors de tp.css. À vérifier
-     si cette section a été déplacée intentionnellement ou si des règles
-     ont été perdues en route.
    ════════════════════════════════════════════════════════════════ */
 
 /* ──────────────────────────────────────────────────────────────
@@ -153,7 +143,7 @@
   background: var(--noir-crayon);
   padding: 4px 10px;
   border-radius: 6px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Atkinson Hyperlegible', Verdana, 'DejaVu Sans', Arial, sans-serif;
   font-weight: 700;
   font-size: .95rem;
   letter-spacing: .5px;
@@ -1129,17 +1119,19 @@ textarea { font-family: var(--font-corps); resize: vertical; min-height: 80px; }
 .etapes { list-style: none; counter-reset: etape; padding: 0; margin: 0; width: 100%; }
 .etapes li {
   counter-increment: etape;
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
+  position: relative;           /* la pastille numérotée est placée à gauche */
+  display: block;               /* texte et <code> s'écoulent normalement (plus de flex) */
   width: 100%;
+  min-height: 40px;
   margin-bottom: 1rem;
-  padding-bottom: 1rem;
+  padding: 0 0 1rem calc(40px + 1rem);
   border-bottom: 1px dashed var(--gris-clair);
+  overflow-wrap: anywhere;      /* commandes longues : retour à la ligne, pas de débordement */
 }
 .etapes li:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
 .etapes li::before {
   content: counter(etape);
+  position: absolute; left: 0; top: 0;
   width: 40px; height: 40px; min-width: 40px;
   display: flex; align-items: center; justify-content: center;
   border-radius: 50%;
@@ -1150,7 +1142,8 @@ textarea { font-family: var(--font-corps); resize: vertical; min-height: 80px; }
   font-size: .95rem;
   flex-shrink: 0;
 }
-.etapes li > * { flex: 1; min-width: 0; }
+.etapes li > * { min-width: 0; }
+.etapes li code { white-space: normal; overflow-wrap: anywhere; word-break: break-word; }
 .etapes li .attention { color: var(--clp-rouge); font-weight: 600; }
 .etapes li strong, .etapes li em, .etapes li span, .etapes li p { display: inline; width: auto; max-width: none; }
 
@@ -1241,13 +1234,6 @@ textarea { font-family: var(--font-corps); resize: vertical; min-height: 80px; }
   box-shadow: var(--ombre-carte);
   height: 560px;
   object-fit: contain;
-}
-.mode-legende {
-  max-width: 1450px;
-  margin: 10px auto 0;
-  font-size: 0.85rem;
-  color: var(--gris-moyen, #5B6470);
-  font-style: italic;
 }
 .hidden { display: none; }
 
@@ -1427,18 +1413,6 @@ textarea { font-family: var(--font-corps); resize: vertical; min-height: 80px; }
 }
 
 /* ════════════════════════════════════════════════════════════════
-   25. PRÉFÉRENCES DE MOUVEMENT RÉDUIT
-   ════════════════════════════════════════════════════════════════ */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: .01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: .01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* ════════════════════════════════════════════════════════════════
    Problématique par filière métier.
    ════════════════════════════════════════════════════════════════ */
 .problematique-rappel{
@@ -1454,11 +1428,3 @@ textarea { font-family: var(--font-corps); resize: vertical; min-height: 80px; }
 .radar-axe-ligne   { stroke: var(--gris-clair); stroke-width: 1; }
 .radar-axe-texte   { font-size: 12px; font-weight: 700; fill: var(--gris-moyen); }
 .radar-polygone    { fill: var(--bleu-cuivre); fill-opacity: .35; stroke: var(--bleu-cuivre); stroke-width: 2; }
-
-
-.filiere-restriction-note {
-  font-size: 0.9em;
-  font-style: italic;
-  color: var(--gris-texte, #555);
-  margin-top: 0.5em;
-}

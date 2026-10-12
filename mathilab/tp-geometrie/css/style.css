@@ -88,3 +88,12 @@
 @media (max-width: 700px) {
   .cadre-geogebra iframe { height: 420px; }
 }
+
+/* GéoGébra 3D direct (sans iframe) injecté par outils-geogebra.js */
+.ggb-conteneur {
+  display: block;
+  width: 100%;
+  min-height: 480px;
+  background: #fff;
+  overflow: auto;
+}
