@@ -1,3 +1,4 @@
+@import url("../../fonts/fonts.css");
 :root {
   --bg: #12102b;
   --panel: #1c1a44;
@@ -9,7 +10,7 @@
   --yellow: #f5c518;
   --text: #e8e6ff;
   --text-dim: #a7a3d6;
-  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  font-family: 'Atkinson Hyperlegible', Verdana, 'DejaVu Sans', Arial, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -31,7 +32,7 @@ body {
 }
 
 .top-bar h1 {
-  font-family: "Courier New", monospace;
+  font-family: 'Atkinson Hyperlegible Mono', Consolas, 'Courier New', monospace;
   letter-spacing: 2px;
   color: var(--cyan);
   text-shadow: 0 0 10px rgba(46, 230, 230, 0.6);

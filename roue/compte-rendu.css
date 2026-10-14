@@ -1,6 +1,6 @@
 /**
  * compte-rendu.css — Trame d'impression du tirage (Roue Classe Puzzle)
- * Calquée sur laboratory/css/compte-rendu.css (SciLab) pour garder
+ * Calquée sur css/compte-rendu.css (racine, partagée SciLab/MathiLab) pour garder
  * le même style visuel que les comptes rendus de TP.
  * Contrairement à la version SciLab, ce fichier est autonome
  * (valeurs de couleur en dur, pas de dépendance à global.css)
@@ -77,7 +77,7 @@
     border-bottom: 3px solid #1B6CA8;
     padding-bottom: 8px;
     margin-bottom: 12px;
-    font-family: Arial, sans-serif;
+    font-family: 'Atkinson Hyperlegible', Verdana, 'DejaVu Sans', Arial, sans-serif;
   }
 
   .cr-logo { display: flex; align-items: center; gap: 9px; }

@@ -1,4 +1,4 @@
-@import url('../css/fonts.css');
+@import url('../../../fonts/fonts.css');
 :root{--bg:#f4f6f9;--card:#fff;--ink:#1c2430;--mut:#64707f;--acc:#0a66c2;--ok:#1a9b4a;--ko:#c0392b;--line:#dde3ea}
 @media(prefers-color-scheme:dark){:root{--bg:#10151c;--card:#19212b;--ink:#e6ebf1;--mut:#93a0b0;--line:#2b3644}}
 *{box-sizing:border-box}

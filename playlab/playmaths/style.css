@@ -1,3 +1,4 @@
+@import url("../../fonts/fonts.css");
 /* ----- GLOBAL ----- */
 
 :root{
@@ -16,10 +17,7 @@ body{
   margin:0;
 
   font-family:
-  "Montserrat",
-  "Lexend",
-  system-ui,
-  sans-serif;
+  'Atkinson Hyperlegible', Verdana, 'DejaVu Sans', Arial, sans-serif;
 
   background:var(--bg);
 

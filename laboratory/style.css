@@ -1,4 +1,4 @@
-@import url('css/fonts.css');  /* Atkinson Hyperlegible, hébergée en local */
+@import url('../fonts/fonts.css');  /* Atkinson Hyperlegible — source unique : /fonts/fonts.css */
 
 /* =========================
    RESET + BASE

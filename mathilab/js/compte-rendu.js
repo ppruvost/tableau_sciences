@@ -1,6 +1,6 @@
 const GLOBAL_CSS_HREF = new URL('../css/global.css', import.meta.url).href;
-const RESET_CSS_HREF  = new URL('../css/reset.css', import.meta.url).href;
-const CSS_HREF         = new URL('../css/compte-rendu.css', import.meta.url).href;
+const RESET_CSS_HREF  = new URL('../../css/reset.css', import.meta.url).href;
+const CSS_HREF         = new URL('../../css/compte-rendu.css', import.meta.url).href;
 const CLE_IDENTITE = 'scilab-identite-eleve';
 
 let _cssChargee = false;

@@ -1,3 +1,4 @@
+@import url("../fonts/fonts.css");
 /* =========================================================
    PYLAB
    CHARTE CLAIRE TABLEAU SCIENCES
@@ -26,7 +27,7 @@ body {
   position: relative;
   transform: none;
 
-  font-family: Arial, sans-serif;
+  font-family: 'Atkinson Hyperlegible', Verdana, 'DejaVu Sans', Arial, sans-serif;
   font-size: 18px;
 
   color: #172033;
@@ -583,8 +584,7 @@ body {
   color: #465f77;
 
   font-family:
-    Consolas,
-    monospace;
+    'Atkinson Hyperlegible Mono', Consolas, 'Courier New', monospace;
 
   font-size: 0.85rem;
 
@@ -611,9 +611,7 @@ body {
   color: #172033;
 
   font-family:
-    Consolas,
-    "Courier New",
-    monospace;
+    'Atkinson Hyperlegible Mono', Consolas, 'Courier New', monospace;
 
   font-size: 18px;
 
@@ -781,9 +779,7 @@ body {
   color: #e2ebfa;
 
   font-family:
-    Consolas,
-    "Courier New",
-    monospace;
+    'Atkinson Hyperlegible Mono', Consolas, 'Courier New', monospace;
 
   font-size: 17px;
 
@@ -1068,9 +1064,7 @@ body {
     inset 0 0 12px rgba(255, 255, 255, 0.04);
 
   font-family:
-    "Arial Black",
-    Arial,
-    sans-serif;
+    'Atkinson Hyperlegible', Verdana, 'DejaVu Sans', Arial, sans-serif;
 
   font-size:
     clamp(

@@ -1,3 +1,4 @@
+@import url("../fonts/fonts.css");
 /* =========================================================
    ROUE CLASSE PUZZLE
    CHARTE CLAIRE TABLEAU SCIENCES — ALIGNÉE SCILAB / MATHILAB / PYLAB
@@ -11,7 +12,7 @@ body{
   margin: 0;
   padding: 24px 16px 48px;
 
-  font-family: Arial, sans-serif;
+  font-family: 'Atkinson Hyperlegible', Verdana, 'DejaVu Sans', Arial, sans-serif;
   font-size: 18px;
   color: #172033;
 

@@ -1,3 +1,4 @@
+@import url("../fonts/fonts.css");
 /* ===============================
    RESET + BASE
 =============================== */
@@ -9,7 +10,7 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Atkinson Hyperlegible', Verdana, 'DejaVu Sans', Arial, sans-serif;
     background: #f4f4f4;
     color: #222;
     text-align: center;

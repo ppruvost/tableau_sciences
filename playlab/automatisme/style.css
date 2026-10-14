@@ -1,9 +1,10 @@
+@import url("../../fonts/fonts.css");
 /* ===============================
    STYLE GLOBAL DYS-FRIENDLY
 =============================== */
 
 body {
-  font-family: "Lexend", Verdana, Arial, sans-serif;
+  font-family: 'Atkinson Hyperlegible', Verdana, 'DejaVu Sans', Arial, sans-serif;
   background: #f3f5ff;
   margin: 0;
   padding: 0;
@@ -45,7 +46,7 @@ h2 {
 }
 
 #userForm label {
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Atkinson Hyperlegible', Verdana, 'DejaVu Sans', Arial, sans-serif;
   margin-right: 5px;
 }
 
@@ -53,7 +54,7 @@ h2 {
   padding: 8px;
   border: 2px solid #c7d0ff;
   border-radius: 10px;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Atkinson Hyperlegible', Verdana, 'DejaVu Sans', Arial, sans-serif;
 }
 
 #startQuiz {

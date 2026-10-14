@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Console Initio2 – mesures en direct</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="barre">
+    <div class="titre">
+      <h1>Console Initio2</h1>
+      <span id="etat" class="puce puce-off" role="status" aria-live="polite">Non connecté</span>
+    </div>
+    <div class="actions">
+      <button id="btnConnecter" class="primaire" type="button">Connecter l’appareil USB</button>
+      <button id="btnDemo" type="button">Mode démo</button>
+      <button id="btnDemarrer" type="button" disabled>▶ Démarrer</button>
+      <button id="btnArreter" type="button" disabled>■ Arrêter</button>
+      <button id="btnEffacer" type="button">Effacer</button>
+      <button id="btnCsv" type="button" disabled>Exporter CSV</button>
+    </div>
+  </header>
+
+  <div id="alerte" class="alerte" hidden></div>
+
+  <main>
+    <section aria-labelledby="h-voies">
+      <h2 id="h-voies">Mesures en direct</h2>
+      <div id="cartes" class="cartes">
+        <p class="vide">Connectez la console, branchez un capteur puis cliquez sur « Démarrer ». Les voies apparaissent dès que des mesures arrivent.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="h-graphe">
+      <div class="entete-graphe">
+        <h2 id="h-graphe">Graphique</h2>
+        <div class="reglages">
+          <label>Axe X
+            <select id="selX"><option value="-1">Temps (s)</option></select>
+          </label>
+          <label>Fenêtre
+            <select id="selFenetre">
+              <option value="0">Tout</option>
+              <option value="10">10 s</option>
+              <option value="30">30 s</option>
+              <option value="60">1 min</option>
+              <option value="300">5 min</option>
+            </select>
+          </label>
+          <label>Affichage
+            <select id="selMode">
+              <option value="sup">Courbes superposées</option>
+              <option value="sep">Un graphique par voie</option>
+            </select>
+          </label>
+          <label>Période
+            <select id="selPeriode">
+              <option value="50">50 ms</option>
+              <option value="100">100 ms</option>
+              <option value="200" selected>200 ms</option>
+              <option value="500">500 ms</option>
+              <option value="1000">1 s</option>
+              <option value="2000">2 s</option>
+              <option value="5000">5 s</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <div class="zone-graphe">
+        <canvas id="graphe" role="img" aria-label="Graphique des mesures en temps réel"></canvas>
+        <div id="infobulle" class="infobulle" hidden></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="h-tab">
+      <h2 id="h-tab">Tableau des mesures <small id="compteur"></small></h2>
+      <div class="tableau-cadre">
+        <table id="tableau">
+          <thead><tr><th>t (s)</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="note">Les 200 dernières lignes sont affichées (la plus récente en haut). L’export CSV contient toutes les mesures.</p>
+    </section>
+
+    <details id="diag" class="bloc">
+      <summary>Diagnostic et trames USB</summary>
+      <div class="diag-corps">
+        <div class="ligne-trame">
+          <label>Trame à envoyer (octets en hexadécimal)
+            <input id="trameHex" type="text" value="03 04 04" spellcheck="false" autocomplete="off">
+          </label>
+          <button id="btnTrame" type="button" disabled>Envoyer</button>
+        </div>
+        <pre id="journal" aria-label="Journal des trames">(vide)</pre>
+      </div>
+    </details>
+
+    <details class="bloc">
+      <summary>Aide à la connexion (Lubuntu / Windows)</summary>
+      <div class="aide">
+        <ul>
+          <li><strong>Navigateur</strong> : Google Chrome, Chromium ou Microsoft Edge (version récente). Firefox ne gère pas l’USB HID depuis une page web.</li>
+          <li><strong>Ouverture de la page</strong> : en double-cliquant sur <code>index.html</code> (adresse <code>file://</code>) ou, plus sûr, via <code>python3 -m http.server 8000</code> dans ce dossier puis <code>http://localhost:8000</code>.</li>
+          <li><strong>Windows</strong> : aucun pilote à installer, la console est vue comme un périphérique HID. Fermez le logiciel Initio2 s’il est ouvert (un seul programme à la fois peut lire la console).</li>
+          <li><strong>Lubuntu</strong> : copiez le fichier <code>99-jeulin-initio.rules</code> dans <code>/etc/udev/rules.d/</code>, puis <code>sudo udevadm control --reload-rules &amp;&amp; sudo udevadm trigger</code> et rebranchez la console. Préférez Chrome (paquet .deb) ou Chromium non-snap : la version snap peut bloquer l’accès au port USB.</li>
+          <li><strong>Utilisation</strong> : « Connecter l’appareil USB » → choisir « Initio » dans la fenêtre du navigateur → « Démarrer ».</li>
+          <li><strong>Pas de mesures ?</strong> Ouvrez « Diagnostic et trames USB » : vous y voyez les octets envoyés (→) et reçus (←).</li>
+        </ul>
+      </div>
+    </details>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

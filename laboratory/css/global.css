@@ -6,7 +6,7 @@
    variables plutôt que des couleurs/tailles en dur.
    ════════════════════════════════════════════════════════════════ */
 
-@import url('fonts.css');  /* Atkinson Hyperlegible, hébergée en local */
+@import url('../../fonts/fonts.css');  /* Atkinson Hyperlegible — source unique : /fonts/fonts.css */
 
 :root {
 

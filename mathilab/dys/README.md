@@ -12,7 +12,7 @@ Outil web autonome, sur le même principe que `/mlds` (positionnement → plan d
    cd /mathilab
    python3 -m http.server 8000   # puis http://localhost:8000/dys/index.html
    ```
-Aucune dépendance, aucun serveur. Seule la police « Atkinson Hyperlegible » est chargée en ligne ; hors connexion, l'application bascule sur Verdana.
+Aucune dépendance externe, aucun serveur. La police « Atkinson Hyperlegible » est auto-hébergée dans le dossier `fonts/` situé à la racine du projet (`../../fonts/fonts.css` depuis `mathilab/dys/`) : l'application fonctionne hors connexion. Si le dossier `dys/` est copié seul, la police bascule sur Verdana.
 
 ## Les trois onglets
 

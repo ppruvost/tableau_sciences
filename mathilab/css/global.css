@@ -6,7 +6,7 @@
    variables plutôt que des couleurs/tailles en dur.
    ════════════════════════════════════════════════════════════════ */
 
-@import url('fonts.css');
+@import url('../../fonts/fonts.css');
 
 :root {
 

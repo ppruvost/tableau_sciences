@@ -1,5 +1,6 @@
+@import url("../fonts/fonts.css");
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Atkinson Hyperlegible', Verdana, 'DejaVu Sans', Arial, sans-serif;
     margin: 0;
     padding: 16px;
     background: #fff;

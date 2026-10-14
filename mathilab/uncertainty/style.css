@@ -1,7 +1,7 @@
 /* ── Tokens globaux, composants TP, impression ────────────────── */
 @import url("../css/global.css");
 @import url("../css/tp.css");
-@import url("../css/print.css");
+@import url("../../css/print.css");
 
 /* ── Overrides communs à tous les domaines (header, cartes,
    tableaux, boutons, radar, graphique, histogramme...) ──────────

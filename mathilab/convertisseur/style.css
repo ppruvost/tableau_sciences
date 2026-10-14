@@ -2,7 +2,7 @@
    CONVERTISSEUR D'UNITÉS — style.css
    ========================================================= */
 
-@import url("../css/fonts.css");
+@import url("../../fonts/fonts.css");
 
 :root {
   --accent-1: #8B5CF6;

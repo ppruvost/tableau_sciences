@@ -1,3 +1,4 @@
+@import url("../../fonts/fonts.css");
 /* ════════════════════════════════════════════════════════════════
    assets/style.css — MermozLab / Bibliothèques sciences
    Reprend la charte graphique commune SciLab / MathiLab :
@@ -7,8 +8,6 @@
    tp-<domaine>/css/style.css doit utiliser exactement ces mêmes
    teintes").
    ════════════════════════════════════════════════════════════════ */
-
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Fira+Code:wght@400;500&family=Lato:wght@300;400;700&display=swap');
 
 :root {
   --bleu-cuivre:   #1B6CA8;
@@ -30,9 +29,9 @@
   --domaine-signaux-1:     #10B981; --domaine-signaux-2:     #059669;
   --domaine-batiment-1:    #4338CA; --domaine-batiment-2:    #312E81;
 
-  --font-titre: 'Space Grotesk', sans-serif;
-  --font-corps: 'Lato', sans-serif;
-  --font-code:  'Fira Code', monospace;
+  --font-titre: 'Atkinson Hyperlegible', Verdana, 'DejaVu Sans', Arial, sans-serif;
+  --font-corps: 'Atkinson Hyperlegible', Verdana, 'DejaVu Sans', Arial, sans-serif;
+  --font-code:  'Atkinson Hyperlegible Mono', 'Fira Code', Consolas, monospace;
 
   --r-sm: 4px; --r-md: 8px; --r-lg: 16px; --r-pill: 999px;
   --ombre-carte:  0 2px 8px rgba(0, 0, 0, .10);

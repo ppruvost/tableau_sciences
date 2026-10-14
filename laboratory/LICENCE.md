@@ -52,7 +52,7 @@ L’approche retenue privilégie la progression de l’élève, le droit à l’
 
 ### Typographie et lisibilité (Atkinson Hyperlegible)
 
-Le style d’écriture des interfaces et des documents du projet est basé sur la police **Atkinson Hyperlegible**, conçue par le **Braille Institute** pour améliorer la lisibilité des textes, afin de **faciliter la lecture** par tous les élèves. Cette police est distribuée sous licence **SIL Open Font License 1.1** et reste soumise à ses conditions d’utilisation. Elle est hébergée localement (aucun appel à un service de polices externe) dans les applications Laboratory et MathiLab.
+Le style d’écriture des interfaces et des documents du projet est basé sur la police **Atkinson Hyperlegible**, conçue par le **Braille Institute** pour améliorer la lisibilité des textes, afin de **faciliter la lecture** par tous les élèves. Cette police est distribuée sous licence **SIL Open Font License 1.1** et reste soumise à ses conditions d’utilisation. Elle est hébergée localement, dans un dossier unique `fonts/` situé à la racine du projet et partagé par toutes les applications (aucun appel à un service de polices externe).
 
 ### Grille d’évaluation des compétences
 
@@ -168,7 +168,7 @@ Pour l’historique MLDS, les identifiants d’accès ne sont pas stockés en cl
 
 **Stockage dans le navigateur :** pour limiter les passages répétés (verrou de 10 heures par élève, quiz et appareil), un identifiant technique d’appareil est conservé dans le navigateur (stockage local et cookie, 400 jours) et enregistré avec la session de quiz. Un délai entre deux envois de score est aussi mémorisé dans le stockage local. Ces éléments ne servent à aucun suivi publicitaire.
 
-**Ressources chargées depuis des services tiers :** pour fonctionner, certaines pages chargent des ressources hébergées par des réseaux de diffusion de contenu (CDN), notamment **jsDelivr** (moteur Pyodide, bibliothèque Supabase, confettis) et **cdnjs** (icônes Font Awesome). Certaines pages de PlayLab chargent en outre des polices depuis **Google Fonts** (Lexend, Press Start 2P, Baloo 2). Le navigateur de l’élève contacte alors ces services, qui peuvent recevoir son adresse IP. La police Atkinson Hyperlegible, elle, est hébergée localement dans Laboratory et MathiLab.
+**Ressources chargées depuis des services tiers :** pour fonctionner, certaines pages chargent des ressources hébergées par des réseaux de diffusion de contenu (CDN), notamment **jsDelivr** (moteur Pyodide, bibliothèque Supabase, confettis) et **cdnjs** (icônes Font Awesome). Certaines pages de PlayLab chargent en outre la police d’affichage **Press Start 2P** depuis **Google Fonts**. Le navigateur de l’élève contacte alors ces services, qui peuvent recevoir son adresse IP. La police Atkinson Hyperlegible, elle, est hébergée localement (dossier `fonts/` à la racine du projet) et partagée par toutes les applications.
 
 ---
 
