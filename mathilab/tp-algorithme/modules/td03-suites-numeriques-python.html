@@ -146,17 +146,11 @@
         </ol>
 
         <div class="code-exercice" data-titre="Termes d'une suite arithmétique">
-          <textarea class="code-editeur-python" spellcheck="false">u0 = 10      # premier terme
-r = 3        # raison
-n_termes = 10
-
+          <textarea class="code-editeur-python" spellcheck="false">u0, r, n_termes = 10, 3, 10   # premier terme, raison, nombre de termes
 termes = [u0]
-for i in range(1, n_termes):
-    termes.append(termes[-1] + r)
-
+for i in range(1, n_termes): termes.append(termes[-1] + r)
 print("Liste des termes :", termes)
-print("Terme de rang", n_termes - 1, ":", termes[-1])
-print("Somme des", n_termes, "premiers termes :", sum(termes))</textarea>
+print("Terme de rang", n_termes - 1, ":", termes[-1], "| Somme des", n_termes, "premiers termes :", sum(termes))</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
           </div>
@@ -169,16 +163,10 @@ print("Somme des", n_termes, "premiers termes :", sum(termes))</textarea>
         </div>
 
         <div class="code-exercice" data-titre="Suite quelconque définie par récurrence">
-          <textarea class="code-editeur-python" spellcheck="false"># Exemple : u(n+1) = 0.5 * u(n) + 4 (suite non arithmétique)
-u0 = 2
-n_termes = 10
-
+          <textarea class="code-editeur-python" spellcheck="false">u0, n_termes = 2, 10   # u(n+1) = 0.5 * u(n) + 4 (suite non arithmétique)
 termes = [u0]
 for i in range(1, n_termes):
-    terme_precedent = termes[-1]
-    nouveau_terme = 0.5 * terme_precedent + 4
-    termes.append(nouveau_terme)
-
+    termes.append(0.5 * termes[-1] + 4)
 print("Liste des termes :", termes)</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
@@ -194,8 +182,9 @@ print("Liste des termes :", termes)</textarea>
         <h3>Nuage de points et recherche d'un seuil</h3>
 
         <div class="info">
-          Générer la liste des rangs n et des termes u(n), puis utiliser
-          PyLab pour tracer le nuage de points (n ; un).
+          Générer la liste des rangs n (<code>numpy.arange(15)</code> donne les
+          rangs 0 à 14) et calculer tous les termes u(n) = u0 + r × n d'un
+          coup, puis utiliser PyLab pour tracer le nuage de points (n ; un).
         </div>
 
         <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
@@ -207,20 +196,9 @@ print("Liste des termes :", termes)</textarea>
 
         <div class="code-exercice" data-titre="Générer un nuage de points (n ; un)">
           <textarea class="code-editeur-python" spellcheck="false">import matplotlib.pyplot as plt
-
-u0 = 10
-r = 3
-n_termes = 15
-
-rangs = list(range(n_termes))
-termes = [u0]
-for i in range(1, n_termes):
-    termes.append(termes[-1] + r)
-
-plt.scatter(rangs, termes)
-plt.xlabel("n")
-plt.ylabel("u(n)")
-plt.title("Nuage de points de la suite")
+u0, r, n = 10, 3, numpy.arange(15)   # rangs 0, 1, ..., 14
+plt.scatter(n, u0 + r * n)           # u(n) = u0 + r × n
+plt.xlabel("n"); plt.ylabel("u(n)")
 plt.show()</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
@@ -234,16 +212,9 @@ plt.show()</textarea>
         </div>
 
         <div class="code-exercice" data-titre="Recherche d'un seuil (boucle while)">
-          <textarea class="code-editeur-python" spellcheck="false">u0 = 10
-r = 3
-seuil = 100
-
-n = 0
-u = u0
+          <textarea class="code-editeur-python" spellcheck="false">u, r, seuil, n = 10, 3, 100, 0   # u(0), raison, seuil, rang
 while u <= seuil:
-    n += 1
-    u = u + r
-
+    u, n = u + r, n + 1
 print("Rang n à partir duquel u(n) dépasse", seuil, ":", n)
 print("Valeur de u(n) à ce rang :", u)</textarea>
           <div class="toolbar">
@@ -273,17 +244,11 @@ print("Valeur de u(n) à ce rang :", u)</textarea>
         </ol>
 
         <div class="code-exercice" data-titre="Termes d'une suite géométrique">
-          <textarea class="code-editeur-python" spellcheck="false">u0 = 1000    # premier terme
-q = 1.03     # raison
-n_termes = 12
-
+          <textarea class="code-editeur-python" spellcheck="false">u0, q, n_termes = 1000, 1.03, 12   # premier terme, raison, nombre de termes
 termes = [u0]
-for i in range(1, n_termes):
-    termes.append(termes[-1] * q)
-
-print("Liste des termes :", termes)
-print("Terme de rang", n_termes - 1, ":", termes[-1])
-print("Somme des", n_termes, "premiers termes :", sum(termes))</textarea>
+for i in range(1, n_termes): termes.append(termes[-1] * q)
+print("Liste des termes :", numpy.round(termes, 2))
+print("Terme de rang", n_termes - 1, ":", round(termes[-1], 2), "| Somme des", n_termes, "premiers termes :", round(sum(termes), 2))</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
           </div>
@@ -298,8 +263,9 @@ print("Somme des", n_termes, "premiers termes :", sum(termes))</textarea>
         <h3>Nuage de points et recherche d'un seuil</h3>
 
         <div class="info">
-          Générer la liste des rangs n et des termes u(n), puis tracer le
-          nuage de points (n ; un) avec PyLab.
+          Générer la liste des rangs n (<code>numpy.arange(20)</code> donne les
+          rangs 0 à 19) et calculer tous les termes u(n) = u0 × q<sup>n</sup>
+          d'un coup, puis tracer le nuage de points (n ; un) avec PyLab.
         </div>
 
         <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
@@ -311,20 +277,9 @@ print("Somme des", n_termes, "premiers termes :", sum(termes))</textarea>
 
         <div class="code-exercice" data-titre="Générer un nuage de points (n ; un)">
           <textarea class="code-editeur-python" spellcheck="false">import matplotlib.pyplot as plt
-
-u0 = 1000
-q = 1.03
-n_termes = 20
-
-rangs = list(range(n_termes))
-termes = [u0]
-for i in range(1, n_termes):
-    termes.append(termes[-1] * q)
-
-plt.scatter(rangs, termes)
-plt.xlabel("n")
-plt.ylabel("u(n)")
-plt.title("Nuage de points de la suite géométrique")
+u0, q, n = 1000, 1.03, numpy.arange(20)   # rangs 0, 1, ..., 19
+plt.scatter(n, u0 * q ** n)               # u(n) = u0 × q^n
+plt.xlabel("n"); plt.ylabel("u(n)")
 plt.show()</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
@@ -338,18 +293,11 @@ plt.show()</textarea>
         </div>
 
         <div class="code-exercice" data-titre="Recherche d'un seuil (boucle while)">
-          <textarea class="code-editeur-python" spellcheck="false">u0 = 1000
-q = 1.03
-seuil = 2000
-
-n = 0
-u = u0
+          <textarea class="code-editeur-python" spellcheck="false">u, q, seuil, n = 1000, 1.03, 2000, 0   # u(0), raison, seuil, rang
 while u <= seuil:
-    n += 1
-    u = u * q
-
+    u, n = u * q, n + 1
 print("Rang n à partir duquel u(n) dépasse", seuil, ":", n)
-print("Valeur de u(n) à ce rang :", u)</textarea>
+print("Valeur de u(n) à ce rang :", round(u, 2))</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
           </div>

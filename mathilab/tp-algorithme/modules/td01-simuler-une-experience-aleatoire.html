@@ -158,20 +158,11 @@
 
         <div class="code-exercice" data-titre="Modifier une simulation donnée">
 
-          <textarea class="code-editeur-python" spellcheck="false">import random
-
-# Modifier uniquement la valeur de n, puis ouvrir dans PyLab
-n = 10
-p = 0.5
-
-succes = 0
+          <textarea class="code-editeur-python" spellcheck="false">n, p, succes = 10, 0.5, 0   # Modifier uniquement la valeur de n, puis ouvrir dans PyLab
 for i in range(n):
-    if random.random() < p:
-        succes += 1
-
-frequence = succes / n
+    if random.random() < p: succes += 1
 print("Effectif de succès :", succes)
-print("Fréquence observée :", frequence)</textarea>
+print("Fréquence observée :", succes / n)</textarea>
 
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
@@ -209,23 +200,10 @@ print("Fréquence observée :", frequence)</textarea>
 
         <div class="code-exercice" data-titre="Utiliser une simulation fournie">
 
-          <textarea class="code-editeur-python" spellcheck="false">import random
-
-# Estime P("au moins un 6 en 4 lancers d'un dé")
-# en répétant l'expérience un grand nombre de fois.
-def lancer_de_quatre_fois():
-    for i in range(4):
-        if random.random() < 1 / 6:  # "succès" = obtenir un 6
-            return True
-    return False
-
-nb_essais = 5000
-nb_succes = 0
-
+          <textarea class="code-editeur-python" spellcheck="false">nb_essais, nb_succes = 5000, 0   # P("au moins un 6 en 4 lancers d'un dé")
 for i in range(nb_essais):
-    if lancer_de_quatre_fois():
-        nb_succes += 1
-
+    lancers = random.choices([1, 2, 3, 4, 5, 6], k=4)   # 4 lancers d'un dé
+    if 6 in lancers: nb_succes += 1
 print("Fréquence observée :", nb_succes / nb_essais)</textarea>
 
           <div class="toolbar">
@@ -250,35 +228,29 @@ print("Fréquence observée :", nb_succes / nb_essais)</textarea>
           ci-dessous : elle doit répéter <code>n</code> fois un tirage
           à deux issues de probabilité <code>p</code> (avec
           <code>random.random()</code>), compter le nombre de succès,
-          et renvoyer la fréquence observée. Compléter le code puis
-          l'ouvrir dans PyLab pour le tester.
+          et renvoyer la fréquence observée. La fonction tient en 4 lignes :
+          il ne reste qu'à compléter la ligne de la boucle, pour ajouter 1 à
+          <code>succes</code> quand le nombre tiré est inférieur à <code>p</code>
+          (en Python, une comparaison vraie vaut 1 et une comparaison fausse
+          vaut 0 quand on l'additionne). Compléter le code puis l'ouvrir dans
+          PyLab pour le tester.
         </div>
 
         <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
 
         <ol class="etapes" style="margin-bottom:var(--gap-lg);">
-          <li>Compléter la boucle dans la fonction <code>estimer_probabilite</code>.</li>
+          <li>Compléter la ligne de la boucle <code>for</code> dans la fonction <code>estimer_probabilite</code>.</li>
           <li>Tester dans PyLab avec p = 0,2, puis avec une probabilité correspondant à votre filière (voir contexte professionnel).</li>
           <li>Vérifier que la fréquence obtenue se rapproche de la probabilité p choisie.</li>
         </ol>
 
         <div class="code-exercice" data-titre="Écrire une fonction de simulation">
 
-          <textarea class="code-editeur-python" spellcheck="false">import random
-
-# Compléter cette fonction : elle doit répéter n fois
-# un tirage de probabilité p, et renvoyer la fréquence
-# de succès observée.
-def estimer_probabilite(n, p):
-    nb_succes = 0
-
-    # TODO : boucler n fois, tirer un nombre avec random.random(),
-    # et compter un succès si ce nombre est inférieur à p
-
-    return nb_succes / n
-
-frequence = estimer_probabilite(1000, 0.2)
-print("Fréquence estimée :", frequence)</textarea>
+          <textarea class="code-editeur-python" spellcheck="false">def estimer_probabilite(n, p):
+    succes = 0
+    for i in range(n): succes += 0   # À compléter : remplacer 0 par la condition (random.random() < p)
+    return succes / n
+print("Fréquence estimée :", estimer_probabilite(1000, 0.2))</textarea>
 
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
@@ -316,22 +288,11 @@ print("Fréquence estimée :", frequence)</textarea>
         </ol>
 
         <div class="code-exercice" data-titre="Compter les occurrences d'une lettre">
-          <textarea class="code-editeur-python" spellcheck="false">mot = "Fraisage"
-lettre = "a"
-
-mot_majuscule = mot.upper()
-lettre_majuscule = lettre.upper()
-
-occurrences = 0
-for caractere in mot_majuscule:
-    if caractere == lettre_majuscule:
-        occurrences += 1
-
-frequence = occurrences / len(mot)
-
-print("Le mot", mot, "contient", len(mot), "lettres.")
-print("La lettre", lettre, "apparaît", occurrences, "fois.")
-print("Fréquence d'apparition de la lettre", lettre, ":", frequence)</textarea>
+          <textarea class="code-editeur-python" spellcheck="false">mot, lettre, occurrences = "Fraisage", "a", 0   # Modifier mot et lettre
+for c in mot.upper():
+    if c == lettre.upper(): occurrences += 1
+print("La lettre", lettre, "apparaît", occurrences, "fois dans", mot, "(", len(mot), "lettres ).")
+print("Fréquence d'apparition de la lettre", lettre, ":", occurrences / len(mot))</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
           </div>

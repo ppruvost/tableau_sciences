@@ -155,18 +155,10 @@
 
         <div class="code-exercice" data-titre="Rechercher des triplets pythagoriciens">
           <textarea class="code-editeur-python" spellcheck="false">limite = 30   # augmenter progressivement jusqu'à 1000
-
-triplets = []
 for a in range(1, limite + 1):
     for b in range(a, limite + 1):
         for c in range(b, limite + 1):
-            if a ** 2 + b ** 2 == c ** 2:
-                triplets.append((a, b, c))
-
-print("Triplets pythagoriciens trouvés jusqu'à", limite, ":")
-for t in triplets:
-    print(t)
-print("Nombre de triplets trouvés :", len(triplets))</textarea>
+            if a ** 2 + b ** 2 == c ** 2: print(a, b, c)</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
           </div>
@@ -180,11 +172,7 @@ print("Nombre de triplets trouvés :", len(triplets))</textarea>
         </div>
 
         <div class="code-exercice" data-titre="Vérifier si un triangle est rectangle (réciproque de Pythagore)">
-          <textarea class="code-editeur-python" spellcheck="false"># Trois longueurs mesurées (en cm), c étant la plus grande
-a = 3.0
-b = 4.02
-c = 5.01
-
+          <textarea class="code-editeur-python" spellcheck="false">a, b, c = 3.0, 4.02, 5.01   # trois longueurs mesurées (cm), c étant la plus grande
 if abs(a ** 2 + b ** 2 - c ** 2) < 0.1:
     print("Le triangle est rectangle (aux erreurs de mesure près).")
 else:
@@ -214,10 +202,8 @@ else:
 
         <div class="code-exercice" data-titre="Aire d'un carré connaissant son périmètre">
           <textarea class="code-editeur-python" spellcheck="false">perimetre = 24   # périmètre du carré (cm)
-
 cote = perimetre / 4
 aire = cote ** 2
-
 print("Côté du carré :", cote, "cm")
 print("Aire du carré :", aire, "cm²")</textarea>
           <div class="toolbar">
@@ -227,16 +213,10 @@ print("Aire du carré :", aire, "cm²")</textarea>
 
         <div class="code-exercice" data-titre="Diamètre d'un cylindre connaissant sa hauteur et son volume" style="margin-top:var(--gap-lg);">
           <textarea class="code-editeur-python" spellcheck="false">import math
-
-volume = 500     # volume du cylindre (cm³)
-hauteur = 10      # hauteur du cylindre (cm)
-
-# V = pi * rayon^2 * hauteur  =>  rayon = sqrt(V / (pi * hauteur))
-rayon = math.sqrt(volume / (math.pi * hauteur))
-diametre = 2 * rayon
-
+volume, hauteur = 500, 10   # volume (cm³) et hauteur (cm) du cylindre
+rayon = math.sqrt(volume / (math.pi * hauteur))   # V = pi * rayon² * hauteur
 print("Rayon :", rayon, "cm")
-print("Diamètre :", diametre, "cm")</textarea>
+print("Diamètre :", 2 * rayon, "cm")</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
           </div>
@@ -244,17 +224,10 @@ print("Diamètre :", diametre, "cm")</textarea>
 
         <div class="code-exercice" data-titre="Longueur d'un arc de cercle (proportionnalité)" style="margin-top:var(--gap-lg);">
           <textarea class="code-editeur-python" spellcheck="false">import math
-
-rayon = 15        # rayon du cercle (cm)
-angle_degres = 60  # angle au centre de l'arc (degrés)
-
+rayon, angle_degres = 15, 60   # rayon (cm) et angle au centre de l'arc (degrés)
 perimetre_cercle = 2 * math.pi * rayon
-
-# Proportionnalité : longueur de l'arc / périmètre = angle / 360
-longueur_arc = perimetre_cercle * angle_degres / 360
-
 print("Périmètre du cercle complet :", perimetre_cercle, "cm")
-print("Longueur de l'arc pour un angle de", angle_degres, "° :", longueur_arc, "cm")</textarea>
+print("Longueur de l'arc de", angle_degres, "° :", perimetre_cercle * angle_degres / 360, "cm")   # proportionnalité</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
           </div>

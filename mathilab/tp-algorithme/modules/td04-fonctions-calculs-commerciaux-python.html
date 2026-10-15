@@ -155,20 +155,15 @@
         <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
         <ol class="etapes" style="margin-bottom:var(--gap-lg);">
           <li>Adapter la fonction f(x) du premier programme à un programme de calcul de votre choix.</li>
-          <li>Réduire le pas (0,01 → 0,001) dans le second programme : le résultat devient-il plus précis ?</li>
+          <li>Réduire le pas (0,01 → 0,001) dans les programmes de balayage : le résultat devient-il plus précis ?</li>
           <li>Vérifier le minimum trouvé par le calcul (forme canonique de la parabole).</li>
         </ol>
 
         <div class="code-exercice" data-titre="Définir une fonction et calculer des images">
-          <textarea class="code-editeur-python" spellcheck="false"># Programme de calcul : choisir un nombre x, le multiplier par 3,
-# puis ajouter 2.
-def f(x):
+          <textarea class="code-editeur-python" spellcheck="false">def f(x):   # programme de calcul : choisir un nombre x, le multiplier par 3, puis ajouter 2
     return 3 * x + 2
-
-# Calculer les images de quelques nombres
-print("f(0) =", f(0))
-print("f(5) =", f(5))
-print("f(-2) =", f(-2))</textarea>
+for x in [0, 5, -2]:
+    print("f(", x, ") =", f(x))</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
           </div>
@@ -181,21 +176,11 @@ print("f(-2) =", f(-2))</textarea>
         </div>
 
         <div class="code-exercice" data-titre="Équation réduite d'une droite">
-          <textarea class="code-editeur-python" spellcheck="false"># Deux nombres et leurs images par une fonction affine f(x) = ax + b
-x1, y1 = 2, 8
-x2, y2 = 5, 17
-
+          <textarea class="code-editeur-python" spellcheck="false">x1, y1, x2, y2 = 2, 8, 5, 17   # f(x) = ax + b passe par (x1 ; y1) et (x2 ; y2)
 a = (y2 - y1) / (x2 - x1)
 b = y1 - a * x1
-
 print("Équation réduite : y =", a, "x +", b)
-
-# Vérification
-def f(x):
-    return a * x + b
-
-print("f(x1) =", f(x1), "(doit valoir", y1, ")")
-print("f(x2) =", f(x2), "(doit valoir", y2, ")")</textarea>
+print("Vérification : f(x1) =", a * x1 + b, "(doit valoir", y1, ") et f(x2) =", a * x2 + b, "(doit valoir", y2, ")")</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
           </div>
@@ -204,34 +189,28 @@ print("f(x2) =", f(x2), "(doit valoir", y2, ")")</textarea>
         <div class="info" style="margin-top:var(--gap-lg);">
           Rechercher un extremum, ou une solution de f(x) = 0, « par
           balayage » : on teste un grand nombre de valeurs de x régulièrement
-          espacées sur un intervalle, et on retient la meilleure.
+          espacées sur un intervalle, et on retient la meilleure. Le premier
+          programme retient la plus petite valeur de f(x) ; le second repère
+          où f(x) change de signe (voir l'astuce de l'onglet 1ère).
         </div>
 
-        <div class="code-exercice" data-titre="Balayage : extremum et f(x) = 0">
-          <textarea class="code-editeur-python" spellcheck="false">def f(x):
-    return x ** 2 - 4 * x + 1     # une parabole simple
+        <div class="code-exercice" data-titre="Balayage : recherche d'un minimum sur [0 ; 5]">
+          <textarea class="code-editeur-python" spellcheck="false">f = lambda x: x ** 2 - 4 * x + 1   # une parabole simple
+pas, meilleur_x = 0.01, 0          # pas du balayage de [0 ; 5]
+for x in numpy.arange(0, 5 + pas, pas):
+    if f(x) < f(meilleur_x): meilleur_x = x
+print("Minimum approché en x =", round(meilleur_x, 2), "avec f(x) =", round(f(meilleur_x), 2))</textarea>
+          <div class="toolbar">
+            <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
+          </div>
+        </div>
 
-# --- Recherche d'un minimum par balayage sur [0 ; 5] ---
-x = 0
-pas = 0.01
-meilleur_x = x
-meilleure_valeur = f(x)
-
-while x <= 5:
-    if f(x) < meilleure_valeur:
-        meilleure_valeur = f(x)
-        meilleur_x = x
+        <div class="code-exercice" data-titre="Balayage : solution de f(x) = 0 sur [3 ; 4]" style="margin-top:var(--gap-lg);">
+          <textarea class="code-editeur-python" spellcheck="false">f = lambda x: x ** 2 - 4 * x + 1
+x, pas = 3, 0.01   # balayage de [3 ; 4]
+while f(x) * f(x + pas) > 0 and x < 4:
     x += pas
-
-print("Minimum approché en x =", meilleur_x, "avec f(x) =", meilleure_valeur)
-
-# --- Recherche d'une solution de f(x) = 0 par balayage sur [3 ; 4] ---
-x = 3
-while x <= 4:
-    if abs(f(x)) < 0.01:
-        print("Solution approchée de f(x) = 0 : x ≈", x)
-        break
-    x += pas</textarea>
+print("Solution approchée de f(x) = 0 : x ≈", round(x, 2))</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
           </div>
@@ -255,29 +234,20 @@ while x <= 4:
         </ol>
 
         <div class="code-exercice" data-titre="Calculer un intérêt simple">
-          <textarea class="code-editeur-python" spellcheck="false">capital = 2000     # capital placé (en €)
-taux = 0.02        # taux annuel (2 %)
-duree = 3          # durée en années
-
+          <textarea class="code-editeur-python" spellcheck="false">capital, taux, duree = 2000, 0.02, 3   # capital (€), taux annuel (2 %), durée (années)
 interet = capital * taux * duree
-capital_final = capital + interet
-
 print("Intérêt obtenu :", interet, "€")
-print("Capital final :", capital_final, "€")</textarea>
+print("Capital final :", capital + interet, "€")</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
           </div>
         </div>
 
         <div class="code-exercice" data-titre="Montant net après remise" style="margin-top:var(--gap-lg);">
-          <textarea class="code-editeur-python" spellcheck="false">montant_brut = 350   # montant de la facture avant remise (en €)
-taux_remise = 0.10   # remise de 10 %
-
+          <textarea class="code-editeur-python" spellcheck="false">montant_brut, taux_remise = 350, 0.10   # facture avant remise (€), remise de 10 %
 remise = montant_brut * taux_remise
-montant_net = montant_brut - remise
-
 print("Remise accordée :", remise, "€")
-print("Montant net à payer :", montant_net, "€")</textarea>
+print("Montant net à payer :", montant_brut - remise, "€")</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
           </div>
@@ -301,40 +271,31 @@ print("Montant net à payer :", montant_net, "€")</textarea>
           <li>Le calcul du discriminant n'est pas au programme : le balayage est la méthode attendue lorsque le polynôme n'est pas factorisé.</li>
         </ol>
 
+        <div class="info" style="margin-bottom:var(--gap-lg);">
+          <strong>Astuce :</strong> résoudre f(x) = g(x) revient à chercher où
+          <code>f(x) − g(x)</code> s'annule. Entre deux pas successifs, si
+          <code>ecart(x) × ecart(x + pas)</code> est négatif, l'écart a changé de
+          signe : une solution se trouve juste là. On la repère ainsi <em>une seule
+          fois</em>, sans avoir à fixer de tolérance.
+        </div>
+
         <div class="code-exercice" data-titre="Résoudre f(x) = g(x) par balayage">
-          <textarea class="code-editeur-python" spellcheck="false">def f(x):
-    return 2 * x + 1
-
-def g(x):
-    return -0.5 * x ** 2 + 6
-
-x = -5
-pas = 0.001
-solutions = []
-
+          <textarea class="code-editeur-python" spellcheck="false">ecart = lambda x: (2 * x + 1) - (-0.5 * x ** 2 + 6)   # f(x) - g(x)
+x, pas = -5, 0.001
 while x <= 5:
-    if abs(f(x) - g(x)) < 0.01:
-        solutions.append(round(x, 2))
-    x += pas
-
-print("Solutions approchées de f(x) = g(x) :", solutions)</textarea>
+    if ecart(x) * ecart(x + pas) < 0: print("Solution approchée de f(x) = g(x) : x ≈", round(x, 2))
+    x += pas</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
           </div>
         </div>
 
         <div class="code-exercice" data-titre="Racine d'un polynôme de degré 2 non factorisé" style="margin-top:var(--gap-lg);">
-          <textarea class="code-editeur-python" spellcheck="false">def f(x):
-    return x ** 2 - 3 * x - 5   # non factorisé, une racine connue proche de 4.2
-
-x = 4
-pas = 0.0001
-
-while x <= 5:
-    if abs(f(x)) < 0.01:
-        print("Racine approchée sur [4 ; 5] : x ≈", round(x, 3))
-        break
-    x += pas</textarea>
+          <textarea class="code-editeur-python" spellcheck="false">f = lambda x: x ** 2 - 3 * x - 5   # non factorisé, une racine proche de 4,2
+x, pas = 4, 0.0001
+while f(x) * f(x + pas) > 0 and x < 5:
+    x += pas
+print("Racine approchée sur [4 ; 5] : x ≈", round(x, 3))</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
           </div>
@@ -393,15 +354,9 @@ while x <= 5:
         </ol>
 
         <div class="code-exercice" data-titre="Capital après n périodes à intérêts simples">
-          <textarea class="code-editeur-python" spellcheck="false">c0 = 4000     # capital initial (€)
-taux = 0.02   # taux par période
-n = 6         # nombre de périodes
-
-interet_periode = c0 * taux
+          <textarea class="code-editeur-python" spellcheck="false">c0, taux, n = 4000, 0.02, 6   # capital initial (€), taux par période, nombre de périodes
 capital = c0
-for periode in range(n):
-    capital = capital + interet_periode
-
+for periode in range(n): capital = capital + c0 * taux
 print("Capital après", n, "périodes à intérêts simples :", capital, "€")
 print("Formule directe : c0 * (1 + taux * n) =", c0 * (1 + taux * n), "€")</textarea>
           <div class="toolbar">
@@ -415,23 +370,11 @@ print("Formule directe : c0 * (1 + taux * n) =", c0 * (1 + taux * n), "€")</te
         </div>
 
         <div class="code-exercice" data-titre="Coût marginal exact et approché">
-          <textarea class="code-editeur-python" spellcheck="false">def C(x):
-    return 0.5 * x ** 2 + 10 * x + 200   # coût total de production de x pièces
-
-def C_prime(x):
-    return x + 10   # dérivée de C
-
+          <textarea class="code-editeur-python" spellcheck="false">C = lambda x: 0.5 * x ** 2 + 10 * x + 200   # coût total de production de x pièces
 x = 20
-
-cout_total = C(x)
-cout_marginal_exact = C(x + 1) - C(x)
-cout_marginal_approche = C_prime(x)
-cout_moyen = C(x) / x
-
-print("Coût total C(", x, ") =", cout_total, "€")
-print("Coût marginal exact :", cout_marginal_exact, "€")
-print("Coût marginal approché (dérivée) :", cout_marginal_approche, "€")
-print("Coût moyen unitaire :", cout_moyen, "€")</textarea>
+print("Coût total C(", x, ") =", C(x), "€ | Coût moyen unitaire :", C(x) / x, "€")
+print("Coût marginal exact C(x + 1) - C(x) :", C(x + 1) - C(x), "€")
+print("Coût marginal approché par la dérivée C'(x) = x + 10 :", x + 10, "€")</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
           </div>
@@ -455,34 +398,21 @@ print("Coût moyen unitaire :", cout_moyen, "€")</textarea>
         </ol>
 
         <div class="code-exercice" data-titre="Racine d'un polynôme de degré 3">
-          <textarea class="code-editeur-python" spellcheck="false">def f(x):
-    return x ** 3 - 3 * x + 1
-
-x = -2
-pas = 0.0001
-racines = []
-
+          <textarea class="code-editeur-python" spellcheck="false">f = lambda x: x ** 3 - 3 * x + 1
+x, pas = -2, 0.0001
 while x <= 2:
-    if abs(f(x)) < 0.01:
-        racines.append(round(x, 3))
-    x += pas
-
-print("Racines approchées sur [-2 ; 2] :", racines)</textarea>
+    if f(x) * f(x + pas) < 0: print("Racine approchée sur [-2 ; 2] : x ≈", round(x, 3))
+    x += pas</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
           </div>
         </div>
 
         <div class="code-exercice" data-titre="Résoudre qˣ = a par balayage" style="margin-top:var(--gap-lg);">
-          <textarea class="code-editeur-python" spellcheck="false">q = 1.5
-a = 4
-
-x = 0
-pas = 0.0001
-
+          <textarea class="code-editeur-python" spellcheck="false">q, a = 1.5, 4
+x, pas = 0, 0.0001
 while q ** x <= a:
     x += pas
-
 print("Solution approchée de", q, "^x =", a, ": x ≈", round(x, 3))</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
@@ -506,45 +436,38 @@ print("Solution approchée de", q, "^x =", a, ": x ≈", round(x, 3))</textarea>
           <li>Le tableau d'amortissement complet (TD05 d'Algèbre-Analyse) donne le détail période par période ; ici, seule l'annuité globale est calculée.</li>
         </ol>
 
-        <div class="code-exercice" data-titre="Capital à intérêts composés et durée de placement">
-          <textarea class="code-editeur-python" spellcheck="false">c0 = 5000     # capital initial (€)
-taux = 0.03   # taux par période
-n = 5         # nombre de périodes
+        <div class="code-exercice" data-titre="Capital à intérêts composés">
+          <textarea class="code-editeur-python" spellcheck="false">c0, taux, n = 5000, 0.03, 5   # capital initial (€), taux par période, nombre de périodes
+print("Capital après", n, "périodes :", round(c0 * (1 + taux) ** n, 2), "€")</textarea>
+          <div class="toolbar">
+            <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
+          </div>
+        </div>
 
-capital = c0 * (1 + taux) ** n
-print("Capital après", n, "périodes :", capital, "€")
-
-# Durée nécessaire pour atteindre un capital cible (recherche par boucle)
-cible = 6500
-periode = 0
-capital_courant = c0
-while capital_courant < cible:
-    capital_courant = capital_courant * (1 + taux)
-    periode += 1
-
+        <div class="code-exercice" data-titre="Durée nécessaire pour atteindre un capital cible (boucle while)" style="margin-top:var(--gap-lg);">
+          <textarea class="code-editeur-python" spellcheck="false">c0, taux, cible = 5000, 0.03, 6500   # capital initial, taux par période, capital cible (€)
+capital, periode = c0, 0
+while capital < cible:
+    capital, periode = capital * (1 + taux), periode + 1
 print("Durée nécessaire pour atteindre", cible, "€ :", periode, "périodes")</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
           </div>
         </div>
 
-        <div class="code-exercice" data-titre="Annuité constante, coût du crédit, taux moyen" style="margin-top:var(--gap-lg);">
-          <textarea class="code-editeur-python" spellcheck="false">capital_emprunte = 10000
-taux_annuel = 0.04
-duree = 5   # années
-
-# Annuité constante : a = capital * taux / (1 - (1+taux)^-duree)
-annuite = capital_emprunte * taux_annuel / (1 - (1 + taux_annuel) ** (-duree))
-cout_credit = annuite * duree - capital_emprunte
-
+        <div class="code-exercice" data-titre="Annuité constante et coût du crédit" style="margin-top:var(--gap-lg);">
+          <textarea class="code-editeur-python" spellcheck="false">capital_emprunte, taux_annuel, duree = 10000, 0.04, 5   # montant (€), taux annuel, durée (années)
+annuite = capital_emprunte * taux_annuel / (1 - (1 + taux_annuel) ** (-duree))   # annuité constante
 print("Annuité constante :", round(annuite, 2), "€")
-print("Coût total du crédit :", round(cout_credit, 2), "€")
+print("Coût total du crédit :", round(annuite * duree - capital_emprunte, 2), "€")</textarea>
+          <div class="toolbar">
+            <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
+          </div>
+        </div>
 
-# Taux moyen de deux placements de montants différents
-capital1, taux1 = 3000, 0.02
-capital2, taux2 = 7000, 0.05
+        <div class="code-exercice" data-titre="Taux moyen pondéré de deux placements" style="margin-top:var(--gap-lg);">
+          <textarea class="code-editeur-python" spellcheck="false">capital1, taux1, capital2, taux2 = 3000, 0.02, 7000, 0.05   # deux placements (€ ; taux)
 taux_moyen = (capital1 * taux1 + capital2 * taux2) / (capital1 + capital2)
-
 print("Taux moyen pondéré des deux placements :", round(taux_moyen * 100, 3), "%")</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>

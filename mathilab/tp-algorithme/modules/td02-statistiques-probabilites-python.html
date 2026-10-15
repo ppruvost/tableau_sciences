@@ -151,21 +151,11 @@
         </ol>
 
         <div class="code-exercice" data-titre="Indicateurs de position et de dispersion">
-          <textarea class="code-editeur-python" spellcheck="false"># Série de mesures (par exemple des temps de cycle, en secondes)
-y = [12.1, 12.4, 11.9, 12.6, 12.2, 12.8, 12.0, 12.5]
-
-n = len(y)
-moyenne = sum(y) / n
-
-y_trie = sorted(y)
-mediane = y_trie[n // 2] if n % 2 == 1 else (y_trie[n // 2 - 1] + y_trie[n // 2]) / 2
-
-etendue = max(y) - min(y)
-
-print("Effectif n :", n)
-print("Moyenne :", moyenne)
-print("Médiane :", mediane)
-print("Étendue :", etendue)</textarea>
+          <textarea class="code-editeur-python" spellcheck="false">y = [12.1, 12.4, 11.9, 12.6, 12.2, 12.8, 12.0, 12.5]   # temps de cycle (s)
+print("Effectif n :", len(y))
+print("Moyenne :", sum(y) / len(y))
+print("Médiane :", numpy.median(y))
+print("Étendue :", round(max(y) - min(y), 2))</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
           </div>
@@ -174,24 +164,14 @@ print("Étendue :", etendue)</textarea>
         <div class="info" style="margin-top:var(--gap-lg);">
           Le second programme détermine l'équation réduite y = ax + b de la
           droite d'ajustement par la méthode des moindres carrés, à partir de
-          deux listes x et y de même longueur.
+          deux listes x et y de même longueur : la fonction
+          <code>numpy.polyfit(x, y, 1)</code> renvoie directement a et b.
         </div>
 
         <div class="code-exercice" data-titre="Droite d'ajustement par moindres carrés">
-          <textarea class="code-editeur-python" spellcheck="false"># x : dimension d'une pièce (mm) ; y : temps d'usinage (min)
-x = [10, 20, 30, 40, 50, 60]
-y = [5.2, 8.1, 10.9, 14.2, 16.8, 20.1]
-
-n = len(x)
-moyenne_x = sum(x) / n
-moyenne_y = sum(y) / n
-
-numerateur = sum((x[i] - moyenne_x) * (y[i] - moyenne_y) for i in range(n))
-denominateur = sum((x[i] - moyenne_x) ** 2 for i in range(n))
-
-a = numerateur / denominateur
-b = moyenne_y - a * moyenne_x
-
+          <textarea class="code-editeur-python" spellcheck="false">x = [10, 20, 30, 40, 50, 60]          # dimension d'une pièce (mm)
+y = [5.2, 8.1, 10.9, 14.2, 16.8, 20.1]   # temps d'usinage (min)
+a, b = numpy.polyfit(x, y, 1)            # droite d'ajustement y = ax + b (moindres carrés)
 print(f"Droite d'ajustement : y = {a:.2f}x + {b:.2f}")</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
@@ -201,26 +181,17 @@ print(f"Droite d'ajustement : y = {a:.2f}x + {b:.2f}")</textarea>
         <div class="info" style="margin-top:var(--gap-lg);">
           Le coefficient de détermination (carré du coefficient de
           corrélation) indique la qualité de l'ajustement : plus il est
-          proche de 1, plus la corrélation est forte.
+          proche de 1, plus la corrélation est forte. La fonction
+          <code>numpy.corrcoef(x, y)[0, 1]</code> renvoie le coefficient de
+          corrélation r.
         </div>
 
         <div class="code-exercice" data-titre="Coefficient de détermination">
           <textarea class="code-editeur-python" spellcheck="false">x = [10, 20, 30, 40, 50, 60]
 y = [5.2, 8.1, 10.9, 14.2, 16.8, 20.1]
-
-n = len(x)
-moyenne_x = sum(x) / n
-moyenne_y = sum(y) / n
-
-cov = sum((x[i] - moyenne_x) * (y[i] - moyenne_y) for i in range(n))
-var_x = sum((x[i] - moyenne_x) ** 2 for i in range(n))
-var_y = sum((y[i] - moyenne_y) ** 2 for i in range(n))
-
-r = cov / (var_x * var_y) ** 0.5
-r2 = r ** 2
-
-print("Coefficient de corrélation r :", r)
-print("Coefficient de détermination r² :", r2)</textarea>
+r = numpy.corrcoef(x, y)[0, 1]   # coefficient de corrélation
+print("Coefficient de corrélation r :", round(r, 4))
+print("Coefficient de détermination r² :", round(r ** 2, 4))</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
           </div>
@@ -239,6 +210,10 @@ print("Coefficient de détermination r² :", r2)</textarea>
           contrôles qualité distincts) et compter, sur un grand nombre
           d'essais, les fréquences de A∪B (au moins l'un des deux) et de A∩B
           (les deux à la fois), pour conjecturer une relation entre elles.
+          <code>numpy.random.random(n) &lt; p_a</code> réalise n tirages d'un
+          coup : on obtient une liste de « vrai / faux » ; <code>|</code>
+          signifie « ou », <code>&amp;</code> signifie « et », et
+          <code>.mean()</code> donne la fréquence des « vrai ».
         </div>
 
         <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
@@ -249,33 +224,11 @@ print("Coefficient de détermination r² :", r2)</textarea>
         </ol>
 
         <div class="code-exercice" data-titre="Estimer P(A∪B) et P(A∩B)">
-          <textarea class="code-editeur-python" spellcheck="false">
-p_a = 0.3   # probabilité de l'événement A
-p_b = 0.2   # probabilité de l'événement B
-n = 10000
-
-nb_a = 0
-nb_b = 0
-nb_a_ou_b = 0
-nb_a_et_b = 0
-
-for i in range(n):
-    a = random.random() < p_a
-    b = random.random() < p_b
-    if a:
-        nb_a += 1
-    if b:
-        nb_b += 1
-    if a or b:
-        nb_a_ou_b += 1
-    if a and b:
-        nb_a_et_b += 1
-
-print("Fréquence de A :", nb_a / n)
-print("Fréquence de B :", nb_b / n)
-print("Fréquence de A ou B :", nb_a_ou_b / n)
-print("Fréquence de A et B :", nb_a_et_b / n)
-print("P(A) + P(B) - P(A et B) ≈", nb_a / n + nb_b / n - nb_a_et_b / n)</textarea>
+          <textarea class="code-editeur-python" spellcheck="false">p_a, p_b, n = 0.3, 0.2, 10000
+a, b = numpy.random.random(n) < p_a, numpy.random.random(n) < p_b   # n tirages de A et de B (vrai / faux)
+print("Fréquence de A :", a.mean(), "| Fréquence de B :", b.mean())
+print("Fréquence de A ou B :", (a | b).mean(), "| Fréquence de A et B :", (a & b).mean())
+print("P(A) + P(B) - P(A et B) ≈", round(a.mean() + b.mean() - (a & b).mean(), 4))</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
           </div>
@@ -304,28 +257,10 @@ print("P(A) + P(B) - P(A et B) ≈", nb_a / n + nb_b / n - nb_a_et_b / n)</texta
         </ol>
 
         <div class="code-exercice" data-titre="Changement de variable et ajustement">
-          <textarea class="code-editeur-python" spellcheck="false">
-def coefficient_determination(x, y):
-    n = len(x)
-    mx = sum(x) / n
-    my = sum(y) / n
-    cov = sum((x[i] - mx) * (y[i] - my) for i in range(n))
-    vx = sum((x[i] - mx) ** 2 for i in range(n))
-    vy = sum((y[i] - my) ** 2 for i in range(n))
-    r = cov / (vx * vy) ** 0.5
-    return r ** 2
-
-# x : durée (jours) ; y : grandeur évoluant "à taux fixe" (croissance exponentielle)
-x = [1, 2, 3, 4, 5, 6]
-y = [10, 13, 17, 22, 29, 38]
-
-r2_affine = coefficient_determination(x, y)
-
-z = [math.log(valeur) for valeur in y]   # changement de variable z = log(y)
-r2_log = coefficient_determination(x, z)
-
-print("r² pour l'ajustement affine direct (x, y) :", r2_affine)
-print("r² pour l'ajustement affine après changement de variable (x, log(y)) :", r2_log)</textarea>
+          <textarea class="code-editeur-python" spellcheck="false">x = [1, 2, 3, 4, 5, 6]                 # durée (jours)
+y = [10, 13, 17, 22, 29, 38]           # grandeur évoluant « à taux fixe » (croissance exponentielle)
+print("r² pour l'ajustement affine direct (x, y) :", round(numpy.corrcoef(x, y)[0, 1] ** 2, 4))
+print("r² après changement de variable (x, log(y)) :", round(numpy.corrcoef(x, numpy.log(y))[0, 1] ** 2, 4))</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
           </div>
@@ -344,7 +279,9 @@ print("r² pour l'ajustement affine après changement de variable (x, log(y)) :"
           test de résistance) peut se représenter par un arbre pondéré. Le
           programme simule cette expérience à deux épreuves et compare
           P(A∩B) à P(A) × P(B) pour tester l'indépendance des deux
-          événements.
+          événements. <code>numpy.where(a, p_b_si_a, p_b_si_non_a)</code>
+          choisit, pour chaque tirage, la probabilité de B selon que A est
+          réalisé ou non.
         </div>
 
         <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
@@ -355,38 +292,11 @@ print("r² pour l'ajustement affine après changement de variable (x, log(y)) :"
         </ol>
 
         <div class="code-exercice" data-titre="Simuler un arbre pondéré">
-          <textarea class="code-editeur-python" spellcheck="false">
-p_a = 0.9    # probabilité que la pièce passe le premier contrôle (événement A)
-# Second contrôle : sa probabilité de succès dépend (ou non) du premier
-p_b_si_a = 0.95       # P(B) sachant A réussi
-p_b_si_non_a = 0.95   # P(B) sachant A échoué (identique -> indépendance)
-
-n = 20000
-nb_a = 0
-nb_b = 0
-nb_a_et_b = 0
-
-for i in range(n):
-    a = random.random() < p_a
-    if a:
-        b = random.random() < p_b_si_a
-    else:
-        b = random.random() < p_b_si_non_a
-    if a:
-        nb_a += 1
-    if b:
-        nb_b += 1
-    if a and b:
-        nb_a_et_b += 1
-
-p_a_estime = nb_a / n
-p_b_estime = nb_b / n
-p_a_et_b_estime = nb_a_et_b / n
-
-print("P(A) estimée :", p_a_estime)
-print("P(B) estimée :", p_b_estime)
-print("P(A et B) estimée :", p_a_et_b_estime)
-print("P(A) x P(B) :", p_a_estime * p_b_estime)</textarea>
+          <textarea class="code-editeur-python" spellcheck="false">p_a, p_b_si_a, p_b_si_non_a, n = 0.9, 0.95, 0.95, 20000   # égales : A et B indépendants
+a = numpy.random.random(n) < p_a
+b = numpy.random.random(n) < numpy.where(a, p_b_si_a, p_b_si_non_a)   # la probabilité de B dépend du résultat de A
+print("P(A) estimée :", a.mean(), "| P(B) estimée :", b.mean(), "| P(A et B) estimée :", (a & b).mean())
+print("P(A) x P(B) :", round(a.mean() * b.mean(), 4))</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
           </div>
@@ -406,20 +316,10 @@ print("P(A) x P(B) :", p_a_estime * p_b_estime)</textarea>
         </ol>
 
         <div class="code-exercice" data-titre="Vérifier la formule des probabilités totales">
-          <textarea class="code-editeur-python" spellcheck="false"># Mêmes données que l'arbre pondéré précédent
-p_a = 0.9
-p_b_si_a = 0.95
-p_b_si_non_a = 0.5
-
-p_non_a = 1 - p_a
-
-# Formule des probabilités totales, lue directement sur les deux chemins
-# menant à B : (A puis B) et (non A puis B)
-p_b_formule = p_a * p_b_si_a + p_non_a * p_b_si_non_a
-
-print("P(A) x P(B sachant A)         =", p_a * p_b_si_a)
-print("P(non A) x P(B sachant non A) =", p_non_a * p_b_si_non_a)
-print("P(B) par la formule des probabilités totales :", p_b_formule)</textarea>
+          <textarea class="code-editeur-python" spellcheck="false">p_a, p_b_si_a, p_b_si_non_a = 0.9, 0.95, 0.5   # mêmes données que l'arbre pondéré précédent
+print("P(A) x P(B sachant A)         =", round(p_a * p_b_si_a, 4))
+print("P(non A) x P(B sachant non A) =", round((1 - p_a) * p_b_si_non_a, 4))
+print("P(B) par la formule des probabilités totales :", round(p_a * p_b_si_a + (1 - p_a) * p_b_si_non_a, 4))</textarea>
           <div class="toolbar">
             <button type="button" class="btn btn-primaire btn-pylab">🐍 Ouvrir dans PyLab</button>
           </div>
@@ -621,7 +521,7 @@ print("P(B) par la formule des probabilités totales :", p_b_formule)</textarea>
     <ol class="questions-tp">
       <li>
         <div class="question-entete">
-          <strong>Expliquer le principe d'un ajustement affine par la méthode des moindres carrés (programme Python).</strong>
+          <strong>Expliquer le principe d'un ajustement affine par la méthode des moindres carrés (fonction numpy.polyfit du programme Python).</strong>
           <span class="cartouche" data-comp="APP">APP</span>
         </div>
         <div class="zone-eleve"><textarea id="question-stats-tle-1" rows="4" placeholder="Votre réponse..."></textarea></div>

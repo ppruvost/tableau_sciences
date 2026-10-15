@@ -13,19 +13,15 @@ const A1_LIB = {
 export const A1 = {
   params: A1_LIB,
   build: (P, N, cad) => {
-    const code = n => `import random
-
-def estimer_probabilite(n, p):
-    nb_succes = 0
-    # TODO : compléter la boucle
-    return nb_succes / n
-
-frequence = estimer_probabilite(${n}, ${P.p})
-print("Fréquence obtenue :", frequence)`;
+    const code = n => `def estimer_probabilite(n, p):
+    succes = 0
+    for i in range(n): succes += 0   # À compléter : remplacer 0 par la condition (random.random() < p)
+    return succes / n
+print("Fréquence obtenue :", estimer_probabilite(${n}, ${P.p}))`;
     return {
       A: { contexte: `${cad}, un taux de ${P.obj} de ${P.p * 100} % est annoncé.`,
         problematique: `Une simulation de 2000 essais donne-t-elle une fréquence proche de ${P.p * 100} % ?`, questions: [
-          `Compléter la boucle de la fonction estimer_probabilite(n, p) pour tirer un nombre aléatoire et compter les succès.`,
+          `Compléter la ligne de la boucle de la fonction estimer_probabilite(n, p) pour ajouter 1 à succes quand le nombre aléatoire tiré est inférieur à p.`,
           `Exécuter le programme avec n = 2000 et p = ${P.p}.`,
           `Relever la fréquence obtenue.`,
           `Comparer cette fréquence au taux annoncé de ${P.p * 100} %.`, R5], code: code(2000) },
