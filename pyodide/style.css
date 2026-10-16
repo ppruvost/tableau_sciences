@@ -651,12 +651,13 @@ body {
 }
 
 /* =========================================================
-   BOUTONS DE L'ÉDITEUR (Exécuter / Exporter / Effacer)
-   Les trois boutons partagent EXACTEMENT le même style.
+   BOUTONS DE L'ÉDITEUR (Exécuter / Importer / Exporter / Effacer)
+   Les quatre boutons partagent EXACTEMENT le même style.
    ========================================================= */
 
 .editor-actions button,
 .run-button,
+.import-button,
 .export-button,
 .clear-button {
   min-height: 48px;
@@ -694,6 +695,7 @@ body {
 
 .editor-actions button:hover:not(:disabled),
 .run-button:hover:not(:disabled),
+.import-button:hover:not(:disabled),
 .export-button:hover:not(:disabled),
 .clear-button:hover:not(:disabled) {
   background: #1e90ff;
@@ -706,6 +708,7 @@ body {
 
 .editor-actions button:active,
 .run-button:active,
+.import-button:active,
 .export-button:active,
 .clear-button:active {
   transform: translateY(0);

@@ -23,6 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const examplesMenu = document.getElementById("examplesMenu");
     const runButton = document.getElementById("run");
     const exportButton = document.getElementById("export");
+    const importButton = document.getElementById("import");
+    const importFile = document.getElementById("importFile");
     const status = document.getElementById("status");
 
     /* =================================================
@@ -74,7 +76,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const codeParam = params.get("code");
 
         if (codeParam && editor) {
-            const decode = s => decodeURIComponent(escape(atob(s)));
+            const decode = s => {
+                /* accepte le base64 classique et le base64 « URL-safe » (- et _) ;
+                   une espace est un « + » transformé par l'adresse */
+                s = s.replace(/ /g, "+").replace(/-/g, "+").replace(/_/g, "/");
+                while (s.length % 4) s += "=";
+                return decodeURIComponent(escape(atob(s)));
+            };
             editor.value = decode(codeParam);
             showPython();
         }
@@ -467,6 +475,83 @@ json.dumps(_images)
             "click",
             exportPythonScript
         );
+    }
+
+    /* =================================================
+       IMPORTER UN SCRIPT PYTHON
+       Le fichier choisi (.py ou .txt) remplace le contenu
+       de l'éditeur. Il est lu localement : rien n'est envoyé.
+    ================================================= */
+
+    const IMPORT_TAILLE_MAX = 512 * 1024; /* 512 Ko : largement assez pour un script d'élève */
+
+    function decoderTexte(buffer) {
+        /* UTF-8 d'abord ; si le fichier vient d'un vieux Bloc-notes
+           (Windows-1252), on le relit dans cet encodage pour garder les accents */
+        let texte;
+        try {
+            texte = new TextDecoder("utf-8", { fatal: true }).decode(buffer);
+        } catch (e) {
+            texte = new TextDecoder("windows-1252").decode(buffer);
+        }
+        return texte.replace(/^\uFEFF/, "").replace(/\r\n?/g, "\n");
+    }
+
+    async function importPythonScript(file) {
+
+        if (!file || !editor) return;
+
+        if (file.size > IMPORT_TAILLE_MAX) {
+            if (output) {
+                output.textContent =
+                    "Impossible d'importer le script.\n\n" +
+                    "Le fichier est trop volumineux (" + Math.round(file.size / 1024) + " Ko, maximum 512 Ko).";
+            }
+            return;
+        }
+
+        try {
+            const code = decoderTexte(await file.arrayBuffer());
+
+            if (!code.trim()) {
+                if (output) {
+                    output.textContent =
+                        "Impossible d'importer le script.\n\n" +
+                        "Le fichier « " + file.name + " » est vide.";
+                }
+                return;
+            }
+
+            editor.value = code;
+            editor.scrollTop = 0;
+            editor.focus();
+
+            if (output) {
+                output.textContent =
+                    "✓ Script Python importé avec succès.\n\n" +
+                    "Fichier : " + file.name + "\n\n" +
+                    "Clique sur Exécuter pour le lancer.";
+            }
+
+        } catch (e) {
+            console.warn("Import du script impossible :", e);
+            if (output) {
+                output.textContent =
+                    "Impossible d'importer le script.\n\n" +
+                    "Le fichier n'a pas pu être lu.";
+            }
+        }
+    }
+
+    if (importButton && importFile) {
+
+        importButton.addEventListener("click", () => importFile.click());
+
+        importFile.addEventListener("change", async () => {
+            await importPythonScript(importFile.files && importFile.files[0]);
+            /* permet de réimporter le même fichier après l'avoir modifié */
+            importFile.value = "";
+        });
     }
 
     /* =================================================

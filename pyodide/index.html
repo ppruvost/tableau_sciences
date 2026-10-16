@@ -143,6 +143,15 @@ for nombre in range(1, 6):
                         Exécuter
                     </button>
 
+                    <!-- Importer un script Python (.py) dans l'éditeur -->
+                    <button id="import" class="import-button" type="button">
+                        <i class="fas fa-file-import"></i>
+                        Importer le script
+                    </button>
+
+                    <!-- Sélecteur de fichier caché, déclenché par le bouton ci-dessus -->
+                    <input id="importFile" type="file" accept=".py,.txt,text/x-python,text/plain" hidden>
+
                     <!-- Exporter le script Python -->
                     <button id="export" class="export-button" type="button">
                         <i class="fas fa-file-export"></i>

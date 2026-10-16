@@ -9,10 +9,16 @@
  * d'encoder le code Python de l'exercice et d'ouvrir PyLab dans un
  * nouvel onglet — PyLab reste un outil autonome, comme NumWorks ou
  * la roue.
+ *
+ * Correctif : le base64 est désormais « URL-safe » (+ → -, / → _, sans
+ * « = »). Avec le base64 classique, un « + » était lu comme une espace
+ * dans l'adresse : PyLab ne pouvait plus décoder le programme et
+ * affichait son code d'accueil à la place.
  */
 
 function encoderCodePython(code) {
-  return btoa(unescape(encodeURIComponent(code)));
+  const b64 = btoa(unescape(encodeURIComponent(code)));
+  return b64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
 
 /**
@@ -32,6 +38,10 @@ export function ouvrirDansPyLab(code) {
 export function initBoutonsPyLab(selecteur = '.btn-pylab') {
 
   document.querySelectorAll(selecteur).forEach(bouton => {
+
+    // évite d'ouvrir deux onglets si l'initialisation est appelée deux fois
+    if (bouton.dataset.pylabCable) return;
+    bouton.dataset.pylabCable = '1';
 
     bouton.addEventListener('click', () => {
 
