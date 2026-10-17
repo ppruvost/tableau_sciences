@@ -452,6 +452,40 @@ function _boxesNotation() {
 }
 
 function _rendreSection(section) {
+  // ── Tableau de données (plusieurs colonnes) et/ou graphique (canvas) ──
+  //    section.tableau = { entetes: [...], lignes: [[...], ...] }
+  //    section.canvas  = <canvas> converti en image PNG
+  //    section.legende = texte sous le graphique (ex. équation de la droite)
+  if (section.tableau || section.canvas) {
+    const bord = 'border:1px solid #94a3b8;padding:3px 8px;text-align:center;';
+
+    const tableauHTML = (section.tableau && section.tableau.lignes && section.tableau.lignes.length)
+      ? `<table class="cr-tableau" style="width:100%;border-collapse:collapse;margin:2mm 0 4mm;">
+           <thead><tr>${(section.tableau.entetes || [])
+             .map(e => `<th style="${bord}background:#EAF2F8;">${_echapper(e)}</th>`).join('')}</tr></thead>
+           <tbody>${section.tableau.lignes
+             .map(l => `<tr>${l.map(c => `<td style="${bord}">${_echapper(c)}</td>`).join('')}</tr>`)
+             .join('')}</tbody>
+         </table>`
+      : '';
+
+    const graphiqueHTML = section.canvas
+      ? `<div style="break-inside:avoid;page-break-inside:avoid;text-align:center;">
+           <img class="cr-graphique" src="${section.canvas.toDataURL('image/png')}"
+                alt="${_echapper(section.titre)}"
+                style="max-width:100%;height:auto;">
+           ${section.legende ? `<p class="cr-legende" style="margin:2mm 0 0;font-size:0.9em;">${_echapper(section.legende)}</p>` : ''}
+         </div>`
+      : '';
+
+    return `
+      <div class="cr-section">
+        <h3>${_echapper(section.titre)}</h3>
+        ${tableauHTML}
+        ${graphiqueHTML}
+      </div>`;
+  }
+
   // ── Tableau de résultats (items) ──
   if (section.items && section.items.length) {
     const lignes = section.items

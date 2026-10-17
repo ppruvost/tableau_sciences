@@ -275,6 +275,7 @@ import sys
 import numpy
 import matplotlib
 import math
+from math import log10
 import random
 import warnings
 
@@ -286,6 +287,7 @@ print("Python", sys.version.split()[0])
 print("numPy", numpy.__version__)
 print("matplotlib", matplotlib.__version__)
 print("math")
+print("log10")
 print("random")
 `);
 
@@ -300,7 +302,8 @@ print("random")
                         "✓ numPy chargé\n" +
                         "✓ matplotlib chargé\n" +
                         "✓ random chargé\n" +
-                        "✓ math chargé\n\n" +
+                        "✓ math chargé\n" +
+                        "✓ log10 chargé (from math import log10)\n\n" +
                         "Écris ton programme puis clique sur Exécuter.";
                 }
 

@@ -63,6 +63,12 @@
       <li><em>Domaine transversal — Sécurité :</em> justifier la présence des dispositifs de protection des matériels et des personnes (fusible, disjoncteur, mise à la terre).</li>
     </ul>
 
+    <div class="info">
+      <strong>Références institutionnelles :</strong>
+      programme de physique-chimie des classes de seconde, première et terminale professionnelles (arrêté du 3 avril 2019, BOEN spécial n° 5 du 11 avril 2019), capacité « établir expérimentalement la relation entre la puissance électrique reçue, la valeur de la tension et celle de l'intensité en régime continu » ;
+      ressources Eduscol de physique-chimie pour la voie professionnelle (eduscol.education.fr).
+    </div>
+
   </div>
 
 </div>
@@ -112,6 +118,7 @@
     <ul style="padding-left:1.5rem;line-height:2">
       <li><strong>Avant de modifier un montage :</strong> couper l'alimentation, réaliser les branchements, puis remettre sous tension.</li>
       <li><strong>Multimètre :</strong> vérifier le calibre et le mode (V, A) avant chaque mesure ; un ampèremètre se branche toujours en série.</li>
+      <li><strong>Lampe 21 W et rhéostat :</strong> ils chauffent en fonctionnement, ne pas les toucher ; vérifier que le rhéostat supporte au moins 2 A (courant nominal de la lampe : 21 W ÷ 12 V = 1,75 A).</li>
       <li><strong>Dispositifs de protection :</strong> un fusible ou un disjoncteur coupe automatiquement l'alimentation en cas de surintensité, protégeant matériel et personnes.</li>
     </ul>
 
@@ -173,13 +180,37 @@
         <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
 
         <ol class="etapes">
-          <li>Réaliser le montage permettant de mesurer simultanément la tension aux bornes du dipôle et l'intensité qui le traverse (voltmètre en dérivation, ampèremètre en série).</li>
-          <li>Faire varier la tension d'alimentation et relever, pour chaque réglage, les valeurs de U et de I.</li>
-          <li>Saisir chaque couple de mesures et observer la puissance calculée automatiquement.</li>
+          <li>Réaliser le montage du schéma ci-dessous, interrupteur ouvert : générateur 12 V continu, interrupteur, rhéostat et lampe 12 V – 21 W en série, ampèremètre en série, voltmètre en dérivation aux bornes de la lampe.</li>
+          <li>Brancher le wattmètre : bornes « intensité » en série avec la lampe, bornes « tension » en dérivation aux bornes de la lampe.</li>
+          <li>Placer le rhéostat à sa résistance maximale, vérifier le calibre des appareils, puis fermer l'interrupteur après validation par l'enseignant.</li>
+          <li>Diminuer progressivement la résistance du rhéostat pour faire varier la tension aux bornes de la lampe (de 3 V environ jusqu'à 12 V, au moins 5 valeurs).</li>
+          <li>Pour chaque réglage, relever U (voltmètre), I (ampèremètre) et P lue sur le wattmètre, puis saisir le trio de mesures : la puissance U × I et l'écart avec le wattmètre sont calculés automatiquement.</li>
         </ol>
 
         <div class="mode-op">
-          <img src="./assets/images/e1-mesure-puissance.png" alt="Mode opératoire — mesure de la puissance électrique" class="mode-image">
+          <svg class="mode-image" viewBox="0 0 540 240" role="img" aria-label="Schéma du montage : générateur 12 V continu, interrupteur, rhéostat, ampèremètre, wattmètre et lampe 21 W en série ; voltmètre en dérivation aux bornes de la lampe" fill="none" stroke="currentColor" stroke-width="2" font-family="sans-serif" font-size="14">
+            <circle cx="40" cy="125" r="24"/>
+            <text x="40" y="122" text-anchor="middle" fill="currentColor" stroke="none">12 V</text>
+            <text x="40" y="139" text-anchor="middle" fill="currentColor" stroke="none">=</text>
+            <path d="M40 101V40H90M130 40H160M220 40H258M292 40H318M362 40H440V103M440 147V210H40V149"/>
+            <path d="M90 40L125 22"/>
+            <text x="108" y="14" text-anchor="middle" fill="currentColor" stroke="none">K</text>
+            <rect x="160" y="28" width="60" height="24"/>
+            <path d="M166 62L214 18"/>
+            <text x="190" y="80" text-anchor="middle" fill="currentColor" stroke="none">Rhéostat</text>
+            <circle cx="275" cy="40" r="17"/>
+            <text x="275" y="46" text-anchor="middle" fill="currentColor" stroke="none">A</text>
+            <rect x="318" y="24" width="44" height="32"/>
+            <text x="340" y="46" text-anchor="middle" fill="currentColor" stroke="none">W</text>
+            <circle cx="440" cy="125" r="22"/>
+            <path d="M424 109L456 141M456 109L424 141"/>
+            <text x="410" y="129" text-anchor="end" fill="currentColor" stroke="none">Lampe 21 W</text>
+            <path d="M440 70H500V98M500 132V180H440"/>
+            <circle cx="500" cy="115" r="17"/>
+            <text x="500" y="121" text-anchor="middle" fill="currentColor" stroke="none">V</text>
+            <circle cx="440" cy="70" r="3" fill="currentColor"/>
+            <circle cx="440" cy="180" r="3" fill="currentColor"/>
+          </svg>
         </div>
 
         <div class="form-row">
@@ -192,6 +223,11 @@
           <div class="form-group">
             <label for="pui-intensite">Intensité mesurée I (A)</label>
             <input id="pui-intensite" type="number" step="0.01">
+          </div>
+
+          <div class="form-group">
+            <label for="pui-wattmetre">Puissance lue au wattmètre P (W)</label>
+            <input id="pui-wattmetre" type="number" step="0.1">
           </div>
 
           <div class="form-group">
@@ -211,11 +247,28 @@
                 <th>U (V)</th>
                 <th>I (A)</th>
                 <th>P = U×I (W)</th>
+                <th>P wattmètre (W)</th>
+                <th>Écart relatif</th>
               </tr>
             </thead>
             <tbody id="tbody-puissance">
             </tbody>
           </table>
+        </div>
+
+        <!-- Graphique P(wattmètre) = f(U×I) : droite de régression de toutes les mesures -->
+        <div id="pui-graphique-bloc" style="margin-top:var(--gap-lg);">
+          <h4>Puissance lue au wattmètre en fonction de U × I</h4>
+          <p id="pui-graphique-msg" class="info">
+            Saisir au moins 3 mesures complètes (U, I et P au wattmètre) :
+            la droite de régression est tracée automatiquement.
+            Si P = U × I, la pente vaut 1.
+          </p>
+          <canvas id="pui-canvas" width="640" height="380"
+                  style="display:none;width:100%;max-width:640px;height:auto;"
+                  role="img"
+                  aria-label="Graphique de la puissance lue au wattmètre en fonction du produit U fois I avec droite de régression"></canvas>
+          <div id="pui-regression" class="resultat-calcul" style="display:none;"></div>
         </div>
 
 
@@ -227,38 +280,91 @@
 
       <div class="tab-panel" id="energie-consommee">
 
-        <h3>Calculer l'énergie électrique reçue</h3>
+        <h3>Établir la relation E = P × t</h3>
 
         <div class="info">
-          L'énergie électrique reçue par un appareil dépend de la
-          puissance qu'il consomme et de la durée d'utilisation :
-          E = P × t.
+          L'énergie électrique reçue par un appareil en régime continu
+          est le produit de la puissance reçue par la durée de
+          fonctionnement : E = P × t, avec E en joules (J), P en watts (W)
+          et t en secondes (s). Le kilowattheure (kWh) est une autre unité
+          d'énergie : 1 kWh = 3,6 × 10⁶ J.
         </div>
 
         <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
 
         <ol class="etapes">
-          <li>Relever la puissance nominale indiquée sur la plaque signalétique d'un appareil électrique de la vie courante ou de l'atelier professionnel.</li>
-          <li>Estimer sa durée d'utilisation quotidienne.</li>
-          <li>Saisir ces deux valeurs pour obtenir l'énergie consommée, exprimée en joules et en kilowattheures.</li>
+          <li>Conserver le montage de l'onglet précédent, en réglant le rhéostat pour que la lampe soit alimentée sous 12 V (tension nominale). Le wattmètre est utilisé avec sa fonction « énergie » (joulemètre).</li>
+          <li>Interrupteur ouvert, remettre à zéro le compteur d'énergie, puis fermer l'interrupteur et déclencher simultanément le chronomètre.</li>
+          <li>Sans ouvrir l'interrupteur, relever à intervalles réguliers (par exemple 60 s, 120 s, 180 s, 240 s et 300 s) la durée t, la puissance P lue au wattmètre et l'énergie E lue au joulemètre.</li>
+          <li>Saisir chaque relevé : l'énergie E = P × t et l'écart avec l'énergie lue sont calculés automatiquement.</li>
         </ol>
 
         <div class="mode-op">
-          <img src="./assets/images/e1-energie.png" alt="Mode opératoire — calcul de l'énergie électrique consommée" class="mode-image">
+          <svg class="mode-image" viewBox="0 0 540 240" role="img" aria-label="Schéma du montage : générateur 12 V continu, interrupteur, rhéostat et joulemètre en série avec la lampe 21 W ; voltmètre en dérivation aux bornes de la lampe" fill="none" stroke="currentColor" stroke-width="2" font-family="sans-serif" font-size="14">
+            <circle cx="40" cy="125" r="24"/>
+            <text x="40" y="122" text-anchor="middle" fill="currentColor" stroke="none">12 V</text>
+            <text x="40" y="139" text-anchor="middle" fill="currentColor" stroke="none">=</text>
+            <path d="M40 101V40H90M130 40H160M220 40H290M366 40H440V103M440 147V210H40V149"/>
+            <path d="M90 40L125 22"/>
+            <text x="108" y="14" text-anchor="middle" fill="currentColor" stroke="none">K</text>
+            <rect x="160" y="28" width="60" height="24"/>
+            <path d="M166 62L214 18"/>
+            <text x="190" y="80" text-anchor="middle" fill="currentColor" stroke="none">Rhéostat</text>
+            <rect x="290" y="24" width="76" height="32"/>
+            <text x="328" y="46" text-anchor="middle" fill="currentColor" stroke="none">W / J</text>
+            <circle cx="440" cy="125" r="22"/>
+            <path d="M424 109L456 141M456 109L424 141"/>
+            <text x="410" y="129" text-anchor="end" fill="currentColor" stroke="none">Lampe 21 W</text>
+            <path d="M440 70H500V98M500 132V180H440"/>
+            <circle cx="500" cy="115" r="17"/>
+            <text x="500" y="121" text-anchor="middle" fill="currentColor" stroke="none">V</text>
+            <circle cx="440" cy="70" r="3" fill="currentColor"/>
+            <circle cx="440" cy="180" r="3" fill="currentColor"/>
+          </svg>
         </div>
 
         <div class="form-row">
 
           <div class="form-group">
-            <label for="ener-puissance">Puissance de l'appareil (W)</label>
-            <input id="ener-puissance" type="number" step="1">
+            <label for="ener-puissance">Puissance lue au wattmètre P (W)</label>
+            <input id="ener-puissance" type="number" step="0.1">
           </div>
 
           <div class="form-group">
-            <label for="ener-duree">Durée d'utilisation (h)</label>
-            <input id="ener-duree" type="number" step="0.1">
+            <label for="ener-duree">Durée mesurée t (s)</label>
+            <input id="ener-duree" type="number" step="1">
           </div>
 
+          <div class="form-group">
+            <label for="ener-lue">Énergie lue au joulemètre E (J)</label>
+            <input id="ener-lue" type="number" step="1">
+          </div>
+
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button id="ener-ajouter" type="button" class="btn btn-primaire">
+              + Ajouter la mesure
+            </button>
+          </div>
+
+        </div>
+
+        <div class="table-responsive">
+          <table class="tableau-resultats">
+            <thead>
+              <tr>
+                <th>N°</th>
+                <th>P (W)</th>
+                <th>t (s)</th>
+                <th>E = P×t (J)</th>
+                <th>E (Wh)</th>
+                <th>E joulemètre (J)</th>
+                <th>Écart relatif</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-energie">
+            </tbody>
+          </table>
         </div>
 
         <div id="ener-resultat" class="resultat-calcul">
@@ -266,6 +372,20 @@
           consommée.
         </div>
 
+        <!-- Graphique E(joulemètre) = f(P×t) : droite de régression de toutes les mesures -->
+        <div id="ener-graphique-bloc" style="margin-top:var(--gap-lg);">
+          <h4>Énergie lue au joulemètre en fonction de P × t</h4>
+          <p id="ener-graphique-msg" class="info">
+            Saisir au moins 3 mesures complètes (P, t et E au joulemètre) :
+            la droite de régression est tracée automatiquement.
+            Si E = P × t, la pente vaut 1.
+          </p>
+          <canvas id="ener-canvas" width="640" height="380"
+                  style="display:none;width:100%;max-width:640px;height:auto;"
+                  role="img"
+                  aria-label="Graphique de l'énergie lue au joulemètre en fonction du produit P fois t avec droite de régression"></canvas>
+          <div id="ener-regression" class="resultat-calcul" style="display:none;"></div>
+        </div>
 
       </div>
 
@@ -363,7 +483,7 @@
       <li>
         <div class="question-entete">
           <strong>
-            À partir du tableau de mesures, vérifier la relation P = U × I.
+            À partir du tableau de mesures et de la droite obtenue, vérifier la relation P = U × I (pente, écarts relatifs). Comparer la puissance mesurée sous 12 V à la puissance nominale de la lampe (21 W).
           </strong>
           <span class="cartouche" data-comp="REA">REA</span>
         </div>
@@ -375,7 +495,7 @@
       <li>
         <div class="question-entete">
           <strong>
-            Calculer l'énergie consommée en kWh par l'appareil étudié et comparer ce résultat à une valeur de référence connue.
+            À partir de la relation E = P × t, calculer en kWh l'énergie consommée par la lampe pour une heure d'utilisation. Comparer les énergies calculées aux énergies lues au joulemètre (écarts relatifs, pente de la droite).
           </strong>
           <span class="cartouche" data-comp="ANA">ANA</span>
         </div>
@@ -521,6 +641,7 @@
     <div class="info" style="margin-top:var(--gap-md);">
       L'impression récupère automatiquement :
       <ul>
+        <li>les tableaux des mesures saisies et les graphiques P = f(U×I) et E = f(P×t) ;</li>
         <li>les réponses aux questions ;</li>
         <li>l'auto-évaluation des compétences.</li>
       </ul>

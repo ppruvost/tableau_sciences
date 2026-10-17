@@ -50,8 +50,12 @@ function construireSectionContextePro() {
  * @param {Object} params
  * @param {string} params.titre - Titre du TP (ex. "Puissance et énergie électrique")
  * @param {string} params.tp    - Numéro du TP (ex. "TP01")
+ * @param {() => Object[]} [params.sectionsSupplementaires]
+ *        Fonction appelée au moment de l'impression ; retourne des sections
+ *        supplémentaires (ex. tableau de mesures + graphique), insérées
+ *        avant les questions.
  */
-export function initImpressionCompteRendu({ titre, tp }) {
+export function initImpressionCompteRendu({ titre, tp, sectionsSupplementaires }) {
 
   const bouton = document.getElementById('btn-imprimer');
 
@@ -61,6 +65,7 @@ export function initImpressionCompteRendu({ titre, tp }) {
 
     const sections = [
       construireSectionContextePro(),
+      ...(typeof sectionsSupplementaires === 'function' ? sectionsSupplementaires() : []),
       ...construireSectionsQuestions(),
     ].filter(Boolean);
 
