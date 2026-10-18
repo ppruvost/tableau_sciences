@@ -14,6 +14,7 @@ import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-electricite.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
 import laboratoryEquipment from '../../data/equipment.js';
 import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
@@ -22,17 +23,26 @@ const CONTEXTES_PRO = {
 
   '1ere-tci': {
     contexte: "Avant de mettre sous tension un poste à souder ou un touret à meuler, il faut connaître la puissance appelée par l'appareil afin de vérifier la compatibilité avec l'installation électrique de l'atelier.",
-    problematique: "Comment déterminer la puissance électrique consommée par un équipement d'atelier et l'énergie qu'il consomme sur une durée donnée ?",
+    problematiques: {
+      'mesure-puissance': "Comment déterminer la puissance électrique consommée par un équipement d'atelier ?",
+      'energie-consommee': "Comment déterminer l'énergie qu'un équipement d'atelier consomme sur une durée donnée ?",
+    },
   },
 
   '1ere-trpm': {
     contexte: "Une machine-outil (perceuse, fraiseuse) consomme une puissance électrique qui dépend de son utilisation. Connaître cette puissance permet de dimensionner correctement l'installation électrique qui l'alimente.",
-    problematique: "Comment déterminer la puissance électrique consommée par une machine-outil et l'énergie qu'elle consomme sur une durée donnée ?",
+    problematiques: {
+      'mesure-puissance': "Comment déterminer la puissance électrique consommée par une machine-outil ?",
+      'energie-consommee': "Comment déterminer l'énergie qu'une machine-outil consomme sur une durée donnée ?",
+    },
   },
 
   '1ere-mcc': {
     contexte: "Une machine à coudre industrielle ou un fer à repasser professionnel consomme une puissance électrique indiquée sur sa plaque signalétique. Cette information conditionne le nombre d'appareils pouvant être utilisés simultanément sur une même installation.",
-    problematique: "Comment déterminer la puissance électrique consommée par un équipement de couture et l'énergie qu'il consomme au cours d'une journée de travail ?",
+    problematiques: {
+      'mesure-puissance': "Comment déterminer la puissance électrique consommée par un équipement de couture ?",
+      'energie-consommee': "Comment déterminer l'énergie qu'un équipement de couture consomme au cours d'une journée de travail ?",
+    },
   },
 
 };
@@ -72,6 +82,7 @@ export function init() {
   initTabs();
   initModesOperatoires();
   initRadarCompetences();
+  initQuestionsParOnglet();
 
   initImpressionCompteRendu({
     titre: 'Puissance et énergie électrique',

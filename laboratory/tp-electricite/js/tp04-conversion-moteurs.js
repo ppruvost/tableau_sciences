@@ -15,6 +15,7 @@ import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-electricite.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
 import laboratoryEquipment from '../../data/equipment.js';
 import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
@@ -23,17 +24,26 @@ const CONTEXTES_PRO = {
 
   'tle-tci': {
     contexte: "Certains outils de chaudronnerie (perceuse, meuleuse) sont équipés de moteurs à courant continu ou asynchrones alimentés à partir du secteur, via un module de conversion alternatif-continu pour les modèles sur batterie.",
-    problematique: "Comment convertir un courant alternatif en courant continu et comment un moteur électrique convertit-il l'énergie électrique en énergie mécanique ?",
+    problematiques: {
+      'redressement': "Comment convertir un courant alternatif en courant continu ?",
+      'moteurs': "Comment un moteur électrique convertit-il l'énergie électrique en énergie mécanique et de quel paramètre dépend sa fréquence de rotation ?",
+    },
   },
 
   'tle-trpm': {
     contexte: "Les moteurs des machines-outils d'un atelier de production mécanique peuvent être des moteurs à courant continu ou des moteurs asynchrones, pilotés par variateur pour ajuster leur fréquence de rotation.",
-    problematique: "Comment convertir un courant alternatif en courant continu et comment un moteur électrique convertit-il l'énergie électrique en énergie mécanique ?",
+    problematiques: {
+      'redressement': "Comment convertir un courant alternatif en courant continu ?",
+      'moteurs': "Comment un moteur électrique convertit-il l'énergie électrique en énergie mécanique et de quel paramètre dépend sa fréquence de rotation ?",
+    },
   },
 
   'tle-mcc': {
     contexte: "Les machines à coudre industrielles sont équipées de moteurs à courant continu ou asynchrones alimentés à partir du secteur, via un module de conversion alternatif-continu pour les modèles à variateur électronique.",
-    problematique: "Comment convertir un courant alternatif en courant continu et comment un moteur électrique convertit-il l'énergie électrique en énergie mécanique ?",
+    problematiques: {
+      'redressement': "Comment convertir un courant alternatif en courant continu ?",
+      'moteurs': "Comment un moteur électrique convertit-il l'énergie électrique en énergie mécanique et de quel paramètre dépend sa fréquence de rotation ?",
+    },
   },
 
 };
@@ -91,6 +101,7 @@ export function init() {
   initTabs();
   initModesOperatoires();
   initRadarCompetences();
+  initQuestionsParOnglet();
 
   initImpressionCompteRendu({
     titre: 'Conversion alternatif-continu et moteurs électriques',

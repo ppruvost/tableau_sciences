@@ -16,6 +16,7 @@ import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-electricite.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
 import glassware from '../../data/glassware.js';
 import laboratoryEquipment from '../../data/equipment.js';
@@ -26,17 +27,23 @@ const CONTEXTES_PRO = {
 
   'tle-tci': {
     contexte: "Les outils portatifs d'un atelier de chaudronnerie (perceuse, meuleuse d'angle sur batterie) fonctionnent grâce à un accumulateur rechargeable dont l'autonomie dépend de sa capacité et de son énergie massique.",
-    problematique: "Comment un accumulateur stocke-t-il de l'énergie électrique sous forme chimique, et comment évaluer l'énergie qu'il est capable de restituer ?",
+    problematiques: {
+      'accumulateur': "Comment un accumulateur stocke-t-il de l'énergie électrique sous forme chimique, et comment évaluer l'énergie qu'il est capable de restituer ?",
+    },
   },
 
   'tle-trpm': {
     contexte: "Les outils portatifs d'un atelier de production mécanique (visseuse, perceuse sur batterie) fonctionnent grâce à un accumulateur rechargeable dont l'autonomie dépend de sa capacité et de son énergie massique.",
-    problematique: "Comment un accumulateur stocke-t-il de l'énergie électrique sous forme chimique, et comment évaluer l'énergie qu'il est capable de restituer ?",
+    problematiques: {
+      'accumulateur': "Comment un accumulateur stocke-t-il de l'énergie électrique sous forme chimique, et comment évaluer l'énergie qu'il est capable de restituer ?",
+    },
   },
 
   'tle-mcc': {
     contexte: "Les outils de couture sur batterie (ciseaux électriques, machines portatives) fonctionnent grâce à un accumulateur rechargeable dont l'autonomie dépend de sa capacité et de son énergie massique.",
-    problematique: "Comment un accumulateur stocke-t-il de l'énergie électrique sous forme chimique, et comment évaluer l'énergie qu'il est capable de restituer ?",
+    problematiques: {
+      'accumulateur': "Comment un accumulateur stocke-t-il de l'énergie électrique sous forme chimique, et comment évaluer l'énergie qu'il est capable de restituer ?",
+    },
   },
 
 };
@@ -78,6 +85,7 @@ export function init() {
   initTabs();
   initModesOperatoires();
   initRadarCompetences();
+  initQuestionsParOnglet();
 
   initImpressionCompteRendu({
     titre: "Stockage de l'énergie par un système électrochimique",

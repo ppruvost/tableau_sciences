@@ -14,6 +14,7 @@ import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-electricite.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
 import laboratoryEquipment from '../../data/equipment.js';
 import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
@@ -22,17 +23,26 @@ const CONTEXTES_PRO = {
 
   'tle-tci': {
     contexte: "Un poste à souder électrique alimenté en régime sinusoïdal consomme une puissance active qui dépend du déphasage introduit par les enroulements du transformateur interne.",
-    problematique: "Comment mesurer et calculer la puissance active réellement consommée par un appareil alimenté en régime sinusoïdal ?",
+    problematiques: {
+      'dephasage': "Comment mesurer le déphasage entre la tension et l'intensité d'un appareil alimenté en régime sinusoïdal ?",
+      'puissance-active': "Comment mesurer et calculer la puissance active réellement consommée par un appareil alimenté en régime sinusoïdal ?",
+    },
   },
 
   'tle-trpm': {
     contexte: "Un moteur électrique d'une machine-outil, alimenté en régime sinusoïdal, présente un déphasage entre tension et intensité qui influence la puissance active réellement consommée.",
-    problematique: "Comment mesurer et calculer la puissance active réellement consommée par un moteur alimenté en régime sinusoïdal ?",
+    problematiques: {
+      'dephasage': "Comment mesurer le déphasage entre la tension et l'intensité d'un moteur alimenté en régime sinusoïdal ?",
+      'puissance-active': "Comment mesurer et calculer la puissance active réellement consommée par un moteur alimenté en régime sinusoïdal ?",
+    },
   },
 
   'tle-mcc': {
     contexte: "Une machine à coudre électrique alimentée en régime sinusoïdal présente, comme tout moteur, un déphasage entre tension et intensité qui influence la puissance active réellement consommée.",
-    problematique: "Comment mesurer et calculer la puissance active réellement consommée par un appareil alimenté en régime sinusoïdal ?",
+    problematiques: {
+      'dephasage': "Comment mesurer le déphasage entre la tension et l'intensité d'un appareil alimenté en régime sinusoïdal ?",
+      'puissance-active': "Comment mesurer et calculer la puissance active réellement consommée par un appareil alimenté en régime sinusoïdal ?",
+    },
   },
 
 };
@@ -73,6 +83,7 @@ export function init() {
   initTabs();
   initModesOperatoires();
   initRadarCompetences();
+  initQuestionsParOnglet();
 
   initImpressionCompteRendu({
     titre: 'Puissance active en régime sinusoïdal',

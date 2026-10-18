@@ -178,7 +178,13 @@
         </ol>
 
         <div class="mode-op">
-          <img src="./assets/images/e3-dephasage.png" alt="Mode opératoire — mesure du déphasage tension-intensité" class="mode-image">
+          <svg class="mode-image" viewBox="0 0 540 240" role="img" aria-label="Schéma du montage : dipôle et petite résistance r en série sur un générateur alternatif ; voie 1 de l'oscilloscope aux bornes du dipôle, voie 2 aux bornes de r" fill="none" stroke="currentColor" stroke-width="2" font-family="sans-serif" font-size="14">
+            <circle cx="40" cy="125" r="24"/><text x="40" y="122" text-anchor="middle" fill="currentColor" stroke="none">GBF</text><text x="40" y="139" text-anchor="middle" fill="currentColor" stroke="none">~</text><path d="M40 101V40H200M280 40H340M420 40H460V210H40V149"/><rect x="200" y="28" width="80" height="24"/><text x="240" y="18" text-anchor="middle" fill="currentColor" stroke="none">Dipôle</text><rect x="340" y="28" width="80" height="24"/><text x="380" y="18" text-anchor="middle" fill="currentColor" stroke="none">r (faible)</text><rect x="190" y="125" width="250" height="48"/><text x="315" y="154" text-anchor="middle" fill="currentColor" stroke="none">Oscilloscope ou ExAO</text><path d="M200 52V125M280 52V125M340 52V125M420 52V125"/><circle cx="200" cy="52" r="3" fill="currentColor"/><circle cx="280" cy="52" r="3" fill="currentColor"/><circle cx="340" cy="52" r="3" fill="currentColor"/><circle cx="420" cy="52" r="3" fill="currentColor"/><text x="240" y="100" text-anchor="middle" fill="currentColor" stroke="none" font-size="12">voie 1 : u(t)</text><text x="380" y="100" text-anchor="middle" fill="currentColor" stroke="none" font-size="12">voie 2 : i(t)</text>
+          </svg>
+          <svg class="mode-image" viewBox="0 0 540 200" role="img" aria-label="Oscillogramme : tension u(t) en trait plein et intensité i(t) en tirets, décalées de Δt ; période T repérée entre deux passages identiques" fill="none" stroke="currentColor" stroke-width="2" font-family="sans-serif" font-size="14">
+            <path d="M40 100H450"/><path d="M40 20V180"/><polyline points="40.0 100.0 44.0 92.5 48.0 85.1 52.0 77.9 56.0 71.1 60.0 64.7 64.0 58.9 68.0 53.8 72.0 49.3 76.0 45.7 80.0 42.9 84.0 41.1 88.0 40.1 92.0 40.1 96.0 41.1 100.0 42.9 104.0 45.7 108.0 49.3 112.0 53.8 116.0 58.9 120.0 64.7 124.0 71.1 128.0 77.9 132.0 85.1 136.0 92.5 140.0 100.0 144.0 107.5 148.0 114.9 152.0 122.1 156.0 128.9 160.0 135.3 164.0 141.1 168.0 146.2 172.0 150.7 176.0 154.3 180.0 157.1 184.0 158.9 188.0 159.9 192.0 159.9 196.0 158.9 200.0 157.1 204.0 154.3 208.0 150.7 212.0 146.2 216.0 141.1 220.0 135.3 224.0 128.9 228.0 122.1 232.0 114.9 236.0 107.5 240.0 100.0 244.0 92.5 248.0 85.1 252.0 77.9 256.0 71.1 260.0 64.7 264.0 58.9 268.0 53.8 272.0 49.3 276.0 45.7 280.0 42.9 284.0 41.1 288.0 40.1 292.0 40.1 296.0 41.1 300.0 42.9 304.0 45.7 308.0 49.3 312.0 53.8 316.0 58.9 320.0 64.7 324.0 71.1 328.0 77.9 332.0 85.1 336.0 92.5 340.0 100.0 344.0 107.5 348.0 114.9 352.0 122.1 356.0 128.9 360.0 135.3 364.0 141.1 368.0 146.2 372.0 150.7 376.0 154.3 380.0 157.1 384.0 158.9 388.0 159.9 392.0 159.9 396.0 158.9 400.0 157.1 404.0 154.3 408.0 150.7 412.0 146.2 416.0 141.1 420.0 135.3 424.0 128.9 428.0 122.1 432.0 114.9 436.0 107.5 440.0 100.0" stroke-width="2.5"/><polyline points="40.0 134.0 44.0 130.6 48.0 126.8 52.0 122.5 56.0 117.9 60.0 113.0 64.0 107.9 68.0 102.6 72.0 97.4 76.0 92.1 80.0 87.0 84.0 82.1 88.0 77.5 92.0 73.2 96.0 69.4 100.0 66.0 104.0 63.2 108.0 60.9 112.0 59.3 116.0 58.3 120.0 58.0 124.0 58.3 128.0 59.3 132.0 60.9 136.0 63.2 140.0 66.0 144.0 69.4 148.0 73.2 152.0 77.5 156.0 82.1 160.0 87.0 164.0 92.1 168.0 97.4 172.0 102.6 176.0 107.9 180.0 113.0 184.0 117.9 188.0 122.5 192.0 126.8 196.0 130.6 200.0 134.0 204.0 136.8 208.0 139.1 212.0 140.7 216.0 141.7 220.0 142.0 224.0 141.7 228.0 140.7 232.0 139.1 236.0 136.8 240.0 134.0 244.0 130.6 248.0 126.8 252.0 122.5 256.0 117.9 260.0 113.0 264.0 107.9 268.0 102.6 272.0 97.4 276.0 92.1 280.0 87.0 284.0 82.1 288.0 77.5 292.0 73.2 296.0 69.4 300.0 66.0 304.0 63.2 308.0 60.9 312.0 59.3 316.0 58.3 320.0 58.0 324.0 58.3 328.0 59.3 332.0 60.9 336.0 63.2 340.0 66.0 344.0 69.4 348.0 73.2 352.0 77.5 356.0 82.1 360.0 87.0 364.0 92.1 368.0 97.4 372.0 102.6 376.0 107.9 380.0 113.0 384.0 117.9 388.0 122.5 392.0 126.8 396.0 130.6 400.0 134.0 404.0 136.8 408.0 139.1 412.0 140.7 416.0 141.7 420.0 142.0 424.0 141.7 428.0 140.7 432.0 139.1 436.0 136.8 440.0 134.0" stroke-dasharray="6 4"/><path d="M240 150V170" stroke-dasharray="5 4"/><path d="M40 165H240"/><path d="M40 158V172"/><path d="M240 158V172"/><text x="140" y="160" text-anchor="middle" fill="currentColor" stroke="none">T</text><path d="M70 100V132" stroke-dasharray="5 4"/><path d="M40 126H70"/><text x="55" y="144" text-anchor="middle" fill="currentColor" stroke="none">Δt</text><text x="452" y="40" text-anchor="start" fill="currentColor" stroke="none">u(t)</text><text x="452" y="60" text-anchor="start" fill="currentColor" stroke="none" font-size="12">i(t) (tirets)</text>
+          </svg>
+          <p class="mode-legende">Montage et allure des signaux : Δt est le décalage entre deux passages identiques de u(t) et i(t), T leur période.</p>
         </div>
 
         <div class="form-row">
@@ -227,7 +233,10 @@
         </ol>
 
         <div class="mode-op">
-          <img src="./assets/images/e3-puissance-active.png" alt="Mode opératoire — mesure de la puissance active" class="mode-image">
+          <svg class="mode-image" viewBox="0 0 540 240" role="img" aria-label="Schéma du montage : wattmètre dont les bornes intensité sont en série avec le dipôle et les bornes tension en dérivation aux bornes du dipôle" fill="none" stroke="currentColor" stroke-width="2" font-family="sans-serif" font-size="14">
+            <circle cx="40" cy="125" r="24"/><text x="40" y="122" text-anchor="middle" fill="currentColor" stroke="none">GBF</text><text x="40" y="139" text-anchor="middle" fill="currentColor" stroke="none">~</text><path d="M40 101V40H250M350 40H440V103M440 147V210H40V149"/><rect x="250" y="24" width="100" height="32"/><text x="300" y="45" text-anchor="middle" fill="currentColor" stroke="none">W</text><text x="300" y="16" text-anchor="middle" fill="currentColor" stroke="none">Wattmètre</text><rect x="420" y="103" width="40" height="44"/><text x="440" y="130" text-anchor="middle" fill="currentColor" stroke="none">Z</text><text x="410" y="130" text-anchor="end" fill="currentColor" stroke="none">Dipôle</text><path d="M330 56V80H440"/><circle cx="440" cy="80" r="3" fill="currentColor"/><path d="M270 56V210"/><circle cx="270" cy="210" r="3" fill="currentColor"/><text x="262" y="120" text-anchor="end" fill="currentColor" stroke="none" font-size="12">bornes tension</text><text x="300" y="70" text-anchor="middle" fill="currentColor" stroke="none"></text>
+          </svg>
+          <p class="mode-legende">Wattmètre : bornes « intensité » en série avec le dipôle, bornes « tension » en dérivation.</p>
         </div>
 
         <div class="form-row">
@@ -337,31 +346,121 @@
 
     <h3 style="margin-top:var(--gap-md);">Questions</h3>
 
-    <div class="questions-bloc" data-tp="puissance-active">
+    <p class="info">
+      Les questions affichées correspondent à l'onglet de manipulation
+      sélectionné. Répondre aux questions de l'onglet que vous avez réalisé :
+      les quatre premières portent sur l'objet du TP de l'onglet, la cinquième
+      répond à sa problématique.
+    </p>
+
+    <div class="questions-bloc" data-tp="puissance-active" data-onglet="dephasage" data-onglet-nom="Déphasage tension-intensité">
+
+    <h4>Questions de l'onglet « Déphasage tension-intensité »</h4>
 
     <ol class="questions-tp">
 
       <li>
         <div class="question-entete">
           <strong>
-            Expliquer ce que représente le déphasage entre la tension et l'intensité pour un dipôle en régime sinusoïdal.
+            Expliquer ce que représente le déphasage φ entre la tension et l'intensité pour un dipôle en régime sinusoïdal et écrire la relation qui le relie à la période T et au décalage temporel Δt.
           </strong>
           <span class="cartouche" data-comp="APP">APP</span>
         </div>
         <div class="zone-eleve">
-          <textarea id="question1" rows="4" placeholder="Votre réponse..."></textarea>
+          <textarea id="question-dephasage-1" rows="4" placeholder="Votre réponse..."></textarea>
         </div>
       </li>
 
       <li>
         <div class="question-entete">
           <strong>
-            Comparer la puissance active calculée à partir de U, I et cos φ avec la valeur lue directement au wattmètre.
+            À partir de vos relevés, donner la période T et le décalage Δt, puis calculer le déphasage φ (en degrés) et le facteur de puissance cos φ.
+          </strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-dephasage-2" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Interpréter la valeur de φ obtenue : la tension et l'intensité sont-elles en phase ? Que peut-on en déduire sur le comportement du dipôle étudié ?
           </strong>
           <span class="cartouche" data-comp="ANA">ANA</span>
         </div>
         <div class="zone-eleve">
-          <textarea id="question2" rows="5" placeholder="Votre analyse..."></textarea>
+          <textarea id="question-dephasage-3" rows="5" placeholder="Votre analyse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Exprimer le déphasage en degrés puis en radians, avec un nombre adapté de chiffres significatifs et l'unité correcte, et indiquer comment Δt se repère sur l'oscillogramme.
+          </strong>
+          <span class="cartouche" data-comp="COM">COM</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-dephasage-4" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique de l'onglet « Déphasage tension-intensité » :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="dephasage"></p>
+        <div class="zone-eleve">
+          <textarea id="question-dephasage-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
+        </div>
+      </li>
+
+    </ol>
+
+    </div>
+
+    <div class="questions-bloc" data-tp="puissance-active" data-onglet="puissance-active" data-onglet-nom="Puissance active et facteur de puissance" hidden style="display:none;">
+
+    <h4>Questions de l'onglet « Puissance active et facteur de puissance »</h4>
+
+    <ol class="questions-tp">
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Écrire la relation donnant la puissance active d'un dipôle en régime sinusoïdal en fonction des valeurs efficaces U et I et du facteur de puissance cos φ, en précisant le nom et l'unité de chaque grandeur.
+          </strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-puissance-active-1" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            À partir des valeurs saisies de U, I et cos φ, calculer la puissance active P = U × I × cos φ.
+          </strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-puissance-active-2" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Comparer la puissance active calculée à partir de U, I et cos φ avec la valeur lue directement au wattmètre (écart relatif) et proposer une cause possible d'écart.
+          </strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-puissance-active-3" rows="5" placeholder="Votre analyse..."></textarea>
         </div>
       </li>
 
@@ -373,18 +472,18 @@
           <span class="cartouche" data-comp="COM">COM</span>
         </div>
         <div class="zone-eleve">
-          <textarea id="question3" rows="4" placeholder="Votre réponse..."></textarea>
+          <textarea id="question-puissance-active-4" rows="4" placeholder="Votre réponse..."></textarea>
         </div>
       </li>
 
       <li class="question-problematique">
         <div class="question-entete">
-          <strong>Répondre à la problématique posée en début de TP :</strong>
+          <strong>Répondre à la problématique de l'onglet « Puissance active et facteur de puissance » :</strong>
           <span class="cartouche" data-comp="VAL">VAL</span>
         </div>
         <p class="problematique-rappel" data-activite="puissance-active"></p>
         <div class="zone-eleve">
-          <textarea id="question4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
+          <textarea id="question-puissance-active-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
         </div>
       </li>
 

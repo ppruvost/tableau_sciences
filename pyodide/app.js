@@ -26,6 +26,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const importButton = document.getElementById("import");
     const importFile = document.getElementById("importFile");
     const status = document.getElementById("status");
+    const zoomOpenButton = document.getElementById("zoomOpen");
+    const zoomCloseButton = document.getElementById("zoomClose");
+    const zoomModalClose = document.getElementById("zoomModalClose");
+    const zoomModal = document.getElementById("zoomModal");
+    const zoomContent = document.getElementById("zoomContent");
+    const consoleZoomOpenButton = document.getElementById("consoleZoomOpen");
+    const consoleZoomCloseButton = document.getElementById("consoleZoomClose");
+    const consoleZoomModalClose = document.getElementById("consoleZoomModalClose");
+    const consoleZoomModal = document.getElementById("consoleZoomModal");
+    const consoleZoomContent = document.getElementById("consoleZoomContent");
 
     /* =================================================
        VARIABLES PYODIDE
@@ -273,6 +283,7 @@ plt.show()`
                 await instance.runPythonAsync(`
 import sys
 import numpy
+import numpy as np
 import matplotlib
 import math
 from math import log10
@@ -280,14 +291,21 @@ import random
 import warnings
 
 warnings.filterwarnings("ignore", message=".*non-interactive.*")
+warnings.filterwarnings("ignore", message=".*non-GUI backend.*")
+warnings.filterwarnings("ignore", message=".*cannot show the figure.*")
 
 matplotlib.use("Agg")
+
+import matplotlib.pyplot as plt
+
+# plt.show() ne fait rien : les figures sont récupérées et affichées
+# par PyLab après l'exécution du programme.
+plt.show = lambda *args, **kwargs: None
 
 print("Python", sys.version.split()[0])
 print("numPy", numpy.__version__)
 print("matplotlib", matplotlib.__version__)
 print("math")
-print("log10")
 print("random")
 `);
 
@@ -302,8 +320,7 @@ print("random")
                         "✓ numPy chargé\n" +
                         "✓ matplotlib chargé\n" +
                         "✓ random chargé\n" +
-                        "✓ math chargé\n" +
-                        "✓ log10 chargé (from math import log10)\n\n" +
+                        "✓ math chargé\n\n" +
                         "Écris ton programme puis clique sur Exécuter.";
                 }
 
@@ -338,6 +355,104 @@ print("random")
 
         return pyodidePromise;
     }
+
+    /* =================================================
+       ZOOM DE L'ÉDITEUR (vidéoprojecteur)
+       Bouton +  : ouvre une fenêtre qui affiche le code en grand.
+       Bouton -  : ferme la fenêtre (aussi : touche Échap).
+    ================================================= */
+
+    function openZoom() {
+        if (!zoomModal || !zoomContent || !editor) return;
+
+        zoomContent.value = editor.value;
+        zoomModal.classList.add("show");
+        zoomModal.setAttribute("aria-hidden", "false");
+        zoomContent.scrollTop = 0;
+
+        /* le curseur est placé à la fin du code, prêt à écrire */
+        zoomContent.focus();
+        zoomContent.setSelectionRange(zoomContent.value.length, zoomContent.value.length);
+    }
+
+    function closeZoom() {
+        if (!zoomModal || !zoomModal.classList.contains("show")) return;
+
+        /* le texte écrit dans la fenêtre agrandie revient dans l'éditeur */
+        if (editor && zoomContent) editor.value = zoomContent.value;
+
+        zoomModal.classList.remove("show");
+        zoomModal.setAttribute("aria-hidden", "true");
+
+        if (zoomOpenButton) zoomOpenButton.focus();
+    }
+
+    /* synchronisation en direct : tout ce qui est écrit dans la fenêtre
+       agrandie est aussitôt copié dans l'éditeur */
+    if (zoomContent && editor) {
+        zoomContent.addEventListener("input", () => {
+            editor.value = zoomContent.value;
+        });
+    }
+
+    if (zoomOpenButton) zoomOpenButton.addEventListener("click", openZoom);
+    if (zoomCloseButton) zoomCloseButton.addEventListener("click", closeZoom);
+    if (zoomModalClose) zoomModalClose.addEventListener("click", closeZoom);
+
+    if (zoomModal) {
+        /* clic sur le fond sombre = fermeture */
+        zoomModal.addEventListener("click", event => {
+            if (event.target === zoomModal) closeZoom();
+        });
+    }
+
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape") closeZoom();
+    });
+
+    /* =================================================
+       ZOOM DE LA CONSOLE (vidéoprojecteur)
+       Bouton +  : ouvre une fenêtre qui affiche le résultat en grand
+                   (texte et graphiques).
+       Bouton -  : ferme la fenêtre (aussi : touche Échap).
+    ================================================= */
+
+    function openConsoleZoom() {
+        if (!consoleZoomModal || !consoleZoomContent || !output) return;
+
+        /* copie du contenu actuel de la console (texte + graphiques) */
+        consoleZoomContent.replaceChildren(
+            ...Array.from(output.childNodes).map(node => node.cloneNode(true))
+        );
+
+        consoleZoomModal.classList.add("show");
+        consoleZoomModal.setAttribute("aria-hidden", "false");
+        consoleZoomContent.scrollTop = 0;
+        consoleZoomContent.focus();
+    }
+
+    function closeConsoleZoom() {
+        if (!consoleZoomModal || !consoleZoomModal.classList.contains("show")) return;
+
+        consoleZoomModal.classList.remove("show");
+        consoleZoomModal.setAttribute("aria-hidden", "true");
+
+        if (consoleZoomOpenButton) consoleZoomOpenButton.focus();
+    }
+
+    if (consoleZoomOpenButton) consoleZoomOpenButton.addEventListener("click", openConsoleZoom);
+    if (consoleZoomCloseButton) consoleZoomCloseButton.addEventListener("click", closeConsoleZoom);
+    if (consoleZoomModalClose) consoleZoomModalClose.addEventListener("click", closeConsoleZoom);
+
+    if (consoleZoomModal) {
+        consoleZoomModal.addEventListener("click", event => {
+            if (event.target === consoleZoomModal) closeConsoleZoom();
+        });
+    }
+
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape") closeConsoleZoom();
+    });
 
     /* =================================================
        EXÉCUTER LE PROGRAMME

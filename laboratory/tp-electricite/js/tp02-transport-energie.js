@@ -14,6 +14,7 @@ import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-electricite.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
 import laboratoryEquipment from '../../data/equipment.js';
 import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
@@ -22,32 +23,62 @@ const CONTEXTES_PRO = {
 
   '1ere-tci': {
     contexte: "Un atelier de chaudronnerie est alimenté à partir du réseau basse tension du bâtiment, lui-même issu d'un poste de transformation qui abaisse la haute tension du réseau de distribution.",
-    problematique: "Pourquoi l'énergie électrique est-elle transportée sous haute tension avant d'être abaissée par un transformateur jusqu'à la tension utilisée dans l'atelier ?",
+    problematiques: {
+      'reseau-distribution': "Comment l'énergie électrique est-elle acheminée de la centrale jusqu'à l'atelier et comment évolue la tension le long du réseau ?",
+      'effet-joule': "Pourquoi l'énergie électrique est-elle transportée sous haute tension plutôt qu'en basse tension ?",
+      'transformateur': "Comment un transformateur permet-il d'obtenir, à partir de la haute tension du réseau, la tension utilisée dans l'atelier ?",
+      'manipulation-reelle': "Comment vérifier expérimentalement le rôle d'un transformateur et l'échauffement d'une résistance parcourue par un courant ?",
+    },
   },
 
   '1ere-trpm': {
     contexte: "Les machines-outils d'un atelier de production mécanique sont alimentées en basse tension, obtenue après plusieurs abaissements successifs de tension depuis le réseau de transport.",
-    problematique: "Pourquoi l'énergie électrique est-elle transportée sous haute tension avant d'être abaissée par un transformateur jusqu'à la tension utilisée dans l'atelier ?",
+    problematiques: {
+      'reseau-distribution': "Comment l'énergie électrique est-elle acheminée de la centrale jusqu'à l'atelier et comment évolue la tension le long du réseau ?",
+      'effet-joule': "Pourquoi l'énergie électrique est-elle transportée sous haute tension plutôt qu'en basse tension ?",
+      'transformateur': "Comment un transformateur permet-il d'obtenir, à partir de la haute tension du réseau, la tension utilisée dans l'atelier ?",
+      'manipulation-reelle': "Comment vérifier expérimentalement le rôle d'un transformateur et l'échauffement d'une résistance parcourue par un courant ?",
+    },
   },
 
   '1ere-mcc': {
     contexte: "Un atelier de confection est raccordé au réseau basse tension, issu d'un transformateur de distribution qui abaisse la tension transportée depuis les lignes à haute tension.",
-    problematique: "Pourquoi l'énergie électrique est-elle transportée sous haute tension avant d'être abaissée par un transformateur jusqu'à la tension utilisée dans l'atelier ?",
+    problematiques: {
+      'reseau-distribution': "Comment l'énergie électrique est-elle acheminée de la centrale jusqu'à l'atelier et comment évolue la tension le long du réseau ?",
+      'effet-joule': "Pourquoi l'énergie électrique est-elle transportée sous haute tension plutôt qu'en basse tension ?",
+      'transformateur': "Comment un transformateur permet-il d'obtenir, à partir de la haute tension du réseau, la tension utilisée dans l'atelier ?",
+      'manipulation-reelle': "Comment vérifier expérimentalement le rôle d'un transformateur et l'échauffement d'une résistance parcourue par un courant ?",
+    },
   },
 
   'tle-tci': {
     contexte: "Un atelier de chaudronnerie est alimenté à partir du réseau basse tension du bâtiment, lui-même issu d'un poste de transformation qui abaisse la haute tension du réseau de distribution.",
-    problematique: "Pourquoi l'énergie électrique est-elle transportée sous haute tension avant d'être abaissée par un transformateur jusqu'à la tension utilisée dans l'atelier ?",
+    problematiques: {
+      'reseau-distribution': "Comment l'énergie électrique est-elle acheminée de la centrale jusqu'à l'atelier et comment évolue la tension le long du réseau ?",
+      'effet-joule': "Pourquoi l'énergie électrique est-elle transportée sous haute tension plutôt qu'en basse tension ?",
+      'transformateur': "Comment un transformateur permet-il d'obtenir, à partir de la haute tension du réseau, la tension utilisée dans l'atelier ?",
+      'manipulation-reelle': "Comment vérifier expérimentalement le rôle d'un transformateur et l'échauffement d'une résistance parcourue par un courant ?",
+    },
   },
 
   'tle-trpm': {
     contexte: "Les machines-outils d'un atelier de production mécanique sont alimentées en basse tension, obtenue après plusieurs abaissements successifs de tension depuis le réseau de transport.",
-    problematique: "Pourquoi l'énergie électrique est-elle transportée sous haute tension avant d'être abaissée par un transformateur jusqu'à la tension utilisée dans l'atelier ?",
+    problematiques: {
+      'reseau-distribution': "Comment l'énergie électrique est-elle acheminée de la centrale jusqu'à l'atelier et comment évolue la tension le long du réseau ?",
+      'effet-joule': "Pourquoi l'énergie électrique est-elle transportée sous haute tension plutôt qu'en basse tension ?",
+      'transformateur': "Comment un transformateur permet-il d'obtenir, à partir de la haute tension du réseau, la tension utilisée dans l'atelier ?",
+      'manipulation-reelle': "Comment vérifier expérimentalement le rôle d'un transformateur et l'échauffement d'une résistance parcourue par un courant ?",
+    },
   },
 
   'tle-mcc': {
     contexte: "Un atelier de confection est raccordé au réseau basse tension, issu d'un transformateur de distribution qui abaisse la tension transportée depuis les lignes à haute tension.",
-    problematique: "Pourquoi l'énergie électrique est-elle transportée sous haute tension avant d'être abaissée par un transformateur jusqu'à la tension utilisée dans l'atelier ?",
+    problematiques: {
+      'reseau-distribution': "Comment l'énergie électrique est-elle acheminée de la centrale jusqu'à l'atelier et comment évolue la tension le long du réseau ?",
+      'effet-joule': "Pourquoi l'énergie électrique est-elle transportée sous haute tension plutôt qu'en basse tension ?",
+      'transformateur': "Comment un transformateur permet-il d'obtenir, à partir de la haute tension du réseau, la tension utilisée dans l'atelier ?",
+      'manipulation-reelle': "Comment vérifier expérimentalement le rôle d'un transformateur et l'échauffement d'une résistance parcourue par un courant ?",
+    },
   },
 
 };
@@ -99,6 +130,7 @@ export function init() {
   initTabs();
   initModesOperatoires();
   initRadarCompetences();
+  initQuestionsParOnglet();
 
   initImpressionCompteRendu({
     titre: "Transport de l'énergie électrique",

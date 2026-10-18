@@ -125,7 +125,19 @@
 
                 <div class="panel-title">
                     <span><i class="fas fa-file-code"></i> Éditeur Python</span>
-                    <span class="file-name">programme.py</span>
+                    <div class="title-tools">
+                        <span class="file-name">programme.py</span>
+
+                        <!-- Zoom pour le vidéoprojecteur : + ouvre, - ferme -->
+                        <button id="zoomOpen" class="zoom-btn" type="button"
+                                title="Agrandir le code" aria-label="Agrandir le code (ouvrir la fenêtre de zoom)">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button id="zoomClose" class="zoom-btn" type="button"
+                                title="Fermer le zoom" aria-label="Fermer la fenêtre de zoom">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Utilisé par app.js -->
@@ -177,7 +189,19 @@ for nombre in range(1, 6):
 
                 <div class="panel-title result-title">
                     <span><i class="fas fa-terminal"></i> Résultat</span>
-                    <span class="result-indicator">● Console Python</span>
+                    <div class="title-tools">
+                        <span class="result-indicator">● Console Python</span>
+
+                        <!-- Zoom pour le vidéoprojecteur : + ouvre, - ferme -->
+                        <button id="consoleZoomOpen" class="zoom-btn" type="button"
+                                title="Agrandir la console" aria-label="Agrandir la console (ouvrir la fenêtre de zoom)">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button id="consoleZoomClose" class="zoom-btn" type="button"
+                                title="Fermer le zoom" aria-label="Fermer la fenêtre de zoom de la console">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Utilisé par app.js -->
@@ -200,6 +224,38 @@ for nombre in range(1, 6):
         </section>
 
     </section>
+</div>
+
+<!-- =====================================================
+     FENÊTRE DE ZOOM DU CODE
+     ===================================================== -->
+<div id="zoomModal" class="zoom-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Code en grand">
+    <div class="zoom-window">
+        <div class="zoom-window-bar">
+            <span><i class="fas fa-file-code"></i> programme.py</span>
+            <button id="zoomModalClose" class="zoom-btn" type="button"
+                    title="Fermer le zoom" aria-label="Fermer la fenêtre de zoom">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
+        <textarea id="zoomContent" class="zoom-content" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Code Python en grand (modifiable)"></textarea>
+    </div>
+</div>
+
+<!-- =====================================================
+     FENÊTRE DE ZOOM DE LA CONSOLE
+     ===================================================== -->
+<div id="consoleZoomModal" class="zoom-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Console en grand">
+    <div class="zoom-window">
+        <div class="zoom-window-bar">
+            <span><i class="fas fa-terminal"></i> Résultat — Console Python</span>
+            <button id="consoleZoomModalClose" class="zoom-btn" type="button"
+                    title="Fermer le zoom" aria-label="Fermer la fenêtre de zoom de la console">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
+        <div id="consoleZoomContent" class="zoom-content zoom-console" tabindex="0" role="log" aria-label="Résultat en grand"></div>
+    </div>
 </div>
 
 <!-- =====================================================

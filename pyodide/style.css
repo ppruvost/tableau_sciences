@@ -1151,3 +1151,148 @@ body {
     margin-left: 5px;
   }
 }
+
+
+/* =========================================================
+   ZOOM DE L'ÉDITEUR (vidéoprojecteur)
+   Deux boutons ronds bleus : + (ouvrir) et - (fermer)
+   ========================================================= */
+
+.title-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.zoom-btn {
+  width: 40px;
+  height: 40px;
+  min-height: 0;
+  padding: 0;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #ffffff;
+  font-size: 1rem;
+
+  cursor: pointer;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #4169e1;
+
+  box-shadow: 0 3px 8px rgba(65, 105, 225, 0.30);
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.zoom-btn i {
+  margin: 0;
+  color: #ffffff;
+}
+
+.zoom-btn:hover {
+  background: #1e90ff;
+  transform: scale(1.08);
+}
+
+.zoom-btn:active {
+  transform: scale(1);
+}
+
+.zoom-btn:focus-visible {
+  outline: 3px solid #1e90ff;
+  outline-offset: 3px;
+}
+
+.zoom-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  padding: 3vh 3vw;
+
+  background: rgba(23, 32, 51, 0.72);
+}
+
+.zoom-modal.show {
+  display: flex;
+}
+
+.zoom-window {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  background: #ffffff;
+
+  border: 2px solid #4169e1;
+  border-radius: 18px;
+
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+
+.zoom-window-bar {
+  min-height: 64px;
+  padding: 0 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  color: #243b73;
+  font-weight: bold;
+
+  border-bottom: 1px solid #c8d9ee;
+
+  background: #dce8f8;
+}
+
+.zoom-window-bar i {
+  margin-right: 8px;
+  color: #4169e1;
+}
+
+.zoom-content {
+  flex: 1;
+  margin: 0;
+  padding: 28px 36px;
+
+  overflow: auto;
+
+  color: #172033;
+
+  font-family:
+    'Atkinson Hyperlegible Mono', Consolas, 'Courier New', monospace;
+
+  /* grande taille, lisible au vidéoprojecteur */
+  font-size: clamp(30px, 4vw, 64px);
+  line-height: 1.6;
+
+  white-space: pre;
+  tab-size: 4;
+
+  resize: none;
+  border: none;
+  outline: none;
+  width: 100%;
+
+  background: #ffffff;
+}
+
+.zoom-content:focus {
+  background: #f8fcff;
+}

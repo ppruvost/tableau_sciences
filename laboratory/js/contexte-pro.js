@@ -42,6 +42,14 @@ const LIBELLES_ACTIVITE = {
     "identification-ions": "Identification d'ions"
 };
 
+// Libellé d'une activité : table ci-dessus, sinon intitulé du bouton d'onglet
+// portant le même identifiant (data-tab), sinon l'identifiant lui-même.
+function libelleActivite(activite) {
+    if (LIBELLES_ACTIVITE[activite]) return LIBELLES_ACTIVITE[activite];
+    const bouton = document.querySelector(`.tab-btn[data-tab="${activite}"]`);
+    return (bouton && bouton.textContent.trim()) || activite;
+}
+
 function rendreContexte(data) {
     if (!data) {
         return "<p>Sélectionner votre filière professionnelle pour afficher le contexte et la problématique associée.</p>";
@@ -53,7 +61,7 @@ function rendreContexte(data) {
         const entrees = Object.entries(data.problematiques);
         const plusieurs = entrees.length > 1;
         blocProblematiques = entrees.map(([activite, texte]) => `
-      <h3>Problématique${plusieurs ? ` — ${LIBELLES_ACTIVITE[activite] || activite}` : ""}</h3>
+      <h3>Problématique${plusieurs ? ` — ${libelleActivite(activite)}` : ""}</h3>
       <p class="problematique-txt" data-activite="${activite}">${texte}</p>`).join("");
     } else {
         blocProblematiques = `
