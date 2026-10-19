@@ -4,12 +4,14 @@
  * identification de groupes caractéristiques)
  */
 
+import "../../js/zoom-visuel.js";
 import products from "../../data/products.js";
 import dangerDB from "../../data/dangerDB.js";
 import pictogrammes from "../../data/pictogrammes.js";
 import glassware from "../../data/glassware.js";
 import laboratoryEquipment from "../../data/equipment.js";
 import FILIERES_PRO from "../../data/filieres.js";
+import { initQuestionsParOnglet, listerQuestionsCR, blocDeQuestion, prefixeOnglet, titreCR } from "./questions-par-onglet.js";
 
 import {
     initSections,
@@ -48,15 +50,33 @@ import {
 const CONTEXTES_PRO_TP05 = {
     "tle-tci": {
         contexte: "Les ateliers de chaudronnerie utilisent des solvants organiques, des dégraissants et des vernis de protection contenant des esters, appréciés pour leur pouvoir solvant et leur odeur peu agressive comparée à d'autres solvants industriels.",
-        problematique: "Comment expliquer, à partir de la réaction d'estérification, la formation des esters utilisés comme solvants ou composants de vernis en milieu industriel ?"
+        problematiques: {
+            "esterification": "Comment synthétiser, par estérification, un ester destiné à servir de solvant ou entrer dans la composition d'un vernis et identifier le produit obtenu ?",
+            "hydrolyse-basique": "Comment l'hydrolyse basique permet-elle de décomposer un ester destiné à servir de solvant ou entrer dans la composition d'un vernis, et en quoi diffère-t-elle de l'estérification ?",
+            "oxydation-alcool": "Comment distinguer, par oxydation ménagée, un alcool primaire, secondaire ou tertiaire et identifier le produit formé ?",
+            "test-fehling": "Comment mettre en évidence, avec la liqueur de Fehling, un aldéhyde et le distinguer d'une cétone ?",
+            "groupes-caracteristiques": "Comment reconnaître la famille d'un composé organique à partir de son groupe caractéristique ?"
+        }
     },
     "tle-trpm": {
         contexte: "Les huiles de coupe et lubrifiants utilisés en usinage contiennent de plus en plus d'esters de synthèse, appréciés pour leur biodégradabilité par rapport aux lubrifiants d'origine pétrolière.",
-        problematique: "Comment synthétiser en laboratoire un ester pouvant entrer dans la composition d'un lubrifiant biodégradable, et vérifier expérimentalement sa formation ?"
+        problematiques: {
+            "esterification": "Comment synthétiser, par estérification, un ester destiné à entrer dans la composition d'un lubrifiant biodégradable et identifier le produit obtenu ?",
+            "hydrolyse-basique": "Comment l'hydrolyse basique permet-elle de décomposer un ester destiné à entrer dans la composition d'un lubrifiant biodégradable, et en quoi diffère-t-elle de l'estérification ?",
+            "oxydation-alcool": "Comment distinguer, par oxydation ménagée, un alcool primaire, secondaire ou tertiaire et identifier le produit formé ?",
+            "test-fehling": "Comment mettre en évidence, avec la liqueur de Fehling, un aldéhyde et le distinguer d'une cétone ?",
+            "groupes-caracteristiques": "Comment reconnaître la famille d'un composé organique à partir de son groupe caractéristique ?"
+        }
     },
     "tle-mcc": {
         contexte: "Le vinaigre (solution d'acide éthanoïque) est utilisé en teinture textile pour fixer certains colorants sur les fibres, et des esters parfumés sont ajoutés lors de la finition de certains textiles pour leur conférer une odeur agréable et durable.",
-        problematique: "Comment expliquer, à partir de la réaction d'estérification, la formation des esters parfumés utilisés dans le traitement et la finition des textiles ?"
+        problematiques: {
+            "esterification": "Comment synthétiser, par estérification, un ester destiné à parfumer ou finir des textiles et identifier le produit obtenu ?",
+            "hydrolyse-basique": "Comment l'hydrolyse basique permet-elle de décomposer un ester destiné à parfumer ou finir des textiles, et en quoi diffère-t-elle de l'estérification ?",
+            "oxydation-alcool": "Comment distinguer, par oxydation ménagée, un alcool primaire, secondaire ou tertiaire et identifier le produit formé ?",
+            "test-fehling": "Comment mettre en évidence, avec la liqueur de Fehling, un aldéhyde et le distinguer d'une cétone ?",
+            "groupes-caracteristiques": "Comment reconnaître la famille d'un composé organique à partir de son groupe caractéristique ?"
+        }
     }
 };
 
@@ -438,41 +458,9 @@ function initTabGroupesCaracteristiques() {
 }
 
 /* ==========================================================
-   QUESTIONS DU COMPTE-RENDU
-   Un bloc de 5 questions par onglet de manipulation ; seul le
-   bloc correspondant à l'onglet actif est visible et imprimé.
+   QUESTIONS DU COMPTE-RENDU : voir questions-par-onglet.js
+   (un bloc de 5 questions par onglet, 4 + problématique)
    ========================================================== */
-
-function afficherQuestionsTP(idOnglet) {
-
-    document
-        .querySelectorAll(".questions-bloc")
-        .forEach(bloc => {
-
-            bloc.hidden =
-                bloc.dataset.tp !== idOnglet;
-
-        });
-
-}
-
-function initQuestionsParOnglet() {
-
-    const boutons =
-        document.querySelectorAll(".tabs-container .tab-btn");
-
-    if (!boutons.length) return;
-
-    boutons.forEach(btn => {
-        btn.addEventListener("click", () => afficherQuestionsTP(btn.dataset.tab));
-    });
-
-    const actif =
-        document.querySelector(".tabs-container .tab-btn.actif") || boutons[0];
-
-    afficherQuestionsTP(actif.dataset.tab);
-
-}
 
 /* ==========================================================
    BOUTON IMPRESSION COMPTE-RENDU
@@ -514,11 +502,7 @@ function lancerCompteRendu() {
 
     // Seules les questions du bloc actuellement visible (onglet de
     // manipulation actif) sont incluses dans le compte-rendu.
-    const blocActif = document.querySelector(".questions-bloc:not([hidden])");
-
-    const liste = blocActif
-        ? blocActif.querySelectorAll(".questions-tp > li")
-        : document.querySelectorAll(".questions-tp > li");
+    const liste = listerQuestionsCR();
 
     liste.forEach((li, index) => {
         const zone = li.querySelector("textarea");
@@ -531,7 +515,7 @@ function lancerCompteRendu() {
             ?.textContent.replace(/\s+/g, " ").trim() || "";
 
         sections.push({
-            titre: rappelProblematique ? `${titreQuestion} ${rappelProblematique}` : titreQuestion,
+            titre: titreCR(li, titreQuestion),
             competence,
             notation: true,
             texte: (zone.value || "").trim()

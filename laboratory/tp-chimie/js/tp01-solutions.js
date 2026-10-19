@@ -3,12 +3,14 @@
  * TP01 — Dissolution - Dilution - Identification d'ions - Solutions commerciales
  */
 
+import "../../js/zoom-visuel.js";
 import products from "../../data/products.js";
 import dangerDB from "../../data/dangerDB.js";
 import pictogrammes from "../../data/pictogrammes.js";
 import glassware from "../../data/glassware.js";
 import laboratoryEquipment from "../../data/equipment.js";
 import FILIERES_PRO from "../../data/filieres.js";
+import { initQuestionsParOnglet, listerQuestionsCR, blocDeQuestion, prefixeOnglet, titreCR } from "./questions-par-onglet.js";
 
 import {
     initSections,
@@ -45,7 +47,7 @@ import {
    Identification d'ions)
    Propre à ce TP : niveaux 2nde, 1ère et Tle (cf. cadre bleu ; la Tle
    ne travaille que l'activité « solutions-commerciales »).
-   Une problématique par activité (onglet de manipulation) : le
+   Une problématique par onglet de manipulation (dissolution, dilution, identification d'ions, solutions commerciales) : le
    rappel affiché en fin de chaque bloc de questions est sélectionné
    automatiquement selon l'attribut data-activite du rappel
    (cf. js/contexte-pro.js).
@@ -54,35 +56,40 @@ const CONTEXTES_PRO_TP01 = {
     "2nde-remi": {
         contexte: "Avant l'assemblage de tôles par soudage, les ateliers de réalisation d'ensembles mécaniques utilisent des bains de dégraissage et de décapage pour préparer les surfaces métalliques. Ces bains sont livrés sous forme de concentrés qu'il faut diluer avec précision selon les préconisations du fabricant pour garantir leur efficacité sans gaspillage de produit. Après traitement, l'eau de rinçage doit elle aussi être contrôlée avant d'être évacuée, afin de vérifier qu'elle ne contient plus d'ions métalliques issus du bain.",
         problematiques: {
-            "dissolution-dilution": "Comment préparer, à partir d'un concentré de dégraissant industriel, un bain de traitement de surface à la concentration exacte préconisée par le fabricant ?",
+            "dissolution": "Comment préparer, par dissolution d'un réactif solide, un bain de dégraissage ou de décapage à la concentration exacte préconisée par le fabricant ?",
+            "dilution": "Comment préparer, à partir d'un concentré de dégraissant industriel, un bain de traitement de surface à la concentration exacte préconisée par le fabricant ?",
             "identification-ions": "Comment vérifier, par des tests de précipitation, qu'une eau de rinçage ne contient plus d'ions métalliques (fer, cuivre) issus du bain de traitement de surface avant son évacuation ?"
         }
     },
     "2nde-mcc": {
         contexte: "Dans un atelier de confection, la teinture d'un tissu nécessite de préparer un bain à partir d'une solution mère de colorant et de sels auxiliaires. La qualité de la teinte (uniformité, tenue) dépend directement du respect de la concentration prescrite par la fiche technique du fournisseur. Une fois la teinture terminée, le bain usé doit être contrôlé avant son traitement, notamment pour vérifier la présence d'ions métalliques utilisés comme fixateurs de colorant.",
         problematiques: {
-            "dissolution-dilution": "Comment déterminer la masse de colorant à peser et le volume d'eau à utiliser pour obtenir un bain de teinture à la concentration voulue ?",
+            "dissolution": "Comment déterminer la masse de colorant à peser et le volume d'eau à utiliser pour obtenir un bain de teinture à la concentration voulue ?",
+            "dilution": "Comment diluer une solution mère de colorant pour obtenir un bain de teinture à la concentration prescrite par la fiche technique ?",
             "identification-ions": "Comment identifier, par des tests de précipitation, la présence d'ions métalliques dans un bain de teinture usagé avant son évacuation ?"
         }
     },
     "1ere-tci": {
         contexte: "En chaudronnerie industrielle, certaines pièces métalliques subissent un traitement de conversion chimique (phosphatation, passivation) avant peinture, afin d'améliorer l'adhérence du revêtement et la résistance à la corrosion. Ces bains doivent être préparés à une concentration précise en quantité de matière, et l'eau de rinçage qui suit le traitement doit être contrôlée avant rejet dans le réseau d'assainissement.",
         problematiques: {
-            "dissolution-dilution": "Comment préparer, par dissolution ou dilution, un bain de traitement de surface dont la concentration en quantité de matière est imposée par le référentiel qualité de l'entreprise ?",
+            "dissolution": "Comment préparer, par dissolution d'un réactif solide, un bain de traitement de surface dont la concentration en quantité de matière est imposée par le référentiel qualité de l'entreprise ?",
+            "dilution": "Comment préparer, par dilution d'un concentré, un bain de traitement de surface dont la concentration en quantité de matière est imposée par le référentiel qualité de l'entreprise ?",
             "identification-ions": "Comment vérifier, par des tests de précipitation, la présence d'ions métalliques (fer, zinc) dans l'eau de rinçage d'un bain de phosphatation avant son rejet ?"
         }
     },
     "1ere-trpm": {
         contexte: "Sur un centre d'usinage, le liquide de coupe utilisé pour refroidir et lubrifier l'outil est un concentré dilué dans l'eau. Une concentration trop faible favorise la corrosion des outillages et de la pièce ; une concentration trop forte gaspille le produit et peut irriter la peau de l'opérateur. La qualité de l'eau utilisée pour préparer le liquide de coupe (présence d'ions indésirables) influence elle aussi sa stabilité et sa durée de vie.",
         problematiques: {
-            "dissolution-dilution": "Comment vérifier et ajuster, par dilution, la concentration du liquide de coupe utilisé sur le centre d'usinage afin de respecter la plage préconisée par le fabricant ?",
+            "dissolution": "Comment préparer, par dissolution d'un additif solide, une solution de concentration connue pour contrôler ou corriger un liquide de coupe ?",
+            "dilution": "Comment vérifier et ajuster, par dilution, la concentration du liquide de coupe utilisé sur le centre d'usinage afin de respecter la plage préconisée par le fabricant ?",
             "identification-ions": "Comment identifier, par des tests de précipitation, les ions présents dans l'eau utilisée pour préparer le liquide de coupe, afin de vérifier sa compatibilité avec le concentré ?"
         }
     },
     "1ere-mcc": {
         contexte: "Lors du traitement d'un tissu technique (apprêt, imperméabilisation), l'atelier prépare un bain à partir d'un concentré dont la fiche technique donne la concentration en quantité de matière à respecter pour garantir la tenue du traitement dans le temps. L'eau de rinçage issue de cette étape doit ensuite être contrôlée avant son évacuation.",
         problematiques: {
-            "dissolution-dilution": "Comment calculer le volume de concentré à prélever et le compléter avec de l'eau pour obtenir un bain d'apprêt à la concentration en quantité de matière prescrite ?",
+            "dissolution": "Comment calculer la masse de produit à peser et la dissoudre pour obtenir un bain d'apprêt à la concentration en quantité de matière prescrite ?",
+            "dilution": "Comment calculer le volume de concentré à prélever et le compléter avec de l'eau pour obtenir un bain d'apprêt à la concentration en quantité de matière prescrite ?",
             "identification-ions": "Comment vérifier, par des tests de précipitation, qu'une eau de rinçage textile ne contient plus les ions métalliques utilisés lors du traitement avant son évacuation ?"
         }
     },
@@ -1034,30 +1041,9 @@ function initTabSolutionsCommerciales() {
 }
 
 /* ==========================================================
-   QUESTIONS DU COMPTE-RENDU
-   Un bloc de 5 questions pour l'activité dissolution/dilution,
-   un second bloc pour l'onglet identification d'ions ; seul le
-   bloc correspondant à l'onglet actif est visible et imprimé.
+   QUESTIONS DU COMPTE-RENDU : voir questions-par-onglet.js
+   (un bloc de 5 questions par onglet, 4 + problématique)
    ========================================================== */
-
-function afficherQuestionsTP(idOnglet) {
-    document.querySelectorAll(".questions-bloc").forEach(bloc => {
-        const onglets = (bloc.dataset.tp || "").split(",").map(s => s.trim());
-        bloc.hidden = !onglets.includes(idOnglet);
-    });
-}
-
-function initQuestionsParOnglet() {
-    const boutons = document.querySelectorAll(".tabs-container .tab-btn");
-    if (!boutons.length) return;
-
-    boutons.forEach(btn => {
-        btn.addEventListener("click", () => afficherQuestionsTP(btn.dataset.tab));
-    });
-
-    const actif = document.querySelector(".tabs-container .tab-btn.actif") || boutons[0];
-    afficherQuestionsTP(actif.dataset.tab);
-}
 
 /* ==========================================================
    BOUTON IMPRESSION COMPTE-RENDU
@@ -1154,12 +1140,7 @@ function lancerCompteRendu() {
 
     // Seules les questions du bloc actuellement visible (onglet de
     // manipulation actif) sont incluses dans le compte-rendu.
-    const blocActif = document.querySelector(".questions-bloc:not([hidden])");
-    const ongletsBlocActif = (blocActif?.dataset.tp || "").split(",").map(s => s.trim());
-
-    const liste = blocActif
-        ? blocActif.querySelectorAll(".questions-tp > li")
-        : document.querySelectorAll(".questions-tp > li");
+    const liste = listerQuestionsCR();
 
     liste.forEach((li, index) => {
         const zone = li.querySelector("textarea.cr-reponse, textarea[id^='question']")
@@ -1169,14 +1150,10 @@ function lancerCompteRendu() {
         const titreQuestion = li.querySelector(".question-entete strong")
             ?.textContent.replace(/\s+/g, " ").trim() || `Question ${index + 1}`;
         const competence = li.querySelector(".cartouche")?.dataset.comp || "";
-        const groupe = ongletsBlocActif.includes("solutions-commerciales")
-            ? "solutions-commerciales"
-            : ongletsBlocActif.includes("identification-ions")
-                ? "identification-ions"
-                : (/dilution/i.test(titreQuestion) ? "dilution" : "dissolution");
+        const groupe = blocDeQuestion(li)?.dataset.onglet || "dissolution";
 
         sections.push({
-            titre: titreQuestion,
+            titre: titreCR(li, titreQuestion),
             competence,
             notation: true,
             groupe,

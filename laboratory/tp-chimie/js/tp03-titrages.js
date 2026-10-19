@@ -17,6 +17,7 @@
    IMPORTS
    ========================================================== */
 
+import "../../js/zoom-visuel.js";
 import products
     from "../../data/products.js";
 

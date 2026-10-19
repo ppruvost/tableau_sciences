@@ -3,12 +3,14 @@
  * TP02 — pH et indicateurs colorés
  */
 
+import "../../js/zoom-visuel.js";
 import products from "../../data/products.js";
 import dangerDB from "../../data/dangerDB.js";
 import pictogrammes from "../../data/pictogrammes.js";
 import glassware from "../../data/glassware.js";
 import laboratoryEquipment from "../../data/equipment.js";
 import FILIERES_PRO from "../../data/filieres.js";
+import { initQuestionsParOnglet, listerQuestionsCR, blocDeQuestion, prefixeOnglet, titreCR } from "./questions-par-onglet.js";
 
 import {
     initSections,
@@ -58,27 +60,57 @@ import {
 const CONTEXTES_PRO_TP02 = {
     "2nde-remi": {
         contexte: "L'efficacité d'un bain de décapage acide ou d'un bain de dégraissage alcalin dépend fortement de son pH. Un contrôle régulier permet de savoir quand le bain doit être renouvelé ou rééquilibré, avant qu'il ne perde son efficacité sur les pièces métalliques.",
-        problematique: "Comment vérifier, à l'aide d'un indicateur coloré ou d'un papier pH, si un bain de traitement de surface est encore dans sa plage de pH d'utilisation efficace ?"
+        problematiques: {
+            "indicateur": "Comment choisir et utiliser un indicateur coloré pour savoir si un bain de traitement de surface est acide, neutre ou basique ?",
+            "papier-ph": "Comment mesurer le pH de un bain de traitement de surface avec un papier pH ou un pH-mètre, et quelle méthode est la plus adaptée en atelier ?",
+            "titrage-colorimetrique": "Comment déterminer, par un titrage colorimétrique, la concentration en acide ou en base de un bain de traitement de surface ?",
+            "acido-basique": "Comment exploiter la relation pH = −log[H₃O⁺] pour relier le pH de un bain de traitement de surface à sa concentration en ions H₃O⁺ ?"
+        }
     },
     "2nde-mcc": {
         contexte: "La fixation d'un colorant sur une fibre textile dépend étroitement du pH du bain de teinture : certains colorants nécessitent un milieu acide, d'autres un milieu basique. Un mauvais réglage du pH conduit à une teinte irrégulière ou peu tenace.",
-        problematique: "Comment contrôler le pH d'un bain de teinture et l'ajuster pour qu'il corresponde à la plage optimale de fixation du colorant utilisé ?"
+        problematiques: {
+            "indicateur": "Comment choisir et utiliser un indicateur coloré pour savoir si un bain de teinture est acide, neutre ou basique ?",
+            "papier-ph": "Comment mesurer le pH de un bain de teinture avec un papier pH ou un pH-mètre, et quelle méthode est la plus adaptée en atelier ?",
+            "titrage-colorimetrique": "Comment déterminer, par un titrage colorimétrique, la concentration en acide ou en base de un bain de teinture ?",
+            "acido-basique": "Comment exploiter la relation pH = −log[H₃O⁺] pour relier le pH de un bain de teinture à sa concentration en ions H₃O⁺ ?"
+        }
     },
     "1ere-tci": {
         contexte: "Un bain de phosphatation utilisé avant peinture doit être maintenu dans une plage de pH précise : un pH trop élevé ralentit la réaction de conversion, un pH trop faible attaque excessivement le métal. Le suivi du pH fait partie du contrôle qualité de l'atelier.",
-        problematique: "Comment suivre l'évolution du pH d'un bain de phosphatation au cours de son utilisation et anticiper le moment de son renouvellement ?"
+        problematiques: {
+            "indicateur": "Comment choisir et utiliser un indicateur coloré pour savoir si un bain de phosphatation est acide, neutre ou basique ?",
+            "papier-ph": "Comment mesurer le pH de un bain de phosphatation avec un papier pH ou un pH-mètre, et quelle méthode est la plus adaptée en atelier ?",
+            "titrage-colorimetrique": "Comment déterminer, par un titrage colorimétrique, la concentration en acide ou en base de un bain de phosphatation ?",
+            "acido-basique": "Comment exploiter la relation pH = −log[H₃O⁺] pour relier le pH de un bain de phosphatation à sa concentration en ions H₃O⁺ ?"
+        }
     },
     "1ere-trpm": {
         contexte: "Un liquide de coupe utilisé en usinage voit son pH évoluer avec le temps : une dérive vers l'acidité favorise la prolifération bactérienne et la corrosion des pièces et de la machine. Le suivi du pH permet d'anticiper la vidange ou le rééquilibrage du bain.",
-        problematique: "Comment mesurer et interpréter l'évolution du pH d'un liquide de coupe pour décider du moment opportun de son remplacement ?"
+        problematiques: {
+            "indicateur": "Comment choisir et utiliser un indicateur coloré pour savoir si un liquide de coupe est acide, neutre ou basique ?",
+            "papier-ph": "Comment mesurer le pH de un liquide de coupe avec un papier pH ou un pH-mètre, et quelle méthode est la plus adaptée en atelier ?",
+            "titrage-colorimetrique": "Comment déterminer, par un titrage colorimétrique, la concentration en acide ou en base de un liquide de coupe ?",
+            "acido-basique": "Comment exploiter la relation pH = −log[H₃O⁺] pour relier le pH de un liquide de coupe à sa concentration en ions H₃O⁺ ?"
+        }
     },
     "1ere-mcc": {
         contexte: "Le blanchiment ou l'apprêt d'un tissu se réalise dans un bain dont le pH conditionne la vitesse et la qualité du traitement. Les indicateurs colorés permettent un contrôle rapide en atelier, sans attendre les résultats d'une analyse en laboratoire externe.",
-        problematique: "Comment choisir l'indicateur coloré le plus adapté pour contrôler rapidement le pH d'un bain de traitement textile en atelier ?"
+        problematiques: {
+            "indicateur": "Comment choisir et utiliser un indicateur coloré pour savoir si un bain de traitement textile est acide, neutre ou basique ?",
+            "papier-ph": "Comment mesurer le pH de un bain de traitement textile avec un papier pH ou un pH-mètre, et quelle méthode est la plus adaptée en atelier ?",
+            "titrage-colorimetrique": "Comment déterminer, par un titrage colorimétrique, la concentration en acide ou en base de un bain de traitement textile ?",
+            "acido-basique": "Comment exploiter la relation pH = −log[H₃O⁺] pour relier le pH de un bain de traitement textile à sa concentration en ions H₃O⁺ ?"
+        }
     },
     "tle-mcc": {
         contexte: "Le laboratoire qualité d'un atelier textile ne se contente pas de mesurer le pH : il doit parfois recalculer la concentration en ions H₃O⁺ d'un bain à partir d'une mesure de pH (ou l'inverse), pour la comparer précisément aux préconisations d'une fiche technique exprimées en concentration.",
-        problematique: "Comment exploiter la relation pH = -log[H₃O⁺] pour calculer la concentration en ions H₃O⁺ d'un bain de traitement textile à partir de la seule mesure de son pH ?"
+        problematiques: {
+            "indicateur": "Comment choisir et utiliser un indicateur coloré pour savoir si un bain de traitement textile est acide, neutre ou basique ?",
+            "papier-ph": "Comment mesurer le pH de un bain de traitement textile avec un papier pH ou un pH-mètre, et quelle méthode est la plus adaptée en atelier ?",
+            "titrage-colorimetrique": "Comment déterminer, par un titrage colorimétrique, la concentration en acide ou en base de un bain de traitement textile ?",
+            "acido-basique": "Comment exploiter la relation pH = −log[H₃O⁺] pour relier le pH de un bain de traitement textile à sa concentration en ions H₃O⁺ ?"
+        }
     },
     "tle-tci": {
         contexte: "En Terminale, votre filière approfondit l'oxydoréduction (piles, corrosion, anode sacrificielle) plutôt que la relation pH / concentration en ions H₃O⁺.",
@@ -456,38 +488,9 @@ function initTabAcidoBasique() {
 }
 
 /* ==========================================================
-   QUESTIONS DU COMPTE-RENDU
-   Un bloc de 5 questions par onglet de manipulation (y compris
-   « acido-basique ») ; seul le bloc correspondant à l'onglet actif
-   est visible et imprimé. Manquait dans ce fichier jusqu'ici : les
-   attributs "hidden" posés en dur ne changeaient jamais, quel que
-   soit l'onglet cliqué.
+   QUESTIONS DU COMPTE-RENDU : voir questions-par-onglet.js
+   (un bloc de 5 questions par onglet, 4 + problématique)
    ========================================================== */
-
-function afficherQuestionsTP(idOnglet) {
-    document.querySelectorAll(".questions-bloc").forEach(bloc => {
-        bloc.hidden = bloc.dataset.tp !== idOnglet;
-    });
-
-    document.querySelectorAll(".problematique-rappel").forEach(p => {
-        if (p.dataset.activite === idOnglet) {
-            // laissé au module contexte-pro.js pour le contenu réel ;
-            // ici on s'assure seulement que le bon rappel est actif.
-        }
-    });
-}
-
-function initQuestionsParOnglet() {
-    const boutons = document.querySelectorAll(".tabs-container .tab-btn");
-    if (!boutons.length) return;
-
-    boutons.forEach(btn => {
-        btn.addEventListener("click", () => afficherQuestionsTP(btn.dataset.tab));
-    });
-
-    const actif = document.querySelector(".tabs-container .tab-btn.actif") || boutons[0];
-    afficherQuestionsTP(actif.dataset.tab);
-}
 
 /* ==========================================================
    BOUTON IMPRESSION COMPTE-RENDU
@@ -526,11 +529,7 @@ function lancerCompteRendu() {
         });
     }
 
-    const blocActif = document.querySelector(".questions-bloc:not([hidden])");
-
-    const liste = blocActif
-        ? blocActif.querySelectorAll(".questions-tp > li")
-        : document.querySelectorAll(".questions-tp > li");
+    const liste = listerQuestionsCR();
 
     liste.forEach((li, index) => {
         const zone = li.querySelector("textarea");
@@ -541,7 +540,7 @@ function lancerCompteRendu() {
         const competence = li.querySelector(".cartouche")?.dataset.comp || "";
 
         sections.push({
-            titre: titreQuestion,
+            titre: titreCR(li, titreQuestion),
             competence,
             notation: true,
             texte: (zone.value || "").trim()

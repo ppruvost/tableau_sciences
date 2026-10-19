@@ -4,12 +4,14 @@
  * (+ notions complémentaires "Accumulateur", TCI/TRPM uniquement)
  */
 
+import "../../js/zoom-visuel.js";
 import products from "../../data/products.js";
 import dangerDB from "../../data/dangerDB.js";
 import pictogrammes from "../../data/pictogrammes.js";
 import glassware from "../../data/glassware.js";
 import laboratoryEquipment from "../../data/equipment.js";
 import FILIERES_PRO from "../../data/filieres.js";
+import { initQuestionsParOnglet, listerQuestionsCR, blocDeQuestion, prefixeOnglet, titreCR } from "./questions-par-onglet.js";
 
 import {
     initSections,
@@ -53,15 +55,38 @@ import {
 const CONTEXTES_PRO_TP04 = {
     "tle-tci": {
         contexte: "Les structures métalliques d'un atelier de chaudronnerie (charpentes, cuves, tuyauteries) sont exposées à la corrosion. Un choix de matériaux mal informé, ou l'absence de protection adaptée (revêtement, anode sacrificielle), peut conduire à des défaillances coûteuses et dangereuses.",
-        problematique: "Comment prévoir et limiter la corrosion d'une structure métallique en fonction des couples oxydant/réducteur en présence ?"
+        problematiques: {
+            "reaction-acide": "Comment comparer la réactivité de plusieurs métaux avec une solution acide afin de choisir le métal le plus résistant pour une structure métallique ?",
+            "classification-qualitative": "Comment comparer le pouvoir réducteur de deux métaux grâce à des tests de dépôt métallique, pour prévoir ce qui se passe lorsqu'ils sont en contact dans une structure métallique ?",
+            "pile-electrochimique": "Comment une pile électrochimique relie-t-elle le classement des couples à la polarité et à la tension, et permet-elle d'expliquer la corrosion de contact dans une structure métallique ?",
+            "classification": "Comment établir et utiliser un classement des couples oxydant/réducteur pour prévoir si une réaction entre les métaux de une structure métallique est spontanée ?",
+            "corrosion-passivation": "Comment expliquer la corrosion de une structure métallique et pourquoi certains métaux se passivent-ils ?",
+            "anode-sacrificielle": "Comment protéger une structure métallique de la corrosion grâce à une anode sacrificielle ?",
+            "accumulateur": "Comment un accumulateur stocke-t-il et restitue-t-il l'énergie électrique grâce à des réactions d'oxydoréduction réversibles ?"
+        }
     },
     "tle-trpm": {
         contexte: "Les pièces mécaniques usinées puis stockées ou exposées à l'humidité peuvent se corroder avant même leur mise en service. Comprendre les mécanismes de corrosion permet de choisir un traitement de surface ou un métal adapté dès la conception.",
-        problematique: "Comment le classement des couples oxydant/réducteur permet-il de choisir un métal ou un revêtement limitant la corrosion d'une pièce mécanique ?"
+        problematiques: {
+            "reaction-acide": "Comment comparer la réactivité de plusieurs métaux avec une solution acide afin de choisir le métal le plus résistant pour une pièce mécanique ?",
+            "classification-qualitative": "Comment comparer le pouvoir réducteur de deux métaux grâce à des tests de dépôt métallique, pour prévoir ce qui se passe lorsqu'ils sont en contact dans une pièce mécanique ?",
+            "pile-electrochimique": "Comment une pile électrochimique relie-t-elle le classement des couples à la polarité et à la tension, et permet-elle d'expliquer la corrosion de contact dans une pièce mécanique ?",
+            "classification": "Comment établir et utiliser un classement des couples oxydant/réducteur pour prévoir si une réaction entre les métaux de une pièce mécanique est spontanée ?",
+            "corrosion-passivation": "Comment expliquer la corrosion de une pièce mécanique et pourquoi certains métaux se passivent-ils ?",
+            "anode-sacrificielle": "Comment protéger une pièce mécanique de la corrosion grâce à une anode sacrificielle ?",
+            "accumulateur": "Comment un accumulateur stocke-t-il et restitue-t-il l'énergie électrique grâce à des réactions d'oxydoréduction réversibles ?"
+        }
     },
     "tle-mcc": {
         contexte: "Certains accessoires métalliques utilisés en confection (boutons-pression, fermetures, mors de machine) peuvent se corroder au contact de produits d'entretien ou d'humidité, tachant les tissus ou se bloquant. Comprendre l'oxydoréduction aide à anticiper et limiter ce phénomène.",
-        problematique: "Comment expliquer la corrosion d'un accessoire métallique utilisé en confection, et quelles solutions permettent de la limiter ?"
+        problematiques: {
+            "reaction-acide": "Comment comparer la réactivité de plusieurs métaux avec une solution acide afin de choisir le métal le plus résistant pour un accessoire métallique de confection ?",
+            "classification-qualitative": "Comment comparer le pouvoir réducteur de deux métaux grâce à des tests de dépôt métallique, pour prévoir ce qui se passe lorsqu'ils sont en contact dans un accessoire métallique de confection ?",
+            "pile-electrochimique": "Comment une pile électrochimique relie-t-elle le classement des couples à la polarité et à la tension, et permet-elle d'expliquer la corrosion de contact dans un accessoire métallique de confection ?",
+            "classification": "Comment établir et utiliser un classement des couples oxydant/réducteur pour prévoir si une réaction entre les métaux de un accessoire métallique de confection est spontanée ?",
+            "corrosion-passivation": "Comment expliquer la corrosion de un accessoire métallique de confection et pourquoi certains métaux se passivent-ils ?",
+            "anode-sacrificielle": "Comment protéger un accessoire métallique de confection de la corrosion grâce à une anode sacrificielle ?"
+        }
     }
 };
 
@@ -423,25 +448,9 @@ function initTabAccumulateur() {
 }
 
 /* ==========================================================
-   QUESTIONS DU COMPTE-RENDU (basculent avec l'onglet actif)
+   QUESTIONS DU COMPTE-RENDU : voir questions-par-onglet.js
+   (un bloc de 5 questions par onglet, 4 + problématique)
    ========================================================== */
-function afficherQuestionsTP(idOnglet) {
-    document.querySelectorAll(".questions-bloc").forEach(bloc => {
-        bloc.hidden = bloc.dataset.tp !== idOnglet;
-    });
-}
-
-function initQuestionsParOnglet() {
-    const boutons = document.querySelectorAll(".tabs-container .tab-btn");
-    if (!boutons.length) return;
-
-    boutons.forEach(btn => {
-        btn.addEventListener("click", () => afficherQuestionsTP(btn.dataset.tab));
-    });
-
-    const actif = document.querySelector(".tabs-container .tab-btn.actif") || boutons[0];
-    afficherQuestionsTP(actif.dataset.tab);
-}
 
 /* ==========================================================
    BOUTON IMPRESSION COMPTE-RENDU
@@ -480,10 +489,7 @@ function lancerCompteRendu() {
         ]
     });
 
-    const blocActif = document.querySelector(".questions-bloc:not([hidden])");
-    const liste = blocActif
-        ? blocActif.querySelectorAll(".questions-tp > li")
-        : document.querySelectorAll(".questions-tp > li");
+    const liste = listerQuestionsCR();
 
     liste.forEach((li, index) => {
         const zone = li.querySelector("textarea");
@@ -494,7 +500,7 @@ function lancerCompteRendu() {
         const competence = li.querySelector(".cartouche")?.dataset.comp || "";
 
         sections.push({
-            titre: titreQuestion,
+            titre: titreCR(li, titreQuestion),
             competence,
             notation: true,
             texte: (zone.value || "").trim()
