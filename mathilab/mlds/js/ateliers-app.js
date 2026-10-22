@@ -154,8 +154,14 @@
     const d = new Date(iso);
     return isNaN(d) ? "" : d.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
   }
+  /** Entier borné : les valeurs viennent de la base, on ne les insère jamais telles quelles. */
+  function entier(v, max) {
+    const n = Math.round(Number(v));
+    return isFinite(n) ? Math.min(Math.max(n, 0), max || 100) : 0;
+  }
   function points(score, total) {
-    return "●".repeat(score) + "○".repeat(Math.max(0, total - score));
+    const t = entier(total, 20), s = Math.min(entier(score, 20), t);
+    return "●".repeat(s) + "○".repeat(t - s);
   }
 
   function dessinerHistorique(res) {
@@ -186,7 +192,7 @@
         const dernier = passages[0];
         const tr = el("tr");
         tr.appendChild(el("th", { scope: "row", text: a.titre }));
-        tr.appendChild(el("td", { html: '<span aria-label="' + dernier.score + ' sur ' + dernier.total + ' du premier coup">' + points(dernier.score, dernier.total) + '</span> ' + dernier.score + "/" + dernier.total + "<br><small>" + dateFr(dernier.cree_le) + "</small>" }));
+        tr.appendChild(el("td", { html: '<span aria-label="' + entier(dernier.score) + ' sur ' + entier(dernier.total) + ' du premier coup">' + points(dernier.score, dernier.total) + '</span> ' + entier(dernier.score) + "/" + entier(dernier.total) + "<br><small>" + dateFr(dernier.cree_le) + "</small>" }));
         tr.appendChild(el("td", { text: String(passages.length) }));
         const cell = el("td");
         const b = el("button", { type: "button", class: "btn-simple", text: "Refaire" });

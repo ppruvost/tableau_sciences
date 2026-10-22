@@ -9,6 +9,8 @@
      sources        ids du registre js/sources.js
      flash          question flash d'entrée de séance (automatisme)
      coupsDePouce   jokers : étapes du protocole de résolution des fiches
+   coupsDePouceType  (facultatif) "remobilisation" ou "consolidation" : n'afficher les
+                     jokers que dans ce module (sinon, dans les deux)
    ============================================================ */
 (function () {
   "use strict";
@@ -77,7 +79,7 @@
       coupsDePouce: [
         "Repérer le triangle rectangle et son côté le plus long (l'hypoténuse).",
         "Écrire l'égalité : hypoténuse² = somme des carrés des deux autres côtés.",
-        "Déterminer d'abord les cotes manquantes, dans l'ordre (par exemple DE, puis DC, puis EF)."
+                "Déterminer d'abord les longueurs manquantes, une par une, dans l'ordre où on peut les calculer."
       ]
     },
     tp_mesures_volumes: { atelier: "conversions" },
@@ -102,6 +104,7 @@
           id: "num_fractions",
           label: "Fractions : exprimer une part, simplifier, additionner",
           atelier: "nombres",
+          coupsDePouceType: "remobilisation", // les jokers concernent la cocotte
           sources: ["eduscol-ar-nombres"],
           flash: "Cocher l'égalité correcte : 2/3 + 7/4 = 9/7, 29/12, 9/12 ou 14/12. (Erreurs types : additionner numérateurs et dénominateurs entre eux ; changer le dénominateur sans changer le numérateur ; multiplier.)",
           coupsDePouce: [
@@ -189,6 +192,7 @@
           id: "don_frequences",
           label: "Effectifs et fréquences",
           atelier: "statistiques",
+          coupsDePouceType: "consolidation", // les jokers concernent le décodage du message
           sources: ["eduscol-ar-ogd"],
           flash: "Une urne contient 4 boules bleues, 9 rouges, 5 vertes et 2 jaunes. Quelle est la fréquence des boules vertes ? (0,12, 0,25, 0,50 ou 5)",
           coupsDePouce: [

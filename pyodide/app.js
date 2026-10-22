@@ -75,10 +75,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (startButton) startButton.addEventListener("click", showPython);
 
     /* =================================================
-       CODE PRÉ-REMPLI DEPUIS UNE AUTRE PAGE (ex. MathiLab)
-       ?code=<base64 de l'UTF-8> ouvre PyLab directement sur
-       l'onglet Python avec ce programme déjà chargé dans l'éditeur.
-       Sans ce paramètre, comportement inchangé.
+       CODE PRÉ-REMPLI DEPUIS UNE AUTRE PAGE
+       ?code=<base64 de l'UTF-8>
     ================================================= */
 
     try {
@@ -87,8 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (codeParam && editor) {
             const decode = s => {
-                /* accepte le base64 classique et le base64 « URL-safe » (- et _) ;
-                   une espace est un « + » transformé par l'adresse */
                 s = s.replace(/ /g, "+").replace(/-/g, "+").replace(/_/g, "/");
                 while (s.length % 4) s += "=";
                 return decodeURIComponent(escape(atob(s)));
@@ -157,18 +153,13 @@ document.addEventListener("DOMContentLoaded", () => {
     /* =================================================
        PROGRAMMES D'EXEMPLE
     ================================================= */
-   
-        /* ==============exemple message=================== */
+
     const examples = {
         bonjour: `print("Bonjour !")
 print("Bienvenue dans PyLab !")`,
 
-         /* ==============exemple boucle=================== */
-
         boucle: `for nombre in range(1, 11):
     print(nombre)`,
-
-         /* ==============exemple calcul=================== */
 
         calcul: `nombre1 = 12
 nombre2 = 8
@@ -176,8 +167,7 @@ nombre2 = 8
 somme = nombre1 + nombre2
 
 print("Résultat :", somme)`,
-       
-            /* ==============exemple liste=================== */
+
         liste: `valeurs = [10, 20, 30, 40]
 effectifs = [1, 2, 3, 4]
 
@@ -186,8 +176,6 @@ print("Moyenne :", round(numpy.mean(liste), 2))
 print("Médiane :", numpy.median(liste))
 print("Variance :", round(numpy.var(liste), 2))
 print("Écart-type :", round(numpy.std(liste), 2))`,
-
-         /* ==============exemple graphique=================== */
 
         graphique: `import numpy as np
 import matplotlib.pyplot as plt
@@ -204,8 +192,6 @@ plt.grid(True)
 plt.legend()
 plt.show()`
     };
-
-
 
     /* =================================================
        CHARGER UN EXEMPLE
@@ -298,9 +284,108 @@ matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt
 
-# plt.show() ne fait rien : les figures sont récupérées et affichées
-# par PyLab après l'exécution du programme.
+# Les figures sont récupérées et affichées par PyLab.
 plt.show = lambda *args, **kwargs: None
+
+
+# ========================================================
+# BOÎTE À MOUSTACHES (programme de BAC Pro)
+# Fonction disponible directement pour les élèves.
+# Utilisation : boite_moustaches([12, 15, 18, 20, 25])
+#
+# Définitions utilisées :
+#   - Min et Max : plus petite et plus grande valeur
+#   - Médiane : valeur centrale (moyenne des deux valeurs
+#     centrales si l'effectif est pair)
+#   - Q1 : plus petite valeur de la série telle qu'au moins
+#     25 % des valeurs lui soient inférieures ou égales
+#     (rang = n/4 arrondi à l'entier supérieur)
+#   - Q3 : plus petite valeur de la série telle qu'au moins
+#     75 % des valeurs lui soient inférieures ou égales
+#     (rang = 3n/4 arrondi à l'entier supérieur)
+#   - Les moustaches vont du minimum au maximum.
+# ========================================================
+
+def boite_moustaches(data):
+    """Trace une boîte à moustaches horizontale (Min, Q1, Médiane, Q3, Max)."""
+
+    valeurs = numpy.asarray(data, dtype=float).ravel()
+    valeurs = valeurs[numpy.isfinite(valeurs)]
+
+    if valeurs.size == 0:
+        raise ValueError(
+            "La liste doit contenir au moins une valeur numérique."
+        )
+
+    tri = numpy.sort(valeurs)
+    n = len(tri)
+
+    minimum = float(tri[0])
+    q1 = float(tri[int(math.ceil(n / 4)) - 1])
+    mediane = float(numpy.median(tri))
+    q3 = float(tri[int(math.ceil(3 * n / 4)) - 1])
+    maximum = float(tri[-1])
+
+    fig, ax = plt.subplots(figsize=(8, 3))
+
+    stats = [{
+        "whislo": minimum,
+        "q1": q1,
+        "med": mediane,
+        "q3": q3,
+        "whishi": maximum,
+        "fliers": []
+    }]
+
+    ax.bxp(
+        stats,
+        vert=False,
+        patch_artist=True,
+        boxprops={
+            "facecolor": "lightblue",
+            "edgecolor": "#1f3c63"
+        },
+        medianprops={
+            "color": "#d9480f",
+            "linewidth": 2
+        },
+        whiskerprops={"color": "#1f3c63"},
+        capprops={"color": "#1f3c63"}
+    )
+
+    ax.set_title("Boîte à moustaches")
+    ax.set_xlabel("Valeurs")
+    ax.set_yticks([])
+    ax.set_ylim(0.4, 1.6)
+    ax.grid(axis="x", alpha=0.3)
+
+    # Étiquettes au-dessus : Min, Médiane, Max
+    for valeur, nom in [(minimum, "Min"), (mediane, "Médiane"), (maximum, "Max")]:
+        ax.annotate(
+            f"{nom}={valeur:g}",
+            (valeur, 1.25),
+            xytext=(0, 6),
+            textcoords="offset points",
+            ha="center",
+            va="bottom",
+            fontsize=8
+        )
+
+    # Étiquettes en dessous : Q1 et Q3
+    for valeur, nom in [(q1, "Q1"), (q3, "Q3")]:
+        ax.annotate(
+            f"{nom}={valeur:g}",
+            (valeur, 0.75),
+            xytext=(0, -6),
+            textcoords="offset points",
+            ha="center",
+            va="top",
+            fontsize=8
+        )
+
+    fig.tight_layout()
+    return fig
+
 
 print("Python", sys.version.split()[0])
 print("numPy", numpy.__version__)
@@ -316,9 +401,9 @@ print("random")
                 if (output) {
                     output.textContent =
                         "PyLab est prêt.\n\n" +
-                        "✓ python chargé\n" +
-                        "✓ numPy chargé\n" +
-                        "✓ matplotlib chargé\n" +
+                        "✓ Python chargé\n" +
+                        "✓ NumPy chargé\n" +
+                        "✓ Matplotlib chargé\n" +
                         "✓ random chargé\n" +
                         "✓ math chargé\n\n" +
                         "Écris ton programme puis clique sur Exécuter.";
@@ -331,6 +416,7 @@ print("random")
                 console.log("PyLab : Python, NumPy, Matplotlib et Math sont prêts.");
 
                 return instance;
+
             } catch (error) {
                 console.error("Erreur de chargement PyLab :", error);
 
@@ -357,9 +443,7 @@ print("random")
     }
 
     /* =================================================
-       ZOOM DE L'ÉDITEUR (vidéoprojecteur)
-       Bouton +  : ouvre une fenêtre qui affiche le code en grand.
-       Bouton -  : ferme la fenêtre (aussi : touche Échap).
+       ZOOM DE L'ÉDITEUR
     ================================================= */
 
     function openZoom() {
@@ -369,16 +453,16 @@ print("random")
         zoomModal.classList.add("show");
         zoomModal.setAttribute("aria-hidden", "false");
         zoomContent.scrollTop = 0;
-
-        /* le curseur est placé à la fin du code, prêt à écrire */
         zoomContent.focus();
-        zoomContent.setSelectionRange(zoomContent.value.length, zoomContent.value.length);
+        zoomContent.setSelectionRange(
+            zoomContent.value.length,
+            zoomContent.value.length
+        );
     }
 
     function closeZoom() {
         if (!zoomModal || !zoomModal.classList.contains("show")) return;
 
-        /* le texte écrit dans la fenêtre agrandie revient dans l'éditeur */
         if (editor && zoomContent) editor.value = zoomContent.value;
 
         zoomModal.classList.remove("show");
@@ -387,8 +471,6 @@ print("random")
         if (zoomOpenButton) zoomOpenButton.focus();
     }
 
-    /* synchronisation en direct : tout ce qui est écrit dans la fenêtre
-       agrandie est aussitôt copié dans l'éditeur */
     if (zoomContent && editor) {
         zoomContent.addEventListener("input", () => {
             editor.value = zoomContent.value;
@@ -400,7 +482,6 @@ print("random")
     if (zoomModalClose) zoomModalClose.addEventListener("click", closeZoom);
 
     if (zoomModal) {
-        /* clic sur le fond sombre = fermeture */
         zoomModal.addEventListener("click", event => {
             if (event.target === zoomModal) closeZoom();
         });
@@ -411,16 +492,12 @@ print("random")
     });
 
     /* =================================================
-       ZOOM DE LA CONSOLE (vidéoprojecteur)
-       Bouton +  : ouvre une fenêtre qui affiche le résultat en grand
-                   (texte et graphiques).
-       Bouton -  : ferme la fenêtre (aussi : touche Échap).
+       ZOOM DE LA CONSOLE
     ================================================= */
 
     function openConsoleZoom() {
         if (!consoleZoomModal || !consoleZoomContent || !output) return;
 
-        /* copie du contenu actuel de la console (texte + graphiques) */
         consoleZoomContent.replaceChildren(
             ...Array.from(output.childNodes).map(node => node.cloneNode(true))
         );
@@ -440,9 +517,17 @@ print("random")
         if (consoleZoomOpenButton) consoleZoomOpenButton.focus();
     }
 
-    if (consoleZoomOpenButton) consoleZoomOpenButton.addEventListener("click", openConsoleZoom);
-    if (consoleZoomCloseButton) consoleZoomCloseButton.addEventListener("click", closeConsoleZoom);
-    if (consoleZoomModalClose) consoleZoomModalClose.addEventListener("click", closeConsoleZoom);
+    if (consoleZoomOpenButton) {
+        consoleZoomOpenButton.addEventListener("click", openConsoleZoom);
+    }
+
+    if (consoleZoomCloseButton) {
+        consoleZoomCloseButton.addEventListener("click", closeConsoleZoom);
+    }
+
+    if (consoleZoomModalClose) {
+        consoleZoomModalClose.addEventListener("click", closeConsoleZoom);
+    }
 
     if (consoleZoomModal) {
         consoleZoomModal.addEventListener("click", event => {
@@ -514,8 +599,10 @@ json.dumps(_images)
             if (!output.textContent.trim() && imagesCount === 0) {
                 output.textContent = "Programme exécuté (aucune sortie texte).";
             }
+
         } catch (error) {
             output.textContent += "\n" + error;
+
         } finally {
             runButton.disabled = false;
         }
@@ -534,43 +621,34 @@ json.dumps(_images)
     ================================================= */
 
     function exportPythonScript() {
-
         if (!editor) return;
 
         const pythonCode = editor.value;
 
         if (!pythonCode.trim()) {
-
             if (output) {
                 output.textContent =
                     "Impossible d'exporter le script.\n\n" +
-                    "L'Éditeur Python est vide.";
+                    "L'éditeur Python est vide.";
             }
 
             editor.focus();
-
             return;
         }
 
         const pythonFile = new Blob(
             [pythonCode],
-            {
-                type: "text/x-python;charset=utf-8"
-            }
+            { type: "text/x-python;charset=utf-8" }
         );
 
         const fileURL = URL.createObjectURL(pythonFile);
-
         const downloadLink = document.createElement("a");
 
         downloadLink.href = fileURL;
-
         downloadLink.download = "programme.py";
 
         document.body.appendChild(downloadLink);
-
         downloadLink.click();
-
         document.body.removeChild(downloadLink);
 
         setTimeout(() => {
@@ -589,41 +667,37 @@ json.dumps(_images)
     ================================================= */
 
     if (exportButton) {
-        exportButton.addEventListener(
-            "click",
-            exportPythonScript
-        );
+        exportButton.addEventListener("click", exportPythonScript);
     }
 
     /* =================================================
        IMPORTER UN SCRIPT PYTHON
-       Le fichier choisi (.py ou .txt) remplace le contenu
-       de l'éditeur. Il est lu localement : rien n'est envoyé.
     ================================================= */
 
-    const IMPORT_TAILLE_MAX = 512 * 1024; /* 512 Ko : largement assez pour un script d'élève */
+    const IMPORT_TAILLE_MAX = 512 * 1024;
 
     function decoderTexte(buffer) {
-        /* UTF-8 d'abord ; si le fichier vient d'un vieux Bloc-notes
-           (Windows-1252), on le relit dans cet encodage pour garder les accents */
         let texte;
+
         try {
             texte = new TextDecoder("utf-8", { fatal: true }).decode(buffer);
         } catch (e) {
             texte = new TextDecoder("windows-1252").decode(buffer);
         }
+
         return texte.replace(/^\uFEFF/, "").replace(/\r\n?/g, "\n");
     }
 
     async function importPythonScript(file) {
-
         if (!file || !editor) return;
 
         if (file.size > IMPORT_TAILLE_MAX) {
             if (output) {
                 output.textContent =
                     "Impossible d'importer le script.\n\n" +
-                    "Le fichier est trop volumineux (" + Math.round(file.size / 1024) + " Ko, maximum 512 Ko).";
+                    "Le fichier est trop volumineux (" +
+                    Math.round(file.size / 1024) +
+                    " Ko, maximum 512 Ko).";
             }
             return;
         }
@@ -653,6 +727,7 @@ json.dumps(_images)
 
         } catch (e) {
             console.warn("Import du script impossible :", e);
+
             if (output) {
                 output.textContent =
                     "Impossible d'importer le script.\n\n" +
@@ -662,12 +737,13 @@ json.dumps(_images)
     }
 
     if (importButton && importFile) {
-
         importButton.addEventListener("click", () => importFile.click());
 
         importFile.addEventListener("change", async () => {
-            await importPythonScript(importFile.files && importFile.files[0]);
-            /* permet de réimporter le même fichier après l'avoir modifié */
+            await importPythonScript(
+                importFile.files && importFile.files[0]
+            );
+
             importFile.value = "";
         });
     }

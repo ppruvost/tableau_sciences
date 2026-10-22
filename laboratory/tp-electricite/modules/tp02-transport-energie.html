@@ -58,6 +58,9 @@
 
   <div class="section-corps">
 
+    <p class="niveau-classe"><span class="niveau-classe-titre">Niveau de la classe :</span> <span class="niveau-puce">2nde</span> <span class="niveau-puce actif" title="Niveau concerné par ce TP">1ère</span> <span class="niveau-puce actif" title="Niveau concerné par ce TP">Tle</span></p>
+
+
     <ul>
       <li>Représenter le schéma simplifié d'un réseau de distribution d'énergie électrique à l'échelle d'un pays et d'une installation domestique.</li>
       <li>Justifier l'intérêt du transport d'énergie électrique à grande distance sous haute tension.</li>
@@ -89,7 +92,7 @@
     </div>
 
     <div id="contexte-pro-resultat" class="contexte-pro-resultat">
-      <p>Sélectionner votre filière professionnelle pour afficher le contexte et la problématique associée.</p>
+      <p>Sélectionner votre filière professionnelle pour afficher le contexte professionnel associé.</p>
     </div>
 
   </div>
@@ -132,9 +135,11 @@
 
   <div class="section-corps">
 
-    <h3>Équipements</h3>
-    <div id="materiel-equipements" class="grille-materiel">
-    </div>
+    <details class="accordeon-materiel" name="materiel">
+      <summary>Équipements</summary>
+      <div id="materiel-equipements" class="grille-materiel">
+      </div>
+    </details>
 
   </div>
 
@@ -166,6 +171,12 @@
       <!-- ============================ -->
 
       <div class="tab-panel actif" id="reseau-distribution">
+
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="reseau-distribution"></p>
+        </div>
+
 
         <h3>Du site de production à l'installation domestique</h3>
 
@@ -202,6 +213,12 @@
       <!-- ============================ -->
 
       <div class="tab-panel" id="effet-joule">
+
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="effet-joule"></p>
+        </div>
+
 
         <h3>Pertes en ligne par effet Joule</h3>
 
@@ -334,6 +351,12 @@
       <!-- ============================ -->
 
       <div class="tab-panel" id="transformateur">
+
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="transformateur"></p>
+        </div>
+
 
         <h3>Rôle élévateur ou abaisseur du transformateur</h3>
 
@@ -469,6 +492,12 @@
 
       <div class="tab-panel" id="manipulation-reelle">
 
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="manipulation-reelle"></p>
+        </div>
+
+
         <h3>Manipulation avec le matériel du laboratoire</h3>
 
         <div class="info">
@@ -489,9 +518,7 @@
         </ol>
 
         <div class="mode-op">
-          <svg class="mode-image" viewBox="0 0 540 240" role="img" aria-label="Schéma du montage : générateur alternatif 6 V aux bornes du primaire du transformateur, voltmètre alternatif en dérivation au primaire et au secondaire laissé à vide" fill="none" stroke="currentColor" stroke-width="2" font-family="sans-serif" font-size="14">
-            <circle cx="40" cy="125" r="24"/><text x="40" y="122" text-anchor="middle" fill="currentColor" stroke="none">6 V</text><text x="40" y="139" text-anchor="middle" fill="currentColor" stroke="none">~</text><path d="M40 101V40H205V72"/><path d="M205 168V210H40V149"/><path d="M205 72a12 12 0 0 0 0 24a12 12 0 0 0 0 24a12 12 0 0 0 0 24a12 12 0 0 0 0 24"/><path d="M235 72a12 12 0 0 1 0 24a12 12 0 0 1 0 24a12 12 0 0 1 0 24a12 12 0 0 1 0 24"/><path d="M215 60V180M225 60V180"/><path d="M235 72V40H360V103"/><path d="M235 168V210H360V137"/><circle cx="360" cy="120" r="17"/><text x="360" y="125" text-anchor="middle" fill="currentColor" stroke="none" font-size="13">V~</text><text x="385" y="125" text-anchor="start" fill="currentColor" stroke="none">U₂</text><path d="M120 40V108M120 142V210"/><circle cx="120" cy="125" r="17"/><text x="120" y="130" text-anchor="middle" fill="currentColor" stroke="none" font-size="13">V~</text><text x="100" y="129" text-anchor="end" fill="currentColor" stroke="none">U₁</text><circle cx="120" cy="40" r="3" fill="currentColor"/><circle cx="120" cy="210" r="3" fill="currentColor"/><circle cx="360" cy="40" r="3" fill="currentColor"/><circle cx="360" cy="210" r="3" fill="currentColor"/><text x="170" y="230" text-anchor="middle" fill="currentColor" stroke="none">Primaire</text><text x="285" y="230" text-anchor="middle" fill="currentColor" stroke="none">Secondaire (à vide)</text>
-          </svg>
+          <img class="mode-image" src="./assets/illustrations/tp02-transformateur-a-vide.svg" alt="Schéma normalisé du montage : générateur alternatif 6 V aux bornes du primaire du transformateur, voltmètre alternatif V avec borne COM en dérivation au primaire et au secondaire laissé à vide" width="596" height="250" loading="lazy" style="display:block;width:100%;height:auto;">
           <p class="mode-legende">Partie A : voltmètre alternatif (V~) aux bornes du primaire (U₁) puis du secondaire laissé à vide (U₂).</p>
         </div>
 
@@ -530,9 +557,7 @@
         </ol>
 
         <div class="mode-op">
-          <svg class="mode-image" viewBox="0 0 540 240" role="img" aria-label="Schéma du montage : générateur alternatif 6 V, interrupteur, résistance R1 puis R2 et ampèremètre alternatif en série" fill="none" stroke="currentColor" stroke-width="2" font-family="sans-serif" font-size="14">
-            <circle cx="40" cy="125" r="24"/><text x="40" y="122" text-anchor="middle" fill="currentColor" stroke="none">6 V</text><text x="40" y="139" text-anchor="middle" fill="currentColor" stroke="none">~</text><path d="M40 101V40H90M130 40H180M260 40H323M357 40H440V210H40V149"/><path d="M90 40L125 22"/><text x="108" y="14" text-anchor="middle" fill="currentColor" stroke="none">K</text><rect x="180" y="28" width="80" height="24"/><text x="220" y="76" text-anchor="middle" fill="currentColor" stroke="none">R₁ (puis R₂)</text><circle cx="340" cy="40" r="17"/><text x="340" y="45" text-anchor="middle" fill="currentColor" stroke="none" font-size="13">A~</text><text x="220" y="14" text-anchor="middle" fill="currentColor" stroke="none" font-size="12">chaleur dégagée : R × I²</text>
-          </svg>
+          <img class="mode-image" src="./assets/illustrations/tp02-effet-joule.svg" alt="Schéma normalisé du montage : générateur alternatif 6 V, interrupteur K, résistance R1 puis R2 et ampèremètre alternatif A avec borne COM en série" width="596" height="250" loading="lazy" style="display:block;width:100%;height:auto;">
           <p class="mode-legende">Partie B : circuit série ; ne pas toucher la résistance, approcher seulement la main.</p>
         </div>
 

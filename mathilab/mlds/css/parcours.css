@@ -1,4 +1,3 @@
-@import url("../../../fonts/fonts.css");
 /* ==========================================================================
    MLDS · Générateur de parcours — design system
    Palette inspirée du cheminement : encre (structure), ambre (progression),
@@ -16,8 +15,8 @@
   --vert: #4C8C6B;
   --orange: #D9963A;
   --brique: #C15B4A;
-  --font-display: 'Atkinson Hyperlegible', Verdana, 'DejaVu Sans', Arial, sans-serif;
-  --font-body: 'Atkinson Hyperlegible', Verdana, 'DejaVu Sans', Arial, sans-serif;
+  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", sans-serif;
   --radius: 10px;
   --shadow: 0 1px 2px rgba(27, 42, 74, 0.06), 0 4px 14px rgba(27, 42, 74, 0.06);
 }

@@ -52,6 +52,9 @@
 
   <div class="section-corps">
 
+    <p class="niveau-classe"><span class="niveau-classe-titre">Niveau de la classe :</span> <span class="niveau-puce">2nde</span> <span class="niveau-puce actif" title="Niveau concerné par ce TP">1ère</span> <span class="niveau-puce">Tle</span></p>
+
+
     <ul>
       <li>Distinguer énergie et puissance électrique.</li>
       <li>Mesurer la puissance électrique reçue et l'énergie électrique reçue pendant une durée donnée par un appareil utilisé en régime continu.</li>
@@ -91,7 +94,7 @@
     </div>
 
     <div id="contexte-pro-resultat" class="contexte-pro-resultat">
-      <p>Sélectionner votre filière professionnelle pour afficher le contexte et la problématique associée.</p>
+      <p>Sélectionner votre filière professionnelle pour afficher le contexte professionnel associé.</p>
     </div>
 
   </div>
@@ -136,9 +139,11 @@
 
   <div class="section-corps">
 
-    <h3>Équipements</h3>
-    <div id="materiel-equipements" class="grille-materiel">
-    </div>
+    <details class="accordeon-materiel" name="materiel">
+      <summary>Équipements</summary>
+      <div id="materiel-equipements" class="grille-materiel">
+      </div>
+    </details>
 
   </div>
 
@@ -169,6 +174,12 @@
 
       <div class="tab-panel actif" id="mesure-puissance">
 
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="mesure-puissance"></p>
+        </div>
+
+
         <h3>Établir la relation P = U × I</h3>
 
         <div class="info">
@@ -188,29 +199,7 @@
         </ol>
 
         <div class="mode-op">
-          <svg class="mode-image" viewBox="0 0 540 240" role="img" aria-label="Schéma du montage : générateur 12 V continu, interrupteur, rhéostat, ampèremètre, wattmètre et lampe 21 W en série ; voltmètre en dérivation aux bornes de la lampe" fill="none" stroke="currentColor" stroke-width="2" font-family="sans-serif" font-size="14">
-            <circle cx="40" cy="125" r="24"/>
-            <text x="40" y="122" text-anchor="middle" fill="currentColor" stroke="none">12 V</text>
-            <text x="40" y="139" text-anchor="middle" fill="currentColor" stroke="none">=</text>
-            <path d="M40 101V40H90M130 40H160M220 40H258M292 40H318M362 40H440V103M440 147V210H40V149"/>
-            <path d="M90 40L125 22"/>
-            <text x="108" y="14" text-anchor="middle" fill="currentColor" stroke="none">K</text>
-            <rect x="160" y="28" width="60" height="24"/>
-            <path d="M166 62L214 18"/>
-            <text x="190" y="80" text-anchor="middle" fill="currentColor" stroke="none">Rhéostat</text>
-            <circle cx="275" cy="40" r="17"/>
-            <text x="275" y="46" text-anchor="middle" fill="currentColor" stroke="none">A</text>
-            <rect x="318" y="24" width="44" height="32"/>
-            <text x="340" y="46" text-anchor="middle" fill="currentColor" stroke="none">W</text>
-            <circle cx="440" cy="125" r="22"/>
-            <path d="M424 109L456 141M456 109L424 141"/>
-            <text x="410" y="129" text-anchor="end" fill="currentColor" stroke="none">Lampe 21 W</text>
-            <path d="M440 70H500V98M500 132V180H440"/>
-            <circle cx="500" cy="115" r="17"/>
-            <text x="500" y="121" text-anchor="middle" fill="currentColor" stroke="none">V</text>
-            <circle cx="440" cy="70" r="3" fill="currentColor"/>
-            <circle cx="440" cy="180" r="3" fill="currentColor"/>
-          </svg>
+          <img class="mode-image" src="./assets/illustrations/tp01-montage-puissance.svg" alt="Schéma normalisé du montage : générateur 12 V continu, interrupteur, rhéostat, ampèremètre A, wattmètre W (bornes I en série, bornes U en dérivation) et lampe 21 W avec voltmètre V en dérivation ; borne COM de l&#x27;ampèremètre et du voltmètre" width="896" height="370" loading="lazy" style="display:block;width:100%;height:auto;">
         </div>
 
         <div class="form-row">
@@ -280,6 +269,12 @@
 
       <div class="tab-panel" id="energie-consommee">
 
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="energie-consommee"></p>
+        </div>
+
+
         <h3>Établir la relation E = P × t</h3>
 
         <div class="info">
@@ -300,27 +295,7 @@
         </ol>
 
         <div class="mode-op">
-          <svg class="mode-image" viewBox="0 0 540 240" role="img" aria-label="Schéma du montage : générateur 12 V continu, interrupteur, rhéostat et joulemètre en série avec la lampe 21 W ; voltmètre en dérivation aux bornes de la lampe" fill="none" stroke="currentColor" stroke-width="2" font-family="sans-serif" font-size="14">
-            <circle cx="40" cy="125" r="24"/>
-            <text x="40" y="122" text-anchor="middle" fill="currentColor" stroke="none">12 V</text>
-            <text x="40" y="139" text-anchor="middle" fill="currentColor" stroke="none">=</text>
-            <path d="M40 101V40H90M130 40H160M220 40H290M366 40H440V103M440 147V210H40V149"/>
-            <path d="M90 40L125 22"/>
-            <text x="108" y="14" text-anchor="middle" fill="currentColor" stroke="none">K</text>
-            <rect x="160" y="28" width="60" height="24"/>
-            <path d="M166 62L214 18"/>
-            <text x="190" y="80" text-anchor="middle" fill="currentColor" stroke="none">Rhéostat</text>
-            <rect x="290" y="24" width="76" height="32"/>
-            <text x="328" y="46" text-anchor="middle" fill="currentColor" stroke="none">W / J</text>
-            <circle cx="440" cy="125" r="22"/>
-            <path d="M424 109L456 141M456 109L424 141"/>
-            <text x="410" y="129" text-anchor="end" fill="currentColor" stroke="none">Lampe 21 W</text>
-            <path d="M440 70H500V98M500 132V180H440"/>
-            <circle cx="500" cy="115" r="17"/>
-            <text x="500" y="121" text-anchor="middle" fill="currentColor" stroke="none">V</text>
-            <circle cx="440" cy="70" r="3" fill="currentColor"/>
-            <circle cx="440" cy="180" r="3" fill="currentColor"/>
-          </svg>
+          <img class="mode-image" src="./assets/illustrations/tp01-montage-energie.svg" alt="Schéma normalisé du montage : générateur 12 V continu, interrupteur, rhéostat, joulemètre J (bornes I en série, bornes U en dérivation) et lampe 21 W avec voltmètre V en dérivation ; borne COM du voltmètre" width="896" height="370" loading="lazy" style="display:block;width:100%;height:auto;">
         </div>
 
         <div class="form-row">

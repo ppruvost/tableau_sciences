@@ -10,6 +10,9 @@
  *   - bouton rond bleu « − » dans la fenêtre : la ferme
  *     (aussi : touche Échap ou clic sur le fond sombre).
  *
+ * Fonctionne pour les SVG intégrés dans la page comme pour les illustrations
+ * importées par <img src="….svg">.
+ *
  * Il suffit d'importer ce module (import "../../js/zoom-visuel.js") : les
  * illustrations .mode-image présentes dans la page, ou ajoutées ensuite
  * (chargement dynamique des TP), reçoivent automatiquement le bouton +.
@@ -143,6 +146,8 @@ function ouvrir(visuel, bouton) {
   copie.querySelectorAll("[id]").forEach(el => el.removeAttribute("id"));
   copie.removeAttribute("width");
   copie.removeAttribute("height");
+  copie.removeAttribute("style");
+  copie.removeAttribute("loading");
 
   contenu.replaceChildren(copie);
   titre.textContent = libelle(visuel);

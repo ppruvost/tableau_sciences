@@ -39,7 +39,7 @@ const ATELIERS = [
         enonce: "La tarte Tatin utilise 150 g de sucre pour le caramel d'UNE tarte. Un professeur veut préparer 2 tartes pour sa classe : combien de sucre au total ?",
         choix: ["200 g", "250 g", "300 g", "350 g"],
         bonne: 2,
-        explication: "150 g × 2 tartes = 300 g. On garde toujours le même « prix » pour chaque tarte."
+        explication: "150 g × 2 tartes = 300 g. On garde la même quantité de sucre pour chaque tarte."
       },
       {
         enonce: "Le mug cookie (1 portion) demande 30 g de farine. Combien de farine pour 2 portions ?",
@@ -153,10 +153,10 @@ const ATELIERS = [
         explication: "2 c.à.s × 3 c.à.c = 6 c.à.c. On multiplie le nombre de cuillères à soupe par 3."
       },
       {
-        enonce: "Un œuf se sépare en 2 éléments : 1 jaune et 1 blanc. Le mug cookie utilise seulement « 1 jaune ». Sur les 2 éléments de l'œuf, quelle fraction représente le jaune ?",
+        enonce: "Une boîte contient 2 jaunes d'œuf mis de côté. Le mug cookie en utilise seulement 1. Quelle fraction des jaunes de la boîte utilise-t-on ?",
         choix: ["1/4", "1/2", "1/3", "2/3"],
         bonne: 1,
-        explication: "On prend 1 élément (le jaune) sur 2 (jaune + blanc) : cela s'écrit 1/2, « un demi »."
+        explication: "On prend 1 jaune sur 2 : cela s'écrit 1/2, « un demi »."
       },
       {
         enonce: "Pour les îles flottantes, une recette utilise 2 blancs d'œuf sur les 3 prévus par la recette d'origine. Quelle fraction du total cela représente-t-il ?",

@@ -44,7 +44,7 @@ function dominoDe(i) {
    RENDU
    ============================================================ */
 
-function dessiner() {
+function dessiner(focusIndex) {
   grilleEl.style.gridTemplateColumns = `repeat(${taille}, 1fr)`;
   grilleEl.innerHTML = "";
 
@@ -65,10 +65,12 @@ function dessiner() {
         cellule.style.borderColor = PALETTE[d.couleur % PALETTE.length];
       }
       if (i === selection) cellule.classList.add("selectionnee");
-      cellule.setAttribute("aria-label", `Case ${i + 1}`);
+      const etat = dominoDe(i) ? ", occupée par un plat" : i === selection ? ", sélectionnée" : ", libre";
+      cellule.setAttribute("aria-label", `Case ${i + 1}${etat}`);
     }
 
     cellule.addEventListener("click", () => clicCase(i));
+    if (i === focusIndex) requestAnimationFrame(() => cellule.focus());
     cellule.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") { e.preventDefault(); clicCase(i); }
     });
@@ -96,7 +98,7 @@ function clicCase(i) {
       selection = null;
       modePlacementMug = false;
       messageEl.textContent = "Le four a été déplacé. Les plats précédents ont été retirés.";
-      dessiner();
+      dessiner(i);
     }
     return;
   }
@@ -108,21 +110,21 @@ function clicCase(i) {
   if (d) {
     dominoes = dominoes.filter((x) => x !== d);
     messageEl.textContent = "Plat retiré.";
-    dessiner();
+    dessiner(i);
     return;
   }
 
   if (selection === null) {
     selection = i;
     messageEl.textContent = "Choisis une case libre juste à côté pour poser le plat (2 cases).";
-    dessiner();
+    dessiner(i);
     return;
   }
 
   if (selection === i) {
     selection = null;
     messageEl.textContent = "";
-    dessiner();
+    dessiner(i);
     return;
   }
 
@@ -135,7 +137,7 @@ function clicCase(i) {
     messageEl.textContent = "Choisis une case libre juste à côté (pas en diagonale) pour poser le plat.";
   }
 
-  dessiner();
+  dessiner(i);
 }
 
 

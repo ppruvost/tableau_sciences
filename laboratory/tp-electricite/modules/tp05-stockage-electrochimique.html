@@ -52,6 +52,9 @@
 
   <div class="section-corps">
 
+    <p class="niveau-classe"><span class="niveau-classe-titre">Niveau de la classe :</span> <span class="niveau-puce">2nde</span> <span class="niveau-puce">1ère</span> <span class="niveau-puce actif" title="Niveau concerné par ce TP">Tle</span></p>
+
+
     <ul>
       <li>Étudier expérimentalement la charge et la décharge d'un accumulateur.</li>
       <li>Calculer l'énergie stockée par un accumulateur à partir de sa capacité et de la tension d'utilisation.</li>
@@ -83,7 +86,7 @@
     </div>
 
     <div id="contexte-pro-resultat" class="contexte-pro-resultat">
-      <p>Sélectionner votre filière professionnelle pour afficher le contexte et la problématique associée.</p>
+      <p>Sélectionner votre filière professionnelle pour afficher le contexte professionnel associé.</p>
     </div>
 
   </div>
@@ -123,15 +126,17 @@
 
   <div class="section-corps">
 
-    <h3>Verrerie</h3>
-    <div id="materiel-verrerie" class="grille-materiel">
-    </div>
+    <details class="accordeon-materiel" name="materiel">
+      <summary>Équipements</summary>
+      <div id="materiel-equipements" class="grille-materiel">
+      </div>
+    </details>
 
-    <hr>
-
-    <h3>Équipements</h3>
-    <div id="materiel-equipements" class="grille-materiel">
-    </div>
+    <details class="accordeon-materiel" name="materiel">
+      <summary>Verrerie</summary>
+      <div id="materiel-verrerie" class="grille-materiel">
+      </div>
+    </details>
 
   </div>
 
@@ -161,6 +166,12 @@
 
       <div class="tab-panel actif" id="accumulateur">
 
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="accumulateur"></p>
+        </div>
+
+
         <h3>Charge, décharge et énergie stockée</h3>
 
         <div class="info">
@@ -180,9 +191,7 @@
         </ol>
 
         <div class="mode-op">
-          <svg class="mode-image" viewBox="0 0 540 240" role="img" aria-label="Schémas des montages : à gauche la charge de l'accumulateur par un chargeur, à droite sa décharge dans une résistance avec un voltmètre en dérivation" fill="none" stroke="currentColor" stroke-width="2" font-family="sans-serif" font-size="14">
-            <text x="130" y="16" text-anchor="middle" fill="currentColor" stroke="none">Charge</text><text x="400" y="16" text-anchor="middle" fill="currentColor" stroke="none">Décharge</text><path d="M30 40H230V96"/><path d="M230 144V200H30V124"/><path d="M30 40V92"/><path d="M30 92V100"/><path d="M12 100H48"/><path d="M20 112H40"/><path d="M30 112V124"/><text x="56" y="98" text-anchor="middle" fill="currentColor" stroke="none" font-size="13">+</text><text x="56" y="124" text-anchor="middle" fill="currentColor" stroke="none" font-size="13">−</text><text x="38" y="156" text-anchor="start" fill="currentColor" stroke="none" font-size="12">Accumulateur</text><circle cx="230" cy="120" r="24"/><text x="230" y="126" text-anchor="middle" fill="currentColor" stroke="none">=</text><text x="214" y="172" text-anchor="end" fill="currentColor" stroke="none" font-size="12">Chargeur</text><text x="130" y="34" text-anchor="middle" fill="currentColor" stroke="none" font-size="13">I →</text><path d="M300 40H500V92"/><path d="M500 148V200H300V124"/><path d="M300 40V92"/><path d="M300 92V100"/><path d="M282 100H318"/><path d="M290 112H310"/><path d="M300 112V124"/><text x="326" y="98" text-anchor="middle" fill="currentColor" stroke="none" font-size="13">+</text><text x="326" y="124" text-anchor="middle" fill="currentColor" stroke="none" font-size="13">−</text><rect x="488" y="92" width="24" height="56"/><text x="478" y="125" text-anchor="end" fill="currentColor" stroke="none">R</text><path d="M380 40V103M380 137V200"/><circle cx="380" cy="120" r="17"/><text x="380" y="125" text-anchor="middle" fill="currentColor" stroke="none">V</text><circle cx="380" cy="40" r="3" fill="currentColor"/><circle cx="380" cy="200" r="3" fill="currentColor"/><text x="130" y="228" text-anchor="middle" fill="currentColor" stroke="none" font-size="12">énergie électrique → chimique</text><text x="400" y="228" text-anchor="middle" fill="currentColor" stroke="none" font-size="12">tension relevée au cours du temps</text>
-          </svg>
+          <img class="mode-image" src="./assets/illustrations/tp05-charge-decharge-accumulateur.svg" alt="Schémas normalisés : à gauche la charge de l&#x27;accumulateur par un chargeur (générateur continu G), à droite sa décharge dans une résistance R avec un voltmètre V et sa borne COM aux bornes de l&#x27;accumulateur" width="780" height="310" loading="lazy" style="display:block;width:100%;height:auto;">
           <p class="mode-legende">Charge (courant imposé par un chargeur) et décharge (dans une résistance) d'un accumulateur.</p>
         </div>
 

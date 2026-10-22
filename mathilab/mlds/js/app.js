@@ -68,6 +68,10 @@ function restaurerDepuisCloud(res) {
   const avant = state.suivi || {};
   state.reponses = d.reponses || {};
   state.suivi = {};
+  // Les notes restent sur cet ordinateur : on les garde pour tous les modules, faits ou non.
+  Object.keys(avant).forEach((k) => {
+    if (avant[k] && avant[k].note) state.suivi[k] = { fait: false, note: avant[k].note };
+  });
   Object.keys(d.faits || {}).forEach((k) => {
     state.suivi[k] = { fait: true, note: (avant[k] && avant[k].note) || "" };
   });
@@ -371,6 +375,7 @@ function renderPositionnement() {
 
   const btnSuite = document.createElement("button");
   btnSuite.className = "primary";
+  btnSuite.id = "btn-suite";
   btnSuite.textContent = "Générer le plan de travail →";
   btnSuite.disabled = !positionnementComplet();
   btnSuite.title = btnSuite.disabled ? "Renseigne toutes les affirmations pour continuer" : "";
@@ -393,6 +398,20 @@ function renderPositionnement() {
 
   return section;
 }
+
+/** Active ou désactive « Générer le plan » sans redessiner la page. */
+function majBoutonSuite() {
+  const b = document.getElementById("btn-suite");
+  if (!b) return;
+  b.disabled = !positionnementComplet();
+  b.title = b.disabled ? "Renseigne toutes les affirmations pour continuer" : "";
+}
+
+function attr(str) {
+  return escapeHtml(str).replace(/"/g, "&quot;");
+}
+
+const NIVEAUX_LIBELLES = ["ne sait pas faire", "sait faire avec aide", "sait faire seul(e)"];
 
 function renderRecettesBonus(recettesBonus) {
   const details = document.createElement("details");
@@ -441,11 +460,11 @@ function renderCompetenceCard(competence) {
     const current = (state.reponses[competence.id] || [])[idx];
     row.innerHTML = `
       <span class="item-text">${escapeHtml(itemText)}</span>
-      <span class="scale" data-competence="${competence.id}" data-idx="${idx}">
+      <span class="scale" role="group" aria-label="${attr(itemText)}" data-competence="${competence.id}" data-idx="${idx}">
         ${[0, 1, 2]
           .map(
             (v) =>
-              `<button type="button" data-val="${v}" class="${current === v ? "selected" : ""}">${v}</button>`
+              `<button type="button" data-val="${v}" class="${current === v ? "selected" : ""}" aria-pressed="${current === v}" aria-label="Niveau ${v} : ${NIVEAUX_LIBELLES[v]}" title="${NIVEAUX_LIBELLES[v]}">${v}</button>`
           )
           .join("")}
       </span>
@@ -462,8 +481,12 @@ function renderCompetenceCard(competence) {
         if (!state.reponses[compId]) state.reponses[compId] = [];
         state.reponses[compId][idx] = val;
         saveDossier();
-        render();
-        // Remettre le focus proche de l'action pour la navigation clavier
+        // On ne redessine que cette carte : la page ne remonte pas et le focus clavier reste en place.
+        const nouvelle = renderCompetenceCard(competence);
+        card.replaceWith(nouvelle);
+        const b = nouvelle.querySelector('.scale[data-idx="' + idx + '"] button[data-val="' + val + '"]');
+        if (b) b.focus();
+        majBoutonSuite();
       });
     });
   });
@@ -597,6 +620,12 @@ function renderSeance55() {
   return d;
 }
 
+/** Les jokers s'affichent dans les deux modules, sauf si la compétence les rattache à un seul. */
+function coupsDePouceVisibles(competence, type) {
+  return Boolean(competence.coupsDePouce && competence.coupsDePouce.length &&
+    (!competence.coupsDePouceType || competence.coupsDePouceType === type));
+}
+
 function renderModuleCard({ key, competence, type, niveau, module }) {
   const card = document.createElement("div");
   card.className = `module-card ${niveau}`;
@@ -612,7 +641,7 @@ function renderModuleCard({ key, competence, type, niveau, module }) {
     ${competence.flash ? `<p class="flash"><strong>Question flash d'entrée —</strong> ${escapeHtml(competence.flash)}</p>` : ""}
     <ul>${module.activites.map((a) => `<li>${escapeHtml(a)}</li>`).join("")}</ul>
     ${
-      competence.coupsDePouce && competence.coupsDePouce.length
+      coupsDePouceVisibles(competence, type)
         ? `<details class="coups-de-pouce"><summary>Coups de pouce</summary><ol>${competence.coupsDePouce.map((c) => `<li>${escapeHtml(c)}</li>`).join("")}</ol></details>`
         : ""
     }
@@ -678,7 +707,7 @@ function exportMarkdown(plan) {
       lines.push(`- Objectif : ${module.objectif}`);
       lines.push(`- Activités : ${module.activites.join(" ; ")}`);
       if (competence.flash) lines.push(`- Question flash d'entrée : ${competence.flash}`);
-      if (competence.coupsDePouce && competence.coupsDePouce.length) lines.push(`- Coups de pouce : ${competence.coupsDePouce.join(" ; ")}`);
+      if (coupsDePouceVisibles(competence, type)) lines.push(`- Coups de pouce : ${competence.coupsDePouce.join(" ; ")}`);
       if (competence.atelier) lines.push(`- Atelier QCM associé : index.html#atelier=${competence.atelier}`);
       if (competence.sources && window.citerSourcesTexte) lines.push(`- Sources : ${window.citerSourcesTexte(competence.sources)}`);
       lines.push(`- Ressources : ${module.ressources.join(", ")}`);
