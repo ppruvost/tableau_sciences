@@ -56,7 +56,7 @@
    « aucun <script> dans les fragments ». */
 .schema-interactif-conteneur {
   border: 1px solid var(--gris-clair, #E7E9EC);
-  border-radius: var(--radius-md, 12px);
+  border-radius: var(--r-md);
   overflow: hidden;
   margin-top: var(--gap-md);
 }
@@ -414,4 +414,21 @@
 
 @media (max-width: 640px) {
   .transfo-simu-visuel { flex-direction: column; }
+}
+/* ── Légendes d'illustration (TP02 à TP05) et source de données (TP05) ── */
+.mode-legende {
+  font-size: var(--fs-sm);
+  color: var(--gris-moyen);
+  text-align: center;
+  margin-top: .4rem;
+}
+.tp-source {
+  font-size: var(--fs-xs);
+  color: var(--gris-moyen);
+  margin-top: .4rem;
+}
+
+/* Conteneur du graphique de décharge (TP05) */
+.graphique-conteneur {
+  margin-top: var(--gap-sm);
 }

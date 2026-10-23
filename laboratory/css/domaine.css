@@ -343,6 +343,8 @@ td.saisie {
 }
 
 /* ── Graphique (js/graphique.js) ──────────────────────────────── */
+.graphique-axe     { stroke: var(--gris-moyen); stroke-width: 1.5; }
+.graphique-label   { fill: var(--gris-moyen); font-size: 12px; font-family: var(--font-corps); }
 .graphique-courbe { stroke: var(--domaine-accent); stroke-width: 2; }
 .graphique-point   { fill: var(--domaine-accent); }
 

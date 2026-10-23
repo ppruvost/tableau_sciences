@@ -44,8 +44,12 @@ export function initOngletsParFiliere({
     const cle = select.value;
     const config = mapping[cle];
 
-    const boutons = [...document.querySelectorAll('.tabs-header .tab-btn')];
-    const panneaux = [...document.querySelectorAll('.tab-panel')];
+    // Onglets de premier niveau uniquement : les sous-onglets imbriqués dans
+    // un .tab-panel (ex. chimie TP02 « acido-basique ») ne sont pas concernés.
+    const boutons = [...document.querySelectorAll('.tabs-header .tab-btn')]
+      .filter(b => !b.closest('.tab-panel'));
+    const panneaux = [...document.querySelectorAll('.tab-panel')]
+      .filter(p => !p.parentElement.closest('.tab-panel'));
 
     // TP explicitement hors-programme pour cette filière à ce niveau
     if (Array.isArray(config) && config.length === 0) {
@@ -73,10 +77,14 @@ export function initOngletsParFiliere({
 
     // Si l'onglet actuellement actif vient d'être masqué, basculer
     // automatiquement sur le premier onglet resté visible.
-    const actif = document.querySelector('.tabs-header .tab-btn.actif');
+    const actif = boutons.find(b => b.classList.contains('actif'));
+    const premierVisible = boutons.find(b => b.style.display !== 'none');
     if (actif && actif.style.display === 'none') {
-      const premierVisible = boutons.find(b => b.style.display !== 'none');
       premierVisible?.click();
+    } else if (!panneaux.some(p => p.classList.contains('actif'))) {
+      // Retour d'un état « hors programme » (tous les panneaux masqués) :
+      // on réactive l'onglet actif, ou à défaut le premier visible.
+      (actif && actif.style.display !== 'none' ? actif : premierVisible)?.click();
     }
   }
 

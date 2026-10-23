@@ -20,7 +20,9 @@ let prefixer = false;
 export function initQuestionsParOnglet() {
 
     const blocs = [...document.querySelectorAll(".questions-bloc[data-onglet]")];
-    const boutons = [...document.querySelectorAll(".tabs-container .tab-btn")];
+    // onglets de premier niveau seulement (pas les sous-onglets imbriqués)
+    const boutons = [...document.querySelectorAll(".tabs-container > .tabs-header > .tab-btn")]
+        .filter(b => !b.closest(".tab-panel"));
 
     if (!blocs.length || !boutons.length) return;
 

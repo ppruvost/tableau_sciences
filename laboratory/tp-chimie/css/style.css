@@ -53,3 +53,34 @@
     align-items: flex-end;
   }
 }
+/* ════════════════════════════════════════════════════════════════
+   Blocs de mise en page utilisés par les fragments de TP
+   (figure du TP01, illustration et grille de résultats du TP03,
+   conteneur du graphique du TP02)
+   ════════════════════════════════════════════════════════════════ */
+.figure-tp {
+  margin: var(--gap-sm) auto;
+  max-width: var(--largeur-contenu);
+  text-align: center;
+}
+.figure-tp figcaption {
+  margin-top: .4rem;
+  font-size: var(--fs-sm);
+  color: var(--gris-moyen);
+}
+
+.illustration-centre {
+  margin: var(--gap-sm) auto;
+  text-align: center;
+}
+
+.resultats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--gap-md);
+  align-items: start;
+}
+
+.graphique-conteneur {
+  margin-top: var(--gap-sm);
+}

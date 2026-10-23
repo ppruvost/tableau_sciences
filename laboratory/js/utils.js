@@ -2,6 +2,7 @@
  * utils.js
  * Bibliothèque commune des TP de Chimie
  * ------------------------------------------------------------
+ */
 
 /* ============================================================
    HELPERS DOM
@@ -248,7 +249,7 @@ export function renderCarteProduit(produit, options = {}) {
 
             return `
             <img
-                src="${info.img}"
+                src="${imgSrc(info.img)}"
                 alt="${code}"
                 title="${info.label}"
                 class="ghs-badge"
@@ -619,15 +620,17 @@ export function initTabs() {
     .forEach(container=>{
 
 
+        // :scope > ... : ne prend que les onglets/panneaux de CE conteneur,
+        // pas ceux d'un .tabs-container imbriqué (ex. TP02 « acido-basique »).
         const boutons =
             container.querySelectorAll(
-                ".tab-btn"
+                ":scope > .tabs-header > .tab-btn"
             );
 
 
         const panneaux =
             container.querySelectorAll(
-                ".tab-panel"
+                ":scope > .tab-panel"
             );
 
 
@@ -664,8 +667,8 @@ export function initTabs() {
 
 
                     const cible =
-                        container.querySelector(
-                            "#"+btn.dataset.tab
+                        [...panneaux].find(
+                            p=>p.id===btn.dataset.tab
                         );
 
 

@@ -363,10 +363,6 @@ function _construireEtImprimer(identite) {
 
         window.focus();
 
-        console.log("===== CONTENU PDF =====");
-
-        console.log(conteneur.innerHTML);
-
         window.print();
 
       });
