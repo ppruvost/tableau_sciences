@@ -22,9 +22,14 @@
 
       <div class="tp-row">
         <span class="tag">1ère</span>
+        <span class="tag">Mécanique</span>
+        <span class="tag">Moment - </span><span class="tag">Archimède - </span><span class="tag">Flexion</span>
+      </div>
+
+      <div class="tp-row">
         <span class="tag">Tle</span>
         <span class="tag">Mécanique</span>
-        <span class="tag">Moment - </span><span class="tag">Archimède</span><span class="tag">Flexion</span>
+        <span class="tag">Archimède</span>
       </div>
 
     </div>
@@ -52,15 +57,17 @@
   </div>
 
   <div class="section-corps">
-
+    <div class="info">
+      Ce TP est proposé en classe de <strong>1ère</strong> (équilibre en rotation, force d'Archimède, flexion d'une poutre) puis en classe <strong>terminale</strong> (force d'Archimède). Le niveau de la classe est rappelé en tête de chaque capacité.
+    </div>
     <ul>
-      <li>Étudier expérimentalement l'effet d'une force sur la rotation d'un objet autour d'un axe fixe.</li>
-      <li>Calculer et utiliser la relation du moment d'une force par rapport à un axe.</li>
-      <li>Étudier expérimentalement les conditions d'équilibre d'un solide en rotation soumis à trois forces maximum.</li>
-      <li>Savoir que, pour un solide mobile autour d'un axe fixe, la somme des moments des forces appliquées est nulle à l'équilibre.</li>
-      <li>Déterminer expérimentalement la valeur de la force d'Archimède.</li>
-      <li>Déterminer expérimentalement les paramètres influant sur la force d'Archimède (masse volumique du fluide, volume immergé).</li>
-      <li>Savoir qu'un corps solide peut flotter à la surface d'un liquide quand sa masse volumique est inférieure à celle du liquide.</li>
+      <li><strong>1ère</strong> — Étudier expérimentalement l'effet d'une force sur la rotation d'un objet autour d'un axe fixe.</li>
+      <li><strong>1ère</strong> — Calculer et utiliser la relation du moment d'une force par rapport à un axe.</li>
+      <li><strong>1ère</strong> — Étudier expérimentalement les conditions d'équilibre d'un solide en rotation soumis à trois forces maximum.</li>
+      <li><strong>1ère</strong> — Savoir que, pour un solide mobile autour d'un axe fixe, la somme des moments des forces appliquées est nulle à l'équilibre.</li>
+      <li><strong>1ère</strong> / <strong>Tle</strong> — Déterminer expérimentalement la valeur de la force d'Archimède.</li>
+      <li><strong>1ère</strong> / <strong>Tle</strong> — Déterminer expérimentalement les paramètres influant sur la force d'Archimède (masse volumique du fluide, volume immergé).</li>
+      <li><strong>1ère</strong> / <strong>Tle</strong> — Savoir qu'un corps solide peut flotter à la surface d'un liquide quand sa masse volumique est inférieure à celle du liquide.</li>
     </ul>
 
   </div>
@@ -85,7 +92,7 @@
     </div>
 
     <div id="contexte-pro-resultat" class="contexte-pro-resultat">
-      <p>Sélectionner votre filière professionnelle pour afficher le contexte et la problématique associée.</p>
+      <p>Sélectionner votre filière professionnelle pour afficher le contexte professionnel associé.</p>
     </div>
 
   </div>
@@ -127,15 +134,17 @@
 
   <div class="section-corps">
 
-    <h3>Verrerie</h3>
-    <div id="materiel-verrerie" class="grille-materiel">
-    </div>
+    <details class="accordeon-materiel" name="materiel">
+      <summary>Équipements</summary>
+      <div id="materiel-equipements" class="grille-materiel">
+      </div>
+    </details>
 
-    <hr>
-
-    <h3>Équipements</h3>
-    <div id="materiel-equipements" class="grille-materiel">
-    </div>
+    <details class="accordeon-materiel" name="materiel">
+      <summary>Verrerie</summary>
+      <div id="materiel-verrerie" class="grille-materiel">
+      </div>
+    </details>
 
   </div>
 
@@ -166,6 +175,12 @@
       <!-- ============================ -->
 
       <div class="tab-panel actif" id="equilibre-rotation">
+
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="equilibre-rotation"></p>
+        </div>
+
 
         <h3>Moment d'une force et équilibre en rotation</h3>
 
@@ -226,6 +241,12 @@
       <!-- ============================ -->
 
       <div class="tab-panel" id="archimede">
+
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="archimede"></p>
+        </div>
+
 
         <h3>Déterminer la force d'Archimède</h3>
 
@@ -298,6 +319,7 @@
 
       <div class="tab-panel" id="flexion-poutre">
 
+        
         <h3>Flexion d'une poutre sur deux appuis : jusqu'à la rupture</h3>
 
         <div class="info">

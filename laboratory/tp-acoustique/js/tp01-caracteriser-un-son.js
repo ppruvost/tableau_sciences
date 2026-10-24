@@ -11,11 +11,13 @@
  *    d'entrée DOIT donc s'appeler init(), pas initTP01()
  */
 
+import '../../js/zoom-visuel.js';
 import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../../js/utils.js';
 import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-acoustique.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
 import laboratoryEquipment from '../../data/equipment.js';
 
@@ -24,12 +26,20 @@ const CONTEXTES_PRO = {
 
   '2nde-remi': {
     contexte: "En Réalisation d'Ensembles Mécaniques et Industriels, les postes de meulage, perçage et découpe génèrent des niveaux sonores élevés et prolongés, exposant les opérateurs à un risque auditif.",
-    problematique: "Comment caractériser le niveau sonore d'un poste de travail et choisir la protection auditive adaptée ?",
+    problematiques: {
+      "periode-frequence": "Comment mesurer la période et la fréquence du son émis par une machine d'atelier (meuleuse, perceuse) à l'aide d'un oscilloscope ?",
+      "niveau-intensite": "Comment mesurer le niveau d'intensité acoustique à un poste de travail (meulage, perçage, découpe) et le situer par rapport aux seuils de dangerosité et de douleur ?",
+      "classement-sons": "Comment classer du plus grave au plus aigu les sons émis par une machine d'atelier (meuleuse, perceuse) à partir de leur fréquence ?",
+    },
   },
 
   '2nde-mcc': {
     contexte: "En Métiers de la couture et de la confection, les ateliers regroupant plusieurs machines à coudre et surjeteuses en fonctionnement simultané peuvent atteindre des niveaux sonores gênants sur la durée d'une journée de travail.",
-    problematique: "Comment évaluer le niveau sonore d'un atelier de confection et limiter son impact sur l'audition ?",
+    problematiques: {
+      "periode-frequence": "Comment mesurer la période et la fréquence du son émis par une machine à coudre ou une surjeteuse à l'aide d'un oscilloscope ?",
+      "niveau-intensite": "Comment mesurer le niveau d'intensité acoustique à un atelier de confection et le situer par rapport aux seuils de dangerosité et de douleur ?",
+      "classement-sons": "Comment classer du plus grave au plus aigu les sons émis par une machine à coudre ou une surjeteuse à partir de leur fréquence ?",
+    },
   },
 
 };
@@ -61,6 +71,7 @@ export function init() {
   });
 
   initContextePro({
+    afficherProblematique: false,
     filieres: FILIERES_PRO,
     contextes: CONTEXTES_PRO,
   });
@@ -69,6 +80,7 @@ export function init() {
   // restent inertes malgré leur CSS.
   initSections();
   initTabs();
+  initQuestionsParOnglet();
   initModesOperatoires();
 
   // Génération du radar au clic sur #btn-radar

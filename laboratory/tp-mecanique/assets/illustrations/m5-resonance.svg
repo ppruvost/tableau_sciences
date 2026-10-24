@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" role="img" aria-label="Période propre et résonance" font-family="system-ui,sans-serif" font-size="15">
+<style>.t{fill:#28394A}.l{stroke:#46607A;stroke-width:2.5;fill:none}.f{fill:#46607A22;stroke:#46607A;stroke-width:2.5}.a{stroke:#C1440E;stroke-width:3;fill:none;marker-end:url(#h)}</style>
+<defs><marker id="h" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#C1440E"/></marker></defs>
+<rect width="640" height="320" fill="#fff"/>
+
+<line x1="60" y1="270" x2="580" y2="270" class="l"/><line x1="60" y1="270" x2="60" y2="40" class="l"/>
+<path d="M60,265 C200,250 250,200 290,70 C330,200 380,250 580,262" class="a" style="marker-end:none"/>
+<line x1="290" y1="70" x2="290" y2="270" class="l" stroke-dasharray="6 4"/>
+<text x="290" y="295" text-anchor="middle" class="t">f₀ (fréquence propre)</text>
+<text x="70" y="50" class="t">Amplitude</text><text x="520" y="295" class="t">f</text>
+<text x="310" y="95" class="t">Résonance</text></svg>

@@ -51,14 +51,16 @@
   </div>
 
   <div class="section-corps">
-
+    <div class="info">
+      Ce TP est destiné à la classe de <strong>1ère</strong>. Le niveau de la classe est rappelé en tête de chaque capacité.
+    </div>
     <ul>
-      <li>Mesurer des vitesses et des accélérations dans le cas d'un mouvement rectiligne.</li>
-      <li>Identifier la nature d'un mouvement à partir du graphe des vitesses.</li>
-      <li>Connaître la relation entre la variation de vitesse, l'accélération et la durée pour une accélération de valeur constante.</li>
-      <li>Mesurer la pression en un point d'un fluide et calculer une pression (P = F/S).</li>
-      <li>Vérifier expérimentalement la loi de Boyle-Mariotte.</li>
-      <li>Connaître la relation entre pression, volume, quantité de matière et température pour un gaz parfait.</li>
+      <li><strong>1ère</strong> — Mesurer des vitesses et des accélérations dans le cas d'un mouvement rectiligne.</li>
+      <li><strong>1ère</strong> — Identifier la nature d'un mouvement à partir du graphe des vitesses.</li>
+      <li><strong>1ère</strong> — Connaître la relation entre la variation de vitesse, l'accélération et la durée pour une accélération de valeur constante.</li>
+      <li><strong>1ère</strong> — Mesurer la pression en un point d'un fluide et calculer une pression (P = F/S).</li>
+      <li><strong>1ère</strong> — Vérifier expérimentalement la loi de Boyle-Mariotte.</li>
+      <li><strong>1ère</strong> — Connaître la relation entre pression, volume, quantité de matière et température pour un gaz parfait.</li>
     </ul>
 
   </div>
@@ -83,7 +85,7 @@
     </div>
 
     <div id="contexte-pro-resultat" class="contexte-pro-resultat">
-      <p>Sélectionner votre filière professionnelle pour afficher le contexte et la problématique associée.</p>
+      <p>Sélectionner votre filière professionnelle pour afficher le contexte professionnel associé.</p>
     </div>
 
   </div>
@@ -125,9 +127,11 @@
 
   <div class="section-corps">
 
-    <h3>Équipements</h3>
-    <div id="materiel-equipements" class="grille-materiel">
-    </div>
+    <details class="accordeon-materiel" name="materiel">
+      <summary>Équipements</summary>
+      <div id="materiel-equipements" class="grille-materiel">
+      </div>
+    </details>
 
   </div>
 
@@ -158,6 +162,12 @@
       <!-- ============================ -->
 
       <div class="tab-panel actif" id="vitesse-acceleration">
+
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="vitesse-acceleration"></p>
+        </div>
+
 
         <h3>Mesurer une accélération en mouvement rectiligne</h3>
 
@@ -269,6 +279,12 @@
       <!-- ============================ -->
 
       <div class="tab-panel" id="pression-force">
+
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="pression-force"></p>
+        </div>
+
 
         <h3>Pression, force pressante et loi de Boyle-Mariotte</h3>
 
@@ -502,6 +518,12 @@
       <!-- ============================ -->
 
       <div class="tab-panel" id="acquisition-exao">
+
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="acquisition-exao"></p>
+        </div>
+
 
         <h3>Enregistrer la pression avec le pressiomètre ExAO</h3>
 

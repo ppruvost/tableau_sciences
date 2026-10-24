@@ -396,3 +396,68 @@
 h1 {
     color: #ffffff !important;
 }
+
+/* ══════════════════════════════════════════════════════════════
+   Ajustements d'interface (tp-acoustique)
+   ══════════════════════════════════════════════════════════════ */
+
+/* Titre du bandeau (« TP Acoustique : … ») en blanc */
+body > header h1,
+body > header h1 span {
+  color: #ffffff;
+}
+
+/* Matériel nécessaire : menu accordéon Équipements / Verrerie */
+.accordeon-materiel {
+  border: 1px solid var(--gris-clair, #E7E9EC);
+  border-radius: var(--r-md, 12px);
+  background: var(--blanc, #ffffff);
+  margin: 0 0 var(--gap-md, 1rem);
+  overflow: hidden;
+}
+
+.accordeon-materiel > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .75rem 1rem;
+  cursor: pointer;
+  list-style: none;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--domaine-accent-fonce, #114A75);
+  background: rgba(var(--domaine-accent-rgb, 27, 108, 168), .10);
+}
+
+.accordeon-materiel > summary::-webkit-details-marker { display: none; }
+
+.accordeon-materiel > summary::after {
+  content: "▼";
+  font-size: .8rem;
+  transition: transform .2s ease;
+}
+
+.accordeon-materiel[open] > summary::after { transform: rotate(180deg); }
+
+.accordeon-materiel > summary:focus-visible {
+  outline: 3px solid var(--domaine-accent, #1B6CA8);
+  outline-offset: -3px;
+}
+
+.accordeon-materiel > .grille-materiel { padding: var(--gap-md, 1rem); }
+
+/* Manipulations : problématique de l'onglet, en tête du bloc */
+.problematique-onglet { margin: 0 0 var(--gap-md, 1rem); }
+
+.problematique-onglet-etiquette {
+  display: block;
+  margin-bottom: .2rem;
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--domaine-accent-fonce, #114A75);
+}
+
+.problematique-onglet .problematique-rappel { margin: 0; font-weight: 600; }

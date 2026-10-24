@@ -11,11 +11,13 @@
  *    d'entrée DOIT donc s'appeler init(), pas initTP04()
  */
 
+import '../../js/zoom-visuel.js';
 import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../../js/utils.js';
 import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-acoustique.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
 import laboratoryEquipment from '../../data/equipment.js';
 import { initExaoAcquisition } from './exao01.js';
@@ -32,17 +34,32 @@ const CONTEXTES_PRO = {
 
   '1ere-mcc': {
     contexte: "En Métiers de la couture et de la confection, certains capteurs de proximité utilisés sur les lignes de production reposent sur la mesure du temps de propagation d'une onde sonore réfléchie.",
-    problematique: "Comment un capteur peut-il déterminer une distance à partir de la vitesse de propagation du son, et cette méthode fonctionne-t-elle dans tous les milieux ?",
+    problematiques: {
+      "milieu-materiel": "Pourquoi le son a-t-il besoin d'un milieu matériel pour se propager ?",
+      "vitesse-propagation": "Comment déterminer la vitesse de propagation du son dans l'air et dans l'eau à l'aide de deux microphones ?",
+      "longueur-onde": "Comment calculer la longueur d'onde d'un son à partir de sa fréquence et de sa vitesse de propagation ?",
+      "acquisition-exao": "Comment automatiser la mesure de la vitesse du son par acquisition ExAO et corrélation croisée ?",
+    },
   },
 
   'tle-tci': {
     contexte: "En Technicien en chaudronnerie industrielle, le contrôle non destructif par ultrasons exploite la propagation du son dans les métaux pour détecter des défauts internes (soufflures, fissures) invisibles à l'œil nu, notamment sur les cordons de soudure.",
-    problematique: "Comment déterminer expérimentalement la vitesse de propagation du son dans un milieu donné, et pourquoi cette vitesse varie-t-elle d'un milieu à l'autre ?",
+    problematiques: {
+      "milieu-materiel": "Pourquoi le son a-t-il besoin d'un milieu matériel pour se propager ?",
+      "vitesse-propagation": "Comment déterminer la vitesse de propagation du son dans l'air et dans l'eau à l'aide de deux microphones ?",
+      "longueur-onde": "Comment calculer la longueur d'onde d'un son à partir de sa fréquence et de sa vitesse de propagation ?",
+      "acquisition-exao": "Comment automatiser la mesure de la vitesse du son par acquisition ExAO et corrélation croisée ?",
+    },
   },
 
   'tle-trpm': {
     contexte: "En Réalisation de produits mécaniques, le contrôle non destructif par ultrasons permet de vérifier l'intégrité interne d'une pièce usinée sans la détériorer, en s'appuyant sur la propagation du son dans les matériaux.",
-    problematique: "Comment déterminer expérimentalement la vitesse de propagation du son dans un milieu donné, et pourquoi cette vitesse varie-t-elle d'un milieu à l'autre ?",
+    problematiques: {
+      "milieu-materiel": "Pourquoi le son a-t-il besoin d'un milieu matériel pour se propager ?",
+      "vitesse-propagation": "Comment déterminer la vitesse de propagation du son dans l'air et dans l'eau à l'aide de deux microphones ?",
+      "longueur-onde": "Comment calculer la longueur d'onde d'un son à partir de sa fréquence et de sa vitesse de propagation ?",
+      "acquisition-exao": "Comment automatiser la mesure de la vitesse du son par acquisition ExAO et corrélation croisée ?",
+    },
   },
 
 };
@@ -78,6 +95,7 @@ export function init() {
   });
 
   initContextePro({
+    afficherProblematique: false,
     filieres: FILIERES_PRO,
     contextes: CONTEXTES_PRO,
     filieresAutorisees: FILIERES_AUTORISEES,
@@ -86,6 +104,7 @@ export function init() {
 
   initSections();
   initTabs();
+  initQuestionsParOnglet();
   initModesOperatoires();
 
   initRadarCompetences();

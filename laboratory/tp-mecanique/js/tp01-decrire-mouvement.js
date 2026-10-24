@@ -23,11 +23,21 @@ const CONTEXTES_PRO = {
   '2nde-remi': {
     contexte: "Sur une ligne de production, un chariot automatisé se déplace entre deux postes de travail, tandis qu'une meule ou un disque tourne à grande vitesse sur une machine-outil.",
     problematique: "Comment décrire le mouvement d'un chariot ou la rotation d'un disque, et comment déterminer leur vitesse ?",
+    problematiques: {
+      'trajectoire': "Comment identifier la nature de la trajectoire d'un chariot automatisé et choisir le référentiel adapté pour décrire son mouvement ?",
+      'vitesse-moyenne': "Comment déterminer la vitesse moyenne d'un chariot automatisé entre deux postes de travail ?",
+      'frequence-rotation': "Comment déterminer la fréquence de rotation d'un disque ou d'une meule et en déduire la vitesse d'un point de sa périphérie ?",
+    },
   },
 
   '2nde-mcc': {
     contexte: "Sur une machine à coudre, une bobine ou un galet d'entraînement tourne à vitesse variable pour entraîner le tissu à une vitesse régulière.",
     problematique: "Comment décrire la rotation d'un galet d'entraînement et la relier à la vitesse d'avancement du tissu ?",
+    problematiques: {
+      'trajectoire': "Comment identifier la trajectoire d'un point du galet d'entraînement et celle du tissu, selon le référentiel choisi ?",
+      'vitesse-moyenne': "Comment déterminer la vitesse moyenne d'avancement du tissu sous l'aiguille de la machine à coudre ?",
+      'frequence-rotation': "Comment déterminer la fréquence de rotation d'un galet d'entraînement et la relier à la vitesse d'avancement du tissu ?",
+    },
   },
 
 };

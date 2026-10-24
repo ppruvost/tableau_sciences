@@ -11,11 +11,13 @@
  *    d'entrée DOIT donc s'appeler init(), pas initTP03()
  */
 
+import '../../js/zoom-visuel.js';
 import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../../js/utils.js';
 import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-acoustique.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
 import laboratoryEquipment from '../../data/equipment.js';
 import { dessinerGraphiqueLigne } from '../../js/graphique.js';
@@ -25,12 +27,20 @@ const CONTEXTES_PRO = {
 
   '2nde-remi': {
     contexte: "En Réalisation d'Ensembles Mécaniques et Industriels, des capteurs à ultrasons (fondés sur le même principe piézoélectrique) sont utilisés pour détecter la présence d'une pièce ou mesurer une distance sans contact.",
-    problematique: "Comment fonctionne une chaîne de transmission d'informations par capteur piézoélectrique, et quelles sont ses limites en fonction de la distance ?",
+    problematiques: {
+      "emetteur-piezo": "Comment un émetteur piézoélectrique transforme-t-il un signal électrique en onde sonore ?",
+      "recepteur-piezo": "Comment un récepteur piézoélectrique convertit-il une onde sonore en tension, et comment cette tension évolue-t-elle avec la distance ?",
+      "schema-chaine": "Comment décrire une chaîne de transmission d'information par canal sonore (émetteur, milieu de propagation, récepteur) ?",
+    },
   },
 
   '2nde-mcc': {
     contexte: "En Métiers de la couture et de la confection, certains équipements de contrôle qualité utilisent des capteurs à ultrasons pour vérifier l'épaisseur ou la présence d'un tissu sur la chaîne de production.",
-    problematique: "Comment une information peut-elle être transmise par un signal sonore d'un émetteur à un récepteur, et jusqu'à quelle distance ?",
+    problematiques: {
+      "emetteur-piezo": "Comment un émetteur piézoélectrique transforme-t-il un signal électrique en onde sonore ?",
+      "recepteur-piezo": "Comment un récepteur piézoélectrique convertit-il une onde sonore en tension, et comment cette tension évolue-t-elle avec la distance ?",
+      "schema-chaine": "Comment décrire une chaîne de transmission d'information par canal sonore (émetteur, milieu de propagation, récepteur) ?",
+    },
   },
 
 };
@@ -57,12 +67,14 @@ export function init() {
   });
 
   initContextePro({
+    afficherProblematique: false,
     filieres: FILIERES_PRO,
     contextes: CONTEXTES_PRO,
   });
 
   initSections();
   initTabs();
+  initQuestionsParOnglet();
   initModesOperatoires();
 
   initRadarCompetences();

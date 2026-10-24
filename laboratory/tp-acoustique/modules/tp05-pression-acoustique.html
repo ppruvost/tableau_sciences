@@ -60,16 +60,19 @@
   </div>
 
   <div class="section-corps">
+    <div class="info">
+      Ce TP est proposé en classe de <strong>1ère</strong> puis en classe <strong>terminale</strong>. Le niveau de la classe est rappelé en tête de chaque capacité.
+    </div>
 
     <ul>
 
-      <li>Mesurer une pression acoustique et le niveau d'intensité acoustique associé, à l'aide d'un sonomètre ou d'un capteur.</li>
+      <li><strong>1ère et Tle</strong> — Mesurer une pression acoustique et le niveau d'intensité acoustique associé, à l'aide d'un sonomètre ou d'un capteur.</li>
 
-      <li>Calculer le niveau d'intensité acoustique (en dB) à partir de la pression acoustique ou de l'intensité acoustique en utilisant une relation donnée.</li>
+      <li><strong>1ère et Tle</strong> — Calculer le niveau d'intensité acoustique (en dB) à partir de la pression acoustique ou de l'intensité acoustique en utilisant une relation donnée.</li>
 
-      <li>Étudier expérimentalement l'atténuation de l'intensité acoustique d'une onde sonore en fonction de la distance de propagation.</li>
+      <li><strong>1ère et Tle</strong> — Étudier expérimentalement l'atténuation de l'intensité acoustique d'une onde sonore en fonction de la distance de propagation.</li>
 
-      <li>Savoir qu'un signal sonore transporte de l'énergie, et qu'une onde sonore s'atténue en se propageant, même dans un milieu qui n'absorbe pas les ondes sonores.</li>
+      <li><strong>1ère et Tle</strong> — Savoir qu'un signal sonore transporte de l'énergie, et qu'une onde sonore s'atténue en se propageant, même dans un milieu qui n'absorbe pas les ondes sonores.</li>
 
     </ul>
 
@@ -99,7 +102,7 @@
     </div>
 
     <div id="contexte-pro-resultat" class="contexte-pro-resultat">
-      <p>Sélectionner votre filière professionnelle pour afficher le contexte et la problématique associée.</p>
+      <p>Sélectionner votre filière professionnelle pour afficher le contexte professionnel associé.</p>
     </div>
 
   </div>
@@ -150,9 +153,11 @@
 
   <div class="section-corps">
 
-    <h3>Équipements</h3>
-    <div id="materiel-equipements" class="grille-materiel">
-    </div>
+    <details class="accordeon-materiel" name="materiel">
+      <summary>Équipements</summary>
+      <div id="materiel-equipements" class="grille-materiel">
+      </div>
+    </details>
 
   </div>
 
@@ -185,6 +190,12 @@
 
       <div class="tab-panel actif" id="niveau-depuis-pression">
 
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="niveau-depuis-pression"></p>
+        </div>
+
+
         <h3>Calculer un niveau d'intensité acoustique</h3>
 
         <div class="info">
@@ -203,7 +214,7 @@
         </ol>
 
         <div class="mode-op">
-          <img src="./assets/images/a5-niveau-depuis-pression.png" alt="Mode opératoire — calcul du niveau à partir de la pression ou de l'intensité" class="mode-image">
+          <img class="mode-image" src="./assets/illustrations/tp05-niveau-depuis-pression.svg" alt="Mode opératoire — calcul du niveau à partir de la pression ou de l&#x27;intensité" width="700" height="300" loading="lazy" style="display:block;width:100%;height:auto;">
         </div>
 
         <div class="formule">
@@ -255,6 +266,12 @@
 
       <div class="tab-panel" id="attenuation-distance">
 
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="attenuation-distance"></p>
+        </div>
+
+
         <h3>Atténuation du niveau sonore avec la distance</h3>
 
         <div class="info">
@@ -273,7 +290,7 @@
         </ol>
 
         <div class="mode-op">
-          <img src="./assets/images/a5-attenuation-distance.png" alt="Mode opératoire — atténuation avec la distance" class="mode-image">
+          <img class="mode-image" src="./assets/illustrations/tp05-attenuation-distance.svg" alt="Mode opératoire — atténuation avec la distance" width="700" height="280" loading="lazy" style="display:block;width:100%;height:auto;">
         </div>
 
         <div class="form-row">
@@ -411,60 +428,61 @@
 
     <h3 style="margin-top:var(--gap-md);">Questions</h3>
 
-    <div class="questions-bloc" data-tp="pression-acoustique">
+    <p class="info">
+      Les questions affichées correspondent à l'onglet de manipulation sélectionné. Répondre aux questions de l'onglet que vous avez réalisé : les quatre premières portent sur l'objet du TP de l'onglet, la cinquième répond à sa problématique.
+    </p>
+
+    <div class="questions-bloc" data-onglet="niveau-depuis-pression" data-onglet-nom="Niveau depuis la pression">
+
+    <h4>Niveau depuis la pression</h4>
 
     <ol class="questions-tp">
 
       <li>
         <div class="question-entete">
           <strong>
-            Expliquer la différence entre pression acoustique, intensité
-            acoustique et niveau d'intensité acoustique.
+            Expliquer la différence entre pression acoustique, intensité acoustique et niveau d'intensité acoustique.
           </strong>
           <span class="cartouche" data-comp="APP">APP</span>
         </div>
         <div class="zone-eleve">
-          <textarea id="question1" rows="4" placeholder="Votre réponse..."></textarea>
+          <textarea id="question-niveau-depuis-pression-1" rows="4" placeholder="Votre réponse..."></textarea>
         </div>
       </li>
 
       <li>
         <div class="question-entete">
           <strong>
-            Décrire le protocole permettant d'étudier l'atténuation du
-            niveau sonore en fonction de la distance à la source.
+            Calculer le niveau d'intensité acoustique L = 20 × log(p / p₀) à partir de la pression relevée (p₀ = 2×10⁻⁵ Pa).
           </strong>
           <span class="cartouche" data-comp="REA">REA</span>
         </div>
         <div class="zone-eleve">
-          <textarea id="question2" rows="4" placeholder="Votre réponse..."></textarea>
+          <textarea id="question-niveau-depuis-pression-2" rows="4" placeholder="Votre réponse..."></textarea>
         </div>
       </li>
 
       <li>
         <div class="question-entete">
           <strong>
-            À partir du graphique obtenu, analyser comment le niveau
-            sonore évolue lorsque la distance à la source double.
+            Comparer le niveau calculé à la mesure directe au sonomètre au même point et proposer une cause d'écart.
           </strong>
           <span class="cartouche" data-comp="ANA">ANA</span>
         </div>
         <div class="zone-eleve">
-          <textarea id="question3" rows="5" placeholder="Votre analyse..."></textarea>
+          <textarea id="question-niveau-depuis-pression-3" rows="5" placeholder="Votre analyse..."></textarea>
         </div>
       </li>
 
       <li>
         <div class="question-entete">
           <strong>
-            En lien avec le contexte professionnel de votre filière,
-            proposer une organisation de poste de travail limitant
-            l'exposition sonore grâce à la distance.
+            Exprimer le résultat avec son unité et un nombre adapté de chiffres significatifs, puis le situer sur l'échelle des niveaux sonores.
           </strong>
           <span class="cartouche" data-comp="COM">COM</span>
         </div>
         <div class="zone-eleve">
-          <textarea id="question4" rows="5" placeholder="Votre réponse..."></textarea>
+          <textarea id="question-niveau-depuis-pression-4" rows="4" placeholder="Votre réponse..."></textarea>
         </div>
       </li>
 
@@ -473,9 +491,78 @@
           <strong>Répondre à la problématique posée en début de TP :</strong>
           <span class="cartouche" data-comp="VAL">VAL</span>
         </div>
-        <p class="problematique-rappel" data-activite="pression-acoustique"></p>
+        <p class="problematique-rappel" data-activite="niveau-depuis-pression"></p>
         <div class="zone-eleve">
-          <textarea id="question5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
+          <textarea id="question-niveau-depuis-pression-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
+        </div>
+      </li>
+
+    </ol>
+
+    </div>
+
+    <div class="questions-bloc" data-onglet="attenuation-distance" data-onglet-nom="Atténuation avec la distance" hidden>
+
+    <h4>Atténuation avec la distance</h4>
+
+    <ol class="questions-tp">
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Expliquer pourquoi le niveau sonore diminue lorsqu'on s'éloigne d'une source ponctuelle, même dans un milieu qui n'absorbe pas le son.
+          </strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-attenuation-distance-1" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Décrire le protocole permettant d'étudier l'atténuation du niveau sonore en fonction de la distance à la source.
+          </strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-attenuation-distance-2" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            À partir du graphique obtenu, analyser comment le niveau sonore évolue lorsque la distance à la source double.
+          </strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-attenuation-distance-3" rows="5" placeholder="Votre analyse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            En lien avec le contexte professionnel de votre filière, proposer une organisation de poste de travail limitant l'exposition sonore grâce à la distance.
+          </strong>
+          <span class="cartouche" data-comp="COM">COM</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-attenuation-distance-4" rows="5" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique posée en début de TP :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="attenuation-distance"></p>
+        <div class="zone-eleve">
+          <textarea id="question-attenuation-distance-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
         </div>
       </li>
 

@@ -56,7 +56,7 @@
    « aucun <script> dans les fragments ». */
 .schema-interactif-conteneur {
   border: 1px solid var(--gris-clair, #E7E9EC);
-  border-radius: var(--r-md);
+  border-radius: var(--radius-md, 12px);
   overflow: hidden;
   margin-top: var(--gap-md);
 }
@@ -415,20 +415,68 @@
 @media (max-width: 640px) {
   .transfo-simu-visuel { flex-direction: column; }
 }
-/* ── Légendes d'illustration (TP02 à TP05) et source de données (TP05) ── */
-.mode-legende {
-  font-size: var(--fs-sm);
-  color: var(--gris-moyen);
-  text-align: center;
-  margin-top: .4rem;
-}
-.tp-source {
-  font-size: var(--fs-xs);
-  color: var(--gris-moyen);
-  margin-top: .4rem;
+
+/* ══════════════════════════════════════════════════════════════
+   Ajustements d'interface (tp-electricite)
+   ══════════════════════════════════════════════════════════════ */
+
+/* Titre du bandeau (« TP Électricité : … ») en blanc */
+body > header h1,
+body > header h1 span {
+  color: #ffffff;
 }
 
-/* Conteneur du graphique de décharge (TP05) */
-.graphique-conteneur {
-  margin-top: var(--gap-sm);
+/* Matériel nécessaire : menu accordéon Équipements / Verrerie */
+.accordeon-materiel {
+  border: 1px solid var(--gris-clair, #E7E9EC);
+  border-radius: var(--r-md, 12px);
+  background: var(--blanc, #ffffff);
+  margin: 0 0 var(--gap-md, 1rem);
+  overflow: hidden;
 }
+
+.accordeon-materiel > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .75rem 1rem;
+  cursor: pointer;
+  list-style: none;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--domaine-accent-fonce, #A8500A);
+  background: rgba(var(--domaine-accent-rgb, 232, 122, 14), .10);
+}
+
+.accordeon-materiel > summary::-webkit-details-marker { display: none; }
+
+.accordeon-materiel > summary::after {
+  content: "▼";
+  font-size: .8rem;
+  transition: transform .2s ease;
+}
+
+.accordeon-materiel[open] > summary::after { transform: rotate(180deg); }
+
+.accordeon-materiel > summary:focus-visible {
+  outline: 3px solid var(--domaine-accent, #E87A0E);
+  outline-offset: -3px;
+}
+
+.accordeon-materiel > .grille-materiel { padding: var(--gap-md, 1rem); }
+
+/* Manipulations : problématique de l'onglet, en tête du bloc */
+.problematique-onglet { margin: 0 0 var(--gap-md, 1rem); }
+
+.problematique-onglet-etiquette {
+  display: block;
+  margin-bottom: .2rem;
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--domaine-accent-fonce, #A8500A);
+}
+
+.problematique-onglet .problematique-rappel { margin: 0; font-weight: 600; }

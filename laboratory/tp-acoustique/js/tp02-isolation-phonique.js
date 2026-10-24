@@ -11,11 +11,13 @@
  *    d'entrée DOIT donc s'appeler init(), pas initTP02()
  */
 
+import '../../js/zoom-visuel.js';
 import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../../js/utils.js';
 import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-acoustique.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
 import laboratoryEquipment from '../../data/equipment.js';
 
@@ -24,12 +26,18 @@ const CONTEXTES_PRO = {
 
   '2nde-remi': {
     contexte: "En Réalisation d'Ensembles Mécaniques et Industriels, les capots et carters de machines-outils sont parfois doublés de matériaux absorbants pour limiter le bruit transmis à l'atelier.",
-    problematique: "Quel matériau isolant choisir pour capoter une machine bruyante, et quelle épaisseur retenir pour une atténuation suffisante ?",
+    problematiques: {
+      "mesure-attenuation": "Comment mesurer l'atténuation apportée par un matériau isolant pour protéger un poste de meulage ou de découpe du bruit ?",
+      "classement-isolants": "Comment choisir, parmi plusieurs matériaux, le plus isolant pour protéger un poste de meulage ou de découpe du bruit ?",
+    },
   },
 
   '2nde-mcc': {
     contexte: "En Métiers de la couture et de la confection, un atelier regroupant plusieurs machines peut nécessiter une cloison ou un panneau absorbant entre les postes de travail pour limiter la gêne sonore.",
-    problematique: "Quel matériau interposer entre deux postes de couture pour réduire la gêne sonore perçue ?",
+    problematiques: {
+      "mesure-attenuation": "Comment mesurer l'atténuation apportée par un matériau isolant pour protéger un atelier de confection du bruit ?",
+      "classement-isolants": "Comment choisir, parmi plusieurs matériaux, le plus isolant pour protéger un atelier de confection du bruit ?",
+    },
   },
 
 };
@@ -48,12 +56,14 @@ export function init() {
   });
 
   initContextePro({
+    afficherProblematique: false,
     filieres: FILIERES_PRO,
     contextes: CONTEXTES_PRO,
   });
 
   initSections();
   initTabs();
+  initQuestionsParOnglet();
   initModesOperatoires();
 
   initRadarCompetences();

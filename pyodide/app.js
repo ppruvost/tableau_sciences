@@ -177,6 +177,9 @@ print("Médiane :", numpy.median(liste))
 print("Variance :", round(numpy.var(liste), 2))
 print("Écart-type :", round(numpy.std(liste), 2))`,
 
+        arbre: `# P(A) ; P(B sachant A) ; P(B sachant non A)
+arbre(0.4, 0.9, 0.5)`,
+
         graphique: `import numpy as np
 import matplotlib.pyplot as plt
 
@@ -383,6 +386,78 @@ def boite_moustaches(data):
             fontsize=8
         )
 
+    fig.tight_layout()
+    return fig
+
+
+# ========================================================
+# ARBRE PONDÉRÉ (probabilités conditionnelles)
+# Fonction disponible directement pour les élèves.
+# Utilisation : arbre(0.4, 0.9, 0.5)
+#   - 1er nombre : P(A)
+#   - 2e nombre  : P(B sachant A)
+#   - 3e nombre  : P(B sachant non A)   (facultatif)
+# Les branches complémentaires sont calculées automatiquement.
+# Si le 3e nombre est omis, les branches correspondantes
+# affichent « … » (comme sur l'énoncé).
+# ========================================================
+
+def arbre(pA, pB_A, pB_nA=None):
+    """Trace l'arbre pondéré : Ω -> A / non A -> B / non B."""
+
+    for p in (pA, pB_A, pB_nA):
+        if p is not None and not (0 <= p <= 1):
+            raise ValueError(
+                "Les probabilités doivent être comprises entre 0 et 1."
+            )
+
+    def f(x):
+        return "…" if x is None else f"{round(x, 6):g}"
+
+    def comp(x):
+        return None if x is None else 1 - x
+
+    nA = r"$\\overline{A}$"
+    nB = r"$\\overline{B}$"
+
+    pos = {
+        "O": (0.1, 0.5),
+        "A": (1.2, 0.75), "nA": (1.2, 0.25),
+        "AB": (2.3, 0.88), "AnB": (2.3, 0.62),
+        "nAB": (2.3, 0.38), "nAnB": (2.3, 0.12)
+    }
+    noms = {
+        "O": "Ω", "A": "A", "nA": nA,
+        "AB": "B", "AnB": nB, "nAB": "B", "nAnB": nB
+    }
+    branches = [
+        ("O", "A", pA), ("O", "nA", comp(pA)),
+        ("A", "AB", pB_A), ("A", "AnB", comp(pB_A)),
+        ("nA", "nAB", pB_nA), ("nA", "nAnB", comp(pB_nA))
+    ]
+
+    fig, ax = plt.subplots(figsize=(8, 5))
+
+    for debut, fin, p in branches:
+        (x1, y1), (x2, y2) = pos[debut], pos[fin]
+        ax.plot([x1, x2], [y1, y2], color="#1f3c63", linewidth=1.5, zorder=1)
+        ax.text(
+            (x1 + x2) / 2, (y1 + y2) / 2, f(p),
+            ha="center", va="center", fontsize=11, zorder=2,
+            bbox=dict(fc="white", ec="none", pad=1.5)
+        )
+
+    for cle, (x, y) in pos.items():
+        ax.text(
+            x, y, noms[cle],
+            ha="center", va="center", fontsize=14, zorder=3,
+            bbox=dict(boxstyle="round,pad=0.3", fc="lightblue", ec="#1f3c63")
+        )
+
+    ax.set_xlim(-0.1, 2.6)
+    ax.set_ylim(0, 1)
+    ax.axis("off")
+    ax.set_title("Arbre pondéré")
     fig.tight_layout()
     return fig
 

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" role="img" aria-label="Pression dans un fluide et presse hydraulique" font-family="system-ui,sans-serif" font-size="15">
+<style>.t{fill:#28394A}.l{stroke:#46607A;stroke-width:2.5;fill:none}.f{fill:#46607A22;stroke:#46607A;stroke-width:2.5}.a{stroke:#C1440E;stroke-width:3;fill:none;marker-end:url(#h)}</style>
+<defs><marker id="h" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#C1440E"/></marker></defs>
+<rect width="640" height="320" fill="#fff"/>
+
+<rect x="40" y="110" width="150" height="160" class="f"/><rect x="40" y="110" width="150" height="40" fill="#fff" stroke="none"/>
+<line x1="40" y1="150" x2="190" y2="150" class="l" stroke-dasharray="6 4"/>
+<text x="115" y="95" text-anchor="middle" class="t">Fluide au repos</text>
+<line x1="215" y1="150" x2="215" y2="270" class="l"/><text x="225" y="215" class="t">h</text>
+<text x="115" y="215" text-anchor="middle" class="t">p = p₀ + ρ·g·h</text>
+<rect x="330" y="200" width="270" height="70" class="f"/>
+<rect x="350" y="120" width="40" height="80" class="f" fill="#fff"/><rect x="520" y="160" width="60" height="40" class="f" fill="#fff"/>
+<path d="M370,100 V60" class="a"/><text x="378" y="70" class="t">F₁</text>
+<path d="M550,110 V150" class="a" transform="rotate(180 550 130)"/><text x="560" y="105" class="t">F₂</text>
+<text x="370" y="298" class="t">S₁</text><text x="545" y="298" class="t">S₂</text>
+<text x="465" y="30" text-anchor="middle" class="t">F₁/S₁ = F₂/S₂</text></svg>

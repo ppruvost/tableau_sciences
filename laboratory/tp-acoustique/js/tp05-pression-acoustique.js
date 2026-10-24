@@ -11,11 +11,13 @@
  *    d'entrée DOIT donc s'appeler init(), pas initTP05()
  */
 
+import '../../js/zoom-visuel.js';
 import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../../js/utils.js';
 import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-acoustique.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
 import laboratoryEquipment from '../../data/equipment.js';
 import { dessinerGraphiqueLigne } from '../../js/graphique.js';
@@ -32,17 +34,26 @@ const CONTEXTES_PRO = {
 
   '1ere-mcc': {
     contexte: "En Métiers de la couture et de la confection, la disposition des postes dans un atelier peut être pensée pour limiter le niveau sonore perçu par chaque opérateur, en s'appuyant sur l'atténuation du son avec la distance.",
-    problematique: "Comment le niveau sonore perçu à un poste de couture évolue-t-il avec la distance à la source de bruit ?",
+    problematiques: {
+      "niveau-depuis-pression": "Comment calculer le niveau d'intensité acoustique à partir de la pression acoustique mesurée ?",
+      "attenuation-distance": "Comment le niveau sonore évolue-t-il avec la distance à la source, et comment en tirer parti pour limiter l'exposition ?",
+    },
   },
 
   'tle-tci': {
     contexte: "En Technicien en chaudronnerie industrielle, l'organisation d'un atelier (éloignement des postes de soudure et de découpe, écrans acoustiques) s'appuie sur la connaissance de l'atténuation du niveau sonore avec la distance.",
-    problematique: "Comment évolue le niveau sonore perçu lorsqu'on s'éloigne d'une machine bruyante, et comment exploiter cette évolution pour organiser un poste de travail ?",
+    problematiques: {
+      "niveau-depuis-pression": "Comment calculer le niveau d'intensité acoustique à partir de la pression acoustique mesurée ?",
+      "attenuation-distance": "Comment le niveau sonore évolue-t-il avec la distance à la source, et comment en tirer parti pour limiter l'exposition ?",
+    },
   },
 
   'tle-trpm': {
     contexte: "En Réalisation de produits mécaniques, l'organisation d'un atelier d'usinage (éloignement des machines-outils bruyantes, écrans acoustiques) s'appuie sur la connaissance de l'atténuation du niveau sonore avec la distance.",
-    problematique: "Comment évolue le niveau sonore perçu lorsqu'on s'éloigne d'une machine bruyante, et comment exploiter cette évolution pour organiser un poste de travail ?",
+    problematiques: {
+      "niveau-depuis-pression": "Comment calculer le niveau d'intensité acoustique à partir de la pression acoustique mesurée ?",
+      "attenuation-distance": "Comment le niveau sonore évolue-t-il avec la distance à la source, et comment en tirer parti pour limiter l'exposition ?",
+    },
   },
 
 };
@@ -75,6 +86,7 @@ export function init() {
   });
 
   initContextePro({
+    afficherProblematique: false,
     filieres: FILIERES_PRO,
     contextes: CONTEXTES_PRO,
     filieresAutorisees: FILIERES_AUTORISEES,
@@ -83,6 +95,7 @@ export function init() {
 
   initSections();
   initTabs();
+  initQuestionsParOnglet();
   initModesOperatoires();
 
   initRadarCompetences();

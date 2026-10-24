@@ -24,16 +24,31 @@ const CONTEXTES_PRO = {
   '1ere-tci': {
     contexte: "Un vérin pneumatique utilisé en chaudronnerie doit exercer une force pressante suffisante sur une pièce, tout en respectant la pression maximale admissible du circuit d'air comprimé.",
     problematique: "Comment calculer la pression exercée par un vérin et vérifier son évolution lorsque le volume d'air comprimé varie ?",
+    problematiques: {
+      'vitesse-acceleration': "Comment déterminer l'accélération d'un mobile et identifier la nature de son mouvement à partir du graphe des vitesses ?",
+      'pression-force': "Comment calculer la pression exercée par un vérin pneumatique et vérifier la loi de Boyle-Mariotte lorsque le volume d'air varie ?",
+      'acquisition-exao': "Comment enregistrer l'évolution de la pression dans un vérin avec un pressiomètre ExAO et l'exploiter pour vérifier la loi de Boyle-Mariotte ?",
+    },
   },
 
   '1ere-trpm': {
     contexte: "Le déplacement rapide d'un chariot automatisé sur une machine-outil doit être maîtrisé en accélération pour éviter tout à-coup préjudiciable à la précision de l'usinage.",
     problematique: "Comment caractériser l'accélération d'un chariot automatisé et la pression exercée par un vérin de serrage ?",
+    problematiques: {
+      'vitesse-acceleration': "Comment caractériser l'accélération d'un chariot automatisé de machine-outil au démarrage et à l'arrêt ?",
+      'pression-force': "Comment calculer la pression exercée par un vérin de serrage à partir de la force pressante et de la surface sur laquelle elle s'exerce ?",
+      'acquisition-exao': "Comment enregistrer et exploiter l'évolution de la pression d'un circuit de serrage à l'aide d'un pressiomètre ExAO ?",
+    },
   },
 
   '1ere-mcc': {
     contexte: "Le déplacement du tissu sous le pied-de-biche d'une machine à coudre doit être régulier, tandis que la pression exercée par ce pied-de-biche conditionne la qualité de l'entraînement du tissu.",
     problematique: "Comment caractériser l'accélération du tissu entraîné et la pression exercée par le pied-de-biche ?",
+    problematiques: {
+      'vitesse-acceleration': "Comment caractériser l'accélération du tissu entraîné sous le pied-de-biche ?",
+      'pression-force': "Comment calculer la pression exercée par le pied-de-biche sur le tissu à partir de la force pressante et de la surface de contact ?",
+      'acquisition-exao': "Comment enregistrer l'évolution de la pression exercée sur le tissu à l'aide d'un pressiomètre ExAO et l'exploiter ?",
+    },
   },
 
 };

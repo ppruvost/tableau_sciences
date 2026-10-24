@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" role="img" aria-label="Débit et vitesse d écoulement" font-family="system-ui,sans-serif" font-size="15">
+<style>.t{fill:#28394A}.l{stroke:#46607A;stroke-width:2.5;fill:none}.f{fill:#46607A22;stroke:#46607A;stroke-width:2.5}.a{stroke:#C1440E;stroke-width:3;fill:none;marker-end:url(#h)}</style>
+<defs><marker id="h" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#C1440E"/></marker></defs>
+<rect width="640" height="320" fill="#fff"/>
+
+<path d="M40,110 H300 L360,150 H600 V230 H360 L300,200 H40 Z" class="f"/>
+<path d="M60,155 H260" class="a"/><path d="M400,190 H580" class="a"/>
+<text x="150" y="140" text-anchor="middle" class="t">S₁ , v₁</text><text x="500" y="178" text-anchor="middle" class="t">S₂ , v₂</text>
+<text x="320" y="285" text-anchor="middle" class="t">q = S·v  (S₁·v₁ = S₂·v₂)</text></svg>

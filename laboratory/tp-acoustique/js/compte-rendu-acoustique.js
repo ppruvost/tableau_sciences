@@ -21,13 +21,36 @@ function valeur(el) {
 
 // Une section "notation" (question + compétence + zone de réponse)
 // par <li> de .questions-tp, au format attendu par compte-rendu.js.
+// Quand un TP propose plusieurs jeux de questions (un par onglet, blocs
+// [data-onglet]), seul le jeu de l'onglet affiché est repris, plus celui
+// d'un autre onglet s'il contient des réponses.
 function construireSectionsQuestions() {
-  return [...document.querySelectorAll('.questions-tp > li')].map(li => ({
-    titre: texte(li.querySelector('.question-entete strong')),
-    notation: true,
-    competence: texte(li.querySelector('.cartouche')),
-    texte: valeur(li.querySelector('.zone-eleve textarea')),
-  }));
+
+  const blocs = [...document.querySelectorAll('.questions-bloc')];
+
+  const retenus = blocs.filter(bloc =>
+    !bloc.hidden ||
+    [...bloc.querySelectorAll('textarea')].some(t => valeur(t) !== '')
+  );
+
+  const prefixer = retenus.length > 1;
+
+  return retenus.flatMap(bloc => {
+
+    const nomOnglet = bloc.dataset.ongletNom;
+
+    return [...bloc.querySelectorAll('.questions-tp > li')].map(li => {
+
+      const titre = texte(li.querySelector('.question-entete strong'));
+
+      return {
+        titre: prefixer && nomOnglet ? `[${nomOnglet}] ${titre}` : titre,
+        notation: true,
+        competence: texte(li.querySelector('.cartouche')),
+        texte: valeur(li.querySelector('.zone-eleve textarea')),
+      };
+    });
+  });
 }
 
 // Contexte professionnel (filière/niveau choisis par l'élève), pour que le

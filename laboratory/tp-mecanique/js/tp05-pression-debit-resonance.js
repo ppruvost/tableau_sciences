@@ -27,16 +27,32 @@ const CONTEXTES_PRO = {
   'tle-tci': {
     contexte: "Un vérin hydraulique de presse à chaudronner exploite la relation de Pascal pour démultiplier une force, tandis qu'un circuit de refroidissement transporte un fluide dont le débit doit être maîtrisé.",
     problematique: "Comment exploiter la relation de Pascal dans une presse hydraulique et caractériser le débit d'un fluide de refroidissement en circulation ?",
+    problematiques: {
+      'pression-fluide': "Comment exploiter la relation de Pascal pour déterminer la pression dans un fluide et la force démultipliée par une presse hydraulique ?",
+      'debit': "Comment mesurer le débit d'un fluide de refroidissement et en déduire sa vitesse d'écoulement dans une canalisation ?",
+      'resonance': "Comment caractériser la période propre et la résonance mécanique d'un support vibrant pour éviter qu'elle ne s'établisse sur une installation ?",
+      'trainee-portance': "Comment mettre en évidence les forces de traînée et de portance et l'effet Venturi dans l'écoulement d'un fluide ?",
+    },
   },
 
   'tle-trpm': {
     contexte: "Une machine-outil peut être soumise à des vibrations lors de l'usinage ; un phénomène de résonance mal maîtrisé dégrade la précision et peut endommager l'outil ou la pièce.",
     problematique: "Comment caractériser la résonance mécanique d'une machine-outil pour éviter qu'elle ne se produise en cours d'usinage ?",
+    problematiques: {
+      'pression-fluide': "Comment exploiter la relation de Pascal pour déterminer la pression d'un circuit hydraulique de machine-outil et la force transmise par un vérin ?",
+      'debit': "Comment mesurer le débit d'un fluide de lubrification ou de refroidissement et en déduire sa vitesse d'écoulement ?",
+      'resonance': "Comment caractériser la résonance mécanique d'une machine-outil pour éviter qu'elle ne se produise en cours d'usinage ?",
+      'trainee-portance': "Comment mettre en évidence les forces de traînée et de portance et l'effet Venturi dans l'écoulement d'un fluide autour d'un obstacle ?",
+    },
   },
 
   'tle-mcc': {
     contexte: "Un système d'aspiration ou de soufflage utilisé pour la manipulation de tissus légers repose sur un débit d'air maîtrisé, et certains supports vibrants doivent éviter tout phénomène de résonance.",
     problematique: "Comment caractériser le débit d'air d'un système d'aspiration et la résonance mécanique d'un support vibrant ?",
+    problematiques: {
+      'debit': "Comment mesurer le débit d'air d'un système d'aspiration et en déduire sa vitesse d'écoulement ?",
+      'resonance': "Comment caractériser la période propre et la résonance mécanique d'un support vibrant ?",
+    },
   },
 
 };

@@ -51,15 +51,17 @@
   </div>
 
   <div class="section-corps">
-
+    <div class="info">
+      Ce TP est destiné à la classe <strong>terminale</strong>. Le niveau de la classe est rappelé en tête de chaque capacité.
+    </div>
     <ul>
-      <li>Déterminer expérimentalement les variations de pression au sein d'un fluide à l'équilibre et exploiter la relation de Pascal.</li>
-      <li>Illustrer expérimentalement le principe de fonctionnement d'une presse ou d'un vérin hydraulique.</li>
-      <li>Mesurer expérimentalement le débit en masse ou en volume d'un fluide en mouvement.</li>
-      <li>Calculer une vitesse moyenne d'écoulement, le débit en volume étant donné.</li>
-      <li>Mesurer expérimentalement la période et l'amplitude d'un phénomène vibratoire simple.</li>
-      <li>Étudier expérimentalement un phénomène de résonance mécanique.</li>
-      <li>Mettre en évidence expérimentalement la force de traînée, la force de portance et l'effet Venturi.</li>
+      <li><strong>Tle</strong> — Déterminer expérimentalement les variations de pression au sein d'un fluide à l'équilibre et exploiter la relation de Pascal.</li>
+      <li><strong>Tle</strong> — Illustrer expérimentalement le principe de fonctionnement d'une presse ou d'un vérin hydraulique.</li>
+      <li><strong>Tle</strong> — Mesurer expérimentalement le débit en masse ou en volume d'un fluide en mouvement.</li>
+      <li><strong>Tle</strong> — Calculer une vitesse moyenne d'écoulement, le débit en volume étant donné.</li>
+      <li><strong>Tle</strong> — Mesurer expérimentalement la période et l'amplitude d'un phénomène vibratoire simple.</li>
+      <li><strong>Tle</strong> — Étudier expérimentalement un phénomène de résonance mécanique.</li>
+      <li><strong>Tle</strong> — Mettre en évidence expérimentalement la force de traînée, la force de portance et l'effet Venturi.</li>
     </ul>
 
   </div>
@@ -84,7 +86,7 @@
     </div>
 
     <div id="contexte-pro-resultat" class="contexte-pro-resultat">
-      <p>Sélectionner votre filière professionnelle pour afficher le contexte et la problématique associée.</p>
+      <p>Sélectionner votre filière professionnelle pour afficher le contexte professionnel associé.</p>
     </div>
 
   </div>
@@ -126,9 +128,11 @@
 
   <div class="section-corps">
 
-    <h3>Équipements</h3>
-    <div id="materiel-equipements" class="grille-materiel">
-    </div>
+    <details class="accordeon-materiel" name="materiel">
+      <summary>Équipements</summary>
+      <div id="materiel-equipements" class="grille-materiel">
+      </div>
+    </details>
 
   </div>
 
@@ -161,6 +165,12 @@
 
       <div class="tab-panel actif" id="pression-fluide">
 
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="pression-fluide"></p>
+        </div>
+
+
         <h3>Relation de Pascal et presse hydraulique</h3>
 
         <div class="info">
@@ -180,7 +190,7 @@
         </ol>
 
         <div class="mode-op">
-          <img src="./assets/images/m5-pression-fluide.png" alt="Mode opératoire — pression dans un fluide immobile et presse hydraulique" class="mode-image">
+          <img class="mode-image" src="./assets/illustrations/m5-pression-fluide.svg" alt="Mode opératoire — pression dans un fluide immobile et presse hydraulique" width="640" height="320" loading="lazy" style="display:block;width:100%;height:auto;">
         </div>
 
         <div class="form-row">
@@ -238,6 +248,12 @@
 
       <div class="tab-panel" id="debit">
 
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="debit"></p>
+        </div>
+
+
         <h3>Débit et vitesse d'écoulement</h3>
 
         <div class="info">
@@ -256,7 +272,7 @@
         </ol>
 
         <div class="mode-op">
-          <img src="./assets/images/m5-debit.png" alt="Mode opératoire — débit et vitesse d'écoulement d'un fluide" class="mode-image">
+          <img class="mode-image" src="./assets/illustrations/m5-debit.svg" alt="Mode opératoire — débit et vitesse d'écoulement d'un fluide" width="640" height="320" loading="lazy" style="display:block;width:100%;height:auto;">
         </div>
 
         <div class="form-row">
@@ -293,6 +309,12 @@
 
       <div class="tab-panel" id="resonance">
 
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="resonance"></p>
+        </div>
+
+
         <h3>Période propre et résonance mécanique</h3>
 
         <div class="info">
@@ -312,7 +334,7 @@
         </ol>
 
         <div class="mode-op">
-          <img src="./assets/images/m5-resonance.png" alt="Mode opératoire — période propre et résonance mécanique" class="mode-image">
+          <img class="mode-image" src="./assets/illustrations/m5-resonance.svg" alt="Mode opératoire — période propre et résonance mécanique" width="640" height="320" loading="lazy" style="display:block;width:100%;height:auto;">
         </div>
 
         <div class="form-row">
@@ -385,6 +407,12 @@
 
       <div class="tab-panel" id="trainee-portance">
 
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="trainee-portance"></p>
+        </div>
+
+
         <h3>Force de traînée, force de portance et effet Venturi</h3>
 
         <div class="info">
@@ -404,7 +432,7 @@
         </ol>
 
         <div class="mode-op">
-          <img src="./assets/images/m5-trainee-portance.png" alt="Mode opératoire — force de traînée, portance et effet Venturi" class="mode-image">
+          <img class="mode-image" src="./assets/illustrations/m5-trainee-portance.svg" alt="Mode opératoire — force de traînée, portance et effet Venturi" width="640" height="320" loading="lazy" style="display:block;width:100%;height:auto;">
         </div>
 
         <div class="form-group">

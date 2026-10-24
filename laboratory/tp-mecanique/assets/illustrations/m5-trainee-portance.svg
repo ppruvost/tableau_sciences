@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" role="img" aria-label="Traînée, portance et effet Venturi" font-family="system-ui,sans-serif" font-size="15">
+<style>.t{fill:#28394A}.l{stroke:#46607A;stroke-width:2.5;fill:none}.f{fill:#46607A22;stroke:#46607A;stroke-width:2.5}.a{stroke:#C1440E;stroke-width:3;fill:none;marker-end:url(#h)}</style>
+<defs><marker id="h" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#C1440E"/></marker></defs>
+<rect width="640" height="320" fill="#fff"/>
+
+<path d="M180,170 C230,120 400,120 460,170 C400,185 240,190 180,170 Z" class="f"/>
+<path d="M40,150 H150" class="a"/><path d="M490,150 H600" class="a" style="marker-end:url(#h)"/>
+<path d="M320,125 V45" class="a"/><text x="332" y="60" class="t">Portance</text>
+<path d="M460,170 H560" class="a" transform="translate(0,40)"/><text x="470" y="232" class="t">Traînée</text>
+<path d="M320,250 V300" class="a"/><text x="332" y="295" class="t">Poids</text></svg>

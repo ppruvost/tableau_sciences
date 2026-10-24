@@ -60,18 +60,21 @@
   </div>
 
   <div class="section-corps">
+    <div class="info">
+      Ce TP est proposé en classe de <strong>1ère</strong> puis en classe <strong>terminale</strong>. Le niveau de la classe est rappelé en tête de chaque capacité.
+    </div>
 
     <ul>
 
-      <li>Mettre en évidence expérimentalement la nécessité d'un milieu matériel pour la propagation d'un son.</li>
+      <li><strong>1ère et Tle</strong> — Mettre en évidence expérimentalement la nécessité d'un milieu matériel pour la propagation d'un son.</li>
 
-      <li>Déterminer expérimentalement la vitesse de propagation d'un son dans l'air ou dans l'eau.</li>
+      <li><strong>1ère et Tle</strong> — Déterminer expérimentalement la vitesse de propagation d'un son dans l'air ou dans l'eau.</li>
 
-      <li>Exploiter la relation liant la vitesse de propagation, la longueur d'onde et la fréquence d'une onde sonore.</li>
+      <li><strong>1ère et Tle</strong> — Exploiter la relation liant la vitesse de propagation, la longueur d'onde et la fréquence d'une onde sonore.</li>
 
-      <li>Savoir que la vitesse du son dépend du milieu de propagation, et connaître les ordres de grandeur dans l'air et dans l'eau.</li>
+      <li><strong>1ère et Tle</strong> — Savoir que la vitesse du son dépend du milieu de propagation, et connaître les ordres de grandeur dans l'air et dans l'eau.</li>
 
-      <li>Utiliser un système d'acquisition ExAO (capteurs, corrélation croisée) pour déterminer automatiquement un retard τ et en déduire une vitesse de propagation.</li>
+      <li><strong>1ère et Tle</strong> — Utiliser un système d'acquisition ExAO (capteurs, corrélation croisée) pour déterminer automatiquement un retard τ et en déduire une vitesse de propagation.</li>
 
     </ul>
 
@@ -101,7 +104,7 @@
     </div>
 
     <div id="contexte-pro-resultat" class="contexte-pro-resultat">
-      <p>Sélectionner votre filière professionnelle pour afficher le contexte et la problématique associée.</p>
+      <p>Sélectionner votre filière professionnelle pour afficher le contexte professionnel associé.</p>
     </div>
 
   </div>
@@ -152,9 +155,11 @@
 
   <div class="section-corps">
 
-    <h3>Équipements</h3>
-    <div id="materiel-equipements" class="grille-materiel">
-    </div>
+    <details class="accordeon-materiel" name="materiel">
+      <summary>Équipements</summary>
+      <div id="materiel-equipements" class="grille-materiel">
+      </div>
+    </details>
 
   </div>
 
@@ -189,6 +194,12 @@
 
       <div class="tab-panel actif" id="milieu-materiel">
 
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="milieu-materiel"></p>
+        </div>
+
+
         <h3>Le son se propage-t-il dans le vide ?</h3>
 
         <div class="info">
@@ -207,7 +218,7 @@
         </ol>
 
         <div class="mode-op">
-          <img src="./assets/images/a4-milieu-materiel.png" alt="Mode opératoire — buzzer sous cloche à vide" class="mode-image">
+          <img class="mode-image" src="./assets/illustrations/tp04-milieu-materiel.svg" alt="Mode opératoire — buzzer sous cloche à vide" width="520" height="270" loading="lazy" style="display:block;width:100%;height:auto;">
         </div>
 
         <div class="form-row">
@@ -246,6 +257,12 @@
 
       <div class="tab-panel" id="vitesse-propagation">
 
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="vitesse-propagation"></p>
+        </div>
+
+
         <h3>Vitesse de propagation par méthode du retard</h3>
 
         <div class="info">
@@ -265,7 +282,7 @@
         </ol>
 
         <div class="mode-op">
-          <img src="./assets/images/a4-vitesse-propagation.png" alt="Mode opératoire — méthode du retard" class="mode-image">
+          <img class="mode-image" src="./assets/illustrations/tp04-vitesse-propagation.svg" alt="Mode opératoire — méthode du retard" width="700" height="300" loading="lazy" style="display:block;width:100%;height:auto;">
         </div>
 
         <div class="formule">
@@ -314,6 +331,12 @@
 
       <div class="tab-panel" id="longueur-onde">
 
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="longueur-onde"></p>
+        </div>
+
+
         <h3>Relation entre longueur d'onde, vitesse et fréquence</h3>
 
         <div class="info">
@@ -331,7 +354,7 @@
         </ol>
 
         <div class="mode-op">
-          <img src="./assets/images/a4-longueur-onde.png" alt="Mode opératoire — relation longueur d'onde/vitesse/fréquence" class="mode-image">
+          <img class="mode-image" src="./assets/illustrations/tp04-longueur-onde.svg" alt="Mode opératoire — relation longueur d&#x27;onde/vitesse/fréquence" width="640" height="310" loading="lazy" style="display:block;width:100%;height:auto;">
         </div>
 
         <div class="formule">
@@ -368,6 +391,12 @@
 
       <div class="tab-panel" id="acquisition-exao">
 
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="acquisition-exao"></p>
+        </div>
+
+
         <h3>Acquisition ExAO — mesure automatique de la vitesse du son</h3>
 
         <div class="info">
@@ -394,47 +423,7 @@
         <div class="exao-connect-grid">
 
           <div class="exao-connect-schema">
-            <svg viewBox="0 0 480 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schéma de connexion des deux capteurs sonores">
-
-              <rect x="160" y="50" width="160" height="100" rx="8" fill="#f4f8fb" stroke="var(--domaine-accent)" stroke-width="1.5"/>
-              <text x="240" y="80" text-anchor="middle" font-size="12" font-weight="700" fill="var(--domaine-accent-fonce)">SciLab Computer-V01</text>
-              <text x="240" y="96" text-anchor="middle" font-size="9" fill="#5a6b78">Labo Pro</text>
-
-              <rect x="170" y="110" width="40" height="24" rx="3" fill="#fff" stroke="var(--domaine-accent)" stroke-width="1"/>
-              <text x="190" y="125" text-anchor="middle" font-size="9" fill="var(--domaine-accent-fonce)">EA1</text>
-              <rect x="270" y="110" width="40" height="24" rx="3" fill="#fff" stroke="#e0a800" stroke-width="1"/>
-              <text x="290" y="125" text-anchor="middle" font-size="9" fill="#a97400">EA2</text>
-
-              <rect x="220" y="148" width="40" height="14" rx="2" fill="#eee" stroke="#999" stroke-width="1"/>
-              <text x="240" y="158" text-anchor="middle" font-size="8" fill="#666">Capture</text>
-
-              <ellipse cx="60" cy="90" rx="32" ry="22" fill="#f4f8fb" stroke="var(--domaine-accent)" stroke-width="1.5"/>
-              <text x="60" y="87" text-anchor="middle" font-size="9" font-weight="700" fill="var(--domaine-accent-fonce)">Capteur</text>
-              <text x="60" y="99" text-anchor="middle" font-size="8" fill="#5a6b78">Micro 1</text>
-
-              <ellipse cx="420" cy="90" rx="32" ry="22" fill="#fdf6e3" stroke="#e0a800" stroke-width="1.5"/>
-              <text x="420" y="87" text-anchor="middle" font-size="9" font-weight="700" fill="#a97400">Capteur</text>
-              <text x="420" y="99" text-anchor="middle" font-size="8" fill="#8a6a10">Micro 2</text>
-
-              <line x1="92" y1="90" x2="170" y2="122" stroke="var(--domaine-accent)" stroke-width="1.5" stroke-dasharray="4 3"/>
-              <line x1="388" y1="90" x2="310" y2="122" stroke="#e0a800" stroke-width="1.5" stroke-dasharray="4 3"/>
-
-              <line x1="240" y1="162" x2="240" y2="185" stroke="#999" stroke-width="2"/>
-              <rect x="215" y="185" width="50" height="12" rx="2" fill="#eee" stroke="#999" stroke-width="1"/>
-              <text x="240" y="194" text-anchor="middle" font-size="7" fill="#666">ANALYSE</text>
-
-              <line x1="60" y1="170" x2="420" y2="170" stroke="#bbb" stroke-width="1" stroke-dasharray="3 3"/>
-              <line x1="60" y1="164" x2="60" y2="176" stroke="#999" stroke-width="1"/>
-              <line x1="420" y1="164" x2="420" y2="176" stroke="#999" stroke-width="1"/>
-              <text x="240" y="184" text-anchor="middle" font-size="9" fill="#666">d (m) — à mesurer à la règle</text>
-
-              <circle cx="128" cy="104" r="9" fill="#f4f8fb" stroke="var(--domaine-accent)" stroke-width="1"/>
-              <text x="128" y="108" text-anchor="middle" font-size="9" fill="var(--domaine-accent-fonce)">1</text>
-              <circle cx="352" cy="104" r="9" fill="#fdf6e3" stroke="#e0a800" stroke-width="1"/>
-              <text x="352" y="108" text-anchor="middle" font-size="9" fill="#a97400">2</text>
-              <circle cx="240" cy="170" r="9" fill="#eee" stroke="#999" stroke-width="1"/>
-              <text x="240" y="174" text-anchor="middle" font-size="9" fill="#666">3</text>
-            </svg>
+            <img class="mode-image schema-exao" src="./assets/illustrations/tp04-schema-exao.svg" alt="Schéma de connexion des deux capteurs sonores" width="480" height="200" loading="lazy" style="display:block;width:100%;height:auto;">
           </div>
 
           <div>
@@ -743,59 +732,61 @@
 
     <h3 style="margin-top:var(--gap-md);">Questions</h3>
 
-    <div class="questions-bloc" data-tp="propagation-du-son">
+    <p class="info">
+      Les questions affichées correspondent à l'onglet de manipulation sélectionné. Répondre aux questions de l'onglet que vous avez réalisé : les quatre premières portent sur l'objet du TP de l'onglet, la cinquième répond à sa problématique.
+    </p>
+
+    <div class="questions-bloc" data-onglet="milieu-materiel" data-onglet-nom="Milieu matériel">
+
+    <h4>Milieu matériel</h4>
 
     <ol class="questions-tp">
 
       <li>
         <div class="question-entete">
           <strong>
-            Expliquer pourquoi le son ne peut pas se propager dans le
-            vide, à partir de l'expérience de la cloche à vide.
+            Expliquer pourquoi le son ne peut pas se propager dans le vide, à partir de l'expérience de la cloche à vide.
           </strong>
           <span class="cartouche" data-comp="APP">APP</span>
         </div>
         <div class="zone-eleve">
-          <textarea id="question1" rows="4" placeholder="Votre réponse..."></textarea>
+          <textarea id="question-milieu-materiel-1" rows="4" placeholder="Votre réponse..."></textarea>
         </div>
       </li>
 
       <li>
         <div class="question-entete">
           <strong>
-            Décrire le principe de la méthode du retard pour déterminer
-            la vitesse de propagation du son.
+            Décrire le protocole suivi et noter l'évolution du son perçu quand la pression diminue.
           </strong>
           <span class="cartouche" data-comp="REA">REA</span>
         </div>
         <div class="zone-eleve">
-          <textarea id="question2" rows="4" placeholder="Votre réponse..."></textarea>
+          <textarea id="question-milieu-materiel-2" rows="4" placeholder="Votre réponse..."></textarea>
         </div>
       </li>
 
       <li>
         <div class="question-entete">
           <strong>
-            Comparer les vitesses obtenues dans l'air et dans l'eau et
-            expliquer pourquoi elles diffèrent.
+            Conclure sur la nécessité d'un milieu matériel pour la propagation du son et expliquer le retour du son lorsque l'air est réintroduit.
           </strong>
           <span class="cartouche" data-comp="ANA">ANA</span>
         </div>
         <div class="zone-eleve">
-          <textarea id="question3" rows="5" placeholder="Votre analyse..."></textarea>
+          <textarea id="question-milieu-materiel-3" rows="5" placeholder="Votre analyse..."></textarea>
         </div>
       </li>
 
       <li>
         <div class="question-entete">
           <strong>
-            Calculer la longueur d'onde d'un son de fréquence donnée
-            dans l'air puis dans l'eau et commenter la différence.
+            Expliquer pourquoi des astronautes en sortie dans l'espace communiquent par radio et non par la voix.
           </strong>
           <span class="cartouche" data-comp="COM">COM</span>
         </div>
         <div class="zone-eleve">
-          <textarea id="question4" rows="5" placeholder="Votre réponse..."></textarea>
+          <textarea id="question-milieu-materiel-4" rows="4" placeholder="Votre réponse..."></textarea>
         </div>
       </li>
 
@@ -804,9 +795,216 @@
           <strong>Répondre à la problématique posée en début de TP :</strong>
           <span class="cartouche" data-comp="VAL">VAL</span>
         </div>
-        <p class="problematique-rappel" data-activite="propagation-du-son"></p>
+        <p class="problematique-rappel" data-activite="milieu-materiel"></p>
         <div class="zone-eleve">
-          <textarea id="question5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
+          <textarea id="question-milieu-materiel-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
+        </div>
+      </li>
+
+    </ol>
+
+    </div>
+
+    <div class="questions-bloc" data-onglet="vitesse-propagation" data-onglet-nom="Vitesse de propagation" hidden>
+
+    <h4>Vitesse de propagation</h4>
+
+    <ol class="questions-tp">
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Expliquer le principe de la méthode du retard pour déterminer la vitesse de propagation du son.
+          </strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-vitesse-propagation-1" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            À partir de la distance d et du retard Δt saisis, calculer la vitesse v = d / Δt et la comparer à la valeur de référence du milieu (écart relatif).
+          </strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-vitesse-propagation-2" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Comparer les vitesses obtenues dans l'air et dans l'eau et expliquer pourquoi elles diffèrent.
+          </strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-vitesse-propagation-3" rows="5" placeholder="Votre analyse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Exprimer le résultat de la mesure dans l'air sous la forme v = … m/s, avec un nombre adapté de chiffres significatifs.
+          </strong>
+          <span class="cartouche" data-comp="COM">COM</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-vitesse-propagation-4" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique posée en début de TP :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="vitesse-propagation"></p>
+        <div class="zone-eleve">
+          <textarea id="question-vitesse-propagation-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
+        </div>
+      </li>
+
+    </ol>
+
+    </div>
+
+    <div class="questions-bloc" data-onglet="longueur-onde" data-onglet-nom="Longueur d'onde" hidden>
+
+    <h4>Longueur d'onde</h4>
+
+    <ol class="questions-tp">
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Écrire la relation entre longueur d'onde, vitesse de propagation et fréquence, en précisant l'unité de chaque grandeur.
+          </strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-longueur-onde-1" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Calculer la longueur d'onde d'un son de fréquence donnée dans l'air puis dans l'eau.
+          </strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-longueur-onde-2" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Comparer les longueurs d'onde obtenues à fréquence identique et expliquer la différence.
+          </strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-longueur-onde-3" rows="5" placeholder="Votre analyse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Commenter le résultat : que devient la longueur d'onde lorsque la fréquence double dans un même milieu ?
+          </strong>
+          <span class="cartouche" data-comp="COM">COM</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-longueur-onde-4" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique posée en début de TP :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="longueur-onde"></p>
+        <div class="zone-eleve">
+          <textarea id="question-longueur-onde-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
+        </div>
+      </li>
+
+    </ol>
+
+    </div>
+
+    <div class="questions-bloc" data-onglet="acquisition-exao" data-onglet-nom="Acquisition ExAO" hidden>
+
+    <h4>Acquisition ExAO</h4>
+
+    <ol class="questions-tp">
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Expliquer le principe de la mesure du retard τ entre deux voies par corrélation croisée.
+          </strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-acquisition-exao-1" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Décrire le branchement des deux capteurs sonores (CH1 de référence, CH2 à la distance d) et la mise en œuvre de l'acquisition.
+          </strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-acquisition-exao-2" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Interpréter la position et la netteté du pic de corrélation croisée : qu'indiquent-elles sur la fiabilité de la mesure ?
+          </strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-acquisition-exao-3" rows="5" placeholder="Votre analyse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Calculer la vitesse du son v = d / τ à partir de la mesure ExAO et la comparer à celle obtenue par la méthode manuelle.
+          </strong>
+          <span class="cartouche" data-comp="COM">COM</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-acquisition-exao-4" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique posée en début de TP :</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <p class="problematique-rappel" data-activite="acquisition-exao"></p>
+        <div class="zone-eleve">
+          <textarea id="question-acquisition-exao-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
         </div>
       </li>
 

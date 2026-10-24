@@ -25,11 +25,21 @@ const CONTEXTES_PRO = {
   '2nde-remi': {
     contexte: "Une pièce métallique suspendue par un palan est soumise à son poids et à la tension du câble de levage : le respect des conditions d'équilibre conditionne la sécurité de la manutention.",
     problematique: "Comment vérifier qu'une pièce suspendue est correctement en équilibre sous l'effet des forces qui s'exercent sur elle ?",
+    problematiques: {
+      'modeliser-force': "Comment modéliser par des forces les actions mécaniques exercées sur une pièce suspendue à un palan ?",
+      'poids': "Comment déterminer le poids d'une pièce à partir de sa masse et vérifier la charge supportée par le câble de levage ?",
+      'equilibre': "Comment vérifier qu'une pièce suspendue est en équilibre sous l'action de son poids et de la tension des câbles ?",
+    },
   },
 
   '2nde-mcc': {
     contexte: "Un tissu tendu sur un métier à broder est soumis à plusieurs forces de tension réparties sur son pourtour, qui doivent s'équilibrer pour éviter toute déformation.",
     problematique: "Comment vérifier que les forces de tension exercées sur un tissu tendu sont à l'équilibre ?",
+    problematiques: {
+      'modeliser-force': "Comment modéliser par des forces les actions de tension exercées sur un tissu tendu ?",
+      'poids': "Comment déterminer le poids d'un objet suspendu à partir de sa masse et le comparer à la valeur mesurée au dynamomètre ?",
+      'equilibre': "Comment vérifier que les forces de tension exercées sur un tissu tendu s'équilibrent ?",
+    },
   },
 
 };
