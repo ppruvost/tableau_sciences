@@ -11,12 +11,12 @@
  *    d'entrée DOIT donc s'appeler init(), pas initTP04()
  */
 
-import '../../js/zoom-visuel.js';
+import { initZoomVisuels } from '../../js/zoom-visuel.js';
 import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../../js/utils.js';
 import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
-import { initImpressionCompteRendu } from './compte-rendu-acoustique.js';
+import { initImpressionCompteRendu, sectionValeurs } from './compte-rendu-acoustique.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
 import laboratoryEquipment from '../../data/equipment.js';
@@ -79,40 +79,93 @@ const VITESSE_REFERENCE = {
   eau: 1500,
 };
 
+// Exécute une étape d'initialisation ; une erreur dans une étape est
+// journalisée sans empêcher les suivantes de s'exécuter.
+function etape(nom, fn) {
+  try {
+    fn();
+  } catch (err) {
+    console.error(`[tp-acoustique] étape « ${nom} » en erreur :`, err);
+  }
+}
+
 // ---------------------------------------------------------------
 // Point d'entrée, appelé automatiquement par navigation.js
 // ---------------------------------------------------------------
 export function init() {
-  initMilieuMateriel();
-  initVitessePropagation();
-  initLongueurOnde();
-  initExaoAcquisition();
 
-  initMateriel({
-    equipementId: 'materiel-equipements',
-    equipment: laboratoryEquipment,
-    categorie: 'Acoustique',
+  etape('initZoomVisuels', () => {
+    initZoomVisuels();
   });
 
-  initContextePro({
-    afficherProblematique: false,
-    filieres: FILIERES_PRO,
-    contextes: CONTEXTES_PRO,
-    filieresAutorisees: FILIERES_AUTORISEES,
-    noteRestriction: NOTE_RESTRICTION_REFERENTIEL,
+  etape('initMilieuMateriel', () => {
+    initMilieuMateriel();
   });
 
-  initSections();
-  initTabs();
-  initQuestionsParOnglet();
-  initModesOperatoires();
-
-  initRadarCompetences();
-
-  initImpressionCompteRendu({
-    titre: 'Propagation du son',
-    tp: 'TP04',
+  etape('initVitessePropagation', () => {
+    initVitessePropagation();
   });
+
+  etape('initLongueurOnde', () => {
+    initLongueurOnde();
+  });
+
+  etape('initExaoAcquisition', () => {
+    initExaoAcquisition();
+  });
+
+  etape('initMateriel', () => {
+    initMateriel({
+      equipementId: 'materiel-equipements',
+      equipment: laboratoryEquipment,
+      categorie: 'Acoustique',
+    });
+  });
+
+  etape('initContextePro', () => {
+    initContextePro({
+      afficherProblematique: false,
+      filieres: FILIERES_PRO,
+      contextes: CONTEXTES_PRO,
+      filieresAutorisees: FILIERES_AUTORISEES,
+      noteRestriction: NOTE_RESTRICTION_REFERENTIEL,
+    });
+  });
+
+  etape('initSections', () => {
+    initSections();
+  });
+
+  etape('initTabs', () => {
+    initTabs();
+  });
+
+  etape('initModesOperatoires', () => {
+    initModesOperatoires();
+  });
+
+  etape('initRadarCompetences', () => {
+    initRadarCompetences();
+  });
+
+  etape('initQuestionsParOnglet', () => {
+    initQuestionsParOnglet();
+  });
+
+  etape('initImpressionCompteRendu', () => {
+    initImpressionCompteRendu({
+      titre: 'Propagation du son',
+      tp: 'TP04',
+      // Mesures saisies (valeurs, tableaux, graphiques), insérées avant les questions.
+      sectionsSupplementaires: () => [
+        sectionMilieuCompteRendu(),
+        sectionVitesseCompteRendu(),
+        sectionLongueurCompteRendu(),
+        sectionExaoCompteRendu(),
+      ].filter(Boolean),
+    });
+  });
+
 }
 
 // =================================================================
@@ -217,4 +270,56 @@ function initLongueurOnde() {
 
   inputVitesse.addEventListener('input', calculer);
   inputFrequence.addEventListener('input', calculer);
+}
+
+// =================================================================
+// Sections transmises à js/compte-rendu.js
+// =================================================================
+
+function sectionMilieuCompteRendu() {
+  return sectionValeurs('Observations : nécessité d\'un milieu matériel', [
+    ['Son perçu à pression atmosphérique', 'son-air-normal'],
+    ['Son perçu sous vide partiel', 'son-vide-partiel'],
+    ['Conclusion', 'milieu-materiel-conclusion', /^(Conclusion|Résultat)/],
+  ]);
+}
+
+function sectionVitesseCompteRendu() {
+  // Menu « milieu » rempli par défaut : section reprise seulement si une mesure est saisie.
+  if (!$('propagation-distance')?.value && !$('propagation-retard')?.value) return null;
+  return sectionValeurs('Mesures : vitesse de propagation (méthode du retard)', [
+    ['Milieu étudié', 'propagation-milieu'],
+    ['Distance entre les microphones (m)', 'propagation-distance'],
+    ['Retard mesuré Δt (ms)', 'propagation-retard'],
+    ['Vitesse calculée', 'propagation-vitesse'],
+    ['Comparaison', 'propagation-comparaison', /^Valeur de référence/],
+  ]);
+}
+
+function sectionLongueurCompteRendu() {
+  return sectionValeurs('Calcul : longueur d\'onde', [
+    ['Vitesse de propagation (m/s)', 'onde-vitesse'],
+    ['Fréquence (Hz)', 'onde-frequence'],
+    ['Longueur d\'onde calculée', 'onde-longueur'],
+  ]);
+}
+
+// Tableau des mesures de l'acquisition ExAO (exao01.js remplit #dataBody) :
+// colonnes à en-tête vide (boutons de suppression) ignorées.
+function sectionExaoCompteRendu() {
+  const tbody = $('dataBody');
+  if (!tbody || !tbody.children.length) return null;
+
+  const table = tbody.closest('table');
+  const entetes = [...table.querySelectorAll('thead th')].map(th => (th.textContent || '').trim());
+  const gardees = entetes.map((h, i) => (h ? i : -1)).filter(i => i >= 0);
+
+  return {
+    titre: 'Acquisition ExAO : mesures du retard et de la vitesse',
+    tableau: {
+      entetes: gardees.map(i => entetes[i]),
+      lignes: [...tbody.querySelectorAll('tr')].map(tr =>
+        gardees.map(i => (tr.children[i]?.textContent || '').trim())),
+    },
+  };
 }

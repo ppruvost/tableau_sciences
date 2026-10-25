@@ -10,7 +10,6 @@
  * d'entrée doit s'appeler init().
  */
 
-import '../../js/zoom-visuel.js';
 import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../../js/utils.js';
 import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
@@ -18,6 +17,7 @@ import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-electricite.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
+import { initZoomVisuels } from '../../js/zoom-visuel.js';
 import laboratoryEquipment from '../../data/equipment.js';
 import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 
@@ -66,48 +66,93 @@ const MOTEUR_INFO = {
   },
 };
 
+// Exécute une étape d'initialisation ; une erreur dans une étape est
+// journalisée sans empêcher les suivantes de s'exécuter.
+function etape(nom, fn) {
+  try {
+    fn();
+  } catch (err) {
+    console.error(`[tp-electricite] étape « ${nom} » en erreur :`, err);
+  }
+}
+
 export function init() {
 
-  initRedressement();
-  initMoteurs();
-
-  initMateriel({
-    equipementId: 'materiel-equipements',
-    equipment: laboratoryEquipment,
-    categorie: 'Conversion',
+  etape('initZoomVisuels', () => {
+    initZoomVisuels();
   });
 
-  initContextePro({
-    filieres: FILIERES_PRO,
-    contextes: CONTEXTES_PRO,
+  etape('initRedressement', () => {
+    initRedressement();
   });
+
+  etape('initMoteurs', () => {
+    initMoteurs();
+  });
+
+  etape('initMateriel', () => {
+    initMateriel({
+        equipementId: 'materiel-equipements',
+        equipment: laboratoryEquipment,
+        categorie: 'Conversion',
+      });
+  });
+
+  etape('initContextePro', () => {
+    initContextePro({
+        filieres: FILIERES_PRO,
+        contextes: CONTEXTES_PRO,
+          afficherProblematique: false,
+      });
+  });
+
+
 
   // « Obtenir un courant continu à partir d'un courant alternatif et
   // inversement » et « Obtenir de l'énergie mécanique à l'aide d'un
   // moteur électrique » ne concernent que TCI et TRPM, en Terminale.
-  initOngletsParFiliere({
-    mapping: {
-      '1ere-tci':  [],
-      '1ere-trpm': [],
-      '1ere-mcc':  [],
-      'tle-tci':   ['redressement', 'moteurs'],
-      'tle-trpm':  ['redressement', 'moteurs'],
-      'tle-mcc':   [],
-    },
-    messageId: 'tp04-message-filiere',
-    messageTexte: "Ce TP n'est pas au programme de votre filière : la conversion alternatif-continu et les moteurs électriques concernent les filières Technicien en chaudronnerie industrielle et Technicien en réalisation de produits mécaniques, en Terminale.",
+  etape('initOngletsParFiliere', () => {
+    initOngletsParFiliere({
+        mapping: {
+          '1ere-tci':  [],
+          '1ere-trpm': [],
+          '1ere-mcc':  [],
+          'tle-tci':   ['redressement', 'moteurs'],
+          'tle-trpm':  ['redressement', 'moteurs'],
+          'tle-mcc':   [],
+        },
+        messageId: 'tp04-message-filiere',
+        messageTexte: "Ce TP n'est pas au programme de votre filière : la conversion alternatif-continu et les moteurs électriques concernent les filières Technicien en chaudronnerie industrielle et Technicien en réalisation de produits mécaniques, en Terminale.",
+      });
   });
 
-  initSections();
-  initTabs();
-  initModesOperatoires();
-  initRadarCompetences();
-  initQuestionsParOnglet();
-
-  initImpressionCompteRendu({
-    titre: 'Conversion alternatif-continu et moteurs électriques',
-    tp: 'TP04',
+  etape('initSections', () => {
+    initSections();
   });
+
+  etape('initTabs', () => {
+    initTabs();
+  });
+
+  etape('initModesOperatoires', () => {
+    initModesOperatoires();
+  });
+
+  etape('initRadarCompetences', () => {
+    initRadarCompetences();
+  });
+
+  etape('initQuestionsParOnglet', () => {
+    initQuestionsParOnglet();
+  });
+
+  etape('initImpressionCompteRendu', () => {
+    initImpressionCompteRendu({
+        titre: 'Conversion alternatif-continu et moteurs électriques',
+        tp: 'TP04',
+      });
+  });
+
 }
 
 // =================================================================

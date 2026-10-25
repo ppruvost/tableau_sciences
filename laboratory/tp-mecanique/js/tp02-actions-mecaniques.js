@@ -14,7 +14,9 @@ import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-mecanique.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
+import { initZoomVisuels } from '../../js/zoom-visuel.js';
 import laboratoryEquipment from '../../data/equipment.js';
 import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 
@@ -24,7 +26,6 @@ const CONTEXTES_PRO = {
 
   '2nde-remi': {
     contexte: "Une pièce métallique suspendue par un palan est soumise à son poids et à la tension du câble de levage : le respect des conditions d'équilibre conditionne la sécurité de la manutention.",
-    problematique: "Comment vérifier qu'une pièce suspendue est correctement en équilibre sous l'effet des forces qui s'exercent sur elle ?",
     problematiques: {
       'modeliser-force': "Comment modéliser par des forces les actions mécaniques exercées sur une pièce suspendue à un palan ?",
       'poids': "Comment déterminer le poids d'une pièce à partir de sa masse et vérifier la charge supportée par le câble de levage ?",
@@ -34,7 +35,6 @@ const CONTEXTES_PRO = {
 
   '2nde-mcc': {
     contexte: "Un tissu tendu sur un métier à broder est soumis à plusieurs forces de tension réparties sur son pourtour, qui doivent s'équilibrer pour éviter toute déformation.",
-    problematique: "Comment vérifier que les forces de tension exercées sur un tissu tendu sont à l'équilibre ?",
     problematiques: {
       'modeliser-force': "Comment modéliser par des forces les actions de tension exercées sur un tissu tendu ?",
       'poids': "Comment déterminer le poids d'un objet suspendu à partir de sa masse et le comparer à la valeur mesurée au dynamomètre ?",
@@ -44,50 +44,97 @@ const CONTEXTES_PRO = {
 
 };
 
+// Exécute une étape d'initialisation ; une erreur dans une étape est
+// journalisée sans empêcher les suivantes de s'exécuter.
+function etape(nom, fn) {
+  try {
+    fn();
+  } catch (err) {
+    console.error(`[tp-mecanique] étape « ${nom} » en erreur :`, err);
+  }
+}
+
 export function init() {
 
-  initInventaireForces();
-  initPoids();
-  initEquilibre();
-
-  initMateriel({
-    equipementId: 'materiel-equipements',
-    equipment: laboratoryEquipment,
-    categorie: 'ActionsMecaniques',
+  etape('initZoomVisuels', () => {
+    initZoomVisuels();
   });
 
-  initContextePro({
-    filieres: FILIERES_PRO,
-    contextes: CONTEXTES_PRO,
+  etape('initInventaireForces', () => {
+    initInventaireForces();
+  });
+
+  etape('initPoids', () => {
+    initPoids();
+  });
+
+  etape('initEquilibre', () => {
+    initEquilibre();
+  });
+
+  etape('initMateriel', () => {
+    initMateriel({
+      equipementId: 'materiel-equipements',
+      equipment: laboratoryEquipment,
+      categorie: 'ActionsMecaniques',
+    });
+  });
+
+  etape('initContextePro', () => {
+    initContextePro({
+      filieres: FILIERES_PRO,
+      contextes: CONTEXTES_PRO,
+      afficherProblematique: false,
+    });
   });
 
   // Domaine transversal « Mécanique : comment décrire le mouvement ? »
   // (volet actions mécaniques / équilibre) commun aux deux filières
   // de 2nde (REMI et MCC), non repris ensuite.
-  initOngletsParFiliere({
-    mapping: {
-      '2nde-remi': ['modeliser-force', 'poids', 'equilibre'],
-      '2nde-mcc':  ['modeliser-force', 'poids', 'equilibre'],
-      '1ere-tci':  [],
-      '1ere-trpm': [],
-      '1ere-mcc':  [],
-      'tle-tci':   [],
-      'tle-trpm':  [],
-      'tle-mcc':   [],
-    },
-    messageId: 'tp02m-message-filiere',
-    messageTexte: "Ce TP a déjà été traité en classe de 2nde : les actions mécaniques et l'équilibre ne sont pas repris aux niveaux suivants.",
+  etape('initOngletsParFiliere', () => {
+    initOngletsParFiliere({
+      mapping: {
+        '2nde-remi': ['modeliser-force', 'poids', 'equilibre'],
+        '2nde-mcc':  ['modeliser-force', 'poids', 'equilibre'],
+        '1ere-tci':  [],
+        '1ere-trpm': [],
+        '1ere-mcc':  [],
+        'tle-tci':   [],
+        'tle-trpm':  [],
+        'tle-mcc':   [],
+      },
+      messageId: 'tp02m-message-filiere',
+      messageTexte: "Ce TP a déjà été traité en classe de 2nde : les actions mécaniques et l'équilibre ne sont pas repris aux niveaux suivants.",
+    });
   });
 
-  initSections();
-  initTabs();
-  initModesOperatoires();
-  initRadarCompetences();
-
-  initImpressionCompteRendu({
-    titre: 'Actions mécaniques et équilibre',
-    tp: 'TP02',
+  etape('initSections', () => {
+    initSections();
   });
+
+  etape('initTabs', () => {
+    initTabs();
+  });
+
+  etape('initModesOperatoires', () => {
+    initModesOperatoires();
+  });
+
+  etape('initRadarCompetences', () => {
+    initRadarCompetences();
+  });
+
+  etape('initQuestionsParOnglet', () => {
+    initQuestionsParOnglet();
+  });
+
+  etape('initImpressionCompteRendu', () => {
+    initImpressionCompteRendu({
+      titre: 'Actions mécaniques et équilibre',
+      tp: 'TP02',
+    });
+  });
+
 }
 
 // =================================================================

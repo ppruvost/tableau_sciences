@@ -11,12 +11,12 @@
  *    d'entrée DOIT donc s'appeler init(), pas initTP01()
  */
 
-import '../../js/zoom-visuel.js';
+import { initZoomVisuels } from '../../js/zoom-visuel.js';
 import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../../js/utils.js';
 import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
-import { initImpressionCompteRendu } from './compte-rendu-acoustique.js';
+import { initImpressionCompteRendu, sectionValeurs, nombreFr, ajouterLigne } from './compte-rendu-acoustique.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
 import laboratoryEquipment from '../../data/equipment.js';
@@ -56,42 +56,85 @@ const ECHELLE_DB = [
   { seuil: 140, label: 'Danger immédiat' },
 ];
 
+// Exécute une étape d'initialisation ; une erreur dans une étape est
+// journalisée sans empêcher les suivantes de s'exécuter.
+function etape(nom, fn) {
+  try {
+    fn();
+  } catch (err) {
+    console.error(`[tp-acoustique] étape « ${nom} » en erreur :`, err);
+  }
+}
+
 // ---------------------------------------------------------------
 // Point d'entrée, appelé automatiquement par navigation.js
 // ---------------------------------------------------------------
 export function init() {
-  initPeriodeFrequence();
-  initNiveauIntensite();
-  initClassementSons();
 
-  initMateriel({
-    equipementId: 'materiel-equipements',
-    equipment: laboratoryEquipment,
-    categorie: 'Acoustique',
+  etape('initZoomVisuels', () => {
+    initZoomVisuels();
   });
 
-  initContextePro({
-    afficherProblematique: false,
-    filieres: FILIERES_PRO,
-    contextes: CONTEXTES_PRO,
+  etape('initPeriodeFrequence', () => {
+    initPeriodeFrequence();
   });
 
-  // Onglets et accordéons de section : sans cet appel, ces éléments
-  // restent inertes malgré leur CSS.
-  initSections();
-  initTabs();
-  initQuestionsParOnglet();
-  initModesOperatoires();
-
-  // Génération du radar au clic sur #btn-radar
-  initRadarCompetences();
-
-  // Vrai système d'impression (modales identité + génération PDF),
-  // au lieu d'un simple window.print() de la page vivante.
-  initImpressionCompteRendu({
-    titre: 'Caractériser un son',
-    tp: 'TP01',
+  etape('initNiveauIntensite', () => {
+    initNiveauIntensite();
   });
+
+  etape('initClassementSons', () => {
+    initClassementSons();
+  });
+
+  etape('initMateriel', () => {
+    initMateriel({
+      equipementId: 'materiel-equipements',
+      equipment: laboratoryEquipment,
+      categorie: 'Acoustique',
+    });
+  });
+
+  etape('initContextePro', () => {
+    initContextePro({
+      afficherProblematique: false,
+      filieres: FILIERES_PRO,
+      contextes: CONTEXTES_PRO,
+    });
+  });
+
+  etape('initSections', () => {
+    initSections();
+  });
+
+  etape('initTabs', () => {
+    initTabs();
+  });
+
+  etape('initModesOperatoires', () => {
+    initModesOperatoires();
+  });
+
+  etape('initRadarCompetences', () => {
+    initRadarCompetences();
+  });
+
+  etape('initQuestionsParOnglet', () => {
+    initQuestionsParOnglet();
+  });
+
+  etape('initImpressionCompteRendu', () => {
+    initImpressionCompteRendu({
+      titre: 'Caractériser un son',
+      tp: 'TP01',
+      // Mesures saisies (valeurs, tableaux, graphiques), insérées avant les questions.
+      sectionsSupplementaires: () => [
+        sectionValeursCompteRendu(),
+        sectionClassementCompteRendu(),
+      ].filter(Boolean),
+    });
+  });
+
 }
 
 // =================================================================
@@ -208,6 +251,10 @@ function positionnerCurseurEchelle(niveau) {
 // Onglet 3 — Classement des sons du plus grave au plus aigu
 // Relevé (source, fréquence) saisi par l'élève, reclassé en direct
 // =================================================================
+// État partagé avec l'impression du compte-rendu : le module reste en cache
+// d'une navigation à l'autre, initClassementSons() le réinitialise.
+const sons = [];
+
 function initClassementSons() {
 
   const btnAjouter = $('classement-ajouter');
@@ -217,7 +264,7 @@ function initClassementSons() {
 
   if (!btnAjouter || !tbody) return;
 
-  const sons = [];
+  sons.length = 0; // état remis à zéro à chaque affichage du TP
 
   btnAjouter.addEventListener('click', () => {
 
@@ -242,14 +289,30 @@ function redessinerTableauClassement(tbody, sons) {
   tbody.innerHTML = '';
 
   sons.forEach(son => {
-
-    const tr = document.createElement('tr');
-
-    tr.innerHTML = `
-      <td>${son.source}</td>
-      <td>${arrondir(son.frequence, 0)} Hz</td>
-    `;
-
-    tbody.appendChild(tr);
+    ajouterLigne(tbody, [son.source, `${arrondir(son.frequence, 0)} Hz`]);
   });
+}
+
+// =================================================================
+// Sections transmises à js/compte-rendu.js
+// =================================================================
+
+function sectionValeursCompteRendu() {
+  return sectionValeurs('Mesures : période, fréquence et niveau d\'intensité acoustique', [
+    ['Période mesurée à l\'oscilloscope (ms)', 'periode-mesuree'],
+    ['Fréquence calculée', 'frequence-calculee'],
+    ['Niveau mesuré au sonomètre (dB)', 'niveau-mesure'],
+    ['Appréciation', 'niveau-appreciation'],
+  ]);
+}
+
+function sectionClassementCompteRendu() {
+  if (!sons.length) return null;
+  return {
+    titre: 'Classement des sons du plus grave au plus aigu',
+    tableau: {
+      entetes: ['Source sonore', 'Fréquence mesurée (Hz)'],
+      lignes: sons.map(s => [s.source, nombreFr(s.frequence, 0)]),
+    },
+  };
 }

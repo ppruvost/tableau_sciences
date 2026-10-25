@@ -11,12 +11,12 @@
  *    d'entrée DOIT donc s'appeler init(), pas initTP05()
  */
 
-import '../../js/zoom-visuel.js';
+import { initZoomVisuels } from '../../js/zoom-visuel.js';
 import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../../js/utils.js';
 import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
-import { initImpressionCompteRendu } from './compte-rendu-acoustique.js';
+import { initImpressionCompteRendu, sectionValeurs, nombreFr, canvasDe, ajouterLigne } from './compte-rendu-acoustique.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
 import laboratoryEquipment from '../../data/equipment.js';
@@ -71,39 +71,87 @@ const NOTE_RESTRICTION_REFERENTIEL =
 const PRESSION_REFERENCE = 2e-5;   // Pa
 const INTENSITE_REFERENCE = 1e-12; // W/m²
 
+// Exécute une étape d'initialisation ; une erreur dans une étape est
+// journalisée sans empêcher les suivantes de s'exécuter.
+function etape(nom, fn) {
+  try {
+    fn();
+  } catch (err) {
+    console.error(`[tp-acoustique] étape « ${nom} » en erreur :`, err);
+  }
+}
+
 // ---------------------------------------------------------------
 // Point d'entrée, appelé automatiquement par navigation.js
 // ---------------------------------------------------------------
 export function init() {
-  initNiveauDepuisPression();
-  initNiveauDepuisIntensite();
-  initAttenuationDistance();
 
-  initMateriel({
-    equipementId: 'materiel-equipements',
-    equipment: laboratoryEquipment,
-    categorie: 'Acoustique',
+  etape('initZoomVisuels', () => {
+    initZoomVisuels();
   });
 
-  initContextePro({
-    afficherProblematique: false,
-    filieres: FILIERES_PRO,
-    contextes: CONTEXTES_PRO,
-    filieresAutorisees: FILIERES_AUTORISEES,
-    noteRestriction: NOTE_RESTRICTION_REFERENTIEL,
+  etape('initNiveauDepuisPression', () => {
+    initNiveauDepuisPression();
   });
 
-  initSections();
-  initTabs();
-  initQuestionsParOnglet();
-  initModesOperatoires();
-
-  initRadarCompetences();
-
-  initImpressionCompteRendu({
-    titre: 'Pression et niveau acoustiques',
-    tp: 'TP05',
+  etape('initNiveauDepuisIntensite', () => {
+    initNiveauDepuisIntensite();
   });
+
+  etape('initAttenuationDistance', () => {
+    initAttenuationDistance();
+  });
+
+  etape('initMateriel', () => {
+    initMateriel({
+      equipementId: 'materiel-equipements',
+      equipment: laboratoryEquipment,
+      categorie: 'Acoustique',
+    });
+  });
+
+  etape('initContextePro', () => {
+    initContextePro({
+      afficherProblematique: false,
+      filieres: FILIERES_PRO,
+      contextes: CONTEXTES_PRO,
+      filieresAutorisees: FILIERES_AUTORISEES,
+      noteRestriction: NOTE_RESTRICTION_REFERENTIEL,
+    });
+  });
+
+  etape('initSections', () => {
+    initSections();
+  });
+
+  etape('initTabs', () => {
+    initTabs();
+  });
+
+  etape('initModesOperatoires', () => {
+    initModesOperatoires();
+  });
+
+  etape('initRadarCompetences', () => {
+    initRadarCompetences();
+  });
+
+  etape('initQuestionsParOnglet', () => {
+    initQuestionsParOnglet();
+  });
+
+  etape('initImpressionCompteRendu', () => {
+    initImpressionCompteRendu({
+      titre: 'Pression et niveau acoustiques',
+      tp: 'TP05',
+      // Mesures saisies (valeurs, tableaux, graphiques), insérées avant les questions.
+      sectionsSupplementaires: () => [
+        sectionNiveauxCompteRendu(),
+        sectionAttenuationCompteRendu(),
+      ].filter(Boolean),
+    });
+  });
+
 }
 
 // =================================================================
@@ -160,6 +208,9 @@ function initNiveauDepuisIntensite() {
 // Onglet 2 — Atténuation du niveau sonore avec la distance
 // Relevé (distance, niveau) affiché et tracé
 // =================================================================
+// État partagé avec l'impression du compte-rendu (réinitialisé à chaque affichage).
+const pointsAttenuation = [];
+
 function initAttenuationDistance() {
 
   const btnAjouter = $('attenuation-ajouter');
@@ -169,7 +220,8 @@ function initAttenuationDistance() {
 
   if (!btnAjouter || !tbody) return;
 
-  const points = [];
+  const points = pointsAttenuation;
+  points.length = 0;
 
   btnAjouter.addEventListener('click', () => {
 
@@ -200,16 +252,37 @@ function redessinerTableauAttenuation(tbody, points) {
   tbody.innerHTML = '';
 
   points.forEach((pt, i) => {
-
-    const tr = document.createElement('tr');
-
-    tr.innerHTML = `
-      <td>${i + 1}</td>
-      <td>${arrondir(pt.distance, 1)} m</td>
-      <td>${arrondir(pt.niveau, 0)} dB</td>
-    `;
-
-    tbody.appendChild(tr);
+    ajouterLigne(tbody, [i + 1, `${arrondir(pt.distance, 1)} m`, `${arrondir(pt.niveau, 0)} dB`]);
   });
 }
 
+// =================================================================
+// Sections transmises à js/compte-rendu.js
+// =================================================================
+
+function sectionNiveauxCompteRendu() {
+  return sectionValeurs('Calculs : niveau d\'intensité acoustique', [
+    ['Pression acoustique p (Pa)', 'pression-mesuree'],
+    ['Niveau calculé à partir de p', 'niveau-depuis-pression-out'],
+    ['Intensité acoustique I (W/m²)', 'intensite-mesuree'],
+    ['Niveau calculé à partir de I', 'niveau-depuis-intensite-out'],
+  ]);
+}
+
+function sectionAttenuationCompteRendu() {
+  if (!pointsAttenuation.length) return null;
+  const section = {
+    titre: 'Mesures : atténuation du niveau sonore avec la distance',
+    tableau: {
+      entetes: ['N°', 'Distance (m)', 'Niveau sonore (dB)'],
+      lignes: pointsAttenuation.map((p, i) => [i + 1, nombreFr(p.distance, 1), nombreFr(p.niveau, 0)]),
+    },
+  };
+  // Graphique tracé par js/graphique.js (repris seulement s'il s'agit d'un canvas).
+  const canvas = canvasDe('graphique-attenuation-distance');
+  if (canvas) {
+    section.canvas = canvas;
+    section.legende = 'Niveau sonore en fonction de la distance à la source';
+  }
+  return section;
+}

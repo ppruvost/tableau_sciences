@@ -13,12 +13,19 @@
  * Fonctionne pour les SVG intégrés dans la page comme pour les illustrations
  * importées par <img src="….svg">.
  *
+ * Photos du « Matériel nécessaire » (équipements et verrerie) : au survol
+ * le curseur devient une loupe ; un clic sur la photo l'ouvre dans la même
+ * fenêtre (sans cocher/décocher la case du matériel).
+ *
  * Il suffit d'importer ce module (import "../../js/zoom-visuel.js") : les
  * illustrations .mode-image présentes dans la page, ou ajoutées ensuite
  * (chargement dynamique des TP), reçoivent automatiquement le bouton +.
  */
 
-const SELECTEUR = "svg.mode-image, img.mode-image, .mode-op img";
+// Photos du matériel (grille générée par materiel.js)
+const SELECTEUR_MATERIEL = ".icone-materiel img";
+
+const SELECTEUR = "svg.mode-image, img.mode-image, .mode-op img, .mode-op > svg, .schema-svg svg";
 
 const ICONE_PLUS =
   '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">' +
@@ -29,6 +36,10 @@ const ICONE_MOINS =
 
 const STYLES = `
 .zoom-visuel-wrap { position: relative; display: block; }
+
+/* Photos du matériel : curseur loupe, clic = agrandissement */
+.icone-materiel img { cursor: zoom-in; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.icone-materiel img:hover { transform: scale(1.08); box-shadow: 0 3px 10px rgba(65, 105, 225, 0.35); }
 
 .zoom-visuel-btn {
   width: 40px; height: 40px; min-height: 0; padding: 0;
@@ -138,12 +149,40 @@ function libelle(visuel) {
   return visuel.getAttribute("aria-label") || visuel.getAttribute("alt") || "Illustration";
 }
 
+// Les ids de la copie sont préfixés pour rester uniques dans la page tout en
+// gardant valides les références internes d'un SVG intégré (marqueurs,
+// dégradés, <use>…). Supprimer ces ids casserait le rendu de la copie.
+function renommerIds(racine) {
+  const PREFIXE = "zoom-";
+  const elements = [racine, ...racine.querySelectorAll("[id]")].filter(el => el.hasAttribute("id"));
+  if (!elements.length) return;
+
+  const ids = new Set(elements.map(el => el.getAttribute("id")));
+  elements.forEach(el => el.setAttribute("id", PREFIXE + el.getAttribute("id")));
+
+  [racine, ...racine.querySelectorAll("*")].forEach(el => {
+    [...el.attributes].forEach(attr => {
+      let valeur = attr.value;
+      let change = false;
+      valeur = valeur.replace(/url\(\s*(['"]?)#([^)'"\s]+)\1\s*\)/g, (m, q, id) => {
+        if (!ids.has(id)) return m;
+        change = true;
+        return `url(${q}#${PREFIXE}${id}${q})`;
+      });
+      if ((attr.name === "href" || attr.name === "xlink:href") && valeur.startsWith("#") && ids.has(valeur.slice(1))) {
+        valeur = "#" + PREFIXE + valeur.slice(1);
+        change = true;
+      }
+      if (change) el.setAttribute(attr.name, valeur);
+    });
+  });
+}
+
 function ouvrir(visuel, bouton) {
   creerFenetre();
 
   const copie = visuel.cloneNode(true);
-  copie.removeAttribute("id");
-  copie.querySelectorAll("[id]").forEach(el => el.removeAttribute("id"));
+  renommerIds(copie);
   copie.removeAttribute("width");
   copie.removeAttribute("height");
   copie.removeAttribute("style");
@@ -155,6 +194,7 @@ function ouvrir(visuel, bouton) {
   declencheur = bouton;
   modal.classList.add("show");
   modal.setAttribute("aria-hidden", "false");
+  document.documentElement.style.overflow = "hidden";
   contenu.scrollTop = 0;
   boutonFermer.focus();
 }
@@ -164,6 +204,7 @@ function fermer() {
 
   modal.classList.remove("show");
   modal.setAttribute("aria-hidden", "true");
+  document.documentElement.style.overflow = "";
   contenu.replaceChildren();
 
   if (declencheur && declencheur.isConnected) declencheur.focus();
@@ -196,6 +237,18 @@ function scanner(racine) {
   racine.querySelectorAll(SELECTEUR).forEach(decorer);
 }
 
+// Le clic sur une photo de matériel ouvre le zoom. Il est intercepté en phase
+// de capture et son action par défaut est annulée : sinon le <label> parent
+// cocherait / décocherait la case du matériel.
+function surClicMateriel(event) {
+  const photo = event.target.closest && event.target.closest(SELECTEUR_MATERIEL);
+  if (!photo) return;
+  event.preventDefault();
+  event.stopPropagation();
+  const caseMateriel = photo.closest("label")?.querySelector("input");
+  ouvrir(photo, caseMateriel || photo);
+}
+
 export function initZoomVisuels() {
   injecterStyles();
   scanner(document);
@@ -209,13 +262,18 @@ function demarrer() {
     mutations.forEach(m => m.addedNodes.forEach(n => scanner(n)));
   }).observe(document.body, { childList: true, subtree: true });
 
+  document.addEventListener("click", surClicMateriel, true);
+
   document.addEventListener("keydown", event => {
     if (event.key === "Escape") fermer();
   });
 }
 
+let demarre = false;
+const demarrerUneFois = () => { if (demarre) return; demarre = true; demarrer(); };
+
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", demarrer, { once: true });
+  document.addEventListener("DOMContentLoaded", demarrerUneFois, { once: true });
 } else {
-  demarrer();
+  demarrerUneFois();
 }

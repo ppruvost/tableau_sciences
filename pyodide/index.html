@@ -30,19 +30,16 @@
 
     <!-- EXEMPLES -->
     <div class="menu-wrapper">
-        <button class="menu-item" id="examplesButton" type="button" data-tooltip="Exemples Python" aria-label="Afficher les exemples">
+        <button class="menu-item" id="examplesButton" type="button" data-tooltip="Bibliothèque" aria-label="Ouvrir la bibliothèque de programmes">
             <i class="fas fa-book-open"></i>
         </button>
 
         <div class="submenu" id="examplesMenu">
-            <button type="button" data-example="bonjour">Bonjour</button>
-            <button type="button" data-example="boucle">Boucle</button>
-            <button type="button" data-example="liste">Liste</button>
-            <button type="button" data-example="calcul">Calcul</button>
-            <button type="button" data-example="graphique">
-                <i class="fas fa-chart-line"></i>
-                Graphique
-            </button>
+            <!-- Programmes .py du dossier « programmes/ » (rempli par app.js) -->
+            <div id="libraryTitle" class="submenu-title" hidden>
+                <i class="fas fa-folder-open"></i> Mes programmes
+            </div>
+            <div id="libraryList"></div>
         </div>
     </div>
 
@@ -170,10 +167,20 @@ for nombre in range(1, 6):
                         Exporter le script
                     </button>
 
+                    <!-- Dictée vocale (transcription de la voix dans l'éditeur) -->
+                    <button id="mic" class="mic-button" type="button" data-mic
+                            aria-pressed="false"
+                            title="Dicter le code à la voix">
+                        <i class="fas fa-microphone"></i>
+                        <span class="mic-label">Dicter</span>
+                    </button>
+
                     <button id="clear" class="clear-button" type="button">
                         <i class="fas fa-eraser"></i>
                         Effacer
                     </button>
+
+                    <span id="micStatus" class="mic-status" aria-live="polite"></span>
 
                     <span class="shortcut">
                         <i class="fas fa-keyboard"></i>
@@ -219,6 +226,7 @@ for nombre in range(1, 6):
                 <p>
                     Utilise les exemples du menu pour découvrir progressivement les instructions Python.
                     L'exemple « Graphique » utilise NumPy et Matplotlib, chargés automatiquement au démarrage de PyLab.
+                    Le bouton <strong>Dicter</strong> transcrit ta voix dans l'éditeur (navigateur Chrome, Edge ou Safari).
                 </p>
             </div>
         </section>
@@ -233,10 +241,17 @@ for nombre in range(1, 6):
     <div class="zoom-window">
         <div class="zoom-window-bar">
             <span><i class="fas fa-file-code"></i> programme.py</span>
+            <div class="title-tools">
+                <button id="micZoom" class="zoom-btn mic-zoom" type="button" data-mic
+                        aria-pressed="false"
+                        title="Dicter le code à la voix" aria-label="Dicter le code à la voix">
+                    <i class="fas fa-microphone"></i>
+                </button>
             <button id="zoomModalClose" class="zoom-btn" type="button"
                     title="Fermer le zoom" aria-label="Fermer la fenêtre de zoom">
                 <i class="fas fa-minus"></i>
             </button>
+            </div>
         </div>
         <textarea id="zoomContent" class="zoom-content" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Code Python en grand (modifiable)"></textarea>
     </div>

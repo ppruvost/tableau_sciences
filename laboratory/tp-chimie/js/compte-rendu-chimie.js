@@ -8,19 +8,17 @@
  * par compte-rendu.js via les cases à cocher #materiel-verrerie /
  * #materiel-equipements — rien à faire ici pour cette partie.
  *
- * Fichier strictement calqué sur tp-mecanique/js/compte-rendu-mecanique.js
- * pour garantir un rendu d'impression cohérent entre domaines SciLab.
- * STATUT : ce module n'est actuellement importé par aucun TP01-05 de
- * tp-chimie — chacun garde sa propre fonction lancerCompteRendu() avec des
- * besoins spécifiques (contexte pro, réactif, résultats dédiés, groupes de
- * sections). Conservé pour cohérence avec les 6 autres domaines si un futur
- * TP chimie n'a pas besoin de logique dédiée ; à supprimer sinon.
+ * Même interface que tp-electricite/js/compte-rendu-electricite.js :
+ * chaque TP appelle initImpressionCompteRendu({ titre, tp,
+ * sectionsSupplementaires }).
  */
+
 import { genererCompteRendu } from '../../js/compte-rendu.js';
 import { getFiliereSelectionnee } from '../../js/contexte-pro.js';
+import { listerQuestionsCR, titreCR } from './questions-par-onglet.js';
 
 function texte(el) {
-  return (el?.textContent || '').trim();
+  return (el?.textContent || '').replace(/\s+/g, ' ').trim();
 }
 
 function valeur(el) {
@@ -29,18 +27,37 @@ function valeur(el) {
 
 // Une section "notation" (question + compétence + zone de réponse)
 // par <li> de .questions-tp, au format attendu par compte-rendu.js.
-// Couvre aussi la question transversale "Chimie et environnement"
-// (cartouche ANA), qui est un <li> comme les autres dans le DOM.
+// Quand un TP propose plusieurs jeux de questions (un par onglet, blocs
+// .questions-bloc[data-onglet]), seul le jeu de l'onglet affiché est repris,
+// plus celui d'un autre onglet s'il contient des réponses (questions alors
+// préfixées du nom de l'onglet). Cette sélection est faite par
+// listerQuestionsCR(), qui ignore les sous-onglets imbriqués.
 function construireSectionsQuestions() {
-  return [...document.querySelectorAll('.questions-tp > li')].map(li => ({
-    titre: texte(li.querySelector('.question-entete strong')),
-    notation: true,
-    competence: texte(li.querySelector('.cartouche')),
-    texte: valeur(li.querySelector('.zone-eleve textarea')),
-  }));
+
+  const sections = [];
+
+  listerQuestionsCR().forEach((li, index) => {
+
+    const zone = li.querySelector('.zone-eleve textarea') || li.querySelector('textarea');
+    if (!zone) return;
+
+    const titre = texte(li.querySelector('.question-entete strong')) || `Question ${index + 1}`;
+    const cartouche = li.querySelector('.cartouche');
+
+    sections.push({
+      titre: titreCR(li, titre),
+      notation: true,
+      competence: cartouche?.dataset.comp || texte(cartouche),
+      texte: valeur(zone),
+    });
+  });
+
+  return sections;
 }
 
-// Contexte professionnel (filière/niveau choisis par l'élève).
+// Contexte professionnel (filière/niveau choisis par l'élève), pour que le
+// compte-rendu imprimé indique la même chose que ce qui est affiché à l'écran
+// via contexte-pro.js.
 function construireSectionContextePro() {
   const filiere = getFiliereSelectionnee();
   if (!filiere) return null;
@@ -54,17 +71,27 @@ function construireSectionContextePro() {
 
 /**
  * @param {Object} params
- * @param {string} params.titre - Titre du TP (ex. "Suivi pH-métrique d'un titrage")
- * @param {string} params.tp    - Numéro du TP (ex. "TP03")
+ * @param {string} params.titre - Titre du TP (ex. "pH et indicateurs colorés")
+ * @param {string} params.tp    - Numéro du TP (ex. "TP02")
+ * @param {() => Object[]} [params.sectionsSupplementaires]
+ *        Fonction appelée au moment de l'impression ; retourne des sections
+ *        supplémentaires (ex. paramètres et résultats du TP), insérées
+ *        avant les questions.
  */
-export function initImpressionCompteRendu({ titre, tp }) {
+export function initImpressionCompteRendu({ titre, tp, sectionsSupplementaires }) {
+
   const bouton = document.getElementById('btn-imprimer');
+
   if (!bouton) return;
+
   bouton.addEventListener('click', () => {
+
     const sections = [
       construireSectionContextePro(),
+      ...(typeof sectionsSupplementaires === 'function' ? sectionsSupplementaires() : []),
       ...construireSectionsQuestions(),
     ].filter(Boolean);
+
     genererCompteRendu({
       titre,
       domaine: 'Chimie',

@@ -15,7 +15,9 @@ import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-mecanique.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
+import { initZoomVisuels } from '../../js/zoom-visuel.js';
 import laboratoryEquipment from '../../data/equipment.js';
 import { dessinerGraphiqueLigne } from '../../js/graphique.js';
 import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
@@ -26,7 +28,6 @@ const CONTEXTES_PRO = {
 
   'tle-tci': {
     contexte: "Un vérin hydraulique de presse à chaudronner exploite la relation de Pascal pour démultiplier une force, tandis qu'un circuit de refroidissement transporte un fluide dont le débit doit être maîtrisé.",
-    problematique: "Comment exploiter la relation de Pascal dans une presse hydraulique et caractériser le débit d'un fluide de refroidissement en circulation ?",
     problematiques: {
       'pression-fluide': "Comment exploiter la relation de Pascal pour déterminer la pression dans un fluide et la force démultipliée par une presse hydraulique ?",
       'debit': "Comment mesurer le débit d'un fluide de refroidissement et en déduire sa vitesse d'écoulement dans une canalisation ?",
@@ -37,7 +38,6 @@ const CONTEXTES_PRO = {
 
   'tle-trpm': {
     contexte: "Une machine-outil peut être soumise à des vibrations lors de l'usinage ; un phénomène de résonance mal maîtrisé dégrade la précision et peut endommager l'outil ou la pièce.",
-    problematique: "Comment caractériser la résonance mécanique d'une machine-outil pour éviter qu'elle ne se produise en cours d'usinage ?",
     problematiques: {
       'pression-fluide': "Comment exploiter la relation de Pascal pour déterminer la pression d'un circuit hydraulique de machine-outil et la force transmise par un vérin ?",
       'debit': "Comment mesurer le débit d'un fluide de lubrification ou de refroidissement et en déduire sa vitesse d'écoulement ?",
@@ -48,7 +48,6 @@ const CONTEXTES_PRO = {
 
   'tle-mcc': {
     contexte: "Un système d'aspiration ou de soufflage utilisé pour la manipulation de tissus légers repose sur un débit d'air maîtrisé, et certains supports vibrants doivent éviter tout phénomène de résonance.",
-    problematique: "Comment caractériser le débit d'air d'un système d'aspiration et la résonance mécanique d'un support vibrant ?",
     problematiques: {
       'debit': "Comment mesurer le débit d'air d'un système d'aspiration et en déduire sa vitesse d'écoulement ?",
       'resonance': "Comment caractériser la période propre et la résonance mécanique d'un support vibrant ?",
@@ -63,24 +62,60 @@ const TRAINEE_INFO = {
   venturi: "L'effet Venturi correspond à une diminution de la pression du fluide dans les régions où sa vitesse d'écoulement augmente, par exemple dans un rétrécissement de canalisation.",
 };
 
+// Exécute une étape d'initialisation ; une erreur dans une étape est
+// journalisée sans empêcher les suivantes de s'exécuter.
+function etape(nom, fn) {
+  try {
+    fn();
+  } catch (err) {
+    console.error(`[tp-mecanique] étape « ${nom} » en erreur :`, err);
+  }
+}
+
 export function init() {
 
-  initPressionFluide();
-  initPresseHydraulique();
-  initDebit();
-  initResonancePeriode();
-  initResonanceAmplitude();
-  initTraineePortance();
-
-  initMateriel({
-    equipementId: 'materiel-equipements',
-    equipment: laboratoryEquipment,
-    categorie: 'PressionDebitResonance',
+  etape('initZoomVisuels', () => {
+    initZoomVisuels();
   });
 
-  initContextePro({
-    filieres: FILIERES_PRO,
-    contextes: CONTEXTES_PRO,
+  etape('initPressionFluide', () => {
+    initPressionFluide();
+  });
+
+  etape('initPresseHydraulique', () => {
+    initPresseHydraulique();
+  });
+
+  etape('initDebit', () => {
+    initDebit();
+  });
+
+  etape('initResonancePeriode', () => {
+    initResonancePeriode();
+  });
+
+  etape('initResonanceAmplitude', () => {
+    initResonanceAmplitude();
+  });
+
+  etape('initTraineePortance', () => {
+    initTraineePortance();
+  });
+
+  etape('initMateriel', () => {
+    initMateriel({
+      equipementId: 'materiel-equipements',
+      equipment: laboratoryEquipment,
+      categorie: 'PressionDebitResonance',
+    });
+  });
+
+  etape('initContextePro', () => {
+    initContextePro({
+      filieres: FILIERES_PRO,
+      contextes: CONTEXTES_PRO,
+      afficherProblematique: false,
+    });
   });
 
   // « Caractériser la pression dans un fluide immobile » : uniquement
@@ -88,30 +123,50 @@ export function init() {
   // (débit) et les « notions complémentaires » (résonance) : communes
   // à TCI/TRPM et MCC en Tle, mais MCC ne va pas jusqu'à la traînée,
   // la portance et l'effet Venturi.
-  initOngletsParFiliere({
-    mapping: {
-      '2nde-remi': [],
-      '2nde-mcc':  [],
-      '1ere-tci':  [],
-      '1ere-trpm': [],
-      '1ere-mcc':  [],
-      'tle-tci':   ['pression-fluide', 'debit', 'resonance', 'trainee-portance'],
-      'tle-trpm':  ['pression-fluide', 'debit', 'resonance', 'trainee-portance'],
-      'tle-mcc':   ['debit', 'resonance'],
-    },
-    messageId: 'tp05m-message-filiere',
-    messageTexte: "Ce TP n'est pas au programme de votre filière à ce niveau : ces notions sont étudiées en Terminale, avec un contenu variable selon la spécialité.",
+  etape('initOngletsParFiliere', () => {
+    initOngletsParFiliere({
+      mapping: {
+        '2nde-remi': [],
+        '2nde-mcc':  [],
+        '1ere-tci':  [],
+        '1ere-trpm': [],
+        '1ere-mcc':  [],
+        'tle-tci':   ['pression-fluide', 'debit', 'resonance', 'trainee-portance'],
+        'tle-trpm':  ['pression-fluide', 'debit', 'resonance', 'trainee-portance'],
+        'tle-mcc':   ['debit', 'resonance'],
+      },
+      messageId: 'tp05m-message-filiere',
+      messageTexte: "Ce TP n'est pas au programme de votre filière à ce niveau : ces notions sont étudiées en Terminale, avec un contenu variable selon la spécialité.",
+    });
   });
 
-  initSections();
-  initTabs();
-  initModesOperatoires();
-  initRadarCompetences();
-
-  initImpressionCompteRendu({
-    titre: 'Pression, débit et résonance',
-    tp: 'TP05',
+  etape('initSections', () => {
+    initSections();
   });
+
+  etape('initTabs', () => {
+    initTabs();
+  });
+
+  etape('initModesOperatoires', () => {
+    initModesOperatoires();
+  });
+
+  etape('initRadarCompetences', () => {
+    initRadarCompetences();
+  });
+
+  etape('initQuestionsParOnglet', () => {
+    initQuestionsParOnglet();
+  });
+
+  etape('initImpressionCompteRendu', () => {
+    initImpressionCompteRendu({
+      titre: 'Pression, débit et résonance',
+      tp: 'TP05',
+    });
+  });
+
 }
 
 // =================================================================

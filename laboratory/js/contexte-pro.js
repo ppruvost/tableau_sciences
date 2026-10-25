@@ -50,9 +50,21 @@ function libelleActivite(activite) {
     return (bouton && bouton.textContent.trim()) || activite;
 }
 
-function rendreContexte(data) {
+function rendreContexte(data, avecProblematique = true) {
     if (!data) {
-        return "<p>Sélectionner votre filière professionnelle pour afficher le contexte et la problématique associée.</p>";
+        return avecProblematique
+            ? "<p>Sélectionner votre filière professionnelle pour afficher le contexte et la problématique associée.</p>"
+            : "<p>Sélectionner votre filière professionnelle pour afficher le contexte professionnel associé.</p>";
+    }
+
+    // Contexte seul : la problématique n'est alors affichée qu'en tête de
+    // chaque onglet de « Manipulations » et dans les questions (rappels).
+    if (!avecProblematique) {
+        return `
+    <div class="contexte-pro-bloc">
+      <h3>Contexte professionnel</h3>
+      <p>${data.contexte}</p>
+    </div>`;
     }
 
     let blocProblematiques;
@@ -112,6 +124,31 @@ function rendreRappelsProblematique(data) {
     });
 }
 
+// Libellés de secours si le catalogue FILIERES_PRO n'a pas d'entrée pour un niveau.
+const LIBELLES_FILIERE = {
+    remi: "Maintenance des équipements industriels (REMI)",
+    gatl: "Gestion-administration, transport, logistique (GATL)",
+    mcc: "Métiers de la couture et de la confection",
+    tci: "Technicien en chaudronnerie industrielle",
+    trpm: "Technicien en réalisation de produits mécaniques",
+    agora: "Accueil et relation clients et usagers (AGorA)",
+    log: "Logistique"
+};
+
+// Filières proposées pour un niveau : catalogue partagé, sinon déduites des
+// clés « niveau-filiere » du dictionnaire de contextes propre au TP.
+function filieresDuNiveau(niveau, filieres, contextes) {
+    const catalogue = filieres && filieres[niveau];
+    if (Array.isArray(catalogue) && catalogue.length) return catalogue;
+
+    return Object.keys(contextes)
+        .filter(cle => cle.startsWith(`${niveau}-`))
+        .map(cle => {
+            const id = cle.slice(niveau.length + 1);
+            return { id, label: LIBELLES_FILIERE[id] || id.toUpperCase() };
+        });
+}
+
 /**
  * Initialise le sélecteur de filière professionnelle.
  * @param {Object} params
@@ -124,6 +161,9 @@ function rendreRappelsProblematique(data) {
  * @param {string} [params.noteRestriction] - Petit texte affiché sous le menu
  *        lorsque `filieresAutorisees` est fourni, pour préciser que le TP n'est
  *        pas évalué pour les autres niveaux/filières (le pourquoi de la restriction).
+ * @param {boolean} [params.afficherProblematique=true] - false : le bloc
+ *        « Contexte professionnel » n'affiche que le contexte (la problématique
+ *        reste visible dans les rappels .problematique-rappel).
  * @param {string} [params.selectId]
  * @param {string} [params.resultatId]
  */
@@ -132,22 +172,28 @@ export function initContextePro({
     contextes,
     filieresAutorisees,
     noteRestriction,
+    afficherProblematique = true,
     selectId = "select-filiere-pro",
     resultatId = "contexte-pro-resultat"
 } = {}) {
     const select = document.getElementById(selectId);
     const resultat = document.getElementById(resultatId);
-    if (!select || !resultat || !filieres || !contextes) return;
+    if (!select || !resultat || !contextes) return;
 
-    const niveauxPresents = detecterNiveauxPresents();
+    let niveauxPresents = detecterNiveauxPresents();
+
+    // Aucun tag de niveau reconnu dans l'en-tête : on déduit les niveaux des contextes.
+    if (!niveauxPresents.size) {
+        Object.keys(contextes).forEach(cle => niveauxPresents.add(cle.split("-")[0]));
+    }
     const autorisees = filieresAutorisees ? new Set(filieresAutorisees) : null;
 
     select.innerHTML = '<option value="">-- Sélectionner une filière --</option>';
 
     ["2nde", "1ere", "tle"].forEach(niveau => {
         if (!niveauxPresents.has(niveau)) return;
-        const options = filieres[niveau];
-        if (!options || !options.length) return;
+        const options = filieresDuNiveau(niveau, filieres, contextes);
+        if (!options.length) return;
 
         const optionsFiltrees = autorisees
             ? options.filter(f => autorisees.has(`${niveau}-${f.id}`))
@@ -185,11 +231,11 @@ export function initContextePro({
 
     select.addEventListener("change", () => {
         const data = contextes[select.value];
-        resultat.innerHTML = rendreContexte(data);
+        resultat.innerHTML = rendreContexte(data, afficherProblematique);
         rendreRappelsProblematique(data);
     });
 
-    resultat.innerHTML = rendreContexte(null);
+    resultat.innerHTML = rendreContexte(null, afficherProblematique);
     rendreRappelsProblematique(null);
 }
 

@@ -14,8 +14,10 @@ import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../..
 import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
-import { initImpressionCompteRendu } from './compte-rendu-mecanique.js';
+import { initImpressionCompteRendu, texte, valeur } from './compte-rendu-mecanique.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
+import { initZoomVisuels } from '../../js/zoom-visuel.js';
 import glassware from '../../data/glassware.js';
 import laboratoryEquipment from '../../data/equipment.js';
 import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
@@ -27,25 +29,24 @@ const CONTEXTES_PRO = {
 
   '1ere-tci': {
     contexte: "Une trappe de visite métallique montée sur charnière doit rester en équilibre en position ouverte, sous l'effet de son propre poids et éventuellement d'un vérin d'assistance.",
-    problematique: "Comment calculer le moment des forces qui s'exercent sur une trappe en rotation et vérifier sa condition d'équilibre ?",
     problematiques: {
       'equilibre-rotation': "Comment calculer le moment des forces qui s'exercent sur une trappe en rotation et vérifier sa condition d'équilibre ?",
       'archimede': "Comment déterminer la force d'Archimède exercée sur un objet immergé et expliquer sa flottabilité ?",
+      'flexion-poutre': "Comment vérifier qu'une poutre de charpente métallique posée sur deux appuis résiste à une charge donnée et choisir le profilé adapté ?",
     },
   },
 
   '1ere-trpm': {
     contexte: "Un bras de levage ou un outillage articulé autour d'un axe doit rester en équilibre lors de son utilisation, sous l'effet de plusieurs forces appliquées à différentes distances de l'axe.",
-    problematique: "Comment calculer le moment des forces qui s'exercent sur un outillage en rotation et vérifier sa condition d'équilibre ?",
     problematiques: {
       'equilibre-rotation': "Comment calculer le moment des forces qui s'exercent sur un outillage en rotation et vérifier sa condition d'équilibre ?",
       'archimede': "Comment déterminer la force d'Archimède exercée sur un objet immergé et expliquer sa flottabilité ?",
+      'flexion-poutre': "Comment vérifier qu'un élément de structure posé sur deux appuis résiste à une charge donnée et choisir le profilé adapté ?",
     },
   },
 
   '1ere-mcc': {
     contexte: "Un portant à vêtements ou une table à repasser articulée autour d'un axe doit rester en équilibre lors de son utilisation, sous l'effet de plusieurs forces appliquées à différentes distances de l'axe.",
-    problematique: "Comment calculer le moment des forces qui s'exercent sur un équipement en rotation et vérifier sa condition d'équilibre ?",
     problematiques: {
       'equilibre-rotation': "Comment calculer le moment des forces qui s'exercent sur un équipement en rotation et vérifier sa condition d'équilibre ?",
       'archimede': "Comment déterminer la force d'Archimède exercée sur un objet immergé et expliquer sa flottabilité ?",
@@ -54,7 +55,6 @@ const CONTEXTES_PRO = {
 
   'tle-tci': {
     contexte: "Une cuve ou un flotteur métallique fabriqué en chaudronnerie doit rester stable à la surface d'un liquide, sous l'effet de son poids et de la poussée exercée par le liquide déplacé.",
-    problematique: "Comment déterminer la force d'Archimède exercée sur un objet immergé et expliquer sa flottabilité ?",
     problematiques: {
       'archimede': "Comment déterminer la force d'Archimède exercée sur un objet immergé et expliquer sa flottabilité ?",
     },
@@ -62,7 +62,6 @@ const CONTEXTES_PRO = {
 
   'tle-trpm': {
     contexte: "Une pièce mécanique creuse ou un flotteur usiné doit rester stable à la surface d'un liquide, sous l'effet de son poids et de la poussée exercée par le liquide déplacé.",
-    problematique: "Comment déterminer la force d'Archimède exercée sur un objet immergé et expliquer sa flottabilité ?",
     problematiques: {
       'archimede': "Comment déterminer la force d'Archimède exercée sur un objet immergé et expliquer sa flottabilité ?",
     },
@@ -70,7 +69,6 @@ const CONTEXTES_PRO = {
 
   'tle-mcc': {
     contexte: "Certains accessoires ou flotteurs utilisés en confection (mannequins flottants de présentation, éléments décoratifs immergés) doivent rester en équilibre à la surface d'un liquide.",
-    problematique: "Comment déterminer la force d'Archimède exercée sur un objet immergé et expliquer sa flottabilité ?",
     problematiques: {
       'archimede': "Comment déterminer la force d'Archimède exercée sur un objet immergé et expliquer sa flottabilité ?",
     },
@@ -78,52 +76,100 @@ const CONTEXTES_PRO = {
 
 };
 
+// Exécute une étape d'initialisation ; une erreur dans une étape est
+// journalisée sans empêcher les suivantes de s'exécuter.
+function etape(nom, fn) {
+  try {
+    fn();
+  } catch (err) {
+    console.error(`[tp-mecanique] étape « ${nom} » en erreur :`, err);
+  }
+}
+
 export function init() {
 
-  initEquilibreRotation();
-  initArchimede();
-  initFlexionPoutre();
-
-  initMateriel({
-    verreId: 'materiel-verrerie',
-    equipementId: 'materiel-equipements',
-    glassware,
-    equipment: laboratoryEquipment,
-    categorie: 'RotationArchimede',
+  etape('initZoomVisuels', () => {
+    initZoomVisuels();
   });
 
-  initContextePro({
-    filieres: FILIERES_PRO,
-    contextes: CONTEXTES_PRO,
+  etape('initEquilibreRotation', () => {
+    initEquilibreRotation();
+  });
+
+  etape('initArchimede', () => {
+    initArchimede();
+  });
+
+  etape('initFlexionPoutre', () => {
+    initFlexionPoutre();
+  });
+
+  etape('initMateriel', () => {
+    initMateriel({
+      verreId: 'materiel-verrerie',
+      equipementId: 'materiel-equipements',
+      glassware,
+      equipment: laboratoryEquipment,
+      categorie: 'RotationArchimede',
+    });
+  });
+
+  etape('initContextePro', () => {
+    initContextePro({
+      filieres: FILIERES_PRO,
+      contextes: CONTEXTES_PRO,
+      afficherProblematique: false,
+    });
   });
 
   // « Obtenir l'équilibre d'un solide en rotation » : uniquement TCI
   // et TRPM, en 1ère (non repris en Tle, non étudié en MCC).
   // « Exploiter la force d'Archimède » : TCI/TRPM en 1ère, MCC en Tle.
-  initOngletsParFiliere({
-    mapping: {
-      '2nde-remi': [],
-      '2nde-mcc':  [],
-      '1ere-tci':  ['equilibre-rotation', 'archimede', 'flexion-poutre'],
-      '1ere-trpm': ['equilibre-rotation', 'archimede', 'flexion-poutre'],
-      '1ere-mcc':  [],
-      'tle-tci':   [],
-      'tle-trpm':  [],
-      'tle-mcc':   ['archimede'],
-    },
-    messageId: 'tp04m-message-filiere',
-    messageTexte: "Ce TP n'est pas au programme de votre filière à ce niveau. L'équilibre en rotation concerne TCI/TRPM en 1ère ; la force d'Archimède concerne TCI/TRPM en 1ère et Métiers de la couture et de la confection en Terminale ; la flexion d'une poutre concerne TCI/TRPM en 1ère.",
+  etape('initOngletsParFiliere', () => {
+    initOngletsParFiliere({
+      mapping: {
+        '2nde-remi': [],
+        '2nde-mcc':  [],
+        '1ere-tci':  ['equilibre-rotation', 'archimede', 'flexion-poutre'],
+        '1ere-trpm': ['equilibre-rotation', 'archimede', 'flexion-poutre'],
+        '1ere-mcc':  [],
+        'tle-tci':   [],
+        'tle-trpm':  [],
+        'tle-mcc':   ['archimede'],
+      },
+      messageId: 'tp04m-message-filiere',
+      messageTexte: "Ce TP n'est pas au programme de votre filière à ce niveau. L'équilibre en rotation concerne TCI/TRPM en 1ère ; la force d'Archimède concerne TCI/TRPM en 1ère et Métiers de la couture et de la confection en Terminale ; la flexion d'une poutre concerne TCI/TRPM en 1ère.",
+    });
   });
 
-  initSections();
-  initTabs();
-  initModesOperatoires();
-  initRadarCompetences();
-
-  initImpressionCompteRendu({
-    titre: "Équilibre en rotation et force d'Archimède",
-    tp: 'TP04',
+  etape('initSections', () => {
+    initSections();
   });
+
+  etape('initTabs', () => {
+    initTabs();
+  });
+
+  etape('initModesOperatoires', () => {
+    initModesOperatoires();
+  });
+
+  etape('initRadarCompetences', () => {
+    initRadarCompetences();
+  });
+
+  etape('initQuestionsParOnglet', () => {
+    initQuestionsParOnglet();
+  });
+
+  etape('initImpressionCompteRendu', () => {
+    initImpressionCompteRendu({
+      titre: "Équilibre en rotation et force d'Archimède",
+      tp: 'TP04',
+      sectionsSupplementaires: () => [construireSectionRelevesFlexion()],
+    });
+  });
+
 }
 
 // =================================================================
@@ -228,4 +274,27 @@ function initArchimede() {
 
   inputVolume.addEventListener('input', calculerTheorique);
   inputRho.addEventListener('input', calculerTheorique);
+}
+
+// =================================================================
+// Compte rendu — section propre au TP04 (flexion d'une poutre)
+// =================================================================
+
+// Relevés de l'onglet « Flexion d'une poutre » (TP04), construits à partir
+// du tableau dynamique #flex-releves-corps généré par flexion-poutre.js.
+// Retourne null si aucun relevé n'a été fait, pour ne pas polluer le
+// compte-rendu des élèves qui n'ont pas utilisé cet onglet.
+function construireSectionRelevesFlexion() {
+  const lignes = document.querySelectorAll('#flex-releves-corps tr');
+  if (!lignes.length) return null;
+
+  const items = [...lignes].map(tr => {
+    const c = [...tr.children].map(td => texte(td));
+    return {
+      label: `Relevé ${c[0]} — ${c[1]}`,
+      valeur: `${c[2]} — Mf max = ${c[3]} — σmax = ${c[4]} — f = ${c[5]} — ${c[6]}`,
+    };
+  });
+
+  return { titre: 'Flexion d\'une poutre — relevés du simulateur', items };
 }

@@ -4,19 +4,20 @@
  * identification de groupes caractéristiques)
  */
 
-import "../../js/zoom-visuel.js";
+import { initZoomVisuels } from "../../js/zoom-visuel.js";
 import products from "../../data/products.js";
 import dangerDB from "../../data/dangerDB.js";
 import pictogrammes from "../../data/pictogrammes.js";
 import glassware from "../../data/glassware.js";
 import laboratoryEquipment from "../../data/equipment.js";
 import FILIERES_PRO from "../../data/filieres.js";
-import { initQuestionsParOnglet, listerQuestionsCR, blocDeQuestion, prefixeOnglet, titreCR } from "./questions-par-onglet.js";
+import { initQuestionsParOnglet } from "./questions-par-onglet.js";
+import { initImpressionCompteRendu } from "./compte-rendu-chimie.js";
 
 import {
     initSections,
     initTabs,
-    lireTexte,
+    initModesOperatoires,
     appliquerFiltresCategorie,
     $
 } from "../../js/utils.js";
@@ -34,20 +35,13 @@ import {
     initRadarCompetences
 } from "../../js/radar.js";
 
-import {
-    genererCompteRendu
-} from "../../js/compte-rendu.js";
-
-import {
-    initContextePro,
-    getFiliereSelectionnee
-} from "../../js/contexte-pro.js";
+import { initContextePro } from "../../js/contexte-pro.js";
 
 /* ==========================================================
    CONTEXTE PROFESSIONNEL — TP05 (Chimie organique)
    Propre à ce TP : niveau Tle uniquement (cf. cadre bleu).
    ========================================================== */
-const CONTEXTES_PRO_TP05 = {
+const CONTEXTES_PRO = {
     "tle-tci": {
         contexte: "Les ateliers de chaudronnerie utilisent des solvants organiques, des dégraissants et des vernis de protection contenant des esters, appréciés pour leur pouvoir solvant et leur odeur peu agressive comparée à d'autres solvants industriels.",
         problematiques: {
@@ -178,40 +172,71 @@ const GROUPES_CARACTERISTIQUES = [
    VARIABLES
    ========================================================== */
 let reactifCourant = null;
-let dejaInitialise = false;
+
+/* ==========================================================
+   ROBUSTESSE — une étape en erreur n'empêche pas les suivantes
+   (même principe que tp-electricite)
+   ========================================================== */
+function etape(nom, fn) {
+    try {
+        fn();
+    } catch (err) {
+        console.error(`[tp-chimie] étape « ${nom} » en erreur :`, err);
+    }
+}
 
 /* ==========================================================
    INITIALISATION TP05
    ========================================================== */
 export function init() {
-    if (dejaInitialise) return;
-    dejaInitialise = true;
 
-    console.log("TP05 — Initialisation Chimie organique.");
+    // Le module reste en cache d'une navigation à l'autre : l'état est
+    // remis à zéro à chaque affichage du TP (le fragment HTML est neuf).
+    reactifCourant = null;
 
-    initSections();
-    initTabs();
-    initContextePro({
-        filieres: FILIERES_PRO,
-        contextes: CONTEXTES_PRO_TP05
+    etape("initZoomVisuels", () => initZoomVisuels());
+
+    etape("initReactifSelect", () => initReactifSelect());
+    etape("initTabEsterification", () => initTabEsterification());
+    etape("initTabHydrolyseBasique", () => initTabHydrolyseBasique());
+    etape("initTabOxydationAlcool", () => initTabOxydationAlcool());
+    etape("initTabTestFehling", () => initTabTestFehling());
+    etape("initTabGroupesCaracteristiques", () => initTabGroupesCaracteristiques());
+
+    etape("initMateriel", () => {
+        initMateriel({
+            verreId: "materiel-verrerie",
+            equipementId: "materiel-equipements",
+            glassware,
+            equipment: laboratoryEquipment,
+            categorie: "Organique"
+        });
     });
-    initReactifSelect();
-    initMateriel({
-        verreId: "materiel-verrerie",
-        equipementId: "materiel-equipements",
-        glassware,
-        equipment: laboratoryEquipment,
-        categorie: "Organique"
+
+    etape("initContextePro", () => {
+        initContextePro({
+            filieres: FILIERES_PRO,
+            contextes: CONTEXTES_PRO,
+            afficherProblematique: false
+        });
     });
-    initTabEsterification();
-    initTabHydrolyseBasique();
-    initTabOxydationAlcool();
-    initTabTestFehling();
-    initTabGroupesCaracteristiques();
-    initQuestionsParOnglet();
-    initBoutonImpressionCR();
-    initRadarCompetences();
+
+    etape("initSections", () => initSections());
+    etape("initTabs", () => initTabs());
+    etape("initModesOperatoires", () => initModesOperatoires());
+    etape("initRadarCompetences", () => initRadarCompetences());
+
+    etape("initQuestionsParOnglet", () => initQuestionsParOnglet());
+
+    etape("initImpressionCompteRendu", () => {
+        initImpressionCompteRendu({
+            titre: "Chimie organique — Estérification, hydrolyse et groupes caractéristiques",
+            tp: "TP05",
+            sectionsSupplementaires: sectionsCompteRendu
+        });
+    });
 }
+
 
 /* ==========================================================
    REACTIF + FILTRE SECURITE  (identique au pattern TP04)
@@ -463,26 +488,12 @@ function initTabGroupesCaracteristiques() {
    ========================================================== */
 
 /* ==========================================================
-   BOUTON IMPRESSION COMPTE-RENDU
+   COMPTE-RENDU — sections propres au TP (insérées avant les questions ;
+   le contexte professionnel et les questions sont gérés par
+   compte-rendu-chimie.js)
    ========================================================== */
-
-function initBoutonImpressionCR() {
-    const btn = $("btn-imprimer");
-    if (!btn) return;
-    btn.addEventListener("click", lancerCompteRendu);
-}
-
-function lancerCompteRendu() {
-    const identite = {
-        nom: lireTexte("nom-eleve"),
-        prenom: lireTexte("prenom-eleve"),
-        classe: lireTexte("classe-eleve"),
-        date: $("date-eleve")?.value || ""
-    };
-
-    const filiereChoisie = getFiliereSelectionnee();
-
-    const sections = [
+function sectionsCompteRendu() {
+    return [
         {
             titre: "Réactif de sécurité consulté",
             items: [
@@ -490,54 +501,4 @@ function lancerCompteRendu() {
             ]
         }
     ];
-
-    if (filiereChoisie) {
-        sections.unshift({
-            titre: "Contexte professionnel",
-            items: [
-                { label: "Filière", valeur: `${filiereChoisie.niveau} — ${filiereChoisie.filiere}` }
-            ]
-        });
-    }
-
-    // Seules les questions du bloc actuellement visible (onglet de
-    // manipulation actif) sont incluses dans le compte-rendu.
-    const liste = listerQuestionsCR();
-
-    liste.forEach((li, index) => {
-        const zone = li.querySelector("textarea");
-        if (!zone) return;
-
-        const titreQuestion = li.querySelector(".question-entete strong")
-            ?.textContent.replace(/\s+/g, " ").trim() || `Question ${index + 1}`;
-        const competence = li.querySelector(".cartouche")?.dataset.comp || "";
-        const rappelProblematique = li.querySelector(".problematique-rappel")
-            ?.textContent.replace(/\s+/g, " ").trim() || "";
-
-        sections.push({
-            titre: titreCR(li, titreQuestion),
-            competence,
-            notation: true,
-            texte: (zone.value || "").trim()
-        });
-    });
-
-    genererCompteRendu({
-        domaine: "Chimie",
-        tp: "TP05",
-        titre: "Chimie organique — Estérification, hydrolyse et groupes caractéristiques",
-        sections,
-        identiteDefaut: identite,
-        signature: false,
-        noteFinale: true
-    });
-}
-
-/* ==========================================================
-   INITIALISATION AU CHARGEMENT
-   ========================================================== */
-if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-} else {
-    init();
 }

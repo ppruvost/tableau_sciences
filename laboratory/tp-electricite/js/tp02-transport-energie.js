@@ -9,7 +9,6 @@
  * d'entrée doit s'appeler init().
  */
 
-import '../../js/zoom-visuel.js';
 import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../../js/utils.js';
 import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
@@ -17,6 +16,7 @@ import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-electricite.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
+import { initZoomVisuels } from '../../js/zoom-visuel.js';
 import laboratoryEquipment from '../../data/equipment.js';
 import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 
@@ -91,52 +91,109 @@ const RESEAU_INFO = {
   bt: { nom: 'Réseau basse tension (distribution finale)', tension: '230 V / 400 V' },
 };
 
+// Exécute une étape d'initialisation ; une erreur dans une étape est
+// journalisée sans empêcher les suivantes de s'exécuter.
+function etape(nom, fn) {
+  try {
+    fn();
+  } catch (err) {
+    console.error(`[tp-electricite] étape « ${nom} » en erreur :`, err);
+  }
+}
+
 export function init() {
 
-  initReseau();
-  initEffetJoule();
-  initTransformateur();
-  initTransformateurSimulateur();
-  initManipTransformateurReel();
-  initManipJouleReel();
-
-  initMateriel({
-    equipementId: 'materiel-equipements',
-    equipment: laboratoryEquipment,
-    categorie: 'Transport',
+  etape('initZoomVisuels', () => {
+    initZoomVisuels();
   });
 
-  initContextePro({
-    filieres: FILIERES_PRO,
-    contextes: CONTEXTES_PRO,
+  etape('initReseau', () => {
+    initReseau();
   });
+
+  etape('initEffetJoule', () => {
+    initEffetJoule();
+  });
+
+  etape('initTransformateur', () => {
+    initTransformateur();
+  });
+
+  etape('initTransformateurSimulateur', () => {
+    initTransformateurSimulateur();
+  });
+
+  etape('initManipTransformateurReel', () => {
+    initManipTransformateurReel();
+  });
+
+  etape('initManipJouleReel', () => {
+    initManipJouleReel();
+  });
+
+  etape('initMateriel', () => {
+    initMateriel({
+        equipementId: 'materiel-equipements',
+        equipment: laboratoryEquipment,
+        categorie: 'Transport',
+      });
+  });
+
+  etape('initContextePro', () => {
+    initContextePro({
+        filieres: FILIERES_PRO,
+        contextes: CONTEXTES_PRO,
+          afficherProblematique: false,
+      });
+  });
+
+
 
   // « Transporter l'énergie sous forme électrique » figure au
   // programme de 1ère pour TCI/TRPM, mais seulement de Terminale
   // pour MCC (non exigible en 1ère MCC, non repris en Tle TCI/TRPM).
-  initOngletsParFiliere({
-    mapping: {
-      '1ere-tci':  ['reseau-distribution', 'effet-joule', 'transformateur', 'manipulation-reelle'],
-      '1ere-trpm': ['reseau-distribution', 'effet-joule', 'transformateur', 'manipulation-reelle'],
-      '1ere-mcc':  [],
-      'tle-tci':   [],
-      'tle-trpm':  [],
-      'tle-mcc':   ['reseau-distribution', 'effet-joule', 'transformateur', 'manipulation-reelle'],
-    },
-    messageId: 'tp02-message-filiere',
-    messageTexte: "Ce TP n'est pas au programme de votre filière à ce niveau. Reportez-vous au niveau où le transport de l'énergie électrique est étudié dans votre spécialité.",
+  etape('initOngletsParFiliere', () => {
+    initOngletsParFiliere({
+        mapping: {
+          '1ere-tci':  ['reseau-distribution', 'effet-joule', 'transformateur', 'manipulation-reelle'],
+          '1ere-trpm': ['reseau-distribution', 'effet-joule', 'transformateur', 'manipulation-reelle'],
+          '1ere-mcc':  [],
+          'tle-tci':   [],
+          'tle-trpm':  [],
+          'tle-mcc':   ['reseau-distribution', 'effet-joule', 'transformateur', 'manipulation-reelle'],
+        },
+        messageId: 'tp02-message-filiere',
+        messageTexte: "Ce TP n'est pas au programme de votre filière à ce niveau. Reportez-vous au niveau où le transport de l'énergie électrique est étudié dans votre spécialité.",
+      });
   });
 
-  initSections();
-  initTabs();
-  initModesOperatoires();
-  initRadarCompetences();
-  initQuestionsParOnglet();
-
-  initImpressionCompteRendu({
-    titre: "Transport de l'énergie électrique",
-    tp: 'TP02',
+  etape('initSections', () => {
+    initSections();
   });
+
+  etape('initTabs', () => {
+    initTabs();
+  });
+
+  etape('initModesOperatoires', () => {
+    initModesOperatoires();
+  });
+
+  etape('initRadarCompetences', () => {
+    initRadarCompetences();
+  });
+
+  etape('initQuestionsParOnglet', () => {
+    initQuestionsParOnglet();
+  });
+
+  etape('initImpressionCompteRendu', () => {
+    initImpressionCompteRendu({
+        titre: "Transport de l'énergie électrique",
+        tp: 'TP02',
+      });
+  });
+
 }
 
 // =================================================================

@@ -12,23 +12,46 @@
 import { genererCompteRendu } from '../../js/compte-rendu.js';
 import { getFiliereSelectionnee } from '../../js/contexte-pro.js';
 
-function texte(el) {
+export function texte(el) {
   return (el?.textContent || '').trim();
 }
 
-function valeur(el) {
+export function valeur(el) {
   return (el?.value || '').trim();
 }
 
 // Une section "notation" (question + compétence + zone de réponse)
 // par <li> de .questions-tp, au format attendu par compte-rendu.js.
+// Quand un TP propose plusieurs jeux de questions (un par onglet, blocs
+// [data-onglet]), seul le jeu de l'onglet affiché est repris, plus celui
+// d'un autre onglet s'il contient des réponses.
 function construireSectionsQuestions() {
-  return [...document.querySelectorAll('.questions-tp > li')].map(li => ({
-    titre: texte(li.querySelector('.question-entete strong')),
-    notation: true,
-    competence: texte(li.querySelector('.cartouche')),
-    texte: valeur(li.querySelector('.zone-eleve textarea')),
-  }));
+
+  const blocs = [...document.querySelectorAll('.questions-bloc')];
+
+  const retenus = blocs.filter(bloc =>
+    !bloc.hidden ||
+    [...bloc.querySelectorAll('textarea')].some(t => valeur(t) !== '')
+  );
+
+  const prefixer = retenus.length > 1;
+
+  return retenus.flatMap(bloc => {
+
+    const nomOnglet = bloc.dataset.ongletNom;
+
+    return [...bloc.querySelectorAll('.questions-tp > li')].map(li => {
+
+      const titre = texte(li.querySelector('.question-entete strong'));
+
+      return {
+        titre: prefixer && nomOnglet ? `[${nomOnglet}] ${titre}` : titre,
+        notation: true,
+        competence: texte(li.querySelector('.cartouche')),
+        texte: valeur(li.querySelector('.zone-eleve textarea')),
+      };
+    });
+  });
 }
 
 // Contexte professionnel (filière/niveau choisis par l'élève), pour que le
@@ -45,95 +68,24 @@ function construireSectionContextePro() {
   };
 }
 
-// Tableau de mesures (V, P) de l'onglet "Pression et force pressante"
-// (loi de Boyle-Mariotte), construit à partir du tableau dynamique
-// #bm-table-corps généré par tp03-cinematique-pression.js. Retourne
-// null si aucune mesure exploitable n'a été saisie, pour ne pas
-// polluer le compte-rendu des élèves qui n'ont pas utilisé cet onglet.
-function construireSectionMesuresPression() {
-  const lignes = document.querySelectorAll('#bm-table-corps tr');
-  if (!lignes.length) return null;
-
-  const items = [...lignes].map((tr, index) => {
-    const selectDispositif = tr.querySelector('.bm-dispositif');
-    const dispositif = selectDispositif
-      ? selectDispositif.options[selectDispositif.selectedIndex].text
-      : '—';
-    const v = valeur(tr.querySelector('.bm-volume'));
-    const p = valeur(tr.querySelector('.bm-pression'));
-    const pv = texte(tr.querySelector('.bm-pv'));
-
-    const contenu = (v && p)
-      ? `V = ${v} mL — P = ${p} hPa — P × V = ${pv} hPa·mL`
-      : '(mesure non renseignée)';
-
-    return { label: `Mesure ${index + 1} (${dispositif})`, valeur: contenu };
-  });
-
-  const auMoinsUneMesure = [...lignes].some(tr =>
-    valeur(tr.querySelector('.bm-volume')) && valeur(tr.querySelector('.bm-pression'))
-  );
-  if (!auMoinsUneMesure) return null;
-
-  return { titre: 'Mesures de pression — loi de Boyle-Mariotte', items };
-}
-
-// Tableau ExAO (V, P) de l'onglet « Acquisition ExAO (pression) »,
-// construit à partir du tableau à volumes fixes #exaop-table-corps
-// généré par exao-pression.js. Retourne null si aucune mesure n'a
-// été validée, pour ne pas polluer le compte-rendu des élèves qui
-// n'ont pas utilisé cet onglet.
-function construireSectionMesuresExao() {
-  const lignes = document.querySelectorAll('#exaop-table-corps tr');
-  if (!lignes.length) return null;
-
-  const items = [...lignes]
-    .map(tr => {
-      const cellules = [...tr.children];
-      return {
-        volume: texte(cellules[0]),
-        pression: texte(cellules[1]),
-        pv: texte(cellules[2]),
-      };
-    })
-    .filter(m => m.pression && m.pression !== '—')
-    .map(m => ({
-      label: `V = ${m.volume} mL`,
-      valeur: `P = ${m.pression} hPa — P × V = ${m.pv} hPa·mL`,
-    }));
-
-  if (!items.length) return null;
-
-  return { titre: 'Acquisition ExAO — pression en fonction du volume', items };
-}
-
-// Relevés de l'onglet « Flexion d'une poutre » (TP04), construits à partir
-// du tableau dynamique #flex-releves-corps généré par flexion-poutre.js.
-// Retourne null si aucun relevé n'a été fait, pour ne pas polluer le
-// compte-rendu des élèves qui n'ont pas utilisé cet onglet.
-function construireSectionRelevesFlexion() {
-  const lignes = document.querySelectorAll('#flex-releves-corps tr');
-  if (!lignes.length) return null;
-
-  const items = [...lignes].map(tr => {
-    const c = [...tr.children].map(td => texte(td));
-    return {
-      label: `Relevé ${c[0]} — ${c[1]}`,
-      valeur: `${c[2]} — Mf max = ${c[3]} — σmax = ${c[4]} — f = ${c[5]} — ${c[6]}`,
-    };
-  });
-
-  return { titre: 'Flexion d\'une poutre — relevés du simulateur', items };
-}
-
 /**
  * @param {Object} params
  * @param {string} params.titre - Titre du TP (ex. "Décrire un mouvement")
  * @param {string} params.tp    - Numéro du TP (ex. "TP01")
+ * @param {() => Object[]} [params.sectionsSupplementaires]
+ *        Fonction appelée au moment de l'impression ; retourne des sections
+ *        supplémentaires (ex. tableau de mesures), insérées avant les
+ *        questions.
+ * @param {() => {canvas: HTMLCanvasElement, titre: string}[]} [params.canvasesSupplementaires]
+ *        Fonction appelée au moment de l'impression ; retourne les courbes
+ *        (canvas) à capturer en image dans le compte rendu.
  */
-export function initImpressionCompteRendu({ titre, tp }) {
+export function initImpressionCompteRendu({ titre, tp, sectionsSupplementaires, canvasesSupplementaires }) {
+
   const bouton = document.getElementById('btn-imprimer');
+
   if (!bouton) return;
+
   bouton.addEventListener('click', () => {
 
     // Signale aux modules du TP (ex. les courbes P = f(V)) qu'une
@@ -141,30 +93,15 @@ export function initImpressionCompteRendu({ titre, tp }) {
     // une dernière fois avant la capture des canvas en image.
     document.dispatchEvent(new CustomEvent('cr:avant-impression'));
 
-    const sectionMesuresPression = construireSectionMesuresPression();
-    const sectionMesuresExao = construireSectionMesuresExao();
-
     const sections = [
       construireSectionContextePro(),
-      sectionMesuresPression,
-      sectionMesuresExao,
-      construireSectionRelevesFlexion(),
+      ...(typeof sectionsSupplementaires === 'function' ? sectionsSupplementaires() : []),
       ...construireSectionsQuestions(),
     ].filter(Boolean);
 
-    // Chaque courbe n'est incluse que si des mesures exploitables ont
-    // été saisies dans l'onglet correspondant (évite un graphique vide
-    // dans le compte-rendu).
-    const canvases = [
-      sectionMesuresPression && {
-        canvas: document.getElementById('bm-canvas-courbe'),
-        titre: 'Courbe P = f(V) — loi de Boyle-Mariotte (saisie manuelle)',
-      },
-      sectionMesuresExao && {
-        canvas: document.getElementById('exaop-canvas-courbe'),
-        titre: 'Courbe P = f(V) — acquisition ExAO',
-      },
-    ].filter(Boolean);
+    const canvases = (typeof canvasesSupplementaires === 'function'
+      ? canvasesSupplementaires()
+      : []).filter(Boolean);
 
     genererCompteRendu({
       titre,

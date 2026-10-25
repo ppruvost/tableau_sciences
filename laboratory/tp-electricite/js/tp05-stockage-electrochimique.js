@@ -11,7 +11,6 @@
  * d'entrée doit s'appeler init().
  */
 
-import '../../js/zoom-visuel.js';
 import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../../js/utils.js';
 import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
@@ -19,6 +18,7 @@ import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-electricite.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
+import { initZoomVisuels } from '../../js/zoom-visuel.js';
 import glassware from '../../data/glassware.js';
 import laboratoryEquipment from '../../data/equipment.js';
 import { dessinerGraphiqueLigne } from '../../js/graphique.js';
@@ -49,49 +49,91 @@ const CONTEXTES_PRO = {
 
 };
 
+// Exécute une étape d'initialisation ; une erreur dans une étape est
+// journalisée sans empêcher les suivantes de s'exécuter.
+function etape(nom, fn) {
+  try {
+    fn();
+  } catch (err) {
+    console.error(`[tp-electricite] étape « ${nom} » en erreur :`, err);
+  }
+}
+
 export function init() {
 
-  initAccumulateur();
-
-  initMateriel({
-    verreId: 'materiel-verrerie',
-    equipementId: 'materiel-equipements',
-    glassware,
-    equipment: laboratoryEquipment,
-    categorie: 'Stockage',
+  etape('initZoomVisuels', () => {
+    initZoomVisuels();
   });
 
-  initContextePro({
-    filieres: FILIERES_PRO,
-    contextes: CONTEXTES_PRO,
+  etape('initAccumulateur', () => {
+    initAccumulateur();
   });
+
+  etape('initMateriel', () => {
+    initMateriel({
+        verreId: 'materiel-verrerie',
+        equipementId: 'materiel-equipements',
+        glassware,
+        equipment: laboratoryEquipment,
+        categorie: 'Stockage',
+      });
+  });
+
+  etape('initContextePro', () => {
+    initContextePro({
+        filieres: FILIERES_PRO,
+        contextes: CONTEXTES_PRO,
+          afficherProblematique: false,
+      });
+  });
+
+
 
   // « Stocker l'énergie à l'aide d'un système électrochimique » ne
   // concerne que la filière Métiers de la couture et de la
   // confection, en Terminale.
-  initOngletsParFiliere({
-    mapping: {
-      '1ere-tci':  [],
-      '1ere-trpm': [],
-      '1ere-mcc':  [],
-      'tle-tci':   [],
-      'tle-trpm':  [],
-      'tle-mcc':   ['accumulateur'],
-    },
-    messageId: 'tp05e-message-filiere',
-    messageTexte: "Ce TP n'est pas au programme de votre filière : le stockage électrochimique de l'énergie concerne la filière Métiers de la couture et de la confection, en Terminale.",
+  etape('initOngletsParFiliere', () => {
+    initOngletsParFiliere({
+        mapping: {
+          '1ere-tci':  [],
+          '1ere-trpm': [],
+          '1ere-mcc':  [],
+          'tle-tci':   [],
+          'tle-trpm':  [],
+          'tle-mcc':   ['accumulateur'],
+        },
+        messageId: 'tp05e-message-filiere',
+        messageTexte: "Ce TP n'est pas au programme de votre filière : le stockage électrochimique de l'énergie concerne la filière Métiers de la couture et de la confection, en Terminale.",
+      });
   });
 
-  initSections();
-  initTabs();
-  initModesOperatoires();
-  initRadarCompetences();
-  initQuestionsParOnglet();
-
-  initImpressionCompteRendu({
-    titre: "Stockage de l'énergie par un système électrochimique",
-    tp: 'TP05',
+  etape('initSections', () => {
+    initSections();
   });
+
+  etape('initTabs', () => {
+    initTabs();
+  });
+
+  etape('initModesOperatoires', () => {
+    initModesOperatoires();
+  });
+
+  etape('initRadarCompetences', () => {
+    initRadarCompetences();
+  });
+
+  etape('initQuestionsParOnglet', () => {
+    initQuestionsParOnglet();
+  });
+
+  etape('initImpressionCompteRendu', () => {
+    initImpressionCompteRendu({
+        titre: "Stockage de l'énergie par un système électrochimique",
+        tp: 'TP05',
+      });
+  });
+
 }
 
 // =================================================================

@@ -4,19 +4,20 @@
  * (+ notions complémentaires "Accumulateur", TCI/TRPM uniquement)
  */
 
-import "../../js/zoom-visuel.js";
+import { initZoomVisuels } from "../../js/zoom-visuel.js";
 import products from "../../data/products.js";
 import dangerDB from "../../data/dangerDB.js";
 import pictogrammes from "../../data/pictogrammes.js";
 import glassware from "../../data/glassware.js";
 import laboratoryEquipment from "../../data/equipment.js";
 import FILIERES_PRO from "../../data/filieres.js";
-import { initQuestionsParOnglet, listerQuestionsCR, blocDeQuestion, prefixeOnglet, titreCR } from "./questions-par-onglet.js";
+import { initQuestionsParOnglet } from "./questions-par-onglet.js";
+import { initImpressionCompteRendu } from "./compte-rendu-chimie.js";
 
 import {
     initSections,
     initTabs,
-    lireTexte,
+    initModesOperatoires,
     appliquerFiltresCategorie,
     $
 } from "../../js/utils.js";
@@ -34,14 +35,7 @@ import {
     initRadarCompetences
 } from "../../js/radar.js";
 
-import {
-    genererCompteRendu
-} from "../../js/compte-rendu.js";
-
-import {
-    initContextePro,
-    getFiliereSelectionnee
-} from "../../js/contexte-pro.js";
+import { initContextePro } from "../../js/contexte-pro.js";
 
 import {
     initOngletsParFiliere
@@ -52,7 +46,7 @@ import {
    CONTEXTE PROFESSIONNEL — TP04 (Oxydoréduction)
    Commun aux 3 filières en Terminale (cf. référentiel).
    ========================================================== */
-const CONTEXTES_PRO_TP04 = {
+const CONTEXTES_PRO = {
     "tle-tci": {
         contexte: "Les structures métalliques d'un atelier de chaudronnerie (charpentes, cuves, tuyauteries) sont exposées à la corrosion. Un choix de matériaux mal informé, ou l'absence de protection adaptée (revêtement, anode sacrificielle), peut conduire à des défaillances coûteuses et dangereuses.",
         problematiques: {
@@ -143,79 +137,94 @@ const ACCUMULATEURS_DB = {
    VARIABLES
    ========================================================== */
 let reactifCourant = null;
-let dejaInitialise = false;
+
+/* ==========================================================
+   ROBUSTESSE — une étape en erreur n'empêche pas les suivantes
+   (même principe que tp-electricite)
+   ========================================================== */
+function etape(nom, fn) {
+    try {
+        fn();
+    } catch (err) {
+        console.error(`[tp-chimie] étape « ${nom} » en erreur :`, err);
+    }
+}
 
 /* ==========================================================
    INITIALISATION TP04
    ========================================================== */
 export function init() {
-    if (dejaInitialise) return;
-    dejaInitialise = true;
 
-    console.log("TP04 — Initialisation Oxydoréduction.");
+    // Le module reste en cache d'une navigation à l'autre : l'état est
+    // remis à zéro à chaque affichage du TP (le fragment HTML est neuf).
+    reactifCourant = null;
 
-    initSections();
-    initTabs();
+    etape("initZoomVisuels", () => initZoomVisuels());
 
-    initContextePro({
-        filieres: FILIERES_PRO,
-        contextes: CONTEXTES_PRO_TP04
+    etape("initReactifSelect", () => initReactifSelect());
+    etape("initTabReactionAcide", () => initTabReactionAcide());
+    etape("initTabClassificationQualitative", () => initTabClassificationQualitative());
+    etape("initTabPileElectrochimique", () => initTabPileElectrochimique());
+    etape("initTabClassification", () => initTabClassification());
+    etape("initTabCorrosionPassivation", () => initTabCorrosionPassivation());
+    etape("initTabAnodeSacrificielle", () => initTabAnodeSacrificielle());
+    etape("initTabAccumulateur", () => initTabAccumulateur());
+
+    etape("initMateriel", () => {
+        initMateriel({
+            verreId: "materiel-verrerie",
+            equipementId: "materiel-equipements",
+            glassware,
+            equipment: laboratoryEquipment,
+            categorie: "Redox"
+        });
     });
 
-    initReactifSelect();
-
-    initMateriel({
-        verreId: "materiel-verrerie",
-        equipementId: "materiel-equipements",
-        glassware,
-        equipment: laboratoryEquipment,
-        categorie: "Redox"
+    etape("initContextePro", () => {
+        initContextePro({
+            filieres: FILIERES_PRO,
+            contextes: CONTEXTES_PRO,
+            afficherProblematique: false
+        });
     });
 
-    initTabReactionAcide();
-    initTabClassificationQualitative();
-    initTabPileElectrochimique();
-    initTabClassification();
-    initTabCorrosionPassivation();
-    initTabAnodeSacrificielle();
-    initTabAccumulateur();
-
-    initQuestionsParOnglet();
-
-    // Onglet "Accumulateur" réservé à TCI/TRPM (notions complémentaires
-    // de préparation à la poursuite d'études, cf. référentiel) ;
-    // absent pour MCC, dont le programme Tle s'arrête à
-    // l'oxydoréduction "cœur de cible".
-    initOngletsParFiliere({
-        mapping: {
-            "tle-tci": [
-                "reaction-acide", "classification-qualitative", "pile-electrochimique",
-                "classification", "corrosion-passivation", "anode-sacrificielle",
-                "accumulateur"
-            ],
-            "tle-trpm": [
-                "reaction-acide", "classification-qualitative", "pile-electrochimique",
-                "classification", "corrosion-passivation", "anode-sacrificielle",
-                "accumulateur"
-            ],
-            "tle-mcc": [
-                "reaction-acide", "classification-qualitative", "pile-electrochimique",
-                "classification", "corrosion-passivation", "anode-sacrificielle"
-            ]
-        },
-        messageId: "tp04-message-filiere"
+    etape("initOngletsParFiliere", () => {
+        initOngletsParFiliere({
+            mapping: {
+                "tle-tci": [
+                    "reaction-acide", "classification-qualitative", "pile-electrochimique",
+                    "classification", "corrosion-passivation", "anode-sacrificielle",
+                    "accumulateur"
+                ],
+                "tle-trpm": [
+                    "reaction-acide", "classification-qualitative", "pile-electrochimique",
+                    "classification", "corrosion-passivation", "anode-sacrificielle",
+                    "accumulateur"
+                ],
+                "tle-mcc": [
+                    "reaction-acide", "classification-qualitative", "pile-electrochimique",
+                    "classification", "corrosion-passivation", "anode-sacrificielle"
+                ]
+            },
+            messageId: "tp04-message-filiere"
+        });
     });
 
-    initBoutonImpressionCR();
-    initRadarCompetences();
+    etape("initSections", () => initSections());
+    etape("initTabs", () => initTabs());
+    etape("initModesOperatoires", () => initModesOperatoires());
+    etape("initRadarCompetences", () => initRadarCompetences());
+
+    etape("initQuestionsParOnglet", () => initQuestionsParOnglet());
+
+    etape("initImpressionCompteRendu", () => {
+        initImpressionCompteRendu({
+            titre: "Oxydoréduction — corrosion et protection des métaux",
+            tp: "TP04",
+            sectionsSupplementaires: sectionsCompteRendu
+        });
+    });
 }
-
-if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-} else {
-    init();
-}
-
 /* ==========================================================
    REACTIF + FILTRE SECURITE
    ========================================================== */
@@ -453,67 +462,17 @@ function initTabAccumulateur() {
    ========================================================== */
 
 /* ==========================================================
-   BOUTON IMPRESSION COMPTE-RENDU
+   COMPTE-RENDU — sections propres au TP (insérées avant les questions ;
+   le contexte professionnel et les questions sont gérés par
+   compte-rendu-chimie.js)
    ========================================================== */
-function initBoutonImpressionCR() {
-    const btn = $("btn-imprimer");
-    if (!btn) return;
-    btn.addEventListener("click", lancerCompteRendu);
-}
-
-function lancerCompteRendu() {
-    const identite = {
-        nom: lireTexte("nom-eleve"),
-        prenom: lireTexte("prenom-eleve"),
-        classe: lireTexte("classe-eleve"),
-        date: $("date-eleve")?.value || ""
-    };
-
-    const filiereChoisie = getFiliereSelectionnee();
-
-    const sections = [];
-
-    if (filiereChoisie) {
-        sections.push({
-            titre: "Contexte professionnel",
+function sectionsCompteRendu() {
+    return [
+        {
+            titre: "Réactif de sécurité consulté",
             items: [
-                { label: "Filière", valeur: `${filiereChoisie.niveau} — ${filiereChoisie.filiere}` }
+                { label: "Réactif", valeur: reactifCourant?.nom || "—" }
             ]
-        });
-    }
-
-    sections.push({
-        titre: "Réactif de sécurité consulté",
-        items: [
-            { label: "Réactif", valeur: reactifCourant?.nom || "—" }
-        ]
-    });
-
-    const liste = listerQuestionsCR();
-
-    liste.forEach((li, index) => {
-        const zone = li.querySelector("textarea");
-        if (!zone) return;
-
-        const titreQuestion = li.querySelector(".question-entete strong")
-            ?.textContent.replace(/\s+/g, " ").trim() || `Question ${index + 1}`;
-        const competence = li.querySelector(".cartouche")?.dataset.comp || "";
-
-        sections.push({
-            titre: titreCR(li, titreQuestion),
-            competence,
-            notation: true,
-            texte: (zone.value || "").trim()
-        });
-    });
-
-    genererCompteRendu({
-        domaine: "Chimie",
-        tp: "TP04",
-        titre: "Oxydoréduction — corrosion et protection des métaux",
-        sections,
-        identiteDefaut: identite,
-        signature: false,
-        noteFinale: true
-    });
+        }
+    ];
 }

@@ -139,6 +139,12 @@ document.addEventListener("DOMContentLoaded", () => {
         examplesButton.addEventListener("click", event => {
             event.stopPropagation();
             examplesMenu.classList.toggle("show");
+
+            // La liste est relue à chaque ouverture : les .py ajoutés
+            // dans le dossier apparaissent sans recharger la page.
+            if (examplesMenu.classList.contains("show")) {
+                refreshLibrary();
+            }
         });
 
         document.addEventListener("click", () => {
@@ -149,74 +155,6 @@ document.addEventListener("DOMContentLoaded", () => {
             event.stopPropagation();
         });
     }
-
-    /* =================================================
-       PROGRAMMES D'EXEMPLE
-    ================================================= */
-
-    const examples = {
-        bonjour: `print("Bonjour !")
-print("Bienvenue dans PyLab !")`,
-
-        boucle: `for nombre in range(1, 11):
-    print(nombre)`,
-
-        calcul: `nombre1 = 12
-nombre2 = 8
-
-somme = nombre1 + nombre2
-
-print("Résultat :", somme)`,
-
-        liste: `valeurs = [10, 20, 30, 40]
-effectifs = [1, 2, 3, 4]
-
-liste = numpy.repeat(valeurs, effectifs)
-print("Moyenne :", round(numpy.mean(liste), 2))
-print("Médiane :", numpy.median(liste))
-print("Variance :", round(numpy.var(liste), 2))
-print("Écart-type :", round(numpy.std(liste), 2))`,
-
-        arbre: `# P(A) ; P(B sachant A) ; P(B sachant non A)
-arbre(0.4, 0.9, 0.5)`,
-
-        graphique: `import numpy as np
-import matplotlib.pyplot as plt
-
-x = np.linspace(0, 10, 200)
-y = np.sin(x)
-
-plt.figure(figsize=(8, 4))
-plt.plot(x, y, linewidth=2, label="sin(x)")
-plt.title("Fonction sinus")
-plt.xlabel("x")
-plt.ylabel("sin(x)")
-plt.grid(True)
-plt.legend()
-plt.show()`
-    };
-
-    /* =================================================
-       CHARGER UN EXEMPLE
-    ================================================= */
-
-    document.querySelectorAll("[data-example]").forEach(button => {
-        button.addEventListener("click", () => {
-            const exampleName = button.dataset.example;
-
-            if (examples[exampleName] && editor) {
-                editor.value = examples[exampleName];
-            }
-
-            showPython();
-
-            if (examplesMenu) {
-                examplesMenu.classList.remove("show");
-            }
-
-            if (editor) editor.focus();
-        });
-    });
 
     /* =================================================
        RACCOURCI : CTRL + ENTRÉE
@@ -821,6 +759,423 @@ json.dumps(_images)
 
             importFile.value = "";
         });
+    }
+
+    /* =================================================
+       BIBLIOTHÈQUE DE PROGRAMMES (.py) — LISTE DYNAMIQUE
+       Les fichiers .py sont placés dans le dossier
+       « programmes/ ». La liste est trouvée de deux façons :
+         1) programmes/index.json (liste des noms de fichiers),
+            généré par programmes/generer_index.py ;
+         2) à défaut, la page de listing du dossier fournie
+            par le serveur (Apache / nginx autoindex,
+            python -m http.server, etc.).
+    ================================================= */
+
+    const LIBRARY_DIR = "programmes/";
+    const libraryList = document.getElementById("libraryList");
+    const libraryTitle = document.getElementById("libraryTitle");
+
+    function nomAffiche(fichier) {
+        return fichier
+            .replace(/\.py$/i, "")
+            .replace(/[_-]+/g, " ")
+            .trim();
+    }
+
+    // Variante 1 : fichier index.json
+    async function listeDepuisManifeste() {
+        const reponse = await fetch(LIBRARY_DIR + "index.json", { cache: "no-store" });
+        if (!reponse.ok) throw new Error("index.json absent");
+
+        const donnees = await reponse.json();
+        const tableau = Array.isArray(donnees) ? donnees : donnees.fichiers;
+
+        if (!Array.isArray(tableau)) throw new Error("index.json invalide");
+
+        return tableau.map(String);
+    }
+
+    // Variante 2 : listing HTML du dossier
+    async function listeDepuisDossier() {
+        const reponse = await fetch(LIBRARY_DIR, { cache: "no-store" });
+        if (!reponse.ok) throw new Error("dossier illisible");
+
+        const doc = new DOMParser().parseFromString(await reponse.text(), "text/html");
+        const noms = new Set();
+
+        doc.querySelectorAll("a[href]").forEach(a => {
+            const href = a.getAttribute("href").split(/[?#]/)[0];
+            if (!/\.py$/i.test(href)) return;
+
+            const dernier = href.split("/").pop();
+            try {
+                noms.add(decodeURIComponent(dernier));
+            } catch (e) {
+                noms.add(dernier);
+            }
+        });
+
+        return [...noms];
+    }
+
+    async function listerProgrammes() {
+        let fichiers;
+
+        try {
+            fichiers = await listeDepuisManifeste();
+        } catch (e) {
+            fichiers = await listeDepuisDossier();
+        }
+
+        return fichiers
+            .filter(nom => /\.py$/i.test(nom) && !nom.startsWith("_") && !nom.includes("/"))
+            .sort((a, b) => a.localeCompare(b, "fr", { numeric: true, sensitivity: "base" }));
+    }
+
+    async function chargerProgramme(fichier) {
+        try {
+            const reponse = await fetch(
+                LIBRARY_DIR + encodeURIComponent(fichier),
+                { cache: "no-store" }
+            );
+            if (!reponse.ok) throw new Error("HTTP " + reponse.status);
+
+            const code = decoderTexte(await reponse.arrayBuffer());
+
+            if (editor) {
+                editor.value = code;
+                editor.scrollTop = 0;
+            }
+
+            showPython();
+
+            if (output) {
+                output.textContent =
+                    "✓ Programme chargé depuis la bibliothèque.\n\n" +
+                    "Fichier : " + fichier + "\n\n" +
+                    "Clique sur Exécuter pour le lancer.";
+            }
+
+            if (editor) editor.focus();
+
+        } catch (e) {
+            console.warn("Chargement du programme impossible :", e);
+
+            showPython();
+
+            if (output) {
+                output.textContent =
+                    "Impossible de charger « " + fichier + " ».\n\n" +
+                    "Vérifie que le fichier est bien dans le dossier « programmes/ ».";
+            }
+        }
+    }
+
+    function afficherInfoBibliotheque(texte) {
+        if (!libraryList || !libraryTitle) return;
+
+        const info = document.createElement("div");
+        info.className = "submenu-info";
+        info.textContent = texte;
+
+        libraryList.replaceChildren(info);
+        libraryTitle.hidden = false;
+    }
+
+    async function refreshLibrary() {
+        if (!libraryList || !libraryTitle) return;
+
+        try {
+            const fichiers = await listerProgrammes();
+
+            if (fichiers.length === 0) {
+                afficherInfoBibliotheque("Aucun fichier .py dans « programmes/ ».");
+                return;
+            }
+
+            libraryList.replaceChildren(...fichiers.map(fichier => {
+                const bouton = document.createElement("button");
+                bouton.type = "button";
+                bouton.className = "library-item";
+                bouton.title = fichier;
+                bouton.innerHTML = '<i class="fab fa-python"></i><span></span>';
+                bouton.querySelector("span").textContent = nomAffiche(fichier);
+
+                bouton.addEventListener("click", () => {
+                    examplesMenu.classList.remove("show");
+                    chargerProgramme(fichier);
+                });
+
+                return bouton;
+            }));
+
+            libraryTitle.hidden = false;
+
+        } catch (e) {
+            console.warn("Bibliothèque illisible :", e);
+            afficherInfoBibliotheque(
+                "Liste indisponible : lance generer_index.py ou utilise un serveur web."
+            );
+        }
+    }
+
+    /* =================================================
+       DICTÉE VOCALE (TRANSCRIPTION DE LA VOIX)
+       Utilise l'API Web Speech du navigateur (Chrome, Edge,
+       Safari). La voix est transcrite en français et insérée
+       à la position du curseur dans l'éditeur (ou dans la
+       fenêtre de zoom si elle est ouverte).
+
+       Commandes vocales utiles pour le code :
+         « à la ligne »            -> retour à la ligne
+         « tabulation »            -> indentation (4 espaces)
+         « ouvre / ferme la parenthèse », « ... le crochet »
+         « deux points », « virgule », « guillemets »
+         « égal égal » -> ==   « égal » -> =
+    ================================================= */
+
+    const SpeechRecognitionAPI =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    const micButtons = document.querySelectorAll("[data-mic]");
+    const micStatus = document.getElementById("micStatus");
+
+    // Les navigateurs mettent souvent une majuscule en début de phrase,
+    // mais Python distingue majuscules et minuscules (print ≠ Print).
+    const MINUSCULE_AUTO = true;
+
+    let recognition = null;
+    let micWanted = false;      // l'utilisateur veut écouter
+
+    // \b ne fonctionne pas avec les lettres accentuées (« à », « égal »),
+    // on utilise donc des limites de mot Unicode.
+    const DEB = "(?<![\\p{L}\\p{N}])";
+    const FIN = "(?![\\p{L}\\p{N}])";
+    const cmd = (motif, remplacement) =>
+        [new RegExp(DEB + "(?:" + motif + ")" + FIN, "giu"), remplacement];
+
+    const COMMANDES_VOCALES = [
+        cmd("à la ligne|nouvelle ligne|retour à la ligne", "\n"),
+        cmd("tabulation|indentation", "\u0001"),
+        cmd("(?:ouvre|ouvrir|ouvrez) la parenthèse", "("),
+        cmd("(?:ferme|fermer|fermez) la parenthèse", ")"),
+        cmd("(?:ouvre|ouvrir|ouvrez) le crochet", "["),
+        cmd("(?:ferme|fermer|fermez) le crochet", "]"),
+        cmd("deux[- ]points", ":"),
+        cmd("virgule", ","),
+        cmd("guillemets?", "\""),
+        cmd("égal égal", " == "),
+        cmd("égale?", " = ")
+    ];
+
+    function setMicStatus(text, isError) {
+        if (!micStatus) return;
+        micStatus.textContent = text || "";
+        micStatus.classList.toggle("mic-error", Boolean(isError));
+        micStatus.title = text || "";
+    }
+
+    function setMicState(listening) {
+        micButtons.forEach(btn => {
+            btn.classList.toggle("listening", listening);
+            btn.setAttribute("aria-pressed", String(listening));
+
+            const label = btn.querySelector(".mic-label");
+            if (label) label.textContent = listening ? "Arrêter" : "Dicter";
+
+            btn.title = listening
+                ? "Arrêter la dictée"
+                : "Dicter le code à la voix";
+
+            const icon = btn.querySelector("i");
+            if (icon) {
+                icon.className = listening
+                    ? "fas fa-microphone-slash"
+                    : "fas fa-microphone";
+            }
+        });
+    }
+
+    function getMicTarget() {
+        return zoomModal && zoomModal.classList.contains("show")
+            ? zoomContent
+            : editor;
+    }
+
+    // Transforme la phrase reconnue en texte prêt à être inséré
+    function preparerTexte(brut) {
+        let t = brut.trim();
+
+        COMMANDES_VOCALES.forEach(([regex, remplacement]) => {
+            t = t.replace(regex, remplacement);
+        });
+
+        // Nettoyage des espaces autour de la ponctuation
+        t = t
+            .replace(/[ \t]+([,:)\]])/g, "$1")
+            .replace(/([(\[])[ \t]+/g, "$1")
+            .replace(/[ \t]+\(/g, "(")
+            .replace(/[ \t]*\n[ \t]*/g, "\n")
+            .replace(/[ \t]{2,}(?=\S)/g, " ")
+            // « guillemets bonjour guillemets » -> "bonjour"
+            .replace(/"[ \t]*([^"\n]*?)[ \t]*"/g, "\"$1\"")
+            // les tabulations sont remises en dernier (espaces conservés)
+            .replace(/\u0001[ \t]*/g, "    ");
+
+        if (MINUSCULE_AUTO) {
+            t = t.replace(/^(\s*)(\p{Lu})/u, (m, esp, lettre) => esp + lettre.toLowerCase());
+        }
+
+        return t;
+    }
+
+    function insererDansCible(texte) {
+        const cible = getMicTarget();
+        if (!cible || !texte) return;
+
+        const debut = cible.selectionStart;
+        const fin = cible.selectionEnd;
+        const avant = cible.value.slice(0, debut);
+        const dernier = avant.slice(-1);
+
+        // Espace de séparation entre deux phrases dictées
+        const besoinEspace =
+            dernier !== "" &&
+            !/[\s(\[]/.test(dernier) &&
+            !/^[\s,:)\]]/.test(texte);
+
+        const aInserer = (besoinEspace ? " " : "") + texte;
+
+        cible.setRangeText(aInserer, debut, fin, "end");
+
+        // Synchronise l'éditeur et la fenêtre de zoom
+        cible.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+
+    function messageErreurMicro(code) {
+        switch (code) {
+            case "not-allowed":
+            case "service-not-allowed":
+                return "Micro refusé : autorise l'accès au micro dans le navigateur.";
+            case "audio-capture":
+                return "Aucun micro détecté.";
+            case "network":
+                return "Dictée indisponible : connexion Internet requise.";
+            case "language-not-supported":
+                return "Langue non prise en charge par ce navigateur.";
+            default:
+                return "Erreur de dictée (" + code + ").";
+        }
+    }
+
+    function startDictation() {
+        if (!SpeechRecognitionAPI || micWanted) return;
+
+        recognition = new SpeechRecognitionAPI();
+        recognition.lang = "fr-FR";
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.maxAlternatives = 1;
+
+        recognition.onresult = event => {
+            let provisoire = "";
+
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+                const resultat = event.results[i];
+                const transcription = resultat[0].transcript;
+
+                if (resultat.isFinal) {
+                    insererDansCible(preparerTexte(transcription));
+                } else {
+                    provisoire += transcription;
+                }
+            }
+
+            setMicStatus(
+                provisoire ? "… " + provisoire.trim() : "Je t'écoute…",
+                false
+            );
+        };
+
+        recognition.onerror = event => {
+            // « no-speech » et « aborted » sont normaux : on continue
+            if (event.error === "no-speech" || event.error === "aborted") return;
+
+            micWanted = false;
+            setMicStatus(messageErreurMicro(event.error), true);
+        };
+
+        recognition.onend = () => {
+            // Le navigateur coupe l'écoute après un silence : on relance
+            if (micWanted) {
+                try {
+                    recognition.start();
+                    return;
+                } catch (e) {
+                    micWanted = false;
+                }
+            }
+
+            setMicState(false);
+
+            if (micStatus && !micStatus.classList.contains("mic-error")) {
+                setMicStatus("");
+            }
+        };
+
+        try {
+            micWanted = true;
+            setMicStatus("Je t'écoute…", false);
+            recognition.start();
+            setMicState(true);
+        } catch (e) {
+            micWanted = false;
+            setMicState(false);
+            setMicStatus("Impossible de démarrer la dictée.", true);
+        }
+    }
+
+    function stopDictation() {
+        micWanted = false;
+
+        if (recognition) {
+            try { recognition.stop(); } catch (e) { /* déjà arrêtée */ }
+        }
+
+        setMicState(false);
+
+        if (micStatus && !micStatus.classList.contains("mic-error")) {
+            setMicStatus("");
+        }
+    }
+
+    if (micButtons.length) {
+        if (!SpeechRecognitionAPI) {
+            micButtons.forEach(btn => {
+                btn.disabled = true;
+                btn.title =
+                    "Dictée vocale non disponible : utilise Chrome, Edge ou Safari.";
+            });
+            setMicStatus("Dictée non disponible sur ce navigateur.", true);
+        } else {
+            micButtons.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    if (micWanted) {
+                        stopDictation();
+                    } else {
+                        setMicStatus("");
+                        startDictation();
+                    }
+                });
+            });
+
+            // Coupe le micro quand on quitte PyLab ou l'onglet
+            if (homeButton) homeButton.addEventListener("click", stopDictation);
+            document.addEventListener("visibilitychange", () => {
+                if (document.hidden) stopDictation();
+            });
+        }
     }
 
     /* =================================================

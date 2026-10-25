@@ -17,7 +17,9 @@
    IMPORTS
    ========================================================== */
 
-import "../../js/zoom-visuel.js";
+import { initZoomVisuels } from "../../js/zoom-visuel.js";
+import { initQuestionsParOnglet } from "./questions-par-onglet.js";
+import { initImpressionCompteRendu } from "./compte-rendu-chimie.js";
 import products
     from "../../data/products.js";
 
@@ -40,7 +42,7 @@ import FILIERES_PRO
 import {
     initSections,
     initTabs,
-    lireTexte,
+    initModesOperatoires,
     appliquerFiltresCategorie,
     appartientCategorie
 }
@@ -72,17 +74,7 @@ import {
 from "../../js/balance-erreurs.js";
 
 
-import {
-    genererCompteRendu
-}
-from "../../js/compte-rendu.js";
-
-
-import {
-    initContextePro,
-    getFiliereSelectionnee
-}
-from "../../js/contexte-pro.js";
+import { initContextePro } from "../../js/contexte-pro.js";
 
 
 /* ==========================================================
@@ -98,26 +90,36 @@ from "../../js/contexte-pro.js";
    sur un TP qui n'est, pour ce niveau, au programme d'aucune
    filière — incohérent avec le cadre "2nde / 1ère" de l'en-tête.
    ========================================================== */
-const CONTEXTES_PRO_TP03 = {
+const CONTEXTES_PRO = {
     "2nde-remi": {
         contexte: "Un bain de décapage acide s'épuise progressivement : son acidité diminue à mesure qu'il réagit avec les oxydes présents sur les pièces. Un titrage permet de quantifier précisément l'acidité restante et de décider objectivement du moment de son renouvellement.",
-        problematique: "Comment déterminer, par titrage, la concentration en acide restant dans un bain de décapage usagé afin de décider s'il doit être renouvelé ?"
+        problematiques: {
+            "titrage": "Comment déterminer, par titrage, la concentration en acide restant dans un bain de décapage usagé afin de décider s'il doit être renouvelé ?"
+        }
     },
     "2nde-mcc": {
         contexte: "Certains bains de finition textile doivent respecter une acidité précise pour ne pas dégrader les fibres. Un titrage acido-basique permet de vérifier objectivement la concentration en acide du bain avant de l'utiliser sur une pièce de production.",
-        problematique: "Comment vérifier, par titrage, que la concentration en acide d'un bain de finition textile respecte la valeur préconisée par la fiche technique ?"
+        problematiques: {
+            "titrage": "Comment vérifier, par titrage, que la concentration en acide d'un bain de finition textile respecte la valeur préconisée par la fiche technique ?"
+        }
     },
     "1ere-tci": {
         contexte: "Dans le cadre du contrôle qualité d'un atelier de chaudronnerie, la concentration exacte d'un bain acide de traitement de surface doit être vérifiée périodiquement par titrage, afin de garantir la reproductibilité des traitements sur les pièces produites en série.",
-        problematique: "Comment déterminer avec précision, par titrage pH-métrique, la concentration réelle d'un bain acide de traitement de surface et la comparer à la valeur théorique attendue ?"
+        problematiques: {
+            "titrage": "Comment déterminer avec précision, par titrage pH-métrique, la concentration réelle d'un bain acide de traitement de surface et la comparer à la valeur théorique attendue ?"
+        }
     },
     "1ere-trpm": {
         contexte: "Le contrôle qualité d'un liquide de coupe usagé nécessite parfois un titrage pour quantifier précisément son acidité et anticiper les risques de corrosion sur les outillages de précision, avant que le défaut ne soit visible à l'œil nu.",
-        problematique: "Comment utiliser un titrage pH-métrique pour quantifier l'acidité d'un liquide de coupe et évaluer le risque de corrosion des outillages ?"
+        problematiques: {
+            "titrage": "Comment utiliser un titrage pH-métrique pour quantifier l'acidité d'un liquide de coupe et évaluer le risque de corrosion des outillages ?"
+        }
     },
     "1ere-mcc": {
         contexte: "Un atelier textile doit s'assurer que la concentration en agent acide d'un bain de finition respecte un cahier des charges précis. Le titrage pH-métrique offre une méthode fiable et traçable pour ce contrôle qualité, plus précise qu'un simple indicateur coloré.",
-        problematique: "Comment mettre en œuvre un titrage pH-métrique pour vérifier la conformité de la concentration d'un bain de finition textile au cahier des charges ?"
+        problematiques: {
+            "titrage": "Comment mettre en œuvre un titrage pH-métrique pour vérifier la conformité de la concentration d'un bain de finition textile au cahier des charges ?"
+        }
     }
 };
 
@@ -156,19 +158,15 @@ const BASES_DB = {
 };
 
 
-
 /* ==========================================================
    VARIABLES
    ========================================================== */
 
 let reactifCourant = null;
 
-let dejaInitialise = false;
-
 let mesures = [];
 
 let zoomRange = null; // { vMin, vMax } ou null = auto
-
 
 
 /* ==========================================================
@@ -328,6 +326,17 @@ function phGeneral({ Va, Ca, natureTitre, forceAcide, forceBase, pkaAcide, pkaBa
 }
 
 
+/* ==========================================================
+   ROBUSTESSE — une étape en erreur n'empêche pas les suivantes
+   (même principe que tp-electricite)
+   ========================================================== */
+function etape(nom, fn) {
+    try {
+        fn();
+    } catch (err) {
+        console.error(`[tp-chimie] étape « ${nom} » en erreur :`, err);
+    }
+}
 
 /* ==========================================================
    INITIALISATION TP03
@@ -335,81 +344,60 @@ function phGeneral({ Va, Ca, natureTitre, forceAcide, forceBase, pkaAcide, pkaBa
 
 export function init() {
 
-    if (dejaInitialise)
-        return;
+    // Le module reste en cache d'une navigation à l'autre : l'état est
+    // remis à zéro à chaque affichage du TP (le fragment HTML est neuf).
+    reactifCourant = null;
+    mesures = [];
+    zoomRange = null;
 
-    dejaInitialise = true;
+    etape("initZoomVisuels", () => initZoomVisuels());
 
-    console.log("TP03 Titrage initialisé");
+    etape("initReactifSelect", () => initReactifSelect());
+    etape("initParametresTitrage", () => initParametresTitrage());
+    etape("initMesures", () => initMesures());
+    etape("initCourbe", () => initCourbe());
+    etape("initCorrection", () => initCorrection());
+    etape("initBalanceErreurs", () => initBalanceErreurs());
 
-
-    initSections();
-
-    initTabs();
-
-    initContextePro({
-        filieres: FILIERES_PRO,
-        contextes: CONTEXTES_PRO_TP03
+    etape("initMateriel", () => {
+        initMateriel({
+            verreId: "materiel-verrerie",
+            equipementId: "materiel-equipements",
+            glassware,
+            equipment: laboratoryEquipment,
+            categorie: "pHmétrie"
+        });
     });
 
-    initReactifSelect();
-
-
-    initMateriel({
-
-        verreId:
-            "materiel-verrerie",
-
-        equipementId:
-            "materiel-equipements",
-
-        glassware,
-
-        equipment:
-            laboratoryEquipment,
-
-        categorie:
-            "pHmétrie"
-
+    etape("initContextePro", () => {
+        initContextePro({
+            filieres: FILIERES_PRO,
+            contextes: CONTEXTES_PRO,
+            afficherProblematique: false
+        });
     });
 
-
-    initParametresTitrage();
-
-    initMesures();
-
-    initCourbe();
-
-    initCorrection();
-
-    initBalanceErreurs();
-
-    initBoutonImpressionCR();
-
-    initRadarCompetences();
-
+    etape("initSections", () => initSections());
+    etape("initTabs", () => initTabs());
+    etape("initModesOperatoires", () => initModesOperatoires());
+    etape("initRadarCompetences", () => initRadarCompetences());
 
     // premier calcul / premier rendu
-    calculerVeTheorique();
-    dessinerCourbe();
+    etape("premierRendu", () => {
+        calculerVeTheorique();
+        dessinerCourbe();
+    });
 
+    etape("initQuestionsParOnglet", () => initQuestionsParOnglet());
+
+    etape("initImpressionCompteRendu", () => {
+        initImpressionCompteRendu({
+            titre: "Titrages acido-basiques (pH-métrie)",
+            tp: "TP03",
+            sectionsSupplementaires: sectionsCompteRendu
+        });
+    });
 }
-
-
-if (document.readyState === "loading") {
-
-    document.addEventListener(
-        "DOMContentLoaded",
-        init
-    );
-
-}
-else {
-
-    init();
-
-}
-
 /* ==========================================================
    REACTIF + FILTRE SECURITE (identique TP01)
    ========================================================== */
@@ -1885,145 +1873,40 @@ function rafraichirTableauMesures() {
 }
 
 /* ==========================================================
-   BOUTON IMPRESSION COMPTE-RENDU
+   COMPTE-RENDU — sections propres au TP (insérées avant les questions ;
+   le contexte professionnel et les questions sont gérés par
+   compte-rendu-chimie.js)
    ========================================================== */
+function sectionsCompteRendu() {
 
-function initBoutonImpressionCR() {
+    const { va, ca, cb } = getParametresTitrage();
 
-    const btn =
-        $("btn-imprimer");
+    const veTheo = $("ve-theo")?.textContent || "—";
+    const veExp = $("ve-derivee")?.textContent || "—";
+    const caExp = $("ca-derivee")?.textContent || "—";
+    const ecart = $("ecart-ve")?.textContent || "—";
+    const erreurRel = $("erreur-relative")?.textContent || "—";
+    const nomReactif = reactifCourant?.nom || "—";
 
-    if (!btn) return;
-
-    btn.addEventListener("click", lancerCompteRendu);
-
-}
-
-
-
-function lancerCompteRendu() {
-
-    const identite = {
-
-        nom: lireTexte("nom-eleve"),
-        prenom: lireTexte("prenom-eleve"),
-        classe: lireTexte("classe-eleve"),
-        date: $("date-eleve")?.value || ""
-
-    };
-
-
-    const { va, ca, cb } =
-        getParametresTitrage();
-
-    const veTheo =
-        $("ve-theo")?.textContent || "—";
-
-    const veExp =
-        $("ve-derivee")?.textContent || "—";
-
-    const caExp =
-        $("ca-derivee")?.textContent || "—";
-
-    const ecart =
-        $("ecart-ve")?.textContent || "—";
-
-    const erreurRel =
-        $("erreur-relative")?.textContent || "—";
-
-
-    const nomReactif =
-        reactifCourant?.nom || "—";
-
-
-    const filiereChoisie =
-        getFiliereSelectionnee();
-
-
-    const sections = [
-
-        ...(filiereChoisie ? [{
-
-            titre: "Contexte professionnel",
-
-            items: [
-                { label: "Filière", valeur: `${filiereChoisie.niveau} — ${filiereChoisie.filiere}` }
-            ]
-
-        }] : []),
-
+    return [
         {
-
             titre: "Paramètres du titrage",
-
             items: [
-
                 { label: "Réactif", valeur: nomReactif },
                 { label: "Volume Va", valeur: `${va} mL` },
                 { label: "Concentration Ca estimée", valeur: `${ca} mol/L` },
                 { label: "Concentration Cb titrante", valeur: `${cb} mol/L` },
                 { label: "Volume équivalent théorique", valeur: veTheo }
-
             ]
-
         },
-
         {
-
             titre: "Résultats expérimentaux",
-
             items: [
-
                 { label: "Volume équivalent (dérivée)", valeur: `${veExp} mL` },
                 { label: "Concentration calculée", valeur: `${caExp} mol/L` },
                 { label: "Écart sur Ve", valeur: `${ecart} mL` },
                 { label: "Erreur relative", valeur: `${erreurRel} %` }
-
             ]
-
         }
-
     ];
-
-
-    document.querySelectorAll(".questions-tp > li").forEach((li, index) => {
-
-        const zone =
-            li.querySelector("textarea");
-
-        if (!zone) return;
-
-        const titreQuestion =
-            li.querySelector(".question-entete strong")
-                ?.textContent.replace(/\s+/g, " ").trim()
-            || `Question ${index + 1}`;
-
-        const competence =
-            li.querySelector(".cartouche")?.dataset.comp || "";
-
-        sections.push({
-
-            titre: titreQuestion,
-            competence,
-            notation: true,
-            texte: (zone.value || "").trim()
-
-        });
-
-    });
-
-
-
-    genererCompteRendu({
-
-        domaine: "Chimie",
-        tp: "TP03",
-        titre: "Titrages acido-basiques (pH-métrie)",
-        sections,
-        identiteDefaut: identite,
-        signature: false,
-        noteFinale: true
-
-    });
-
 }

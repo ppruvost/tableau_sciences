@@ -9,7 +9,6 @@
  * d'entrée doit s'appeler init().
  */
 
-import '../../js/zoom-visuel.js';
 import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../../js/utils.js';
 import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
@@ -17,6 +16,7 @@ import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-electricite.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
+import { initZoomVisuels } from '../../js/zoom-visuel.js';
 import laboratoryEquipment from '../../data/equipment.js';
 import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 
@@ -48,52 +48,97 @@ const CONTEXTES_PRO = {
 
 };
 
+// Exécute une étape d'initialisation ; une erreur dans une étape est
+// journalisée sans empêcher les suivantes de s'exécuter.
+function etape(nom, fn) {
+  try {
+    fn();
+  } catch (err) {
+    console.error(`[tp-electricite] étape « ${nom} » en erreur :`, err);
+  }
+}
+
 export function init() {
 
-  initPuissance();
-  initEnergie();
-
-  initMateriel({
-    equipementId: 'materiel-equipements',
-    equipment: laboratoryEquipment,
-    categorie: 'Puissance',
+  etape('initZoomVisuels', () => {
+    initZoomVisuels();
   });
 
-  initContextePro({
-    filieres: FILIERES_PRO,
-    contextes: CONTEXTES_PRO,
+  etape('initPuissance', () => {
+    initPuissance();
   });
+
+  etape('initEnergie', () => {
+    initEnergie();
+  });
+
+  etape('initMateriel', () => {
+    initMateriel({
+        equipementId: 'materiel-equipements',
+        equipment: laboratoryEquipment,
+        categorie: 'Puissance',
+      });
+  });
+
+  etape('initContextePro', () => {
+    initContextePro({
+        filieres: FILIERES_PRO,
+        contextes: CONTEXTES_PRO,
+          afficherProblematique: false,
+      });
+  });
+
+
 
   // Ce TP correspond à « Distinguer énergie et puissance électrique »,
   // commun aux trois filières en 1ère et déjà acquis en Tle.
-  initOngletsParFiliere({
-    mapping: {
-      '1ere-tci':  ['mesure-puissance', 'energie-consommee'],
-      '1ere-trpm': ['mesure-puissance', 'energie-consommee'],
-      '1ere-mcc':  ['mesure-puissance', 'energie-consommee'],
-      'tle-tci':   [],
-      'tle-trpm':  [],
-      'tle-mcc':   [],
-    },
-    messageId: 'tp01-message-filiere',
-    messageTexte: "Ce TP a déjà été traité en classe de 1ère : la puissance et l'énergie électriques ne sont pas reprises en Terminale.",
+  etape('initOngletsParFiliere', () => {
+    initOngletsParFiliere({
+        mapping: {
+          '1ere-tci':  ['mesure-puissance', 'energie-consommee'],
+          '1ere-trpm': ['mesure-puissance', 'energie-consommee'],
+          '1ere-mcc':  ['mesure-puissance', 'energie-consommee'],
+          'tle-tci':   [],
+          'tle-trpm':  [],
+          'tle-mcc':   [],
+        },
+        messageId: 'tp01-message-filiere',
+        messageTexte: "Ce TP a déjà été traité en classe de 1ère : la puissance et l'énergie électriques ne sont pas reprises en Terminale.",
+      });
   });
 
-  initSections();
-  initTabs();
-  initModesOperatoires();
-  initRadarCompetences();
-  initQuestionsParOnglet();
-
-  initImpressionCompteRendu({
-    titre: 'Puissance et énergie électrique',
-    tp: 'TP01',
-    // Tableaux de mesures + graphiques P = f(U×I) et E = f(P×t), insérés avant les questions.
-    sectionsSupplementaires: () => [
-      sectionMesuresCompteRendu(),
-      sectionEnergieCompteRendu(),
-    ].filter(Boolean),
+  etape('initSections', () => {
+    initSections();
   });
+
+  etape('initTabs', () => {
+    initTabs();
+  });
+
+  etape('initModesOperatoires', () => {
+    initModesOperatoires();
+  });
+
+  etape('initRadarCompetences', () => {
+    initRadarCompetences();
+  });
+
+  etape('initQuestionsParOnglet', () => {
+    initQuestionsParOnglet();
+  });
+
+  etape('initImpressionCompteRendu', () => {
+    initImpressionCompteRendu({
+        titre: 'Puissance et énergie électrique',
+        tp: 'TP01',
+        // Tableaux de mesures + graphiques P = f(U×I) et E = f(P×t), insérés avant les questions.
+        sectionsSupplementaires: () => [
+          sectionMesuresCompteRendu(),
+          sectionEnergieCompteRendu(),
+        ].filter(Boolean),
+      });
+  });
+
 }
 
 // =================================================================

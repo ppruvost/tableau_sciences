@@ -13,8 +13,10 @@ import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../..
 import { initContextePro, getFiliereSelectionnee } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
-import { initImpressionCompteRendu } from './compte-rendu-mecanique.js';
+import { initImpressionCompteRendu, texte, valeur } from './compte-rendu-mecanique.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
+import { initZoomVisuels } from '../../js/zoom-visuel.js';
 import laboratoryEquipment from '../../data/equipment.js';
 import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 import { initAcquisitionExaoPression } from './exao-pression.js';
@@ -23,7 +25,6 @@ const CONTEXTES_PRO = {
 
   '1ere-tci': {
     contexte: "Un vérin pneumatique utilisé en chaudronnerie doit exercer une force pressante suffisante sur une pièce, tout en respectant la pression maximale admissible du circuit d'air comprimé.",
-    problematique: "Comment calculer la pression exercée par un vérin et vérifier son évolution lorsque le volume d'air comprimé varie ?",
     problematiques: {
       'vitesse-acceleration': "Comment déterminer l'accélération d'un mobile et identifier la nature de son mouvement à partir du graphe des vitesses ?",
       'pression-force': "Comment calculer la pression exercée par un vérin pneumatique et vérifier la loi de Boyle-Mariotte lorsque le volume d'air varie ?",
@@ -33,7 +34,6 @@ const CONTEXTES_PRO = {
 
   '1ere-trpm': {
     contexte: "Le déplacement rapide d'un chariot automatisé sur une machine-outil doit être maîtrisé en accélération pour éviter tout à-coup préjudiciable à la précision de l'usinage.",
-    problematique: "Comment caractériser l'accélération d'un chariot automatisé et la pression exercée par un vérin de serrage ?",
     problematiques: {
       'vitesse-acceleration': "Comment caractériser l'accélération d'un chariot automatisé de machine-outil au démarrage et à l'arrêt ?",
       'pression-force': "Comment calculer la pression exercée par un vérin de serrage à partir de la force pressante et de la surface sur laquelle elle s'exerce ?",
@@ -43,7 +43,6 @@ const CONTEXTES_PRO = {
 
   '1ere-mcc': {
     contexte: "Le déplacement du tissu sous le pied-de-biche d'une machine à coudre doit être régulier, tandis que la pression exercée par ce pied-de-biche conditionne la qualité de l'entraînement du tissu.",
-    problematique: "Comment caractériser l'accélération du tissu entraîné et la pression exercée par le pied-de-biche ?",
     problematiques: {
       'vitesse-acceleration': "Comment caractériser l'accélération du tissu entraîné sous le pied-de-biche ?",
       'pression-force': "Comment calculer la pression exercée par le pied-de-biche sur le tissu à partir de la force pressante et de la surface de contact ?",
@@ -53,55 +52,119 @@ const CONTEXTES_PRO = {
 
 };
 
+// Exécute une étape d'initialisation ; une erreur dans une étape est
+// journalisée sans empêcher les suivantes de s'exécuter.
+function etape(nom, fn) {
+  try {
+    fn();
+  } catch (err) {
+    console.error(`[tp-mecanique] étape « ${nom} » en erreur :`, err);
+  }
+}
+
 export function init() {
 
-  initVitesseAcceleration();
-  initSimulateurAcceleration();
-  initPressionForce();
-  initSurfacePiston();
-  initForceInverse();
-  initBoyleMariotte();
-  initTableauMesuresBoyleMariotte();
-  initAcquisitionExaoPression();
-
-  initMateriel({
-    equipementId: 'materiel-equipements',
-    equipment: laboratoryEquipment,
-    categorie: 'CinematiquePression',
+  etape('initZoomVisuels', () => {
+    initZoomVisuels();
   });
 
-  initContextePro({
-    filieres: FILIERES_PRO,
-    contextes: CONTEXTES_PRO,
+  etape('initVitesseAcceleration', () => {
+    initVitesseAcceleration();
+  });
+
+  etape('initSimulateurAcceleration', () => {
+    initSimulateurAcceleration();
+  });
+
+  etape('initPressionForce', () => {
+    initPressionForce();
+  });
+
+  etape('initSurfacePiston', () => {
+    initSurfacePiston();
+  });
+
+  etape('initForceInverse', () => {
+    initForceInverse();
+  });
+
+  etape('initBoyleMariotte', () => {
+    initBoyleMariotte();
+  });
+
+  etape('initTableauMesuresBoyleMariotte', () => {
+    initTableauMesuresBoyleMariotte();
+  });
+
+  etape('initAcquisitionExaoPression', () => {
+    initAcquisitionExaoPression();
+  });
+
+  etape('initMateriel', () => {
+    initMateriel({
+      equipementId: 'materiel-equipements',
+      equipment: laboratoryEquipment,
+      categorie: 'CinematiquePression',
+    });
+  });
+
+  etape('initContextePro', () => {
+    initContextePro({
+      filieres: FILIERES_PRO,
+      contextes: CONTEXTES_PRO,
+      afficherProblematique: false,
+    });
   });
 
   // « Caractériser l'accélération et la vitesse » et « Distinguer
   // pression et force pressante » sont communs aux trois filières en
   // 1ère (TCI, TRPM, MCC), non repris ensuite.
-  initOngletsParFiliere({
-    mapping: {
-      '2nde-remi': [],
-      '2nde-mcc':  [],
-      '1ere-tci':  ['vitesse-acceleration', 'pression-force', 'acquisition-exao'],
-      '1ere-trpm': ['vitesse-acceleration', 'pression-force', 'acquisition-exao'],
-      '1ere-mcc':  ['vitesse-acceleration', 'pression-force', 'acquisition-exao'],
-      'tle-tci':   [],
-      'tle-trpm':  [],
-      'tle-mcc':   [],
-    },
-    messageId: 'tp03m-message-filiere',
-    messageTexte: "Ce TP n'est pas au programme de votre niveau : l'accélération et la pression sont étudiées en classe de 1ère.",
+  etape('initOngletsParFiliere', () => {
+    initOngletsParFiliere({
+      mapping: {
+        '2nde-remi': [],
+        '2nde-mcc':  [],
+        '1ere-tci':  ['vitesse-acceleration', 'pression-force', 'acquisition-exao'],
+        '1ere-trpm': ['vitesse-acceleration', 'pression-force', 'acquisition-exao'],
+        '1ere-mcc':  ['vitesse-acceleration', 'pression-force', 'acquisition-exao'],
+        'tle-tci':   [],
+        'tle-trpm':  [],
+        'tle-mcc':   [],
+      },
+      messageId: 'tp03m-message-filiere',
+      messageTexte: "Ce TP n'est pas au programme de votre niveau : l'accélération et la pression sont étudiées en classe de 1ère.",
+    });
   });
 
-  initSections();
-  initTabs();
-  initModesOperatoires();
-  initRadarCompetences();
-
-  initImpressionCompteRendu({
-    titre: 'Cinématique et pression',
-    tp: 'TP03',
+  etape('initSections', () => {
+    initSections();
   });
+
+  etape('initTabs', () => {
+    initTabs();
+  });
+
+  etape('initModesOperatoires', () => {
+    initModesOperatoires();
+  });
+
+  etape('initRadarCompetences', () => {
+    initRadarCompetences();
+  });
+
+  etape('initQuestionsParOnglet', () => {
+    initQuestionsParOnglet();
+  });
+
+  etape('initImpressionCompteRendu', () => {
+    initImpressionCompteRendu({
+      titre: 'Cinématique et pression',
+      tp: 'TP03',
+      sectionsSupplementaires: sectionsSupplementairesTp03,
+      canvasesSupplementaires: canvasesSupplementairesTp03,
+    });
+  });
+
 }
 
 // =================================================================
@@ -895,4 +958,93 @@ function dessinerCourbeBoyleMariotte(points) {
     ctx.stroke();
   });
 
+}
+
+// =================================================================
+// Compte rendu — sections et courbes propres au TP03
+// =================================================================
+
+// Tableau de mesures (V, P) de l'onglet "Pression et force pressante"
+// (loi de Boyle-Mariotte), construit à partir du tableau dynamique
+// #bm-table-corps généré par tp03-cinematique-pression.js. Retourne
+// null si aucune mesure exploitable n'a été saisie, pour ne pas
+// polluer le compte-rendu des élèves qui n'ont pas utilisé cet onglet.
+function construireSectionMesuresPression() {
+  const lignes = document.querySelectorAll('#bm-table-corps tr');
+  if (!lignes.length) return null;
+
+  const items = [...lignes].map((tr, index) => {
+    const selectDispositif = tr.querySelector('.bm-dispositif');
+    const dispositif = selectDispositif
+      ? selectDispositif.options[selectDispositif.selectedIndex].text
+      : '—';
+    const v = valeur(tr.querySelector('.bm-volume'));
+    const p = valeur(tr.querySelector('.bm-pression'));
+    const pv = texte(tr.querySelector('.bm-pv'));
+
+    const contenu = (v && p)
+      ? `V = ${v} mL — P = ${p} hPa — P × V = ${pv} hPa·mL`
+      : '(mesure non renseignée)';
+
+    return { label: `Mesure ${index + 1} (${dispositif})`, valeur: contenu };
+  });
+
+  const auMoinsUneMesure = [...lignes].some(tr =>
+    valeur(tr.querySelector('.bm-volume')) && valeur(tr.querySelector('.bm-pression'))
+  );
+  if (!auMoinsUneMesure) return null;
+
+  return { titre: 'Mesures de pression — loi de Boyle-Mariotte', items };
+}
+
+// Tableau ExAO (V, P) de l'onglet « Acquisition ExAO (pression) »,
+// construit à partir du tableau à volumes fixes #exaop-table-corps
+// généré par exao-pression.js. Retourne null si aucune mesure n'a
+// été validée, pour ne pas polluer le compte-rendu des élèves qui
+// n'ont pas utilisé cet onglet.
+function construireSectionMesuresExao() {
+  const lignes = document.querySelectorAll('#exaop-table-corps tr');
+  if (!lignes.length) return null;
+
+  const items = [...lignes]
+    .map(tr => {
+      const cellules = [...tr.children];
+      return {
+        volume: texte(cellules[0]),
+        pression: texte(cellules[1]),
+        pv: texte(cellules[2]),
+      };
+    })
+    .filter(m => m.pression && m.pression !== '—')
+    .map(m => ({
+      label: `V = ${m.volume} mL`,
+      valeur: `P = ${m.pression} hPa — P × V = ${m.pv} hPa·mL`,
+    }));
+
+  if (!items.length) return null;
+
+  return { titre: 'Acquisition ExAO — pression en fonction du volume', items };
+}
+
+function sectionsSupplementairesTp03() {
+  return [
+    construireSectionMesuresPression(),
+    construireSectionMesuresExao(),
+  ].filter(Boolean);
+}
+
+// Chaque courbe n'est incluse que si des mesures exploitables ont
+// été saisies dans l'onglet correspondant (évite un graphique vide
+// dans le compte-rendu).
+function canvasesSupplementairesTp03() {
+  return [
+    construireSectionMesuresPression() && {
+      canvas: document.getElementById('bm-canvas-courbe'),
+      titre: 'Courbe P = f(V) — loi de Boyle-Mariotte (saisie manuelle)',
+    },
+    construireSectionMesuresExao() && {
+      canvas: document.getElementById('exaop-canvas-courbe'),
+      titre: 'Courbe P = f(V) — acquisition ExAO',
+    },
+  ];
 }

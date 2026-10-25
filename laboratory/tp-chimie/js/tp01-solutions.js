@@ -3,19 +3,20 @@
  * TP01 — Dissolution - Dilution - Identification d'ions - Solutions commerciales
  */
 
-import "../../js/zoom-visuel.js";
+import { initZoomVisuels } from "../../js/zoom-visuel.js";
 import products from "../../data/products.js";
 import dangerDB from "../../data/dangerDB.js";
 import pictogrammes from "../../data/pictogrammes.js";
 import glassware from "../../data/glassware.js";
 import laboratoryEquipment from "../../data/equipment.js";
 import FILIERES_PRO from "../../data/filieres.js";
-import { initQuestionsParOnglet, listerQuestionsCR, blocDeQuestion, prefixeOnglet, titreCR } from "./questions-par-onglet.js";
+import { initQuestionsParOnglet } from "./questions-par-onglet.js";
+import { initImpressionCompteRendu } from "./compte-rendu-chimie.js";
 
 import {
     initSections,
     initTabs,
-    lireTexte,
+    initModesOperatoires,
     appliquerFiltresCategorie,
     $
 } from "../../js/utils.js";
@@ -33,14 +34,7 @@ import {
     initRadarCompetences
 } from "../../js/radar.js";
 
-import {
-    genererCompteRendu
-} from "../../js/compte-rendu.js";
-
-import {
-    initContextePro,
-    getFiliereSelectionnee
-} from "../../js/contexte-pro.js";
+import { initContextePro } from "../../js/contexte-pro.js";
 
 /* ==========================================================
    CONTEXTE PROFESSIONNEL — TP01 (Dissolution / Dilution /
@@ -52,7 +46,7 @@ import {
    automatiquement selon l'attribut data-activite du rappel
    (cf. js/contexte-pro.js).
    ========================================================== */
-const CONTEXTES_PRO_TP01 = {
+const CONTEXTES_PRO = {
     "2nde-remi": {
         contexte: "Avant l'assemblage de tôles par soudage, les ateliers de réalisation d'ensembles mécaniques utilisent des bains de dégraissage et de décapage pour préparer les surfaces métalliques. Ces bains sont livrés sous forme de concentrés qu'il faut diluer avec précision selon les préconisations du fabricant pour garantir leur efficacité sans gaspillage de produit. Après traitement, l'eau de rinçage doit elle aussi être contrôlée avant d'être évacuée, afin de vérifier qu'elle ne contient plus d'ions métalliques issus du bain.",
         problematiques: {
@@ -193,41 +187,72 @@ function initSerieDilution() {
    VARIABLES
    ========================================================== */
 let reactifCourant = null;
-let dejaInitialise = false;
+
+/* ==========================================================
+   ROBUSTESSE — une étape en erreur n'empêche pas les suivantes
+   (même principe que tp-electricite)
+   ========================================================== */
+function etape(nom, fn) {
+    try {
+        fn();
+    } catch (err) {
+        console.error(`[tp-chimie] étape « ${nom} » en erreur :`, err);
+    }
+}
 
 /* ==========================================================
    INITIALISATION TP01
    ========================================================== */
 export function init() {
-    if (dejaInitialise) return;
-    dejaInitialise = true;
 
-    console.log("TP01 — Initialisation des calculs de dissolution et dilution.");
+    // Le module reste en cache d'une navigation à l'autre : l'état est
+    // remis à zéro à chaque affichage du TP (le fragment HTML est neuf).
+    reactifCourant = null;
 
-    initSections();
-    initTabs();
-    initContextePro({
-        filieres: FILIERES_PRO,
-        contextes: CONTEXTES_PRO_TP01
+    etape("initZoomVisuels", () => initZoomVisuels());
+
+    etape("initReactifSelect", () => initReactifSelect());
+    etape("initCalculsDissolution", () => initCalculsDissolution());
+    etape("initCalculsDilution", () => initCalculsDilution());
+    etape("initSerieDilution", () => initSerieDilution());
+    etape("initTabIdentificationIons", () => initTabIdentificationIons());
+    etape("initTabSolutionsCommerciales", () => initTabSolutionsCommerciales());
+
+    etape("initMateriel", () => {
+        initMateriel({
+            verreId: "materiel-verrerie",
+            equipementId: "materiel-equipements",
+            glassware,
+            equipment: laboratoryEquipment,
+            categorie: "Dissolution"
+        });
     });
-    initReactifSelect();
-    initCalculsDissolution();
-    initCalculsDilution();
-    initSerieDilution();
-    initTabIdentificationIons();
-    initTabSolutionsCommerciales();
-    initMateriel({
-        verreId: "materiel-verrerie",
-        equipementId: "materiel-equipements",
-        glassware,
-        equipment: laboratoryEquipment,
-        categorie: "Dissolution"
+
+    etape("initContextePro", () => {
+        initContextePro({
+            filieres: FILIERES_PRO,
+            contextes: CONTEXTES_PRO,
+            afficherProblematique: false
+        });
     });
-    initQuestionsParOnglet();
-    initBoutonImpressionCR();
-    initRadarCompetences();
-    initBalanceErreurs();
+
+    etape("initSections", () => initSections());
+    etape("initTabs", () => initTabs());
+    etape("initModesOperatoires", () => initModesOperatoires());
+    etape("initRadarCompetences", () => initRadarCompetences());
+    etape("initBalanceErreurs", () => initBalanceErreurs());
+
+    etape("initQuestionsParOnglet", () => initQuestionsParOnglet());
+
+    etape("initImpressionCompteRendu", () => {
+        initImpressionCompteRendu({
+            titre: "Préparation de solutions par dissolution et dilution",
+            tp: "TP01",
+            sectionsSupplementaires: sectionsCompteRendu
+        });
+    });
 }
+
 
 /* ==========================================================
    REACTIF + FILTRE SECURITE
@@ -1046,41 +1071,18 @@ function initTabSolutionsCommerciales() {
    ========================================================== */
 
 /* ==========================================================
-   BOUTON IMPRESSION COMPTE-RENDU
+   COMPTE-RENDU — sections propres au TP (insérées avant les questions ;
+   le contexte professionnel et les questions sont gérés par
+   compte-rendu-chimie.js)
    ========================================================== */
-function initBoutonImpressionCR() {
-    const btn = $("btn-imprimer");
-    if (!btn) return;
-    btn.addEventListener("click", lancerCompteRendu);
-}
-
-function lancerCompteRendu() {
-    const identite = {
-        nom: lireTexte("nom-eleve"),
-        prenom: lireTexte("prenom-eleve"),
-        classe: lireTexte("classe-eleve"),
-        date: $("date-eleve")?.value || ""
-    };
-
+function sectionsCompteRendu() {
     const nomReactif = reactifCourant?.nom || "—";
     const masseMolaire = $("masse-molaire-reactif-selectionne")?.textContent || "—";
     const cDissolution = $("c-dissolution")?.value || "—";
     const vDissolution = $("v-dissolution")?.value || "—";
     const masseTheo = $("res-dissolution")?.value || "—";
-    const filiereChoisie = getFiliereSelectionnee();
 
-    const sections = [];
-
-    if (filiereChoisie) {
-        sections.push({
-            titre: "Contexte professionnel",
-            items: [
-                { label: "Filière", valeur: `${filiereChoisie.niveau} — ${filiereChoisie.filiere}` }
-            ]
-        });
-    }
-
-    sections.push(
+    const sections = [
         {
             titre: "Paramètres de la dissolution",
             groupe: "dissolution",
@@ -1136,53 +1138,7 @@ function lancerCompteRendu() {
                 { label: "Réactif ajouté", valeur: $("select-reactif-ions")?.selectedOptions?.[0]?.textContent || "—" }
             ]
         }
-    );
+    ];
 
-    // Seules les questions du bloc actuellement visible (onglet de
-    // manipulation actif) sont incluses dans le compte-rendu.
-    const liste = listerQuestionsCR();
-
-    liste.forEach((li, index) => {
-        const zone = li.querySelector("textarea.cr-reponse, textarea[id^='question']")
-                     || li.querySelector("textarea");
-        if (!zone) return;
-
-        const titreQuestion = li.querySelector(".question-entete strong")
-            ?.textContent.replace(/\s+/g, " ").trim() || `Question ${index + 1}`;
-        const competence = li.querySelector(".cartouche")?.dataset.comp || "";
-        const groupe = blocDeQuestion(li)?.dataset.onglet || "dissolution";
-
-        sections.push({
-            titre: titreCR(li, titreQuestion),
-            competence,
-            notation: true,
-            groupe,
-            texte: (zone.value || "").trim()
-        });
-    });
-
-    genererCompteRendu({
-        domaine: "Chimie",
-        tp: "TP01",
-        titre: "Préparation de solutions par dissolution et dilution",
-        sections,
-        groupes: [
-            { id: "dissolution", label: "Partie Dissolution", defaut: true },
-            { id: "dilution",    label: "Partie Dilution",    defaut: true },
-            { id: "identification-ions", label: "Partie Identification d'ions", defaut: true },
-            { id: "solutions-commerciales", label: "Partie Solutions commerciales (Tle)", defaut: true }
-        ],
-        identiteDefaut: identite,
-        signature: false,
-        noteFinale: true
-    });
-}
-
-/* ==========================================================
-   INITIALISATION AU CHARGEMENT
-   ========================================================== */
-if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-} else {
-    init();
+    return sections;
 }

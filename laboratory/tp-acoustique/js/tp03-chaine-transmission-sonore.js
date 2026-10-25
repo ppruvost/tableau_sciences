@@ -11,12 +11,12 @@
  *    d'entrée DOIT donc s'appeler init(), pas initTP03()
  */
 
-import '../../js/zoom-visuel.js';
+import { initZoomVisuels } from '../../js/zoom-visuel.js';
 import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../../js/utils.js';
 import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
-import { initImpressionCompteRendu } from './compte-rendu-acoustique.js';
+import { initImpressionCompteRendu, sectionValeurs, nombreFr, canvasDe, ajouterLigne } from './compte-rendu-acoustique.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
 import laboratoryEquipment from '../../data/equipment.js';
@@ -52,43 +52,97 @@ const REPONSES_CHAINE = {
   'chaine-recepteur': 'recepteur',
 };
 
+// Exécute une étape d'initialisation ; une erreur dans une étape est
+// journalisée sans empêcher les suivantes de s'exécuter.
+function etape(nom, fn) {
+  try {
+    fn();
+  } catch (err) {
+    console.error(`[tp-acoustique] étape « ${nom} » en erreur :`, err);
+  }
+}
+
 // ---------------------------------------------------------------
 // Point d'entrée, appelé automatiquement par navigation.js
 // ---------------------------------------------------------------
 export function init() {
-  initEmetteurPiezo();
-  initRecepteurPiezo();
-  initSchemaChaine();
 
-  initMateriel({
-    equipementId: 'materiel-equipements',
-    equipment: laboratoryEquipment,
-    categorie: 'Acoustique',
+  etape('initZoomVisuels', () => {
+    initZoomVisuels();
   });
 
-  initContextePro({
-    afficherProblematique: false,
-    filieres: FILIERES_PRO,
-    contextes: CONTEXTES_PRO,
+  etape('initEmetteurPiezo', () => {
+    initEmetteurPiezo();
   });
 
-  initSections();
-  initTabs();
-  initQuestionsParOnglet();
-  initModesOperatoires();
-
-  initRadarCompetences();
-
-  initImpressionCompteRendu({
-    titre: 'Chaîne de transmission sonore',
-    tp: 'TP03',
+  etape('initRecepteurPiezo', () => {
+    initRecepteurPiezo();
   });
+
+  etape('initSchemaChaine', () => {
+    initSchemaChaine();
+  });
+
+  etape('initMateriel', () => {
+    initMateriel({
+      equipementId: 'materiel-equipements',
+      equipment: laboratoryEquipment,
+      categorie: 'Acoustique',
+    });
+  });
+
+  etape('initContextePro', () => {
+    initContextePro({
+      afficherProblematique: false,
+      filieres: FILIERES_PRO,
+      contextes: CONTEXTES_PRO,
+    });
+  });
+
+  etape('initSections', () => {
+    initSections();
+  });
+
+  etape('initTabs', () => {
+    initTabs();
+  });
+
+  etape('initModesOperatoires', () => {
+    initModesOperatoires();
+  });
+
+  etape('initRadarCompetences', () => {
+    initRadarCompetences();
+  });
+
+  etape('initQuestionsParOnglet', () => {
+    initQuestionsParOnglet();
+  });
+
+  etape('initImpressionCompteRendu', () => {
+    initImpressionCompteRendu({
+      titre: 'Chaîne de transmission sonore',
+      tp: 'TP03',
+      // Mesures saisies (valeurs, tableaux, graphiques), insérées avant les questions.
+      sectionsSupplementaires: () => [
+        sectionEmetteurCompteRendu(),
+        sectionRecepteurCompteRendu(),
+        sectionChaineCompteRendu(),
+      ].filter(Boolean),
+    });
+  });
+
 }
 
 // =================================================================
 // Onglet 1 — Émetteur piézoélectrique
 // Relevé qualitatif (tension, observation) dans un tableau cumulatif
 // =================================================================
+// États partagés avec l'impression du compte-rendu : le module reste en cache
+// d'une navigation à l'autre, les init* les remettent à zéro.
+const mesuresEmetteur = [];
+const pointsRecepteur = [];
+
 function initEmetteurPiezo() {
 
   const btnAjouter = $('emetteur-ajouter');
@@ -98,7 +152,7 @@ function initEmetteurPiezo() {
 
   if (!btnAjouter || !tbody) return;
 
-  let compteur = 0;
+  mesuresEmetteur.length = 0;
 
   btnAjouter.addEventListener('click', () => {
 
@@ -107,15 +161,9 @@ function initEmetteurPiezo() {
 
     if (Number.isNaN(tension) || !observation) return;
 
-    compteur += 1;
+    mesuresEmetteur.push({ tension, observation });
 
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${compteur}</td>
-      <td>${arrondir(tension, 1)} V</td>
-      <td>${observation}</td>
-    `;
-    tbody.appendChild(tr);
+    ajouterLigne(tbody, [mesuresEmetteur.length, `${arrondir(tension, 1)} V`, observation]);
 
     inputTension.value = '';
     inputObservation.value = '';
@@ -136,7 +184,8 @@ function initRecepteurPiezo() {
 
   if (!btnAjouter || !tbody) return;
 
-  const points = [];
+  const points = pointsRecepteur;
+  points.length = 0;
 
   btnAjouter.addEventListener('click', () => {
 
@@ -167,16 +216,7 @@ function redessinerTableauRecepteur(tbody, points) {
   tbody.innerHTML = '';
 
   points.forEach((pt, i) => {
-
-    const tr = document.createElement('tr');
-
-    tr.innerHTML = `
-      <td>${i + 1}</td>
-      <td>${arrondir(pt.distance, 0)} cm</td>
-      <td>${arrondir(pt.tension, 0)} mV</td>
-    `;
-
-    tbody.appendChild(tr);
+    ajouterLigne(tbody, [i + 1, `${arrondir(pt.distance, 0)} cm`, `${arrondir(pt.tension, 0)} mV`]);
   });
 }
 
@@ -221,3 +261,44 @@ function initSchemaChaine() {
   });
 }
 
+// =================================================================
+// Sections transmises à js/compte-rendu.js
+// =================================================================
+
+function sectionEmetteurCompteRendu() {
+  if (!mesuresEmetteur.length) return null;
+  return {
+    titre: 'Mesures : émetteur piézoélectrique',
+    tableau: {
+      entetes: ['N°', 'Tension appliquée (V)', 'Observation'],
+      lignes: mesuresEmetteur.map((m, i) => [i + 1, nombreFr(m.tension, 1), m.observation]),
+    },
+  };
+}
+
+function sectionRecepteurCompteRendu() {
+  if (!pointsRecepteur.length) return null;
+  const section = {
+    titre: 'Mesures : récepteur piézoélectrique',
+    tableau: {
+      entetes: ['N°', 'Distance (cm)', 'Tension reçue (mV)'],
+      lignes: pointsRecepteur.map((p, i) => [i + 1, nombreFr(p.distance, 0), nombreFr(p.tension, 0)]),
+    },
+  };
+  // Graphique tracé par js/graphique.js (repris seulement s'il s'agit d'un canvas).
+  const canvas = canvasDe('graphique-recepteur-piezo');
+  if (canvas) {
+    section.canvas = canvas;
+    section.legende = 'Tension reçue en fonction de la distance';
+  }
+  return section;
+}
+
+function sectionChaineCompteRendu() {
+  return sectionValeurs('Schéma de la chaîne de transmission', [
+    ['1. Élément qui produit le son', 'chaine-emetteur'],
+    ['2. Élément qui transporte le son', 'chaine-milieu'],
+    ['3. Élément qui reçoit le son', 'chaine-recepteur'],
+    ['Vérification', 'chaine-resultat', /^[✓✗]/],
+  ]);
+}

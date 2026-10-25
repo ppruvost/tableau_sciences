@@ -1,0 +1,5 @@
+x = np.linspace(0, 20, 200)
+plt.plot(x, 10*x, "blue", label="Mobile 1 : f(x) = 10x")
+plt.plot(x, 6*x + 30, "red", label="Mobile 2 : g(x) = 6x + 30")
+plt.scatter([0, 0], [0, 30], color=["blue", "red"])
+plt.legend(); plt.grid(True)

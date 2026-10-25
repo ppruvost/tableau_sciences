@@ -9,7 +9,6 @@
  * d'entrée doit s'appeler init().
  */
 
-import '../../js/zoom-visuel.js';
 import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../../js/utils.js';
 import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
@@ -17,6 +16,7 @@ import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-electricite.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
+import { initZoomVisuels } from '../../js/zoom-visuel.js';
 import laboratoryEquipment from '../../data/equipment.js';
 import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 
@@ -48,48 +48,93 @@ const CONTEXTES_PRO = {
 
 };
 
+// Exécute une étape d'initialisation ; une erreur dans une étape est
+// journalisée sans empêcher les suivantes de s'exécuter.
+function etape(nom, fn) {
+  try {
+    fn();
+  } catch (err) {
+    console.error(`[tp-electricite] étape « ${nom} » en erreur :`, err);
+  }
+}
+
 export function init() {
 
-  initDephasage();
-  initPuissanceActive();
-
-  initMateriel({
-    equipementId: 'materiel-equipements',
-    equipment: laboratoryEquipment,
-    categorie: 'PuissanceActive',
+  etape('initZoomVisuels', () => {
+    initZoomVisuels();
   });
 
-  initContextePro({
-    filieres: FILIERES_PRO,
-    contextes: CONTEXTES_PRO,
+  etape('initDephasage', () => {
+    initDephasage();
   });
+
+  etape('initPuissanceActive', () => {
+    initPuissanceActive();
+  });
+
+  etape('initMateriel', () => {
+    initMateriel({
+        equipementId: 'materiel-equipements',
+        equipment: laboratoryEquipment,
+        categorie: 'PuissanceActive',
+      });
+  });
+
+  etape('initContextePro', () => {
+    initContextePro({
+        filieres: FILIERES_PRO,
+        contextes: CONTEXTES_PRO,
+          afficherProblematique: false,
+      });
+  });
+
+
 
   // « Évaluer la puissance consommée » ne concerne que les filières
   // Technicien en chaudronnerie industrielle et Technicien en
   // réalisation de produits mécaniques, en classe de Terminale.
-  initOngletsParFiliere({
-    mapping: {
-      '1ere-tci':  [],
-      '1ere-trpm': [],
-      '1ere-mcc':  [],
-      'tle-tci':   ['dephasage', 'puissance-active'],
-      'tle-trpm':  ['dephasage', 'puissance-active'],
-      'tle-mcc':   [],
-    },
-    messageId: 'tp03-message-filiere',
-    messageTexte: "Ce TP n'est pas au programme de votre filière : la puissance active en régime sinusoïdal concerne les filières Technicien en chaudronnerie industrielle et Technicien en réalisation de produits mécaniques, en Terminale.",
+  etape('initOngletsParFiliere', () => {
+    initOngletsParFiliere({
+        mapping: {
+          '1ere-tci':  [],
+          '1ere-trpm': [],
+          '1ere-mcc':  [],
+          'tle-tci':   ['dephasage', 'puissance-active'],
+          'tle-trpm':  ['dephasage', 'puissance-active'],
+          'tle-mcc':   [],
+        },
+        messageId: 'tp03-message-filiere',
+        messageTexte: "Ce TP n'est pas au programme de votre filière : la puissance active en régime sinusoïdal concerne les filières Technicien en chaudronnerie industrielle et Technicien en réalisation de produits mécaniques, en Terminale.",
+      });
   });
 
-  initSections();
-  initTabs();
-  initModesOperatoires();
-  initRadarCompetences();
-  initQuestionsParOnglet();
-
-  initImpressionCompteRendu({
-    titre: 'Puissance active en régime sinusoïdal',
-    tp: 'TP03',
+  etape('initSections', () => {
+    initSections();
   });
+
+  etape('initTabs', () => {
+    initTabs();
+  });
+
+  etape('initModesOperatoires', () => {
+    initModesOperatoires();
+  });
+
+  etape('initRadarCompetences', () => {
+    initRadarCompetences();
+  });
+
+  etape('initQuestionsParOnglet', () => {
+    initQuestionsParOnglet();
+  });
+
+  etape('initImpressionCompteRendu', () => {
+    initImpressionCompteRendu({
+        titre: 'Puissance active en régime sinusoïdal',
+        tp: 'TP03',
+      });
+  });
+
 }
 
 // =================================================================

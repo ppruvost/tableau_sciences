@@ -14,7 +14,9 @@ import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-mecanique.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
+import { initZoomVisuels } from '../../js/zoom-visuel.js';
 import laboratoryEquipment from '../../data/equipment.js';
 import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 
@@ -22,7 +24,6 @@ const CONTEXTES_PRO = {
 
   '2nde-remi': {
     contexte: "Sur une ligne de production, un chariot automatisé se déplace entre deux postes de travail, tandis qu'une meule ou un disque tourne à grande vitesse sur une machine-outil.",
-    problematique: "Comment décrire le mouvement d'un chariot ou la rotation d'un disque, et comment déterminer leur vitesse ?",
     problematiques: {
       'trajectoire': "Comment identifier la nature de la trajectoire d'un chariot automatisé et choisir le référentiel adapté pour décrire son mouvement ?",
       'vitesse-moyenne': "Comment déterminer la vitesse moyenne d'un chariot automatisé entre deux postes de travail ?",
@@ -32,7 +33,6 @@ const CONTEXTES_PRO = {
 
   '2nde-mcc': {
     contexte: "Sur une machine à coudre, une bobine ou un galet d'entraînement tourne à vitesse variable pour entraîner le tissu à une vitesse régulière.",
-    problematique: "Comment décrire la rotation d'un galet d'entraînement et la relier à la vitesse d'avancement du tissu ?",
     problematiques: {
       'trajectoire': "Comment identifier la trajectoire d'un point du galet d'entraînement et celle du tissu, selon le référentiel choisi ?",
       'vitesse-moyenne': "Comment déterminer la vitesse moyenne d'avancement du tissu sous l'aiguille de la machine à coudre ?",
@@ -42,49 +42,96 @@ const CONTEXTES_PRO = {
 
 };
 
+// Exécute une étape d'initialisation ; une erreur dans une étape est
+// journalisée sans empêcher les suivantes de s'exécuter.
+function etape(nom, fn) {
+  try {
+    fn();
+  } catch (err) {
+    console.error(`[tp-mecanique] étape « ${nom} » en erreur :`, err);
+  }
+}
+
 export function init() {
 
-  initQuizTrajectoire();
-  initVitesseMoyenne();
-  initFrequenceRotation();
-
-  initMateriel({
-    equipementId: 'materiel-equipements',
-    equipment: laboratoryEquipment,
-    categorie: 'Cinematique',
+  etape('initZoomVisuels', () => {
+    initZoomVisuels();
   });
 
-  initContextePro({
-    filieres: FILIERES_PRO,
-    contextes: CONTEXTES_PRO,
+  etape('initQuizTrajectoire', () => {
+    initQuizTrajectoire();
+  });
+
+  etape('initVitesseMoyenne', () => {
+    initVitesseMoyenne();
+  });
+
+  etape('initFrequenceRotation', () => {
+    initFrequenceRotation();
+  });
+
+  etape('initMateriel', () => {
+    initMateriel({
+      equipementId: 'materiel-equipements',
+      equipment: laboratoryEquipment,
+      categorie: 'Cinematique',
+    });
+  });
+
+  etape('initContextePro', () => {
+    initContextePro({
+      filieres: FILIERES_PRO,
+      contextes: CONTEXTES_PRO,
+      afficherProblematique: false,
+    });
   });
 
   // Domaine transversal « Mécanique : comment décrire le mouvement ? »
   // commun aux deux filières de 2nde (REMI et MCC), non repris ensuite.
-  initOngletsParFiliere({
-    mapping: {
-      '2nde-remi': ['trajectoire', 'vitesse-moyenne', 'frequence-rotation'],
-      '2nde-mcc':  ['trajectoire', 'vitesse-moyenne', 'frequence-rotation'],
-      '1ere-tci':  [],
-      '1ere-trpm': [],
-      '1ere-mcc':  [],
-      'tle-tci':   [],
-      'tle-trpm':  [],
-      'tle-mcc':   [],
-    },
-    messageId: 'tp01m-message-filiere',
-    messageTexte: "Ce TP a déjà été traité en classe de 2nde : la description du mouvement n'est pas reprise aux niveaux suivants.",
+  etape('initOngletsParFiliere', () => {
+    initOngletsParFiliere({
+      mapping: {
+        '2nde-remi': ['trajectoire', 'vitesse-moyenne', 'frequence-rotation'],
+        '2nde-mcc':  ['trajectoire', 'vitesse-moyenne', 'frequence-rotation'],
+        '1ere-tci':  [],
+        '1ere-trpm': [],
+        '1ere-mcc':  [],
+        'tle-tci':   [],
+        'tle-trpm':  [],
+        'tle-mcc':   [],
+      },
+      messageId: 'tp01m-message-filiere',
+      messageTexte: "Ce TP a déjà été traité en classe de 2nde : la description du mouvement n'est pas reprise aux niveaux suivants.",
+    });
   });
 
-  initSections();
-  initTabs();
-  initModesOperatoires();
-  initRadarCompetences();
-
-  initImpressionCompteRendu({
-    titre: 'Décrire un mouvement',
-    tp: 'TP01',
+  etape('initSections', () => {
+    initSections();
   });
+
+  etape('initTabs', () => {
+    initTabs();
+  });
+
+  etape('initModesOperatoires', () => {
+    initModesOperatoires();
+  });
+
+  etape('initRadarCompetences', () => {
+    initRadarCompetences();
+  });
+
+  etape('initQuestionsParOnglet', () => {
+    initQuestionsParOnglet();
+  });
+
+  etape('initImpressionCompteRendu', () => {
+    initImpressionCompteRendu({
+      titre: 'Décrire un mouvement',
+      tp: 'TP01',
+    });
+  });
+
 }
 
 // =================================================================

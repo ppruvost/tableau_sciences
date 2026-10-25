@@ -11,12 +11,12 @@
  *    d'entrée DOIT donc s'appeler init(), pas initTP02()
  */
 
-import '../../js/zoom-visuel.js';
+import { initZoomVisuels } from '../../js/zoom-visuel.js';
 import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../../js/utils.js';
 import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
-import { initImpressionCompteRendu } from './compte-rendu-acoustique.js';
+import { initImpressionCompteRendu, sectionValeurs, nombreFr, ajouterLigne } from './compte-rendu-acoustique.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
 import laboratoryEquipment from '../../data/equipment.js';
@@ -42,36 +42,81 @@ const CONTEXTES_PRO = {
 
 };
 
+// Exécute une étape d'initialisation ; une erreur dans une étape est
+// journalisée sans empêcher les suivantes de s'exécuter.
+function etape(nom, fn) {
+  try {
+    fn();
+  } catch (err) {
+    console.error(`[tp-acoustique] étape « ${nom} » en erreur :`, err);
+  }
+}
+
 // ---------------------------------------------------------------
 // Point d'entrée, appelé automatiquement par navigation.js
 // ---------------------------------------------------------------
 export function init() {
-  initMesureAttenuation();
-  initClassementIsolants();
 
-  initMateriel({
-    equipementId: 'materiel-equipements',
-    equipment: laboratoryEquipment,
-    categorie: 'Acoustique',
+  etape('initZoomVisuels', () => {
+    initZoomVisuels();
   });
 
-  initContextePro({
-    afficherProblematique: false,
-    filieres: FILIERES_PRO,
-    contextes: CONTEXTES_PRO,
+  etape('initMesureAttenuation', () => {
+    initMesureAttenuation();
   });
 
-  initSections();
-  initTabs();
-  initQuestionsParOnglet();
-  initModesOperatoires();
-
-  initRadarCompetences();
-
-  initImpressionCompteRendu({
-    titre: 'Isolation phonique',
-    tp: 'TP02',
+  etape('initClassementIsolants', () => {
+    initClassementIsolants();
   });
+
+  etape('initMateriel', () => {
+    initMateriel({
+      equipementId: 'materiel-equipements',
+      equipment: laboratoryEquipment,
+      categorie: 'Acoustique',
+    });
+  });
+
+  etape('initContextePro', () => {
+    initContextePro({
+      afficherProblematique: false,
+      filieres: FILIERES_PRO,
+      contextes: CONTEXTES_PRO,
+    });
+  });
+
+  etape('initSections', () => {
+    initSections();
+  });
+
+  etape('initTabs', () => {
+    initTabs();
+  });
+
+  etape('initModesOperatoires', () => {
+    initModesOperatoires();
+  });
+
+  etape('initRadarCompetences', () => {
+    initRadarCompetences();
+  });
+
+  etape('initQuestionsParOnglet', () => {
+    initQuestionsParOnglet();
+  });
+
+  etape('initImpressionCompteRendu', () => {
+    initImpressionCompteRendu({
+      titre: 'Isolation phonique',
+      tp: 'TP02',
+      // Mesures saisies (valeurs, tableaux, graphiques), insérées avant les questions.
+      sectionsSupplementaires: () => [
+        sectionAttenuationCompteRendu(),
+        sectionIsolantsCompteRendu(),
+      ].filter(Boolean),
+    });
+  });
+
 }
 
 // =================================================================
@@ -109,6 +154,9 @@ function initMesureAttenuation() {
 // Relevé (matériau, épaisseur, atténuation) reclassé du plus isolant
 // au moins isolant à chaque ajout
 // =================================================================
+// État partagé avec l'impression du compte-rendu (réinitialisé à chaque affichage).
+const isolants = [];
+
 function initClassementIsolants() {
 
   const btnAjouter = $('isolant-ajouter');
@@ -119,7 +167,7 @@ function initClassementIsolants() {
 
   if (!btnAjouter || !tbody) return;
 
-  const isolants = [];
+  isolants.length = 0; // état remis à zéro à chaque affichage du TP
 
   btnAjouter.addEventListener('click', () => {
 
@@ -146,16 +194,30 @@ function redessinerTableauIsolants(tbody, isolants) {
   tbody.innerHTML = '';
 
   isolants.forEach(iso => {
-
-    const tr = document.createElement('tr');
-
-    tr.innerHTML = `
-      <td>${iso.materiau}</td>
-      <td>${arrondir(iso.epaisseur, 0)} mm</td>
-      <td>${arrondir(iso.attenuation, 1)} dB</td>
-    `;
-
-    tbody.appendChild(tr);
+    ajouterLigne(tbody, [iso.materiau, `${arrondir(iso.epaisseur, 0)} mm`, `${arrondir(iso.attenuation, 1)} dB`]);
   });
+}
+
+// =================================================================
+// Sections transmises à js/compte-rendu.js
+// =================================================================
+
+function sectionAttenuationCompteRendu() {
+  return sectionValeurs('Mesures : atténuation apportée par un matériau', [
+    ['Niveau sonore sans matériau (dB)', 'niveau-sans-materiau'],
+    ['Niveau sonore avec matériau (dB)', 'niveau-avec-materiau'],
+    ['Atténuation calculée', 'attenuation-calculee'],
+  ]);
+}
+
+function sectionIsolantsCompteRendu() {
+  if (!isolants.length) return null;
+  return {
+    titre: 'Classement des matériaux isolants (du plus au moins isolant)',
+    tableau: {
+      entetes: ['Matériau', 'Épaisseur (mm)', 'Atténuation (dB)'],
+      lignes: isolants.map(i => [i.materiau, nombreFr(i.epaisseur, 0), nombreFr(i.attenuation, 1)]),
+    },
+  };
 }
 
