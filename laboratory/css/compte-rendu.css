@@ -1,0 +1,402 @@
+/* ════════════════════════════════════════════════════════════════
+   laboratory/css/compte-rendu.css
+
+   Mise en page du compte rendu de TP imprimé / enregistré en PDF
+   (A4 portrait). Chargé à la demande par js/compte-rendu.js, qui injecte
+   le document dans #cr-print-container (iframe hors écran, body.cr-printing).
+
+   Tout est limité à #cr-print-container : la feuille peut être présente
+   dans la page sans en modifier l'affichage.
+
+   Charte : bleu et blanc uniquement (daltonisme) ; les informations ne
+   reposent jamais sur la couleur seule (libellés, bordures, chiffres).
+   Les classes correspondent à celles produites par construireDocument()
+   et ses blocs (htmlSection, htmlQuestion, htmlMateriel, htmlNoteFinale…).
+   ════════════════════════════════════════════════════════════════ */
+
+#cr-print-container {
+  --cr-bleu: var(--bleu-cuivre, #1B6CA8);
+  --cr-bleu-fonce: #134B75;
+  --cr-bleu-clair: #EAF1F8;
+  --cr-gris: #4B5563;
+  --cr-trait: #9CA3AF;
+
+  box-sizing: border-box;
+  max-width: 190mm;
+  margin: 0 auto;
+  padding-bottom: 9mm;               /* réserve la place du pied de page fixe */
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-size: 9.5pt;
+  line-height: 1.4;
+  color: #111827;
+  background: #fff;
+  overflow-wrap: anywhere;
+}
+
+#cr-print-container *,
+#cr-print-container *::before,
+#cr-print-container *::after {
+  box-sizing: border-box;
+}
+
+@page {
+  size: A4 portrait;
+  margin: 12mm;
+}
+
+@media print {
+  html, body.cr-printing {
+    background: #fff;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
+/* ── En-tête (modèles SciLab = gris, MathiLab = bleu) ─────────── */
+
+#cr-print-container .cr-entete,
+#cr-print-container .cr-domaine-badge,
+#cr-print-container .cr-titre-tp {
+  font-family: Georgia, "Times New Roman", "Liberation Serif", serif;
+}
+
+#cr-print-container .cr-entete {
+  --cr-marque: #6B7280;
+  --cr-marque-fonce: #1F2937;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8mm;
+  padding-bottom: 3.5mm;
+  border-bottom: 0.8mm solid var(--cr-marque);
+}
+
+#cr-print-container .cr-entete.cr-marque-mathilab {
+  --cr-marque: #1B6CA8;
+  --cr-marque-fonce: #134B75;
+}
+
+#cr-print-container .cr-logo {
+  display: flex;
+  align-items: center;
+  gap: 4mm;
+}
+
+#cr-print-container .cr-logo svg {
+  width: 7mm;
+  height: 8.2mm;
+  flex: none;
+}
+
+#cr-print-container .cr-logo-texte {
+  font-size: 19pt;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: var(--cr-marque);
+}
+
+#cr-print-container .cr-logo-texte b {
+  font-weight: 700;
+  color: var(--cr-marque-fonce);
+}
+
+#cr-print-container .cr-entete-droite {
+  text-align: right;
+  font-size: 9pt;
+  line-height: 1.6;
+  color: #6B7280;
+}
+
+/* Étiquette : texte gris espacé (SciLab) ou pastille bleue pleine (MathiLab) */
+#cr-print-container .cr-domaine-badge {
+  display: inline-block;
+  margin: 5mm 0 2mm;
+  font-size: 7.5pt;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6B7280;
+}
+
+#cr-print-container .cr-domaine-badge.cr-marque-mathilab {
+  padding: 1mm 4mm;
+  border-radius: 10mm;
+  background: #1B6CA8;
+  color: #fff;
+}
+
+#cr-print-container .cr-titre-tp {
+  margin: 0 0 4mm;
+  font-size: 16pt;
+  line-height: 1.25;
+  font-weight: 700;
+  color: #111827;
+}
+
+#cr-print-container .cr-identification {
+  display: grid;
+  grid-template-columns: 1.3fr 1.3fr 0.8fr 0.8fr;
+  gap: 2mm;
+  margin-bottom: 4mm;
+}
+
+#cr-print-container .cr-identification > div {
+  min-height: 11mm;
+  padding: 1.2mm 2.5mm;
+  border: 1px solid var(--cr-trait);
+  border-radius: 1.5mm;
+}
+
+#cr-print-container .cr-label {
+  display: block;
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--cr-gris);
+}
+
+#cr-print-container .cr-valeur {
+  display: block;
+  margin-top: 0.5mm;
+  font-size: 10pt;
+  font-weight: 600;
+}
+
+/* ── Rubriques ────────────────────────────────────────────────── */
+
+#cr-print-container .cr-section {
+  margin: 0 0 4mm;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+#cr-print-container .cr-section h3 {
+  margin: 0 0 1.5mm;
+  padding: 1mm 2.5mm;
+  border-left: 3px solid var(--cr-bleu);
+  background: var(--cr-bleu-clair);
+  font-size: 10.5pt;
+  font-weight: 700;
+  color: var(--cr-bleu-fonce);
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+#cr-print-container .cr-section h4 {
+  margin: 2mm 0 1mm;
+  font-size: 9.5pt;
+  font-weight: 700;
+  color: var(--cr-bleu-fonce);
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+/* Tableau « libellé / valeur » (valeurs saisies, résultats) */
+#cr-print-container .cr-items {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 9pt;
+}
+
+#cr-print-container .cr-items td {
+  padding: 1.2mm 2.5mm;
+  border: 1px solid var(--cr-trait);
+  vertical-align: top;
+}
+
+#cr-print-container .cr-items td:first-child {
+  width: 42%;
+  font-weight: 600;
+  background: #F5F8FB;
+}
+
+/* Les tableaux de mesures portent leur style en ligne (compte-rendu.js) ;
+   on garantit seulement l'en-tête répété et les lignes insécables. */
+#cr-print-container table thead { display: table-header-group; }
+#cr-print-container table tr { break-inside: avoid; page-break-inside: avoid; }
+
+#cr-print-container .cr-materiel {
+  margin: 0 0 1mm;
+  padding-left: 5mm;
+  columns: 2;
+  column-gap: 8mm;
+  font-size: 9pt;
+}
+
+#cr-print-container .cr-materiel li {
+  break-inside: avoid;
+  margin-bottom: 0.4mm;
+}
+
+#cr-print-container .cr-texte-libre {
+  min-height: 12mm;
+  padding: 2mm 3mm;
+  border: 1px solid var(--cr-trait);
+  border-radius: 1.5mm;
+  white-space: normal;
+}
+
+#cr-print-container .cr-graphique {
+  display: block;
+  max-width: 100%;
+  max-height: 95mm;
+  height: auto;
+  margin: 2mm auto 0;
+  border: 1px solid var(--cr-trait);
+  background: #fff;
+}
+
+#cr-print-container .cr-vide {
+  font-style: italic;
+  color: var(--cr-gris);
+}
+
+/* ── Questions ────────────────────────────────────────────────── */
+
+#cr-print-container .cr-section-question {
+  padding: 2.5mm 3mm 3mm;
+  border: 1px solid var(--cr-trait);
+  border-left: 3px solid var(--cr-bleu);
+  border-radius: 1.5mm;
+}
+
+#cr-print-container .cr-question-entete {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 4mm;
+  margin-bottom: 2mm;
+}
+
+#cr-print-container .cr-question-titre {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  font-weight: 700;
+}
+
+#cr-print-container .cr-question-droite {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 3mm;
+}
+
+#cr-print-container .cr-comp-badge {
+  padding: 0.4mm 2.2mm;
+  border: 1.2px solid var(--cr-bleu);
+  border-radius: 1.5mm;
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+/* Cases de notation 0 / 1 / 2, à cocher par l'enseignant */
+#cr-print-container .cr-notation {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.2mm;
+}
+
+#cr-print-container .cr-notation-label {
+  margin-right: 0.5mm;
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--cr-gris);
+}
+
+#cr-print-container .cr-notation-case {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 6mm;
+  height: 6mm;
+  border: 1.2px solid var(--cr-bleu-fonce);
+  border-radius: 1mm;
+  font-size: 8.5pt;
+  font-weight: 700;
+  color: var(--cr-bleu-fonce);
+}
+
+#cr-print-container .cr-reponse-zone {
+  min-height: 16mm;
+  padding: 2mm 3mm;
+  border: 1px dashed var(--cr-trait);
+  border-radius: 1.5mm;
+  background: #FAFCFE;
+}
+
+/* ── Note finale ──────────────────────────────────────────────── */
+
+#cr-print-container .cr-note-finale {
+  margin-top: 5mm;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+#cr-print-container .cr-note-grille {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 2.5mm;
+  align-items: stretch;
+}
+
+#cr-print-container .cr-note-bareme,
+#cr-print-container .cr-note-case {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2mm 3.5mm;
+  border: 1.2px solid var(--cr-bleu-fonce);
+  border-radius: 1.5mm;
+}
+
+#cr-print-container .cr-note-label {
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--cr-gris);
+}
+
+#cr-print-container .cr-note-val {
+  margin-top: 0.8mm;
+  font-size: 8.5pt;
+}
+
+#cr-print-container .cr-note-blanc {
+  margin-top: 1mm;
+  font-size: 12pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  color: var(--cr-bleu-fonce);
+}
+
+#cr-print-container .cr-note-grande {
+  background: var(--cr-bleu-clair);
+  border-width: 2px;
+}
+
+#cr-print-container .cr-note-grande .cr-note-blanc {
+  font-size: 15pt;
+}
+
+/* ── Pied de page (répété sur chaque page imprimée) ───────────── */
+
+#cr-print-container .cr-pied {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1.2mm;
+  border-top: 1px solid var(--cr-trait);
+  background: #fff;
+  font-size: 7.5pt;
+  color: var(--cr-gris);
+}

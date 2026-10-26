@@ -3,7 +3,7 @@
  *
  * Module partagé de génération et d'impression du compte rendu de TP
  * (tp-electricite, tp-mecanique, …). Le style provient de css/compte-rendu.css,
- * chargé à la demande (modales écran + trame @media print).
+ * chargé à la demande (trame @media print du document imprimé).
  *
  *   genererCompteRendu({ titre, domaine, tp, sections, noteFinale, canvases })
  *
@@ -11,13 +11,29 @@
  *   { titre, items: [{ label, valeur }] }
  *   { titre, tableau: { entetes: [], lignes: [[]] }, canvas?, legende? }
  *   { titre, notation: true, competence, texte }   (question notée 0 / 1 / 2)
- * `canvases` (optionnel) : [{ canvas, titre }] — courbes capturées en PNG.
+ *   { titre, texte }                               (texte libre)
+ * En-tête : marque: 'scilab' (défaut) | 'mathilab', discipline? (texte en haut à droite),
+ *   domaine + tp (étiquette), titre (titre du TP).
+ * Option commune : position: 'fin' → la rubrique est imprimée après les questions.
+ *
+ * `canvas` (section) et `canvases[].canvas` acceptent un <canvas>, un <svg> ou un
+ * conteneur qui en contient un (ex. <div class="graphique-conteneur">) ; le
+ * graphique est capturé en image au moment de l'impression.
  *
  * Le matériel coché (.materiel-check-input dans #materiel-verrerie /
  * #materiel-equipements) est repris automatiquement.
  *
- * Déroulement : 1) identification de l'élève ; 2) choix des parties ;
- * 3) injection de #cr-print-container, body.cr-printing, window.print().
+ * Déroulement : aucune fenêtre intermédiaire. L'identité est lue dans la rubrique
+ * « Identification » de la page (#nom-eleve, #prenom-eleve, #classe-eleve,
+ * #date-eleve ; nom et prénom obligatoires) et toutes les parties sont imprimées.
+ * Le document est construit dans une iframe hors écran (copie des feuilles
+ * de style de la page + compte-rendu.css), puis imprimé : l'élève choisit
+ * « Enregistrer au format PDF ». Le titre du document est
+ * NOM_Prenom_TPxx_compte-rendu, qui devient le nom de fichier proposé.
+ *
+ * Pourquoi une iframe plutôt que body.cr-printing : si `afterprint` n'est pas
+ * déclenché (iOS Safari, annulation sur certains navigateurs), la page restait
+ * entièrement masquée ; l'iframe n'affecte jamais la page de l'élève.
  */
 
 /* ==========================================================
@@ -27,10 +43,21 @@
 // css/compte-rendu.css, relatif à ce module (laboratory/js/ → laboratory/css/).
 const URL_CSS = new URL('../css/compte-rendu.css', import.meta.url).href;
 
+let promesseCss = null;
+
 function chargerCss() {
-  return new Promise(resolve => {
+  if (promesseCss) return promesseCss;
+
+  promesseCss = new Promise(resolve => {
     const existant = document.getElementById('cr-css');
-    if (existant) { resolve(); return; }
+
+    if (existant) {
+      if (existant.sheet) { resolve(); return; }
+      existant.addEventListener('load', () => resolve(), { once: true });
+      existant.addEventListener('error', () => resolve(), { once: true });
+      return;
+    }
+
     const link = document.createElement('link');
     link.id = 'cr-css';
     link.rel = 'stylesheet';
@@ -42,6 +69,8 @@ function chargerCss() {
     }, { once: true });
     document.head.appendChild(link);
   });
+
+  return promesseCss;
 }
 
 /* ==========================================================
@@ -56,6 +85,11 @@ function e(valeur) {
     .replace(/"/g, '&quot;');
 }
 
+// Texte saisi par l'élève : les retours à la ligne sont conservés à l'impression.
+function eMulti(valeur) {
+  return e(valeur).replace(/\r?\n/g, '<br>');
+}
+
 function canvasVersImage(canvas) {
   if (!canvas || !canvas.width || !canvas.height) return null;
   try {
@@ -64,6 +98,79 @@ function canvasVersImage(canvas) {
     console.error('[compte-rendu] capture du canvas impossible :', err);
     return null;
   }
+}
+
+// Propriétés recopiées en style en ligne : une image SVG chargée via data: URI
+// ne voit ni les feuilles de style de la page ni les variables CSS (var(--…)).
+const PROPRIETES_SVG = [
+  'fill', 'stroke', 'stroke-width', 'stroke-dasharray', 'stroke-linecap',
+  'stroke-linejoin', 'opacity', 'fill-opacity', 'stroke-opacity',
+  'font-family', 'font-size', 'font-weight', 'font-style', 'text-anchor',
+  'dominant-baseline',
+];
+
+function svgVersImage(svg) {
+  try {
+    const boite = svg.getBoundingClientRect();
+    const clone = svg.cloneNode(true);
+    const origines = [svg, ...svg.querySelectorAll('*')];
+    const copies = [clone, ...clone.querySelectorAll('*')];
+
+    origines.forEach((origine, i) => {
+      const style = getComputedStyle(origine);
+      const css = PROPRIETES_SVG
+        .map(p => [p, style.getPropertyValue(p)])
+        .filter(([, v]) => v)
+        .map(([p, v]) => `${p}:${v}`)
+        .join(';');
+      if (copies[i] && css) copies[i].setAttribute('style', css);
+    });
+
+    let [vx, vy, vw, vh] = (clone.getAttribute('viewBox') || '')
+      .split(/[\s,]+/).map(Number);
+
+    if (!(vw > 0 && vh > 0)) {
+      if (!(boite.width > 0 && boite.height > 0)) return null;
+      vx = 0; vy = 0; vw = boite.width; vh = boite.height;
+      clone.setAttribute('viewBox', `0 0 ${vw} ${vh}`);
+    }
+
+    clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    clone.setAttribute('width', boite.width > 0 ? boite.width : vw);
+    clone.setAttribute('height', boite.height > 0 ? boite.height : vh);
+
+    const fond = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    fond.setAttribute('x', vx);
+    fond.setAttribute('y', vy);
+    fond.setAttribute('width', vw);
+    fond.setAttribute('height', vh);
+    fond.setAttribute('style', 'fill:#fff;stroke:none');
+    clone.insertBefore(fond, clone.firstChild);
+
+    const xml = new XMLSerializer().serializeToString(clone);
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(xml);
+  } catch (err) {
+    console.error('[compte-rendu] capture du SVG impossible :', err);
+    return null;
+  }
+}
+
+// <canvas>, <svg> ou conteneur d'un des deux → URL d'image (ou null).
+function elementVersImage(el) {
+  if (!el) return null;
+  if (typeof HTMLCanvasElement !== 'undefined' && el instanceof HTMLCanvasElement) {
+    return canvasVersImage(el);
+  }
+  if (el.matches?.('svg')) return svgVersImage(el);
+
+  const canvas = el.querySelector?.('canvas');
+  if (canvas) {
+    const src = canvasVersImage(canvas);
+    if (src) return src;
+  }
+  const svg = el.querySelector?.('svg');
+  if (svg) return svgVersImage(svg);
+  return null;
 }
 
 function lireMateriel(idConteneur) {
@@ -79,6 +186,17 @@ function dateFr(valeurIso) {
   return Number.isNaN(d.getTime()) ? '' : d.toLocaleDateString('fr-FR');
 }
 
+// NOM_Prenom_TP01_compte-rendu : nom de fichier proposé pour le PDF.
+function nomFichier(config, eleve) {
+  return [eleve.nom, eleve.prenom, config.tp, 'compte-rendu']
+    .filter(Boolean)
+    .join('_')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^A-Za-z0-9_-]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
 /* ==========================================================
    BLOCS DU DOCUMENT IMPRIMÉ
    ========================================================== */
@@ -88,7 +206,7 @@ const STYLE_CELLULE = 'border:1px solid #9CA3AF;padding:3px 6px;text-align:cente
 
 function htmlItems(items) {
   return `<table class="cr-items"><tbody>${items.map(it =>
-    `<tr><td>${e(it.label)}</td><td>${e(it.valeur)}</td></tr>`).join('')}</tbody></table>`;
+    `<tr><td>${e(it.label)}</td><td>${eMulti(it.valeur)}</td></tr>`).join('')}</tbody></table>`;
 }
 
 function htmlTableau({ entetes = [], lignes = [] }) {
@@ -98,10 +216,10 @@ function htmlTableau({ entetes = [], lignes = [] }) {
   return `<table style="${STYLE_TABLEAU}"><thead><tr>${th}</tr></thead><tbody>${tr}</tbody></table>`;
 }
 
-function htmlGraphique(canvas, legende) {
-  const src = canvasVersImage(canvas);
+function htmlGraphique(source, legende) {
+  const src = elementVersImage(source);
   if (!src) return '';
-  return `<img class="cr-graphique" src="${src}" alt="">`
+  return `<img class="cr-graphique" src="${e(src)}" alt="">`
     + (legende ? `<p class="cr-vide" style="margin:2px 0 0;font-size:7.5pt;">${e(legende)}</p>` : '');
 }
 
@@ -111,14 +229,14 @@ function htmlSection(section) {
   if (section.tableau) corps += htmlTableau(section.tableau);
   if (section.canvas) corps += htmlGraphique(section.canvas, section.legende);
   if (section.texte && !section.notation) {
-    corps += `<div class="cr-texte-libre">${e(section.texte)}</div>`;
+    corps += `<div class="cr-texte-libre">${eMulti(section.texte)}</div>`;
   }
   return `<div class="cr-section">${section.titre ? `<h3>${e(section.titre)}</h3>` : ''}${corps}</div>`;
 }
 
 function htmlQuestion(q) {
   const reponse = q.texte
-    ? e(q.texte)
+    ? eMulti(q.texte)
     : '<span class="cr-vide">(pas de réponse saisie)</span>';
   return `
     <div class="cr-section cr-section-question">
@@ -180,20 +298,50 @@ function htmlNoteFinale(nbQuestions) {
     </div>`;
 }
 
-const LOGO_SVG = `
-  <svg viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <circle cx="17" cy="17" r="15" fill="none" stroke="#1B6CA8" stroke-width="2.5"/>
-    <path d="M12 9h10M14 9v6l-5 9a2 2 0 0 0 2 3h12a2 2 0 0 0 2-3l-5-9V9" fill="none" stroke="#1B6CA8" stroke-width="2" stroke-linejoin="round"/>
+// Logos des deux modèles d'en-tête (SciLab : fiole grise ; MathiLab : calculatrice bleue).
+const LOGO_SCILAB = `
+  <svg viewBox="0 0 34 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M10 2h14v4h-2.5v9.5l8 14.2a3.2 3.2 0 0 1-2.8 4.8H7.3A3.2 3.2 0 0 1 4.5 29.7l8-14.2V6H10z" fill="#4B5563"/>
+    <rect x="12.5" y="22" width="9" height="1.8" rx="0.9" fill="#fff"/>
+    <circle cx="16" cy="28" r="1.7" fill="#fff"/>
+    <circle cx="21.5" cy="30" r="1.2" fill="#fff"/>
   </svg>`;
 
+const LOGO_MATHILAB = `
+  <svg viewBox="0 0 34 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect x="2" y="1" width="30" height="38" rx="5" fill="#1B6CA8" stroke="#134B75" stroke-width="1.5"/>
+    <rect x="6" y="5" width="22" height="8" rx="1.5" fill="#fff"/>
+    <g fill="#fff">
+      <rect x="7" y="17" width="5" height="4.5" rx="0.8"/><rect x="14.5" y="17" width="5" height="4.5" rx="0.8"/><rect x="22" y="17" width="5" height="4.5" rx="0.8"/>
+      <rect x="7" y="23.5" width="5" height="4.5" rx="0.8"/><rect x="14.5" y="23.5" width="5" height="4.5" rx="0.8"/><rect x="22" y="23.5" width="5" height="4.5" rx="0.8"/>
+      <rect x="7" y="30" width="5" height="4.5" rx="0.8"/><rect x="14.5" y="30" width="5" height="4.5" rx="0.8"/><rect x="22" y="30" width="5" height="4.5" rx="0.8"/>
+    </g>
+  </svg>`;
+
+const MARQUES = {
+  scilab: {
+    cle: 'scilab', nom: 'SciLab', debut: 'Sci', fin: 'Lab',
+    discipline: 'Bac Pro — Sciences physiques et chimiques', logo: LOGO_SCILAB,
+  },
+  mathilab: {
+    cle: 'mathilab', nom: 'MathiLab', debut: 'Mathi', fin: 'Lab',
+    discipline: 'Bac Pro — Mathématiques', logo: LOGO_MATHILAB,
+  },
+};
+
+// config.marque : 'scilab' (défaut) ou 'mathilab'. config.discipline remplace
+// la mention « Bac Pro — … » du coin supérieur droit.
 function construireDocument(config, eleve, corps) {
+  const marque = MARQUES[String(config.marque || 'scilab').toLowerCase()] || MARQUES.scilab;
+  const m = `cr-marque-${marque.cle}`;
+  const badge = [config.domaine || 'Sciences', config.tp].filter(Boolean).join(' — ');
   return `
-    <header class="cr-entete">
-      <div class="cr-logo">${LOGO_SVG}<span class="cr-logo-texte">Sci<span>Lab</span></span></div>
-      <div class="cr-entete-droite">Mermoz Lab<br>${e(eleve.date)}</div>
+    <header class="cr-entete ${m}">
+      <div class="cr-logo">${marque.logo}<span class="cr-logo-texte"><b>${marque.debut}</b>${marque.fin}</span></div>
+      <div class="cr-entete-droite">Compte-rendu généré le ${e(dateFr(''))}<br>${e(config.discipline || marque.discipline)}</div>
     </header>
-    <span class="cr-domaine-badge">${e(config.domaine || 'Sciences')}</span>
-    <h1 class="cr-titre-tp">${e([config.tp, config.titre].filter(Boolean).join(' — ') || 'Compte rendu de TP')}</h1>
+    <span class="cr-domaine-badge ${m}">${e(badge)}</span>
+    <h1 class="cr-titre-tp">${e(config.titre || 'Compte rendu de TP')}</h1>
     <div class="cr-identification">
       <div><span class="cr-label">Nom</span><span class="cr-valeur">${e(eleve.nom)}</span></div>
       <div><span class="cr-label">Prénom</span><span class="cr-valeur">${e(eleve.prenom)}</span></div>
@@ -201,132 +349,137 @@ function construireDocument(config, eleve, corps) {
       <div><span class="cr-label">Date</span><span class="cr-valeur">${e(eleve.date)}</span></div>
     </div>
     ${corps}
-    <footer class="cr-pied"><span>SciLab — Mermoz Lab</span><span>${e(config.tp || '')}</span></footer>`;
+    <footer class="cr-pied"><span>${marque.nom} — Mermoz Lab</span><span>${e(config.tp || '')}</span></footer>`;
 }
 
 /* ==========================================================
-   IMPRESSION (#cr-print-container + body.cr-printing)
+   IMPRESSION / PDF (iframe hors écran)
    ========================================================== */
 
-function imprimer(html) {
+// Règles minimales garantissant un PDF A4 correct même si compte-rendu.css
+// n'a pas pu être chargé. Placées AVANT les feuilles de style de la page :
+// celles-ci gardent la priorité.
+const CSS_NOYAU = `
+  @page { size: A4; margin: 12mm; }
+  html, body { margin: 0; padding: 0; background: #fff; }
+  body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  img { max-width: 100%; height: auto; }
+  .cr-section, .cr-section-question, .cr-note-finale { break-inside: avoid; page-break-inside: avoid; }
+  h3, h4 { break-after: avoid; page-break-after: avoid; }
+  tr { break-inside: avoid; page-break-inside: avoid; }
+  thead { display: table-header-group; }
+`;
 
-  document.getElementById('cr-print-container')?.remove();
+function imprimer(html, titreDocument) {
 
-  const conteneur = document.createElement('div');
-  conteneur.id = 'cr-print-container';
-  conteneur.innerHTML = html;
-  document.body.appendChild(conteneur);
+  return new Promise(resolve => {
 
-  const nettoyer = () => {
-    document.body.classList.remove('cr-printing');
-    conteneur.remove();
-    window.removeEventListener('afterprint', nettoyer);
-  };
-  window.addEventListener('afterprint', nettoyer);
+    document.getElementById('cr-print-frame')?.remove();
 
-  document.body.classList.add('cr-printing');
+    // Mêmes feuilles de style que la page (variables CSS, polices, print.css…),
+    // compte-rendu.css comprise puisque chargerCss() l'a ajoutée au <head>.
+    const feuilles = [...new Set(
+      [...document.querySelectorAll('link[rel="stylesheet"]')].map(l => l.href).filter(Boolean)
+    )];
 
-  // Double requestAnimationFrame : laisse le navigateur appliquer le style
-  // d'impression avant l'ouverture de la boîte de dialogue (mobile surtout).
-  requestAnimationFrame(() => requestAnimationFrame(() => window.print()));
+    const frame = document.createElement('iframe');
+    frame.id = 'cr-print-frame';
+    frame.setAttribute('aria-hidden', 'true');
+    frame.tabIndex = -1;
+    // Hors écran mais bien rendue : visibility:hidden / display:none l'exclueraient
+    // du rendu sous Chrome et Safari (PDF vide).
+    frame.style.cssText =
+      'position:fixed;left:-10000px;top:0;width:210mm;height:297mm;border:0;pointer-events:none;';
+
+    // body.cr-printing + #cr-print-container : les sélecteurs de compte-rendu.css
+    // continuent de s'appliquer tels quels dans l'iframe.
+    frame.srcdoc = `<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<title>${e(titreDocument)}</title>
+<style>${CSS_NOYAU}</style>
+${feuilles.map(h => `<link rel="stylesheet" href="${e(h)}">`).join('\n')}
+</head>
+<body class="cr-printing"><div id="cr-print-container">${html}</div></body></html>`;
+
+    frame.addEventListener('load', async () => {
+
+      const win = frame.contentWindow;
+      const doc = frame.contentDocument;
+
+      // Polices et images (graphiques) prêtes avant l'ouverture du dialogue.
+      try {
+        await Promise.all([
+          doc.fonts?.ready,
+          ...[...doc.images].map(img => (img.decode ? img.decode().catch(() => {}) : null)),
+        ]);
+      } catch (err) {
+        console.warn('[compte-rendu] attente des ressources interrompue :', err);
+      }
+
+      const ancienTitre = document.title;
+      const restaurer = () => {
+        document.title = ancienTitre;
+        setTimeout(() => frame.remove(), 500);
+      };
+      win.addEventListener('afterprint', restaurer, { once: true });
+      window.addEventListener('afterprint', restaurer, { once: true });
+
+      // Le titre devient le nom de fichier proposé à l'enregistrement du PDF.
+      document.title = titreDocument;
+
+      try {
+        win.focus();
+        win.print();
+      } catch (err) {
+        console.error('[compte-rendu] impression impossible :', err);
+        restaurer();
+        window.alert("Impossible d'ouvrir la fenêtre d'impression. Essaie avec un autre navigateur.");
+      }
+
+      resolve();
+
+    }, { once: true });
+
+    document.body.appendChild(frame);
+  });
 }
 
 /* ==========================================================
-   MODALES
+   IDENTITÉ (rubrique « Identification » de la page)
    ========================================================== */
 
-function ouvrirModale(contenu) {
-  document.getElementById('cr-modal-overlay')?.remove();
-  const overlay = document.createElement('div');
-  overlay.id = 'cr-modal-overlay';
-  overlay.className = 'cr-modal-overlay-base';
-  overlay.innerHTML = `<div class="cr-modal-box" role="dialog" aria-modal="true">${contenu}</div>`;
-  document.body.appendChild(overlay);
-
-  const fermer = () => {
-    overlay.remove();
-    document.removeEventListener('keydown', surEchap);
+function lireEleve() {
+  const val = id => (document.getElementById(id)?.value || '').trim();
+  return {
+    nom: val('nom-eleve'),
+    prenom: val('prenom-eleve'),
+    classe: val('classe-eleve'),
+    date: dateFr(val('date-eleve')), // vide → date du jour
   };
-  const surEchap = ev => { if (ev.key === 'Escape') fermer(); };
-  document.addEventListener('keydown', surEchap);
-  return { overlay, fermer };
 }
 
-function etapeIdentification(suite) {
+// Nom et prénom obligatoires (s'ils sont présents dans la page) : le champ
+// vide est signalé à l'élève, sans fenêtre supplémentaire.
+function identiteIncomplete() {
+  for (const id of ['nom-eleve', 'prenom-eleve']) {
+    const champ = document.getElementById(id);
+    if (!champ || champ.value.trim()) continue;
 
-  const aujourdhui = new Date().toISOString().slice(0, 10);
+    const message = 'Renseigne ton nom et ton prénom dans la rubrique « Identification » avant de générer le compte rendu.';
 
-  const { overlay, fermer } = ouvrirModale(`
-    <h2>Identification de l'élève</h2>
-    <p class="cr-soustitre">Ces informations figureront en tête du compte rendu.</p>
-    <label for="cr-nom">Nom</label>
-    <input type="text" id="cr-nom" autocomplete="family-name">
-    <div class="cr-erreur-champ" data-erreur="nom">Merci de renseigner le nom.</div>
-    <label for="cr-prenom">Prénom</label>
-    <input type="text" id="cr-prenom" autocomplete="given-name">
-    <div class="cr-erreur-champ" data-erreur="prenom">Merci de renseigner le prénom.</div>
-    <label for="cr-classe">Classe</label>
-    <input type="text" id="cr-classe">
-    <label for="cr-date">Date</label>
-    <input type="date" id="cr-date" value="${aujourdhui}">
-    <div class="cr-modal-actions">
-      <button type="button" data-action="annuler">Annuler</button>
-      <button type="button" data-action="suivant">Continuer</button>
-    </div>`);
+    if (champ.offsetParent === null) { // rubrique repliée : champ invisible
+      window.alert(message);
+      return true;
+    }
 
-  const champ = id => overlay.querySelector(`#cr-${id}`);
-  overlay.querySelector('[data-action="annuler"]').addEventListener('click', fermer);
-  overlay.querySelector('[data-action="suivant"]').addEventListener('click', () => {
-
-    const eleve = {
-      nom: champ('nom').value.trim(),
-      prenom: champ('prenom').value.trim(),
-      classe: champ('classe').value.trim(),
-      date: dateFr(champ('date').value),
-    };
-
-    let valide = true;
-    ['nom', 'prenom'].forEach(id => {
-      const manquant = !eleve[id];
-      overlay.querySelector(`[data-erreur="${id}"]`).style.display = manquant ? 'block' : 'none';
-      if (manquant) valide = false;
-    });
-    if (!valide) return;
-
-    fermer();
-    suite(eleve);
-  });
-
-  champ('nom').focus();
-}
-
-function etapeChoixParties(groupes, suite) {
-
-  const { overlay, fermer } = ouvrirModale(`
-    <h2>Parties à imprimer</h2>
-    <p class="cr-soustitre">Coche les parties à inclure dans le compte rendu.</p>
-    <div class="cr-groupes-liste">
-      ${groupes.map((g, i) => `
-        <label class="cr-groupe-ligne">
-          <input type="checkbox" data-index="${i}" checked>
-          <span>${e(g.libelle)}</span>
-          ${g.badge ? `<span class="cr-niveau-badge">${e(g.badge)}</span>` : ''}
-        </label>`).join('')}
-    </div>
-    <div class="cr-modal-actions">
-      <button type="button" data-action="annuler">Annuler</button>
-      <button type="button" data-action="imprimer">Imprimer</button>
-    </div>`);
-
-  overlay.querySelector('[data-action="annuler"]').addEventListener('click', fermer);
-  overlay.querySelector('[data-action="imprimer"]').addEventListener('click', () => {
-    const retenus = [...overlay.querySelectorAll('input[data-index]')]
-      .filter(cb => cb.checked)
-      .map(cb => groupes[Number(cb.dataset.index)]);
-    if (!retenus.length) return;
-    fermer();
-    suite(retenus);
-  });
+    champ.setCustomValidity(message);
+    champ.addEventListener('input', () => champ.setCustomValidity(''), { once: true });
+    champ.scrollIntoView({ block: 'center' });
+    champ.focus();
+    champ.reportValidity();
+    return true;
+  }
+  return false;
 }
 
 /* ==========================================================
@@ -335,45 +488,39 @@ function etapeChoixParties(groupes, suite) {
 
 export async function genererCompteRendu(config = {}) {
 
+  if (identiteIncomplete()) return;
+
   const sections = Array.isArray(config.sections) ? config.sections : [];
   const questions = sections.filter(s => s.notation);
   const autres = sections.filter(s => !s.notation);
+  const rubriquesDebut = autres.filter(s => s.position !== 'fin');
+  const rubriquesFin = autres.filter(s => s.position === 'fin');
 
-  // Groupes proposés à l'élève, dans l'ordre d'impression.
-  const groupes = [];
+  // Toutes les parties sont imprimées, dans cet ordre.
+  const blocs = [];
 
-  const materiel = htmlMateriel();
-  if (materiel) groupes.push({ libelle: 'Matériel utilisé', html: materiel });
+  blocs.push(htmlMateriel());
+  rubriquesDebut.forEach(s => blocs.push(htmlSection(s)));
+  blocs.push(htmlCourbes(config.canvases));
+  if (questions.length) blocs.push(questions.map(htmlQuestion).join(''));
+  rubriquesFin.forEach(s => blocs.push(htmlSection(s)));
+  if (config.noteFinale) blocs.push(htmlNoteFinale(questions.length));
 
-  autres.forEach(s => groupes.push({ libelle: s.titre || 'Rubrique', html: htmlSection(s) }));
+  const corps = blocs.filter(Boolean).join('');
 
-  const courbes = htmlCourbes(config.canvases);
-  if (courbes) groupes.push({ libelle: 'Graphiques', html: courbes });
-
-  if (questions.length) {
-    groupes.push({
-      libelle: 'Questions et réponses',
-      badge: `${questions.length} question${questions.length > 1 ? 's' : ''}`,
-      html: questions.map(htmlQuestion).join(''),
-    });
-  }
-
-  if (config.noteFinale) {
-    groupes.push({ libelle: 'Note finale', html: htmlNoteFinale(questions.length) });
-  }
-
-  if (!groupes.length) {
+  if (!corps) {
     console.warn('[compte-rendu] rien à imprimer');
     return;
   }
 
   await chargerCss();
 
-  etapeIdentification(eleve => {
-    etapeChoixParties(groupes, retenus => {
-      imprimer(construireDocument(config, eleve, retenus.map(g => g.html).join('')));
-    });
-  });
+  const eleve = lireEleve();
+
+  imprimer(
+    construireDocument(config, eleve, corps),
+    nomFichier(config, eleve) || 'compte-rendu'
+  );
 }
 
 export default genererCompteRendu;
