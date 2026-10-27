@@ -3,17 +3,19 @@
  *
  * Module partagé de génération et d'impression du compte rendu de TP
  * (tp-electricite, tp-mecanique, …). Le style provient de css/compte-rendu.css,
- * chargé à la demande (trame @media print du document imprimé).
+ * situé à la racine du site (trame @media print du document imprimé).
  *
  *   genererCompteRendu({ titre, domaine, tp, sections, noteFinale, canvases })
  *
  * Sections acceptées :
  *   { titre, items: [{ label, valeur }] }
  *   { titre, tableau: { entetes: [], lignes: [[]] }, canvas?, legende? }
- *   { titre, notation: true, competence, texte }   (question notée 0 / 1 / 2)
+ *   { titre, notation: true, competence, texte, rappel?, rappelEtiquette? }   (question notée 0 / 1 / 2 ;
+ *     `rappel` = texte de l'énoncé rappelé au-dessus de la réponse, ex. la problématique)
  *   { titre, texte }                               (texte libre)
- * En-tête : marque: 'scilab' (défaut) | 'mathilab', discipline? (texte en haut à droite),
+ * En-tête : niveau ('2nde' | '1ère' | 'Tle', pastille à côté de l'étiquette), marque: 'scilab' (défaut) | 'mathilab', discipline? (texte en haut à droite),
  *   domaine + tp (étiquette), titre (titre du TP).
+ * Option graphique : echelle (0.5 = image à 50 % de la largeur).
  * Option commune : position: 'fin' → la rubrique est imprimée après les questions.
  *
  * `canvas` (section) et `canvases[].canvas` acceptent un <canvas>, un <svg> ou un
@@ -37,41 +39,14 @@
  */
 
 /* ==========================================================
-   CHARGEMENT DU CSS (à la demande)
+   FEUILLE DE STYLE DU DOCUMENT
    ========================================================== */
 
-// css/compte-rendu.css, relatif à ce module (laboratory/js/ → laboratory/css/).
-const URL_CSS = new URL('../css/compte-rendu.css', import.meta.url).href;
-
-let promesseCss = null;
-
-function chargerCss() {
-  if (promesseCss) return promesseCss;
-
-  promesseCss = new Promise(resolve => {
-    const existant = document.getElementById('cr-css');
-
-    if (existant) {
-      if (existant.sheet) { resolve(); return; }
-      existant.addEventListener('load', () => resolve(), { once: true });
-      existant.addEventListener('error', () => resolve(), { once: true });
-      return;
-    }
-
-    const link = document.createElement('link');
-    link.id = 'cr-css';
-    link.rel = 'stylesheet';
-    link.href = URL_CSS;
-    link.addEventListener('load', () => resolve(), { once: true });
-    link.addEventListener('error', () => {
-      console.error('[compte-rendu] CSS introuvable :', URL_CSS);
-      resolve(); // on continue : le document reste imprimable, sans mise en forme
-    }, { once: true });
-    document.head.appendChild(link);
-  });
-
-  return promesseCss;
-}
+// css/compte-rendu.css est à la RACINE du site (/sciences/css/), au-dessus de
+// laboratory/ : depuis laboratory/js/compte-rendu.js → ../../css/. Elle est
+// liée directement dans l'iframe d'impression (voir imprimer()), jamais dans
+// la page de l'élève.
+const URL_CSS = new URL('../../css/compte-rendu.css', import.meta.url).href;
 
 /* ==========================================================
    UTILITAIRES
@@ -135,7 +110,7 @@ function svgVersImage(svg) {
       clone.setAttribute('viewBox', `0 0 ${vw} ${vh}`);
     }
 
-    clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    // xmlns ajouté par XMLSerializer (un setAttribute('xmlns') le dupliquerait → SVG invalide).
     clone.setAttribute('width', boite.width > 0 ? boite.width : vw);
     clone.setAttribute('height', boite.height > 0 ? boite.height : vh);
 
@@ -216,10 +191,15 @@ function htmlTableau({ entetes = [], lignes = [] }) {
   return `<table style="${STYLE_TABLEAU}"><thead><tr>${th}</tr></thead><tbody>${tr}</tbody></table>`;
 }
 
-function htmlGraphique(source, legende) {
+// echelle (0 à 1, facultatif) : largeur de l'image en proportion de la page,
+// centrée (ex. 0.5 pour le radar des compétences).
+function htmlGraphique(source, legende, echelle) {
   const src = elementVersImage(source);
   if (!src) return '';
-  return `<img class="cr-graphique" src="${e(src)}" alt="">`
+  const taille = echelle > 0 && echelle < 1
+    ? ` style="width:${Math.round(echelle * 100)}%;display:block;margin:5px auto 0;"`
+    : '';
+  return `<img class="cr-graphique" src="${e(src)}" alt=""${taille}>`
     + (legende ? `<p class="cr-vide" style="margin:2px 0 0;font-size:7.5pt;">${e(legende)}</p>` : '');
 }
 
@@ -227,7 +207,7 @@ function htmlSection(section) {
   let corps = '';
   if (Array.isArray(section.items) && section.items.length) corps += htmlItems(section.items);
   if (section.tableau) corps += htmlTableau(section.tableau);
-  if (section.canvas) corps += htmlGraphique(section.canvas, section.legende);
+  if (section.canvas) corps += htmlGraphique(section.canvas, section.legende, section.echelle);
   if (section.texte && !section.notation) {
     corps += `<div class="cr-texte-libre">${eMulti(section.texte)}</div>`;
   }
@@ -252,6 +232,7 @@ function htmlQuestion(q) {
           </span>
         </div>
       </div>
+      ${q.rappel ? `<p class="cr-question-rappel"><span class="cr-question-rappel-etiquette">${e(q.rappelEtiquette || 'Rappel')}</span>${eMulti(q.rappel)}</p>` : ''}
       <div class="cr-reponse-zone">${reponse}</div>
     </div>`;
 }
@@ -301,10 +282,10 @@ function htmlNoteFinale(nbQuestions) {
 // Logos des deux modèles d'en-tête (SciLab : fiole grise ; MathiLab : calculatrice bleue).
 const LOGO_SCILAB = `
   <svg viewBox="0 0 34 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <path d="M10 2h14v4h-2.5v9.5l8 14.2a3.2 3.2 0 0 1-2.8 4.8H7.3A3.2 3.2 0 0 1 4.5 29.7l8-14.2V6H10z" fill="#4B5563"/>
-    <rect x="12.5" y="22" width="9" height="1.8" rx="0.9" fill="#fff"/>
-    <circle cx="16" cy="28" r="1.7" fill="#fff"/>
-    <circle cx="21.5" cy="30" r="1.2" fill="#fff"/>
+    <path d="M11 3h12v3.5h-2v8.5l8.2 14.6a3.4 3.4 0 0 1-2.9 5H7.7a3.4 3.4 0 0 1-2.9-5L13 15V6.5h-2z" fill="#DDF1FD" stroke="#1B6CA8" stroke-width="2.2" stroke-linejoin="round"/>
+    <path d="M7.4 26c3.2-1.6 5.8 1 9.4-.3 3-1 5.600-.8 9.800.3l1.800 3.400a2 2 0 0 1-1.800 3H7.400a2 2 0 0 1-1.800-3z" fill="#1B6CA8"/>
+    <circle cx="16" cy="29" r="1.5" fill="#fff"/><circle cx="21.500" cy="30.500" r="1" fill="#fff"/>
+    <circle cx="17.500" cy="17.500" r="1.400" fill="#1B6CA8"/><circle cx="20" cy="21.500" r="1" fill="#1B6CA8"/>
   </svg>`;
 
 const LOGO_MATHILAB = `
@@ -329,6 +310,17 @@ const MARQUES = {
   },
 };
 
+// Niveau de classe choisi par l'élève (« 2nde », « 1ère », « Tle », avec ou sans
+// accent / majuscule) → pastille orange de l'en-tête ; rien si non reconnu.
+function htmlNiveau(brut) {
+  const n = String(brut || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  let contenu = '';
+  if (/tle|term/.test(n)) contenu = 'Tle';
+  else if (/(^|[^0-9])1(?![0-9])|premi/.test(n)) contenu = '1<sup>ère</sup>';
+  else if (/(^|[^0-9])2(?![0-9])|second/.test(n)) contenu = '2<sup>nde</sup>';
+  return contenu ? `<span class="cr-niveau-pastille">${contenu}</span>` : '';
+}
+
 // config.marque : 'scilab' (défaut) ou 'mathilab'. config.discipline remplace
 // la mention « Bac Pro — … » du coin supérieur droit.
 function construireDocument(config, eleve, corps) {
@@ -340,7 +332,9 @@ function construireDocument(config, eleve, corps) {
       <div class="cr-logo">${marque.logo}<span class="cr-logo-texte"><b>${marque.debut}</b>${marque.fin}</span></div>
       <div class="cr-entete-droite">Compte-rendu généré le ${e(dateFr(''))}<br>${e(config.discipline || marque.discipline)}</div>
     </header>
-    <span class="cr-domaine-badge ${m}">${e(badge)}</span>
+    <div class="cr-sous-entete">
+      <span class="cr-domaine-badge ${m}">${e(badge)}</span>${htmlNiveau(config.niveau)}
+    </div>
     <h1 class="cr-titre-tp">${e(config.titre || 'Compte rendu de TP')}</h1>
     <div class="cr-identification">
       <div><span class="cr-label">Nom</span><span class="cr-valeur">${e(eleve.nom)}</span></div>
@@ -376,11 +370,12 @@ function imprimer(html, titreDocument) {
 
     document.getElementById('cr-print-frame')?.remove();
 
-    // Mêmes feuilles de style que la page (variables CSS, polices, print.css…),
-    // compte-rendu.css comprise puisque chargerCss() l'a ajoutée au <head>.
-    const feuilles = [...new Set(
-      [...document.querySelectorAll('link[rel="stylesheet"]')].map(l => l.href).filter(Boolean)
-    )];
+    // Mêmes feuilles de style que la page (global.css via style.css : variables,
+    // polices, reset.css, print.css…) + compte-rendu.css, dédoublonnées par URL.
+    const feuilles = [...new Set([
+      ...[...document.querySelectorAll('link[rel="stylesheet"]')].map(l => l.href).filter(Boolean),
+      URL_CSS,
+    ])];
 
     const frame = document.createElement('iframe');
     frame.id = 'cr-print-frame';
@@ -512,8 +507,6 @@ export async function genererCompteRendu(config = {}) {
     console.warn('[compte-rendu] rien à imprimer');
     return;
   }
-
-  await chargerCss();
 
   const eleve = lireEleve();
 

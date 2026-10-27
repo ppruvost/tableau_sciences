@@ -52,28 +52,28 @@
   }
 }
 
-/* ── En-tête (modèles SciLab = gris, MathiLab = bleu) ─────────── */
+/* ── En-tête (SciLab et MathiLab : même charte bleue) ─────────── */
 
 #cr-print-container .cr-entete,
 #cr-print-container .cr-domaine-badge,
+#cr-print-container .cr-niveau-pastille,
 #cr-print-container .cr-titre-tp {
   font-family: Georgia, "Times New Roman", "Liberation Serif", serif;
 }
 
 #cr-print-container .cr-entete {
-  --cr-marque: #6B7280;
-  --cr-marque-fonce: #1F2937;
+  /* Aucun fond : on neutralise les règles globales de la page (header orange
+     dégradé, ombre, arrondis) pour que le texte reste lisible. */
+  background: none !important;
+  box-shadow: none !important;
+  border-radius: 0;
+  margin: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8mm;
   padding-bottom: 3.5mm;
-  border-bottom: 0.8mm solid var(--cr-marque);
-}
-
-#cr-print-container .cr-entete.cr-marque-mathilab {
-  --cr-marque: #1B6CA8;
-  --cr-marque-fonce: #134B75;
+  border-bottom: 0.8mm solid #1B6CA8;
 }
 
 #cr-print-container .cr-logo {
@@ -92,37 +92,58 @@
   font-size: 19pt;
   font-weight: 400;
   letter-spacing: 0.01em;
-  color: var(--cr-marque);
+  color: #1B6CA8;
 }
 
 #cr-print-container .cr-logo-texte b {
   font-weight: 700;
-  color: var(--cr-marque-fonce);
+  color: #134B75;
 }
 
 #cr-print-container .cr-entete-droite {
   text-align: right;
   font-size: 9pt;
   line-height: 1.6;
-  color: #6B7280;
+  color: #1B6CA8;
 }
 
-/* Étiquette : texte gris espacé (SciLab) ou pastille bleue pleine (MathiLab) */
-#cr-print-container .cr-domaine-badge {
-  display: inline-block;
+/* Sous la barre : pastille du domaine + pastille du niveau (même bleu) */
+#cr-print-container .cr-sous-entete {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2.5mm;
   margin: 5mm 0 2mm;
+}
+
+#cr-print-container .cr-domaine-badge,
+#cr-print-container .cr-niveau-pastille {
+  display: inline-block;
+  padding: 1mm 4mm;
+  border-radius: 10mm;
+  color: #fff;
   font-size: 7.5pt;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #6B7280;
+  line-height: 1.3;
 }
 
-#cr-print-container .cr-domaine-badge.cr-marque-mathilab {
-  padding: 1mm 4mm;
-  border-radius: 10mm;
+#cr-print-container .cr-domaine-badge {
   background: #1B6CA8;
-  color: #fff;
+}
+
+#cr-print-container .cr-niveau-pastille {
+  background: #1B6CA8;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  font-size: 8pt;
+}
+
+#cr-print-container .cr-niveau-pastille sup {
+  font-size: 0.65em;
+  line-height: 0;
+  vertical-align: 0.45em;
 }
 
 #cr-print-container .cr-titre-tp {
@@ -245,6 +266,13 @@
   margin: 2mm auto 0;
   border: 1px solid var(--cr-trait);
   background: #fff;
+}
+
+/* Radar des compétences : affiché à la moitié de la taille normale
+   (largeur exacte posée en ligne par compte-rendu.js ; ceci sert de repli). */
+#cr-print-container .cr-graphique-reduit {
+  max-width: 50%;
+  max-height: 48mm;
 }
 
 #cr-print-container .cr-vide {

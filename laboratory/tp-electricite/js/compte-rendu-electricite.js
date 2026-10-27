@@ -9,21 +9,19 @@
  * #materiel-equipements — rien à faire ici pour cette partie.
  *
  * Contenu du compte rendu (dans l'ordre) :
- *   1. contexte professionnel (filière choisie + texte du contexte) ;
+ *   1. contexte professionnel (filière choisie) ;
  *   2. travail réalisé dans les onglets de manipulation :
  *        - sectionsSupplementaires() si le TP la fournit (TP01 : mesures +
  *          graphiques P = f(U×I) et E = f(P×t)) ;
  *        - sinon capture automatique des onglets : valeurs saisies, résultats
  *          calculés (.resultat-calcul[id*="resultat"]), tableaux de mesures
  *          (tbody[id] ou cellules de saisie) et graphiques (.graphique-conteneur) ;
- *   3. questions et réponses (numérotées) ; la question 5 reprend le texte
- *      de la problématique de l'onglet ;
+ *   3. questions et réponses (numérotées) ;
  *   4. auto-évaluation des compétences (+ radar s'il a été généré).
  * L'identité est lue par compte-rendu.js dans la rubrique « Identification » de la page.
  */
 
 import { genererCompteRendu } from '../../js/compte-rendu.js';
-import { getFiliereSelectionnee } from '../../js/contexte-pro.js';
 
 /* ==========================================================
    LECTURE DU DOM
@@ -35,22 +33,6 @@ function nettoyer(chaine) {
 
 function texte(el) {
   return nettoyer(el?.textContent);
-}
-
-// Texte d'un bloc HTML en conservant la structure : un paragraphe / élément
-// de liste / titre par ligne (les listes sont reprises avec une puce).
-function texteBloc(el) {
-  if (!el) return '';
-  const copie = el.cloneNode(true);
-  copie.querySelectorAll('br').forEach(br => br.replaceWith('\n'));
-  copie.querySelectorAll('li').forEach(li => li.prepend('• '));
-  copie.querySelectorAll('p, li, h1, h2, h3, h4, h5, h6, div, tr').forEach(b => b.append('\n'));
-  return copie.textContent
-    .replace(/\u00a0/g, ' ')
-    .split('\n')
-    .map(l => l.replace(/\s+/g, ' ').trim())
-    .filter(Boolean)
-    .join('\n');
 }
 
 // Saisie libre : les retours à la ligne sont conservés (seul le trim est appliqué).
@@ -76,6 +58,20 @@ function valeurChamp(champ) {
     return champ.value ? texte(champ.selectedOptions[0]) : '';
   }
   return valeur(champ).replace(/^(-?\d+)\.(\d+)$/, '$1,$2');
+}
+
+// Texte d'un bloc HTML en conservant les paragraphes (un saut de ligne par
+// <p>, <li>, titre ou <div>) ; les rappels de problématique sont exclus.
+function texteBlocs(el) {
+  if (!el) return '';
+  const copie = el.cloneNode(true);
+  copie.querySelectorAll('.problematique-onglet, .problematique-rappel, [class*="problematique"]')
+    .forEach(n => n.remove());
+  copie.querySelectorAll('br').forEach(br => br.replaceWith('\n'));
+  copie.querySelectorAll('p, li, h1, h2, h3, h4, h5, h6, div, tr')
+    .forEach(n => n.append('\n'));
+  return copie.textContent
+    .split('\n').map(nettoyer).filter(Boolean).join('\n');
 }
 
 // Zone de résultat calculé. Le texte d'invite affiché avant la saisie
@@ -179,6 +175,41 @@ function construireSectionsManipulations() {
 }
 
 /* ==========================================================
+   NIVEAU ET FILIÈRE CHOISIS PAR L'ÉLÈVE
+   ========================================================== */
+
+// Lecture de secours dans le DOM (menus de contexte-pro.js).
+function lireFiliereDom() {
+  const selFiliere = document.getElementById('select-filiere-pro');
+  const filiere = selFiliere?.value ? texte(selFiliere.selectedOptions[0]) : '';
+
+  const selNiveau = document.querySelector('select[id*="niveau"]');
+  let niveau = selNiveau?.value ? texte(selNiveau.selectedOptions[0]) : '';
+
+  if (!niveau) {
+    const tags = [...document.querySelectorAll('.tp-meta .tag')].map(texte)
+      .filter(t => /2nde|seconde|1(ère|ere)|premi|tle|term/i.test(t));
+    if (tags.length === 1) niveau = tags[0];
+  }
+  return niveau || filiere ? { niveau, filiere } : null;
+}
+
+// Import DYNAMIQUE de contexte-pro.js : si getFiliereSelectionnee n'y est pas
+// exporté (ou si le module est introuvable), un import statique ferait échouer
+// en silence tout le module d'impression. Ici on retombe sur le DOM.
+async function lireFiliere() {
+  try {
+    const module = await import('../../js/contexte-pro.js');
+    if (typeof module.getFiliereSelectionnee === 'function') {
+      return module.getFiliereSelectionnee() || null;
+    }
+  } catch (err) {
+    console.warn('[compte-rendu] contexte-pro.js indisponible, lecture du DOM :', err);
+  }
+  return lireFiliereDom();
+}
+
+/* ==========================================================
    QUESTIONS, CONTEXTE PRO, AUTO-ÉVALUATION, IDENTITÉ
    ========================================================== */
 
@@ -207,19 +238,22 @@ function construireSectionsQuestions() {
       // La numérotation de l'écran vient d'un compteur CSS : on la reprend ici.
       const intitule = `Q${index + 1}. ${texte(li.querySelector('.question-entete strong'))}`;
 
-      // Question 5 (problématique) : le texte de la problématique, rempli à
-      // l'écran par contexte-pro.js dans .problematique-rappel, est repris.
-      const enonce = li.classList.contains('question-problematique')
-        ? texteBloc(li.querySelector('.problematique-rappel'))
-        : '';
-
-      return {
+      const question = {
         titre: prefixer && nomBloc ? `[${nomBloc}] ${intitule}` : intitule,
         notation: true,
         competence: texte(li.querySelector('.cartouche')),
         texte: valeur(li.querySelector('.zone-eleve textarea')),
-        ...(enonce ? { enonce } : {}),
       };
+
+      // Question 5 : rappel du texte de la problématique de l'onglet
+      // (rempli à l'écran par contexte-pro.js selon la filière choisie).
+      const rappel = texte(li.querySelector('.problematique-rappel'));
+      if (rappel) {
+        question.rappel = rappel;
+        question.rappelEtiquette = 'Problématique';
+      }
+
+      return question;
     });
   });
 }
@@ -227,21 +261,22 @@ function construireSectionsQuestions() {
 // Contexte professionnel (filière/niveau choisis par l'élève), pour que le
 // compte-rendu imprimé indique la même chose que ce qui est affiché à l'écran
 // via contexte-pro.js.
-function construireSectionContextePro() {
-  const filiere = getFiliereSelectionnee();
-  if (!filiere) return null;
+function construireSectionContextePro(filiere) {
 
-  // Texte du contexte professionnel affiché à l'écran (#contexte-pro-resultat,
-  // rempli par contexte-pro.js) : repris tel quel dans le compte rendu.
-  const contexte = texteBloc(document.getElementById('contexte-pro-resultat'));
+  // Texte affiché dans « Contexte professionnel » pour la filière choisie
+  // (jamais le texte d'invite « Sélectionner votre filière… »).
+  const choix = document.getElementById('select-filiere-pro');
+  const contexte = choix?.value ? texteBlocs(document.getElementById('contexte-pro-resultat')) : '';
 
-  return {
-    titre: 'Contexte professionnel',
-    items: [
-      { label: 'Filière', valeur: `${filiere.niveau} — ${filiere.filiere}` },
-    ],
-    ...(contexte ? { texte: contexte } : {}),
-  };
+  if (!filiere && !contexte) return null;
+
+  const section = { titre: 'Contexte professionnel' };
+
+  const libelle = filiere ? [filiere.niveau, filiere.filiere].filter(Boolean).join(' — ') : '';
+  if (libelle) section.items = [{ label: 'Filière', valeur: libelle }];
+  if (contexte) section.texte = contexte;
+
+  return section;
 }
 
 // Tableau d'auto-évaluation (.autoeval-table : une ligne par compétence,
@@ -269,6 +304,7 @@ function construireSectionAutoEvaluation() {
   if (radar && radar.querySelector('canvas, svg')) {
     section.canvas = radar;
     section.legende = 'Radar des compétences';
+    section.echelle = 0.5; // radar imprimé à 50 % de la largeur
   }
 
   return section;
@@ -294,14 +330,17 @@ export function initImpressionCompteRendu({ titre, tp, sectionsSupplementaires }
 
   if (!bouton) return;
 
-  bouton.addEventListener('click', () => {
+  bouton.addEventListener('click', async () => {
 
     const propres = typeof sectionsSupplementaires === 'function'
       ? (sectionsSupplementaires() || []).filter(Boolean)
       : [];
 
+    // Niveau et filière choisis par l'élève (contexte-pro.js)
+    const filiere = await lireFiliere();
+
     const sections = [
-      construireSectionContextePro(),
+      construireSectionContextePro(filiere),
       ...(propres.length ? propres : construireSectionsManipulations()),
       ...construireSectionsQuestions(),
       construireSectionAutoEvaluation(),
@@ -313,6 +352,7 @@ export function initImpressionCompteRendu({ titre, tp, sectionsSupplementaires }
       tp,
       sections,
       noteFinale: true,
+      niveau: filiere?.niveau, // pastille « 2nde / 1ère / Tle » de l'en-tête
     });
   });
 }

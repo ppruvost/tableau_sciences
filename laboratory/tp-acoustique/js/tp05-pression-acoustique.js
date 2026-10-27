@@ -16,7 +16,7 @@ import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../..
 import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
-import { initImpressionCompteRendu, sectionValeurs, nombreFr, canvasDe, ajouterLigne } from './compte-rendu-acoustique.js';
+import { initImpressionCompteRendu, sectionValeurs, nombreFr, ajouterLigne } from './compte-rendu-acoustique.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
 import laboratoryEquipment from '../../data/equipment.js';
@@ -278,10 +278,11 @@ function sectionAttenuationCompteRendu() {
       lignes: pointsAttenuation.map((p, i) => [i + 1, nombreFr(p.distance, 1), nombreFr(p.niveau, 0)]),
     },
   };
-  // Graphique tracé par js/graphique.js (repris seulement s'il s'agit d'un canvas).
-  const canvas = canvasDe('graphique-attenuation-distance');
-  if (canvas) {
-    section.canvas = canvas;
+  // Conteneur du graphique : compte-rendu.js en extrait le <svg> (aucun graphique
+  // tant qu'il y a moins de 2 points : le conteneur ne porte alors qu'un message).
+  const conteneur = document.getElementById('graphique-attenuation-distance');
+  if (conteneur?.querySelector('svg')) {
+    section.canvas = conteneur;
     section.legende = 'Niveau sonore en fonction de la distance à la source';
   }
   return section;
