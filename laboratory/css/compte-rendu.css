@@ -52,34 +52,59 @@
   }
 }
 
-/* ── En-tête (SciLab et MathiLab : même charte bleue) ─────────── */
+/* ── En-tête (SciLab, MathiLab, PyLab, AlgoLab : même charte bleue) ──
+   Reproduit exactement l'en-tête de référence « MathiLab » :
+     [logo + MathiLab]                    [Compte-rendu généré le … / niveau — matière]
+     ═══════════════ trait bleu 0,8 mm ═══════════════
+     (pastille DOMAINE — TP)  (pastille niveau)
+     Titre du TP (serif gras)
+   Les règles sont renforcées (!important sur couleurs, fonds, polices) car
+   les feuilles globales de la page (tp.css, domaine.css, style.css des TP :
+   header dégradé, .logo noir, h1 blanc…) s'appliquent aussi au document
+   imprimé et rendaient l'en-tête illisible ou différent selon le domaine. */
 
 #cr-print-container .cr-entete,
+#cr-print-container .cr-entete *,
 #cr-print-container .cr-domaine-badge,
 #cr-print-container .cr-niveau-pastille,
 #cr-print-container .cr-titre-tp {
-  font-family: Georgia, "Times New Roman", "Liberation Serif", serif;
+  font-family: Georgia, "Times New Roman", "Liberation Serif", serif !important;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
 
 #cr-print-container .cr-entete {
-  /* Aucun fond : on neutralise les règles globales de la page (header orange
-     dégradé, ombre, arrondis) pour que le texte reste lisible. */
+  /* Aucun fond : neutralise header orange/bleu dégradé, ombre, arrondis. */
   background: none !important;
+  background-image: none !important;
   box-shadow: none !important;
-  border-radius: 0;
-  margin: 0;
-  display: flex;
+  border: 0 !important;
+  border-bottom: 0.8mm solid #1B6CA8 !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  padding: 0 0 3.5mm !important;
+  display: flex !important;
   align-items: center;
   justify-content: space-between;
   gap: 8mm;
-  padding-bottom: 3.5mm;
-  border-bottom: 0.8mm solid #1B6CA8;
+  color: #1B6CA8;
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  min-height: 0 !important;
 }
 
 #cr-print-container .cr-logo {
-  display: flex;
+  display: flex !important;
   align-items: center;
   gap: 4mm;
+  /* neutralise un éventuel .logo global (fond noir, padding, arrondi) */
+  background: none !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+  filter: none !important;
 }
 
 #cr-print-container .cr-logo svg {
@@ -90,24 +115,46 @@
 
 #cr-print-container .cr-logo-texte {
   font-size: 19pt;
-  font-weight: 400;
+  font-weight: 400 !important;
   letter-spacing: 0.01em;
-  color: #1B6CA8;
+  line-height: 1.2;
+  color: #1B6CA8 !important;      /* « Lab » : bleu, graisse normale */
+  background: none !important;
+  padding: 0 !important;
+  white-space: nowrap;
 }
 
-#cr-print-container .cr-logo-texte b {
-  font-weight: 700;
-  color: #134B75;
+#cr-print-container .cr-logo-texte b,
+#cr-print-container .cr-logo-texte strong,
+#cr-print-container .cr-logo-texte .sci {
+  font-weight: 700 !important;    /* « Mathi » / « Sci » : bleu foncé, gras */
+  color: #134B75 !important;
+  background: none !important;
+}
+
+#cr-print-container .cr-logo-texte .Lab {
+  font-weight: 400 !important;
+  color: #1B6CA8 !important;
 }
 
 #cr-print-container .cr-entete-droite {
   text-align: right;
   font-size: 9pt;
   line-height: 1.6;
-  color: #1B6CA8;
+  color: #6B7280 !important;      /* gris, comme l'exemple (et non plus bleu) */
+  background: none !important;
 }
 
-/* Sous la barre : pastille du domaine + pastille du niveau (même bleu) */
+#cr-print-container .cr-entete-droite > *:not(br) {
+  display: block;
+  margin: 0;
+  color: #6B7280 !important;
+  font-size: 9pt !important;
+  font-weight: 400 !important;
+  opacity: 1 !important;
+}
+
+/* Sous la barre : pastille « DOMAINE — TP » + pastille du niveau */
 #cr-print-container .cr-sous-entete {
   display: flex;
   align-items: center;
@@ -120,21 +167,19 @@
 #cr-print-container .cr-niveau-pastille {
   display: inline-block;
   padding: 1mm 4mm;
+  border: 0;
   border-radius: 10mm;
-  color: #fff;
+  background: #1B6CA8 !important;
+  color: #fff !important;
   font-size: 7.5pt;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   line-height: 1.3;
-}
-
-#cr-print-container .cr-domaine-badge {
-  background: #1B6CA8;
+  white-space: nowrap;
 }
 
 #cr-print-container .cr-niveau-pastille {
-  background: #1B6CA8;
   letter-spacing: 0.06em;
   text-transform: none;
   font-size: 8pt;
@@ -144,14 +189,21 @@
   font-size: 0.65em;
   line-height: 0;
   vertical-align: 0.45em;
+  color: #fff !important;
 }
 
 #cr-print-container .cr-titre-tp {
   margin: 0 0 4mm;
+  padding: 0;
+  border: 0;
+  background: none !important;
+  text-shadow: none;
+  text-transform: none;
+  letter-spacing: normal;
   font-size: 16pt;
   line-height: 1.25;
   font-weight: 700;
-  color: #111827;
+  color: #111827 !important;      /* évite le h1 blanc !important des styles de TP */
 }
 
 #cr-print-container .cr-identification {

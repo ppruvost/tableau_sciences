@@ -1,263 +1,1651 @@
 [
   {
-  "nom": "3-methylbutan-1-ol",
-  "aliases": ["alcool isoamylique", "isoamyl alcohol", "isopentyl alcohol", "3-methyl-1-butanol"],
-  "formule": "C5H12O",
-  "masse": 88.148,
-  "_comment": "géométrie initiale optimisée HF/DFT, alcool primaire ramifié",
-  "structure": "18\n3-methylbutan-1-ol optimized\nO       0.0000    0.0000    0.0000\nH       0.0000    0.0000    0.9600\nC       1.4300    0.0000    0.0000\nH       1.8200    0.5400    0.8900\nH       1.8200    0.5400   -0.8900\nC       2.0500   -1.4200    0.0000\nH       1.6600   -1.9600    0.8900\nH       1.6600   -1.9600   -0.8900\nC       3.5800   -1.4200    0.0000\nH       3.9700   -0.8800    0.8900\nH       3.9700   -0.8800   -0.8900\nC       4.2000   -2.8400    0.0000\nH       3.8100   -3.3800    0.8900\nH       3.8100   -3.3800   -0.8900\nH       5.2900   -2.8400    0.0000\nC       4.2000   -0.0000    0.0000\nH       5.2900    0.0000    0.0000\nH       3.8100    0.5400    0.8900\nH       3.8100    0.5400   -0.8900\n"
+    "nom": "3-methylbutan-1-ol",
+    "aliases": [
+      "alcool isoamylique",
+      "isoamyl alcohol",
+      "isopentyl alcohol",
+      "3-methyl-1-butanol"
+    ],
+    "formule": "C5H12O",
+    "masse": 88.15,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "18\n3-méthylbutan-1-ol (RDKit ETKDG + MMFF94)\nC     -1.4026    -1.3984     0.5537\nC     -0.6189    -0.3655    -0.2596\nC     -1.4328     0.9237    -0.3783\nC      0.7584    -0.1318     0.3822\nC      1.6701     0.7768    -0.4357\nO      2.9461     0.8618     0.1874\nH     -2.3722    -1.6060     0.0887\nH     -1.5847    -1.0457     1.5747\nH     -0.8539    -2.3443     0.6141\nH     -0.4723    -0.7731    -1.2679\nH     -2.4311     0.7168    -0.7791\nH     -1.5542     1.4078     0.5966\nH     -0.9539     1.6364    -1.0564\nH      0.6443     0.2872     1.3906\nH      1.2633    -1.0964     0.5241\nH      1.8065     0.3945    -1.4523\nH      1.2694     1.7920    -0.4989\nH      3.3186    -0.0359     0.2162\n",
+    "cas": "123-51-3"
   },
   {
-  "nom": "acétate de sodium",
-  "aliases": ["CH3COONa", "sodium acetate", "éthanoate de sodium"],
-  "formule": "CH3COONa",
-  "masse": 82.03,
-  "_comment": "structure initiale simplifiée de l’acétate de sodium ; ion acétate CH3COO− associé à Na+, géométrie de départ approximative non optimisée",
-  "structure": "8\nsodium acetate initial structure\nNa       0.0000    0.0000    0.0000\nC        2.1000    0.0000    0.0000\nC        3.3000    0.0000    0.0000\nO        4.5000    1.2000    0.0000\nO        4.5000   -1.2000    0.0000\nH        1.6000    0.9000    0.0000\nH        1.6000   -0.9000    0.0000\nH        3.3000    1.0000    0.0000\n"
-},
-  {
-  "nom": "acétophénone",
-  "aliases": ["acetophenone", "methyl phenyl ketone", "c6h5coch3"],
-  "formule": "C8H8O",
-  "masse": 120.148,
-  "structure": "15\nacetophenone optimized\nC     -1.2090    0.0000    0.0000\nC     -0.6030    1.2100    0.0000\nC      0.8030    1.2100    0.0000\nC      1.4090    0.0000    0.0000\nC      0.8030   -1.2100    0.0000\nC     -0.6030   -1.2100    0.0000\nC      2.8500    0.0000    0.0000\nO      3.4500    1.1500    0.0000\nC      4.1500    0.0000    0.0000\nH     -1.6920    0.0000    0.8900\nH     -1.6920    0.0000   -0.8900\nH     -1.0850    2.1500    0.0000\nH      1.2850    2.1500    0.0000\nH      1.2850   -2.1500    0.0000\nH     -1.0850   -2.1500    0.0000\n"
+    "nom": "acétate de sodium",
+    "aliases": [
+      "CH3COONa",
+      "sodium acetate",
+      "éthanoate de sodium"
+    ],
+    "formule": "CH3COONa",
+    "masse": 82.034,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "8\néthanoate de sodium (RDKit ETKDG + MMFF94)\nC     -0.6360    -0.0778    -0.0011\nC      0.8723     0.1001     0.0008\nO      1.5408    -0.9635    -0.1223\nO      1.2646     1.2942     0.1258\nH     -1.0540     0.2927     0.9397\nH     -0.9133    -1.1305    -0.1121\nH     -1.0745     0.4847    -0.8308\nNa     3.3877     0.4094     0.0052\n",
+    "cas": "127-09-3"
   },
   {
-  "nom": "alcool polyvinylique",
-  "aliases": ["polyvinyl alcohol", "PVA", "PVOH"],
-  "formule": "(C2H4O)n",
-  "masse": 44.053,
-  "_comment": "motif répétitif du polymère alcool polyvinylique ; structure représentée ici pour une unité monomère répétitive",
-  "structure": "7\npolyvinyl alcohol repeating unit\nC       0.0000    0.0000    0.0000\nC       1.5300    0.0000    0.0000\nO       2.1400    1.2100    0.0000\nH       2.9800    1.2100    0.0000\nH      -0.5400    0.9300    0.0000\nH      -0.5400   -0.9300    0.0000\nH       1.9800   -0.8900    0.0000\n"
+    "nom": "acétophénone",
+    "aliases": [
+      "acetophenone",
+      "methyl phenyl ketone",
+      "c6h5coch3"
+    ],
+    "formule": "C8H8O",
+    "masse": 120.148,
+    "structure": "15\nacetophenone optimized\nC     -1.2090    0.0000    0.0000\nC     -0.6030    1.2100    0.0000\nC      0.8030    1.2100    0.0000\nC      1.4090    0.0000    0.0000\nC      0.8030   -1.2100    0.0000\nC     -0.6030   -1.2100    0.0000\nC      2.8500    0.0000    0.0000\nO      3.4500    1.1500    0.0000\nC      4.1500    0.0000    0.0000\nH     -1.6920    0.0000    0.8900\nH     -1.6920    0.0000   -0.8900\nH     -1.0850    2.1500    0.0000\nH      1.2850    2.1500    0.0000\nH      1.2850   -2.1500    0.0000\nH     -1.0850   -2.1500    0.0000\n"
   },
   {
-  "nom": "acide éthanoïque",
-  "aliases": ["acetic acid", "ethanoic acid", "ch3cooh"],
-  "formule": "C2H4O2",
-  "masse": 60.052,
-  "structure": "8\nacetic acid optimized\nC     -0.7480    0.0150    0.0240\nC      0.7480   -0.0150   -0.0240\nO      1.3700   -1.1150   -0.0600\nO      1.3700    1.1150    0.0600\nH      2.3000    1.0500    0.0500\nH     -1.1200    0.5400    0.9200\nH     -1.1200    0.5400   -0.8700\nH     -1.1200   -1.0500    0.0200\n"
+    "nom": "alcool polyvinylique",
+    "aliases": [
+      "polyvinyl alcohol",
+      "PVA",
+      "PVOH"
+    ],
+    "formule": "(C2H4O)n",
+    "masse": 44.053,
+    "_comment": "motif répétitif du polymère alcool polyvinylique ; structure représentée ici pour une unité monomère répétitive",
+    "structure": "7\npolyvinyl alcohol repeating unit\nC       0.0000    0.0000    0.0000\nC       1.5300    0.0000    0.0000\nO       2.1400    1.2100    0.0000\nH       2.9800    1.2100    0.0000\nH      -0.5400    0.9300    0.0000\nH      -0.5400   -0.9300    0.0000\nH       1.9800   -0.8900    0.0000\n"
   },
   {
-  "nom": "bleu de méthylène",
-  "aliases": ["methylene blue", "chlorure de méthylthioninium", "methylthioninium chloride"],
-  "formule": "C16H18ClN3S",
-  "masse": 319.85,
-  "_comment": "structure initiale approximative du bleu de méthylène (phénothiazinium chloré), colorant organique hétérocyclique soufré et azoté ; géométrie de départ à affiner par optimisation quantique",
-  "structure": "39\nmethylene blue initial structure\nC       0.0000    1.3960    0.0000\nC       1.2090    0.6980    0.0000\nC       1.2090   -0.6980    0.0000\nC       0.0000   -1.3960    0.0000\nC      -1.2090   -0.6980    0.0000\nC      -1.2090    0.6980    0.0000\nH       0.0000    2.4790    0.0000\nH       2.1470    1.2400    0.0000\nH       2.1470   -1.2400    0.0000\nH       0.0000   -2.4790    0.0000\nC      -2.5000    1.4000    0.0000\nCl     -3.9000    0.8000    0.0000\nC      -2.5000   -1.4000    0.0000\nN      -3.7000   -2.0000    0.0000\nC       3.0000    1.2000    0.0000\nN       4.2000    0.5000    0.0000\nC       5.4000    1.1000    0.0000\nS       6.8000    0.3000    0.0000\nC       7.9000    1.5000    0.0000\nC       9.3000    0.9000    0.0000\nH       9.7000   -0.1000    0.0000\nH       9.9000    1.7000    0.0000\nH       9.4000    0.9000    1.0900\nC       7.7000    2.9000    0.0000\nH       8.3000    3.5000    0.8900\nH       8.3000    3.5000   -0.8900\nH       6.6200    3.2000    0.0000\nC       5.5000    2.5000    0.0000\nH       4.9000    3.1000    0.8900\nH       4.9000    3.1000   -0.8900\nH       5.4000    2.5000   -1.0900\nC       3.0000    2.7000    0.0000\nH       2.4000    3.3000    0.8900\nH       2.4000    3.3000   -0.8900\nH       2.9000    2.7000   -1.0900\nH       3.1000    1.1000    1.0900\nH       3.1000    1.1000   -1.0900\nH      -2.6000   -1.5000    1.0900\nH      -2.6000   -1.5000   -1.0900\n"
+    "nom": "acide éthanoïque",
+    "aliases": [
+      "acetic acid",
+      "ethanoic acid",
+      "ch3cooh",
+      "acide acétique"
+    ],
+    "formule": "C2H4O2",
+    "masse": 60.052,
+    "structure": "8\nacide éthanoïque (RDKit ETKDG + MMFF94)\nC     -0.9539    -0.0742    -0.1129\nC      0.4857     0.2949     0.0279\nO      0.9577     1.4164    -0.0410\nO      1.2706    -0.7753     0.2509\nH     -1.3075    -0.5447     0.8079\nH     -1.5431     0.8297    -0.2918\nH     -1.0821    -0.7484    -0.9632\nH      2.1725    -0.3983     0.3223\n",
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "cas": "64-19-7"
   },
   {
-  "nom": "borax",
-  "aliases": ["tétraborate de sodium", "sodium tetraborate", "borate de sodium", "disodium tetraborate"],
-  "formule": "Na2B4O7·10H2O",
-  "masse": 381.37,
-  "_comment": "structure initiale simplifiée du borax décahydraté ; sel minéral ionique avec anion tétraborate et molécules d’eau de cristallisation, géométrie de départ approximative",
-  "structure": "23\nborax simplified initial structure\nNa      -2.5000    0.0000    0.0000\nNa       2.5000    0.0000    0.0000\nB       -0.8000    1.2000    0.0000\nB        0.8000    1.2000    0.0000\nB       -0.8000   -1.2000    0.0000\nB        0.8000   -1.2000    0.0000\nO       -1.6000    2.2000    0.0000\nO        1.6000    2.2000    0.0000\nO       -1.6000   -2.2000    0.0000\nO        1.6000   -2.2000    0.0000\nO        0.0000    0.0000    0.0000\nO        0.0000    2.4000    0.0000\nO        0.0000   -2.4000    0.0000\nO       -3.5000    1.2000    0.0000\nH       -4.1000    1.8000    0.0000\nH       -3.0000    1.8000    0.8900\nO        3.5000   -1.2000    0.0000\nH        4.1000   -1.8000    0.0000\nH        3.0000   -1.8000   -0.8900\nO       -3.5000   -1.2000    0.0000\nH       -4.1000   -1.8000    0.0000\nO        3.5000    1.2000    0.0000\nH        4.1000    1.8000    0.0000\n"
+    "nom": "bleu de méthylène",
+    "aliases": [
+      "methylene blue",
+      "chlorure de méthylthioninium",
+      "methylthioninium chloride"
+    ],
+    "formule": "C16H18ClN3S",
+    "masse": 319.85,
+    "_comment": "structure initiale approximative du bleu de méthylène (phénothiazinium chloré), colorant organique hétérocyclique soufré et azoté ; géométrie de départ à affiner par optimisation quantique",
+    "structure": "39\nmethylene blue initial structure\nC       0.0000    1.3960    0.0000\nC       1.2090    0.6980    0.0000\nC       1.2090   -0.6980    0.0000\nC       0.0000   -1.3960    0.0000\nC      -1.2090   -0.6980    0.0000\nC      -1.2090    0.6980    0.0000\nH       0.0000    2.4790    0.0000\nH       2.1470    1.2400    0.0000\nH       2.1470   -1.2400    0.0000\nH       0.0000   -2.4790    0.0000\nC      -2.5000    1.4000    0.0000\nCl     -3.9000    0.8000    0.0000\nC      -2.5000   -1.4000    0.0000\nN      -3.7000   -2.0000    0.0000\nC       3.0000    1.2000    0.0000\nN       4.2000    0.5000    0.0000\nC       5.4000    1.1000    0.0000\nS       6.8000    0.3000    0.0000\nC       7.9000    1.5000    0.0000\nC       9.3000    0.9000    0.0000\nH       9.7000   -0.1000    0.0000\nH       9.9000    1.7000    0.0000\nH       9.4000    0.9000    1.0900\nC       7.7000    2.9000    0.0000\nH       8.3000    3.5000    0.8900\nH       8.3000    3.5000   -0.8900\nH       6.6200    3.2000    0.0000\nC       5.5000    2.5000    0.0000\nH       4.9000    3.1000    0.8900\nH       4.9000    3.1000   -0.8900\nH       5.4000    2.5000   -1.0900\nC       3.0000    2.7000    0.0000\nH       2.4000    3.3000    0.8900\nH       2.4000    3.3000   -0.8900\nH       2.9000    2.7000   -1.0900\nH       3.1000    1.1000    1.0900\nH       3.1000    1.1000   -1.0900\nH      -2.6000   -1.5000    1.0900\nH      -2.6000   -1.5000   -1.0900\n"
   },
   {
-  "nom": "carbonate de calcium",
-  "aliases": ["calcium carbonate", "calcite", "CaCO3"],
-  "formule": "CaCO3",
-  "masse": 100.086,
-  "_comment": "structure initiale simplifiée du carbonate de calcium ; sel minéral ionique avec anion carbonate trigonal plan et cation calcium, géométrie de départ approximative",
-  "structure": "5\ncalcium carbonate initial structure\nCa       0.0000    0.0000    0.0000\nC        2.4000    0.0000    0.0000\nO        3.2000    1.2000    0.0000\nO        3.2000   -1.2000    0.0000\nO        1.6000    0.0000    0.0000\n"
+    "nom": "borax",
+    "aliases": [
+      "tétraborate de sodium",
+      "sodium tetraborate",
+      "borate de sodium",
+      "disodium tetraborate"
+    ],
+    "formule": "Na2B4O7·10H2O",
+    "masse": 381.37,
+    "_comment": "structure initiale simplifiée du borax décahydraté ; sel minéral ionique avec anion tétraborate et molécules d’eau de cristallisation, géométrie de départ approximative",
+    "structure": "23\nborax simplified initial structure\nNa      -2.5000    0.0000    0.0000\nNa       2.5000    0.0000    0.0000\nB       -0.8000    1.2000    0.0000\nB        0.8000    1.2000    0.0000\nB       -0.8000   -1.2000    0.0000\nB        0.8000   -1.2000    0.0000\nO       -1.6000    2.2000    0.0000\nO        1.6000    2.2000    0.0000\nO       -1.6000   -2.2000    0.0000\nO        1.6000   -2.2000    0.0000\nO        0.0000    0.0000    0.0000\nO        0.0000    2.4000    0.0000\nO        0.0000   -2.4000    0.0000\nO       -3.5000    1.2000    0.0000\nH       -4.1000    1.8000    0.0000\nH       -3.0000    1.8000    0.8900\nO        3.5000   -1.2000    0.0000\nH        4.1000   -1.8000    0.0000\nH        3.0000   -1.8000   -0.8900\nO       -3.5000   -1.2000    0.0000\nH       -4.1000   -1.8000    0.0000\nO        3.5000    1.2000    0.0000\nH        4.1000    1.8000    0.0000\n"
   },
   {
-  "nom": "carbonate de sodium",
-  "aliases": ["Na2CO3", "soude solvay", "carbonate de soude", "sodium carbonate"],
-  "formule": "Na2CO3",
-  "masse": 105.99,
-  "_comment": "structure initiale simplifiée du carbonate de sodium ; anion carbonate CO3^{2−} trigonal plan associé à deux cations sodium, géométrie de départ approximative non optimisée",
-  "structure": "6\nsodium carbonate initial structure\nNa       -2.6000    0.0000    0.0000\nNa        2.6000    0.0000    0.0000\nC         0.0000    0.0000    0.0000\nO         1.3000    1.1000    0.0000\nO         1.3000   -1.1000    0.0000\nO        -1.3000    0.0000    0.0000\n"
-},
-  {
-  "nom": "dichlorure de calcium",
-  "aliases": ["chlorure de calcium", "calcium chloride", "CaCl2"],
-  "formule": "CaCl2",
-  "masse": 110.98,
-  "_comment": "structure initiale simplifiée du chlorure de calcium anhydre ; sel minéral ionique avec cation calcium et deux anions chlorure, géométrie de départ approximative",
-  "structure": "3\ncalcium chloride initial structure\nCl      -2.2000    0.0000    0.0000\nCa       0.0000    0.0000    0.0000\nCl       2.2000    0.0000    0.0000\n"
+    "nom": "carbonate de calcium",
+    "aliases": [
+      "calcium carbonate",
+      "calcite",
+      "CaCO3",
+      "calcium carbonate (craie naturelle)",
+      "craie",
+      "marbre"
+    ],
+    "formule": "CaCO3",
+    "masse": 100.086,
+    "_comment": "structure initiale simplifiée du carbonate de calcium ; sel minéral ionique avec anion carbonate trigonal plan et cation calcium, géométrie de départ approximative",
+    "structure": "5\ncalcium carbonate initial structure\nCa       0.0000    0.0000    0.0000\nC        2.4000    0.0000    0.0000\nO        3.2000    1.2000    0.0000\nO        3.2000   -1.2000    0.0000\nO        1.6000    0.0000    0.0000\n",
+    "cas": "471-34-1",
+    "cas_autres": [
+      "1317-65-3"
+    ]
   },
   {
-  "nom": "dichlorure de magnésium hexahydraté",
-  "aliases": ["chlorure de magnésium hexahydraté", "magnesium chloride hexahydrate", "MgCl2·6H2O"],
-  "formule": "MgCl2·6H2O",
-  "masse": 203.30,
-  "_comment": "structure initiale simplifiée du chlorure de magnésium hexahydraté ; sel ionique hydraté avec cation magnésium coordonné à six molécules d’eau et deux anions chlorure, géométrie de départ approximative",
-  "structure": "21\nmagnesium chloride hexahydrate initial structure\nMg       0.0000    0.0000    0.0000\nCl      -3.2000    0.0000    0.0000\nCl       3.2000    0.0000    0.0000\nO        0.0000    2.1000    0.0000\nH        0.7600    2.5000    0.0000\nH       -0.7600    2.5000    0.0000\nO        0.0000   -2.1000    0.0000\nH        0.7600   -2.5000    0.0000\nH       -0.7600   -2.5000    0.0000\nO        2.1000    0.0000    0.0000\nH        2.5000    0.7600    0.0000\nH        2.5000   -0.7600    0.0000\nO       -2.1000    0.0000    0.0000\nH       -2.5000    0.7600    0.0000\nH       -2.5000   -0.7600    0.0000\nO        0.0000    0.0000    2.1000\nH        0.7600    0.0000    2.5000\nH       -0.7600    0.0000    2.5000\nO        0.0000    0.0000   -2.1000\nH        0.7600    0.0000   -2.5000\nH       -0.7600    0.0000   -2.5000\n"
+    "nom": "carbonate de sodium",
+    "aliases": [
+      "Na2CO3",
+      "soude solvay",
+      "carbonate de soude",
+      "sodium carbonate"
+    ],
+    "formule": "Na2CO3",
+    "masse": 105.99,
+    "_comment": "structure initiale simplifiée du carbonate de sodium ; anion carbonate CO3^{2−} trigonal plan associé à deux cations sodium, géométrie de départ approximative non optimisée",
+    "structure": "6\nsodium carbonate initial structure\nNa       -2.6000    0.0000    0.0000\nNa        2.6000    0.0000    0.0000\nC         0.0000    0.0000    0.0000\nO         1.3000    1.1000    0.0000\nO         1.3000   -1.1000    0.0000\nO        -1.3000    0.0000    0.0000\n",
+    "cas": "497-19-8"
   },
   {
-  "nom": "dihydrogénophosphate de potassium",
-  "aliases": ["KH2PO4", "phosphate monopotassique", "potassium dihydrogen phosphate"],
-  "formule": "KH2PO4",
-  "masse": 136.09,
-  "_comment": "structure initiale simplifiée du dihydrogénophosphate de potassium ; anion H2PO4− tétraédrique associé à K+, géométrie de départ approximative non optimisée",
-  "structure": "6\npotassium dihydrogen phosphate initial structure\nK        0.0000    0.0000    0.0000\nP        2.4000    0.0000    0.0000\nO        3.5000    1.2000    0.0000\nO        3.5000   -1.2000    0.0000\nO        1.2000    1.2000    0.0000\nO        1.2000   -1.2000    0.0000\nH        0.5000    2.1000    0.0000\n"
-},
-  {
-  "nom": "disodium tétraborate anhydre",
-  "aliases": ["tétraborate de disodium anhydre", "anhydrous sodium tetraborate", "Na2B4O7"],
-  "formule": "Na2B4O7",
-  "masse": 201.22,
-  "_comment": "structure initiale simplifiée du disodium tétraborate anhydre ; sel minéral ionique avec anion tétraborate et deux cations sodium, géométrie de départ approximative",
-  "structure": "13\ndisodium tetraborate anhydrous initial structure\nNa      -2.6000    0.0000    0.0000\nNa       2.6000    0.0000    0.0000\nB       -0.9000    1.2000    0.0000\nB        0.9000    1.2000    0.0000\nB       -0.9000   -1.2000    0.0000\nB        0.9000   -1.2000    0.0000\nO       -1.7000    2.2000    0.0000\nO        1.7000    2.2000    0.0000\nO       -1.7000   -2.2000    0.0000\nO        1.7000   -2.2000    0.0000\nO        0.0000    0.0000    0.0000\nO        0.0000    2.4000    0.0000\nO        0.0000   -2.4000    0.0000\n"
+    "nom": "dichlorure de calcium",
+    "aliases": [
+      "chlorure de calcium",
+      "calcium chloride",
+      "CaCl2"
+    ],
+    "formule": "CaCl2",
+    "masse": 110.98,
+    "_comment": "structure initiale simplifiée du chlorure de calcium anhydre ; sel minéral ionique avec cation calcium et deux anions chlorure, géométrie de départ approximative",
+    "structure": "3\ncalcium chloride initial structure\nCl      -2.2000    0.0000    0.0000\nCa       0.0000    0.0000    0.0000\nCl       2.2000    0.0000    0.0000\n",
+    "cas": "10043-52-4"
   },
   {
-  "nom": "eau",
-  "aliases": ["water", "h2o"],
-  "formule": "H2O",
-  "masse": 18.015,
-  "structure": "3\nwater optimized\nO      0.0000    0.0000    0.0000\nH      0.7572    0.5860    0.0000\nH     -0.7572    0.5860    0.0000\n"
+    "nom": "dichlorure de magnésium hexahydraté",
+    "aliases": [
+      "chlorure de magnésium hexahydraté",
+      "magnesium chloride hexahydrate",
+      "MgCl2·6H2O"
+    ],
+    "formule": "MgCl2·6H2O",
+    "masse": 203.3,
+    "_comment": "structure initiale simplifiée du chlorure de magnésium hexahydraté ; sel ionique hydraté avec cation magnésium coordonné à six molécules d’eau et deux anions chlorure, géométrie de départ approximative",
+    "structure": "21\nmagnesium chloride hexahydrate initial structure\nMg       0.0000    0.0000    0.0000\nCl      -3.2000    0.0000    0.0000\nCl       3.2000    0.0000    0.0000\nO        0.0000    2.1000    0.0000\nH        0.7600    2.5000    0.0000\nH       -0.7600    2.5000    0.0000\nO        0.0000   -2.1000    0.0000\nH        0.7600   -2.5000    0.0000\nH       -0.7600   -2.5000    0.0000\nO        2.1000    0.0000    0.0000\nH        2.5000    0.7600    0.0000\nH        2.5000   -0.7600    0.0000\nO       -2.1000    0.0000    0.0000\nH       -2.5000    0.7600    0.0000\nH       -2.5000   -0.7600    0.0000\nO        0.0000    0.0000    2.1000\nH        0.7600    0.0000    2.5000\nH       -0.7600    0.0000    2.5000\nO        0.0000    0.0000   -2.1000\nH        0.7600    0.0000   -2.5000\nH       -0.7600    0.0000   -2.5000\n"
   },
   {
-  "nom": "éosine",
-  "aliases": ["eosin", "eosin Y", "tétrabromofluorescéine", "eosin yellowish"],
-  "formule": "C20H8Br4O5",
-  "masse": 691.88,
-  "_comment": "structure initiale approximative de l’éosine Y ; dérivé tétrabromé de la fluorescéine avec noyau xanthène aromatique, géométrie de départ à affiner par optimisation quantique",
-  "structure": "37\neosin Y initial structure\nC       0.0000    1.4000    0.0000\nC       1.2100    0.7000    0.0000\nC       1.2100   -0.7000    0.0000\nC       0.0000   -1.4000    0.0000\nC      -1.2100   -0.7000    0.0000\nC      -1.2100    0.7000    0.0000\nO       0.0000    2.6000    0.0000\nC       2.5000    1.4000    0.0000\nC       3.7000    0.7000    0.0000\nC       3.7000   -0.7000    0.0000\nC       2.5000   -1.4000    0.0000\nO       4.9000    1.3000    0.0000\nO       4.9000   -1.3000    0.0000\nC      -2.5000    1.4000    0.0000\nC      -3.7000    0.7000    0.0000\nC      -3.7000   -0.7000    0.0000\nC      -2.5000   -1.4000    0.0000\nBr     -5.3000    1.3000    0.0000\nBr     -5.3000   -1.3000    0.0000\nBr      5.3000    2.8000    0.0000\nBr      5.3000   -2.8000    0.0000\nO       0.0000    0.0000    0.0000\nC       0.0000    3.8000    0.0000\nO       0.0000    5.0000    0.0000\nH       2.5000    2.5000    0.0000\nH       2.5000   -2.5000    0.0000\nH      -2.5000    2.5000    0.0000\nH      -2.5000   -2.5000    0.0000\nH       1.2100    0.7000    1.0900\nH       1.2100   -0.7000   -1.0900\nH      -1.2100    0.7000   -1.0900\nH      -1.2100   -0.7000    1.0900\nH       3.7000    0.7000    1.0900\nH       3.7000   -0.7000   -1.0900\nH      -3.7000    0.7000   -1.0900\nH      -3.7000   -0.7000    1.0900\n"
+    "nom": "dihydrogénophosphate de potassium",
+    "aliases": [
+      "KH2PO4",
+      "phosphate monopotassique",
+      "potassium dihydrogen phosphate"
+    ],
+    "formule": "KH2PO4",
+    "masse": 136.09,
+    "_comment": "structure initiale simplifiée du dihydrogénophosphate de potassium ; anion H2PO4− tétraédrique associé à K+, géométrie de départ approximative non optimisée",
+    "structure": "6\npotassium dihydrogen phosphate initial structure\nK        0.0000    0.0000    0.0000\nP        2.4000    0.0000    0.0000\nO        3.5000    1.2000    0.0000\nO        3.5000   -1.2000    0.0000\nO        1.2000    1.2000    0.0000\nO        1.2000   -1.2000    0.0000\nH        0.5000    2.1000    0.0000\n"
   },
   {
-  "nom": "ériochrome Black T",
-  "aliases": ["Eriochrome Black T", "EBT", "Solochrome Black T"],
-  "formule": "C20H12N3NaO7S",
-  "masse": 461.38,
-  "_comment": "structure initiale simplifiée de l’ériochrome Black T ; colorant azoïque complexe avec noyau naphtol-sulfonate et fonction azo, géométrie de départ approximative (forme ionique sodée)",
-  "structure": "40\neriochrome black t initial structure\nC       0.0000    1.4000    0.0000\nC       1.2000    0.7000    0.0000\nC       1.2000   -0.7000    0.0000\nC       0.0000   -1.4000    0.0000\nC      -1.2000   -0.7000    0.0000\nC      -1.2000    0.7000    0.0000\nN       2.4000    0.0000    0.0000\nN       3.6000    0.0000    0.0000\nC       4.8000    0.0000    0.0000\nC       6.0000    0.7000    0.0000\nC       6.0000   -0.7000    0.0000\nC       7.2000    0.0000    0.0000\nC       8.4000    0.7000    0.0000\nC       8.4000   -0.7000    0.0000\nC       9.6000    0.0000    0.0000\nO       9.6000    1.2000    0.0000\nS       9.6000   -1.4000    0.0000\nO      10.8000   -1.8000    0.0000\nO       8.4000   -2.2000    0.0000\nO       9.6000   -1.4000    1.2000\nNa     -2.8000    0.0000    0.0000\nH       2.4000    0.9000    0.0000\nH       2.4000   -0.9000    0.0000\nH       4.8000    0.9000    0.0000\nH       4.8000   -0.9000    0.0000\nH       6.0000    1.8000    0.0000\nH       6.0000   -1.8000    0.0000\nH       7.2000    0.0000    1.0900\nH       8.4000    1.8000    0.0000\nH       8.4000   -1.8000    0.0000\n"
-},
-  {
-  "nom": "éther diéthylique",
-  "aliases": ["diethyl ether", "éthoxyéthane", "oxyde de diéthyle"],
-  "formule": "C4H10O",
-  "masse": 74.12,
-  "_comment": "structure initiale simplifiée de l’éther diéthylique (CH3-CH2-O-CH2-CH3) ; conformation éclipsée approximative, géométrie de départ à optimiser",
-  "structure": "15\ndiethyl ether initial structure\nC       -2.1000    0.0000    0.0000\nC       -0.7000    0.0000    0.0000\nO        0.7000    0.0000    0.0000\nC        2.1000    0.0000    0.0000\nC        3.5000    0.0000    0.0000\nH       -2.5000    0.9000    0.0000\nH       -2.5000   -0.9000    0.0000\nH       -2.1000    0.0000    1.0900\nH       -0.7000    0.0000   -1.0900\nH       -0.7000    0.0000    1.0900\nH        2.1000    0.0000   -1.0900\nH        2.1000    0.0000    1.0900\nH        3.9000    0.9000    0.0000\nH        3.9000   -0.9000    0.0000\nH        3.5000    0.0000    1.0900\n"
+    "nom": "disodium tétraborate anhydre",
+    "aliases": [
+      "tétraborate de disodium anhydre",
+      "anhydrous sodium tetraborate",
+      "Na2B4O7"
+    ],
+    "formule": "Na2B4O7",
+    "masse": 201.22,
+    "_comment": "structure initiale simplifiée du disodium tétraborate anhydre ; sel minéral ionique avec anion tétraborate et deux cations sodium, géométrie de départ approximative",
+    "structure": "13\ndisodium tetraborate anhydrous initial structure\nNa      -2.6000    0.0000    0.0000\nNa       2.6000    0.0000    0.0000\nB       -0.9000    1.2000    0.0000\nB        0.9000    1.2000    0.0000\nB       -0.9000   -1.2000    0.0000\nB        0.9000   -1.2000    0.0000\nO       -1.7000    2.2000    0.0000\nO        1.7000    2.2000    0.0000\nO       -1.7000   -2.2000    0.0000\nO        1.7000   -2.2000    0.0000\nO        0.0000    0.0000    0.0000\nO        0.0000    2.4000    0.0000\nO        0.0000   -2.4000    0.0000\n"
   },
   {
-  "nom": "hélianthine",
-  "aliases": ["methyl orange", "orange de méthyle", "sodium 4-(dimethylamino)azobenzene-4'-sulfonate"],
-  "formule": "C14H14N3NaO3S",
-  "masse": 327.33,
-  "_comment": "structure initiale simplifiée de l’hélianthine (orange de méthyle) ; colorant azoïque avec noyau aromatique et groupement sulfonate sodé, géométrie de départ approximative",
-  "structure": "30\nmethyl orange initial structure\nC       0.0000    1.4000    0.0000\nC       1.2000    0.7000    0.0000\nC       1.2000   -0.7000    0.0000\nC       0.0000   -1.4000    0.0000\nC      -1.2000   -0.7000    0.0000\nC      -1.2000    0.7000    0.0000\nN       2.4000    0.0000    0.0000\nN       3.6000    0.0000    0.0000\nC       4.8000    0.0000    0.0000\nC       6.0000    0.7000    0.0000\nC       6.0000   -0.7000    0.0000\nC       7.2000    0.0000    0.0000\nC       8.4000    0.7000    0.0000\nC       8.4000   -0.7000    0.0000\nS       9.6000    0.0000    0.0000\nO      10.8000    0.8000    0.0000\nO      10.8000   -0.8000    0.0000\nO       9.6000    0.0000    1.2000\nNa     -2.8000    0.0000    0.0000\nN       2.4000    1.2000    0.0000\nC       3.6000    1.9000    0.0000\nC       4.8000    2.6000    0.0000\nH       4.8000    3.6000    0.0000\nH       4.8000    2.6000    1.0900\nH       3.6000    1.9000    1.0900\nH       6.0000    1.8000    0.0000\nH       6.0000   -1.8000    0.0000\nH       8.4000    1.8000    0.0000\nH       8.4000   -1.8000    0.0000\n"
-},
-  {
-  "nom": "hydrogène peroxyde",
-  "aliases": ["peroxyde d’hydrogène", "hydrogen peroxide", "eau oxygénée"],
-  "formule": "H2O2",
-  "masse": 34.01,
-  "_comment": "structure initiale du peroxyde d’hydrogène ; molécule non plane avec liaison O–O caractéristique, géométrie de départ simplifiée non optimisée",
-  "structure": "4\nhydrogen peroxide initial structure\nO       0.0000    0.0000    0.0000\nO       1.4500    0.0000    0.0000\nH      -0.4000    0.9000    0.0000\nH       1.8500   -0.9000    0.0000\n"
-},
-  {
-  "nom": "hydrogénocarbonate de sodium",
-  "aliases": ["NaHCO3", "bicarbonate de sodium", "sodium hydrogen carbonate", "bicarbonate de soude"],
-  "formule": "NaHCO3",
-  "masse": 84.01,
-  "_comment": "structure initiale simplifiée de l’hydrogénocarbonate de sodium ; anion HCO3− trigonal plan associé à Na+, géométrie de départ approximative non optimisée",
-  "structure": "5\nsodium bicarbonate initial structure\nNa       0.0000    0.0000    0.0000\nC        2.4000    0.0000    0.0000\nO        3.6000    1.2000    0.0000\nO        3.6000   -1.2000    0.0000\nO        1.2000    0.0000    1.2000\nH        1.2000    0.0000    2.2000\n"
-},
-  {
-  "nom": "hydrogénophosphate de sodium",
-  "aliases": ["Na2HPO4", "phosphate disodique", "disodium hydrogen phosphate"],
-  "formule": "Na2HPO4",
-  "masse": 141.96,
-  "_comment": "structure initiale simplifiée de l’hydrogénophosphate de sodium ; anion HPO4^{2−} tétraédrique associé à deux cations sodium, géométrie de départ approximative non optimisée",
-  "structure": "7\nsodium hydrogen phosphate initial structure\nNa       -2.5000    0.0000    0.0000\nNa        2.5000    0.0000    0.0000\nP         0.0000    0.0000    0.0000\nO         1.4000    1.2000    0.0000\nO         1.4000   -1.2000    0.0000\nO        -1.4000    1.2000    0.0000\nO        -1.4000   -1.2000    0.0000\nH         0.0000    2.2000    0.0000\n"
-},
-  {
-  "nom": "hydroxyde d'ammonium",
-  "aliases": ["ammoniaque aqueuse", "ammonium hydroxide", "solution d'ammoniaque"],
-  "formule": "NH4OH",
-  "masse": 35.05,
-  "_comment": "structure simplifiée représentant une association ammonium + hydroxyde en solution aqueuse ; en réalité, il s’agit d’un équilibre NH3 + H2O ⇌ NH4+ + OH−, géométrie de départ approximative",
-  "structure": "7\nammonium hydroxide initial structure\nN       0.0000    0.0000    0.0000\nH       0.9000    0.9000    0.9000\nH      -0.9000    0.9000    0.9000\nH      -0.9000   -0.9000    0.9000\nH       0.9000   -0.9000    0.9000\nO       1.5000    0.0000   -1.2000\nH       2.3000    0.0000   -1.8000\n"
-},
-  {
-  "nom": "hydroxyde de sodium",
-  "aliases": ["sodium hydroxide", "naoh", "caustic soda"],
-  "formule": "NaOH",
-  "masse": 39.997,
-  "_comment": "géométrie optimisée HF/DFT, structure quasi linéaire ionique Na+···OH−",
-  "structure": "3\nNaOH optimized\nNa      0.0000    0.0000    2.0500\nO       0.0000    0.0000    0.0000\nH       0.0000    0.0000   -0.9700\n"
+    "nom": "eau",
+    "aliases": [
+      "water",
+      "h2o"
+    ],
+    "formule": "H2O",
+    "masse": 18.015,
+    "structure": "3\nwater optimized\nO      0.0000    0.0000    0.0000\nH      0.7572    0.5860    0.0000\nH     -0.7572    0.5860    0.0000\n",
+    "cas": "7732-18-5"
   },
   {
-  "nom": "permanganate de potassium",
-  "aliases": ["KMnO4", "permanganate de potassium", "potassium permanganate"],
-  "formule": "KMnO4",
-  "masse": 158.034,
-  "_comment": "structure initiale simplifiée du permanganate de potassium ; sel ionique composé de K+ et de l’anion permanganate MnO4− tétraédrique, géométrie de départ approximative",
-  "structure": "6\npotassium permanganate initial structure\nK        0.0000    0.0000    0.0000\nMn       2.4000    0.0000    0.0000\nO        3.5000    1.2000    0.0000\nO        3.5000   -1.2000    0.0000\nO        1.2000    0.0000    1.2000\nO        1.2000    0.0000   -1.2000\n"
-},
+    "nom": "éosine",
+    "aliases": [
+      "eosin",
+      "eosin Y",
+      "tétrabromofluorescéine",
+      "eosin yellowish"
+    ],
+    "formule": "C20H8Br4O5",
+    "masse": 691.88,
+    "_comment": "structure initiale approximative de l’éosine Y ; dérivé tétrabromé de la fluorescéine avec noyau xanthène aromatique, géométrie de départ à affiner par optimisation quantique",
+    "structure": "37\neosin Y initial structure\nC       0.0000    1.4000    0.0000\nC       1.2100    0.7000    0.0000\nC       1.2100   -0.7000    0.0000\nC       0.0000   -1.4000    0.0000\nC      -1.2100   -0.7000    0.0000\nC      -1.2100    0.7000    0.0000\nO       0.0000    2.6000    0.0000\nC       2.5000    1.4000    0.0000\nC       3.7000    0.7000    0.0000\nC       3.7000   -0.7000    0.0000\nC       2.5000   -1.4000    0.0000\nO       4.9000    1.3000    0.0000\nO       4.9000   -1.3000    0.0000\nC      -2.5000    1.4000    0.0000\nC      -3.7000    0.7000    0.0000\nC      -3.7000   -0.7000    0.0000\nC      -2.5000   -1.4000    0.0000\nBr     -5.3000    1.3000    0.0000\nBr     -5.3000   -1.3000    0.0000\nBr      5.3000    2.8000    0.0000\nBr      5.3000   -2.8000    0.0000\nO       0.0000    0.0000    0.0000\nC       0.0000    3.8000    0.0000\nO       0.0000    5.0000    0.0000\nH       2.5000    2.5000    0.0000\nH       2.5000   -2.5000    0.0000\nH      -2.5000    2.5000    0.0000\nH      -2.5000   -2.5000    0.0000\nH       1.2100    0.7000    1.0900\nH       1.2100   -0.7000   -1.0900\nH      -1.2100    0.7000   -1.0900\nH      -1.2100   -0.7000    1.0900\nH       3.7000    0.7000    1.0900\nH       3.7000   -0.7000   -1.0900\nH      -3.7000    0.7000   -1.0900\nH      -3.7000   -0.7000    1.0900\n"
+  },
   {
-  "nom": "potassium hexacyanoferrate (III)",
-  "aliases": ["ferricyanure de potassium", "potassium ferricyanide", "K3[Fe(CN)6]"],
-  "formule": "K3FeC6N6",
-  "masse": 329.24,
-  "_comment": "structure initiale simplifiée du ferricyanure de potassium ; complexe octaédrique [Fe(CN)6]3− avec trois cations potassium, géométrie de départ approximative",
-  "structure": "20\npotassium ferricyanide initial structure\nFe       0.0000    0.0000    0.0000\nC        2.0000    0.0000    0.0000\nN        3.2000    0.0000    0.0000\nC       -2.0000    0.0000    0.0000\nN       -3.2000    0.0000    0.0000\nC        0.0000    2.0000    0.0000\nN        0.0000    3.2000    0.0000\nC        0.0000   -2.0000    0.0000\nN        0.0000   -3.2000    0.0000\nC        2.0000    2.0000    0.0000\nN        3.2000    3.2000    0.0000\nC       -2.0000    2.0000    0.0000\nN       -3.2000    3.2000    0.0000\nC        2.0000   -2.0000    0.0000\nN        3.2000   -3.2000    0.0000\nC       -2.0000   -2.0000    0.0000\nN       -3.2000   -3.2000    0.0000\nK        4.5000    0.0000    0.0000\nK       -4.5000    0.0000    0.0000\nK        0.0000    4.5000    0.0000\n"
-},
+    "nom": "ériochrome Black T",
+    "aliases": [
+      "Eriochrome Black T",
+      "EBT",
+      "Solochrome Black T"
+    ],
+    "formule": "C20H12N3NaO7S",
+    "masse": 461.38,
+    "_comment": "structure initiale simplifiée de l’ériochrome Black T ; colorant azoïque complexe avec noyau naphtol-sulfonate et fonction azo, géométrie de départ approximative (forme ionique sodée)",
+    "structure": "40\neriochrome black t initial structure\nC       0.0000    1.4000    0.0000\nC       1.2000    0.7000    0.0000\nC       1.2000   -0.7000    0.0000\nC       0.0000   -1.4000    0.0000\nC      -1.2000   -0.7000    0.0000\nC      -1.2000    0.7000    0.0000\nN       2.4000    0.0000    0.0000\nN       3.6000    0.0000    0.0000\nC       4.8000    0.0000    0.0000\nC       6.0000    0.7000    0.0000\nC       6.0000   -0.7000    0.0000\nC       7.2000    0.0000    0.0000\nC       8.4000    0.7000    0.0000\nC       8.4000   -0.7000    0.0000\nC       9.6000    0.0000    0.0000\nO       9.6000    1.2000    0.0000\nS       9.6000   -1.4000    0.0000\nO      10.8000   -1.8000    0.0000\nO       8.4000   -2.2000    0.0000\nO       9.6000   -1.4000    1.2000\nNa     -2.8000    0.0000    0.0000\nH       2.4000    0.9000    0.0000\nH       2.4000   -0.9000    0.0000\nH       4.8000    0.9000    0.0000\nH       4.8000   -0.9000    0.0000\nH       6.0000    1.8000    0.0000\nH       6.0000   -1.8000    0.0000\nH       7.2000    0.0000    1.0900\nH       8.4000    1.8000    0.0000\nH       8.4000   -1.8000    0.0000\n"
+  },
   {
-  "nom": "réactif de Fehling A",
-  "aliases": ["Fehling A", "solution de sulfate de cuivre(II)", "CuSO4 solution"],
-  "formule": "CuSO4·5H2O",
-  "masse": 249.68,
-  "_comment": "structure initiale simplifiée du sulfate de cuivre(II) pentahydraté (réactif de Fehling A) ; sel ionique hydraté avec coordination aqueuse du cuivre, géométrie de départ approximative",
-  "structure": "14\ncopper sulfate pentahydrate initial structure\nCu       0.0000    0.0000    0.0000\nS        2.4000    0.0000    0.0000\nO        3.5000    1.2000    0.0000\nO        3.5000   -1.2000    0.0000\nO        1.2000    0.0000    1.2000\nO        2.4000    0.0000   -1.2000\nO       -2.0000    2.0000    0.0000\nH       -2.8000    2.6000    0.0000\nH       -1.2000    2.6000    0.0000\nO       -2.0000   -2.0000    0.0000\nH       -2.8000   -2.6000    0.0000\nH       -1.2000   -2.6000    0.0000\nO        0.0000    2.0000    2.0000\nH        0.8000    2.6000    2.0000\n"
-},
+    "nom": "éther diéthylique",
+    "aliases": [
+      "diethyl ether",
+      "éthoxyéthane",
+      "oxyde de diéthyle"
+    ],
+    "formule": "C4H10O",
+    "masse": 74.12,
+    "_comment": "structure initiale simplifiée de l’éther diéthylique (CH3-CH2-O-CH2-CH3) ; conformation éclipsée approximative, géométrie de départ à optimiser",
+    "structure": "15\ndiethyl ether initial structure\nC       -2.1000    0.0000    0.0000\nC       -0.7000    0.0000    0.0000\nO        0.7000    0.0000    0.0000\nC        2.1000    0.0000    0.0000\nC        3.5000    0.0000    0.0000\nH       -2.5000    0.9000    0.0000\nH       -2.5000   -0.9000    0.0000\nH       -2.1000    0.0000    1.0900\nH       -0.7000    0.0000   -1.0900\nH       -0.7000    0.0000    1.0900\nH        2.1000    0.0000   -1.0900\nH        2.1000    0.0000    1.0900\nH        3.9000    0.9000    0.0000\nH        3.9000   -0.9000    0.0000\nH        3.5000    0.0000    1.0900\n",
+    "cas": "60-29-7"
+  },
   {
-  "nom": "réactif de Nessler",
-  "aliases": ["Nessler reagent", "réactif de Nessler alcalin", "tétraiodomercurate de potassium", "K2[HgI4] en solution basique"],
-  "formule": "K2HgI4",
-  "masse": 786.40,
-  "_comment": "structure initiale simplifiée du tétraiodomercurate(II) de potassium (réactif de Nessler) ; complexe HgI4^{2−} tétraédrique en milieu alcalin, géométrie de départ approximative",
-  "structure": "6\nnessler reagent initial structure\nHg       0.0000    0.0000    0.0000\nI        2.7000    0.0000    0.0000\nI       -2.7000    0.0000    0.0000\nI        0.0000    2.7000    0.0000\nI        0.0000   -2.7000    0.0000\nK        4.5000    0.0000    0.0000\n"
-},
+    "nom": "hélianthine",
+    "aliases": [
+      "methyl orange",
+      "orange de méthyle",
+      "sodium 4-(dimethylamino)azobenzene-4'-sulfonate",
+      "hélianthine (orange de méthyle)"
+    ],
+    "formule": "C14H14N3NaO3S",
+    "masse": 327.341,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "36\nhélianthine (RDKit ETKDG + MMFF94)\nC     -5.8925     0.7854    -1.1335\nN     -5.2262     0.1513     0.0021\nC     -6.0217    -0.8331     0.7330\nC     -3.8329     0.0061    -0.0251\nC     -3.0247     0.7033    -0.9413\nC     -1.6274     0.5691    -0.9616\nC     -0.9761    -0.2568    -0.0463\nN      0.4172    -0.4449    -0.0588\nN      1.0156     0.6432     0.0926\nC      2.4109     0.4501     0.0862\nC      3.0797    -0.0723    -1.0329\nC      4.4687    -0.2208    -1.0266\nC      5.1926     0.1585     0.1063\nS      6.9996     0.0035     0.1071\nO      7.3412     0.1621    -1.3043\nO      7.4206     1.1033     0.9714\nO      7.1809    -1.3368     0.6551\nC      4.5471     0.6999     1.2208\nC      3.1576     0.8443     1.2050\nC     -1.7522    -0.9534     0.8753\nC     -3.1491    -0.8151     0.8900\nH     -6.9765     0.8347    -0.9800\nH     -5.5617     1.8218    -1.2601\nH     -5.7151     0.2252    -2.0582\nH     -5.8612    -1.8423     0.3379\nH     -7.0929    -0.6151     0.6550\nH     -5.7903    -0.8146     1.8034\nH     -3.4572     1.3772    -1.6737\nH     -1.0454     1.1190    -1.6966\nH      2.5155    -0.3624    -1.9141\nH      4.9908    -0.6244    -1.8904\nH      5.1301     1.0047     2.0862\nH      2.6532     1.2668     2.0689\nH     -1.2674    -1.6063     1.5965\nH     -3.6838    -1.3752     1.6503\nNa     9.4330    -1.7560     0.8606\n",
+    "cas": "547-58-0"
+  },
   {
-  "nom": "réactif nitromolybdique",
-  "aliases": ["réactif au molybdate", "molybdate d’ammonium tétrahydraté", "ammonium heptamolybdate solution", "(NH4)6Mo7O24·4H2O"],
-  "formule": "(NH4)6Mo7O24·4H2O",
-  "masse": 1235.86,
-  "_comment": "structure initiale simplifiée de l’heptamolybdate d’ammonium tétrahydraté ; cluster polyoxomolybdate Mo7O24^{6−} avec ions ammonium et eaux de cristallisation, géométrie de départ fortement approximative",
-  "structure": "20\nammonium heptamolybdate initial structure\nMo       0.0000    0.0000    0.0000\nMo       2.4000    0.0000    0.0000\nMo      -2.4000    0.0000    0.0000\nMo       0.0000    2.4000    0.0000\nMo       0.0000   -2.4000    0.0000\nMo       2.0000    2.0000    0.0000\nMo      -2.0000   -2.0000    0.0000\nO        3.6000    0.0000    0.0000\nO       -3.6000    0.0000    0.0000\nO        0.0000    3.6000    0.0000\nO        0.0000   -3.6000    0.0000\nO        2.6000    2.6000    0.0000\nO       -2.6000   -2.6000    0.0000\nO        1.2000    1.2000    1.2000\nN        4.5000    0.0000    0.0000\nH        5.1000    0.8000    0.0000\nH        5.1000   -0.8000    0.0000\nO       -4.5000    0.0000    0.0000\nH       -5.1000    0.8000    0.0000\nH       -5.1000   -0.8000    0.0000\n"
-},
+    "nom": "hydrogène peroxyde",
+    "aliases": [
+      "peroxyde d’hydrogène",
+      "hydrogen peroxide",
+      "eau oxygénée",
+      "peroxyde d'hydrogène"
+    ],
+    "formule": "H2O2",
+    "masse": 34.01,
+    "_comment": "structure initiale du peroxyde d’hydrogène ; molécule non plane avec liaison O–O caractéristique, géométrie de départ simplifiée non optimisée",
+    "structure": "4\nhydrogen peroxide initial structure\nO       0.0000    0.0000    0.0000\nO       1.4500    0.0000    0.0000\nH      -0.4000    0.9000    0.0000\nH       1.8500   -0.9000    0.0000\n",
+    "cas": "7722-84-1"
+  },
   {
-  "nom": "rouge de méthyle",
-  "aliases": ["methyl red", "C.I. Acid Red 2", "rouge de méthyle indicateur"],
-  "formule": "C15H15N3O2",
-  "masse": 269.30,
-  "_comment": "structure initiale simplifiée du rouge de méthyle ; colorant azoïque avec deux noyaux aromatiques et fonction acide carboxylique, géométrie de départ approximative non optimisée",
-  "structure": "28\nmethyl red initial structure\nC       0.0000    1.4000    0.0000\nC       1.2000    0.7000    0.0000\nC       1.2000   -0.7000    0.0000\nC       0.0000   -1.4000    0.0000\nC      -1.2000   -0.7000    0.0000\nC      -1.2000    0.7000    0.0000\nN       2.4000    0.0000    0.0000\nN       3.6000    0.0000    0.0000\nC       4.8000    0.0000    0.0000\nC       6.0000    0.7000    0.0000\nC       6.0000   -0.7000    0.0000\nC       7.2000    0.0000    0.0000\nC       8.4000    0.7000    0.0000\nC       8.4000   -0.7000    0.0000\nC       9.6000    0.0000    0.0000\nO       9.6000    1.2000    0.0000\nO       9.6000   -1.2000    0.0000\nN       2.4000    1.2000    0.0000\nC       3.6000    1.9000    0.0000\nC       4.8000    2.6000    0.0000\nH       4.8000    3.6000    0.0000\nH       4.8000    2.6000    1.0900\nH       3.6000    1.9000    1.0900\nH       6.0000    1.8000    0.0000\nH       6.0000   -1.8000    0.0000\nH       8.4000    1.8000    0.0000\nH       8.4000   -1.8000    0.0000\n"
-},
+    "nom": "hydrogénocarbonate de sodium",
+    "aliases": [
+      "NaHCO3",
+      "bicarbonate de sodium",
+      "sodium hydrogen carbonate",
+      "bicarbonate de soude"
+    ],
+    "formule": "NaHCO3",
+    "masse": 84.01,
+    "_comment": "structure initiale simplifiée de l’hydrogénocarbonate de sodium ; anion HCO3− trigonal plan associé à Na+, géométrie de départ approximative non optimisée",
+    "structure": "5\nsodium bicarbonate initial structure\nNa       0.0000    0.0000    0.0000\nC        2.4000    0.0000    0.0000\nO        3.6000    1.2000    0.0000\nO        3.6000   -1.2000    0.0000\nO        1.2000    0.0000    1.2000\nH        1.2000    0.0000    2.2000\n",
+    "cas": "144-55-8"
+  },
   {
-  "nom": "sulfate de cuivre(II)",
-  "aliases": ["CuSO4", "copper(II) sulfate", "copper sulfate", "sulfate de cuivre"],
-  "formule": "CuO4S",
-  "masse": 159.607,
-  "_comment": "composé ionique : Cu2+ représenté séparé du tétraèdre SO4^2- (pas de liaison covalente Cu-O), conforme à la représentation usuelle du sulfate de cuivre",
-  "structure": "6\nCuSO4 ionic pair\nCu      0.0000    0.0000    0.0000\nS       3.0000    0.0000    0.0000\nO       3.8600    0.8600    0.8600\nO       3.8600   -0.8600   -0.8600\nO       2.1400    0.8600   -0.8600\nO       2.1400   -0.8600    0.8600\n"
-},
-{
-  "nom": "sulfate de zinc",
-  "aliases": ["ZnSO4", "zinc sulfate", "vitriol blanc"],
-  "formule": "O4SZn",
-  "masse": 161.442,
-  "_comment": "composé ionique : Zn2+ représenté séparé du tétraèdre SO4^2- (pas de liaison covalente Zn-O), conforme à la représentation usuelle du sulfate de zinc",
-  "structure": "6\nZnSO4 ionic pair\nZn      0.0000    0.0000    0.0000\nS       3.0000    0.0000    0.0000\nO       3.8600    0.8600    0.8600\nO       3.8600   -0.8600   -0.8600\nO       2.1400    0.8600   -0.8600\nO       2.1400   -0.8600    0.8600\n"
-},
+    "nom": "hydrogénophosphate de sodium",
+    "aliases": [
+      "Na2HPO4",
+      "phosphate disodique",
+      "disodium hydrogen phosphate"
+    ],
+    "formule": "Na2HPO4",
+    "masse": 141.96,
+    "_comment": "structure initiale simplifiée de l’hydrogénophosphate de sodium ; anion HPO4^{2−} tétraédrique associé à deux cations sodium, géométrie de départ approximative non optimisée",
+    "structure": "7\nsodium hydrogen phosphate initial structure\nNa       -2.5000    0.0000    0.0000\nNa        2.5000    0.0000    0.0000\nP         0.0000    0.0000    0.0000\nO         1.4000    1.2000    0.0000\nO         1.4000   -1.2000    0.0000\nO        -1.4000    1.2000    0.0000\nO        -1.4000   -1.2000    0.0000\nH         0.0000    2.2000    0.0000\n"
+  },
   {
-  "nom": "chlorure de potassium",
-  "aliases": ["KCl", "potassium chloride", "sel de potassium"],
-  "formule": "KCl",
-  "masse": 74.55,
-  "_comment": "structure initiale simplifiée du chlorure de potassium ; composé ionique K+ / Cl−, représenté ici en géométrie linéaire de départ approximative",
-  "structure": "2\npotassium chloride initial structure\nK       -1.4000    0.0000    0.0000\nCl       1.4000    0.0000    0.0000\n"
-},
+    "nom": "hydroxyde d'ammonium",
+    "aliases": [
+      "ammoniaque aqueuse",
+      "ammonium hydroxide",
+      "solution d'ammoniaque",
+      "ammonium hydroxyde",
+      "ammoniaque",
+      "NH4OH"
+    ],
+    "formule": "NH4OH",
+    "masse": 35.05,
+    "_comment": "structure simplifiée représentant une association ammonium + hydroxyde en solution aqueuse ; en réalité, il s’agit d’un équilibre NH3 + H2O ⇌ NH4+ + OH−, géométrie de départ approximative",
+    "structure": "7\nammonium hydroxide initial structure\nN       0.0000    0.0000    0.0000\nH       0.9000    0.9000    0.9000\nH      -0.9000    0.9000    0.9000\nH      -0.9000   -0.9000    0.9000\nH       0.9000   -0.9000    0.9000\nO       1.5000    0.0000   -1.2000\nH       2.3000    0.0000   -1.8000\n"
+  },
   {
-  "nom": "vaseline",
-  "aliases": ["gelée de pétrole", "petroleum jelly", "petrolatum"],
-  "formule": "C30H62",
-  "masse": 422.81,
-  "_comment": "la vaseline est un mélange d'hydrocarbures paraffiniques (environ C20 à C50). Le triacontane C30H62 est utilisé ici comme molécule représentative.",
-  "structure": "92\ntriacontane representative of petroleum jelly\nC       0.0000    0.0000    0.0000\nC       1.5400    0.0000    0.0000\nC       3.0800    0.0000    0.0000\nC       4.6200    0.0000    0.0000\nC       6.1600    0.0000    0.0000\nC       7.7000    0.0000    0.0000\nC       9.2400    0.0000    0.0000\nC      10.7800    0.0000    0.0000\nC      12.3200    0.0000    0.0000\nC      13.8600    0.0000    0.0000\nC      15.4000    0.0000    0.0000\nC      16.9400    0.0000    0.0000\nC      18.4800    0.0000    0.0000\nC      20.0200    0.0000    0.0000\nC      21.5600    0.0000    0.0000\nC      23.1000    0.0000    0.0000\nC      24.6400    0.0000    0.0000\nC      26.1800    0.0000    0.0000\nC      27.7200    0.0000    0.0000\nC      29.2600    0.0000    0.0000\nC      30.8000    0.0000    0.0000\nC      32.3400    0.0000    0.0000\nC      33.8800    0.0000    0.0000\nC      35.4200    0.0000    0.0000\nC      36.9600    0.0000    0.0000\nC      38.5000    0.0000    0.0000\nC      40.0400    0.0000    0.0000\nC      41.5800    0.0000    0.0000\nC      43.1200    0.0000    0.0000\nC      44.6600    0.0000    0.0000\nH      -0.5400    0.9300    0.0000\nH      -0.5400   -0.9300    0.0000\nH       0.0000    0.0000    1.0900\nH       1.5400    0.0000   -1.0900\nH       3.0800    0.0000    1.0900\nH       4.6200    0.0000   -1.0900\nH       6.1600    0.0000    1.0900\nH       7.7000    0.0000   -1.0900\nH       9.2400    0.0000    1.0900\nH      10.7800    0.0000   -1.0900\nH      12.3200    0.0000    1.0900\nH      13.8600    0.0000   -1.0900\nH      15.4000    0.0000    1.0900\nH      16.9400    0.0000   -1.0900\nH      18.4800    0.0000    1.0900\nH      20.0200    0.0000   -1.0900\nH      21.5600    0.0000    1.0900\nH      23.1000    0.0000   -1.0900\nH      24.6400    0.0000    1.0900\nH      26.1800    0.0000   -1.0900\nH      27.7200    0.0000    1.0900\nH      29.2600    0.0000   -1.0900\nH      30.8000    0.0000    1.0900\nH      32.3400    0.0000   -1.0900\nH      33.8800    0.0000    1.0900\nH      35.4200    0.0000   -1.0900\nH      36.9600    0.0000    1.0900\nH      38.5000    0.0000   -1.0900\nH      40.0400    0.0000    1.0900\nH      41.5800    0.0000   -1.0900\nH      43.1200    0.0000    1.0900\nH      44.6600    0.0000   -1.0900\nH      45.2000    0.9300    0.0000\nH      45.2000   -0.9300    0.0000\nH      44.6600    0.0000    1.0900\n"
-}
+    "nom": "hydroxyde de sodium",
+    "aliases": [
+      "sodium hydroxide",
+      "naoh",
+      "caustic soda"
+    ],
+    "formule": "NaOH",
+    "masse": 39.997,
+    "_comment": "géométrie optimisée HF/DFT, structure quasi linéaire ionique Na+···OH−",
+    "structure": "3\nNaOH optimized\nNa      0.0000    0.0000    2.0500\nO       0.0000    0.0000    0.0000\nH       0.0000    0.0000   -0.9700\n",
+    "cas": "1310-73-2"
+  },
+  {
+    "nom": "permanganate de potassium",
+    "aliases": [
+      "KMnO4",
+      "permanganate de potassium",
+      "potassium permanganate"
+    ],
+    "formule": "KMnO4",
+    "masse": 158.034,
+    "_comment": "structure initiale simplifiée du permanganate de potassium ; sel ionique composé de K+ et de l’anion permanganate MnO4− tétraédrique, géométrie de départ approximative",
+    "structure": "6\npotassium permanganate initial structure\nK        0.0000    0.0000    0.0000\nMn       2.4000    0.0000    0.0000\nO        3.5000    1.2000    0.0000\nO        3.5000   -1.2000    0.0000\nO        1.2000    0.0000    1.2000\nO        1.2000    0.0000   -1.2000\n",
+    "cas": "7722-64-7"
+  },
+  {
+    "nom": "potassium hexacyanoferrate (III)",
+    "aliases": [
+      "ferricyanure de potassium",
+      "potassium ferricyanide",
+      "K3[Fe(CN)6]",
+      "potassium ferricyanure",
+      "potassium III hexacyanoferrate"
+    ],
+    "formule": "K3[Fe(CN)6]",
+    "masse": 329.244,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "16\npotassium hexacyanoferrate (III) (RDKit ETKDG + MMFF94)\nFe     0.0000    -0.3362     0.0000\nC      1.9200    -0.3362     0.0000\nN      3.0800    -0.3362     0.0000\nC     -1.9200    -0.3362     0.0000\nN     -3.0800    -0.3362     0.0000\nC      0.0000     1.5837     0.0000\nN      0.0000     2.7437     0.0000\nC      0.0000    -2.2563     0.0000\nN      0.0000    -3.4163     0.0000\nC      0.0000    -0.3362     1.9200\nN      0.0000    -0.3362     3.0800\nC      0.0000    -0.3362    -1.9200\nN      0.0000    -0.3362    -3.0800\nK      5.3800    -0.3362     0.0000\nK     -5.3800    -0.3362     0.0000\nK      0.0000     5.0438     0.0000\n",
+    "cas": "13746-66-2"
+  },
+  {
+    "nom": "réactif de Fehling A",
+    "aliases": [
+      "Fehling A",
+      "solution de sulfate de cuivre(II)",
+      "CuSO4 solution"
+    ],
+    "formule": "CuSO4·5H2O",
+    "masse": 249.68,
+    "_comment": "structure initiale simplifiée du sulfate de cuivre(II) pentahydraté (réactif de Fehling A) ; sel ionique hydraté avec coordination aqueuse du cuivre, géométrie de départ approximative",
+    "structure": "14\ncopper sulfate pentahydrate initial structure\nCu       0.0000    0.0000    0.0000\nS        2.4000    0.0000    0.0000\nO        3.5000    1.2000    0.0000\nO        3.5000   -1.2000    0.0000\nO        1.2000    0.0000    1.2000\nO        2.4000    0.0000   -1.2000\nO       -2.0000    2.0000    0.0000\nH       -2.8000    2.6000    0.0000\nH       -1.2000    2.6000    0.0000\nO       -2.0000   -2.0000    0.0000\nH       -2.8000   -2.6000    0.0000\nH       -1.2000   -2.6000    0.0000\nO        0.0000    2.0000    2.0000\nH        0.8000    2.6000    2.0000\n"
+  },
+  {
+    "nom": "réactif de Nessler",
+    "aliases": [
+      "Nessler reagent",
+      "réactif de Nessler alcalin",
+      "tétraiodomercurate de potassium",
+      "K2[HgI4] en solution basique"
+    ],
+    "formule": "K2HgI4",
+    "masse": 786.4,
+    "_comment": "structure initiale simplifiée du tétraiodomercurate(II) de potassium (réactif de Nessler) ; complexe HgI4^{2−} tétraédrique en milieu alcalin, géométrie de départ approximative",
+    "structure": "6\nnessler reagent initial structure\nHg       0.0000    0.0000    0.0000\nI        2.7000    0.0000    0.0000\nI       -2.7000    0.0000    0.0000\nI        0.0000    2.7000    0.0000\nI        0.0000   -2.7000    0.0000\nK        4.5000    0.0000    0.0000\n"
+  },
+  {
+    "nom": "réactif nitromolybdique",
+    "aliases": [
+      "réactif au molybdate",
+      "molybdate d’ammonium tétrahydraté",
+      "ammonium heptamolybdate solution",
+      "(NH4)6Mo7O24·4H2O"
+    ],
+    "formule": "(NH4)6Mo7O24·4H2O",
+    "masse": 1235.86,
+    "_comment": "structure initiale simplifiée de l’heptamolybdate d’ammonium tétrahydraté ; cluster polyoxomolybdate Mo7O24^{6−} avec ions ammonium et eaux de cristallisation, géométrie de départ fortement approximative",
+    "structure": "20\nammonium heptamolybdate initial structure\nMo       0.0000    0.0000    0.0000\nMo       2.4000    0.0000    0.0000\nMo      -2.4000    0.0000    0.0000\nMo       0.0000    2.4000    0.0000\nMo       0.0000   -2.4000    0.0000\nMo       2.0000    2.0000    0.0000\nMo      -2.0000   -2.0000    0.0000\nO        3.6000    0.0000    0.0000\nO       -3.6000    0.0000    0.0000\nO        0.0000    3.6000    0.0000\nO        0.0000   -3.6000    0.0000\nO        2.6000    2.6000    0.0000\nO       -2.6000   -2.6000    0.0000\nO        1.2000    1.2000    1.2000\nN        4.5000    0.0000    0.0000\nH        5.1000    0.8000    0.0000\nH        5.1000   -0.8000    0.0000\nO       -4.5000    0.0000    0.0000\nH       -5.1000    0.8000    0.0000\nH       -5.1000   -0.8000    0.0000\n"
+  },
+  {
+    "nom": "rouge de méthyle",
+    "aliases": [
+      "methyl red",
+      "C.I. Acid Red 2",
+      "rouge de méthyle indicateur"
+    ],
+    "formule": "C15H15N3O2",
+    "masse": 269.304,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "35\nrouge de méthyle (RDKit ETKDG + MMFF94)\nC     -3.9427     1.5058    -0.1672\nN     -3.2686     0.3476    -0.7521\nC     -4.1070    -0.5140    -1.5844\nC     -2.1791    -0.2169    -0.0777\nC     -1.6406    -1.4644    -0.4421\nC     -0.5348    -2.0245     0.2157\nC      0.1006    -1.3400     1.2484\nN      1.1907    -1.9187     1.9264\nN      2.3680    -1.5430     1.6806\nC      2.6500    -0.7800     0.5265\nC      2.7090    -1.4405    -0.7156\nC      3.0238    -0.7559    -1.8899\nC      3.3110     0.6029    -1.8395\nC      3.2973     1.2701    -0.6139\nC      2.9823     0.5857     0.5761\nC      3.0092     1.3145     1.8726\nO      2.5401     0.9732     2.9402\nO      3.6620     2.4914     1.7763\nC     -0.4247    -0.1126     1.6440\nC     -1.5304     0.4421     0.9820\nH     -3.2603     2.3575    -0.0748\nH     -4.3647     1.2621     0.8140\nH     -4.7649     1.8499    -0.8050\nH     -4.5418    -1.3291    -0.9953\nH     -3.5392    -0.9280    -2.4244\nH     -4.9351     0.0480    -2.0311\nH     -2.0681    -2.0426    -1.2552\nH     -0.1659    -2.9994    -0.0901\nH      2.5005    -2.5074    -0.7595\nH      3.0470    -1.2855    -2.8391\nH      3.5556     1.1436    -2.7507\nH      3.5381     2.3310    -0.5954\nH      3.6252     2.8439     2.6907\nH      0.0276     0.4217     2.4758\nH     -1.8699     1.4113     1.3335\n",
+    "cas": "493-52-7"
+  },
+  {
+    "nom": "sulfate de cuivre(II)",
+    "aliases": [
+      "CuSO4",
+      "copper(II) sulfate",
+      "copper sulfate",
+      "sulfate de cuivre",
+      "cuivre II sulfate",
+      "cuivre II sulfate anhydre"
+    ],
+    "formule": "CuSO4",
+    "masse": 159.609,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "6\nsulfate de cuivre(II) (RDKit ETKDG + MMFF94)\nO     -1.1668    -0.8962    -0.0941\nS     -0.0000     0.0000     0.0000\nO     -0.1067     1.0549    -1.0242\nO      0.0392     0.6168     1.3385\nO      1.2343    -0.7755    -0.2201\nCu     3.7742     0.0000     0.0000\n",
+    "cas": "7758-98-7"
+  },
+  {
+    "nom": "sulfate de zinc",
+    "aliases": [
+      "ZnSO4",
+      "zinc sulfate",
+      "vitriol blanc",
+      "zinc sulfate heptahydraté"
+    ],
+    "formule": "ZnSO4",
+    "masse": 161.453,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "6\nsulfate de zinc (RDKit ETKDG + MMFF94)\nO     -1.1668    -0.8962    -0.0941\nS     -0.0000     0.0000     0.0000\nO     -0.1067     1.0549    -1.0242\nO      0.0392     0.6168     1.3385\nO      1.2343    -0.7755    -0.2201\nZn     3.7742     0.0000     0.0000\n",
+    "cas": "7446-20-0",
+    "cas_autres": [
+      "7733-02-0"
+    ]
+  },
+  {
+    "nom": "chlorure de potassium",
+    "aliases": [
+      "KCl",
+      "potassium chloride",
+      "sel de potassium"
+    ],
+    "formule": "KCl",
+    "masse": 74.55,
+    "_comment": "structure initiale simplifiée du chlorure de potassium ; composé ionique K+ / Cl−, représenté ici en géométrie linéaire de départ approximative",
+    "structure": "2\npotassium chloride initial structure\nK       -1.4000    0.0000    0.0000\nCl       1.4000    0.0000    0.0000\n",
+    "cas": "7447-40-7"
+  },
+  {
+    "nom": "vaseline",
+    "aliases": [
+      "gelée de pétrole",
+      "petroleum jelly",
+      "petrolatum"
+    ],
+    "formule": "C30H62",
+    "masse": 422.81,
+    "_comment": "la vaseline est un mélange d'hydrocarbures paraffiniques (environ C20 à C50). Le triacontane C30H62 est utilisé ici comme molécule représentative.",
+    "structure": "92\ntriacontane representative of petroleum jelly\nC       0.0000    0.0000    0.0000\nC       1.5400    0.0000    0.0000\nC       3.0800    0.0000    0.0000\nC       4.6200    0.0000    0.0000\nC       6.1600    0.0000    0.0000\nC       7.7000    0.0000    0.0000\nC       9.2400    0.0000    0.0000\nC      10.7800    0.0000    0.0000\nC      12.3200    0.0000    0.0000\nC      13.8600    0.0000    0.0000\nC      15.4000    0.0000    0.0000\nC      16.9400    0.0000    0.0000\nC      18.4800    0.0000    0.0000\nC      20.0200    0.0000    0.0000\nC      21.5600    0.0000    0.0000\nC      23.1000    0.0000    0.0000\nC      24.6400    0.0000    0.0000\nC      26.1800    0.0000    0.0000\nC      27.7200    0.0000    0.0000\nC      29.2600    0.0000    0.0000\nC      30.8000    0.0000    0.0000\nC      32.3400    0.0000    0.0000\nC      33.8800    0.0000    0.0000\nC      35.4200    0.0000    0.0000\nC      36.9600    0.0000    0.0000\nC      38.5000    0.0000    0.0000\nC      40.0400    0.0000    0.0000\nC      41.5800    0.0000    0.0000\nC      43.1200    0.0000    0.0000\nC      44.6600    0.0000    0.0000\nH      -0.5400    0.9300    0.0000\nH      -0.5400   -0.9300    0.0000\nH       0.0000    0.0000    1.0900\nH       1.5400    0.0000   -1.0900\nH       3.0800    0.0000    1.0900\nH       4.6200    0.0000   -1.0900\nH       6.1600    0.0000    1.0900\nH       7.7000    0.0000   -1.0900\nH       9.2400    0.0000    1.0900\nH      10.7800    0.0000   -1.0900\nH      12.3200    0.0000    1.0900\nH      13.8600    0.0000   -1.0900\nH      15.4000    0.0000    1.0900\nH      16.9400    0.0000   -1.0900\nH      18.4800    0.0000    1.0900\nH      20.0200    0.0000   -1.0900\nH      21.5600    0.0000    1.0900\nH      23.1000    0.0000   -1.0900\nH      24.6400    0.0000    1.0900\nH      26.1800    0.0000   -1.0900\nH      27.7200    0.0000    1.0900\nH      29.2600    0.0000   -1.0900\nH      30.8000    0.0000    1.0900\nH      32.3400    0.0000   -1.0900\nH      33.8800    0.0000    1.0900\nH      35.4200    0.0000   -1.0900\nH      36.9600    0.0000    1.0900\nH      38.5000    0.0000   -1.0900\nH      40.0400    0.0000    1.0900\nH      41.5800    0.0000   -1.0900\nH      43.1200    0.0000    1.0900\nH      44.6600    0.0000   -1.0900\nH      45.2000    0.9300    0.0000\nH      45.2000   -0.9300    0.0000\nH      44.6600    0.0000    1.0900\n"
+  },
+  {
+    "nom": "acide méthanoïque",
+    "aliases": [
+      "acide formique",
+      "formic acid",
+      "methanoic acid",
+      "HCOOH"
+    ],
+    "formule": "CH2O2",
+    "masse": 46.025,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "5\nacide méthanoïque (RDKit ETKDG + MMFF94)\nO      0.7921    -0.5824    -0.0517\nC     -0.4217    -0.0147     0.0172\nO     -0.5641     1.1926     0.0613\nH      1.4138     0.1754    -0.0538\nH     -1.2202    -0.7709     0.0269\n",
+    "cas": "64-18-6"
+  },
+  {
+    "nom": "acide propanoïque",
+    "aliases": [
+      "acide propionique",
+      "propanoic acid",
+      "propionic acid",
+      "CH3CH2COOH"
+    ],
+    "formule": "C3H6O2",
+    "masse": 74.079,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "11\nacide propanoïque (RDKit ETKDG + MMFF94)\nC     -1.4269     0.2240     0.2501\nC     -0.1492    -0.5879     0.1339\nC      1.0239     0.2688    -0.2552\nO      1.0312     1.4686    -0.4681\nO      2.1582    -0.4519    -0.3583\nH     -2.2643    -0.4209     0.5337\nH     -1.3268     1.0086     1.0076\nH     -1.6735     0.7075    -0.7011\nH     -0.2791    -1.3648    -0.6267\nH      0.0706    -1.0611     1.0965\nH      2.8359     0.2092    -0.6124\n",
+    "cas": "79-09-4"
+  },
+  {
+    "nom": "acide butanoïque",
+    "aliases": [
+      "acide butyrique",
+      "butanoic acid",
+      "butyric acid",
+      "CH3CH2CH2COOH"
+    ],
+    "formule": "C4H8O2",
+    "masse": 88.106,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "14\nacide butanoïque (RDKit ETKDG + MMFF94)\nC     -1.5537     0.6843     0.1688\nC     -0.5231     0.2748    -0.8737\nC      0.3463    -0.8895    -0.4125\nC      1.2654    -0.5091     0.7134\nO      1.1880    -0.8931     1.8682\nO      2.2439     0.3322     0.3312\nH     -1.0739     1.0474     1.0829\nH     -2.2025    -0.1576     0.4310\nH     -2.1848     1.4892    -0.2213\nH     -1.0494    -0.0189    -1.7894\nH      0.0982     1.1422    -1.1246\nH      0.9625    -1.2582    -1.2407\nH     -0.2739    -1.7316    -0.0849\nH      2.7570     0.4880     1.1517\n",
+    "cas": "107-92-6"
+  },
+  {
+    "nom": "méthanol",
+    "aliases": [
+      "methanol",
+      "alcool méthylique",
+      "CH3OH"
+    ],
+    "formule": "CH4O",
+    "masse": 32.042,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "6\nméthanol (RDKit ETKDG + MMFF94)\nC     -0.3711    -0.0022     0.0094\nO      0.9129    -0.4394    -0.3964\nH     -0.4676    -0.1082     1.0927\nH     -1.1280    -0.6170    -0.4834\nH     -0.5092     1.0427    -0.2790\nH      1.5630     0.1242     0.0567\n",
+    "cas": "67-56-1"
+  },
+  {
+    "nom": "éthanol",
+    "aliases": [
+      "ethanol",
+      "alcool éthylique",
+      "C2H5OH",
+      "CH3CH2OH"
+    ],
+    "formule": "C2H6O",
+    "masse": 46.069,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "9\néthanol (RDKit ETKDG + MMFF94)\nC     -0.8544     0.2235     0.1943\nC      0.3871    -0.3585    -0.4489\nO      1.5316     0.3843    -0.0548\nH     -1.7476    -0.3278    -0.1126\nH     -0.9749     1.2758    -0.0833\nH     -0.7771     0.1892     1.2860\nH      0.5283    -1.4032    -0.1555\nH      0.3103    -0.3138    -1.5392\nH      1.5966     0.3305     0.9140\n",
+    "cas": "64-17-5"
+  },
+  {
+    "nom": "propan-1-ol",
+    "aliases": [
+      "1-propanol",
+      "propanol",
+      "alcool propylique",
+      "propan-1-ol",
+      "C3H7OH"
+    ],
+    "formule": "C3H8O",
+    "masse": 60.096,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "12\npropan-1-ol (RDKit ETKDG + MMFF94)\nC     -1.2322     0.6673     0.3758\nC     -0.5223    -0.4575    -0.3643\nC      0.9882    -0.2672    -0.3960\nO      1.5103    -0.3175     0.9239\nH     -2.3150     0.5082     0.3545\nH     -1.0224     1.6356    -0.0897\nH     -0.9198     0.7143     1.4237\nH     -0.7630    -1.4049     0.1318\nH     -0.9034    -0.5111    -1.3899\nH      1.2527     0.6961    -0.8438\nH      1.4541    -1.0664    -0.9809\nH      2.4727    -0.1968     0.8549\n",
+    "cas": "71-23-8"
+  },
+  {
+    "nom": "propan-2-ol",
+    "aliases": [
+      "isopropanol",
+      "2-propanol",
+      "alcool isopropylique",
+      "CH3CHOHCH3"
+    ],
+    "formule": "C3H8O",
+    "masse": 60.096,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "12\npropan-2-ol (RDKit ETKDG + MMFF94)\nC     -1.0703     0.6791    -0.0841\nC     -0.0016    -0.3914    -0.2438\nC      1.3795     0.1412     0.1027\nO     -0.2915    -1.4804     0.6267\nH     -0.8751     1.5365    -0.7354\nH     -1.1235     1.0292     0.9527\nH     -2.0579     0.2738    -0.3295\nH     -0.0006    -0.7700    -1.2716\nH      1.4208     0.4791     1.1442\nH      2.1303    -0.6498    -0.0002\nH      1.6597     0.9748    -0.5483\nH     -1.1698    -1.8220     0.3866\n",
+    "cas": "67-63-0"
+  },
+  {
+    "nom": "2-méthylpropan-2-ol",
+    "aliases": [
+      "tert-butanol",
+      "alcool tertiobutylique",
+      "tert-butyl alcohol",
+      "(CH3)3COH"
+    ],
+    "formule": "C4H10O",
+    "masse": 74.123,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "15\n2-méthylpropan-2-ol (RDKit ETKDG + MMFF94)\nC     -0.1781    -1.3728    -0.4096\nC     -0.0925     0.0141     0.2259\nC     -0.6007     1.0869    -0.7363\nC      1.3393     0.3179     0.6616\nO     -0.9106     0.0290     1.3964\nH      0.4477    -1.4456    -1.3051\nH      0.1376    -2.1465     0.2995\nH     -1.2106    -1.6121    -0.6887\nH     -0.5875     2.0743    -0.2610\nH      0.0050     1.1313    -1.6473\nH     -1.6413     0.8951    -1.0217\nH      2.0283     0.3233    -0.1894\nH      1.6914    -0.4229     1.3886\nH      1.3968     1.2920     1.1609\nH     -1.8247    -0.1639     1.1260\n",
+    "cas": "75-65-0"
+  },
+  {
+    "nom": "éthanal",
+    "aliases": [
+      "acétaldéhyde",
+      "acetaldehyde",
+      "ethanal",
+      "CH3CHO"
+    ],
+    "formule": "C2H4O",
+    "masse": 44.053,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "7\néthanal (RDKit ETKDG + MMFF94)\nC     -0.6262    -0.0208    -0.1759\nC      0.8140     0.0330     0.2312\nO      1.6034    -0.8874     0.0468\nH     -0.8279     0.7863    -0.8840\nH     -1.2531     0.1022     0.7103\nH     -0.8471    -0.9817    -0.6470\nH      1.1369     0.9684     0.7186\n",
+    "cas": "75-07-0"
+  },
+  {
+    "nom": "propanal",
+    "aliases": [
+      "propionaldéhyde",
+      "propionaldehyde",
+      "propanal",
+      "CH3CH2CHO"
+    ],
+    "formule": "C3H6O",
+    "masse": 58.08,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "10\npropanal (RDKit ETKDG + MMFF94)\nC     -1.1033    -0.2359    -0.2387\nC      0.1104     0.5912     0.1357\nC      1.3405    -0.2745     0.1754\nO      2.3718    -0.0081    -0.4335\nH     -1.2735    -1.0370     0.4882\nH     -1.9987     0.3922    -0.2725\nH     -0.9720    -0.7018    -1.2210\nH      0.2619     1.3956    -0.5910\nH     -0.0228     1.0382     1.1256\nH      1.2857    -1.1600     0.8318\n",
+    "cas": "123-38-6"
+  },
+  {
+    "nom": "propanone",
+    "aliases": [
+      "acétone",
+      "acetone",
+      "propan-2-one",
+      "CH3COCH3"
+    ],
+    "formule": "C3H6O",
+    "masse": 58.08,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "10\npropanone (RDKit ETKDG + MMFF94)\nC     -1.2629    -0.1103    -0.2503\nC     -0.0402     0.0007     0.6199\nC      1.2846     0.1099    -0.0852\nO     -0.1199     0.0021     1.8474\nH     -1.1915    -1.0079    -0.8694\nH     -1.3451     0.7780    -0.8814\nH     -2.1561    -0.1829     0.3763\nH      2.0895     0.1840     0.6514\nH      1.4476    -0.7798    -0.6984\nH      1.2941     1.0061    -0.7104\n",
+    "cas": "67-64-1"
+  },
+  {
+    "nom": "butanone",
+    "aliases": [
+      "butan-2-one",
+      "méthyléthylcétone",
+      "methyl ethyl ketone",
+      "MEK"
+    ],
+    "formule": "C4H8O",
+    "masse": 72.107,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "13\nbutanone (RDKit ETKDG + MMFF94)\nC      1.5507     0.2773    -0.3724\nC      0.6332    -0.6579     0.3891\nC     -0.7707    -0.6285    -0.1745\nC     -1.6361     0.5506     0.1855\nO     -1.1801    -1.5192    -0.9189\nH      2.5736     0.2019     0.0088\nH      1.2275     1.3185    -0.2732\nH      1.5623     0.0329    -1.4398\nH      1.0072    -1.6859     0.3266\nH      0.5963    -0.3934     1.4510\nH     -1.2418     1.4567    -0.2796\nH     -1.6675     0.6663     1.2718\nH     -2.6548     0.3807    -0.1744\n",
+    "cas": "78-93-3"
+  },
+  {
+    "nom": "chlorure d'hydrogène",
+    "aliases": [
+      "acide chlorhydrique",
+      "HCl",
+      "hydrogen chloride",
+      "hydrochloric acid"
+    ],
+    "formule": "HCl",
+    "masse": 36.461,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "2\nchlorure d'hydrogène (RDKit ETKDG + MMFF94)\nCl    -0.6350     0.0000     0.0000\nH      0.6350     0.0000     0.0000\n",
+    "cas": "7647-01-0"
+  },
+  {
+    "nom": "acide sulfurique",
+    "aliases": [
+      "H2SO4",
+      "sulfuric acid",
+      "sulfate d'hydrogène"
+    ],
+    "formule": "H2O4S",
+    "masse": 98.079,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "7\nacide sulfurique (RDKit ETKDG + MMFF94)\nO     -0.7253     1.1129     0.2966\nS     -0.2460    -0.3815    -0.0357\nO     -0.8028    -0.7111    -1.3229\nO     -0.4214    -1.1879     1.1452\nO      1.3345    -0.1679    -0.2082\nH     -0.8727     1.5661    -0.5593\nH      1.7337    -0.2306     0.6843\n",
+    "cas": "7664-93-9"
+  },
+  {
+    "nom": "acide nitrique",
+    "aliases": [
+      "HNO3",
+      "nitric acid"
+    ],
+    "formule": "HNO3",
+    "masse": 63.012,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "5\nacide nitrique (RDKit ETKDG + MMFF94)\nO      0.6978    -0.7481    -0.1375\nN     -0.4127     0.0540     0.0441\nO     -1.4804    -0.5442     0.0874\nO     -0.1239     1.2425     0.1308\nH      1.3192    -0.0043    -0.1247\n",
+    "cas": "7697-37-2"
+  },
+  {
+    "nom": "acide phosphorique",
+    "aliases": [
+      "H3PO4",
+      "phosphoric acid",
+      "acide orthophosphorique"
+    ],
+    "formule": "H3O4P",
+    "masse": 97.994,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "8\nacide phosphorique (RDKit ETKDG + MMFF94)\nO      0.5758    -0.0338     1.3872\nP      0.1763    -0.0053    -0.1513\nO      1.3013    -0.0394    -1.1164\nO     -0.8641    -1.2032    -0.2499\nO     -0.7709     1.2690    -0.2284\nH      1.1615     0.7112     1.6112\nH     -0.4209    -2.0627    -0.1359\nH     -1.1589     1.3643    -1.1164\n",
+    "cas": "7664-38-2"
+  },
+  {
+    "nom": "fluorure d'hydrogène",
+    "aliases": [
+      "acide fluorhydrique",
+      "HF",
+      "hydrogen fluoride",
+      "hydrofluoric acid"
+    ],
+    "formule": "HF",
+    "masse": 20.006,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "2\nfluorure d'hydrogène (RDKit ETKDG + MMFF94)\nF     -0.4600     0.0000     0.0000\nH      0.4600     0.0000     0.0000\n",
+    "cas": "7664-39-3"
+  },
+  {
+    "nom": "acide nitreux",
+    "aliases": [
+      "HNO2",
+      "nitrous acid"
+    ],
+    "formule": "HNO2",
+    "masse": 47.013,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "4\nacide nitreux (RDKit ETKDG + MMFF94)\nO     -0.7681     0.5069     0.1713\nN      0.6179     0.5460    -0.1389\nO      1.0664    -0.5997    -0.2380\nH     -0.9161    -0.4532     0.2056\n",
+    "cas": "7782-77-6"
+  },
+  {
+    "nom": "acide borique",
+    "aliases": [
+      "H3BO3",
+      "boric acid",
+      "acide orthoborique"
+    ],
+    "formule": "H3BO3",
+    "masse": 61.833,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "7\nacide borique (RDKit ETKDG + MMFF94)\nO     -1.3200    -0.7294    -0.1660\nB     -0.0477    -0.0509    -0.3978\nO     -0.0168     1.3960    -0.5941\nO      1.1913    -0.8221    -0.4550\nH     -1.4291    -0.7271     0.8184\nH      0.1016     1.7694     0.3156\nH      1.5207    -0.8359     0.4789\n",
+    "cas": "10043-35-3"
+  },
+  {
+    "nom": "acide oxalique",
+    "aliases": [
+      "acide éthanedioïque",
+      "H2C2O4",
+      "oxalic acid",
+      "ethanedioic acid"
+    ],
+    "formule": "C2H2O4",
+    "masse": 90.034,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "8\nacide oxalique (RDKit ETKDG + MMFF94)\nO     -1.5619     0.2131     0.8521\nC     -0.7538     0.0150    -0.1986\nO     -1.1876    -0.1223    -1.3256\nC      0.7538    -0.0150     0.1986\nO      1.1876     0.1223     1.3256\nO      1.5619    -0.2131    -0.8521\nH     -2.4637     0.2105     0.4718\nH      2.4637    -0.2105    -0.4718\n",
+    "cas": "144-62-7"
+  },
+  {
+    "nom": "acide carbonique",
+    "aliases": [
+      "H2CO3",
+      "carbonic acid"
+    ],
+    "formule": "CH2O3",
+    "masse": 62.024,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "6\nacide carbonique (RDKit ETKDG + MMFF94)\nO     -1.0819    -0.6854    -0.0702\nC     -0.0017     0.0917     0.0087\nO      1.1069    -0.6458    -0.0558\nO     -0.0243     1.2995     0.1229\nH     -1.8324    -0.0632    -0.0149\nH      1.8336     0.0032     0.0092\n",
+    "cas": "463-79-6"
+  },
+  {
+    "nom": "sulfure d'hydrogène",
+    "aliases": [
+      "H2S",
+      "hydrogen sulfide",
+      "sulfane"
+    ],
+    "formule": "H2S",
+    "masse": 34.083,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "3\nsulfure d'hydrogène (RDKit ETKDG + MMFF94)\nS     -0.0361     0.6122     0.0000\nH     -0.9560    -0.3635     0.0000\nH      0.9921    -0.2487     0.0000\n",
+    "cas": "7783-06-4"
+  },
+  {
+    "nom": "EDTA",
+    "aliases": [
+      "H4EDTA",
+      "acide éthylènediaminetétraacétique",
+      "acide éthylènediaminetétraacétique",
+      "ethylenediaminetetraacetic acid"
+    ],
+    "formule": "C10H16N2O8",
+    "masse": 292.244,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "36\nEDTA (RDKit ETKDG + MMFF94)\nO     -4.1758     2.4576    -1.0003\nC     -4.0962     1.2480    -1.5915\nO     -5.0974     0.5638    -1.7418\nC     -2.6794     0.8590    -1.9815\nN     -1.9546     0.2182    -0.8609\nC     -2.5890    -1.0867    -0.5134\nC     -1.8166    -1.8485     0.5528\nO     -1.8359    -1.2491     1.7602\nO     -1.1561    -2.8591     0.3573\nC     -0.5222     0.0598    -1.1993\nC      0.3592     0.6437    -0.0645\nN      1.7744     0.2348    -0.1547\nC      2.6417     1.2062     0.5569\nC      4.1307     0.9807     0.3091\nO      4.8932     1.7021     1.1620\nO      4.6664     0.2879    -0.5403\nC      1.9890    -1.1665     0.2999\nC      1.7803    -1.3913     1.7959\nO      2.9327    -1.3221     2.4974\nO      0.7191    -1.5711     2.3778\nH     -5.1183     2.5377    -0.7468\nH     -2.1737     1.7830    -2.2909\nH     -2.7241     0.2126    -2.8666\nH     -2.6645    -1.7343    -1.3960\nH     -3.6025    -0.9416    -0.1236\nH     -1.0667    -1.6446     2.2408\nH     -0.2795    -0.9848    -1.4214\nH     -0.2650     0.6042    -2.1186\nH     -0.0468     0.4154     0.9252\nH      0.2860     1.7361    -0.1609\nH      2.4371     2.2162     0.1804\nH      2.4469     1.1979     1.6349\nH      5.8083     1.4769     0.8912\nH      1.3341    -1.8611    -0.2354\nH      2.9979    -1.5048     0.0386\nH      2.6672    -1.4762     3.4280\n",
+    "cas": "60-00-4"
+  },
+  {
+    "nom": "ammoniac",
+    "aliases": [
+      "NH3",
+      "ammonia",
+      "azane"
+    ],
+    "formule": "H3N",
+    "masse": 17.031,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "4\nammoniac (RDKit ETKDG + MMFF94)\nN      0.0010    -0.0042     0.2956\nH     -0.5788    -0.7391    -0.1070\nH     -0.3525     0.8725    -0.0851\nH      0.9302    -0.1292    -0.1035\n",
+    "cas": "7664-41-7"
+  },
+  {
+    "nom": "méthylamine",
+    "aliases": [
+      "CH3NH2",
+      "methylamine",
+      "méthanamine"
+    ],
+    "formule": "CH5N",
+    "masse": 31.058,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "7\nméthylamine (RDKit ETKDG + MMFF94)\nC     -0.5645     0.0999    -0.0386\nN      0.8503    -0.0908    -0.3034\nH     -1.1564    -0.6180    -0.6132\nH     -0.8704     1.1088    -0.3287\nH     -0.7793    -0.0398     1.0247\nH      1.1288    -1.0234    -0.0010\nH      1.3916     0.5633     0.2604\n",
+    "cas": "74-89-5"
+  },
+  {
+    "nom": "éthylamine",
+    "aliases": [
+      "CH3CH2NH2",
+      "C2H5NH2",
+      "ethylamine",
+      "éthanamine"
+    ],
+    "formule": "C2H7N",
+    "masse": 45.085,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "10\néthylamine (RDKit ETKDG + MMFF94)\nC      1.0452     0.4751    -0.0218\nC     -0.0882    -0.5239    -0.1754\nN     -1.3763     0.1453    -0.0510\nH      2.0105    -0.0309    -0.1244\nH      0.9911     1.2566    -0.7874\nH      1.0200     0.9565     0.9617\nH     -0.0028    -1.3035     0.5888\nH     -0.0243    -1.0070    -1.1556\nH     -2.1232    -0.5461    -0.1038\nH     -1.4518     0.5778     0.8689\n",
+    "cas": "75-04-7"
+  },
+  {
+    "nom": "aniline",
+    "aliases": [
+      "C6H5NH2",
+      "phénylamine",
+      "benzenamine",
+      "aniline"
+    ],
+    "formule": "C6H7N",
+    "masse": 93.129,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "14\naniline (RDKit ETKDG + MMFF94)\nN      2.2720    -0.3569     0.3172\nC      0.9140    -0.1186     0.0727\nC      0.3070     1.0475     0.5464\nC     -1.0702     1.2415     0.4105\nC     -1.8601     0.2487    -0.1643\nC     -1.2744    -0.9430    -0.5846\nC      0.1034    -1.1315    -0.4462\nH      2.6848    -1.0394    -0.3104\nH      2.8278     0.4896     0.3861\nH      0.9036     1.8181     1.0268\nH     -1.5256     2.1613     0.7670\nH     -2.9321     0.3950    -0.2654\nH     -1.8896    -1.7328    -1.0069\nH      0.5392    -2.0796    -0.7488\n",
+    "cas": "62-53-3"
+  },
+  {
+    "nom": "acide citrique",
+    "aliases": [
+      "citric acid",
+      "acide 2-hydroxypropane-1,2,3-tricarboxylique",
+      "jus de citron"
+    ],
+    "formule": "C6H8O7",
+    "masse": 192.123,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "21\nacide citrique (RDKit ETKDG + MMFF94)\nO     -3.5357    -0.3446    -0.6227\nC     -2.4040    -0.6544     0.0360\nO     -2.4411    -1.0742     1.1797\nC     -1.1780    -0.4637    -0.8104\nC      0.0867    -0.2701     0.0432\nO      0.3505    -1.4954     0.7400\nC      1.2777    -0.0179    -0.8911\nC      2.5426     0.2951    -0.1415\nO      3.5922    -0.4359    -0.5631\nO      2.6889     1.1442     0.7211\nC     -0.1163     0.9071     1.0139\nO     -0.2981     2.0887     0.3913\nO     -0.1544     0.8356     2.2318\nH     -4.2546    -0.5366     0.0167\nH     -1.3389     0.4116    -1.4513\nH     -1.0847    -1.3536    -1.4439\nH     -0.2848    -1.5332     1.4883\nH      1.4546    -0.9100    -1.5057\nH      1.0942     0.8202    -1.5737\nH      4.3334    -0.1460     0.0090\nH     -0.3304     2.7331     1.1323\n",
+    "cas": "77-92-9"
+  },
+  {
+    "nom": "glucose",
+    "aliases": [
+      "D-glucose",
+      "dextrose",
+      "C6H12O6"
+    ],
+    "formule": "C6H12O6",
+    "masse": 180.156,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "24\nglucose (RDKit ETKDG + MMFF94)\nO      3.1529    -0.9709     1.0201\nC      2.5763     0.0561     0.2084\nC      1.0536     0.0511     0.3856\nO      0.5847    -1.2437    -0.0572\nC     -0.8266    -1.3880     0.0216\nO     -1.2371    -1.2885     1.3870\nC     -1.5537    -0.3257    -0.8216\nO     -2.9760    -0.4748    -0.7172\nC     -1.1421     1.0787    -0.3554\nO     -1.6654     1.3547     0.9542\nC      0.3861     1.2177    -0.3727\nO      0.8424     1.2490    -1.7298\nH      2.6773    -1.7867     0.7722\nH      3.0094     1.0128     0.5146\nH      2.8650    -0.1526    -0.8267\nH      0.8348     0.1268     1.4583\nH     -1.1019    -2.3863    -0.3362\nH     -1.0715    -2.1732     1.7607\nH     -1.2794    -0.4545    -1.8749\nH     -3.2199    -0.1119     0.1571\nH     -1.5968     1.8178    -1.0249\nH     -1.5145     0.5582     1.5095\nH      0.6878     2.1599     0.1001\nH      0.5148     2.0739    -2.1326\n",
+    "cas": "50-99-7"
+  },
+  {
+    "nom": "saccharose",
+    "aliases": [
+      "sucrose",
+      "sucre",
+      "C12H22O11"
+    ],
+    "formule": "C12H22O11",
+    "masse": 342.297,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "45\nsaccharose (RDKit ETKDG + MMFF94)\nO      4.6951    -0.9064     2.4787\nC      3.4668    -0.1944     2.3621\nC      3.2587     0.3584     0.9534\nO      2.0968     1.2071     0.8878\nC      1.2759     0.7681    -0.2367\nC      0.7184     2.0506    -0.8879\nO      1.7854     2.9384    -1.2549\nO      0.2713    -0.0797     0.3220\nC     -0.7758    -0.4906    -0.5587\nO     -1.7453     0.5469    -0.6830\nC     -2.7701     0.4784     0.3136\nC     -3.5874     1.7768     0.2734\nO     -2.7924     2.8580     0.7625\nC     -3.6618    -0.7412     0.0179\nO     -4.5093    -1.0277     1.1337\nC     -2.8317    -1.9865    -0.3569\nO     -2.9058    -2.2534    -1.7697\nC     -1.3548    -1.8134     0.0035\nO     -0.6038    -2.9357    -0.4902\nC      2.2562    -0.0288    -1.1396\nO      3.1838     0.7553    -1.9143\nC      3.0637    -0.7532    -0.0759\nO      4.3048    -1.2520    -0.5634\nH      4.8179    -1.4355     1.6655\nH      2.6451    -0.8594     2.6499\nH      3.4766     0.6230     3.0908\nH      4.1321     0.9678     0.6877\nH      0.0570     2.5872    -0.1995\nH      0.1553     1.8251    -1.7979\nH      2.1786     3.2201    -0.4027\nH     -0.3706    -0.6762    -1.5584\nH     -2.3062     0.4059     1.3066\nH     -4.4781     1.7058     0.9048\nH     -3.8835     2.0185    -0.7528\nH     -3.3071     3.6728     0.6304\nH     -4.3275    -0.5044    -0.8211\nH     -3.9561    -1.2078     1.9156\nH     -3.2203    -2.8853     0.1364\nH     -3.8390    -2.4565    -1.9716\nH     -1.2462    -1.8271     1.0949\nH     -0.9918    -3.1424    -1.3658\nH      1.7737    -0.7300    -1.8240\nH      2.8112     1.6601    -2.0099\nH      2.4905    -1.5892     0.3415\nH      4.5496    -0.6476    -1.2977\n",
+    "cas": "57-50-1"
+  },
+  {
+    "nom": "bleu de bromothymol",
+    "aliases": [
+      "BBT",
+      "bromothymol blue",
+      "bleu de bromothymol (BBT)"
+    ],
+    "formule": "C27H28Br2O5S",
+    "masse": 624.391,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "63\nbleu de bromothymol (RDKit ETKDG + MMFF94)\nC     -5.4652     0.0054     0.9576\nC     -4.0520    -0.1541     1.5243\nC     -4.0476    -1.0243     2.7840\nC     -3.0567    -0.6386     0.4787\nC     -1.9923     0.2085     0.1200\nC     -1.0089    -0.1372    -0.8431\nC      0.1426     0.8719    -1.1739\nC      1.5533     0.3294    -0.7779\nC      1.6386    -0.5196     0.3590\nC      2.8350    -1.1102     0.7954\nC      2.7957    -2.0214     2.0137\nC      3.6614    -1.5024     3.1649\nC      3.1360    -3.4728     1.6658\nC      3.9892    -0.8370     0.0649\nO      5.1604    -1.4323     0.4563\nC      3.9615     0.0281    -1.0443\nBr     5.6136     0.2893    -1.9784\nC      2.7619     0.6584    -1.4565\nC      2.7725     1.6293    -2.6118\nO      0.0260     1.0390    -2.6071\nS     -0.8011     2.3799    -3.0276\nO     -2.1954     2.0462    -3.2079\nO     -0.0286     3.1134    -4.0058\nC     -0.6284     3.1776    -1.4962\nC     -0.9032     4.5024    -1.2136\nC     -0.5985     4.9519     0.0689\nC     -0.0212     4.0823     1.0093\nC      0.2574     2.7483     0.6835\nC     -0.0541     2.2842    -0.5927\nC     -1.1171    -1.4135    -1.4743\nC     -0.1348    -1.8997    -2.5173\nC     -2.1944    -2.2618    -1.1179\nBr    -2.4160    -3.9833    -1.9297\nC     -3.1414    -1.8761    -0.1555\nO     -4.1732    -2.7126     0.1817\nH     -6.1213     0.4795     1.6959\nH     -5.4585     0.6368     0.0621\nH     -5.9178    -0.9533     0.6869\nH     -3.7413     0.8485     1.8489\nH     -3.0332    -1.1259     3.1856\nH     -4.6715    -0.5717     3.5626\nH     -4.4359    -2.0303     2.5988\nH     -1.9520     1.1736     0.6209\nH      0.7357    -0.7436     0.9284\nH      1.7649    -2.0333     2.3941\nH      3.4996    -2.1050     4.0654\nH      3.4083    -0.4643     3.4074\nH      4.7304    -1.5410     2.9351\nH      2.5010    -3.8389     0.8513\nH      2.9738    -4.1218     2.5335\nH      4.1786    -3.5945     1.3567\nH      5.8565    -1.1466    -0.1627\nH      3.7531     2.0751    -2.7923\nH      2.1342     2.4890    -2.4003\nH      2.4492     1.1317    -3.5307\nH     -1.3264     5.1661    -1.9608\nH     -0.7969     5.9862     0.3431\nH      0.2179     4.4539     2.0045\nH      0.7084     2.0985     1.4294\nH      0.3106    -2.8497    -2.2027\nH     -0.6441    -2.0303    -3.4781\nH      0.7036    -1.2307    -2.7007\nH     -4.1014    -3.5066    -0.3783\n",
+    "cas": "76-59-5"
+  },
+  {
+    "nom": "phénolphtaléine",
+    "aliases": [
+      "phenolphthalein",
+      "phtaléine du phénol"
+    ],
+    "formule": "C20H14O4",
+    "masse": 318.328,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "38\nphénolphtaléine (RDKit ETKDG + MMFF94)\nO     -0.6882     3.4173    -2.1241\nC     -0.5220     2.5181    -1.3251\nO     -0.0996     1.2540    -1.5987\nC     -0.0508     0.3975    -0.4143\nC      1.3785    -0.1460    -0.2322\nC      2.4862     0.4787    -0.8385\nC      3.7838    -0.0053    -0.6455\nC      3.9873    -1.1170     0.1623\nO      5.2350    -1.6214     0.3776\nC      2.9178    -1.7504     0.7790\nC      1.6216    -1.2677     0.5865\nC     -1.0876    -0.7027    -0.7053\nC     -0.8890    -1.5538    -1.8145\nC     -1.7963    -2.5693    -2.1226\nC     -2.9224    -2.7452    -1.3333\nO     -3.7847    -3.7460    -1.6679\nC     -3.1574    -1.9193    -0.2413\nC     -2.2462    -0.9027     0.0688\nC     -0.3988     1.3724     0.6737\nC     -0.4376     1.2210     2.0556\nC     -0.8020     2.3192     2.8426\nC     -1.1143     3.5535     2.2512\nC     -1.0576     3.7041     0.8662\nC     -0.6950     2.5989     0.1140\nH      2.3521     1.3525    -1.4742\nH      4.6140     0.4981    -1.1311\nH      5.8737    -1.0945    -0.1302\nH      3.0907    -2.6201     1.4068\nH      0.7997    -1.7843     1.0788\nH     -0.0156    -1.4248    -2.4532\nH     -1.6242    -3.2150    -2.9791\nH     -4.5353    -3.7294    -1.0523\nH     -4.0409    -2.0451     0.3769\nH     -2.4737    -0.2704     0.9229\nH     -0.1912     0.2734     2.5264\nH     -0.8389     2.2187     3.9258\nH     -1.3915     4.3985     2.8779\nH     -1.2795     4.6545     0.3905\n",
+    "cas": "77-09-8"
+  },
+  {
+    "nom": "chlorure de sodium",
+    "aliases": [
+      "NaCl",
+      "sel de table",
+      "sodium chloride",
+      "sel"
+    ],
+    "formule": "NaCl",
+    "masse": 58.443,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "2\nchlorure de sodium (RDKit ETKDG + MMFF94)\nNa     0.0000     0.0000     0.0000\nCl     2.3000     0.0000     0.0000\n",
+    "cas": "7647-14-5"
+  },
+  {
+    "nom": "méthanoate de sodium",
+    "aliases": [
+      "formiate de sodium",
+      "HCOONa",
+      "sodium formate"
+    ],
+    "formule": "HCOONa",
+    "masse": 68.007,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "5\nméthanoate de sodium (RDKit ETKDG + MMFF94)\nO     -1.0326    -0.7394     0.0033\nC      0.0043    -0.0241    -0.0001\nO      1.2245    -0.3371    -0.0065\nH     -0.1962     1.1006     0.0033\nNa     0.4469    -2.5072    -0.0074\n",
+    "cas": "141-53-7"
+  },
+  {
+    "nom": "propanoate de sodium",
+    "aliases": [
+      "propionate de sodium",
+      "CH3CH2COONa",
+      "sodium propionate"
+    ],
+    "formule": "CH3CH2COONa",
+    "masse": 96.061,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "11\npropanoate de sodium (RDKit ETKDG + MMFF94)\nC     -1.1406     0.1592    -0.2593\nC      0.2518    -0.4413    -0.2626\nC      1.2716     0.2633     0.6362\nO      0.8585     1.2634     1.2845\nO      2.4244    -0.2576     0.6148\nH     -1.5758     0.1398     0.7453\nH     -1.8001    -0.4050    -0.9260\nH     -1.1220     1.1995    -0.6003\nH      0.6423    -0.4324    -1.2872\nH      0.1898    -1.4891     0.0546\nNa     3.0094     1.3890     2.1088\n",
+    "cas": "137-40-6"
+  },
+  {
+    "nom": "butanoate de sodium",
+    "aliases": [
+      "butyrate de sodium",
+      "CH3CH2CH2COONa",
+      "sodium butyrate"
+    ],
+    "formule": "CH3CH2CH2COONa",
+    "masse": 110.088,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "14\nbutanoate de sodium (RDKit ETKDG + MMFF94)\nC     -1.7794     0.2052     0.0268\nC     -0.3188     0.5694     0.2408\nC      0.6107    -0.5472    -0.2204\nC      2.1065    -0.2672    -0.0425\nO      2.4182     0.8460     0.4619\nO      2.8567    -1.2085    -0.4324\nH     -2.0458    -0.6952     0.5894\nH     -1.9874     0.0232    -1.0324\nH     -2.4267     1.0206     0.3647\nH     -0.1531     0.7795     1.3041\nH     -0.0951     1.4929    -0.3063\nH      0.4362    -0.7518    -1.2841\nH      0.3781    -1.4671     0.3305\nNa     4.6007     0.1367     0.2263\n",
+    "cas": "156-54-7"
+  },
+  {
+    "nom": "dichlorométhane",
+    "aliases": [
+      "méthylène chlorure",
+      "dichloromethane",
+      "chlorure de méthylène",
+      "CH2Cl2"
+    ],
+    "formule": "CH2Cl2",
+    "masse": 84.933,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "5\ndichlorométhane (RDKit ETKDG + MMFF94)\nCl    -1.4454     0.8709    -0.0417\nC     -0.0021    -0.1477     0.0085\nCl     1.4697     0.8283    -0.0562\nH     -0.0059    -0.7244     0.9367\nH     -0.0163    -0.8271    -0.8473\n",
+    "cas": "75-09-2"
+  },
+  {
+    "nom": "glycérol",
+    "aliases": [
+      "glycérine",
+      "propane-1,2,3-triol",
+      "glycerol",
+      "glycerin"
+    ],
+    "formule": "C3H8O3",
+    "masse": 92.094,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "14\nglycérol (RDKit ETKDG + MMFF94)\nO     -0.9362    -0.8507    -1.5683\nC     -1.2112    -0.4802    -0.2230\nC      0.0762    -0.2786     0.5901\nO     -0.2275    -0.0846     1.9703\nC      0.8768     0.9266     0.0802\nO      1.2716     0.7500    -1.2789\nH     -0.3169    -0.1763    -1.9206\nH     -1.8239     0.4281    -0.2219\nH     -1.8209    -1.2709     0.2270\nH      0.7009    -1.1747     0.4937\nH     -0.6858    -0.8849     2.2830\nH      0.2766     1.8407     0.1470\nH      1.7696     1.0918     0.6938\nH      2.0507     0.1637    -1.2723\n",
+    "cas": "56-81-5"
+  },
+  {
+    "nom": "hexaméthylènediamine",
+    "aliases": [
+      "hexane-1,6-diamine",
+      "hexamethylenediamine",
+      "hexaméthylène diamine"
+    ],
+    "formule": "C6H16N2",
+    "masse": 116.208,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "24\nhexaméthylènediamine (RDKit ETKDG + MMFF94)\nN      2.8957     1.1128    -0.5719\nC      1.7409     1.5179     0.2204\nC      1.3834     0.5102     1.3159\nC      1.0245    -0.8998     0.8321\nC     -0.1228    -0.9834    -0.1797\nC     -1.4458    -0.4256     0.3556\nC     -2.6239    -0.6726    -0.5896\nN     -2.4462     0.0053    -1.8674\nH      2.6702     0.2693    -1.0982\nH      3.6659     0.8618     0.0463\nH      0.8878     1.6904    -0.4435\nH      1.9685     2.4813     0.6901\nH      0.5511     0.9152     1.9039\nH      2.2271     0.4272     2.0135\nH      0.7674    -1.5079     1.7088\nH      1.9121    -1.3697     0.3916\nH      0.1612    -0.4683    -1.1039\nH     -0.2623    -2.0389    -0.4456\nH     -1.6725    -0.8973     1.3197\nH     -1.3535     0.6506     0.5436\nH     -3.5453    -0.3126    -0.1187\nH     -2.7441    -1.7470    -0.7649\nH     -2.3616     1.0098    -1.7168\nH     -3.2777    -0.1287    -2.4414\n",
+    "cas": "124-09-4"
+  },
+  {
+    "nom": "méthacrylate de méthyle",
+    "aliases": [
+      "methyl methacrylate",
+      "MMA",
+      "2-méthylpropénoate de méthyle"
+    ],
+    "formule": "C5H8O2",
+    "masse": 100.117,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "15\nméthacrylate de méthyle (RDKit ETKDG + MMFF94)\nC     -1.7884     1.4676     0.1285\nC     -1.0102     0.3735     0.0696\nC     -1.5656    -1.0161     0.0974\nC      0.4649     0.5705    -0.0272\nO      1.0162     1.6608    -0.0567\nO      1.0927    -0.6318    -0.0768\nC      2.5143    -0.5387    -0.1707\nH     -1.3669     2.4698     0.1071\nH     -2.8685     1.3926     0.1999\nH     -1.2983    -1.5574    -0.8162\nH     -1.1802    -1.5690     0.9604\nH     -2.6586    -1.0158     0.1701\nH      2.9187    -1.5542    -0.2042\nH      2.8052    -0.0200    -1.0896\nH      2.9247    -0.0318     0.7083\n",
+    "cas": "80-62-6"
+  },
+  {
+    "nom": "acrylate de méthyle",
+    "aliases": [
+      "methyl acrylate",
+      "méthyl acrylate",
+      "propénoate de méthyle",
+      "methyl prop-2-enoate"
+    ],
+    "formule": "C4H6O2",
+    "masse": 86.09,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "12\nacrylate de méthyle (RDKit ETKDG + MMFF94)\nC      2.4701    -0.3521     0.1418\nC      1.2035    -0.7465    -0.0401\nC      0.0886     0.2202     0.0493\nO      0.2044     1.4111     0.2852\nO     -1.0670    -0.4531    -0.1762\nC     -2.2310     0.3715    -0.1179\nH      2.7175     0.6838     0.3594\nH      3.2880    -1.0615     0.0762\nH      0.9562    -1.7783    -0.2569\nH     -2.3382     0.8146     0.8772\nH     -2.1892     1.1495    -0.8868\nH     -3.1031    -0.2592    -0.3113\n",
+    "cas": "96-33-3"
+  },
+  {
+    "nom": "2-méthylbut-2-ène",
+    "aliases": [
+      "amylène",
+      "méthyl-2 butène-2",
+      "2-methyl-2-butene",
+      "isoamylène"
+    ],
+    "formule": "C5H10",
+    "masse": 70.135,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "15\n2-méthylbut-2-ène (RDKit ETKDG + MMFF94)\nC      2.0637    -0.3683    -0.3413\nC      0.7998     0.4106    -0.5222\nC     -0.4159     0.1660     0.0041\nC     -0.7600    -0.9816     0.9130\nC     -1.5775     1.0774    -0.2999\nH      2.4230    -0.7152    -1.3154\nH      1.9575    -1.2410     0.3047\nH      2.8332     0.2776     0.0934\nH      0.9159     1.2804    -1.1690\nH     -1.5436    -1.5976     0.4590\nH     -1.1325    -0.6027     1.8707\nH      0.0844    -1.6382     1.1298\nH     -1.2974     1.9026    -0.9630\nH     -2.3811     0.5168    -0.7889\nH     -1.9694     1.5132     0.6250\n",
+    "cas": "513-35-9"
+  },
+  {
+    "nom": "naphtalène",
+    "aliases": [
+      "naphtaline",
+      "naphthalene",
+      "C10H8"
+    ],
+    "formule": "C10H8",
+    "masse": 128.174,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "18\nnaphtalène (RDKit ETKDG + MMFF94)\nC      2.2779     1.1037    -0.0459\nC      2.5174    -0.2644     0.0430\nC      1.4466    -1.1588     0.0883\nC      0.1217    -0.6951     0.0451\nC     -0.9670    -1.5812     0.0897\nC     -2.2779    -1.1037     0.0459\nC     -2.5174     0.2644    -0.0430\nC     -1.4466     1.1588    -0.0883\nC     -0.1217     0.6951    -0.0452\nC      0.9670     1.5812    -0.0897\nH      3.1108     1.8010    -0.0812\nH      3.5377    -0.6373     0.0772\nH      1.6537    -2.2242     0.1577\nH     -0.7998    -2.6536     0.1592\nH     -3.1108    -1.8010     0.0812\nH     -3.5377     0.6373    -0.0772\nH     -1.6537     2.2242    -0.1577\nH      0.7998     2.6536    -0.1592\n",
+    "cas": "91-20-3"
+  },
+  {
+    "nom": "fluorescéine",
+    "aliases": [
+      "uranine",
+      "fluorescein",
+      "fluorescéine (uranine)"
+    ],
+    "formule": "C20H12O5",
+    "masse": 332.311,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "37\nfluorescéine (RDKit ETKDG + MMFF94)\nO      2.7121    -0.0585    -3.1313\nC      2.0461    -0.0981    -2.1168\nO      0.7113     0.1651    -2.0096\nC      0.2296     0.0337    -0.6434\nC      1.4684    -0.3564     0.1019\nC      1.6676    -0.6286     1.4486\nC      2.9545    -0.9748     1.8736\nC      4.0190    -1.0449     0.9590\nC      3.8082    -0.7692    -0.3923\nC      2.5246    -0.4297    -0.7834\nC     -0.3142     1.3766    -0.1933\nC      0.3395     2.5910    -0.4791\nC     -0.1633     3.8038    -0.0010\nC     -1.3183     3.8071     0.7715\nO     -1.8409     4.9660     1.2635\nC     -1.9794     2.6220     1.0658\nC     -1.4825     1.4126     0.5761\nO     -2.2033     0.2895     0.9033\nC     -1.9683    -0.8606     0.1884\nC     -2.9407    -1.8582     0.3038\nC     -2.7817    -3.0499    -0.3923\nO     -3.7058    -4.0491    -0.3148\nC     -1.6682    -3.2597    -1.1946\nC     -0.6935    -2.2658    -1.3008\nC     -0.8309    -1.0498    -0.6054\nH      0.8484    -0.5766     2.1609\nH      3.1345    -1.1934     2.9246\nH      5.0129    -1.3168     1.3084\nH      4.6184    -0.8187    -1.1132\nH      1.2482     2.6029    -1.0779\nH      0.3594     4.7255    -0.2381\nH     -1.2966     5.7098     0.9564\nH     -2.8840     2.6408     1.6666\nH     -3.8096    -1.6846     0.9305\nH     -4.4383    -3.7551     0.2516\nH     -1.5567    -4.1954    -1.7360\nH      0.1734    -2.4524    -1.9313\n",
+    "cas": "2321-07-5"
+  },
+  {
+    "nom": "diiode",
+    "aliases": [
+      "iode",
+      "I2",
+      "iodine",
+      "iode bisublimé",
+      "diiode I2"
+    ],
+    "formule": "I2",
+    "masse": 253.809,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "2\ndiiode (RDKit ETKDG + MMFF94)\nI     -1.3350     0.0000     0.0000\nI      1.3350     0.0000     0.0000\n",
+    "cas": "7553-56-2"
+  },
+  {
+    "nom": "phosphore blanc",
+    "aliases": [
+      "P4",
+      "tétraphosphore",
+      "white phosphorus",
+      "phosphore"
+    ],
+    "formule": "P4",
+    "masse": 123.895,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "4\nphosphore blanc (RDKit ETKDG + MMFF94)\nP      0.7814     0.7814     0.7814\nP      0.7814    -0.7814    -0.7814\nP     -0.7814     0.7814    -0.7814\nP     -0.7814    -0.7814     0.7814\n",
+    "cas": "7723-14-0"
+  },
+  {
+    "nom": "chlorure d'ammonium",
+    "aliases": [
+      "ammonium chlorure",
+      "NH4Cl",
+      "sel ammoniac",
+      "ammonium chloride"
+    ],
+    "formule": "NH4Cl",
+    "masse": 53.492,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "6\nchlorure d'ammonium (RDKit ETKDG + MMFF94)\nN      0.0000     0.0000     0.0000\nH     -0.6699    -0.2749    -0.7279\nH      0.0925     1.0225     0.0116\nH     -0.3364    -0.3236     0.9145\nH      0.9139    -0.4241    -0.1981\nCl     3.3268     0.0000     0.0000\n",
+    "cas": "12125-02-9"
+  },
+  {
+    "nom": "oxalate d'ammonium",
+    "aliases": [
+      "ammonium oxalate",
+      "(NH4)2C2O4",
+      "éthanedioate d'ammonium"
+    ],
+    "formule": "(NH4)2C2O4",
+    "masse": 124.096,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "16\noxalate d'ammonium (RDKit ETKDG + MMFF94)\nO      1.3980    -1.0899    -0.1244\nC      0.7792     0.0265     0.0049\nO      1.3191     1.1823     0.1416\nC     -0.7792    -0.0265    -0.0049\nO     -1.3191    -1.1823    -0.1416\nO     -1.3980     1.0899     0.1244\nN      5.1038     0.0000     0.0000\nH      4.4339    -0.2749    -0.7279\nH      5.1963     1.0225     0.0116\nH      4.7674    -0.3236     0.9145\nH      6.0177    -0.4241    -0.1981\nN     -5.1038     0.0000     0.0000\nH     -5.7737    -0.2749    -0.7279\nH     -5.0113     1.0225     0.0116\nH     -5.4402    -0.3236     0.9145\nH     -4.1900    -0.4241    -0.1981\n",
+    "cas": "1113-38-8"
+  },
+  {
+    "nom": "nitrate d'argent",
+    "aliases": [
+      "argent nitrate",
+      "AgNO3",
+      "silver nitrate"
+    ],
+    "formule": "AgNO3",
+    "masse": 169.872,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "5\nnitrate d'argent (RDKit ETKDG + MMFF94)\nO      1.1024    -0.5698    -0.0563\nN     -0.0000    -0.0000    -0.0000\nO     -0.0584     1.2408     0.0026\nO     -1.0440    -0.6710     0.0537\nAg     3.5422     0.0000     0.0000\n",
+    "cas": "7761-88-8"
+  },
+  {
+    "nom": "chlorure de baryum",
+    "aliases": [
+      "baryum chlorure",
+      "BaCl2",
+      "barium chloride"
+    ],
+    "formule": "BaCl2",
+    "masse": 208.234,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "3\nchlorure de baryum (RDKit ETKDG + MMFF94)\nBa     0.0000     0.0000     0.0000\nCl     2.3000     0.0000     0.0000\nCl    -2.3000     0.0000     0.0000\n",
+    "cas": "10326-27-9",
+    "cas_autres": [
+      "10361-37-2"
+    ]
+  },
+  {
+    "nom": "sulfate de calcium",
+    "aliases": [
+      "calcium sulfate",
+      "CaSO4",
+      "plâtre",
+      "gypse"
+    ],
+    "formule": "CaSO4",
+    "masse": 136.141,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "6\nsulfate de calcium (RDKit ETKDG + MMFF94)\nO     -1.1668    -0.8962    -0.0941\nS     -0.0000     0.0000     0.0000\nO     -0.1067     1.0549    -1.0242\nO      0.0392     0.6168     1.3385\nO      1.2343    -0.7755    -0.2201\nCa     3.7742     0.0000     0.0000\n",
+    "cas": "7778-18-9"
+  },
+  {
+    "nom": "chlorure de cuivre(II)",
+    "aliases": [
+      "cuivre II chlorure",
+      "CuCl2",
+      "copper(II) chloride",
+      "chlorure cuivrique"
+    ],
+    "formule": "CuCl2",
+    "masse": 134.452,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "3\nchlorure de cuivre(II) (RDKit ETKDG + MMFF94)\nCu     0.0000     0.0000     0.0000\nCl     2.3000     0.0000     0.0000\nCl    -2.3000     0.0000     0.0000\n",
+    "cas": "7447-39-4"
+  },
+  {
+    "nom": "oxyde de cuivre(II)",
+    "aliases": [
+      "cuivre II oxyde",
+      "CuO",
+      "copper(II) oxide",
+      "oxyde cuivrique"
+    ],
+    "formule": "CuO",
+    "masse": 79.545,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "2\noxyde de cuivre(II) (RDKit ETKDG + MMFF94)\nCu     0.0000     0.0000     0.0000\nO      2.3000     0.0000     0.0000\n",
+    "cas": "1317-38-0"
+  },
+  {
+    "nom": "chlorure d'étain(II)",
+    "aliases": [
+      "étain II chlorure",
+      "SnCl2",
+      "tin(II) chloride",
+      "chlorure stanneux"
+    ],
+    "formule": "SnCl2",
+    "masse": 189.617,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "3\nchlorure d'étain(II) (RDKit ETKDG + MMFF94)\nSn     0.0000     0.0000     0.0000\nCl     2.3000     0.0000     0.0000\nCl    -2.3000     0.0000     0.0000\n",
+    "cas": "7772-99-8"
+  },
+  {
+    "nom": "chlorure de fer(II)",
+    "aliases": [
+      "fer II chlorure",
+      "FeCl2",
+      "iron(II) chloride",
+      "chlorure ferreux"
+    ],
+    "formule": "FeCl2",
+    "masse": 126.751,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "3\nchlorure de fer(II) (RDKit ETKDG + MMFF94)\nFe     0.0000     0.0000     0.0000\nCl     2.3000     0.0000     0.0000\nCl    -2.3000     0.0000     0.0000\n",
+    "cas": "7758-94-3"
+  },
+  {
+    "nom": "chlorure de fer(III)",
+    "aliases": [
+      "fer III chlorure",
+      "FeCl3",
+      "iron(III) chloride",
+      "chlorure ferrique"
+    ],
+    "formule": "FeCl3",
+    "masse": 162.204,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "4\nchlorure de fer(III) (RDKit ETKDG + MMFF94)\nFe     0.0000     0.0000     0.0000\nCl     2.3000     0.0000     0.0000\nCl    -1.1500     1.9919     0.0000\nCl    -1.1500    -1.9919     0.0000\n",
+    "cas": "10025-77-1"
+  },
+  {
+    "nom": "sulfate de fer(II)",
+    "aliases": [
+      "fer II sulfate",
+      "FeSO4",
+      "iron(II) sulfate",
+      "sulfate ferreux",
+      "vitriol vert"
+    ],
+    "formule": "FeSO4",
+    "masse": 151.908,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "6\nsulfate de fer(II) (RDKit ETKDG + MMFF94)\nO     -1.1668    -0.8962    -0.0941\nS     -0.0000     0.0000     0.0000\nO     -0.1067     1.0549    -1.0242\nO      0.0392     0.6168     1.3385\nO      1.2343    -0.7755    -0.2201\nFe     3.7742     0.0000     0.0000\n",
+    "cas": "7720-78-7",
+    "cas_autres": [
+      "7782-63-0"
+    ]
+  },
+  {
+    "nom": "sulfure de fer(II)",
+    "aliases": [
+      "fer II sulfure",
+      "FeS",
+      "iron(II) sulfide"
+    ],
+    "formule": "FeS",
+    "masse": 87.912,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "2\nsulfure de fer(II) (RDKit ETKDG + MMFF94)\nFe     0.0000     0.0000     0.0000\nS      2.3000     0.0000     0.0000\n",
+    "cas": "1317-37-9"
+  },
+  {
+    "nom": "oxyde de zinc",
+    "aliases": [
+      "zinc oxyde",
+      "ZnO",
+      "zinc oxide",
+      "blanc de zinc"
+    ],
+    "formule": "ZnO",
+    "masse": 81.389,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "2\noxyde de zinc (RDKit ETKDG + MMFF94)\nZn     0.0000     0.0000     0.0000\nO      2.3000     0.0000     0.0000\n",
+    "cas": "1314-13-2"
+  },
+  {
+    "nom": "chlorure de zinc",
+    "aliases": [
+      "zinc chlorure",
+      "ZnCl2",
+      "zinc chloride",
+      "zinc chlorure anhydre"
+    ],
+    "formule": "ZnCl2",
+    "masse": 136.296,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "3\nchlorure de zinc (RDKit ETKDG + MMFF94)\nZn     0.0000     0.0000     0.0000\nCl     2.3000     0.0000     0.0000\nCl    -2.3000     0.0000     0.0000\n",
+    "cas": "7646-85-7"
+  },
+  {
+    "nom": "chlorure de magnésium",
+    "aliases": [
+      "magnésium chlorure",
+      "MgCl2",
+      "magnesium chloride"
+    ],
+    "formule": "MgCl2",
+    "masse": 95.211,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "3\nchlorure de magnésium (RDKit ETKDG + MMFF94)\nMg     0.0000     0.0000     0.0000\nCl     2.3000     0.0000     0.0000\nCl    -2.3000     0.0000     0.0000\n",
+    "cas": "7791-18-6"
+  },
+  {
+    "nom": "sulfate de nickel(II)",
+    "aliases": [
+      "nickel II sulfate",
+      "NiSO4",
+      "nickel(II) sulfate"
+    ],
+    "formule": "NiSO4",
+    "masse": 154.756,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "6\nsulfate de nickel(II) (RDKit ETKDG + MMFF94)\nO     -1.1668    -0.8962    -0.0941\nS     -0.0000     0.0000     0.0000\nO     -0.1067     1.0549    -1.0242\nO      0.0392     0.6168     1.3385\nO      1.2343    -0.7755    -0.2201\nNi     3.7742     0.0000     0.0000\n",
+    "cas": "7786-81-4"
+  },
+  {
+    "nom": "chlorure d'aluminium",
+    "aliases": [
+      "aluminium chlorure",
+      "AlCl3",
+      "aluminium chloride"
+    ],
+    "formule": "AlCl3",
+    "masse": 133.341,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "4\nchlorure d'aluminium (RDKit ETKDG + MMFF94)\nAl     0.0000     0.0000     0.0000\nCl     2.3000     0.0000     0.0000\nCl    -1.1500     1.9919     0.0000\nCl    -1.1500    -1.9919     0.0000\n",
+    "cas": "7446-70-0"
+  },
+  {
+    "nom": "bromate de potassium",
+    "aliases": [
+      "potassium bromate",
+      "KBrO3"
+    ],
+    "formule": "KBrO3",
+    "masse": 166.999,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "5\nbromate de potassium (RDKit ETKDG + MMFF94)\nO     -1.3998    -2.0214    -0.0039\nBr     0.0000     0.0002     0.0001\nO      2.4499    -0.2006    -0.0043\nO     -1.0501     2.2217     0.0081\nK      4.7587     0.0000     0.0000\n",
+    "cas": "7758-01-2"
+  },
+  {
+    "nom": "chlorate de potassium",
+    "aliases": [
+      "potassium chlorate",
+      "KClO3"
+    ],
+    "formule": "KClO3",
+    "masse": 122.548,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "5\nchlorate de potassium (RDKit ETKDG + MMFF94)\nO      1.9574    -0.0654    -0.0035\nCl    -0.0158     0.0519    -0.0006\nO     -0.8143     1.6469    -0.0176\nO     -1.1273    -1.6334     0.0217\nK      4.2848     0.0000     0.0000\n",
+    "cas": "3811-04-9"
+  },
+  {
+    "nom": "chromate de potassium",
+    "aliases": [
+      "potassium chromate",
+      "K2CrO4"
+    ],
+    "formule": "K2CrO4",
+    "masse": 194.189,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "7\nchromate de potassium (RDKit ETKDG + MMFF94)\nCr     0.0000     0.0000     0.0000\nO      0.9526     0.9526     0.9526\nO      0.9526    -0.9526    -0.9526\nO     -0.9526     0.9526    -0.9526\nO     -0.9526    -0.9526     0.9526\nK      3.9500     0.0000     0.0000\nK     -3.9500     0.0000     0.0000\n",
+    "cas": "7789-00-6"
+  },
+  {
+    "nom": "potassium hexacyanoferrate (II)",
+    "aliases": [
+      "ferrocyanure de potassium",
+      "potassium ferrocyanide",
+      "potassium II hexacyanoferrate",
+      "potassium ferrocyanure",
+      "K4[Fe(CN)6]",
+      "potassium ferrocyanure trihydraté"
+    ],
+    "formule": "K4[Fe(CN)6]",
+    "masse": 368.343,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "17\npotassium hexacyanoferrate (II) (RDKit ETKDG + MMFF94)\nFe     0.0000     0.0000     0.0000\nC      1.9200     0.0000     0.0000\nN      3.0800     0.0000     0.0000\nC     -1.9200     0.0000     0.0000\nN     -3.0800     0.0000     0.0000\nC      0.0000     1.9200     0.0000\nN      0.0000     3.0800     0.0000\nC      0.0000    -1.9200     0.0000\nN      0.0000    -3.0800     0.0000\nC      0.0000     0.0000     1.9200\nN      0.0000     0.0000     3.0800\nC      0.0000     0.0000    -1.9200\nN      0.0000     0.0000    -3.0800\nK      5.3800     0.0000     0.0000\nK     -5.3800     0.0000     0.0000\nK      0.0000     5.3800     0.0000\nK      0.0000    -5.3800     0.0000\n",
+    "cas": "13943-58-3",
+    "cas_autres": [
+      "14459-95-1"
+    ]
+  },
+  {
+    "nom": "hydroxyde de potassium",
+    "aliases": [
+      "potassium hydroxyde",
+      "KOH",
+      "potasse",
+      "potassium hydroxide"
+    ],
+    "formule": "KOH",
+    "masse": 56.105,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "3\nhydroxyde de potassium (RDKit ETKDG + MMFF94)\nO     -0.5000     0.0000     0.0000\nH      0.5000     0.0000     0.0000\nK      2.8000     0.0000     0.0000\n",
+    "cas": "1310-58-3"
+  },
+  {
+    "nom": "iodure de potassium",
+    "aliases": [
+      "potassium iodure",
+      "KI",
+      "potassium iodide"
+    ],
+    "formule": "KI",
+    "masse": 166.002,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "2\niodure de potassium (RDKit ETKDG + MMFF94)\nK      0.0000     0.0000     0.0000\nI      2.3000     0.0000     0.0000\n",
+    "cas": "7681-11-0"
+  },
+  {
+    "nom": "nitrate de potassium",
+    "aliases": [
+      "potassium nitrate",
+      "KNO3",
+      "salpêtre"
+    ],
+    "formule": "KNO3",
+    "masse": 101.102,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "5\nnitrate de potassium (RDKit ETKDG + MMFF94)\nO      1.1024    -0.5698    -0.0563\nN     -0.0000    -0.0000    -0.0000\nO     -0.0584     1.2408     0.0026\nO     -1.0440    -0.6710     0.0537\nK      3.5422     0.0000     0.0000\n",
+    "cas": "7757-79-1"
+  },
+  {
+    "nom": "oxalate de potassium",
+    "aliases": [
+      "potassium oxalate",
+      "K2C2O4"
+    ],
+    "formule": "K2C2O4",
+    "masse": 166.214,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "8\noxalate de potassium (RDKit ETKDG + MMFF94)\nO      1.3980    -1.0899    -0.1244\nC      0.7792     0.0265     0.0049\nO      1.3191     1.1823     0.1416\nC     -0.7792    -0.0265    -0.0049\nO     -1.3191    -1.1823    -0.1416\nO     -1.3980     1.0899     0.1244\nK      4.0771     0.0000     0.0000\nK     -4.0771     0.0000     0.0000\n",
+    "cas": "6487-48-5"
+  },
+  {
+    "nom": "peroxodisulfate de potassium",
+    "aliases": [
+      "potassium peroxodisulfate",
+      "potassium persulfate",
+      "persulfate de potassium",
+      "K2S2O8"
+    ],
+    "formule": "K2S2O8",
+    "masse": 270.322,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "12\nperoxodisulfate de potassium (RDKit ETKDG + MMFF94)\nO      2.8450     0.5932     0.9962\nS      2.0056    -0.0472    -0.0205\nO      1.9376     0.6979    -1.2773\nO      2.2958    -1.4734    -0.1894\nO      0.4980     0.0026     0.6153\nO     -0.5141    -0.5151    -0.3115\nS     -2.0043     0.0884    -0.0039\nO     -2.8407    -0.4574    -1.0767\nO     -1.8673     1.5438    -0.0517\nO     -2.3556    -0.4329     1.3195\nK      5.3722     0.0000     0.0000\nK     -5.3722     0.0000     0.0000\n",
+    "cas": "7727-21-1"
+  },
+  {
+    "nom": "hydrogénosulfite de sodium",
+    "aliases": [
+      "sodium hydrogénosulfite",
+      "sodium bisulfite",
+      "bisulfite de sodium",
+      "NaHSO3"
+    ],
+    "formule": "NaHSO3",
+    "masse": 104.062,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "6\nhydrogénosulfite de sodium (RDKit ETKDG + MMFF94)\nO      0.9672    -0.4272     0.5469\nS     -0.6334    -0.0900     0.3651\nO     -1.0212    -0.8261    -0.8910\nO     -0.6797     1.4118     0.2530\nH      1.3671    -0.0686    -0.2740\nNa     3.8872     0.0000     0.0000\n",
+    "cas": "7631-90-5"
+  },
+  {
+    "nom": "phosphate de sodium",
+    "aliases": [
+      "sodium phosphate",
+      "phosphate trisodique",
+      "Na3PO4"
+    ],
+    "formule": "Na3PO4",
+    "masse": 163.94,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "8\nphosphate de sodium (RDKit ETKDG + MMFF94)\nO      1.4009     0.2628    -0.5766\nP     -0.0000    -0.0000    -0.0000\nO      0.1107    -0.2806     1.5076\nO     -0.6238    -1.2167    -0.7033\nO     -0.8878     1.2345    -0.2278\nNa     3.8375     0.0000     0.0000\nNa    -1.9188     3.3234     0.0000\nNa    -1.9188    -3.3234     0.0000\n",
+    "cas": "7601-54-9"
+  },
+  {
+    "nom": "sulfite de sodium",
+    "aliases": [
+      "sodium sulfite",
+      "Na2SO3"
+    ],
+    "formule": "Na2SO3",
+    "masse": 126.044,
+    "_comment": "composé ionique : les ions sont représentés côte à côte, sans liaison covalente, sans eau de cristallisation éventuelle ; géométrie de chaque ion calculée par RDKit (ETKDG + MMFF94) ou construite à la main (complexes)",
+    "structure": "6\nsulfite de sodium (RDKit ETKDG + MMFF94)\nO      1.3129    -0.5715    -0.2669\nS      0.0100    -0.0432     0.6116\nO     -0.1515     1.4452    -0.1003\nO     -1.1714    -0.8304    -0.2444\nNa     3.7565     0.0000     0.0000\nNa    -3.7565     0.0000     0.0000\n",
+    "cas": "7757-83-7"
+  },
+  {
+    "nom": "méthanoate de méthyle",
+    "aliases": [
+      "formiate de méthyle",
+      "methyl formate",
+      "méthanoate de méthyle"
+    ],
+    "formule": "C2H4O2",
+    "masse": 60.052,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "8\nméthanoate de méthyle (RDKit ETKDG + MMFF94)\nO      1.3707     0.5772     1.0204\nC      1.3097    -0.0651    -0.0153\nO      0.1840    -0.4296    -0.6775\nC     -1.0211     0.0114    -0.0511\nH      2.1860    -0.4438    -0.5640\nH     -1.0505     1.1046    -0.0029\nH     -1.1153    -0.4238     0.9487\nH     -1.8637    -0.3309    -0.6583\n"
+  },
+  {
+    "nom": "méthanoate d'éthyle",
+    "aliases": [
+      "formiate d'éthyle",
+      "ethyl formate",
+      "méthanoate de éthyle"
+    ],
+    "formule": "C3H6O2",
+    "masse": 74.079,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "11\nméthanoate d'éthyle (RDKit ETKDG + MMFF94)\nO      1.7541    -1.0747    -0.7383\nC      1.8316     0.0011    -0.1682\nO      0.8719     0.5965     0.5821\nC     -0.3547    -0.1365     0.7159\nC     -1.2849     0.1835    -0.4392\nH      2.7195     0.6519    -0.1914\nH     -0.8152     0.1793     1.6577\nH     -0.1688    -1.2140     0.7938\nH     -0.8462    -0.1240    -1.3937\nH     -1.4621     1.2622    -0.5027\nH     -2.2452    -0.3253    -0.3162\n"
+  },
+  {
+    "nom": "méthanoate de propyle",
+    "aliases": [
+      "formiate de propyle",
+      "propyl formate",
+      "méthanoate de propyle"
+    ],
+    "formule": "C4H8O2",
+    "masse": 88.106,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "14\nméthanoate de propyle (RDKit ETKDG + MMFF94)\nO      2.3397    -0.1478    -1.3240\nC      2.1604     0.5736    -0.3567\nO      1.2517     0.3970     0.6339\nC      0.4273    -0.7728     0.5192\nC     -0.7923    -0.5057    -0.3591\nC     -1.6723     0.6061     0.1940\nH      2.7303     1.4942    -0.1564\nH      0.1088    -1.0407     1.5326\nH      1.0065    -1.6217     0.1365\nH     -1.3828    -1.4246    -0.4449\nH     -0.4724    -0.2239    -1.3685\nH     -2.0201     0.3647     1.2034\nH     -1.1335     1.5580     0.2337\nH     -2.5512     0.7438    -0.4437\n"
+  },
+  {
+    "nom": "méthanoate d'isoamyle",
+    "aliases": [
+      "formiate d'isoamyle",
+      "isoamyl formate",
+      "méthanoate de isoamyle"
+    ],
+    "formule": "C6H12O2",
+    "masse": 116.16,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "20\nméthanoate d'isoamyle (RDKit ETKDG + MMFF94)\nO      3.0336     0.9006     0.9143\nC      3.2678     0.5407    -0.2277\nO      2.5093    -0.2812    -0.9943\nC      1.3106    -0.7780    -0.3751\nC      0.1702     0.2185    -0.5771\nC     -1.1936    -0.2975    -0.0897\nC     -1.2184    -0.5375     1.4205\nC     -2.2924     0.6967    -0.4729\nH      4.1536     0.8484    -0.8048\nH      1.0714    -1.7264    -0.8681\nH      1.4891    -1.0008     0.6825\nH      0.4158     1.1644    -0.0778\nH      0.1100     0.4617    -1.6462\nH     -1.4109    -1.2483    -0.5926\nH     -0.5275    -1.3353     1.7088\nH     -0.9431     0.3685     1.9710\nH     -2.2184    -0.8413     1.7488\nH     -2.1324     1.6698     0.0040\nH     -2.3178     0.8502    -1.5570\nH     -3.2766     0.3267    -0.1666\n"
+  },
+  {
+    "nom": "éthanoate de méthyle",
+    "aliases": [
+      "acétate de méthyle",
+      "methyl acetate",
+      "éthanoate de méthyle"
+    ],
+    "formule": "C3H6O2",
+    "masse": 74.079,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "11\néthanoate de méthyle (RDKit ETKDG + MMFF94)\nC      1.7893     0.1125     0.3435\nC      0.4474     0.2198    -0.3137\nO      0.2539     0.7175    -1.4137\nO     -0.5100    -0.3153     0.4926\nC     -1.8274    -0.2565    -0.0556\nH      1.7862     0.6667     1.2854\nH      2.5498     0.5453    -0.3128\nH      2.0350    -0.9384     0.5154\nH     -2.5146    -0.7087     0.6648\nH     -2.1295     0.7830    -0.2171\nH     -1.8801    -0.8259    -0.9889\n"
+  },
+  {
+    "nom": "éthanoate d'éthyle",
+    "aliases": [
+      "acétate d'éthyle",
+      "ethyl acetate",
+      "éthanoate de éthyle"
+    ],
+    "formule": "C4H8O2",
+    "masse": 88.106,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "14\néthanoate d'éthyle (RDKit ETKDG + MMFF94)\nC      2.4427     0.4134     0.1108\nC      1.2471    -0.4876     0.0592\nO      1.3006    -1.7091     0.0662\nO      0.1074     0.2545     0.0040\nC     -1.0952    -0.5223    -0.0484\nC     -2.2728     0.4312    -0.1062\nH      2.4801     1.0317    -0.7895\nH      3.3519    -0.1932     0.1549\nH      2.3975     1.0384     1.0062\nH     -1.0878    -1.1555    -0.9427\nH     -1.1702    -1.1487     0.8475\nH     -2.2822     1.0858     0.7716\nH     -3.2177    -0.1178    -0.1476\nH     -2.2014     1.0792    -0.9860\n"
+  },
+  {
+    "nom": "éthanoate de propyle",
+    "aliases": [
+      "acétate de propyle",
+      "propyl acetate",
+      "éthanoate de propyle"
+    ],
+    "formule": "C5H10O2",
+    "masse": 102.133,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "17\néthanoate de propyle (RDKit ETKDG + MMFF94)\nC      3.1836    -0.1095    -0.3227\nC      1.9112     0.6024     0.0209\nO      1.8486     1.7633     0.3994\nO      0.8500    -0.2323    -0.1514\nC     -0.4192     0.3611     0.1538\nC     -1.4997    -0.6864    -0.0850\nC     -2.8865    -0.1461     0.2138\nH      3.1616    -0.4239    -1.3692\nH      4.0288     0.5701    -0.1808\nH      3.3156    -0.9716     0.3360\nH     -0.4302     0.6817     1.2022\nH     -0.5837     1.2276    -0.4973\nH     -1.4513    -1.0340    -1.1240\nH     -1.3013    -1.5675     0.5370\nH     -3.1191     0.7119    -0.4250\nH     -2.9671     0.1712     1.2584\nH     -3.6413    -0.9179     0.0340\n"
+  },
+  {
+    "nom": "éthanoate d'isoamyle",
+    "aliases": [
+      "acétate d'isoamyle",
+      "isoamyl acetate",
+      "éthanoate de isoamyle"
+    ],
+    "formule": "C7H14O2",
+    "masse": 130.187,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "23\néthanoate d'isoamyle (RDKit ETKDG + MMFF94)\nC      4.0508    -0.2680     0.2622\nC      2.7140     0.4075     0.2319\nO      2.4027     1.3529     0.9419\nO      1.9136    -0.1915    -0.6918\nC      0.5947     0.3637    -0.8307\nC     -0.3552    -0.3017     0.1636\nC     -1.7784     0.2795     0.1410\nC     -2.6137    -0.3481     1.2595\nC     -2.4740     0.0670    -1.2042\nH      3.9305    -1.3148     0.5521\nH      4.6903     0.2268     0.9988\nH      4.5272    -0.1919    -0.7185\nH      0.2823     0.1566    -1.8588\nH      0.6112     1.4536    -0.7120\nH     -0.3802    -1.3815    -0.0331\nH      0.0612    -0.2013     1.1741\nH     -1.7202     1.3588     0.3307\nH     -3.6202     0.0831     1.2829\nH     -2.7115    -1.4306     1.1234\nH     -2.1530    -0.1692     2.2368\nH     -2.5006    -0.9941    -1.4742\nH     -3.5060     0.4325    -1.1696\nH     -1.9655     0.6109    -2.0060\n"
+  },
+  {
+    "nom": "propanoate de méthyle",
+    "aliases": [
+      "propionate de méthyle",
+      "methyl propanoate",
+      "propanoate de méthyle"
+    ],
+    "formule": "C4H8O2",
+    "masse": 88.106,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "14\npropanoate de méthyle (RDKit ETKDG + MMFF94)\nC     -2.2319     0.2077    -0.4483\nC     -1.0692    -0.5298     0.1921\nC      0.2501     0.1577    -0.0668\nO      0.4020     1.1860    -0.7102\nO      1.2524    -0.5484     0.5307\nC      2.5502     0.0185     0.3468\nH     -2.1057     0.2737    -1.5341\nH     -2.3133     1.2278    -0.0583\nH     -3.1726    -0.3128    -0.2441\nH     -1.0163    -1.5455    -0.2137\nH     -1.2257    -0.5833     1.2747\nH      3.2744    -0.6194     0.8611\nH      2.5971     1.0197     0.7864\nH      2.8085     0.0482    -0.7164\n"
+  },
+  {
+    "nom": "propanoate d'éthyle",
+    "aliases": [
+      "propionate d'éthyle",
+      "ethyl propanoate",
+      "propanoate de éthyle"
+    ],
+    "formule": "C5H10O2",
+    "masse": 102.133,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "17\npropanoate d'éthyle (RDKit ETKDG + MMFF94)\nC      3.0050     0.2800    -0.2240\nC      1.7215    -0.4675     0.0923\nC      0.4964     0.3799    -0.1542\nO      0.4988     1.5333    -0.5595\nO     -0.6203    -0.3429     0.1464\nC     -1.8492     0.3666    -0.0515\nC     -2.9937    -0.5558     0.3204\nH      3.0297     0.5924    -1.2733\nH      3.8740    -0.3580    -0.0361\nH      3.0995     1.1785     0.3949\nH      1.7278    -0.7698     1.1448\nH      1.6575    -1.3609    -0.5376\nH     -1.8692     1.2568     0.5871\nH     -1.9398     0.6632    -1.1025\nH     -2.9750    -1.4610    -0.2955\nH     -2.9057    -0.8783     1.3631\nH     -3.9571    -0.0563     0.1852\n"
+  },
+  {
+    "nom": "propanoate de propyle",
+    "aliases": [
+      "propionate de propyle",
+      "propyl propanoate",
+      "propanoate de propyle"
+    ],
+    "formule": "C6H12O2",
+    "masse": 116.16,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "20\npropanoate de propyle (RDKit ETKDG + MMFF94)\nC      3.1078     0.2434    -0.8390\nC      2.5528    -0.7940     0.1159\nC      1.3180    -0.2819     0.8087\nO      1.3030     0.1605     1.9491\nO      0.2394    -0.3698    -0.0173\nC     -0.9825     0.1107     0.5585\nC     -2.0871    -0.0477    -0.4790\nC     -3.4270     0.4380     0.0434\nH      4.0223    -0.1247    -1.3139\nH      2.3853     0.4818    -1.6267\nH      3.3440     1.1742    -0.3127\nH      3.2962    -1.0440     0.8810\nH      2.3122    -1.7261    -0.4068\nH     -0.8686     1.1669     0.8294\nH     -1.2196    -0.4752     1.4543\nH     -2.1630    -1.1003    -0.7772\nH     -1.8194     0.5044    -1.3880\nH     -3.3826     1.4986     0.3109\nH     -3.7308    -0.1277     0.9300\nH     -4.2003     0.3127    -0.7208\n"
+  },
+  {
+    "nom": "propanoate d'isoamyle",
+    "aliases": [
+      "propionate d'isoamyle",
+      "isoamyl propanoate",
+      "propanoate de isoamyle"
+    ],
+    "formule": "C8H16O2",
+    "masse": 144.214,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "26\npropanoate d'isoamyle (RDKit ETKDG + MMFF94)\nC      4.3787    -0.1513     0.2776\nC      3.3817     0.8574    -0.2558\nC      2.0779     0.1911    -0.6077\nO      1.7485    -0.1118    -1.7460\nO      1.3413    -0.0285     0.5160\nC      0.0753    -0.6800     0.3172\nC     -1.0034     0.3616     0.0254\nC     -2.3833    -0.2465    -0.2747\nC     -3.3583     0.8576    -0.6903\nC     -2.9529    -1.0168     0.9172\nH      5.3328     0.3357     0.5008\nH      4.0117    -0.6219     1.1956\nH      4.5609    -0.9465    -0.4530\nH      3.1945     1.6537     0.4727\nH      3.7737     1.3408    -1.1574\nH      0.1400    -1.4336    -0.4765\nH     -0.1448    -1.2112     1.2483\nH     -1.0682     1.0567     0.8727\nH     -0.6842     0.9741    -0.8275\nH     -2.2848    -0.9421    -1.1177\nH     -4.3369     0.4372    -0.9455\nH     -2.9874     1.3938    -1.5702\nH     -3.5016     1.5856     0.1155\nH     -3.0110    -0.3830     1.8085\nH     -2.3385    -1.8895     1.1581\nH     -3.9617    -1.3826     0.6967\n"
+  },
+  {
+    "nom": "butanoate de méthyle",
+    "aliases": [
+      "butyrate de méthyle",
+      "methyl butanoate",
+      "butanoate de méthyle"
+    ],
+    "formule": "C5H10O2",
+    "masse": 102.133,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "17\nbutanoate de méthyle (RDKit ETKDG + MMFF94)\nC     -2.8664     0.0909    -0.2627\nC     -1.5114     0.5395     0.2597\nC     -0.3819    -0.3192    -0.3033\nC      0.9700     0.1188     0.2100\nO      1.1721     1.0440     0.9831\nO      1.9367    -0.6812    -0.3246\nC      3.2607    -0.3517     0.0976\nH     -3.0716    -0.9467     0.0195\nH     -3.6601     0.7193     0.1533\nH     -2.9105     0.1658    -1.3539\nH     -1.5105     0.4876     1.3551\nH     -1.3507     1.5910    -0.0070\nH     -0.3719    -0.2469    -1.3967\nH     -0.5339    -1.3655    -0.0157\nH      3.5200     0.6655    -0.2123\nH      3.3564    -0.4640     1.1822\nH      3.9530    -1.0473    -0.3846\n"
+  },
+  {
+    "nom": "butanoate d'éthyle",
+    "aliases": [
+      "butyrate d'éthyle",
+      "ethyl butanoate",
+      "butanoate de éthyle"
+    ],
+    "formule": "C6H12O2",
+    "masse": 116.16,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "20\nbutanoate d'éthyle (RDKit ETKDG + MMFF94)\nC     -2.9132     0.7233    -0.3066\nC     -2.2923    -0.6665    -0.3358\nC     -1.0385    -0.7681     0.5305\nC      0.1516    -0.0441    -0.0577\nO      0.2430     0.3499    -1.2112\nO      1.1228     0.0721     0.8927\nC      2.3270     0.7332     0.4775\nC      3.2816    -0.2644    -0.1512\nH     -2.2298     1.4773    -0.7083\nH     -3.8256     0.7404    -0.9112\nH     -3.1800     1.0115     0.7153\nH     -3.0337    -1.3848     0.0334\nH     -2.0672    -0.9428    -1.3724\nH     -0.7572    -1.8223     0.6331\nH     -1.2453    -0.3647     1.5282\nH      2.7824     1.1619     1.3762\nH      2.1111     1.5657    -0.2019\nH      4.2262     0.2179    -0.4181\nH      2.8487    -0.7081    -1.0533\nH      3.4882    -1.0875     0.5408\n"
+  },
+  {
+    "nom": "butanoate de propyle",
+    "aliases": [
+      "butyrate de propyle",
+      "propyl butanoate",
+      "butanoate de propyle"
+    ],
+    "formule": "C7H14O2",
+    "masse": 130.187,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "23\nbutanoate de propyle (RDKit ETKDG + MMFF94)\nC     -4.1534    -0.2941     0.0266\nC     -2.8032     0.1247    -0.5316\nC     -1.7011     0.0022     0.5175\nC     -0.3539     0.4158    -0.0275\nO     -0.1380     0.8066    -1.1653\nO      0.5866     0.2813     0.9510\nC      1.9271     0.6431     0.5834\nC      2.6361    -0.5513    -0.0454\nC      4.0767    -0.2278    -0.3991\nH     -4.1335    -1.3364     0.3608\nH     -4.4385     0.3342     0.8764\nH     -4.9273    -0.1984    -0.7414\nH     -2.5623    -0.4978    -1.4017\nH     -2.8649     1.1592    -0.8904\nH     -1.6276    -1.0371     0.8570\nH     -1.9339     0.6429     1.3754\nH      2.4382     0.9399     1.5057\nH      1.9325     1.5168    -0.0794\nH      2.1003    -0.8752    -0.9451\nH      2.6042    -1.4016     0.6462\nH      4.5630    -1.1007    -0.8457\nH      4.6447     0.0585     0.4917\nH      4.1281     0.5952    -1.1191\n"
+  },
+  {
+    "nom": "butanoate d'isoamyle",
+    "aliases": [
+      "butyrate d'isoamyle",
+      "isoamyl butanoate",
+      "butanoate de isoamyle"
+    ],
+    "formule": "C9H18O2",
+    "masse": 158.241,
+    "_comment": "géométrie générée par RDKit (plongement ETKDG puis optimisation MMFF94)",
+    "structure": "29\nbutanoate d'isoamyle (RDKit ETKDG + MMFF94)\nC     -4.1325     0.9469    -0.7562\nC     -3.5924     0.6175     0.6281\nC     -3.0841    -0.8162     0.7333\nC     -1.8472    -1.0518    -0.0963\nO     -1.8203    -1.7376    -1.1090\nO     -0.7803    -0.4006     0.4425\nC      0.4420    -0.5646    -0.2915\nC      1.5257     0.2444     0.4168\nC      2.8721     0.2590    -0.3247\nC      3.8450     1.2046     0.3836\nC      3.4927    -1.1344    -0.4333\nH     -4.5307     1.9664    -0.7722\nH     -4.9407     0.2633    -1.0350\nH     -3.3479     0.8816    -1.5164\nH     -2.7960     1.3269     0.8808\nH     -4.3950     0.7617     1.3607\nH     -3.8563    -1.5256     0.4142\nH     -2.8457    -1.0629     1.7745\nH      0.3053    -0.1962    -1.3148\nH      0.7038    -1.6277    -0.3114\nH      1.6549    -0.1426     1.4361\nH      1.1644     1.2741     0.5408\nH      2.7104     0.6427    -1.3400\nH      4.7978     1.2574    -0.1538\nH      3.4352     2.2190     0.4337\nH      4.0507     0.8706     1.4064\nH      3.6160    -1.5922     0.5540\nH      2.8742    -1.7996    -1.0434\nH      4.4788    -1.0843    -0.9077\n"
+  }
 ]

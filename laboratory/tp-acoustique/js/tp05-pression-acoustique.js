@@ -21,6 +21,7 @@ import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
 import laboratoryEquipment from '../../data/equipment.js';
 import { dessinerGraphiqueLigne } from '../../js/graphique.js';
+import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 
 // Contexte professionnel par filière (clé "niveau-idFiliere")
 // D'après le référentiel, la capacité « Caractériser la propagation d'un
@@ -117,6 +118,18 @@ export function init() {
       contextes: CONTEXTES_PRO,
       filieresAutorisees: FILIERES_AUTORISEES,
       noteRestriction: NOTE_RESTRICTION_REFERENTIEL,
+    });
+  });
+
+  etape('initOngletsParFiliere', () => {
+    initOngletsParFiliere({
+      mapping: {
+        '1ere-mcc': ['niveau-depuis-pression', 'attenuation-distance'],
+        'tle-tci':  ['niveau-depuis-pression', 'attenuation-distance'],
+        'tle-trpm': ['niveau-depuis-pression', 'attenuation-distance'],
+      },
+      messageId: 'tp05-message-filiere',
+      messageTexte: "Ce TP n'est pas au programme de votre filière à ce niveau. Reportez-vous au niveau où il est étudié dans votre spécialité.",
     });
   });
 

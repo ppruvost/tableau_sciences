@@ -20,6 +20,7 @@ import { initImpressionCompteRendu, sectionValeurs, nombreFr, ajouterLigne } fro
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
 import laboratoryEquipment from '../../data/equipment.js';
+import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 
 // Contexte professionnel par filière (clé "niveau-idFiliere")
 const CONTEXTES_PRO = {
@@ -82,6 +83,17 @@ export function init() {
       afficherProblematique: false,
       filieres: FILIERES_PRO,
       contextes: CONTEXTES_PRO,
+    });
+  });
+
+  etape('initOngletsParFiliere', () => {
+    initOngletsParFiliere({
+      mapping: {
+        '2nde-remi': ['mesure-attenuation', 'classement-isolants'],
+        '2nde-mcc': ['mesure-attenuation', 'classement-isolants'],
+      },
+      messageId: 'tp02-message-filiere',
+      messageTexte: "Ce TP n'est pas au programme de votre filière à ce niveau. Reportez-vous au niveau où il est étudié dans votre spécialité.",
     });
   });
 
@@ -220,4 +232,3 @@ function sectionIsolantsCompteRendu() {
     },
   };
 }
-

@@ -21,6 +21,7 @@ import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initMateriel } from '../../js/materiel.js';
 import laboratoryEquipment from '../../data/equipment.js';
 import { dessinerGraphiqueLigne } from '../../js/graphique.js';
+import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 
 // Contexte professionnel par filière (clé "niveau-idFiliere")
 const CONTEXTES_PRO = {
@@ -96,6 +97,17 @@ export function init() {
       afficherProblematique: false,
       filieres: FILIERES_PRO,
       contextes: CONTEXTES_PRO,
+    });
+  });
+
+  etape('initOngletsParFiliere', () => {
+    initOngletsParFiliere({
+      mapping: {
+        '2nde-remi': ['emetteur-piezo', 'recepteur-piezo', 'schema-chaine'],
+        '2nde-mcc': ['emetteur-piezo', 'recepteur-piezo', 'schema-chaine'],
+      },
+      messageId: 'tp03-message-filiere',
+      messageTexte: "Ce TP n'est pas au programme de votre filière à ce niveau. Reportez-vous au niveau où il est étudié dans votre spécialité.",
     });
   });
 

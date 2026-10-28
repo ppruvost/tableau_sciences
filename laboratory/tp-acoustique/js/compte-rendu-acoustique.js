@@ -113,6 +113,20 @@ function valeurChamp(champ) {
   return valeur(champ).replace(/^(-?\d+)\.(\d+)$/, '$1,$2');
 }
 
+// Texte d'un bloc HTML en conservant les paragraphes (un saut de ligne par
+// <p>, <li>, titre ou <div>) ; les rappels de problématique sont exclus.
+function texteBlocs(el) {
+  if (!el) return '';
+  const copie = el.cloneNode(true);
+  copie.querySelectorAll('.problematique-onglet, .problematique-rappel, [class*="problematique"]')
+    .forEach(n => n.remove());
+  copie.querySelectorAll('br').forEach(br => br.replaceWith('\n'));
+  copie.querySelectorAll('p, li, h1, h2, h3, h4, h5, h6, div, tr')
+    .forEach(n => n.append('\n'));
+  return copie.textContent
+    .split('\n').map(nettoyer).filter(Boolean).join('\n');
+}
+
 // Zone de résultat calculé. Le texte d'invite affiché avant la saisie
 // (« Saisir … pour calculer … ») ne contient aucun élément : on l'ignore.
 function texteResultat(el) {
@@ -254,50 +268,66 @@ async function lireFiliere() {
 
 // Une section "notation" (question + compétence + zone de réponse)
 // par <li> de .questions-tp, au format attendu par compte-rendu.js.
-// Quand un TP propose plusieurs jeux de questions (un par onglet, blocs
-// [data-onglet]), seul le jeu de l'onglet affiché est repris, plus celui
-// d'un autre onglet s'il contient des réponses.
+// Seules les questions de l'onglet de manipulation ACTIF (bloc affiché) sont
+// reprises : les jeux de questions des autres onglets sont ignorés, même
+// s'ils contiennent des réponses. Un TP sans bloc [data-onglet] (activité
+// unique) reprend ses questions telles quelles.
+function blocVisible(bloc) {
+  return !bloc.hidden && getComputedStyle(bloc).display !== 'none';
+}
+
 function construireSectionsQuestions() {
 
   const blocs = [...document.querySelectorAll('.questions-bloc')];
 
-  const retenus = blocs.filter(bloc =>
-    !bloc.hidden ||
-    [...bloc.querySelectorAll('textarea')].some(t => valeur(t) !== '')
-  );
+  const listes = blocs.length
+    ? blocs.filter(blocVisible).map(bloc => bloc.querySelector('.questions-tp'))
+    : [...document.querySelectorAll('.questions-tp')];
 
-  const prefixer = retenus.length > 1;
-
-  return retenus.flatMap(bloc => {
-
-    const nomBloc = bloc.dataset.ongletNom;
-
-    return [...bloc.querySelectorAll('.questions-tp > li')].map((li, index) => {
+  return listes.filter(Boolean).flatMap(liste =>
+    [...liste.querySelectorAll(':scope > li')].map((li, index) => {
 
       // La numérotation de l'écran vient d'un compteur CSS : on la reprend ici.
       const intitule = `Q${index + 1}. ${texte(li.querySelector('.question-entete strong'))}`;
 
-      return {
-        titre: prefixer && nomBloc ? `[${nomBloc}] ${intitule}` : intitule,
+      const question = {
+        titre: intitule,
         notation: true,
         competence: texte(li.querySelector('.cartouche')),
         texte: valeur(li.querySelector('.zone-eleve textarea')),
       };
-    });
-  });
+
+      // Question 5 : rappel du texte de la problématique de l'onglet
+      // (rempli à l'écran par contexte-pro.js selon la filière choisie).
+      const rappel = texte(li.querySelector('.problematique-rappel'));
+      if (rappel) {
+        question.rappel = rappel;
+        question.rappelEtiquette = 'Problématique';
+      }
+
+      return question;
+    }));
 }
 
 // Contexte professionnel (filière/niveau choisis par l'élève), pour que le
 // compte-rendu imprimé indique la même chose que ce qui est affiché à l'écran
 // via contexte-pro.js.
 function construireSectionContextePro(filiere) {
-  if (!filiere) return null;
-  return {
-    titre: 'Contexte professionnel',
-    items: [
-      { label: 'Filière', valeur: [filiere.niveau, filiere.filiere].filter(Boolean).join(' — ') },
-    ],
-  };
+
+  // Texte affiché dans « Contexte professionnel » pour la filière choisie
+  // (jamais le texte d'invite « Sélectionner votre filière… »).
+  const choix = document.getElementById('select-filiere-pro');
+  const contexte = choix?.value ? texteBlocs(document.getElementById('contexte-pro-resultat')) : '';
+
+  if (!filiere && !contexte) return null;
+
+  const section = { titre: 'Contexte professionnel' };
+
+  const libelle = filiere ? [filiere.niveau, filiere.filiere].filter(Boolean).join(' — ') : '';
+  if (libelle) section.items = [{ label: 'Filière', valeur: libelle }];
+  if (contexte) section.texte = contexte;
+
+  return section;
 }
 
 // Tableau d'auto-évaluation (.autoeval-table : une ligne par compétence,
@@ -325,7 +355,7 @@ function construireSectionAutoEvaluation() {
   if (radar && radar.querySelector('canvas, svg')) {
     section.canvas = radar;
     section.legende = 'Radar des compétences';
-    section.echelle = 0.5; // radar imprimé à la moitié de sa taille normale (cf. CLAUDE.md)
+    section.echelle = 0.5; // radar imprimé à 50 % de la largeur
   }
 
   return section;

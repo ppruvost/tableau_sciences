@@ -12,6 +12,7 @@ import laboratoryEquipment from "../../data/equipment.js";
 import FILIERES_PRO from "../../data/filieres.js";
 import { initQuestionsParOnglet } from "./questions-par-onglet.js";
 import { initImpressionCompteRendu } from "./compte-rendu-chimie.js";
+import { afficherBouton3DProduit } from "./molecule-3d.js";
 
 import {
     initSections,
@@ -292,6 +293,8 @@ function afficherSecurite() {
         pictogrammes,
         zoneId: "securite-bloc"
     });
+
+    afficherBouton3DProduit(produit);
 }
 
 /* ==========================================================
@@ -970,16 +973,28 @@ function afficherConsignesEtSecuriteSC(preset) {
     if (!zoneSecurite) return;
 
     if (preset && !preset.cas) {
+        // jus de citron : la molécule d'intérêt est l'acide citrique
+        afficherBouton3DProduit(
+            /acide citrique/i.test(preset.nomCourt) ? { nom: "acide citrique" } : null,
+            "securite-bloc-sc"
+        );
         zoneSecurite.innerHTML = `<div class="info">${preset.securite || "Solution personnalisée : consulter l'étiquette du flacon et la fiche de données de sécurité avant de commencer."}</div>`;
         return;
     }
 
+    const produitSC = preset ? trouverProduit(products, preset.cas) : null;
+
     afficherSecuriteProduit({
-        produit: preset ? trouverProduit(products, preset.cas) : null,
+        produit: produitSC,
         dangerDB,
         pictogrammes,
         zoneId: "securite-bloc-sc"
     });
+
+    afficherBouton3DProduit(
+        produitSC || (preset ? { nom: preset.nomCourt, cas: preset.cas } : null),
+        "securite-bloc-sc"
+    );
 }
 
 function basculerModeSC() {

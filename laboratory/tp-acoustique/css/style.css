@@ -413,9 +413,9 @@
   }
 }
 
-h1 {
-    color: #ffffff !important;
-}
+/* (ancien « h1 { color:#fff !important } » global supprimé : il rendait
+   blanc sur blanc le titre du compte rendu imprimé. Le bandeau est déjà
+   couvert par « body > header h1 » ci-dessous.) */
 
 /* ══════════════════════════════════════════════════════════════
    Ajustements d'interface (tp-acoustique)

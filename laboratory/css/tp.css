@@ -1428,3 +1428,31 @@ textarea { font-family: var(--font-corps); resize: vertical; min-height: 80px; }
 .radar-axe-ligne   { stroke: var(--gris-clair); stroke-width: 1; }
 .radar-axe-texte   { font-size: 12px; font-weight: 700; fill: var(--gris-moyen); }
 .radar-polygone    { fill: var(--bleu-cuivre); fill-opacity: .35; stroke: var(--bleu-cuivre); stroke-width: 2; }
+
+/* ════════════════════════════════════════════════════════════════
+   GARDE-FOU COMPTE RENDU — l'en-tête imprimé (#cr-print-container)
+   ne doit hériter d'aucun composant d'écran : .logo (fond noir),
+   .tag (pilule translucide), .tp-header (dégradé) et h1 blanc.
+   Le détail de la mise en page vit dans css/compte-rendu.css.
+   ════════════════════════════════════════════════════════════════ */
+#cr-print-container .logo {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+  letter-spacing: normal;
+}
+
+#cr-print-container .tag {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  text-transform: none;
+}
+
+#cr-print-container h1,
+#cr-print-container h2,
+#cr-print-container h3 {
+  color: inherit;
+}

@@ -4,6 +4,20 @@ window.addEventListener("DOMContentLoaded", () => {
   viewer = $3Dmol.createViewer("viewer", {
     backgroundColor: "white"
   });
+
+  const champ = document.getElementById("search");
+
+  champ.addEventListener("keydown", e => {
+    if (e.key === "Enter") searchMolecule();
+  });
+
+  // Lien depuis un TP : molecule/index.html?q=éthanol
+  // -> champ prérempli et recherche lancée directement.
+  const demande = new URLSearchParams(window.location.search).get("q");
+  if (demande && demande.trim()) {
+    champ.value = demande.trim();
+    searchMolecule();
+  }
 });
 
 // ===============================
@@ -39,11 +53,12 @@ async function searchLocalMolecule(name, onlyStructure = false) {
 
   const query = normalize(name);
 
-  const mol = localData.find(m =>
-    normalize(m.nom).includes(query) ||
-    (m.aliases &&
-      m.aliases.some(a => normalize(a).includes(query)))
-  );
+  // 1. nom ou alias identique, 2. nom ou alias qui contient la saisie
+  const noms = m => [m.nom, ...(m.aliases || [])].map(normalize);
+
+  const mol =
+    localData.find(m => noms(m).includes(query)) ||
+    localData.find(m => noms(m).some(n => n.includes(query)));
 
   if (!mol) return null;
 
@@ -51,6 +66,7 @@ async function searchLocalMolecule(name, onlyStructure = false) {
     document.getElementById("formule").textContent = mol.formule || "-";
     document.getElementById("masse").textContent = mol.masse || "-";
   }
+  document.getElementById("nom").textContent = mol.nom;
 
   if (mol.structure) {
     display3D(mol.structure, "xyz");
@@ -74,13 +90,26 @@ async function searchMolecule() {
   viewer.clear();
   viewer.render();
 
+  document.getElementById("nom").textContent = "-";
+
+  // =====================================================
+  // 0. Fichier local molecules.json en priorité : noms français
+  //    des TP, réponse immédiate, fonctionne sans connexion.
+  // =====================================================
+  try {
+    const locale = await searchLocalMolecule(rawName);
+    if (locale && locale.structure) return;
+  } catch (error) {
+    console.warn("molecules.json indisponible → PubChem");
+  }
+
   let pubchemWorked = false;
 
   // =====================================================
   // 1. Infos PubChem (formule + masse)
   // =====================================================
   try {
-    const infoUrl = `https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${name}/property/MolecularFormula,MolecularWeight/JSON`;
+    const infoUrl = `https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${encodeURIComponent(name)}/property/MolecularFormula,MolecularWeight/JSON`;
 
     const infoRes = await fetch(infoUrl);
 
@@ -111,7 +140,7 @@ async function searchMolecule() {
   // 2. Structure 3D PubChem
   // =====================================================
   try {
-    const structureUrl = `https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${name}/record/SDF/?record_type=3d`;
+    const structureUrl = `https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${encodeURIComponent(name)}/record/SDF/?record_type=3d`;
 
     const sdfRes = await fetch(structureUrl);
 

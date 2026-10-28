@@ -13,6 +13,7 @@ import laboratoryEquipment from "../../data/equipment.js";
 import FILIERES_PRO from "../../data/filieres.js";
 import { initQuestionsParOnglet } from "./questions-par-onglet.js";
 import { initImpressionCompteRendu } from "./compte-rendu-chimie.js";
+import { afficherBouton3DProduit } from "./molecule-3d.js";
 
 import {
     initSections,
@@ -256,6 +257,8 @@ function afficherSecurite() {
         pictogrammes,
         zoneId: "securite-bloc"
     });
+
+    afficherBouton3DProduit(produit);
 }
 
 /* ==========================================================

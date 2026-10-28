@@ -20,14 +20,14 @@
 
   <div class="tp-header-centre">
 
-    <h1>Isolation phonique</h1>
+    <h1>Chaîne de transmission sonore</h1>
 
     <div class="tp-meta">
 
       <div class="tp-row">
         <span class="tag">2nde</span>
         <span class="tag">Acoustique</span>
-        <span class="tag">Atténuation phonique</span>
+        <span class="tag">Capteurs piézoélectriques</span>
       </div>
 
     </div>
@@ -35,7 +35,7 @@
   </div>
 
   <div class="tp-header-numero">
-    <span class="tp-numero-txt">TP A02</span>
+    <span class="tp-numero-txt">TP A03</span>
   </div>
 
 </header>
@@ -62,11 +62,11 @@
 
     <ul>
 
-      <li><strong>2nde</strong> — Comparer expérimentalement les atténuations phoniques de différents milieux traversés.</li>
+      <li><strong>2nde</strong> — Identifier les éléments d'une chaîne de transmission d'information par un canal sonore (émetteur, milieu de propagation, récepteur).</li>
 
-      <li><strong>2nde</strong> — Savoir que les isolants phoniques sont des matériaux qui absorbent une grande partie de l'énergie véhiculée par les signaux sonores.</li>
+      <li><strong>2nde</strong> — Savoir qu'un émetteur piézoélectrique convertit un signal électrique en onde sonore et qu'un récepteur piézoélectrique convertit une onde sonore en signal électrique.</li>
 
-      <li><strong>2nde</strong> — Mesurer le niveau d'intensité acoustique et exploiter une échelle de niveau d'intensité acoustique.</li>
+      <li><strong>2nde</strong> — Mesurer la tension délivrée par un récepteur piézoélectrique et exploiter son évolution avec la distance.</li>
 
       <li>
         <em>Domaine transversal — Sécurité :</em>
@@ -124,18 +124,19 @@
 
     <div class="info">
       Ce TP ne met pas en œuvre de produit chimique. Le risque principal
-      reste le risque auditif lié au réglage du haut-parleur relié au
-      GBF.
+      reste le risque auditif lié au réglage du GBF relié à l'émetteur
+      piézoélectrique, et le risque de détérioration des capteurs en cas
+      de tension excessive.
     </div>
 
     <ul style="padding-left:1.5rem;line-height:2">
-      <li><strong>Réglage progressif :</strong> toujours démarrer le GBF au volume minimal puis augmenter progressivement jusqu'au niveau nécessaire à la mesure.</li>
-      <li><strong>Casque anti-bruit :</strong> port recommandé lors des mesures répétées à niveau élevé, notamment sans matériau isolant interposé.</li>
-      <li><strong>Manipulation des plaques isolantes :</strong> certains matériaux (laine de verre) peuvent être irritants ; manipuler avec précaution, éviter le contact prolongé avec la peau.</li>
+      <li><strong>Réglage progressif :</strong> toujours démarrer le GBF à tension minimale puis augmenter progressivement jusqu'à la valeur nécessaire à la mesure.</li>
+      <li><strong>Capteurs piézoélectriques :</strong> composants fragiles ; ne pas les plier, ne pas dépasser la tension maximale indiquée et les manipuler par leur support.</li>
+      <li><strong>Câblage :</strong> couper le GBF avant de modifier le montage ; vérifier la borne COM du voltmètre avant de le brancher.</li>
     </ul>
 
     <div class="epi-bloc">
-      <p><strong>Équipements de protection recommandés :</strong> casque ou bouchons anti-bruit ; gants lors de la manipulation de laine de verre.</p>
+      <p><strong>Équipements de protection recommandés :</strong> casque ou bouchons anti-bruit si l'émetteur est audible à forte tension.</p>
     </div>
 
   </div>
@@ -180,117 +181,58 @@
 
   <div class="section-corps">
 
+    <div id="tp03-message-filiere" class="info" style="display:none;"></div>
+
     <div class="tabs-container">
 
       <div class="tabs-header">
-        <button class="tab-btn actif" data-tab="mesure-attenuation">Mesure de l'atténuation</button>
-        <button class="tab-btn" data-tab="classement-isolants">Classement des isolants</button>
+        <button class="tab-btn actif" data-tab="emetteur-piezo">Émetteur piézoélectrique</button>
+        <button class="tab-btn" data-tab="recepteur-piezo">Récepteur piézoélectrique</button>
+        <button class="tab-btn" data-tab="schema-chaine">Schéma de la chaîne</button>
       </div>
 
       <!-- ============================ -->
-      <!-- MESURE DE L'ATTENUATION      -->
+      <!-- EMETTEUR PIEZOELECTRIQUE     -->
       <!-- ============================ -->
 
-      <div class="tab-panel actif" id="mesure-attenuation">
+      <div class="tab-panel actif" id="emetteur-piezo">
 
         <div class="problematique-onglet">
           <span class="problematique-onglet-etiquette">Problématique</span>
-          <p class="problematique-rappel" data-activite="mesure-attenuation"></p>
+          <p class="problematique-rappel" data-activite="emetteur-piezo"></p>
         </div>
 
-
-        <h3>Atténuation apportée par un matériau</h3>
+        <h3>De la tension électrique à l'onde sonore</h3>
 
         <div class="info">
-          L'atténuation apportée par un matériau isolant se calcule en
-          comparant le niveau sonore mesuré sans matériau interposé et
-          le niveau mesuré avec le matériau interposé, à distance et
-          réglage du GBF inchangés.
+          Un émetteur piézoélectrique se déforme lorsqu'on lui applique
+          une tension variable : cette vibration mécanique produit une
+          onde sonore. Plus la tension appliquée est élevée, plus la
+          vibration (et donc le son émis) est intense.
         </div>
 
         <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
 
         <ol class="etapes">
-          <li>Régler le GBF et le haut-parleur à un niveau constant, et fixer la distance entre le haut-parleur et le sonomètre.</li>
-          <li>Mesurer le niveau sonore sans matériau interposé et le saisir ci-dessus.</li>
-          <li>Interposer le matériau isolant à tester dans le caisson d'isolation phonique, sans modifier ni le réglage ni la distance.</li>
-          <li>Mesurer le niveau sonore avec le matériau interposé et le saisir ci-dessus : l'atténuation se calcule automatiquement.</li>
+          <li>Relier l'émetteur piézoélectrique au GBF, réglé à tension minimale (voir le schéma du montage).</li>
+          <li>Augmenter progressivement la tension appliquée et observer, à chaque palier, l'effet sur le son émis (écoute, vibration perçue au toucher).</li>
+          <li>Saisir pour chaque palier la tension appliquée et l'observation : le tableau se complète.</li>
         </ol>
 
         <div class="mode-op">
-          <img class="mode-image" src="./assets/illustrations/tp02-mesure-attenuation.svg" alt="Mode opératoire — mesure de l&#x27;atténuation phonique" width="640" height="292" loading="lazy" style="display:block;width:100%;height:auto;">
-        </div>
-
-        <div class="formule">
-          Atténuation (dB) = Niveau sans matériau − Niveau avec matériau
-        </div>
-
-        <div class="form-row">
-
-          <div class="form-group">
-            <label for="niveau-sans-materiau">Niveau sonore sans matériau (dB)</label>
-            <input id="niveau-sans-materiau" type="number" step="1">
-          </div>
-
-          <div class="form-group">
-            <label for="niveau-avec-materiau">Niveau sonore avec matériau (dB)</label>
-            <input id="niveau-avec-materiau" type="number" step="1">
-          </div>
-
-          <div class="form-group">
-            <label for="attenuation-calculee">Atténuation calculée</label>
-            <div class="input-unite">
-              <output id="attenuation-calculee">—</output>
-            </div>
-          </div>
-
-        </div>
-
-
-      </div>
-
-      <!-- ============================ -->
-      <!-- CLASSEMENT DES ISOLANTS      -->
-      <!-- ============================ -->
-
-      <div class="tab-panel" id="classement-isolants">
-
-        <div class="problematique-onglet">
-          <span class="problematique-onglet-etiquette">Problématique</span>
-          <p class="problematique-rappel" data-activite="classement-isolants"></p>
-        </div>
-
-
-        <h3>Comparer plusieurs matériaux isolants</h3>
-
-        <div class="info">
-          Reproduire la mesure précédente pour plusieurs matériaux
-          (mousse acoustique, laine de verre, bois, plexiglas...) afin
-          de les classer du plus isolant au moins isolant.
-        </div>
-
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
-
-        <ol class="etapes">
-          <li>Tester successivement au moins trois matériaux isolants disponibles, dans les mêmes conditions de réglage et de distance.</li>
-          <li>Saisir pour chacun le matériau, l'épaisseur et l'atténuation mesurée : le tableau se reclasse automatiquement du plus isolant au moins isolant.</li>
-          <li>Identifier le matériau le plus performant pour une épaisseur donnée.</li>
-        </ol>
-
-        <div class="mode-op">
-          <img class="mode-image" src="./assets/illustrations/tp02-classement-isolants.svg" alt="Mode opératoire — comparaison des matériaux isolants" width="700" height="310" loading="lazy" style="display:block;width:100%;height:auto;">
+          <img class="mode-image" src="./assets/illustrations/tp03-emetteur-piezo.svg" alt="Mode opératoire — GBF relié à un émetteur piézoélectrique" width="600" height="270" loading="lazy" style="display:block;width:100%;height:auto;">
         </div>
 
         <div class="table-responsive">
           <table class="tableau-resultats">
             <thead>
               <tr>
-                <th>Matériau</th>
-                <th>Épaisseur (mm)</th>
-                <th>Atténuation (dB)</th>
+                <th>N°</th>
+                <th>Tension appliquée (V)</th>
+                <th>Observation</th>
               </tr>
             </thead>
-            <tbody id="tbody-classement-isolants">
+            <tbody id="tbody-emetteur-piezo">
             </tbody>
           </table>
         </div>
@@ -298,29 +240,174 @@
         <div class="form-row">
 
           <div class="form-group">
-            <label for="isolant-materiau">Matériau testé</label>
-            <input id="isolant-materiau" type="text" placeholder="Ex : laine de verre">
+            <label for="emetteur-tension">Tension appliquée (V)</label>
+            <input id="emetteur-tension" type="number" step="0.1" min="0">
           </div>
 
           <div class="form-group">
-            <label for="isolant-epaisseur">Épaisseur (mm)</label>
-            <input id="isolant-epaisseur" type="number" step="1">
-          </div>
-
-          <div class="form-group">
-            <label for="isolant-attenuation">Atténuation mesurée (dB)</label>
-            <input id="isolant-attenuation" type="number" step="1">
+            <label for="emetteur-observation">Observation</label>
+            <input id="emetteur-observation" type="text" placeholder="Ex : son faible, vibration légère">
           </div>
 
           <div class="form-group">
             <label>&nbsp;</label>
-            <button id="isolant-ajouter" type="button" class="btn btn-primaire">
-              + Ajouter et classer
+            <button id="emetteur-ajouter" type="button" class="btn btn-primaire">
+              + Ajouter la mesure
             </button>
           </div>
 
         </div>
 
+      </div>
+
+      <!-- ============================ -->
+      <!-- RECEPTEUR PIEZOELECTRIQUE    -->
+      <!-- ============================ -->
+
+      <div class="tab-panel" id="recepteur-piezo">
+
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="recepteur-piezo"></p>
+        </div>
+
+        <h3>De l'onde sonore à la tension électrique</h3>
+
+        <div class="info">
+          Un récepteur piézoélectrique soumis à une onde sonore se
+          déforme et délivre une tension : c'est le principe inverse de
+          l'émetteur. L'onde s'atténuant en se propageant, la tension
+          reçue diminue lorsque la distance à l'émetteur augmente.
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+
+        <ol class="etapes">
+          <li>Placer le récepteur face à l'émetteur, alimenté à tension constante par le GBF.</li>
+          <li>Relier le récepteur à un voltmètre (borne COM côté récepteur) et mesurer la tension reçue pour une première distance.</li>
+          <li>Éloigner le récepteur de l'émetteur par pas réguliers et relever à chaque distance la tension reçue.</li>
+          <li>Saisir les couples (distance, tension) : le tableau se reclasse et le graphique se trace à partir de deux points.</li>
+        </ol>
+
+        <div class="mode-op">
+          <img class="mode-image" src="./assets/illustrations/tp03-recepteur-piezo.svg" alt="Mode opératoire — récepteur piézoélectrique relié à un voltmètre" width="660" height="260" loading="lazy" style="display:block;width:100%;height:auto;">
+        </div>
+
+        <div class="table-responsive">
+          <table class="tableau-resultats">
+            <thead>
+              <tr>
+                <th>N°</th>
+                <th>Distance (cm)</th>
+                <th>Tension reçue (mV)</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-recepteur-piezo">
+            </tbody>
+          </table>
+        </div>
+
+        <div class="form-row">
+
+          <div class="form-group">
+            <label for="recepteur-distance">Distance émetteur–récepteur (cm)</label>
+            <input id="recepteur-distance" type="number" step="1" min="0">
+          </div>
+
+          <div class="form-group">
+            <label for="recepteur-tension">Tension reçue (mV)</label>
+            <input id="recepteur-tension" type="number" step="1" min="0">
+          </div>
+
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button id="recepteur-ajouter" type="button" class="btn btn-primaire">
+              + Ajouter la mesure
+            </button>
+          </div>
+
+        </div>
+
+        <div id="graphique-recepteur-piezo" class="graphique-conteneur">
+          <p class="info">Ajouter au moins 2 points pour afficher le graphique.</p>
+        </div>
+
+      </div>
+
+      <!-- ============================ -->
+      <!-- SCHEMA DE LA CHAINE          -->
+      <!-- ============================ -->
+
+      <div class="tab-panel" id="schema-chaine">
+
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="schema-chaine"></p>
+        </div>
+
+        <h3>Compléter le schéma d'une chaîne de transmission</h3>
+
+        <div class="info">
+          Une chaîne de transmission par canal sonore comporte un
+          élément qui produit le son, un milieu qui le transporte et un
+          élément qui le reçoit. Associer à chaque rôle l'élément
+          correspondant, sans utiliser deux fois le même.
+        </div>
+
+        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+
+        <ol class="etapes">
+          <li>Observer le schéma de la chaîne de transmission ci-dessous, puis relire les résultats des deux onglets précédents.</li>
+          <li>Choisir, pour chacun des trois rôles, l'élément qui convient.</li>
+          <li>Cliquer sur « Vérifier le schéma » et corriger au besoin.</li>
+        </ol>
+
+        <div class="mode-op">
+          <img class="mode-image" src="./assets/illustrations/tp03-schema-chaine.svg" alt="Schéma de la chaîne de transmission sonore : émetteur piézoélectrique, milieu de propagation, récepteur piézoélectrique" width="640" height="250" loading="lazy" style="display:block;width:100%;height:auto;">
+        </div>
+
+        <div class="form-row">
+
+          <div class="form-group">
+            <label for="chaine-emetteur">1. Élément qui produit le son</label>
+            <select id="chaine-emetteur">
+              <option value="">-- Choisir --</option>
+              <option value="emetteur">Émetteur piézoélectrique</option>
+              <option value="milieu">Milieu de propagation (air)</option>
+              <option value="recepteur">Récepteur piézoélectrique</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="chaine-milieu">2. Élément qui transporte le son</label>
+            <select id="chaine-milieu">
+              <option value="">-- Choisir --</option>
+              <option value="emetteur">Émetteur piézoélectrique</option>
+              <option value="milieu">Milieu de propagation (air)</option>
+              <option value="recepteur">Récepteur piézoélectrique</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="chaine-recepteur">3. Élément qui reçoit le son</label>
+            <select id="chaine-recepteur">
+              <option value="">-- Choisir --</option>
+              <option value="emetteur">Émetteur piézoélectrique</option>
+              <option value="milieu">Milieu de propagation (air)</option>
+              <option value="recepteur">Récepteur piézoélectrique</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button id="chaine-verifier" type="button" class="btn btn-primaire">
+              Vérifier le schéma
+            </button>
+          </div>
+
+        </div>
+
+        <div id="chaine-resultat" class="resultat-calcul" role="status"></div>
 
       </div>
 
@@ -347,18 +434,18 @@
     <h3>Bonnes pratiques au laboratoire</h3>
 
     <ul style="padding-left:1.5rem;line-height:2">
-      <li>Ne pas laisser le GBF ou le haut-parleur allumés en dehors des phases de mesure.</li>
-      <li>Ranger les matériaux isolants après usage pour ne pas les endommager.</li>
+      <li>Ne pas laisser le GBF ou l'émetteur sous tension en dehors des phases de mesure.</li>
+      <li>Ranger les capteurs piézoélectriques dans leur boîte après usage pour éviter de les endommager.</li>
     </ul>
 
-    <h3 style="margin-top:var(--gap-md);">L'isolation phonique, un enjeu de confort et de santé</h3>
+    <h3 style="margin-top:var(--gap-md);">Les capteurs à ultrasons, un enjeu de sobriété et de sécurité</h3>
 
     <p>
-      Le choix de matériaux isolants adaptés (capotages de machines,
-      cloisons d'ateliers, casques anti-bruit) permet de réduire
-      l'exposition sonore des travailleurs sans surdimensionner
-      l'isolation, ce qui limite aussi la consommation de matière et de
-      ressources.
+      Les capteurs piézoélectriques équipent de nombreux appareils
+      (détecteurs de présence, mesure de distance, contrôle qualité) :
+      ils fonctionnent avec de faibles puissances électriques et
+      permettent d'automatiser des contrôles sans contact, ce qui limite
+      les gestes à risque pour les opérateurs.
     </p>
 
   </div>
@@ -412,68 +499,68 @@
       Les questions affichées correspondent à l'onglet de manipulation sélectionné. Répondre aux questions de l'onglet que vous avez réalisé : les quatre premières portent sur l'objet du TP de l'onglet, la cinquième répond à sa problématique.
     </p>
 
-    <div class="questions-bloc" data-tp="isolation-phonique" data-onglet="mesure-attenuation" data-onglet-nom="Atténuation apportée par un matériau">
+    <div class="questions-bloc" data-tp="chaine-transmission-sonore" data-onglet="emetteur-piezo" data-onglet-nom="Émetteur piézoélectrique">
 
-    <h4>Questions de l'onglet « Atténuation apportée par un matériau »</h4>
+    <h4>Questions de l'onglet « Émetteur piézoélectrique »</h4>
 
     <ol class="questions-tp">
 
       <li>
         <div class="question-entete">
           <strong>
-            Expliquer ce qu'est un isolant phonique et comment il agit sur l'énergie transportée par un signal sonore.
+            Expliquer le rôle d'un émetteur piézoélectrique : quelle grandeur reçoit-il et quelle grandeur produit-il ?
           </strong>
           <span class="cartouche" data-comp="APP">APP</span>
         </div>
         <div class="zone-eleve">
-          <textarea id="question-mesure-attenuation-1" rows="4" placeholder="Votre réponse..."></textarea>
+          <textarea id="question-emetteur-piezo-1" rows="4" placeholder="Votre réponse..."></textarea>
         </div>
       </li>
 
       <li>
         <div class="question-entete">
           <strong>
-            Relever le niveau sonore sans puis avec matériau interposé et calculer l'atténuation A = L₁ − L₂ apportée par le matériau testé.
+            Relever pour au moins trois valeurs de tension appliquée l'observation correspondante (son émis, vibration).
           </strong>
           <span class="cartouche" data-comp="REA">REA</span>
         </div>
         <div class="zone-eleve">
-          <textarea id="question-mesure-attenuation-2" rows="4" placeholder="Votre réponse..."></textarea>
+          <textarea id="question-emetteur-piezo-2" rows="4" placeholder="Votre réponse..."></textarea>
         </div>
       </li>
 
       <li>
         <div class="question-entete">
           <strong>
-            Justifier pourquoi le réglage du GBF, celui du haut-parleur et la distance au sonomètre doivent rester inchangés entre les deux mesures.
+            Analyser l'effet de l'augmentation de la tension appliquée sur le son émis et en déduire la conversion d'énergie réalisée par l'émetteur.
           </strong>
           <span class="cartouche" data-comp="ANA">ANA</span>
         </div>
         <div class="zone-eleve">
-          <textarea id="question-mesure-attenuation-3" rows="5" placeholder="Votre analyse..."></textarea>
+          <textarea id="question-emetteur-piezo-3" rows="5" placeholder="Votre analyse..."></textarea>
         </div>
       </li>
 
       <li>
         <div class="question-entete">
           <strong>
-            Rédiger le protocole permettant de mesurer l'atténuation apportée par un matériau isolant.
+            Rédiger le protocole permettant de mettre en évidence le fonctionnement d'un émetteur piézoélectrique.
           </strong>
           <span class="cartouche" data-comp="COM">COM</span>
         </div>
         <div class="zone-eleve">
-          <textarea id="question-mesure-attenuation-4" rows="5" placeholder="Votre réponse..."></textarea>
+          <textarea id="question-emetteur-piezo-4" rows="5" placeholder="Votre réponse..."></textarea>
         </div>
       </li>
 
       <li class="question-problematique">
         <div class="question-entete">
-          <strong>Répondre à la problématique de l'onglet « Atténuation apportée par un matériau » :</strong>
-          <span class="cartouche" data-comp="VAL">VAL</span>
+          <strong>Répondre à la problématique de l'onglet « Émetteur piézoélectrique » :</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
         </div>
-        <p class="problematique-rappel" data-activite="mesure-attenuation"></p>
+        <p class="problematique-rappel" data-activite="emetteur-piezo"></p>
         <div class="zone-eleve">
-          <textarea id="question-mesure-attenuation-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
+          <textarea id="question-emetteur-piezo-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
         </div>
       </li>
 
@@ -481,68 +568,137 @@
 
     </div>
 
-    <div class="questions-bloc" data-tp="isolation-phonique" data-onglet="classement-isolants" data-onglet-nom="Comparaison des isolants" hidden style="display:none;">
+    <div class="questions-bloc" data-tp="chaine-transmission-sonore" data-onglet="recepteur-piezo" data-onglet-nom="Récepteur piézoélectrique" hidden style="display:none;">
 
-    <h4>Questions de l'onglet « Comparaison des isolants »</h4>
+    <h4>Questions de l'onglet « Récepteur piézoélectrique »</h4>
 
     <ol class="questions-tp">
 
       <li>
         <div class="question-entete">
           <strong>
-            Indiquer ce que représente une atténuation exprimée en décibels et comment elle permet de comparer deux matériaux.
+            Expliquer le rôle d'un récepteur piézoélectrique : quelle grandeur reçoit-il et quelle grandeur délivre-t-il ?
           </strong>
           <span class="cartouche" data-comp="APP">APP</span>
         </div>
         <div class="zone-eleve">
-          <textarea id="question-classement-isolants-1" rows="4" placeholder="Votre réponse..."></textarea>
+          <textarea id="question-recepteur-piezo-1" rows="4" placeholder="Votre réponse..."></textarea>
         </div>
       </li>
 
       <li>
         <div class="question-entete">
           <strong>
-            Compléter le tableau avec au moins trois matériaux (nature, épaisseur, atténuation mesurée).
+            Relever la tension reçue pour au moins cinq distances émetteur–récepteur et compléter le tableau.
           </strong>
           <span class="cartouche" data-comp="REA">REA</span>
         </div>
         <div class="zone-eleve">
-          <textarea id="question-classement-isolants-2" rows="4" placeholder="Votre réponse..."></textarea>
+          <textarea id="question-recepteur-piezo-2" rows="4" placeholder="Votre réponse..."></textarea>
         </div>
       </li>
 
       <li>
         <div class="question-entete">
           <strong>
-            À partir du tableau de classement, comparer les matériaux testés et identifier le plus performant pour une épaisseur donnée.
+            À partir du graphique, décrire l'évolution de la tension reçue avec la distance et justifier cette évolution par l'atténuation de l'onde sonore.
           </strong>
           <span class="cartouche" data-comp="ANA">ANA</span>
         </div>
         <div class="zone-eleve">
-          <textarea id="question-classement-isolants-3" rows="5" placeholder="Votre analyse..."></textarea>
+          <textarea id="question-recepteur-piezo-3" rows="5" placeholder="Votre analyse..."></textarea>
         </div>
       </li>
 
       <li>
         <div class="question-entete">
           <strong>
-            En lien avec le contexte professionnel de votre filière, proposer une situation où l'isolation phonique est un enjeu et justifier le choix d'un matériau adapté.
+            Proposer une application d'un capteur à ultrasons en lien avec le contexte professionnel de votre filière.
           </strong>
           <span class="cartouche" data-comp="COM">COM</span>
         </div>
         <div class="zone-eleve">
-          <textarea id="question-classement-isolants-4" rows="5" placeholder="Votre réponse..."></textarea>
+          <textarea id="question-recepteur-piezo-4" rows="5" placeholder="Votre réponse..."></textarea>
         </div>
       </li>
 
       <li class="question-problematique">
         <div class="question-entete">
-          <strong>Répondre à la problématique de l'onglet « Comparaison des isolants » :</strong>
-          <span class="cartouche" data-comp="VAL">VAL</span>
+          <strong>Répondre à la problématique de l'onglet « Récepteur piézoélectrique » :</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
         </div>
-        <p class="problematique-rappel" data-activite="classement-isolants"></p>
+        <p class="problematique-rappel" data-activite="recepteur-piezo"></p>
         <div class="zone-eleve">
-          <textarea id="question-classement-isolants-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
+          <textarea id="question-recepteur-piezo-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
+        </div>
+      </li>
+
+    </ol>
+
+    </div>
+
+    <div class="questions-bloc" data-tp="chaine-transmission-sonore" data-onglet="schema-chaine" data-onglet-nom="Schéma de la chaîne" hidden style="display:none;">
+
+    <h4>Questions de l'onglet « Schéma de la chaîne »</h4>
+
+    <ol class="questions-tp">
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Citer les trois éléments d'une chaîne de transmission par canal sonore et indiquer le rôle de chacun.
+          </strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-schema-chaine-1" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Compléter le schéma de la chaîne en associant à chaque rôle l'élément correspondant, puis le faire vérifier.
+          </strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-schema-chaine-2" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Identifier, pour chaque élément de la chaîne, la nature du signal à son entrée et à sa sortie (électrique ou sonore).
+          </strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-schema-chaine-3" rows="5" placeholder="Votre analyse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Schématiser une chaîne de transmission de l'information adaptée à une situation de votre contexte professionnel.
+          </strong>
+          <span class="cartouche" data-comp="COM">COM</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-schema-chaine-4" rows="5" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique de l'onglet « Schéma de la chaîne » :</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
+        </div>
+        <p class="problematique-rappel" data-activite="schema-chaine"></p>
+        <div class="zone-eleve">
+          <textarea id="question-schema-chaine-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
         </div>
       </li>
 
@@ -593,7 +749,7 @@
           <tr data-comp="APP">
             <td>S'approprier</td>
             <td>APP</td>
-            <td>Identifier le rôle d'un isolant phonique.</td>
+            <td>Identifier les éléments d'une chaîne de transmission sonore.</td>
             <td><input type="radio" name="APP" value="0"></td>
             <td><input type="radio" name="APP" value="1"></td>
             <td><input type="radio" name="APP" value="2"></td>
@@ -602,7 +758,7 @@
           <tr data-comp="ANA">
             <td>Analyser / Raisonner</td>
             <td>ANA</td>
-            <td>Comparer l'efficacité de plusieurs isolants.</td>
+            <td>Relier la tension reçue à la distance par l'atténuation de l'onde.</td>
             <td><input type="radio" name="ANA" value="0"></td>
             <td><input type="radio" name="ANA" value="1"></td>
             <td><input type="radio" name="ANA" value="2"></td>
@@ -611,7 +767,7 @@
           <tr data-comp="REA">
             <td>Réaliser</td>
             <td>REA</td>
-            <td>Mesurer un niveau sonore et calculer une atténuation.</td>
+            <td>Réaliser un montage émetteur–récepteur et relever des tensions.</td>
             <td><input type="radio" name="REA" value="0"></td>
             <td><input type="radio" name="REA" value="1"></td>
             <td><input type="radio" name="REA" value="2"></td>
@@ -683,7 +839,7 @@
     <div class="info" style="margin-top:var(--gap-md);">
       L'impression récupère automatiquement :
       <ul>
-        <li>le tableau du classement des matériaux isolants ;</li>
+        <li>les tableaux de mesures (émetteur, récepteur), le graphique tension–distance et le schéma de la chaîne ;</li>
         <li>les réponses aux questions ;</li>
         <li>l'auto-évaluation des compétences.</li>
       </ul>
@@ -699,12 +855,12 @@
 
 <div class="nav-tp">
 
-  <button class="btn btn-secondaire" onclick="loadTP('tp01-caracteriser-un-son')">
-    ← TP01
+  <button class="btn btn-secondaire" onclick="loadTP('tp02-isolation-phonique')">
+    ← TP02
   </button>
 
-  <button class="btn btn-primaire" onclick="loadTP('tp03-chaine-transmission-sonore')">
-    TP03 →
+  <button class="btn btn-primaire" onclick="loadTP('tp04-propagation-du-son')">
+    TP04 →
   </button>
 
 </div>

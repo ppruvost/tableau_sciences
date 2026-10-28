@@ -12,6 +12,7 @@ import laboratoryEquipment from "../../data/equipment.js";
 import FILIERES_PRO from "../../data/filieres.js";
 import { initQuestionsParOnglet } from "./questions-par-onglet.js";
 import { initImpressionCompteRendu } from "./compte-rendu-chimie.js";
+import { bouton3D, initBoutons3D, afficherBouton3DProduit, nomSansParentheses } from "./molecule-3d.js";
 
 import {
     initSections,
@@ -293,6 +294,8 @@ function afficherSecurite() {
         pictogrammes,
         zoneId: "securite-bloc"
     });
+
+    afficherBouton3DProduit(produit);
 }
 
 /* ==========================================================
@@ -377,6 +380,7 @@ function rendreFicheIndicateur(ind) {
       <div class="couleur-basique" style="background:${ind.couleurBasique}">${ind.nomBasique}</div>
       <div class="plage">pH ${ind.plageMin} – ${ind.plageMax}</div>
     </div>
+    <div class="molecule-3d-zone">${bouton3D(nomSansParentheses(ind.nom), { cas: ind.cas })}</div>
   `;
 }
 
@@ -391,6 +395,7 @@ function initTabIndicateur() {
     select.addEventListener("change", () => {
         const ind = INDICATEURS_B27.find(i => i.cas === select.value);
         fiche.innerHTML = rendreFicheIndicateur(ind);
+        initBoutons3D(fiche);
     });
 }
 

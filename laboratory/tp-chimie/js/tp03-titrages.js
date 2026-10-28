@@ -20,6 +20,7 @@
 import { initZoomVisuels } from "../../js/zoom-visuel.js";
 import { initQuestionsParOnglet } from "./questions-par-onglet.js";
 import { initImpressionCompteRendu } from "./compte-rendu-chimie.js";
+import { afficherBouton3D, afficherBouton3DProduit, zone3DApres } from "./molecule-3d.js";
 import products
     from "../../data/products.js";
 
@@ -470,6 +471,51 @@ function afficherSecurite() {
 
     });
 
+    afficherBouton3DProduit(produit);
+
+}
+
+/* ==========================================================
+   MOLÉCULE 3D DU COUPLE ACIDE / BASE FAIBLE SÉLECTIONNÉ
+   (clés de ACIDES_DB / BASES_DB -> nom dans molecule/molecules.json)
+   ========================================================== */
+
+const MOLECULES_COUPLES = {
+    CH3COOH: "acide éthanoïque",
+    HCOOH: "acide méthanoïque",
+    HF: "fluorure d'hydrogène",
+    HNO2: "acide nitreux",
+    H2O2: "peroxyde d'hydrogène",
+    H3BO3: "acide borique",
+    H2C2O4: "acide oxalique",
+    H2CO3: "acide carbonique",
+    H2S: "sulfure d'hydrogène",
+    H3PO4: "acide phosphorique",
+    H4EDTA: "EDTA",
+    NH3: "ammoniac",
+    CH3NH2: "méthylamine",
+    C2H5NH2: "éthylamine",
+    C6H5NH2: "aniline"
+};
+
+function majBoutons3DCouples() {
+
+    ["pka-select-acide", "pka-select-base"].forEach(id => {
+
+        const select = $(id);
+        if (!select) return;
+
+        const zone = zone3DApres(select, `molecule3d-${id}`);
+        const cle = select.value;
+
+        // une seule mise à jour par changement de sélection
+        if (zone.dataset.cle === cle) return;
+        zone.dataset.cle = cle;
+
+        afficherBouton3D(zone, MOLECULES_COUPLES[cle] || "");
+
+    });
+
 }
 
 /* ==========================================================
@@ -530,6 +576,7 @@ function initParametresTitrage() {
     peuplerSelectCouples("pka-select-base", BASES_DB);
 
     majVisibiliteCouples();
+    majBoutons3DCouples();
 
     [
         "va",
@@ -550,6 +597,7 @@ function initParametresTitrage() {
 
             const rafraichir = () => {
                 majVisibiliteCouples();
+                majBoutons3DCouples();
                 calculerVeTheorique();
                 dessinerCourbe();
             };

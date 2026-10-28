@@ -166,3 +166,39 @@ body > header h1 span {
 }
 
 .problematique-onglet .problematique-rappel { margin: 0; font-weight: 600; }
+
+/* ==========================================================
+   BOUTON « VOIR EN 3D » (viewer /molecule) — js/molecule-3d.js
+   ========================================================== */
+.molecule-3d-zone {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-sm, 0.5rem);
+  margin-top: var(--gap-sm, 0.5rem);
+}
+
+.molecule-3d-zone:empty {
+  display: none;
+}
+
+.btn-molecule-3d[hidden] {
+  display: none;
+}
+
+.btn-molecule-3d {
+  width: auto;
+  max-width: 100%;
+  white-space: normal;
+  text-align: left;
+}
+
+td .btn-molecule-3d {
+  margin-left: var(--gap-sm, 0.5rem);
+}
+
+@media print {
+  .molecule-3d-zone,
+  .btn-molecule-3d {
+    display: none !important;
+  }
+}

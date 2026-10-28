@@ -13,8 +13,11 @@
  *   { titre, notation: true, competence, texte, rappel?, rappelEtiquette? }   (question notée 0 / 1 / 2 ;
  *     `rappel` = texte de l'énoncé rappelé au-dessus de la réponse, ex. la problématique)
  *   { titre, texte }                               (texte libre)
- * En-tête : niveau ('2nde' | '1ère' | 'Tle', pastille à côté de l'étiquette), marque: 'scilab' (défaut) | 'mathilab', discipline? (texte en haut à droite),
- *   domaine + tp (étiquette), titre (titre du TP).
+ * En-tête : niveau ('2nde' | '1ère' | 'Tle', pastille à côté de l'étiquette),
+ *   marque: 'scilab' | 'mathilab' | 'pylab' | 'algolab' (logo + nom ; si absente, déduite
+ *   du domaine / de l'étiquette TP : Algèbre, Analyse, Statistiques… → MathiLab ;
+ *   Algorithmique → AlgoLab ; Python → PyLab ; sinon SciLab),
+ *   discipline? (texte en haut à droite), domaine + tp (étiquette), titre (titre du TP).
  * Option graphique : echelle (0.5 = image à 50 % de la largeur).
  * Option commune : position: 'fin' → la rubrique est imprimée après les questions.
  *
@@ -279,7 +282,8 @@ function htmlNoteFinale(nbQuestions) {
     </div>`;
 }
 
-// Logos des deux modèles d'en-tête (SciLab : fiole grise ; MathiLab : calculatrice bleue).
+// Logos des modèles d'en-tête (SciLab : fiole ; MathiLab : calculatrice ; PyLab : terminal ;
+// AlgoLab : algorigramme). Même gabarit 34×40, même charte bleue.
 const LOGO_SCILAB = `
   <svg viewBox="0 0 34 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <path d="M11 3h12v3.5h-2v8.5l8.2 14.6a3.4 3.4 0 0 1-2.9 5H7.7a3.4 3.4 0 0 1-2.9-5L13 15V6.5h-2z" fill="#DDF1FD" stroke="#1B6CA8" stroke-width="2.2" stroke-linejoin="round"/>
@@ -299,6 +303,24 @@ const LOGO_MATHILAB = `
     </g>
   </svg>`;
 
+const LOGO_PYLAB = `
+  <svg viewBox="0 0 34 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect x="2" y="1" width="30" height="38" rx="5" fill="#1B6CA8" stroke="#134B75" stroke-width="1.5"/>
+    <rect x="6" y="5" width="22" height="6" rx="1.5" fill="#fff"/>
+    <circle cx="9" cy="8" r="1" fill="#1B6CA8"/><circle cx="13" cy="8" r="1" fill="#1B6CA8"/>
+    <path d="M8 17l7 6-7 6" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M18 31h9" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+  </svg>`;
+
+const LOGO_ALGOLAB = `
+  <svg viewBox="0 0 34 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect x="2" y="1" width="30" height="38" rx="5" fill="#1B6CA8" stroke="#134B75" stroke-width="1.5"/>
+    <rect x="9" y="5" width="16" height="6" rx="3" fill="#fff"/>
+    <path d="M17 11v4M17 27v3" stroke="#fff" stroke-width="2"/>
+    <path d="M17 15l7 6-7 6-7-6z" fill="#fff"/>
+    <rect x="10" y="30" width="14" height="6" rx="1.5" fill="#fff"/>
+  </svg>`;
+
 const MARQUES = {
   scilab: {
     cle: 'scilab', nom: 'SciLab', debut: 'Sci', fin: 'Lab',
@@ -308,10 +330,36 @@ const MARQUES = {
     cle: 'mathilab', nom: 'MathiLab', debut: 'Mathi', fin: 'Lab',
     discipline: 'Bac Pro — Mathématiques', logo: LOGO_MATHILAB,
   },
+  pylab: {
+    cle: 'pylab', nom: 'PyLab', debut: 'Py', fin: 'Lab',
+    discipline: 'Bac Pro — Programmation Python', logo: LOGO_PYLAB,
+  },
+  algolab: {
+    cle: 'algolab', nom: 'AlgoLab', debut: 'Algo', fin: 'Lab',
+    discipline: 'Bac Pro — Mathématiques — Algorithmique', logo: LOGO_ALGOLAB,
+  },
 };
 
+// Marque de l'en-tête : config.marque si elle est connue ; sinon déduite du
+// domaine et de l'étiquette TP (jamais du titre : « Analyse d'une solution »
+// est un TP de chimie). Les domaines de sciences physiques gardent SciLab.
+function choisirMarque(config) {
+  const demandee = String(config.marque || '').toLowerCase();
+  if (MARQUES[demandee]) return MARQUES[demandee];
+
+  const norm = t => String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  const domaine = norm(config.domaine);
+  const tp = norm(config.tp);
+
+  if (/chimi|physi|electric|acoust|optiq|thermi|mecani|signaux|science/.test(domaine)) return MARQUES.scilab;
+  if (/pylab|python/.test(domaine)) return MARQUES.pylab;
+  if (/algolab|algorithm|programmation/.test(domaine)) return MARQUES.algolab;
+  if (/algebre|analyse|statisti|probabilit|geometri|mathemati/.test(domaine) || /^td\s*\d/.test(tp)) return MARQUES.mathilab;
+  return MARQUES.scilab;
+}
+
 // Niveau de classe choisi par l'élève (« 2nde », « 1ère », « Tle », avec ou sans
-// accent / majuscule) → pastille orange de l'en-tête ; rien si non reconnu.
+// accent / majuscule) → pastille bleue de l'en-tête ; rien si non reconnu.
 function htmlNiveau(brut) {
   const n = String(brut || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
   let contenu = '';
@@ -321,10 +369,10 @@ function htmlNiveau(brut) {
   return contenu ? `<span class="cr-niveau-pastille">${contenu}</span>` : '';
 }
 
-// config.marque : 'scilab' (défaut) ou 'mathilab'. config.discipline remplace
+// config.marque : 'scilab' | 'mathilab' | 'pylab' | 'algolab' (voir choisirMarque). config.discipline remplace
 // la mention « Bac Pro — … » du coin supérieur droit.
 function construireDocument(config, eleve, corps) {
-  const marque = MARQUES[String(config.marque || 'scilab').toLowerCase()] || MARQUES.scilab;
+  const marque = choisirMarque(config);
   const m = `cr-marque-${marque.cle}`;
   const badge = [config.domaine || 'Sciences', config.tp].filter(Boolean).join(' — ');
   return `

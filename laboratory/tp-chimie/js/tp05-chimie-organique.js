@@ -13,6 +13,12 @@ import laboratoryEquipment from "../../data/equipment.js";
 import FILIERES_PRO from "../../data/filieres.js";
 import { initQuestionsParOnglet } from "./questions-par-onglet.js";
 import { initImpressionCompteRendu } from "./compte-rendu-chimie.js";
+import {
+    bouton3D,
+    initBoutons3D,
+    afficherBouton3DProduit,
+    nomSansParentheses
+} from "./molecule-3d.js";
 
 import {
     initSections,
@@ -273,6 +279,8 @@ function afficherSecurite() {
         pictogrammes,
         zoneId: "securite-bloc"
     });
+
+    afficherBouton3DProduit(produit);
 }
 
 /* ==========================================================
@@ -286,7 +294,16 @@ function formuleEster(acide, alcool) {
 }
 
 function nomEster(acide, alcool) {
-    return `${acide.radical} de ${alcool.radical}`;
+    // élision : « éthanoate d'éthyle », « méthanoate d'isoamyle », « éthanoate de méthyle »
+    const radical = alcool.radical;
+    const liaison = /^[aeiouyéèêh]/i.test(radical) ? "d'" : "de ";
+    return `${acide.radical} ${liaison}${radical}`;
+}
+
+/* Boutons « Voir en 3D » (viewer /molecule) pour une liste de noms ;
+   les parenthèses d'un nom du TP (« acide éthanoïque (acétique) ») sont retirées. */
+function boutons3D(...noms) {
+    return `<div class="molecule-3d-zone">${noms.filter(Boolean).map(n => bouton3D(nomSansParentheses(n))).join("")}</div>`;
 }
 
 function odeurEster(acide, alcool) {
@@ -318,6 +335,7 @@ function rendreEsterification(resultat) {
         <p><strong>Ester formé :</strong> ${nom} (${ester})</p>
         ${odeur ? `<p><strong>Odeur caractéristique :</strong> ${odeur}</p>` : ""}
         <p>Réaction lente, limitée et athermique : elle est accélérée par un catalyseur (quelques gouttes d'acide sulfurique concentré) et par le chauffage à reflux, sans en déplacer l'équilibre.</p>
+        ${boutons3D(acide.nom, alcool.nom, nom)}
     `;
 }
 
@@ -335,6 +353,7 @@ function initTabEsterification() {
     const rafraichir = () => {
         const resultat = calculerEsterification(selectAcide.value, selectAlcool.value);
         zone.innerHTML = rendreEsterification(resultat);
+        initBoutons3D(zone);
     };
 
     selectAcide.addEventListener("change", rafraichir);
@@ -358,6 +377,7 @@ function rendreHydrolyseBasique(resultat) {
         <p><strong>Équation de l'hydrolyse basique (saponification) :</strong></p>
         <p>${ester} + Na⁺ + HO⁻ → ${carboxylate} + ${alcool.formule}</p>
         <p>Contrairement à l'estérification, l'hydrolyse basique est une réaction totale (non limitée) et exothermique : elle régénère l'alcool et forme le carboxylate de sodium correspondant (la « savonification » lorsque l'acide est une longue chaîne carbonée).</p>
+        ${boutons3D(nomDeLester, alcool.nom, `${acide.radical} de sodium`)}
     `;
 }
 
@@ -375,6 +395,7 @@ function initTabHydrolyseBasique() {
     const rafraichir = () => {
         const resultat = calculerEsterification(selectAcide.value, selectAlcool.value);
         zone.innerHTML = rendreHydrolyseBasique(resultat);
+        initBoutons3D(zone);
     };
 
     selectAcide.addEventListener("change", rafraichir);
@@ -392,6 +413,7 @@ function rendreOxydationAlcool(alcool, exces) {
         return `
             <p><strong>${alcool.nom}</strong> (${alcool.formule}) est un alcool <strong>tertiaire</strong>.</p>
             <p>Aucune réaction : un alcool tertiaire ne possède pas d'atome d'hydrogène sur le carbone fonctionnel, il ne peut donc pas être oxydé par les oxydants usuels (permanganate, dichromate). La solution de permanganate de potassium reste violette.</p>
+            ${boutons3D(alcool.nom)}
         `;
     }
 
@@ -403,6 +425,7 @@ function rendreOxydationAlcool(alcool, exces) {
             <p><strong>${alcool.nom}</strong> (${alcool.formule}) est un alcool <strong>secondaire</strong>.</p>
             <p>Oxydation ménagée en <strong>${produit.famille}</strong> : ${produit.nom} (${produit.formule}), quelle que soit la quantité d'oxydant utilisée (l'oxydation s'arrête à ce stade).</p>
             <p>La solution de permanganate de potassium, violette, se décolore (ou vire au brun en milieu neutre) au fur et à mesure de la réaction.</p>
+            ${boutons3D(alcool.nom, produit.nom)}
         `;
     }
 
@@ -411,6 +434,7 @@ function rendreOxydationAlcool(alcool, exces) {
         <p><strong>Avec un oxydant en défaut</strong> (ajout lent, distillation immédiate du produit formé) : oxydation limitée en <strong>${alcool.produitDefaut.famille}</strong>, ${alcool.produitDefaut.nom} (${alcool.produitDefaut.formule}).</p>
         <p><strong>Avec un oxydant en excès</strong> (chauffage à reflux prolongé) : oxydation complète en <strong>${alcool.produitExces.famille}</strong>, ${alcool.produitExces.nom} (${alcool.produitExces.formule}).</p>
         <p>La solution de permanganate de potassium, violette, se décolore au cours de la réaction.</p>
+        ${boutons3D(alcool.nom, alcool.produitDefaut.nom, alcool.produitExces.nom)}
     `;
 }
 
@@ -427,6 +451,7 @@ function initTabOxydationAlcool() {
         const alcool = ALCOOLS_OXYDATION.find(a => a.id === selectAlcool.value);
         const exces = selectExces.value === "exces";
         zone.innerHTML = rendreOxydationAlcool(alcool, exces);
+        initBoutons3D(zone);
     };
 
     selectAlcool.addEventListener("change", rafraichir);
@@ -445,6 +470,7 @@ function rendreTestFehling(compose) {
             <p><strong>${compose.nom}</strong> appartient à la famille des <strong>${compose.famille}s</strong>.</p>
             <p><strong>Test positif :</strong> un précipité rouge brique d'oxyde de cuivre (I), Cu₂O, se forme après chauffage au bain-marie avec la liqueur de Fehling (bleue).</p>
             <p>Ce test permet d'identifier spécifiquement le groupe caractéristique − CHO des aldéhydes.</p>
+            ${boutons3D(compose.nom)}
         `;
     }
 
@@ -452,6 +478,7 @@ function rendreTestFehling(compose) {
         <p><strong>${compose.nom}</strong> appartient à la famille des <strong>${compose.famille}s</strong>.</p>
         <p><strong>Test négatif :</strong> aucun précipité ne se forme, la solution reste bleue.</p>
         <p>Une cétone ne réagit pas avec la liqueur de Fehling : ce test permet donc de distinguer un aldéhyde d'une cétone.</p>
+        ${boutons3D(compose.nom)}
     `;
 }
 
@@ -466,6 +493,7 @@ function initTabTestFehling() {
     select.addEventListener("change", () => {
         const compose = COMPOSES_FEHLING.find(c => c.id === select.value);
         zone.innerHTML = rendreTestFehling(compose);
+        initBoutons3D(zone);
     });
 }
 
@@ -478,8 +506,10 @@ function initTabGroupesCaracteristiques() {
     if (!tbody) return;
 
     tbody.innerHTML = GROUPES_CARACTERISTIQUES.map(g =>
-        `<tr><td>${g.famille}</td><td>${g.groupe}</td><td>${g.exemple}</td></tr>`
+        `<tr><td>${g.famille}</td><td>${g.groupe}</td><td>${g.exemple} ${bouton3D(nomSansParentheses(g.exemple))}</td></tr>`
     ).join("");
+
+    initBoutons3D(tbody);
 }
 
 /* ==========================================================

@@ -23,8 +23,14 @@
    style.css du domaine (variables + éventuels ajustements propres).
    ════════════════════════════════════════════════════════════════ */
 
-/* ── Header domaine ─────────────────────────────────────────── */
-header {
+/* ── Header domaine ───────────────────────────────────────────
+   Les règles « header » ci-dessous visent le bandeau de la page. Elles
+   excluent l'en-tête du compte rendu imprimé (<header class="cr-entete">,
+   injecté dans l'iframe d'impression qui recopie ces mêmes feuilles) :
+   sans cela il héritait du dégradé, du sticky, du centrage et de l'ombre.
+   :where() garde la spécificité d'origine (0,0,1) : aucun autre composant
+   (.site-header, etc.) n'est affecté. */
+header:where(:not(.cr-entete)) {
   background: linear-gradient(135deg, var(--domaine-accent) 0%, var(--domaine-accent-fonce) 100%);
   color: #fff;
   padding: 10px 20px;
@@ -35,7 +41,7 @@ header {
   z-index: 200;
 }
 
-header h1 {
+header:where(:not(.cr-entete)) h1 {
   font-family: var(--font-titre);
   font-size: clamp(.95rem, 1.8vw, 1.2rem);
   font-weight: 700;
@@ -420,5 +426,5 @@ canvas {
   nav button { width: 100%; }
   main#content { padding: var(--gap-sm); }
   .controls, .buttons, .presets { flex-direction: column; align-items: stretch; }
-  header { padding: var(--gap-md); }
+  header:where(:not(.cr-entete)) { padding: var(--gap-md); }
 }
