@@ -1,9 +1,11 @@
 /**
  * tp-chimie/js/molecule-3d.js
  *
- * Module partagé des TP de chimie : bouton « Voir en 3D » qui ouvre le projet
- * /molecule (viewer 3Dmol.js) dans un nouvel onglet, avec le nom de la
- * molécule déjà saisi et la recherche lancée (molecule/index.html?q=<nom>).
+ * Module partagé des TP de chimie : bouton « Voir en 3D » qui ouvre
+ * directement, dans une fenêtre superposée à la page, le projet /molecule
+ * (viewer 3Dmol.js) avec la recherche déjà lancée (molecule/index.html?q=<nom>).
+ * La fenêtre se referme avec le bouton rond bleu « − » (ou Échap, ou clic
+ * sur le fond) : plus de nouvel onglet.
  *
  * Principe :
  *   - le bouton n'est affiché que si la molécule existe dans
@@ -108,7 +110,7 @@ export function bouton3D(nom, { cas = '', libelle = '' } = {}) {
   return `<button type="button" class="btn btn-secondaire btn-molecule-3d" hidden
     data-molecule="${echapper(nom)}"${cas ? ` data-cas="${echapper(cas)}"` : ''}
     data-libelle="${echapper(affiche)}"
-    aria-label="Voir la molécule ${echapper(affiche)} en 3D (ouvre le viewer dans un nouvel onglet)">${echapper(libelleBouton(affiche))}</button>`;
+    aria-label="Voir la molécule ${echapper(affiche)} en 3D (ouvre une fenêtre)">${echapper(libelleBouton(affiche))}</button>`;
 }
 
 /** Affiche les boutons 3D d'une zone dont la molécule existe dans molecules.json. */
@@ -201,8 +203,62 @@ export function zone3DApres(element, id) {
    ========================================================== */
 
 export function urlViewer(nom) {
-  return `${URL_VIEWER}?q=${encodeURIComponent(nom)}`;
+  // embed=1 : mise en page compacte du viewer (molécule visible sans défiler)
+  return `${URL_VIEWER}?q=${encodeURIComponent(nom)}&embed=1`;
 }
+
+/* ==========================================================
+   FENÊTRE 3D (iframe du viewer + bouton rond bleu « − »)
+   ========================================================== */
+
+let fenetre = null;
+let declencheur = null;
+
+function creerFenetre() {
+  if (fenetre) return fenetre;
+
+  fenetre = document.createElement('div');
+  fenetre.className = 'mol3d-overlay';
+  fenetre.hidden = true;
+  fenetre.innerHTML = `
+    <div class="mol3d-fenetre" role="dialog" aria-modal="true" aria-labelledby="mol3d-titre">
+      <div class="mol3d-entete">
+        <h3 id="mol3d-titre" class="mol3d-titre"></h3>
+        <button type="button" class="btn-rond-bleu mol3d-fermer"
+                aria-label="Fermer la fenêtre 3D" title="Fermer">−</button>
+      </div>
+      <iframe class="mol3d-cadre" title="Molécule en 3D"></iframe>
+    </div>`;
+  document.body.appendChild(fenetre);
+
+  fenetre.addEventListener('click', e => {
+    if (e.target === fenetre || e.target.closest('.mol3d-fermer')) fermerMolecule3D();
+  });
+  return fenetre;
+}
+
+export function ouvrirMolecule3D(nom, bouton = null) {
+  creerFenetre();
+  declencheur = bouton;
+  fenetre.querySelector('.mol3d-titre').textContent = nom;
+  fenetre.querySelector('.mol3d-cadre').src = urlViewer(nom);
+  fenetre.hidden = false;
+  document.body.classList.add('mol3d-ouverte');
+  fenetre.querySelector('.mol3d-fermer').focus();
+}
+
+export function fermerMolecule3D() {
+  if (!fenetre || fenetre.hidden) return;
+  fenetre.hidden = true;
+  fenetre.querySelector('.mol3d-cadre').src = 'about:blank'; // libère le contexte WebGL
+  document.body.classList.remove('mol3d-ouverte');
+  if (declencheur && declencheur.isConnected) declencheur.focus();
+  declencheur = null;
+}
+
+/* ==========================================================
+   CLIC : un seul écouteur pour tous les TP
+   ========================================================== */
 
 let ecouteurInstalle = false;
 
@@ -218,7 +274,11 @@ export function installerEcouteur3D() {
     if (!nom) return;
 
     evenement.preventDefault();
-    window.open(urlViewer(nom), '_blank', 'noopener');
+    ouvrirMolecule3D(nom, bouton);
+  });
+
+  document.addEventListener('keydown', evenement => {
+    if (evenement.key === 'Escape') fermerMolecule3D();
   });
 }
 

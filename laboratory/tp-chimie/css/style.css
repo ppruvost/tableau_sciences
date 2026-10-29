@@ -196,7 +196,64 @@ td .btn-molecule-3d {
   margin-left: var(--gap-sm, 0.5rem);
 }
 
+/* Bouton rond bleu (− fermer) — même style que le + / − du zoom des visuels ;
+   à supprimer ici si .btn-rond-bleu existe déjà dans css/tp.css */
+.btn-rond-bleu {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--domaine-accent, #1B6CA8);
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.btn-rond-bleu:hover { filter: brightness(1.12); }
+.btn-rond-bleu:focus-visible { outline: 3px solid #fff; box-shadow: 0 0 0 5px var(--domaine-accent, #1B6CA8); }
+
+/* Fenêtre d'aperçu 3D */
+.mol3d-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, .45);
+}
+.mol3d-overlay[hidden] { display: none; }
+.mol3d-fenetre {
+  display: flex;
+  flex-direction: column;
+  width: min(760px, 100%);
+  height: min(88vh, 640px);
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, .35);
+  overflow: hidden;
+}
+.mol3d-entete {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .6rem .9rem;
+  border-bottom: 2px solid var(--domaine-accent, #1B6CA8);
+}
+.mol3d-titre { margin: 0; font-size: 1.1rem; color: var(--domaine-accent-fonce, #0D4F8A); }
+.mol3d-cadre { flex: 1; width: 100%; min-height: 0; border: 0; background: #fff; }
+body.mol3d-ouverte { overflow: hidden; }
+
 @media print {
+  .mol3d-overlay,
   .molecule-3d-zone,
   .btn-molecule-3d {
     display: none !important;

@@ -1,180 +1,328 @@
-let viewer;
+/**
+ * molecule/script.js — visionneuse 3D (3Dmol.js).
+ *
+ * Utilisée seule (molecule/index.html) ou dans la fenêtre « Voir en 3D » des TP
+ * (molecule/index.html?q=<nom>&embed=1).
+ *
+ * Points de robustesse :
+ *   - la recherche ?q= est lancée tout de suite : le nom, la formule et la masse
+ *     s'affichent même si la bibliothèque 3Dmol est lente ou injoignable ;
+ *   - 3Dmol est chargée à la demande : copie locale lib/3Dmol-min.js, puis CDN
+ *     en secours (plus de dépendance unique à 3dmol.org) ;
+ *   - le viewer n'est créé qu'une fois son conteneur mesurable (fenêtre ouverte) ;
+ *   - les structures XYZ au nombre d'atomes erroné sont réparées avant affichage ;
+ *   - les erreurs s'affichent dans la page (plus de alert()).
+ */
 
-window.addEventListener("DOMContentLoaded", () => {
-  viewer = $3Dmol.createViewer("viewer", {
-    backgroundColor: "white"
-  });
+const SOURCES_3DMOL = [
+  "lib/3Dmol-min.js",
+  "https://cdn.jsdelivr.net/npm/3dmol@2.5.5/build/3Dmol-min.js",
+  "https://3dmol.org/build/3Dmol-min.js",
+];
 
-  const champ = document.getElementById("search");
-
-  champ.addEventListener("keydown", e => {
-    if (e.key === "Enter") searchMolecule();
-  });
-
-  // Lien depuis un TP : molecule/index.html?q=éthanol
-  // -> champ prérempli et recherche lancée directement.
-  const demande = new URLSearchParams(window.location.search).get("q");
-  if (demande && demande.trim()) {
-    champ.value = demande.trim();
-    searchMolecule();
-  }
-});
+let viewer = null;
+let promesseViewer = null;
+let promesseJSON = null;
+let numeroRecherche = 0;
 
 // ===============================
-// Normalisation
+// Utilitaires
 // ===============================
 function normalize(str) {
-  return str
+  return String(str ?? "")
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "");
 }
 
+function $(id) {
+  return document.getElementById(id);
+}
+
+function message(texte, type = "info") {
+  const zone = $("message");
+  if (!zone) return;
+  zone.textContent = texte || "";
+  zone.dataset.type = type;
+  zone.hidden = !texte;
+}
+
+function prochaineImage() {
+  return new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+}
+
+// ===============================
+// Chargement de 3Dmol
+// ===============================
+function chargerScript(src, delai = 8000) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    const minuteur = setTimeout(() => {
+      script.remove();
+      reject(new Error("délai dépassé : " + src));
+    }, delai);
+    script.onload = () => {
+      clearTimeout(minuteur);
+      window.$3Dmol ? resolve() : reject(new Error("3Dmol absent après " + src));
+    };
+    script.onerror = () => {
+      clearTimeout(minuteur);
+      script.remove();
+      reject(new Error("échec : " + src));
+    };
+    script.src = src;
+    document.head.appendChild(script);
+  });
+}
+
+async function chargerBibliotheque() {
+  if (window.$3Dmol) return true;
+  for (const src of SOURCES_3DMOL) {
+    try {
+      await chargerScript(src);
+      return true;
+    } catch (erreur) {
+      console.warn("3Dmol :", erreur.message);
+    }
+  }
+  return false;
+}
+
+async function obtenirViewer() {
+  if (viewer) return viewer;
+
+  if (!promesseViewer) {
+    promesseViewer = (async () => {
+      if (!(await chargerBibliotheque())) return null;
+
+      // Le conteneur doit avoir une taille (fenêtre visible) avant createViewer.
+      const zone = $("viewer");
+      for (let i = 0; i < 30 && (!zone.clientWidth || !zone.clientHeight); i++) {
+        await prochaineImage();
+      }
+
+      try {
+        viewer = $3Dmol.createViewer("viewer", { backgroundColor: "white" });
+      } catch (erreur) {
+        console.warn("Création du viewer impossible :", erreur);
+        viewer = null;
+      }
+      return viewer;
+    })();
+  }
+
+  const v = await promesseViewer;
+  if (!v) promesseViewer = null; // nouvelle tentative possible à la recherche suivante
+  return v;
+}
+
 // ===============================
 // Affichage 3D
 // ===============================
-function display3D(structure, format = "xyz") {
-  viewer.clear();
-  viewer.addModel(structure, format);
-  viewer.setStyle({}, {
-    stick: {},
-    sphere: { scale: 0.3 }
-  });
-  viewer.zoomTo();
-  viewer.render();
+// Recalcule l'en-tête XYZ (nombre d'atomes) d'après les lignes réellement présentes.
+function reparerXYZ(texte) {
+  const lignes = String(texte).replace(/\r/g, "").split("\n");
+  const atomes = lignes.slice(2).filter(l => l.trim() !== "");
+  return [String(atomes.length), lignes[1] || "", ...atomes].join("\n") + "\n";
+}
+
+async function display3D(structure, format = "xyz") {
+  const v = await obtenirViewer();
+
+  if (!v) {
+    message(
+      "L'aperçu 3D n'a pas pu démarrer (bibliothèque 3Dmol introuvable ou WebGL désactivé). " +
+      "Le nom, la formule et la masse restent valables.",
+      "erreur"
+    );
+    return false;
+  }
+
+  try {
+    v.clear();
+    v.addModel(format === "xyz" ? reparerXYZ(structure) : structure, format);
+    v.setStyle({}, { stick: {}, sphere: { scale: 0.3 } });
+    v.zoomTo();
+    v.render();
+    message("");
+    return true;
+  } catch (erreur) {
+    console.warn("Structure illisible :", erreur);
+    message("Cette structure 3D n'a pas pu être affichée.", "erreur");
+    return false;
+  }
 }
 
 // ===============================
 // Recherche locale JSON
 // ===============================
-async function searchLocalMolecule(name, onlyStructure = false) {
-  const res = await fetch("molecules.json");
-  const localData = await res.json();
+function chargerMolecules() {
+  if (!promesseJSON) {
+    promesseJSON = fetch("molecules.json")
+      .then(r => {
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
+      })
+      .catch(erreur => {
+        promesseJSON = null; // on réessaiera
+        throw erreur;
+      });
+  }
+  return promesseJSON;
+}
 
-  const query = normalize(name);
+async function chercherLocale(nom) {
+  const liste = await chargerMolecules();
+  const requete = normalize(nom);
 
   // 1. nom ou alias identique, 2. nom ou alias qui contient la saisie
   const noms = m => [m.nom, ...(m.aliases || [])].map(normalize);
 
-  const mol =
-    localData.find(m => noms(m).includes(query)) ||
-    localData.find(m => noms(m).some(n => n.includes(query)));
+  return (
+    liste.find(m => noms(m).includes(requete)) ||
+    liste.find(m => noms(m).some(n => n.includes(requete))) ||
+    null
+  );
+}
 
-  if (!mol) return null;
+function afficherInfos(mol) {
+  $("nom").textContent = mol.nom || "-";
+  $("formule").textContent = mol.formule || "-";
+  $("masse").textContent = mol.masse || "-";
+}
 
-  if (!onlyStructure) {
-    document.getElementById("formule").textContent = mol.formule || "-";
-    document.getElementById("masse").textContent = mol.masse || "-";
+// ===============================
+// PubChem (secours : molécule absente de molecules.json)
+// ===============================
+async function pubchem(url, delai = 10000) {
+  const controle = new AbortController();
+  const minuteur = setTimeout(() => controle.abort(), delai);
+  try {
+    return await fetch(url, { signal: controle.signal });
+  } finally {
+    clearTimeout(minuteur);
   }
-  document.getElementById("nom").textContent = mol.nom;
+}
 
-  if (mol.structure) {
-    display3D(mol.structure, "xyz");
+async function chercherPubChem(nomNormalise, actuelle) {
+  const base = `https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${encodeURIComponent(nomNormalise)}`;
+  let trouve = false;
+
+  try {
+    const res = await pubchem(`${base}/property/MolecularFormula,MolecularWeight/JSON`);
+    if (res.ok) {
+      const props = (await res.json())?.PropertyTable?.Properties?.[0];
+      if (props && actuelle()) {
+        $("formule").textContent = props.MolecularFormula || "-";
+        $("masse").textContent = props.MolecularWeight || "-";
+        trouve = true;
+      }
+    }
+  } catch (erreur) {
+    console.warn("Infos PubChem indisponibles");
   }
 
-  return mol;
+  try {
+    const res = await pubchem(`${base}/record/SDF/?record_type=3d`);
+    if (res.ok) {
+      const sdf = await res.text();
+      if (sdf && sdf.length > 100 && actuelle()) {
+        $("nom").textContent = nomNormalise;
+        await display3D(sdf, "sdf");
+        return true;
+      }
+    }
+  } catch (erreur) {
+    console.warn("3D PubChem absente");
+  }
+
+  return trouve;
 }
 
 // ===============================
 // Recherche principale
 // ===============================
 async function searchMolecule() {
-  const rawName = document.getElementById("search").value.trim();
-  const name = normalize(rawName);
+  const champ = $("search");
+  const saisie = champ.value.trim();
+  if (!saisie) return;
 
-  if (!name) return;
+  const numero = ++numeroRecherche;
+  const actuelle = () => numero === numeroRecherche; // une recherche plus récente annule celle-ci
 
   // reset visuel
-  document.getElementById("formule").textContent = "-";
-  document.getElementById("masse").textContent = "-";
-  viewer.clear();
-  viewer.render();
-
-  document.getElementById("nom").textContent = "-";
-
-  // =====================================================
-  // 0. Fichier local molecules.json en priorité : noms français
-  //    des TP, réponse immédiate, fonctionne sans connexion.
-  // =====================================================
-  try {
-    const locale = await searchLocalMolecule(rawName);
-    if (locale && locale.structure) return;
-  } catch (error) {
-    console.warn("molecules.json indisponible → PubChem");
+  $("nom").textContent = "-";
+  $("formule").textContent = "-";
+  $("masse").textContent = "-";
+  message("");
+  if (viewer) {
+    viewer.clear();
+    viewer.render();
   }
 
-  let pubchemWorked = false;
-
-  // =====================================================
-  // 1. Infos PubChem (formule + masse)
-  // =====================================================
+  // 0. molecules.json en priorité : noms français des TP, fonctionne hors connexion.
   try {
-    const infoUrl = `https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${encodeURIComponent(name)}/property/MolecularFormula,MolecularWeight/JSON`;
+    const mol = await chercherLocale(saisie);
+    if (!actuelle()) return;
 
-    const infoRes = await fetch(infoUrl);
-
-    if (infoRes.ok) {
-      const infoData = await infoRes.json();
-
-      if (
-        infoData.PropertyTable &&
-        infoData.PropertyTable.Properties &&
-        infoData.PropertyTable.Properties.length > 0
-      ) {
-        const props = infoData.PropertyTable.Properties[0];
-
-        document.getElementById("formule").textContent =
-          props.MolecularFormula || "-";
-
-        document.getElementById("masse").textContent =
-          props.MolecularWeight || "-";
-
-        pubchemWorked = true;
-      }
-    }
-  } catch (error) {
-    console.warn("Infos PubChem indisponibles");
-  }
-
-  // =====================================================
-  // 2. Structure 3D PubChem
-  // =====================================================
-  try {
-    const structureUrl = `https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${encodeURIComponent(name)}/record/SDF/?record_type=3d`;
-
-    const sdfRes = await fetch(structureUrl);
-
-    if (sdfRes.ok) {
-      const sdf = await sdfRes.text();
-
-      // Vérifie si vraie structure
-      if (sdf && sdf.length > 100) {
-        display3D(sdf, "sdf");
+    if (mol) {
+      afficherInfos(mol);
+      if (mol.structure) {
+        await display3D(mol.structure, "xyz");
         return;
       }
     }
-
-    throw new Error("Pas de vraie structure 3D");
-
-  } catch (error) {
-    console.warn("3D PubChem absente → fallback JSON");
-
-    // fallback uniquement structure
-    const localMol = await searchLocalMolecule(name, pubchemWorked);
-
-    if (localMol) return;
+  } catch (erreur) {
+    console.warn("molecules.json indisponible → PubChem", erreur);
   }
 
-  // =====================================================
-  // 3. Si PubChem totalement échoué
-  // =====================================================
-  if (!pubchemWorked) {
-    console.warn("Fallback complet JSON");
+  // 1. PubChem
+  message("Recherche sur PubChem…");
+  const ok = await chercherPubChem(normalize(saisie), actuelle);
+  if (!actuelle()) return;
 
-    const localMol = await searchLocalMolecule(name);
-
-    if (!localMol) {
-      alert("Molécule non trouvée");
-    }
+  if (!ok && $("nom").textContent === "-") {
+    message(`Molécule « ${saisie} » non trouvée.`, "erreur");
+  } else if (!viewer) {
+    // infos trouvées sans structure : message laissé par display3D le cas échéant
+    if ($("message").hidden) message("");
+  } else {
+    message("");
   }
 }
+
+// ===============================
+// Démarrage
+// ===============================
+window.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+
+  // Fenêtre « Voir en 3D » des TP : mise en page compacte, viewer visible sans défiler.
+  if (params.get("embed") === "1" || window.self !== window.top) {
+    document.documentElement.classList.add("embed");
+    document.body.classList.add("embed");
+  }
+
+  const champ = $("search");
+  champ.addEventListener("keydown", e => {
+    if (e.key === "Enter") searchMolecule();
+  });
+
+  // Le viewer suit la taille de son conteneur (ouverture de la fenêtre, rotation de l'écran…).
+  if (typeof ResizeObserver !== "undefined") {
+    new ResizeObserver(() => {
+      if (viewer) {
+        viewer.resize();
+        viewer.render();
+      }
+    }).observe($("viewer"));
+  }
+
+  // Lien depuis un TP : molecule/index.html?q=éthanol
+  // -> champ prérempli et recherche lancée directement.
+  const demande = params.get("q");
+  if (demande && demande.trim()) {
+    champ.value = demande.trim();
+    searchMolecule();
+  }
+});

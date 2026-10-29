@@ -96,3 +96,68 @@ button {
     min-height: 280px;
   }
 }
+
+/* Message (erreur / information) */
+#message {
+  max-width: 600px;
+  margin: 10px auto;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: #fff7e0;
+  border: 1px solid #e0c060;
+  font-size: 0.95rem;
+}
+#message[data-type="erreur"] {
+  background: #fdecea;
+  border-color: #e08a80;
+}
+#message[hidden] { display: none; }
+
+/* ==========================================================
+   Mode fenêtre (?embed=1 ou affichage dans une iframe) :
+   titre masqué, informations compactes, viewer qui occupe
+   toute la hauteur restante — plus besoin de défiler.
+   ========================================================== */
+html.embed { height: 100%; }
+
+body.embed {
+  height: 100%;
+  min-height: 0;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+body.embed h1 { display: none; }
+
+body.embed .search-box {
+  flex-wrap: nowrap;
+  margin-bottom: 8px;
+}
+body.embed input { flex: 1; width: auto; min-width: 0; padding: 8px 10px; }
+body.embed button { width: auto; max-width: none; padding: 8px 16px; }
+
+body.embed #info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 18px;
+  max-width: none;
+  margin: 0 0 8px;
+  padding: 8px 12px;
+  font-size: 0.95rem;
+}
+body.embed #info p { margin: 0; }
+
+body.embed #message { margin: 0 0 8px; max-width: none; }
+
+body.embed #viewer-container {
+  flex: 1;
+  min-height: 0;
+  max-width: none;
+  margin: 0;
+}
+body.embed #viewer {
+  height: 100%;
+  min-height: 180px;
+}

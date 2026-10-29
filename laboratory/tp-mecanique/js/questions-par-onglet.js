@@ -11,8 +11,7 @@
  *     à partir de `problematiques` dans CONTEXTES_PRO).
  *
  * Ce module n'affiche que le bloc de l'onglet actif. L'impression du
- * compte-rendu (compte-rendu-mecanique.js) reprend le bloc affiché, et
- * celui d'un autre onglet seulement s'il contient des réponses.
+ * compte-rendu (compte-rendu-mecanique.js) ne reprend que le bloc affiché.
  */
 
 export function initQuestionsParOnglet() {
