@@ -36,6 +36,7 @@ import {
 } from "../../js/radar.js";
 
 import { initContextePro } from "../../js/contexte-pro.js";
+import { initOngletsParFiliere } from "../../js/onglets-filiere.js";
 
 /* ==========================================================
    CONTEXTE PROFESSIONNEL — TP01 (Dissolution / Dilution /
@@ -234,6 +235,27 @@ export function init() {
             filieres: FILIERES_PRO,
             contextes: CONTEXTES_PRO,
             afficherProblematique: false
+        });
+    });
+
+    // Onglets selon le niveau (cadre bleu) : 2nde et 1ère travaillent
+    // dissolution, dilution et identification d'ions ; la Tle ne travaille
+    // que « solutions commerciales ». Aligné sur `problematiques` de
+    // CONTEXTES_PRO : un onglet visible a toujours sa problématique.
+    etape("initOngletsParFiliere", () => {
+        const ONGLETS_2NDE_1ERE = ["dissolution", "dilution", "identification-ions"];
+        const ONGLETS_TLE = ["solutions-commerciales"];
+        initOngletsParFiliere({
+            mapping: {
+                "2nde-remi": ONGLETS_2NDE_1ERE,
+                "2nde-mcc": ONGLETS_2NDE_1ERE,
+                "1ere-tci": ONGLETS_2NDE_1ERE,
+                "1ere-trpm": ONGLETS_2NDE_1ERE,
+                "1ere-mcc": ONGLETS_2NDE_1ERE,
+                "tle-tci": ONGLETS_TLE,
+                "tle-trpm": ONGLETS_TLE,
+                "tle-mcc": ONGLETS_TLE
+            }
         });
     });
 

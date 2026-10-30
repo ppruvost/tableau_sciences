@@ -14,6 +14,9 @@ import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-thermique.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
+import { etape } from './etape.js';
+import { initZoomIllustrations } from './zoom-illustrations.js';
 import { initMateriel } from '../../js/materiel.js';
 import glassware from '../../data/glassware.js';
 import laboratoryEquipment from '../../data/equipment.js';
@@ -23,43 +26,57 @@ const CONTEXTES_PRO = {
 
   '2nde-remi': {
     contexte: "Un traitement thermique de trempe ou de revenu impose de porter un bain (huile ou eau) à une température précise, puis de contrôler l'énergie nécessaire pour l'y maintenir malgré l'introduction de pièces plus froides que le bain.",
-    problematique: "Quelle énergie faut-il apporter à un bain de trempe pour compenser le refroidissement causé par l'introduction d'une pièce, et quelle température finale peut-on en attendre ?",
+    problematiques: {
+      'melange': "Comment prévoir la température d'un bain de trempe après l'introduction d'une pièce plus froide ?",
+      'energie': "Comment calculer l'énergie à fournir pour porter un bain de trempe à la bonne température ?",
+      'suivi-temporel': "Comment suivre dans le temps la montée en température d'un bain avant d'y plonger une pièce ?",
+    },
   },
 
   '2nde-mcc': {
     contexte: "En teinture textile, l'ajout d'eau froide dans un bain de teinture chaud fait évoluer l'ensemble vers une température d'équilibre qu'il faut savoir anticiper pour ne pas compromettre la fixation des couleurs.",
-    problematique: "Comment prévoir la température finale d'un bain de teinture après ajout d'eau froide, et quelle énergie faut-il fournir pour le ramener à la bonne température ?",
+    problematiques: {
+      'melange': "Comment prévoir la température finale d'un bain de teinture après ajout d'eau froide ?",
+      'energie': "Comment calculer l'énergie nécessaire pour ramener un bain de teinture à la bonne température ?",
+      'suivi-temporel': "Comment suivre la montée en température d'un bain de teinture pour savoir quand y plonger le tissu ?",
+    },
   },
 
 };
 
 export function init() {
-  initMelange();
-  initEnergie();
-  initSuiviTemporel();
+  etape('Melange', initMelange);
+  etape('Energie', initEnergie);
+  etape('SuiviTemporel', initSuiviTemporel);
 
-  initMateriel({
+  etape('Matériel', () => initMateriel({
     verreId: 'materiel-verrerie',
     equipementId: 'materiel-equipements',
     glassware,
     equipment: laboratoryEquipment,
     categorie: 'Equilibre',
-  });
+  }));
 
-  initContextePro({
+  // R4 : le bloc « Contexte professionnel » n'affiche que le contexte ;
+  // la problématique est affichée en tête de chaque onglet et en question 5.
+  etape('Contexte professionnel', () => initContextePro({
     filieres: FILIERES_PRO,
     contextes: CONTEXTES_PRO,
-  });
+    afficherProblematique: false,
+  }));
 
-  initSections();
-  initTabs();
-  initModesOperatoires();
-  initRadarCompetences();
+  etape('Sections', initSections);
+  etape('Onglets', initTabs);
+  // R7/R9 : seul le bloc de questions de l'onglet actif est affiché.
+  etape('Questions par onglet', initQuestionsParOnglet);
+  etape('Modes opératoires', initModesOperatoires);
+  etape('Zoom des illustrations', initZoomIllustrations);
+  etape('Radar de compétences', initRadarCompetences);
 
-  initImpressionCompteRendu({
+  etape('Impression du compte rendu', () => initImpressionCompteRendu({
     titre: 'Équilibre thermique et énergie échangée',
     tp: 'TP02',
-  });
+  }));
 }
 
 // =================================================================

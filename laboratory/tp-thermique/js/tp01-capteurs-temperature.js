@@ -16,6 +16,9 @@ import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-thermique.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
+import { etape } from './etape.js';
+import { initZoomIllustrations } from './zoom-illustrations.js';
 import { initMateriel } from '../../js/materiel.js';
 import glassware from '../../data/glassware.js';
 import laboratoryEquipment from '../../data/equipment.js';
@@ -26,12 +29,24 @@ const CONTEXTES_PRO = {
 
   '2nde-remi': {
     contexte: "En Réalisation d'Ensembles Mécaniques et Industriels, vous devez régulièrement contrôler la température d'une pièce avant assemblage (dilatation, retrait), surveiller le refroidissement d'un bain de trempe ou vérifier qu'un moteur ne surchauffe pas, à l'aide de capteurs adaptés à chaque situation (contact, sans contact, plage de température).",
-    problematique: "Quel capteur de température choisir, en fonction de la situation, pour contrôler une pièce mécanique avec la précision et la sécurité requises ?",
+    problematiques: {
+      'echelles': "Comment convertir sans erreur une température de consigne de four ou de bain de trempe d'une échelle à l'autre ?",
+      'thermistance': "Comment exploiter la résistance d'une thermistance pour surveiller l'échauffement d'un moteur ?",
+      'pt100': "Comment une sonde Pt100 permet-elle de contrôler précisément la température d'un bain de trempe ?",
+      'thermocouple': "Comment choisir un thermocouple pour mesurer la température d'une pièce chauffée à haute température ?",
+      'ir-cristaux': "Comment contrôler sans contact la température d'une pièce mécanique en rotation ou brûlante ?",
+    },
   },
 
   '2nde-mcc': {
     contexte: "En Métiers de la couture et de la confection, la température des fers à repasser et des presses à thermocollage doit être précisément contrôlée : trop faible, la colle thermofusible n'adhère pas ; trop élevée, elle brûle ou déforme le tissu.",
-    problematique: "Comment choisir et utiliser un capteur de température adapté au réglage d'une presse à thermocollage, sans détériorer le tissu ?",
+    problematiques: {
+      'echelles': "Comment lire et convertir la température de consigne indiquée sur une presse à thermocollage ?",
+      'thermistance': "Comment une thermistance peut-elle réguler la température d'un fer à repasser ?",
+      'pt100': "Comment une sonde Pt100 garantit-elle une température stable sur la semelle d'une presse à thermocollage ?",
+      'thermocouple': "Comment mesurer la température d'une plaque chauffante de presse sans l'endommager ?",
+      'ir-cristaux': "Comment contrôler sans contact la température d'un tissu ou d'une semelle de fer pour éviter de le brûler ?",
+    },
   },
 
 };
@@ -40,40 +55,40 @@ const CONTEXTES_PRO = {
 // Point d'entrée, appelé automatiquement par navigation.js
 // ---------------------------------------------------------------
 export function init() {
-  initEchelles();
-  initThermistance();
-  initPt100();
-  initThermocouple();
-  initIRCristaux();
+  etape('Echelles', initEchelles);
+  etape('Thermistance', initThermistance);
+  etape('Pt100', initPt100);
+  etape('Thermocouple', initThermocouple);
+  etape('IRCristaux', initIRCristaux);
 
-  initMateriel({
+  etape('Matériel', () => initMateriel({
     verreId: 'materiel-verrerie',
     equipementId: 'materiel-equipements',
     glassware,
     equipment: laboratoryEquipment,
     categorie: 'Capteurs',
-  });
+  }));
 
-  initContextePro({
+  // R4 : le bloc « Contexte professionnel » n'affiche que le contexte ;
+  // la problématique est affichée en tête de chaque onglet et en question 5.
+  etape('Contexte professionnel', () => initContextePro({
     filieres: FILIERES_PRO,
     contextes: CONTEXTES_PRO,
-  });
+    afficherProblematique: false,
+  }));
 
-  // Onglets et accordéons de section : sans cet appel, ces éléments
-  // restent inertes malgré leur CSS.
-  initSections();
-  initTabs();
-  initModesOperatoires();
+  etape('Sections', initSections);
+  etape('Onglets', initTabs);
+  // R7/R9 : seul le bloc de questions de l'onglet actif est affiché.
+  etape('Questions par onglet', initQuestionsParOnglet);
+  etape('Modes opératoires', initModesOperatoires);
+  etape('Zoom des illustrations', initZoomIllustrations);
+  etape('Radar de compétences', initRadarCompetences);
 
-  // Génération du radar au clic sur #btn-radar
-  initRadarCompetences();
-
-  // Vrai système d'impression (modales identité + génération PDF),
-  // au lieu d'un simple window.print() de la page vivante.
-  initImpressionCompteRendu({
+  etape('Impression du compte rendu', () => initImpressionCompteRendu({
     titre: 'Mesurer et caractériser une température',
     tp: 'TP01',
-  });
+  }));
 }
 
 // =================================================================

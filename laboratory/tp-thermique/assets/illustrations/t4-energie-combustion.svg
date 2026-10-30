@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 459" role="img" aria-labelledby="t" font-family="DejaVu Sans, Arial, Helvetica, sans-serif">
+<title id="t">Énergie libérée par la combustion</title><rect width="1400" height="459" fill="#FFFFFF"/>
+<rect x="14.0" y="10" width="332.5" height="440" rx="26" fill="#FAFAFA" stroke="#D9D9D9" stroke-width="2"/>
+<ellipse cx="56.0" cy="52" rx="19" ry="24" fill="#C1440E"/><text x="56.0" y="60" font-size="22" font-weight="700" fill="#fff" text-anchor="middle">1</text>
+<g><rect x="80.25" y="120" width="200" height="46" rx="10" fill="#FBE3DA" stroke="#4B5563" stroke-width="3"/><text x="180.25" y="150.0" font-size="20" text-anchor="middle" fill="#4B5563" font-weight="700">CH₄ · C₃H₈</text><rect x="80.25" y="180" width="200" height="46" rx="10" fill="#FBE3DA" stroke="#4B5563" stroke-width="3"/><text x="180.25" y="210.0" font-size="20" text-anchor="middle" fill="#4B5563" font-weight="700">C₄H₁₀ · C₈H₁₈</text><text x="180.25" y="280" font-size="20" text-anchor="middle" fill="#4B5563" font-weight="700">PCI en MJ/kg</text></g>
+<text x="180.2" y="392" font-size="17" text-anchor="middle" fill="#4B5563">Choisir l'hydrocarbure et relever</text>
+<text x="180.2" y="414" font-size="17" text-anchor="middle" fill="#4B5563">son PCI.</text>
+<rect x="360.5" y="10" width="332.5" height="440" rx="26" fill="#FAFAFA" stroke="#D9D9D9" stroke-width="2"/>
+<ellipse cx="402.5" cy="52" rx="19" ry="24" fill="#C1440E"/><text x="402.5" y="60" font-size="22" font-weight="700" fill="#fff" text-anchor="middle">2</text>
+<g><rect x="451.75" y="315" width="150" height="30" rx="6" fill="#4B5563" stroke="#4B5563" stroke-width="2"/><rect x="486.75" y="245" width="80" height="6" rx="2" fill="#D9D9D9" stroke="#4B5563" stroke-width="2"/><rect x="471.75" y="281" width="110" height="26" rx="4" fill="#DCFCE7" stroke="#4B5563" stroke-width="2"/><text x="526.75" y="301" font-size="17" text-anchor="middle" fill="#4B5563" font-weight="700">100 g</text><path d="M514.75,165 v50 l-45,95 q-4,5 3,5 h108 q7,0 3,-5 l-45,-95 v-50" fill="none" stroke="#4B5563" stroke-width="4" stroke-linejoin="round"/><path d="M489.75,275 L472.75,311 h108 L563.75,275z" fill="#E5E7EB"/></g>
+<text x="526.8" y="392" font-size="17" text-anchor="middle" fill="#4B5563">Saisir la masse brûlée m.</text>
+<rect x="707.0" y="10" width="332.5" height="440" rx="26" fill="#FAFAFA" stroke="#D9D9D9" stroke-width="2"/>
+<ellipse cx="749.0" cy="52" rx="19" ry="24" fill="#C1440E"/><text x="749.0" y="60" font-size="22" font-weight="700" fill="#fff" text-anchor="middle">3</text>
+<g><rect x="773.25" y="150" width="200" height="56" rx="10" fill="#FBE3DA" stroke="#4B5563" stroke-width="3"/><text x="873.25" y="185.0" font-size="20" text-anchor="middle" fill="#4B5563" font-weight="700">Q = m × PCI</text><path d="M873.25,245 C899.25,283.5 894.05,315 873.25,315 C852.45,315 847.25,283.5 873.25,245 Z" fill="#C1440E" opacity=".85"/><path d="M873.25,280.0 C883.65,297.5 881.05,315 873.25,315 C865.45,315 862.85,297.5 873.25,280.0 Z" fill="#FFFFFF" opacity=".7"/></g>
+<text x="873.2" y="392" font-size="17" text-anchor="middle" fill="#4B5563">Calculer Q = m × PCI.</text>
+<rect x="1053.5" y="10" width="332.5" height="440" rx="26" fill="#FAFAFA" stroke="#D9D9D9" stroke-width="2"/>
+<ellipse cx="1095.5" cy="52" rx="19" ry="24" fill="#C1440E"/><text x="1095.5" y="60" font-size="22" font-weight="700" fill="#fff" text-anchor="middle">4</text>
+<g><rect x="1119.75" y="175" width="50" height="170" rx="4" fill="#FBE3DA" stroke="#4B5563" stroke-width="3"/><rect x="1179.75" y="195" width="50" height="150" rx="4" fill="#FBE3DA" stroke="#4B5563" stroke-width="3"/><rect x="1239.75" y="215" width="50" height="130" rx="4" fill="#FBE3DA" stroke="#4B5563" stroke-width="3"/><rect x="1299.75" y="235" width="50" height="110" rx="4" fill="#FBE3DA" stroke="#4B5563" stroke-width="3"/><text x="1219.75" y="345" font-size="1" text-anchor="middle" fill="#4B5563"></text></g>
+<text x="1219.8" y="392" font-size="17" text-anchor="middle" fill="#4B5563">Comparer des masses identiques de</text>
+<text x="1219.8" y="414" font-size="17" text-anchor="middle" fill="#4B5563">combustibles.</text>
+</svg>

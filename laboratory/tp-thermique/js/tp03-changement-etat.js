@@ -21,6 +21,9 @@ import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-thermique.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
+import { etape } from './etape.js';
+import { initZoomIllustrations } from './zoom-illustrations.js';
 import { initMateriel } from '../../js/materiel.js';
 import glassware from '../../data/glassware.js';
 import laboratoryEquipment from '../../data/equipment.js';
@@ -30,43 +33,57 @@ const CONTEXTES_PRO = {
 
   '2nde-remi': {
     contexte: "Un brasage ou une soudure à l'étain nécessite de faire fondre un alliage d'apport : sa température doit rester constante pendant toute la fusion pour garantir un assemblage homogène, sans surchauffer inutilement les pièces à assembler.",
-    problematique: "Quelle énergie faut-il apporter pour faire fondre l'alliage de brasure nécessaire à un assemblage, et pourquoi sa température reste-t-elle constante pendant cette fusion ?",
+    problematiques: {
+      'palier': "Comment repérer le palier de fusion d'un alliage de brasure pour réussir un assemblage ?",
+      'energie-latente': "Comment calculer l'énergie nécessaire pour faire fondre l'alliage d'apport d'une soudure ?",
+      'bilan-complet': "Comment estimer l'énergie totale à fournir pour amener un alliage de l'état solide à l'état liquide chaud ?",
+    },
   },
 
   '2nde-mcc': {
     contexte: "L'entoilage thermocollant utilisé pour renforcer un tissu contient une colle qui doit atteindre sa température de fusion, et y rester le temps nécessaire, pour adhérer correctement sans endommager la matière.",
-    problematique: "Pourquoi la colle thermofusible d'un entoilage doit-elle atteindre une température précise et y rester constante pour bien adhérer au tissu ?",
+    problematiques: {
+      'palier': "Comment repérer le moment où la colle d'un entoilage atteint sa température de fusion ?",
+      'energie-latente': "Comment évaluer l'énergie nécessaire pour faire fondre la colle thermofusible d'un entoilage ?",
+      'bilan-complet': "Comment estimer l'énergie totale apportée par une presse pour faire fondre puis chauffer la colle d'un entoilage ?",
+    },
   },
 
 };
 
 export function init() {
-  initPalier();
-  initEnergieLatente();
-  initBilanComplet();
+  etape('Palier', initPalier);
+  etape('EnergieLatente', initEnergieLatente);
+  etape('BilanComplet', initBilanComplet);
 
-  initMateriel({
+  etape('Matériel', () => initMateriel({
     verreId: 'materiel-verrerie',
     equipementId: 'materiel-equipements',
     glassware,
     equipment: laboratoryEquipment,
     categorie: 'ChangementEtat',
-  });
+  }));
 
-  initContextePro({
+  // R4 : le bloc « Contexte professionnel » n'affiche que le contexte ;
+  // la problématique est affichée en tête de chaque onglet et en question 5.
+  etape('Contexte professionnel', () => initContextePro({
     filieres: FILIERES_PRO,
     contextes: CONTEXTES_PRO,
-  });
+    afficherProblematique: false,
+  }));
 
-  initSections();
-  initTabs();
-  initModesOperatoires();
-  initRadarCompetences();
+  etape('Sections', initSections);
+  etape('Onglets', initTabs);
+  // R7/R9 : seul le bloc de questions de l'onglet actif est affiché.
+  etape('Questions par onglet', initQuestionsParOnglet);
+  etape('Modes opératoires', initModesOperatoires);
+  etape('Zoom des illustrations', initZoomIllustrations);
+  etape('Radar de compétences', initRadarCompetences);
 
-  initImpressionCompteRendu({
+  etape('Impression du compte rendu', () => initImpressionCompteRendu({
     titre: "Changement d'état d'un corps pur",
     tp: 'TP03',
-  });
+  }));
 }
 
 // =================================================================

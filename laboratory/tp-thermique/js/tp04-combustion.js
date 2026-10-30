@@ -14,6 +14,9 @@ import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-thermique.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
+import { etape } from './etape.js';
+import { initZoomIllustrations } from './zoom-illustrations.js';
 import { initMateriel } from '../../js/materiel.js';
 import glassware from '../../data/glassware.js';
 import laboratoryEquipment from '../../data/equipment.js';
@@ -22,17 +25,29 @@ const CONTEXTES_PRO = {
 
   '1ere-tci': {
     contexte: "En chaudronnerie industrielle, l'oxycoupage et le soudo-brasage reposent sur la combustion contrôlée d'un gaz (acétylène, propane) dans le dioxygène. Une combustion incomplète, en espace mal ventilé, dégage du monoxyde de carbone, dangereux pour l'opérateur.",
-    problematique: "Comment la maîtrise de la combustion du gaz de coupe garantit-elle à la fois une découpe efficace et la sécurité de l'atelier de chaudronnerie ?",
+    problematiques: {
+      'equation': "Comment régler la flamme d'un poste d'oxycoupage pour obtenir une combustion complète et sûre ?",
+      'energie-combustion': "Comment choisir le gaz de coupe qui libère l'énergie nécessaire à la découpe d'une tôle ?",
+      'masse-co2': "Comment estimer le CO₂ rejeté par la combustion du gaz de coupe dans l'atelier de chaudronnerie ?",
+    },
   },
 
   '1ere-trpm': {
     contexte: "Le traitement thermique des pièces mécaniques (trempe, revenu) est souvent réalisé dans un four chauffé par la combustion d'un gaz. L'efficacité de cette combustion conditionne à la fois le coût énergétique du traitement et la quantité de CO₂ rejetée.",
-    problematique: "Quelle énergie et quelle masse de CO₂ sont associées à la combustion du gaz alimentant le four de traitement thermique, et comment limiter cet impact ?",
+    problematiques: {
+      'equation': "Comment vérifier que la combustion du gaz du four de traitement thermique est complète ?",
+      'energie-combustion': "Comment calculer l'énergie libérée par le gaz alimentant le four de traitement thermique ?",
+      'masse-co2': "Comment estimer la masse de CO₂ rejetée par un cycle de traitement thermique et comment la limiter ?",
+    },
   },
 
   '1ere-mcc': {
     contexte: "Les presses à repasser industrielles et les centrales vapeur d'un atelier de confection sont souvent alimentées par une chaudière au gaz. La combustion de ce gaz représente une part importante de la consommation énergétique et des émissions de CO₂ de l'atelier.",
-    problematique: "Quelle énergie et quelle masse de CO₂ sont associées à la production de vapeur nécessaire au repassage industriel, et comment limiter cet impact environnemental ?",
+    problematiques: {
+      'equation': "Comment reconnaître une combustion complète dans la chaudière d'une centrale vapeur ?",
+      'energie-combustion': "Comment calculer l'énergie libérée par le gaz nécessaire à la production de vapeur pour le repassage ?",
+      'masse-co2': "Comment estimer la masse de CO₂ rejetée par la production de vapeur de l'atelier de confection ?",
+    },
   },
 
 };
@@ -51,32 +66,38 @@ const M_H = 1;    // g/mol
 const M_CO2 = 44; // g/mol
 
 export function init() {
-  initEquation();
-  initEnergie();
-  initMasseCO2();
+  etape('Equation', initEquation);
+  etape('Energie', initEnergie);
+  etape('MasseCO2', initMasseCO2);
 
-  initMateriel({
+  etape('Matériel', () => initMateriel({
     verreId: 'materiel-verrerie',
     equipementId: 'materiel-equipements',
     glassware,
     equipment: laboratoryEquipment,
     categorie: 'Combustion',
-  });
+  }));
 
-  initContextePro({
+  // R4 : le bloc « Contexte professionnel » n'affiche que le contexte ;
+  // la problématique est affichée en tête de chaque onglet et en question 5.
+  etape('Contexte professionnel', () => initContextePro({
     filieres: FILIERES_PRO,
     contextes: CONTEXTES_PRO,
-  });
+    afficherProblematique: false,
+  }));
 
-  initSections();
-  initTabs();
-  initModesOperatoires();
-  initRadarCompetences();
+  etape('Sections', initSections);
+  etape('Onglets', initTabs);
+  // R7/R9 : seul le bloc de questions de l'onglet actif est affiché.
+  etape('Questions par onglet', initQuestionsParOnglet);
+  etape('Modes opératoires', initModesOperatoires);
+  etape('Zoom des illustrations', initZoomIllustrations);
+  etape('Radar de compétences', initRadarCompetences);
 
-  initImpressionCompteRendu({
+  etape('Impression du compte rendu', () => initImpressionCompteRendu({
     titre: 'Combustion et effet de serre',
     tp: 'TP04',
-  });
+  }));
 }
 
 // =================================================================

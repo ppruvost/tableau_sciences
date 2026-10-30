@@ -259,3 +259,19 @@ body.mol3d-ouverte { overflow: hidden; }
     display: none !important;
   }
 }
+
+/* ==========================================================
+   Puissances de 10 en exposant (simulateur pH, TP02)
+   .capsule (tp.css) est en inline-flex : le texte et le <sup>
+   deviennent des éléments flex séparés (exposant centré, espacé,
+   non relevé). On repasse la capsule en inline-block pour que
+   l'exposant se comporte comme un vrai exposant.
+   ========================================================== */
+.simulateur-ph .capsule {
+  display: inline-block;
+}
+.simulateur-ph .capsule sup {
+  font-size: .7em;
+  line-height: 0;
+  vertical-align: super;
+}

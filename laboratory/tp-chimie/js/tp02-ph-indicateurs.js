@@ -313,8 +313,9 @@ function interpolerCouleur(c1, c2, t) {
 function formatSci(val) {
     if (val === 0) return "0";
     const exp = Math.floor(Math.log10(val));
-    const mant = (val / Math.pow(10, exp)).toFixed(2);
-    return `${mant} × 10<sup>${exp}</sup> mol/L`;
+    const mant = (val / Math.pow(10, exp)).toFixed(2).replace(".", ",");
+    const expTxt = String(exp).replace("-", "\u2212");
+    return `${mant} × 10<sup class="exp10">${expTxt}</sup> mol/L`;
 }
 
 function majSimulateur(ph) {

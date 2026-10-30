@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 459" role="img" aria-labelledby="t" font-family="DejaVu Sans, Arial, Helvetica, sans-serif">
+<title id="t">Masse de CO₂ dégagée</title><rect width="1400" height="459" fill="#FFFFFF"/>
+<rect x="14.0" y="10" width="332.5" height="440" rx="26" fill="#FAFAFA" stroke="#D9D9D9" stroke-width="2"/>
+<ellipse cx="56.0" cy="52" rx="19" ry="24" fill="#C1440E"/><text x="56.0" y="60" font-size="22" font-weight="700" fill="#fff" text-anchor="middle">1</text>
+<g><rect x="25.25" y="120" width="310" height="52" rx="10" fill="#FBE3DA" stroke="#4B5563" stroke-width="3"/><text x="180.25" y="152.3" font-size="18" text-anchor="middle" fill="#4B5563" font-weight="700">CₓHᵧ + O₂ → CO₂ + H₂O</text><rect x="25.25" y="200" width="310" height="52" rx="10" fill="#FBE3DA" stroke="#4B5563" stroke-width="3"/><text x="180.25" y="232.3" font-size="18" text-anchor="middle" fill="#4B5563" font-weight="700">CH₄ + 2 O₂ → CO₂ + 2 H₂O</text></g>
+<text x="180.2" y="392" font-size="17" text-anchor="middle" fill="#4B5563">Reprendre l'équation ajustée de</text>
+<text x="180.2" y="414" font-size="17" text-anchor="middle" fill="#4B5563">l'hydrocarbure.</text>
+<rect x="360.5" y="10" width="332.5" height="440" rx="26" fill="#FAFAFA" stroke="#D9D9D9" stroke-width="2"/>
+<ellipse cx="402.5" cy="52" rx="19" ry="24" fill="#C1440E"/><text x="402.5" y="60" font-size="22" font-weight="700" fill="#fff" text-anchor="middle">2</text>
+<g><rect x="451.75" y="315" width="150" height="30" rx="6" fill="#4B5563" stroke="#4B5563" stroke-width="2"/><rect x="486.75" y="245" width="80" height="6" rx="2" fill="#D9D9D9" stroke="#4B5563" stroke-width="2"/><rect x="471.75" y="281" width="110" height="26" rx="4" fill="#DCFCE7" stroke="#4B5563" stroke-width="2"/><text x="526.75" y="301" font-size="17" text-anchor="middle" fill="#4B5563" font-weight="700">100 g</text><path d="M514.75,165 v50 l-45,95 q-4,5 3,5 h108 q7,0 3,-5 l-45,-95 v-50" fill="none" stroke="#4B5563" stroke-width="4" stroke-linejoin="round"/><path d="M489.75,275 L472.75,311 h108 L563.75,275z" fill="#E5E7EB"/></g>
+<text x="526.8" y="392" font-size="17" text-anchor="middle" fill="#4B5563">Saisir la masse d'hydrocarbure</text>
+<text x="526.8" y="414" font-size="17" text-anchor="middle" fill="#4B5563">brûlée.</text>
+<rect x="707.0" y="10" width="332.5" height="440" rx="26" fill="#FAFAFA" stroke="#D9D9D9" stroke-width="2"/>
+<ellipse cx="749.0" cy="52" rx="19" ry="24" fill="#C1440E"/><text x="749.0" y="60" font-size="22" font-weight="700" fill="#fff" text-anchor="middle">3</text>
+<g><rect x="743.25" y="140" width="260" height="50" rx="10" fill="#FBE3DA" stroke="#4B5563" stroke-width="3"/><text x="873.25" y="172.0" font-size="20" text-anchor="middle" fill="#4B5563" font-weight="700">n(CO₂) = x · n(CₓHᵧ)</text><line x1="873.25" y1="200" x2="873.25" y2="245" stroke="#C1440E" stroke-width="4" stroke-linecap="round"/><polygon points="873.2,245.0 867.2,232.4 879.3,232.4" fill="#C1440E"/><rect x="783.25" y="252" width="180" height="48" rx="10" fill="#DBEAFE" stroke="#4B5563" stroke-width="3"/><text x="873.25" y="283.0" font-size="20" text-anchor="middle" fill="#4B5563" font-weight="700">m = n × 44</text></g>
+<text x="873.2" y="392" font-size="17" text-anchor="middle" fill="#4B5563">Calculer la masse de CO₂ : n ×</text>
+<text x="873.2" y="414" font-size="17" text-anchor="middle" fill="#4B5563">M(CO₂) = n × 44 g/mol.</text>
+<rect x="1053.5" y="10" width="332.5" height="440" rx="26" fill="#FAFAFA" stroke="#D9D9D9" stroke-width="2"/>
+<ellipse cx="1095.5" cy="52" rx="19" ry="24" fill="#C1440E"/><text x="1095.5" y="60" font-size="22" font-weight="700" fill="#fff" text-anchor="middle">4</text>
+<g><rect x="1129.75" y="255" width="60" height="90" rx="4" fill="#E5E7EB" stroke="#4B5563" stroke-width="3"/><text x="1159.75" y="245" font-size="16" text-anchor="middle" fill="#4B5563">HC</text><rect x="1229.75" y="95" width="70" height="250" rx="4" fill="#FBE3DA" stroke="#4B5563" stroke-width="3"/><ellipse cx="1264.75" cy="65" rx="36" ry="24" fill="#FFFFFF" stroke="#4B5563" stroke-width="3"/><text x="1264.75" y="72" font-size="18" text-anchor="middle" fill="#4B5563" font-weight="700">CO₂</text></g>
+<text x="1219.8" y="392" font-size="17" text-anchor="middle" fill="#4B5563">Comparer m(CO₂) à m(hydrocarbure)</text>
+<text x="1219.8" y="414" font-size="17" text-anchor="middle" fill="#4B5563">brûlée.</text>
+</svg>

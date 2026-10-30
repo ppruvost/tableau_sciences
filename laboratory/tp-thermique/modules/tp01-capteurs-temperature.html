@@ -124,7 +124,7 @@
     </div>
 
     <div id="contexte-pro-resultat" class="contexte-pro-resultat">
-      <p>Sélectionner votre filière professionnelle pour afficher le contexte et la problématique associée.</p>
+      <p>Sélectionner votre filière professionnelle pour afficher le contexte associé.</p>
     </div>
 
   </div>
@@ -151,7 +151,7 @@
       électrique de mesure.
     </div>
 
-    <ul style="padding-left:1.5rem;line-height:2">
+    <ul>
       <li><strong>Brûlure :</strong> le bain thermostaté, la plaque chauffante et l'eau chaude utilisés pour étalonner les capteurs peuvent provoquer des brûlures ; laisser refroidir le matériel avant de le ranger.</li>
       <li><strong>Verrerie chaude :</strong> une verrerie chaude a le même aspect qu'une verrerie froide ; ne jamais saisir un bécher ou un tube sans vérifier sa température au préalable.</li>
       <li><strong>Risque électrique :</strong> les sondes Pt100, thermocouples et multimètres restent sous tension pendant la mesure ; ne pas manipuler avec les mains mouillées.</li>
@@ -180,15 +180,17 @@
 
   <div class="section-corps">
 
-    <h3>Verrerie</h3>
-    <div id="materiel-verrerie" class="grille-materiel">
-    </div>
+    <details class="accordeon-materiel">
+      <summary>Équipements</summary>
+      <div id="materiel-equipements" class="grille-materiel">
+      </div>
+    </details>
 
-    <hr>
-
-    <h3>Équipements</h3>
-    <div id="materiel-equipements" class="grille-materiel">
-    </div>
+    <details class="accordeon-materiel">
+      <summary>Verrerie</summary>
+      <div id="materiel-verrerie" class="grille-materiel">
+      </div>
+    </details>
 
 
   </div>
@@ -225,6 +227,12 @@
 
       <div class="tab-panel actif" id="echelles">
 
+        <div class="problematique-onglet">
+          <strong>Problématique :</strong>
+          <p class="problematique-rappel" data-activite="echelles"></p>
+        </div>
+
+
         <h3>Conversion Celsius / Kelvin</h3>
 
         <div class="info">
@@ -232,7 +240,7 @@
           les deux échelles est : T(K) = T(°C) + 273,15.
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+        <h4>Protocole</h4>
 
         <ol class="etapes">
           <li>Relever la température ambiante de la salle avec le thermomètre à liquide, en °C.</li>
@@ -242,7 +250,7 @@
         </ol>
 
         <div class="mode-op">
-          <img src="./assets/images/t1-echelles.png" alt="Mode opératoire — conversion Celsius/Kelvin" class="mode-image">
+          <img src="./assets/illustrations/t1-echelles.svg" alt="Mode opératoire — conversion Celsius/Kelvin" class="mode-image" data-zoom>
         </div>
 
         <div class="formule">
@@ -277,6 +285,12 @@
 
       <div class="tab-panel" id="thermistance">
 
+        <div class="problematique-onglet">
+          <strong>Problématique :</strong>
+          <p class="problematique-rappel" data-activite="thermistance"></p>
+        </div>
+
+
         <h3>Thermistance</h3>
 
         <div class="info">
@@ -286,7 +300,7 @@
           température / résistance, sans imposer de formule.
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+        <h4>Protocole</h4>
 
         <ol class="etapes">
           <li>Plonger la thermistance et le thermomètre de référence dans un bain d'eau glacée.</li>
@@ -296,7 +310,7 @@
         </ol>
 
         <div class="mode-op">
-          <img src="./assets/images/t1-thermistance.png" alt="Mode opératoire — relevé thermistance" class="mode-image">
+          <img src="./assets/illustrations/t1-thermistance.svg" alt="Mode opératoire — relevé thermistance" class="mode-image" data-zoom>
         </div>
 
         <div class="form-row">
@@ -347,6 +361,12 @@
 
       <div class="tab-panel" id="pt100">
 
+        <div class="problematique-onglet">
+          <strong>Problématique :</strong>
+          <p class="problematique-rappel" data-activite="pt100"></p>
+        </div>
+
+
         <h3>Sonde à résistance de platine (Pt100)</h3>
 
         <div class="info">
@@ -355,7 +375,7 @@
           R(T) = R₀ × (1 + α × T).
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+        <h4>Protocole</h4>
 
         <ol class="etapes">
           <li>Relever la résistance de la sonde Pt100 à température ambiante avec le multimètre.</li>
@@ -365,7 +385,7 @@
         </ol>
 
         <div class="mode-op">
-          <img src="./assets/images/t1-pt100.png" alt="Mode opératoire — sonde Pt100" class="mode-image">
+          <img src="./assets/illustrations/t1-pt100.svg" alt="Mode opératoire — sonde Pt100" class="mode-image" data-zoom>
         </div>
 
         <div class="formule">
@@ -407,6 +427,12 @@
 
       <div class="tab-panel" id="thermocouple">
 
+        <div class="problematique-onglet">
+          <strong>Problématique :</strong>
+          <p class="problematique-rappel" data-activite="thermocouple"></p>
+        </div>
+
+
         <h3>Thermocouple</h3>
 
         <div class="info">
@@ -416,7 +442,7 @@
           salle). Le coefficient dépend du type de thermocouple.
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+        <h4>Protocole</h4>
 
         <ol class="etapes">
           <li>Sélectionner le type de thermocouple utilisé en salle.</li>
@@ -426,7 +452,7 @@
         </ol>
 
         <div class="mode-op">
-          <img src="./assets/images/t1-thermocouple.png" alt="Mode opératoire — thermocouple" class="mode-image">
+          <img src="./assets/illustrations/t1-thermocouple.svg" alt="Mode opératoire — thermocouple" class="mode-image" data-zoom>
         </div>
 
         <div class="form-row">
@@ -463,6 +489,12 @@
 
       <div class="tab-panel" id="ir-cristaux">
 
+        <div class="problematique-onglet">
+          <strong>Problématique :</strong>
+          <p class="problematique-rappel" data-activite="ir-cristaux"></p>
+        </div>
+
+
         <h3>Thermomètre à infrarouge et cristaux liquides</h3>
 
         <div class="info">
@@ -472,7 +504,7 @@
           rapide, moins précise, en contact avec la surface.
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+        <h4>Protocole</h4>
 
         <ol class="etapes">
           <li>Viser la surface d'un même objet (bécher, plaque...) avec le thermomètre infrarouge et relever la valeur affichée.</li>
@@ -482,7 +514,7 @@
         </ol>
 
         <div class="mode-op">
-          <img src="./assets/images/t1-ir-cristaux.png" alt="Mode opératoire — thermomètre infrarouge et cristaux liquides" class="mode-image">
+          <img src="./assets/illustrations/t1-ir-cristaux.svg" alt="Mode opératoire — thermomètre infrarouge et cristaux liquides" class="mode-image" data-zoom>
         </div>
 
         <div class="form-row">
@@ -531,13 +563,13 @@
 
     <h3>Bonnes pratiques au laboratoire</h3>
 
-    <ul style="padding-left:1.5rem;line-height:2">
+    <ul>
       <li>Ne chauffer le bain thermostaté qu'à la température strictement nécessaire, et couper le chauffage dès la fin des mesures.</li>
       <li>Éteindre les multimètres et centrales d'acquisition entre deux manipulations pour économiser leurs piles.</li>
       <li>Réutiliser l'eau du bain thermostaté d'un groupe à l'autre plutôt que de la renouveler systématiquement.</li>
     </ul>
 
-    <h3 style="margin-top:var(--gap-md);">Le choix du capteur, un enjeu industriel</h3>
+    <h3>Le choix du capteur, un enjeu industriel</h3>
 
     <p>
       Choisir un capteur de température adapté (plage de mesure, précision,
@@ -592,76 +624,336 @@
     </div>
 
 
-    <h3 style="margin-top:var(--gap-md);">Questions</h3>
+    <h3>Questions</h3>
 
-    <div class="questions-bloc" data-tp="capteurs-temperature">
+    <div class="questions-bloc" data-tp="capteurs-temperature" data-onglet="echelles">
 
     <ol class="questions-tp">
 
       <li>
         <div class="question-entete">
           <strong>
-            Expliquer la relation entre les échelles Celsius et Kelvin,
-            et préciser à quoi correspond physiquement 0 K.
+            Écrire la relation entre la température en degrés Celsius et la température en kelvins, et préciser à quoi correspond physiquement 0 K.
           </strong>
           <span class="cartouche" data-comp="APP">APP</span>
         </div>
         <div class="zone-eleve">
-          <textarea id="question1" rows="4" placeholder="Votre réponse..."></textarea>
+          <textarea id="question-echelles-1" rows="4" placeholder="Votre réponse..."></textarea>
         </div>
       </li>
 
       <li>
         <div class="question-entete">
           <strong>
-            Pour chacun des capteurs testés (thermistance, Pt100,
-            thermocouple, infrarouge), indiquer le principe physique
-            exploité et la grandeur électrique mesurée.
+            Convertir en kelvins la température ambiante de la salle, celle de l'eau glacée et celle de l'eau du bain thermostaté relevées pendant la manipulation. Détailler un calcul.
           </strong>
           <span class="cartouche" data-comp="REA">REA</span>
         </div>
         <div class="zone-eleve">
-          <textarea id="question2" rows="6" placeholder="Votre réponse..."></textarea>
+          <textarea id="question-echelles-2" rows="5" placeholder="Votre réponse..."></textarea>
         </div>
       </li>
 
       <li>
         <div class="question-entete">
           <strong>
-            Comparer, à partir du tableau de résultats, les écarts
-            obtenus pour chaque capteur par rapport à la température de
-            référence et identifier le capteur le plus précis dans ce TP.
+            Comparer le résultat affiché par l'outil de conversion à votre calcul « à la main » et expliquer un éventuel écart (arrondi, lecture du thermomètre).
           </strong>
           <span class="cartouche" data-comp="ANA">ANA</span>
         </div>
         <div class="zone-eleve">
-          <textarea id="question3" rows="5" placeholder="Votre analyse..."></textarea>
+          <textarea id="question-echelles-3" rows="5" placeholder="Votre réponse..."></textarea>
         </div>
       </li>
 
       <li>
         <div class="question-entete">
           <strong>
-            En lien avec le contexte professionnel de votre filière
-            (section « Contexte professionnel » ci-dessus), proposer le
-            capteur de température le plus adapté à une situation de
-            votre futur métier, et justifier ce choix.
+            Vérifier que votre conversion est cohérente : une variation de 10 °C correspond-elle à une variation de 10 K ? Justifier à partir de la relation écrite.
           </strong>
-          <span class="cartouche" data-comp="COM">COM</span>
+          <span class="cartouche" data-comp="VAL">VAL</span>
         </div>
         <div class="zone-eleve">
-          <textarea id="question4" rows="5" placeholder="Votre réponse..."></textarea>
+          <textarea id="question-echelles-4" rows="5" placeholder="Votre réponse..."></textarea>
         </div>
       </li>
 
       <li class="question-problematique">
         <div class="question-entete">
-          <strong>Répondre à la problématique posée en début de TP :</strong>
+          <strong>Répondre à la problématique de cet onglet :</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
+        </div>
+        <p class="problematique-rappel" data-activite="echelles"></p>
+        <div class="zone-eleve">
+          <textarea id="question-echelles-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
+        </div>
+      </li>
+
+    </ol>
+
+    </div>
+
+    <div class="questions-bloc" data-tp="capteurs-temperature" data-onglet="thermistance">
+
+    <ol class="questions-tp">
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Décrire le principe d'une thermistance et indiquer la grandeur électrique mesurée.
+          </strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-thermistance-1" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            À partir de votre tableau de points, indiquer comment varie la résistance de la thermistance quand la température augmente.
+          </strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-thermistance-2" rows="5" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Analyser l'allure du graphique obtenu : la relation entre température et résistance est-elle linéaire ? Justifier.
+          </strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-thermistance-3" rows="5" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Justifier pourquoi un relevé expérimental température / résistance est nécessaire avant d'utiliser cette thermistance comme thermomètre.
+          </strong>
           <span class="cartouche" data-comp="VAL">VAL</span>
         </div>
-        <p class="problematique-rappel" data-activite="capteurs-temperature"></p>
         <div class="zone-eleve">
-          <textarea id="question5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
+          <textarea id="question-thermistance-4" rows="5" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique de cet onglet :</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
+        </div>
+        <p class="problematique-rappel" data-activite="thermistance"></p>
+        <div class="zone-eleve">
+          <textarea id="question-thermistance-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
+        </div>
+      </li>
+
+    </ol>
+
+    </div>
+
+    <div class="questions-bloc" data-tp="capteurs-temperature" data-onglet="pt100">
+
+    <ol class="questions-tp">
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Écrire la relation R(T) = R₀ × (1 + α × T) en précisant la signification de chaque grandeur et leurs unités.
+          </strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-pt100-1" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Calculer la température indiquée par la sonde Pt100 à partir de la résistance mesurée, en détaillant le calcul.
+          </strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-pt100-2" rows="5" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Comparer la température calculée à celle du thermomètre de référence pour les deux mesures réalisées et proposer une explication à l'écart observé.
+          </strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-pt100-3" rows="5" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Valider ou non le caractère linéaire de la Pt100 sur la plage de température explorée, en vous appuyant sur vos deux mesures.
+          </strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-pt100-4" rows="5" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique de cet onglet :</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
+        </div>
+        <p class="problematique-rappel" data-activite="pt100"></p>
+        <div class="zone-eleve">
+          <textarea id="question-pt100-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
+        </div>
+      </li>
+
+    </ol>
+
+    </div>
+
+    <div class="questions-bloc" data-tp="capteurs-temperature" data-onglet="thermocouple">
+
+    <ol class="questions-tp">
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Expliquer comment un thermocouple produit une tension et pourquoi une soudure de référence est nécessaire.
+          </strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-thermocouple-1" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Calculer la température du milieu étudié à partir de la tension mesurée et du type de thermocouple choisi, en détaillant le calcul.
+          </strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-thermocouple-2" rows="5" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Comparer la température calculée à la température de référence au thermomètre à liquide et proposer une explication à l'écart.
+          </strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-thermocouple-3" rows="5" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Justifier le choix du type de thermocouple utilisé (K, J ou T) pour la plage de température de la manipulation.
+          </strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-thermocouple-4" rows="5" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique de cet onglet :</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
+        </div>
+        <p class="problematique-rappel" data-activite="thermocouple"></p>
+        <div class="zone-eleve">
+          <textarea id="question-thermocouple-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
+        </div>
+      </li>
+
+    </ol>
+
+    </div>
+
+    <div class="questions-bloc" data-tp="capteurs-temperature" data-onglet="ir-cristaux">
+
+    <ol class="questions-tp">
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Décrire le principe de fonctionnement d'un thermomètre à infrarouge et celui d'un thermomètre à cristaux liquides.
+          </strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-ir-cristaux-1" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Donner la température mesurée à l'infrarouge, la température de référence par contact et l'écart IR − contact obtenus pour la même surface.
+          </strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-ir-cristaux-2" rows="5" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Comparer les trois résultats (infrarouge, contact, cristaux liquides) et identifier le capteur le plus précis ainsi que les sources d'écart.
+          </strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-ir-cristaux-3" rows="5" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Indiquer les limites d'une mesure sans contact (émissivité de la surface, distance, surface réfléchissante) et en tirer une précaution d'emploi.
+          </strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-ir-cristaux-4" rows="5" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique de cet onglet :</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
+        </div>
+        <p class="problematique-rappel" data-activite="ir-cristaux"></p>
+        <div class="zone-eleve">
+          <textarea id="question-ir-cristaux-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
         </div>
       </li>
 
@@ -760,13 +1052,13 @@
 
     </div>
 
-    <div class="radar-actions" style="margin-top:var(--gap-lg);">
+    <div class="radar-actions">
 
       <button id="btn-radar" class="btn btn-primaire">
         📊 Générer mon radar de compétences
       </button>
 
-      <div id="radar-resultat" style="margin-top:var(--gap-md);"></div>
+      <div id="radar-resultat"></div>
 
     </div>
 
@@ -799,7 +1091,7 @@
       </button>
     </div>
 
-    <div class="info" style="margin-top:var(--gap-md);">
+    <div class="info">
       L'impression récupère automatiquement :
       <ul>
         <li>les réponses aux questions ;</li>
@@ -833,6 +1125,6 @@
 <!-- CONTENEUR IMPRESSION COMPTE RENDU                       -->
 <!-- ====================================================== -->
 
-<div id="cr-print-container" style="display:none;"></div>
+<div id="cr-print-container" hidden></div>
 
 </section>

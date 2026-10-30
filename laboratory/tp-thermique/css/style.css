@@ -29,3 +29,105 @@
    matériel, radar, graphique, histogramme, cartouches, quiz,
    problématique, champ-erreur...) vient désormais de tp.css et
    css/domaine.css — plus aucune duplication propre à ce domaine. */
+
+/* ════════════════════════════════════════════════════════════════
+   COMPLÉMENTS DU DOMAINE THERMIQUE
+   Accordéon « Matériel » (Équipements, Verrerie) et zoom des
+   illustrations. À migrer dans css/domaine.css dès qu'un autre
+   domaine les réutilise.
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── Accordéon matériel (replié par défaut : <details> sans open) ── */
+.accordeon-materiel {
+  border: 1px solid var(--gris-bordure, #D9D9D9);
+  border-radius: 10px;
+  background: #FFFFFF;
+  margin-bottom: var(--gap-md, 1rem);
+}
+.accordeon-materiel > summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  color: var(--domaine-accent-fonce);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.accordeon-materiel > summary::-webkit-details-marker { display: none; }
+.accordeon-materiel > summary::before {
+  content: "\25B6";
+  font-size: 0.8em;
+  color: var(--domaine-accent);
+  transition: transform 0.2s ease;
+}
+.accordeon-materiel[open] > summary::before { transform: rotate(90deg); }
+.accordeon-materiel > summary:focus-visible {
+  outline: 3px solid rgba(var(--domaine-accent-rgb), 0.45);
+  outline-offset: 2px;
+  border-radius: 10px;
+}
+.accordeon-materiel > .grille-materiel { padding: 0 1rem 1rem; }
+
+/* ── Zoom des illustrations ── */
+.zoom-conteneur { position: relative; }
+.zoom-conteneur > img[data-zoom] { cursor: zoom-in; max-width: 100%; }
+/* Les SVG sont des bandeaux 1400×459 : on annule la hauteur fixe (560 px) de .mode-image. */
+.zoom-conteneur > img.mode-image { height: auto; }
+
+.btn-zoom {
+  width: 2.4rem;
+  height: 2.4rem;
+  border: none;
+  border-radius: 50%;
+  background: var(--bleu-cuivre, #1B6CA8);
+  color: #FFFFFF;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+.btn-zoom:hover { filter: brightness(1.12); }
+.btn-zoom:focus-visible { outline: 3px solid #FFFFFF; outline-offset: 2px; box-shadow: 0 0 0 5px var(--bleu-cuivre, #1B6CA8); }
+
+.btn-zoom-ouvrir { position: absolute; top: 0.5rem; right: 0.5rem; }
+
+.zoom-fenetre {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(17, 24, 39, 0.82);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3.5rem 1rem 1rem;
+}
+.zoom-fenetre[hidden] { display: none; }
+.zoom-fenetre .btn-zoom-fermer { position: absolute; top: 0.8rem; right: 0.8rem; }
+.zoom-image {
+  width: min(96vw, 1400px);
+  max-height: 100%;
+  object-fit: contain;
+  background: #FFFFFF;
+  border-radius: 14px;
+}
+body.zoom-ouvert { overflow: hidden; }
+
+@media print {
+  .btn-zoom, .zoom-fenetre { display: none !important; }
+}
+
+
+/* ── Problématique en tête d'onglet (R4-R5) : même habillage que .problematique-rappel (tp.css) ── */
+.problematique-onglet {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: var(--gap-md, 1rem);
+}
+.problematique-onglet > strong { color: var(--domaine-accent-fonce); }
+.problematique-onglet > .problematique-rappel { margin: 0; }

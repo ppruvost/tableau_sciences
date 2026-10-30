@@ -24,6 +24,7 @@ let viewer = null;
 let promesseViewer = null;
 let promesseJSON = null;
 let numeroRecherche = 0;
+let derniereDemande = ""; // nom déjà lancé depuis un TP (évite une double recherche)
 
 // ===============================
 // Utilitaires
@@ -143,6 +144,11 @@ async function display3D(structure, format = "xyz") {
     v.addModel(format === "xyz" ? reparerXYZ(structure) : structure, format);
     v.setStyle({}, { stick: {}, sphere: { scale: 0.3 } });
     v.zoomTo();
+    // Vue initiale en perspective : sans cela, les molécules symétriques
+    // (ex. octaèdre) apparaissent « à plat » et les atomes touchent les bords.
+    v.rotate(25, "x");
+    v.rotate(30, "y");
+    v.zoom(0.85);
     v.render();
     message("");
     return true;
@@ -318,11 +324,39 @@ window.addEventListener("DOMContentLoaded", () => {
     }).observe($("viewer"));
   }
 
-  // Lien depuis un TP : molecule/index.html?q=éthanol
+  // Lien depuis un TP : molecule/index.html?q=éthanol (ou #q=éthanol).
   // -> champ prérempli et recherche lancée directement.
-  const demande = params.get("q");
-  if (demande && demande.trim()) {
-    champ.value = demande.trim();
-    searchMolecule();
+  const demande = demandeDepuisURL(params);
+  if (demande) lancerDemande(demande);
+
+  // Canal de secours : la page parente envoie le nom par postMessage
+  // (utile si le serveur a supprimé ?q= lors d'une redirection).
+  window.addEventListener("message", e => {
+    if (e.source !== window.parent || e.data?.type !== "mol3d:recherche") return;
+    lancerDemande(String(e.data.nom ?? ""));
+  });
+
+  // Prévient la fenêtre parente que le viewer est prêt à recevoir un nom.
+  if (window.parent !== window) {
+    window.parent.postMessage({ type: "mol3d:pret" }, "*");
   }
 });
+
+// Nom demandé dans l'URL : ?q=... en priorité, sinon #q=...
+function demandeDepuisURL(params) {
+  const q = params.get("q");
+  if (q && q.trim()) return q.trim();
+
+  const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+  const h = hash.get("q");
+  return h && h.trim() ? h.trim() : "";
+}
+
+// Remplit le champ et lance la recherche, une seule fois par nom.
+function lancerDemande(nom) {
+  const demande = nom.trim();
+  if (!demande || demande === derniereDemande) return;
+  derniereDemande = demande;
+  $("search").value = demande;
+  searchMolecule();
+}

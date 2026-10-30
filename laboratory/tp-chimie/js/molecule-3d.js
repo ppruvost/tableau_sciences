@@ -203,8 +203,14 @@ export function zone3DApres(element, id) {
    ========================================================== */
 
 export function urlViewer(nom) {
-  // embed=1 : mise en page compacte du viewer (molécule visible sans défiler)
-  return `${URL_VIEWER}?q=${encodeURIComponent(nom)}&embed=1`;
+  // embed=1 : mise en page compacte du viewer (molécule visible sans défiler).
+  // Le nom est transmis par TROIS canaux, car certains serveurs / redirections
+  // suppriment la chaîne de requête (?q=) :
+  //   1. ?q=<nom>   2. #q=<nom> (l'ancre survit aux redirections)
+  //   3. message postMessage envoyé à l'iframe une fois chargée (voir plus bas).
+  // t=... évite qu'une ancienne version de la page viewer reste en cache.
+  const q = encodeURIComponent(nom);
+  return `${URL_VIEWER}?q=${q}&embed=1&t=${Date.now()}#q=${q}`;
 }
 
 /* ==========================================================
@@ -213,6 +219,14 @@ export function urlViewer(nom) {
 
 let fenetre = null;
 let declencheur = null;
+let nomCourant = '';
+
+/** Envoie le nom à la page viewer (iframe) : canal de secours si ?q= est perdu. */
+function envoyerNomAuViewer() {
+  const cadre = fenetre?.querySelector('.mol3d-cadre');
+  if (!cadre?.contentWindow || !nomCourant) return;
+  cadre.contentWindow.postMessage({ type: 'mol3d:recherche', nom: nomCourant }, '*');
+}
 
 function creerFenetre() {
   if (fenetre) return fenetre;
@@ -234,15 +248,29 @@ function creerFenetre() {
   fenetre.addEventListener('click', e => {
     if (e.target === fenetre || e.target.closest('.mol3d-fermer')) fermerMolecule3D();
   });
+
+  // Dès que l'iframe est chargée, on lui donne le nom à chercher.
+  fenetre.querySelector('.mol3d-cadre').addEventListener('load', envoyerNomAuViewer);
+
+  // Le viewer signale aussi lui-même qu'il est prêt (au cas où « load » serait passé trop tôt).
+  window.addEventListener('message', e => {
+    const cadre = fenetre?.querySelector('.mol3d-cadre');
+    if (cadre && e.source === cadre.contentWindow && e.data?.type === 'mol3d:pret') {
+      envoyerNomAuViewer();
+    }
+  });
   return fenetre;
 }
 
 export function ouvrirMolecule3D(nom, bouton = null) {
   creerFenetre();
   declencheur = bouton;
+  nomCourant = nom;
   fenetre.querySelector('.mol3d-titre').textContent = nom;
-  fenetre.querySelector('.mol3d-cadre').src = urlViewer(nom);
+  // La fenêtre est affichée AVANT de charger le viewer : le conteneur 3D
+  // a ainsi une taille mesurable dès le démarrage.
   fenetre.hidden = false;
+  fenetre.querySelector('.mol3d-cadre').src = urlViewer(nom);
   document.body.classList.add('mol3d-ouverte');
   fenetre.querySelector('.mol3d-fermer').focus();
 }
@@ -250,6 +278,7 @@ export function ouvrirMolecule3D(nom, bouton = null) {
 export function fermerMolecule3D() {
   if (!fenetre || fenetre.hidden) return;
   fenetre.hidden = true;
+  nomCourant = '';
   fenetre.querySelector('.mol3d-cadre').src = 'about:blank'; // libère le contexte WebGL
   document.body.classList.remove('mol3d-ouverte');
   if (declencheur && declencheur.isConnected) declencheur.focus();
