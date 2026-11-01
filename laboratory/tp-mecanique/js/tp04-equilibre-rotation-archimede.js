@@ -166,7 +166,7 @@ export function init() {
     initImpressionCompteRendu({
       titre: "Équilibre en rotation et force d'Archimède",
       tp: 'TP04',
-      sectionsSupplementaires: () => [construireSectionRelevesFlexion()],
+      sectionsComplementaires: () => [construireSectionRelevesFlexion()],
     });
   });
 
@@ -285,6 +285,9 @@ function initArchimede() {
 // Retourne null si aucun relevé n'a été fait, pour ne pas polluer le
 // compte-rendu des élèves qui n'ont pas utilisé cet onglet.
 function construireSectionRelevesFlexion() {
+  // Relevés repris uniquement si l'onglet « Flexion d'une poutre » est actif.
+  if (!document.getElementById('flexion-poutre')?.classList.contains('actif')) return null;
+
   const lignes = document.querySelectorAll('#flex-releves-corps tr');
   if (!lignes.length) return null;
 

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VisioCam – ExAO vidéo : pointage, vitesse et accélération</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>VisioCam – ExAO vidéo</h1>
+  <p>Caméra du smartphone (USB) ou vidéo importée · pointage image par image · trajectoire, vitesse et accélération</p>
+</header>
+
+<div id="warn" class="warn" hidden></div>
+
+<main>
+  <section class="card" aria-labelledby="h-guide">
+    <h2 id="h-guide">Démarche <span id="guideTp" class="badge sim"></span></h2>
+    <ol id="guideEtapes" class="etapes"></ol>
+  </section>
+
+  <section class="card" aria-labelledby="h-source">
+    <h2 id="h-source">1. Source vidéo</h2>
+    <div class="sources">
+      <div class="bloc">
+        <h3>A. Caméra branchée (smartphone en USB, webcam)</h3>
+        <div class="row">
+          <label>Caméra
+            <select id="selCamera"><option value="">(cliquez sur « Activer la caméra »)</option></select>
+          </label>
+          <button id="btnListe" type="button">Actualiser la liste</button>
+        </div>
+        <div class="row">
+          <label>Résolution
+            <select id="selRes">
+              <option value="640x480">640 × 480</option>
+              <option value="1280x720" selected>1280 × 720</option>
+              <option value="1920x1080">1920 × 1080</option>
+            </select>
+          </label>
+          <label>Cadence demandée
+            <select id="selFps">
+              <option value="30" selected>30 images/s</option>
+              <option value="60">60 images/s</option>
+            </select>
+          </label>
+        </div>
+        <div class="row">
+          <button id="btnCam" class="primary" type="button">Activer la caméra</button>
+          <button id="btnCamStop" type="button" disabled>Arrêter la caméra</button>
+          <button id="btnRec" type="button" disabled>● Enregistrer</button>
+          <span id="chrono" class="badge off" aria-live="off">0,0 s</span>
+        </div>
+        <video id="live" class="live" muted playsinline hidden></video>
+        <div class="row">
+          <button id="btnTelecharger" type="button" disabled>Télécharger l’enregistrement</button>
+        </div>
+      </div>
+
+      <div class="bloc">
+        <h3>B. Vidéo enregistrée (fichier du smartphone)</h3>
+        <div class="row">
+          <label>Fichier vidéo (.mp4, .webm, .mov)
+            <input id="fichier" type="file" accept="video/*">
+          </label>
+          <label>Cadence du fichier (images/s)
+            <input id="fpsFichier" type="number" min="1" max="1000" step="any" placeholder="auto (mesurée)">
+          </label>
+        </div>
+        <p class="hint">Meilleure précision : filmer avec l’appareil photo du smartphone en 60, 120 ou 240 images/s (ralenti),
+          puis copier le fichier par USB. Laissez la cadence vide pour qu’elle soit mesurée automatiquement ; pour une vidéo
+          <b>au ralenti</b>, indiquez la cadence de <b>prise de vue</b> (ex. 240), pas celle de lecture.</p>
+      </div>
+
+      <div class="bloc">
+        <h3>C. Démonstration (sans matériel)</h3>
+        <div class="row">
+          <label>Scène
+            <select id="selDemo">
+              <option value="mru">Chariot à vitesse constante</option>
+              <option value="mrua">Chariot sur plan incliné</option>
+              <option value="chute">Chute libre d’une balle</option>
+              <option value="rot">Disque en rotation</option>
+            </select>
+          </label>
+          <button id="btnDemo" type="button">Mode démonstration</button>
+        </div>
+        <p id="demoInfo" class="hint"></p>
+      </div>
+    </div>
+    <div id="message" class="info" role="status" aria-live="polite" hidden></div>
+
+    <details class="aide">
+      <summary>Brancher le smartphone en USB (Lubuntu / Windows)</summary>
+      <ul>
+        <li><b>Sans pilote, le plus précis :</b> filmer avec l’appli Appareil photo (60 à 240 images/s), copier la vidéo sur l’ordinateur par câble USB (mode « Transfert de fichiers »), puis la charger en <b>B</b>.</li>
+        <li><b>Caméra en direct, Android 14 ou plus :</b> brancher le câble, ouvrir les préférences USB du téléphone et choisir « Webcam » : il apparaît comme une caméra dans la liste <b>A</b> (Lubuntu et Windows).</li>
+        <li><b>Caméra en direct, autres cas :</b> <code>scrcpy</code> + <code>v4l2loopback</code> (Lubuntu), DroidCam ou OBS « caméra virtuelle » (Windows et Lubuntu). Détails dans <code>README.md</code>.</li>
+        <li>Fermez toute autre application qui utilise la caméra (visio, DroidCam, OBS…) avant de cliquer sur « Activer la caméra ».</li>
+      </ul>
+    </details>
+  </section>
+
+  <section class="card" aria-labelledby="h-pointage">
+    <h2 id="h-pointage">2. Pointage image par image</h2>
+    <div class="cadre-video" id="cadre">
+      <canvas id="cvVideo" width="960" height="540"></canvas>
+      <canvas id="cvOverlay" width="960" height="540" aria-label="Image de la vidéo : cliquez sur l’objet pour le pointer"></canvas>
+      <canvas id="loupe" width="132" height="132" hidden></canvas>
+      <p id="vide" class="vide">Choisissez une source vidéo (A, B ou C) pour commencer.</p>
+    </div>
+
+    <div class="row nav">
+      <button id="btnPrev10" type="button" title="10 images en arrière" disabled>⏮ −10</button>
+      <button id="btnPrev" type="button" title="Image précédente (←)" disabled>◀ −1</button>
+      <input id="glisseur" type="range" min="0" max="0" value="0" step="1" aria-label="Numéro de l’image" disabled>
+      <button id="btnNext" type="button" title="Image suivante (→)" disabled>+1 ▶</button>
+      <button id="btnNext10" type="button" title="10 images en avant" disabled>+10 ⏭</button>
+      <button id="btnPlay" type="button" disabled>▶ Lecture</button>
+    </div>
+    <p id="infoImage" class="sub" aria-live="polite">—</p>
+
+    <div class="row">
+      <label>Mode
+        <select id="mode">
+          <option value="translation" selected>Translation (objet qui se déplace)</option>
+          <option value="rotation">Rotation (point d’un disque)</option>
+        </select>
+      </label>
+      <label>Cadence de la vidéo (images/s)
+        <input id="fps" type="number" min="1" max="1000" step="any" value="30">
+      </label>
+      <button id="btnDetectFps" type="button" disabled>Mesurer la cadence</button>
+      <label>Pas de pointage (images)
+        <input id="pas" type="number" min="1" max="50" step="1" value="1">
+      </label>
+      <label>Vitesse de lecture
+        <select id="vitesseLecture">
+          <option value="0.25">× 0,25</option><option value="0.5" selected>× 0,5</option><option value="1">× 1</option>
+        </select>
+      </label>
+    </div>
+
+    <fieldset class="outils">
+      <legend>Outil actif</legend>
+      <label class="chk"><input type="radio" name="outil" value="pointer" checked> Pointer l’objet</label>
+      <label class="chk"><input type="radio" name="outil" value="etalon"> Étalon (2 clics)</label>
+      <label class="chk"><input type="radio" name="outil" value="origine"> Origine O du repère</label>
+      <label class="chk"><input type="radio" name="outil" value="centre"> Centre de rotation</label>
+    </fieldset>
+
+    <div class="row">
+      <label>Longueur de l’étalon (m)
+        <input id="etalonLong" type="number" min="0.001" step="any" value="1">
+      </label>
+      <label class="chk"><input id="alignAxe" type="checkbox"> Axe Ox le long de l’étalon</label>
+      <span id="etalonInfo" class="hint">Étalon : non défini (valeurs en pixels).</span>
+    </div>
+
+    <div class="row">
+      <button id="btnSuivi" type="button" disabled>🎯 Suivi automatique</button>
+      <button id="btnSuiviStop" type="button" disabled>■ Arrêter le suivi</button>
+      <button id="btnFin" type="button" disabled>Fin du suivi : cette image</button>
+      <span id="plage" class="hint"></span>
+    </div>
+    <details class="aide">
+      <summary>Réglages du suivi automatique</summary>
+      <div class="row">
+        <label>Demi-côté du gabarit (px)
+          <input id="gabarit" type="number" min="4" max="80" step="1" value="14">
+        </label>
+        <label>Recherche à ± (px par image)
+          <input id="recherche" type="number" min="5" max="300" step="1" value="60">
+        </label>
+        <label>Tolérance (écart moyen, 0–255)
+          <input id="tolerance" type="number" min="5" max="255" step="1" value="45">
+        </label>
+        <label class="chk"><input id="majGabarit" type="checkbox"> Mettre à jour le gabarit à chaque image</label>
+      </div>
+      <p class="hint">Pointez d’abord l’objet sur l’image de départ, puis lancez le suivi. Corrigez ensuite une image en cliquant à nouveau sur l’objet.</p>
+    </details>
+
+    <div class="row">
+      <button id="btnSupprPoint" type="button" disabled>Supprimer le point de cette image</button>
+      <button id="btnEffacer" type="button" disabled>Tout effacer</button>
+      <label class="chk"><input id="voirVecV" type="checkbox"> Vecteurs vitesse</label>
+      <label class="chk"><input id="voirVecA" type="checkbox"> Vecteurs accélération</label>
+      <label>Longueur du plus grand vecteur (px)
+        <input id="longVec" type="range" min="30" max="260" value="90">
+      </label>
+      <button id="btnPng" type="button" disabled>Chronophotographie (PNG)</button>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="h-res">
+    <h2 id="h-res">3. Résultats et graphiques</h2>
+    <div class="tabs" role="tablist" aria-label="Graphiques">
+      <button type="button" role="tab" class="tab actif" data-vue="trajectoire" aria-selected="true">Trajectoire y(x)</button>
+      <button type="button" role="tab" class="tab" data-vue="xyt" aria-selected="false">x(t) et y(t)</button>
+      <button type="button" role="tab" class="tab" data-vue="v" aria-selected="false">Vitesse v(t)</button>
+      <button type="button" role="tab" class="tab" data-vue="a" aria-selected="false">Accélération a(t)</button>
+      <button type="button" role="tab" class="tab" data-vue="theta" aria-selected="false" id="tabTheta" hidden>Angle θ(t)</button>
+      <button type="button" role="tab" class="tab" data-vue="tableau" aria-selected="false">Tableau</button>
+    </div>
+
+    <div class="row">
+      <label>Intervalle d’étude : de t =
+        <input id="t1" type="number" step="any">
+      </label>
+      <label>à t =
+        <input id="t2" type="number" step="any">
+      </label>
+      <button id="btnToutes" type="button">Toutes les mesures</button>
+      <label>Lissage des positions
+        <select id="lissage">
+          <option value="1" selected>aucun</option><option value="3">3 points</option><option value="5">5 points</option>
+        </select>
+      </label>
+    </div>
+    <p class="hint">Astuce : faites glisser la souris sur un graphique en fonction du temps pour choisir l’intervalle d’étude.</p>
+
+    <canvas id="graphe" class="graphe" width="900" height="450" role="img" aria-label="Graphique des résultats"></canvas>
+    <div id="tableauZone" class="table-scroll" hidden>
+      <table id="tableau"></table>
+    </div>
+
+    <div class="row">
+      <button id="btnCsv" type="button" disabled>Exporter CSV</button>
+      <button id="btnCopier" type="button" disabled>Copier le tableau (tableur)</button>
+      <button id="btnPngGraphe" type="button" disabled>Graphique (PNG)</button>
+      <label class="chk"><input id="csvFr" type="checkbox" checked> Format français (« ; » et virgule décimale)</label>
+    </div>
+
+    <h3>Bilan sur l’intervalle d’étude</h3>
+    <div id="bilan" class="bilan" aria-live="polite"><p class="hint">Aucune mesure pour le moment.</p></div>
+  </section>
+</main>
+
+<script src="calcul.js"></script>
+<script src="graphes.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

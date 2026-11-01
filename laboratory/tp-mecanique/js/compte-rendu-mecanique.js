@@ -13,7 +13,7 @@
  *   2. travail réalisé dans les onglets de manipulation :
  *        - sectionsSupplementaires() si le TP la fournit (ex. TP03 : relevés
  *          Boyle-Mariotte et ExAO, TP04 : relevés de flexion) ;
- *        - sinon capture automatique des onglets : valeurs saisies, résultats
+ *        - sinon capture automatique de l'ONGLET ACTIF uniquement : valeurs saisies, résultats
  *          calculés (.resultat-calcul[id*="resultat"]), tableaux de mesures
  *          (tbody[id] ou cellules de saisie) et graphiques (.graphique-conteneur) ;
  *   3. questions et réponses (numérotées) ;
@@ -169,9 +169,13 @@ function construireSectionsManipulations() {
   let panneaux = [...document.querySelectorAll('[data-type="preparation"] .tab-panel')];
   if (!panneaux.length) panneaux = [...document.querySelectorAll('.tab-panel')];
 
-  return panneaux
-    .filter(p => !p.closest('.questions-bloc'))
-    .flatMap(sectionsDepuisOnglet);
+  panneaux = panneaux.filter(p => !p.closest('.questions-bloc'));
+
+  // Seul l'onglet de manipulation actif est imprimé (comme pour les questions).
+  // Si aucun onglet n'est marqué actif (TP sans onglets), on garde tout.
+  const actifs = panneaux.filter(p => p.classList.contains('actif'));
+
+  return (actifs.length ? actifs : panneaux).flatMap(sectionsDepuisOnglet);
 }
 
 /* ==========================================================
@@ -320,11 +324,15 @@ function construireSectionAutoEvaluation() {
  *        propres au TP (ex. tableau de mesures + graphique). Si elle ne
  *        retourne rien, les onglets de manipulation sont capturés
  *        automatiquement.
+ * @param {() => Object[]} [params.sectionsComplementaires]
+ *        Fonction appelée au moment de l'impression ; ses sections sont
+ *        AJOUTÉES à la capture automatique de l'onglet actif (contrairement
+ *        à sectionsSupplementaires, qui la remplace).
  * @param {() => ({canvas: HTMLCanvasElement, titre: string}|null)[]} [params.canvasesSupplementaires]
  *        Fonction appelée au moment de l'impression ; retourne les courbes
  *        (canvas) à capturer en image dans le compte rendu.
  */
-export function initImpressionCompteRendu({ titre, tp, sectionsSupplementaires, canvasesSupplementaires }) {
+export function initImpressionCompteRendu({ titre, tp, sectionsSupplementaires, sectionsComplementaires, canvasesSupplementaires }) {
 
   const bouton = document.getElementById('btn-imprimer');
 
@@ -341,12 +349,16 @@ export function initImpressionCompteRendu({ titre, tp, sectionsSupplementaires, 
       ? (sectionsSupplementaires() || []).filter(Boolean)
       : [];
 
+    const complementaires = typeof sectionsComplementaires === 'function'
+      ? (sectionsComplementaires() || []).filter(Boolean)
+      : [];
+
     // Niveau et filière choisis par l'élève (contexte-pro.js)
     const filiere = await lireFiliere();
 
     const sections = [
       construireSectionContextePro(filiere),
-      ...(propres.length ? propres : construireSectionsManipulations()),
+      ...(propres.length ? propres : [...construireSectionsManipulations(), ...complementaires]),
       ...construireSectionsQuestions(),
       construireSectionAutoEvaluation(),
     ].filter(Boolean);
