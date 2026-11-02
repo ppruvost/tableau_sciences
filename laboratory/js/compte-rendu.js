@@ -13,6 +13,8 @@
  *   { titre, notation: true, competence, texte, rappel?, rappelEtiquette? }   (question notée 0 / 1 / 2 ;
  *     `rappel` = texte de l'énoncé rappelé au-dessus de la réponse, ex. la problématique)
  *   { titre, texte }                               (texte libre)
+ *   { titre, texte, code: true }                   (texte en police à chasse fixe, indentation
+ *     conservée : programme Python, sortie de console…)
  * En-tête : niveau ('2nde' | '1ère' | 'Tle', pastille à côté de l'étiquette),
  *   marque: 'scilab' | 'mathilab' | 'pylab' | 'algolab' (logo + nom ; si absente, déduite
  *   du domaine / de l'étiquette TP : Algèbre, Analyse, Statistiques… → MathiLab ;
@@ -20,9 +22,12 @@
  *   discipline? (texte en haut à droite), domaine + tp (étiquette), titre (titre du TP).
  * Option graphique : echelle (0.5 = image à 50 % de la largeur).
  * Option commune : position: 'fin' → la rubrique est imprimée après les questions.
+ * Option commune : fluide: true → la rubrique peut se poursuivre sur la page suivante
+ *   (long tableau : il commence juste sous le bloc précédent, ses lignes ne sont jamais
+ *   coupées et l’en-tête du tableau est répété à chaque page).
  *
- * `canvas` (section) et `canvases[].canvas` acceptent un <canvas>, un <svg> ou un
- * conteneur qui en contient un (ex. <div class="graphique-conteneur">) ; le
+ * `canvas` (section) et `canvases[].canvas` acceptent un <canvas>, un <svg>, une <img>
+ * ou un conteneur qui en contient un (ex. <div class="graphique-conteneur">) ; le
  * graphique est capturé en image au moment de l'impression.
  *
  * Le matériel coché (.materiel-check-input dans #materiel-verrerie /
@@ -30,16 +35,24 @@
  *
  * Déroulement : aucune fenêtre intermédiaire. L'identité est lue dans la rubrique
  * « Identification » de la page (#nom-eleve, #prenom-eleve, #classe-eleve,
- * #date-eleve ; nom et prénom obligatoires) et toutes les parties sont imprimées.
+ * #date-eleve ; nom et prénom obligatoires s'ils sont présents dans la page) et
+ * toutes les parties sont imprimées.
  * Le document est construit dans une iframe hors écran (copie des feuilles
  * de style de la page + compte-rendu.css), puis imprimé : l'élève choisit
  * « Enregistrer au format PDF ». Le titre du document est
- * NOM_Prenom_TPxx_compte-rendu, qui devient le nom de fichier proposé.
+ * NOM_Prenom_TPxx_compte-rendu_id=xxxxxxxx, qui devient le nom de fichier proposé.
+ *
+ * Identifiant unique : chaque génération reçoit un identifiant aléatoire
+ * (id=a3f9c2e1), imprimé en pied de chaque page et repris dans le titre du PDF.
+ * Il est produit par ../../id-pdf.js (fichier unique à la racine du dépôt,
+ * partagé par tous les comptes rendus).
  *
  * Pourquoi une iframe plutôt que body.cr-printing : si `afterprint` n'est pas
  * déclenché (iOS Safari, annulation sur certains navigateurs), la page restait
  * entièrement masquée ; l'iframe n'affecte jamais la page de l'élève.
  */
+
+import { marquerPdf } from '../../id-pdf.js';
 
 /* ==========================================================
    FEUILLE DE STYLE DU DOCUMENT
@@ -133,13 +146,16 @@ function svgVersImage(svg) {
   }
 }
 
-// <canvas>, <svg> ou conteneur d'un des deux → URL d'image (ou null).
+// <canvas>, <svg>, <img> ou conteneur d'un des trois → URL d'image (ou null).
 function elementVersImage(el) {
   if (!el) return null;
   if (typeof HTMLCanvasElement !== 'undefined' && el instanceof HTMLCanvasElement) {
     return canvasVersImage(el);
   }
   if (el.matches?.('svg')) return svgVersImage(el);
+
+  // Image déjà prête (ex. graphique Matplotlib de PyLab, en data: URI).
+  if (el.tagName === 'IMG') return el.currentSrc || el.src || null;
 
   const canvas = el.querySelector?.('canvas');
   if (canvas) {
@@ -212,9 +228,16 @@ function htmlSection(section) {
   if (section.tableau) corps += htmlTableau(section.tableau);
   if (section.canvas) corps += htmlGraphique(section.canvas, section.legende, section.echelle);
   if (section.texte && !section.notation) {
-    corps += `<div class="cr-texte-libre">${eMulti(section.texte)}</div>`;
+    // code: true → police à chasse fixe, indentation et espaces conservés
+    // (programme Python, sortie de console).
+    corps += section.code
+      ? `<pre class="cr-code">${e(section.texte)}</pre>`
+      : `<div class="cr-texte-libre">${eMulti(section.texte)}</div>`;
   }
-  return `<div class="cr-section">${section.titre ? `<h3>${e(section.titre)}</h3>` : ''}${corps}</div>`;
+  const fluide = section.fluide
+    ? ' style="break-inside:auto;page-break-inside:auto;"'
+    : '';
+  return `<div class="cr-section"${fluide}>${section.titre ? `<h3>${e(section.titre)}</h3>` : ''}${corps}</div>`;
 }
 
 function htmlQuestion(q) {
@@ -410,7 +433,33 @@ const CSS_NOYAU = `
   h3, h4 { break-after: avoid; page-break-after: avoid; }
   tr { break-inside: avoid; page-break-inside: avoid; }
   thead { display: table-header-group; }
+  /* Garde-fou : sans compte-rendu.css, le logo SVG (gabarit 34×40) remplirait la
+     page. Cette règle est placée AVANT les feuilles de style : compte-rendu.css,
+     quand il est chargé, garde la priorité. */
+  .cr-logo svg { width: 34px; height: 40px; flex: none; }
 `;
+
+// Attend le chargement des <link rel="stylesheet"> du document imprimé (3 s au plus
+// par feuille) et signale dans la console celles qui n'ont pas pu être chargées.
+function attendreFeuilles(doc) {
+  const liens = [...doc.querySelectorAll('link[rel="stylesheet"]')];
+
+  return Promise.all(liens.map(lien => new Promise(resolve => {
+    if (lien.sheet) return resolve();
+
+    const fin = setTimeout(() => {
+      console.warn('[compte-rendu] feuille de style non chargée :', lien.href);
+      resolve();
+    }, 3000);
+
+    lien.addEventListener('load', () => { clearTimeout(fin); resolve(); }, { once: true });
+    lien.addEventListener('error', () => {
+      clearTimeout(fin);
+      console.warn('[compte-rendu] feuille de style introuvable :', lien.href);
+      resolve();
+    }, { once: true });
+  })));
+}
 
 function imprimer(html, titreDocument) {
 
@@ -449,6 +498,10 @@ ${feuilles.map(h => `<link rel="stylesheet" href="${e(h)}">`).join('\n')}
       const win = frame.contentWindow;
       const doc = frame.contentDocument;
 
+      // Feuilles de style prêtes avant l'ouverture du dialogue : imprimer trop tôt
+      // donnait un PDF sans mise en page (logo géant, texte brut).
+      await attendreFeuilles(doc);
+
       // Polices et images (graphiques) prêtes avant l'ouverture du dialogue.
       try {
         await Promise.all([
@@ -467,8 +520,11 @@ ${feuilles.map(h => `<link rel="stylesheet" href="${e(h)}">`).join('\n')}
       win.addEventListener('afterprint', restaurer, { once: true });
       window.addEventListener('afterprint', restaurer, { once: true });
 
-      // Le titre devient le nom de fichier proposé à l'enregistrement du PDF.
-      document.title = titreDocument;
+      // Identifiant unique du PDF : pied de page sur chaque page imprimée, et
+      // titre du document (page + iframe) = NOM_Prenom_TPxx_compte-rendu_id=xxxxxxxx,
+      // qui devient le nom de fichier proposé à l'enregistrement du PDF.
+      // Appelé après la capture d'ancienTitre : restaurer() remet le titre d'origine.
+      marquerPdf(doc, titreDocument, doc.getElementById('cr-print-container'));
 
       try {
         win.focus();

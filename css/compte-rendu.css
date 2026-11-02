@@ -394,3 +394,25 @@
     .cr-identification { grid-template-columns: repeat(2, 1fr); }
   }
 }
+
+.cr-code {
+  margin: 4px 0;
+  padding: 6px 8px;
+
+  font-family: "DejaVu Sans Mono", Consolas, "Courier New", monospace;
+  font-size: 9pt;
+  line-height: 1.4;
+
+  white-space: pre-wrap;
+  word-break: break-word;
+
+  background: #F5F8FC;
+  border: 1px solid #C9D6E5;
+  border-radius: 4px;
+}
+
+/* un long programme peut continuer sur la page suivante */
+.cr-section:has(> .cr-code) {
+  break-inside: auto;
+  page-break-inside: auto;
+}

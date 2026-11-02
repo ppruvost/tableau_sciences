@@ -781,28 +781,27 @@
     etat.fpsLive = s.frameRate || fps;
     dire(`Caméra active : ${piste.label || 'caméra'} — ${s.width}×${s.height} à ${Math.round(s.frameRate || 0)} images/s. Placez le mobile et l’étalon dans le champ, puis cliquez sur « Enregistrer ».`, 'ok');
     piste.addEventListener('ended', () => { dire('La caméra a été déconnectée (câble USB ?).', 'erreur'); arreterCamera(); });
-    $('btnCam').disabled = true; $('btnCamStop').disabled = false; $('btnRec').disabled = false;
+    $('btnCam').disabled = true; $('btnCamStop').disabled = false; $('btnRec').disabled = false; $('btnRecStop').disabled = true;
     await listerCameras();
     if ([...$('selCamera').options].some(o => o.value === piste.getSettings().deviceId)) $('selCamera').value = piste.getSettings().deviceId;
   }
 
   function arreterCamera() {
-    if (etat.enreg && etat.rec) { try { etat.rec.onstop = null; etat.rec.stop(); } catch (e) {} etat.enreg = false; clearInterval(etat.horloge); }
+    if (etat.enreg && etat.rec) arreterEnregistrement();   // l'enregistrement en cours est conservé, pas abandonné
     if (etat.flux) etat.flux.getTracks().forEach(t => t.stop());
     etat.flux = null;
     const live = $('live'); live.srcObject = null; live.hidden = true;
     $('btnCam').disabled = !cameraPossible; $('btnCamStop').disabled = true; $('btnRec').disabled = true;
-    $('btnRec').textContent = '● Enregistrer';
-    $('chrono').className = 'badge off';
+    if (!etat.enreg) { $('btnRecStop').disabled = true; $('chrono').className = 'badge idle'; $('chrono').textContent = 'Prêt'; }
   }
 
   const DUREE_MAX = 30;
-  function basculerEnregistrement() {
-    if (etat.enreg) { etat.rec.stop(); return; }
+  function demarrerEnregistrement() {
+    if (etat.enreg) return;
     if (!etat.flux || typeof MediaRecorder === 'undefined') { dire('Enregistrement impossible dans ce navigateur : filmez avec le smartphone et utilisez la source B.', 'erreur'); return; }
     const types = ['video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm', 'video/mp4'];
     const mime = types.find(t => MediaRecorder.isTypeSupported(t)) || '';
-    etat.morceaux = [];
+    etat.morceaux = []; etat.termine = false;
     let rec;
     try { rec = new MediaRecorder(etat.flux, mime ? { mimeType: mime, videoBitsPerSecond: 8e6 } : { videoBitsPerSecond: 8e6 }); }
     catch (e) { dire('Enregistrement impossible : ' + e.message, 'erreur'); return; }
@@ -823,31 +822,53 @@
     }
     etat.rec = rec; etat.enreg = true; etat.debutEnreg = performance.now();
     rec.start(250);
-    $('btnRec').textContent = '■ Arrêter l’enregistrement'; $('chrono').className = 'badge on';
+    $('btnRec').disabled = true; $('btnRecStop').disabled = false; $('btnCamStop').disabled = true;
+    $('chrono').className = 'badge rec'; $('chrono').textContent = '● REC 0,0 s';
+    dire('Enregistrement en cours… cliquez sur « ■ Arrêter l’enregistrement » pour le terminer (30 s maximum).');
     etat.horloge = setInterval(() => {
       const s = (performance.now() - etat.debutEnreg) / 1000;
-      $('chrono').textContent = s.toFixed(1).replace('.', ',') + ' s';
-      if (s >= DUREE_MAX) { clearInterval(etat.horloge); try { etat.rec.stop(); } catch (e) {} }
+      $('chrono').textContent = '● REC ' + s.toFixed(1).replace('.', ',') + ' s';
+      if (s >= DUREE_MAX) arreterEnregistrement();
     }, 100);
   }
 
-  async function terminerEnregistrement() {
+  /* Arrête l'enregistrement et traite la vidéo ; un délai de secours évite de la perdre si l'événement « stop » n'arrive pas. */
+  function arreterEnregistrement() {
     clearInterval(etat.horloge);
+    const rec = etat.rec;
+    if (!rec) return;
+    if (rec.state !== 'inactive') {
+      try { rec.requestData(); } catch (e) {}
+      try { rec.stop(); } catch (e) {}
+    }
+    clearTimeout(etat.secours);
+    etat.secours = setTimeout(terminerEnregistrement, 2500);
+  }
+
+  async function terminerEnregistrement() {
+    if (etat.termine) return;
+    etat.termine = true;
+    clearTimeout(etat.secours); clearInterval(etat.horloge);
     const duree = (performance.now() - etat.debutEnreg) / 1000;
     etat.enreg = false;
-    $('btnRec').textContent = '● Enregistrer'; $('chrono').className = 'badge off';
+    $('btnRec').disabled = !etat.flux; $('btnRecStop').disabled = true; $('btnCamStop').disabled = !etat.flux;
+    $('chrono').className = 'badge idle'; $('chrono').textContent = 'Prêt';
     const type = (etat.rec && etat.rec.mimeType) || 'video/webm';
     const blob = new Blob(etat.morceaux, { type });
+    if (!blob.size) { dire('Enregistrement vide : la caméra n’a envoyé aucune image. Vérifiez que le flux du smartphone est toujours actif (terminal « scrcpy »).', 'erreur'); return; }
     etat.dernierBlob = blob; $('btnTelecharger').disabled = false;
+    dire(`Enregistrement terminé (${fmt(duree)} s). Chargement pour le pointage…`);
     const m = etat.mesure;
     let fps = m && m.n > 5 && m.t1 > m.t0 ? (m.n - 1) / ((m.t1 - m.t0) / 1000) : etat.fpsLive;
     fps = arrondirFps(fps);
-    await chargerVideo(URL.createObjectURL(blob), fps, duree, 'enregistrement de la caméra');
+    try { await chargerVideo(URL.createObjectURL(blob), fps, duree, 'enregistrement de la caméra'); }
+    catch (e) { dire('Chargement de l’enregistrement impossible : ' + (e && e.message || e) + '. Utilisez « Télécharger l’enregistrement » puis la source B.', 'erreur'); }
   }
 
   $('btnCam').onclick = activerCamera;
   $('btnCamStop').onclick = arreterCamera;
-  $('btnRec').onclick = basculerEnregistrement;
+  $('btnRec').onclick = demarrerEnregistrement;
+  $('btnRecStop').onclick = arreterEnregistrement;
   $('btnListe').onclick = listerCameras;
   $('btnTelecharger').onclick = () => {
     if (!etat.dernierBlob) return;

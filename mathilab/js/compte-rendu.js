@@ -1,3 +1,5 @@
+import { marquerPdf } from '../../id-pdf.js';
+
 const GLOBAL_CSS_HREF = new URL('../css/global.css', import.meta.url).href;
 const RESET_CSS_HREF  = new URL('../../css/reset.css', import.meta.url).href;
 const CSS_HREF         = new URL('../../css/compte-rendu.css', import.meta.url).href;
@@ -334,6 +336,9 @@ function _construireEtImprimer(identite) {
   }
 
   conteneur.innerHTML = contenuHTML;
+
+  // Identifiant unique du PDF : pied de page visible + titre du fichier
+  marquerPdf(document, 'CR-' + (_config.tp || _config.titre), conteneur);
 
   // force le navigateur à calculer la mise en page
   void conteneur.offsetHeight;

@@ -146,46 +146,62 @@ for nombre in range(1, 6):
                 <!-- ACTIONS -->
                 <div class="editor-actions">
 
-                    <!-- Utilisé par app.js -->
-                    <button id="run" class="run-button" type="button" disabled>
-                        <i class="fas fa-play"></i>
-                        Exécuter
-                    </button>
+                    <!-- Boutons répartis sur deux lignes (3 + 3) -->
+                    <div class="editor-buttons">
 
-                    <!-- Importer un script Python (.py) dans l'éditeur -->
-                    <button id="import" class="import-button" type="button">
-                        <i class="fas fa-file-import"></i>
-                        Importer le script
-                    </button>
+                        <!-- Utilisé par app.js -->
+                        <button id="run" class="run-button" type="button" disabled>
+                            <i class="fas fa-play"></i>
+                            Exécuter
+                        </button>
 
-                    <!-- Sélecteur de fichier caché, déclenché par le bouton ci-dessus -->
-                    <input id="importFile" type="file" accept=".py,.txt,text/x-python,text/plain" hidden>
+                        <!-- Importer un script Python (.py) dans l'éditeur -->
+                        <button id="import" class="import-button" type="button">
+                            <i class="fas fa-file-import"></i>
+                            Importer le script
+                        </button>
 
-                    <!-- Exporter le script Python -->
-                    <button id="export" class="export-button" type="button">
-                        <i class="fas fa-file-export"></i>
-                        Exporter le script
-                    </button>
+                        <!-- Sélecteur de fichier caché, déclenché par le bouton ci-dessus -->
+                        <input id="importFile" type="file" accept=".py,.txt,text/x-python,text/plain" hidden>
 
-                    <!-- Dictée vocale (transcription de la voix dans l'éditeur) -->
-                    <button id="mic" class="mic-button" type="button" data-mic
-                            aria-pressed="false"
-                            title="Dicter le code à la voix">
-                        <i class="fas fa-microphone"></i>
-                        <span class="mic-label">Dicter</span>
-                    </button>
+                        <!-- Exporter le script Python -->
+                        <button id="export" class="export-button" type="button">
+                            <i class="fas fa-file-export"></i>
+                            Exporter le script
+                        </button>
 
-                    <button id="clear" class="clear-button" type="button">
-                        <i class="fas fa-eraser"></i>
-                        Effacer
-                    </button>
+                        <!-- Dictée vocale (transcription de la voix dans l'éditeur) -->
+                        <button id="mic" class="mic-button" type="button" data-mic
+                                aria-pressed="false"
+                                title="Dicter le code à la voix">
+                            <i class="fas fa-microphone"></i>
+                            <span class="mic-label">Dicter</span>
+                        </button>
 
-                    <span id="micStatus" class="mic-status" aria-live="polite"></span>
+                        <button id="clear" class="clear-button" type="button">
+                            <i class="fas fa-eraser"></i>
+                            Effacer
+                        </button>
 
-                    <span class="shortcut">
-                        <i class="fas fa-keyboard"></i>
-                        Ctrl + Entrée
-                    </span>
+                        <!-- Compte rendu PDF : contenu de l'éditeur + résultat de la console -->
+                        <button id="printPdf" class="pdf-button" type="button"
+                                title="Imprimer l'éditeur et le résultat en PDF">
+                            <i class="fas fa-file-pdf"></i>
+                            Imprimer en PDF
+                        </button>
+
+                    </div>
+
+                    <div class="editor-info">
+
+                        <span id="micStatus" class="mic-status" aria-live="polite"></span>
+
+                        <span class="shortcut">
+                            <i class="fas fa-keyboard"></i>
+                            Ctrl + Entrée
+                        </span>
+
+                    </div>
 
                 </div>
 
@@ -218,6 +234,52 @@ for nombre in range(1, 6):
 
         </div>
 
+        <!-- =================================================
+             TRACE ÉCRITE — IDENTIFICATION
+             Les identifiants (nom-eleve, prenom-eleve, classe-eleve,
+             date-eleve) sont lus par laboratory/js/compte-rendu.js
+             et reportés dans l'en-tête du PDF.
+             ================================================= -->
+        <details id="trace-ecrite" class="identity-panel" open>
+
+            <summary>
+                <span class="identity-icon"><i class="fas fa-pen-to-square"></i></span>
+                <span>Trace écrite - Compte rendu</span>
+                <span class="identity-arrow" aria-hidden="true"></span>
+            </summary>
+
+            <div class="identity-body">
+
+                <h2 class="identity-title">Identification</h2>
+
+                <div class="identity-grid">
+
+                    <div class="identity-field">
+                        <label for="nom-eleve">Nom</label>
+                        <input id="nom-eleve" type="text" autocomplete="family-name" spellcheck="false">
+                    </div>
+
+                    <div class="identity-field">
+                        <label for="prenom-eleve">Prénom</label>
+                        <input id="prenom-eleve" type="text" autocomplete="given-name" spellcheck="false">
+                    </div>
+
+                    <div class="identity-field">
+                        <label for="classe-eleve">Classe</label>
+                        <input id="classe-eleve" type="text" autocomplete="off" spellcheck="false">
+                    </div>
+
+                    <div class="identity-field">
+                        <label for="date-eleve">Date</label>
+                        <input id="date-eleve" type="date">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </details>
+
         <!-- AIDE -->
         <section class="help-card">
             <i class="fas fa-lightbulb"></i>
@@ -227,6 +289,7 @@ for nombre in range(1, 6):
                     Utilise les exemples du menu pour découvrir progressivement les instructions Python.
                     L'exemple « Graphique » utilise NumPy et Matplotlib, chargés automatiquement au démarrage de PyLab.
                     Le bouton <strong>Dicter</strong> transcrit ta voix dans l'éditeur (navigateur Chrome, Edge ou Safari).
+                    Le bouton <strong>Imprimer en PDF</strong> génère un document avec ton programme et son résultat.
                 </p>
             </div>
         </section>

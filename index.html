@@ -104,6 +104,18 @@
         }
     }
 
+    /* Impression du compte rendu PDF (iframe qui recopie cette feuille
+       de style) : html/body ne doivent pas rester bloqués à 100 % de
+       hauteur avec overflow:hidden, sinon seule la 1re page est imprimée. */
+    @media print {
+
+        html,
+        body {
+            height: auto !important;
+            overflow: visible !important;
+        }
+    }
+
 </style>
 
 </head>
@@ -582,6 +594,74 @@
 <script src="https://www.geogebra.org/apps/deployggb.js"></script>
 
 <script src="code.js"></script>
+
+<!-- =====================================================
+     BOUTON « IMPRIMER EN PDF » POUR GÉOGÉBRA (Classic / 3D)
+     Visible uniquement quand GéoGébra est affiché.
+     Module : laboratory/js/geogebra-pdf.js
+====================================================== -->
+<script type="module">
+
+    import { initBoutonPdfGeoGebra } from './laboratory/js/geogebra-pdf.js';
+
+    let modeGeoGebra = 'Classic';   // 'Classic' ou '3D' (dernier affiché)
+    let geoEnCours = false;         // true pendant le chargement de GéoGébra
+
+    const { barre } = initBoutonPdfGeoGebra({
+        marque: 'mathilab',
+        domaine: 'Géométrie',
+        tp: () => modeGeoGebra === '3D' ? 'GéoGébra 3D' : 'GéoGébra Classic'
+    });
+
+    barre.hidden = true;
+
+    // Affiche la barre après GéoGébra Classic / 3D (fonctions de code.js)
+    function surveillerGeoGebra(nom, mode) {
+        const originale = window[nom];
+
+        if (typeof originale !== 'function') {
+            console.warn('[geogebra-pdf] fonction introuvable :', nom);
+            return;
+        }
+
+        window[nom] = function (...args) {
+            modeGeoGebra = mode;
+            geoEnCours = true;
+
+            let resultat;
+
+            try {
+                resultat = originale.apply(this, args);
+            } finally {
+                barre.hidden = false;
+            }
+
+            Promise.resolve(resultat).finally(() => {
+                geoEnCours = false;
+                barre.hidden = false;
+            });
+
+            return resultat;
+        };
+    }
+
+    // Masque la barre dès qu'une autre application est chargée
+    function surveillerAutres(nom) {
+        const originale = window[nom];
+
+        if (typeof originale !== 'function') return;
+
+        window[nom] = function (...args) {
+            if (!geoEnCours) barre.hidden = true;
+            return originale.apply(this, args);
+        };
+    }
+
+    surveillerGeoGebra('loadGeoGebraClassic', 'Classic');
+    surveillerGeoGebra('loadGeoGebra3D', '3D');
+    surveillerAutres('loadInFrame');
+
+</script>
 
 </body>
 </html>

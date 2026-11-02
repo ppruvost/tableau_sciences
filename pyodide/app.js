@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const exportButton = document.getElementById("export");
     const importButton = document.getElementById("import");
     const importFile = document.getElementById("importFile");
+    const printPdfButton = document.getElementById("printPdf");
     const status = document.getElementById("status");
     const zoomOpenButton = document.getElementById("zoomOpen");
     const zoomCloseButton = document.getElementById("zoomClose");
@@ -759,6 +760,106 @@ json.dumps(_images)
 
             importFile.value = "";
         });
+    }
+
+    /* =================================================
+       IMPRIMER EN PDF (éditeur + console)
+       Génère un document A4 avec le contenu de l'éditeur
+       Python et le résultat de la console (texte + graphiques
+       Matplotlib), sur le modèle d'en-tête et de pied de page
+       de laboratory/js/compte-rendu.js (marque PyLab).
+
+       Le module est chargé à la demande (import dynamique) :
+       si son chemin est incorrect, seul ce bouton est touché,
+       le reste de PyLab continue de fonctionner.
+       Chemin relatif à CE fichier (app.js) : à adapter si
+       PyLab n'est pas dans un sous-dossier de sciences/.
+    ================================================= */
+
+    const COMPTE_RENDU_MODULE = "../laboratory/js/compte-rendu.js";
+
+    // Rubrique « Identification » (#nom-eleve, #prenom-eleve, #classe-eleve,
+    // #date-eleve) : lue par compte-rendu.js et reportée dans l'en-tête du PDF.
+    const identityPanel = document.getElementById("trace-ecrite");
+    const dateEleve = document.getElementById("date-eleve");
+
+    // Date du jour par défaut (date locale, pas UTC)
+    if (dateEleve && !dateEleve.value) {
+        const d = new Date();
+        dateEleve.value =
+            d.getFullYear() + "-" +
+            String(d.getMonth() + 1).padStart(2, "0") + "-" +
+            String(d.getDate()).padStart(2, "0");
+    }
+
+    async function printPdf() {
+        if (!editor || !output || !printPdfButton) return;
+
+        // Nom et prénom sont obligatoires : si la rubrique est repliée et
+        // incomplète, on la rouvre pour que le champ vide soit signalé.
+        if (identityPanel && ["nom-eleve", "prenom-eleve"].some(
+            id => !(document.getElementById(id)?.value || "").trim()
+        )) {
+            identityPanel.open = true;
+        }
+
+        // La fenêtre de zoom de l'éditeur n'est pas synchronisée à la
+        // fermeture : on récupère le code à jour avant l'impression.
+        if (zoomModal && zoomModal.classList.contains("show") && zoomContent) {
+            editor.value = zoomContent.value;
+        }
+
+        printPdfButton.disabled = true;
+
+        try {
+            const { genererCompteRendu } = await import(COMPTE_RENDU_MODULE);
+
+            const code = editor.value.replace(/\s+$/, "");
+            const resultat = output.textContent.replace(/\s+$/, "");
+
+            const sections = [
+                {
+                    titre: "Éditeur Python — programme.py",
+                    texte: code || "(éditeur vide)",
+                    code: true
+                },
+                {
+                    titre: "Résultat — Console Python",
+                    texte: resultat || "(console vide)",
+                    code: true
+                }
+            ];
+
+            // Graphiques Matplotlib affichés dans la console
+            const graphiques = output.querySelectorAll("img.plot-image");
+
+            graphiques.forEach((img, i) => {
+                sections.push({
+                    titre: graphiques.length > 1 ? "Graphique " + (i + 1) : "Graphique",
+                    canvas: img,
+                    echelle: 0.8
+                });
+            });
+
+            await genererCompteRendu({
+                marque: "pylab",
+                titre: "Programme Python",
+                domaine: "Python",
+                tp: "Programme",
+                sections
+            });
+
+        } catch (e) {
+            console.error("Impression PDF impossible :", e);
+            window.alert("Impossible de générer le PDF : " + e.message);
+
+        } finally {
+            printPdfButton.disabled = false;
+        }
+    }
+
+    if (printPdfButton) {
+        printPdfButton.addEventListener("click", printPdf);
     }
 
     /* =================================================

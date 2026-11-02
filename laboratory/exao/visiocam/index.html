@@ -50,8 +50,10 @@
           <button id="btnCam" class="primary" type="button">Activer la caméra</button>
           <button id="btnCamStop" type="button" disabled>Arrêter la caméra</button>
           <button id="btnRec" type="button" disabled>● Enregistrer</button>
-          <span id="chrono" class="badge off" aria-live="off">0,0 s</span>
+          <button id="btnRecStop" type="button" class="danger" disabled>■ Arrêter l’enregistrement</button>
+          <span id="chrono" class="badge idle" role="status">Prêt</span>
         </div>
+        <p class="hint">« Enregistrer » démarre la prise (30 s maximum) ; « Arrêter l’enregistrement » la termine et charge la vidéo dans la partie 2.</p>
         <video id="live" class="live" muted playsinline hidden></video>
         <div class="row">
           <button id="btnTelecharger" type="button" disabled>Télécharger l’enregistrement</button>

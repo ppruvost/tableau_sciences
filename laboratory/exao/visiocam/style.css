@@ -21,6 +21,12 @@ button.primary{background:var(--acc);color:#fff;border-color:var(--acc)}
 button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
 .badge{padding:.3rem .7rem;border-radius:99px;font-size:.85rem;color:#fff}
 .badge.off{background:var(--ko)}.badge.on{background:var(--ok)}.badge.sim{background:#b9770e}
+.badge.idle{background:var(--mut)}
+.badge.rec{background:var(--ko);font-weight:700;animation:clignote 1.2s ease-in-out infinite}
+@keyframes clignote{50%{opacity:.65}}
+@media(prefers-reduced-motion:reduce){.badge.rec{animation:none}}
+button.danger{background:var(--ko);color:#fff;border-color:var(--ko);font-weight:700}
+button.danger:disabled{background:var(--card);color:var(--mut);border-color:var(--line);font-weight:400}
 .badge:empty{display:none}
 .hint{color:var(--mut);font-size:.82rem;margin:.4rem 0 0}
 .sub{color:var(--mut);margin:.2rem 0}
@@ -40,6 +46,7 @@ code{background:var(--bg);padding:.05rem .3rem;border-radius:4px}
 .cadre-video{position:relative;width:100%;background:#0d1117;border-radius:8px;overflow:hidden;line-height:0}
 .cadre-video canvas{width:100%;height:auto;display:block}
 #cvOverlay{position:absolute;inset:0;cursor:crosshair;touch-action:none}
+#loupe[hidden]{display:none}
 #loupe{position:absolute;top:8px;right:8px;width:132px;height:132px;border:3px solid #fff;border-radius:8px;background:#000;pointer-events:none;box-shadow:0 2px 8px #0008}
 .vide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;margin:0;color:#c9d4e0;text-align:center;padding:1rem;line-height:1.4;pointer-events:none}
 .vide[hidden]{display:none}

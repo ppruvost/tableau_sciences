@@ -637,17 +637,20 @@ body {
 
 /* =========================================================
    ACTIONS DE L'ÉDITEUR
+   Deux zones empilées :
+     1) .editor-buttons : les boutons, en grille 3 colonnes
+        (donc exactement deux lignes de 3 boutons) ;
+     2) .editor-info    : état du micro + raccourci clavier.
    ========================================================= */
 
 .editor-actions {
-  min-height: 82px;
-
   padding: 14px 18px;
 
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
 
-  gap: 14px;
+  gap: 12px;
 
   border-top:
     1px solid #dbe6ef;
@@ -655,19 +658,36 @@ body {
   background: #f5f9fc;
 }
 
+.editor-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 12px;
+}
+
+.editor-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 14px;
+}
+
 /* =========================================================
-   BOUTONS DE L'ÉDITEUR (Exécuter / Importer / Exporter / Effacer)
-   Les quatre boutons partagent EXACTEMENT le même style.
+   BOUTONS DE L'ÉDITEUR
+   (Exécuter / Importer / Exporter / Dicter / Effacer / PDF)
+   Tous les boutons partagent EXACTEMENT le même style.
    ========================================================= */
 
 .editor-actions button,
 .run-button,
 .import-button,
 .export-button,
-.clear-button {
+.clear-button,
+.pdf-button {
   min-height: 48px;
 
-  padding: 0 22px;
+  padding: 0 12px;
 
   display: inline-flex;
   align-items: center;
@@ -679,8 +699,8 @@ body {
 
   font-size: 0.95rem;
   font-weight: bold;
-
-  white-space: nowrap;
+  line-height: 1.2;
+  text-align: center;
 
   cursor: pointer;
 
@@ -698,11 +718,21 @@ body {
     box-shadow 0.2s ease;
 }
 
+/* Dans la grille : chaque bouton occupe sa colonne, sans jamais
+   être tronqué (le texte passe à la ligne si le panneau est étroit). */
+.editor-buttons button {
+  width: 100%;
+  min-width: 0;
+
+  white-space: normal;
+}
+
 .editor-actions button:hover:not(:disabled),
 .run-button:hover:not(:disabled),
 .import-button:hover:not(:disabled),
 .export-button:hover:not(:disabled),
-.clear-button:hover:not(:disabled) {
+.clear-button:hover:not(:disabled),
+.pdf-button:hover:not(:disabled) {
   background: #1e90ff;
 
   transform: translateY(-2px);
@@ -715,11 +745,20 @@ body {
 .run-button:active,
 .import-button:active,
 .export-button:active,
-.clear-button:active {
+.clear-button:active,
+.pdf-button:active {
   transform: translateY(0);
 }
 
 .run-button:disabled {
+  cursor: wait;
+
+  opacity: 0.55;
+
+  transform: none;
+}
+
+.pdf-button:disabled {
   cursor: wait;
 
   opacity: 0.55;
@@ -907,16 +946,8 @@ body {
     min-height: 450px;
   }
 
-  .editor-actions {
-    flex-wrap: wrap;
-  }
-
   .shortcut {
-    width: 100%;
-
-    margin-left: 0;
-
-    text-align: center;
+    margin-left: auto;
   }
 }
 
@@ -1024,16 +1055,16 @@ body {
     font-size: 16px;
   }
 
-  .editor-actions {
-    flex-wrap: wrap;
+  /* Petit écran : deux colonnes (trois lignes de boutons) */
+  .editor-buttons {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
 
     gap: 10px;
   }
 
-  .editor-actions button {
-    flex: 1 1 100%;
-
-    width: 100%;
+  .editor-info {
+    flex-direction: column;
+    align-items: center;
   }
 
   .shortcut {
@@ -1407,4 +1438,183 @@ body {
   padding-top: 0;
 
   border-top: none;
+}
+
+
+/* =========================================================
+   IMPRESSION (compte rendu PDF)
+   Le document du PDF est construit dans une iframe qui recopie
+   les feuilles de style de la page : html/body ne doivent pas y
+   rester bloqués à 100 % de hauteur avec overflow:hidden, sinon
+   seule la première page serait imprimée.
+   ========================================================= */
+
+@media print {
+
+  html,
+  body {
+    width: auto;
+    height: auto !important;
+
+    overflow: visible !important;
+  }
+}
+
+
+/* =========================================================
+   TRACE ÉCRITE — IDENTIFICATION (reportée dans le PDF)
+   Rubrique repliable : Nom / Prénom / Classe / Date.
+   ========================================================= */
+
+.identity-panel {
+  margin-top: 24px;
+
+  overflow: hidden;
+
+  background: #ffffff;
+
+  border: 1px solid #d5e2ec;
+  border-radius: 15px;
+
+  box-shadow:
+    0 5px 18px rgba(35, 65, 95, 0.10);
+}
+
+.identity-panel > summary {
+  min-height: 62px;
+
+  padding: 0 20px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  color: #243b73;
+
+  font-size: 1rem;
+  font-weight: bold;
+
+  list-style: none;
+
+  cursor: pointer;
+
+  background: #ffffff;
+}
+
+.identity-panel > summary::-webkit-details-marker {
+  display: none;
+}
+
+.identity-panel[open] > summary {
+  border-bottom: 1px solid #dbe6ef;
+}
+
+.identity-panel > summary:focus-visible {
+  outline: 3px solid #1e90ff;
+  outline-offset: -3px;
+}
+
+.identity-icon {
+  width: 36px;
+  height: 36px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #4169e1;
+
+  font-size: 1rem;
+
+  border-radius: 8px;
+
+  background: #eaf2fb;
+}
+
+.identity-arrow {
+  margin-left: auto;
+
+  color: #526b83;
+
+  transition: transform 0.2s ease;
+}
+
+.identity-arrow::after {
+  content: "▾";
+}
+
+.identity-panel:not([open]) .identity-arrow {
+  transform: rotate(-90deg);
+}
+
+.identity-body {
+  padding: 18px 20px 22px;
+}
+
+.identity-title {
+  margin: 0 0 6px;
+
+  color: #243b73;
+
+  font-size: 1rem;
+}
+
+.identity-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  gap: 18px;
+}
+
+.identity-field {
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
+}
+
+.identity-field label {
+  color: #243b73;
+
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.identity-field input {
+  width: 100%;
+  min-height: 40px;
+
+  padding: 0 10px;
+
+  color: #172033;
+
+  font-family:
+    'Atkinson Hyperlegible Mono', Consolas, 'Courier New', monospace;
+
+  font-size: 0.95rem;
+
+  border: 1px solid #c3d3ec;
+  border-radius: 6px;
+
+  background: #e9effd;
+}
+
+.identity-field input:focus {
+  outline: 3px solid #1e90ff;
+  outline-offset: 1px;
+
+  background: #f8fcff;
+}
+
+@media (max-width: 1100px) {
+  .identity-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .identity-grid {
+    grid-template-columns: 1fr;
+  }
 }
