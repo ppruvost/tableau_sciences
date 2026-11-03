@@ -212,6 +212,20 @@ const STYLE = `
 .ggb-pdf-flottante .ggb-pdf-champs { flex-direction: column; width: 250px; }
 .ggb-pdf-flottante .ggb-pdf-champ { flex: 0 0 auto; }
 .ggb-pdf-flottante:not(.ggb-pdf-ouverte) .ggb-pdf-champs { display: none; }
+.ggb-pdf-entete {
+  display: none; align-items: center; justify-content: space-between; gap: 10px;
+  font-weight: bold; color: #243b73;
+}
+.ggb-pdf-flottante .ggb-pdf-entete { display: flex; }
+.ggb-pdf-fermer {
+  width: 36px; height: 36px; padding: 0; display: inline-flex; align-items: center;
+  justify-content: center; cursor: pointer;
+  color: #ffffff; font-size: 1.3rem; font-weight: bold; line-height: 1;
+  border: none; border-radius: 50%; background: #4169e1;
+  box-shadow: 0 3px 8px rgba(65, 105, 225, 0.30);
+}
+.ggb-pdf-fermer:hover { background: #1e90ff; }
+.ggb-pdf-fermer:focus-visible { outline: 3px solid #1e90ff; outline-offset: 3px; }
 .ggb-pdf-champs { display: flex; flex-wrap: wrap; gap: 12px; flex: 1 1 auto; }
 .ggb-pdf-champ { display: flex; flex-direction: column; gap: 4px; flex: 1 1 130px; min-width: 110px; }
 .ggb-pdf-champ label { font-size: 0.8rem; font-weight: bold; color: #243b73; }
@@ -276,6 +290,10 @@ function creerBarre() {
 
   barre.innerHTML = `
     ${identiteDansLaPage ? '' : `<div class="ggb-pdf-champs">
+      <div class="ggb-pdf-entete">
+        <span>Identification</span>
+        <button type="button" class="ggb-pdf-fermer" title="Fermer" aria-label="Fermer la fenêtre d’identification">−</button>
+      </div>
       ${champHtml('nom-eleve', 'Nom', 'text', 'family-name')}
       ${champHtml('prenom-eleve', 'Prénom', 'text', 'given-name')}
       ${champHtml('classe-eleve', 'Classe')}
@@ -309,6 +327,16 @@ export function initBoutonPdfGeoGebra(options = {}) {
 
   const barre = creerBarre();
   const bouton = barre.querySelector('.ggb-pdf-bouton');
+
+  // Barre flottante : referme la fenêtre d'identification (bouton « − », touche Échap,
+  // et automatiquement quand la boîte d'impression se referme, c'est-à-dire au clic
+  // sur « Enregistrer » ; voir apresImpression ci-dessous).
+  const fermer = () => barre.classList.remove('ggb-pdf-ouverte');
+
+  barre.querySelector('.ggb-pdf-fermer')?.addEventListener('click', fermer);
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') fermer();
+  });
 
   if (avant && avant.parentNode) {
     avant.parentNode.insertBefore(barre, avant);
@@ -362,6 +390,10 @@ export function initBoutonPdfGeoGebra(options = {}) {
         tp: (typeof tp === 'function' ? tp() : tp) || (est3D(app) ? 'GéoGébra 3D' : 'GéoGébra'),
         niveau,
         sections,
+        // Clic sur « Enregistrer » (ou « Annuler ») dans la boîte d'impression du
+        // navigateur : la fenêtre d'identification se referme. Elle reste ouverte
+        // si le nom ou le prénom manquait (rien n'est alors imprimé).
+        apresImpression: fermer,
       });
 
     } catch (err) {

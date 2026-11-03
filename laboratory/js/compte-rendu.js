@@ -20,6 +20,9 @@
  *   du domaine / de l'étiquette TP : Algèbre, Analyse, Statistiques… → MathiLab ;
  *   Algorithmique → AlgoLab ; Python → PyLab ; sinon SciLab),
  *   discipline? (texte en haut à droite), domaine + tp (étiquette), titre (titre du TP).
+ * Option générale : apresImpression (fonction) → appelée quand la boîte d'impression
+ *   du navigateur se referme (clic sur « Enregistrer » ou « Annuler » ; événement
+ *   afterprint), par exemple pour refermer une fenêtre de la page.
  * Option graphique : echelle (0.5 = image à 50 % de la largeur).
  * Option commune : position: 'fin' → la rubrique est imprimée après les questions.
  * Option commune : fluide: true → la rubrique peut se poursuivre sur la page suivante
@@ -461,7 +464,7 @@ function attendreFeuilles(doc) {
   })));
 }
 
-function imprimer(html, titreDocument) {
+function imprimer(html, titreDocument, apresImpression) {
 
   return new Promise(resolve => {
 
@@ -517,8 +520,22 @@ ${feuilles.map(h => `<link rel="stylesheet" href="${e(h)}">`).join('\n')}
         document.title = ancienTitre;
         setTimeout(() => frame.remove(), 500);
       };
-      win.addEventListener('afterprint', restaurer, { once: true });
-      window.addEventListener('afterprint', restaurer, { once: true });
+      // Fin de l'impression (« Enregistrer » ou « Annuler » dans la boîte du navigateur) :
+      // nettoyage, puis rappel facultatif de la page (une seule fois, même si
+      // afterprint est émis par la page ET par l'iframe).
+      let notifie = false;
+      const finImpression = () => {
+        restaurer();
+        if (notifie) return;
+        notifie = true;
+        try {
+          apresImpression?.();
+        } catch (err) {
+          console.error('[compte-rendu] apresImpression a échoué :', err);
+        }
+      };
+      win.addEventListener('afterprint', finImpression, { once: true });
+      window.addEventListener('afterprint', finImpression, { once: true });
 
       // Identifiant unique du PDF : pied de page sur chaque page imprimée, et
       // titre du document (page + iframe) = NOM_Prenom_TPxx_compte-rendu_id=xxxxxxxx,
@@ -587,7 +604,9 @@ function identiteIncomplete() {
 
 export async function genererCompteRendu(config = {}) {
 
-  if (identiteIncomplete()) return;
+  // Renvoie true si l'impression a été lancée, false sinon (identité incomplète,
+  // rien à imprimer) : l'appelant sait ainsi s'il peut refermer sa fenêtre.
+  if (identiteIncomplete()) return false;
 
   const sections = Array.isArray(config.sections) ? config.sections : [];
   const questions = sections.filter(s => s.notation);
@@ -609,15 +628,18 @@ export async function genererCompteRendu(config = {}) {
 
   if (!corps) {
     console.warn('[compte-rendu] rien à imprimer');
-    return;
+    return false;
   }
 
   const eleve = lireEleve();
 
-  imprimer(
+  await imprimer(
     construireDocument(config, eleve, corps),
-    nomFichier(config, eleve) || 'compte-rendu'
+    nomFichier(config, eleve) || 'compte-rendu',
+    config.apresImpression
   );
+
+  return true;
 }
 
 export default genererCompteRendu;
