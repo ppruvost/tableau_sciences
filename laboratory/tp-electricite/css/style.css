@@ -480,3 +480,25 @@ body > header h1 span {
 }
 
 .problematique-onglet .problematique-rappel { margin: 0; font-weight: 600; }
+
+/* ════════════════════════════════════════════════════════════════
+   COMPLÉMENTS DES FRAGMENTS PROPRES À ÉLECTRICITÉ
+   (les utilitaires génériques — espace-haut-*, liste-aeree,
+   graphique-canvas, règles [hidden] — sont dans css/domaine.css)
+   ════════════════════════════════════════════════════════════════ */
+
+/* Schémas de montage (SVG importés par <img>) */
+.mode-op .mode-image { display: block; width: 100%; height: auto; }
+
+/* Mentions de source */
+.tp-source { font-size: var(--fs-xs); color: var(--gris-moyen); }
+.tp-source-espace { margin-top: .4rem; }
+
+/* TP05 : chaîne pile / accumulateur et champs du temps de charge */
+.chaine-stockage        { display: flex; flex-direction: column; gap: .6rem; font-family: inherit; }
+.chaine-stockage-ligne  { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+.chaine-stockage-fleche { color: var(--gris-moyen); }
+.pile-nom               { min-width: 110px; }
+.champ-etroit           { max-width: 260px; }
+.champ-bas              { justify-content: flex-end; }
+.tag-formule            { align-self: flex-start; }

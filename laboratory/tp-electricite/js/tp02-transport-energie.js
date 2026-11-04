@@ -15,6 +15,7 @@ import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-electricite.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
+import { initNavigationTP } from './nav-tp.js';
 import { initMateriel } from '../../js/materiel.js';
 import { initZoomVisuels } from '../../js/zoom-visuel.js';
 import laboratoryEquipment from '../../data/equipment.js';
@@ -187,6 +188,10 @@ export function init() {
     initQuestionsParOnglet();
   });
 
+  etape('initNavigationTP', () => {
+    initNavigationTP();
+  });
+
   etape('initImpressionCompteRendu', () => {
     initImpressionCompteRendu({
         titre: "Transport de l'énergie électrique",
@@ -240,7 +245,7 @@ function initEffetJoule() {
   const inputU1 = $('joule-tension-bt');
   const inputU2 = $('joule-tension-ht');
 
-  const zoneConclusion = $('joule-conclusion');
+  const zoneConclusion = $('joule-resultat');
 
   if (!inputP || !inputR || !inputU1 || !inputU2 || !zoneConclusion) return;
 
@@ -360,7 +365,7 @@ function initTransformateurSimulateur() {
   const inputN1 = $('transfo-n1');
   const inputN2 = $('transfo-n2');
 
-  const zoneConclusion = $('transfo-conclusion-simu');
+  const zoneConclusion = $('transfo-resultat-simu');
 
   if (!inputU1 || !inputN1 || !inputN2 || !zoneConclusion) return;
 

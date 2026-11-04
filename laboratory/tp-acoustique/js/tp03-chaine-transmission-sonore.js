@@ -18,6 +18,7 @@ import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu, sectionValeurs, nombreFr, ajouterLigne } from './compte-rendu-acoustique.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
+import { initNavigationTP } from './nav-tp.js';
 import { initMateriel } from '../../js/materiel.js';
 import laboratoryEquipment from '../../data/equipment.js';
 import { dessinerGraphiqueLigne } from '../../js/graphique.js';
@@ -129,6 +130,10 @@ export function init() {
 
   etape('initQuestionsParOnglet', () => {
     initQuestionsParOnglet();
+  });
+
+  etape('initNavigationTP', () => {
+    initNavigationTP();
   });
 
   etape('initImpressionCompteRendu', () => {
@@ -243,6 +248,14 @@ function initSchemaChaine() {
 
   if (!btnVerifier || !resultat) return;
 
+  // Verdict dans un élément <strong> : repris dans le compte rendu
+  // (.resultat-calcul avec au moins un élément enfant).
+  const afficherVerdict = (texte) => {
+    const fort = document.createElement('strong');
+    fort.textContent = texte;
+    resultat.replaceChildren(fort);
+  };
+
   btnVerifier.addEventListener('click', () => {
 
     const reponses = Object.keys(REPONSES_CHAINE).map(id => ({
@@ -262,11 +275,11 @@ function initSchemaChaine() {
     const correct = !doublons && reponses.every(r => r.valeur === r.attendu);
 
     if (correct) {
-      resultat.textContent = '✓ Schéma correct : émetteur → milieu de propagation → récepteur.';
+      afficherVerdict('✓ Schéma correct : émetteur → milieu de propagation → récepteur.');
       resultat.classList.add('succes');
       resultat.classList.remove('erreur');
     } else {
-      resultat.textContent = '✗ Schéma incorrect : revoir le rôle de chaque élément de la chaîne.';
+      afficherVerdict('✗ Schéma incorrect : revoir le rôle de chaque élément de la chaîne.');
       resultat.classList.add('erreur');
       resultat.classList.remove('succes');
     }

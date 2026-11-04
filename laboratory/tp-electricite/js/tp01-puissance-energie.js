@@ -15,6 +15,7 @@ import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-electricite.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
+import { initNavigationTP } from './nav-tp.js';
 import { initMateriel } from '../../js/materiel.js';
 import { initZoomVisuels } from '../../js/zoom-visuel.js';
 import laboratoryEquipment from '../../data/equipment.js';
@@ -125,6 +126,10 @@ export function init() {
 
   etape('initQuestionsParOnglet', () => {
     initQuestionsParOnglet();
+  });
+
+  etape('initNavigationTP', () => {
+    initNavigationTP();
   });
 
   etape('initImpressionCompteRendu', () => {
@@ -276,25 +281,25 @@ function tracerRegression(mesures) {
   const points = pointsGraphique(mesures);
 
   if (points.length < NB_POINTS_MIN) {
-    canvas.style.display = 'none';
-    zoneReg.style.display = 'none';
-    msg.style.display = '';
+    canvas.hidden = true;
+    zoneReg.hidden = true;
+    msg.hidden = false;
     return;
   }
 
   const reg = regressionLineaire(points);
 
   if (!reg) {
-    canvas.style.display = 'none';
-    zoneReg.style.display = 'none';
-    msg.style.display = '';
+    canvas.hidden = true;
+    zoneReg.hidden = true;
+    msg.hidden = false;
     msg.textContent = 'Toutes les valeurs de U×I sont nulles : impossible de tracer la droite. Vérifier les mesures saisies.';
     return;
   }
 
-  msg.style.display = 'none';
-  canvas.style.display = 'block';
-  zoneReg.style.display = '';
+  msg.hidden = true;
+  canvas.hidden = false;
+  zoneReg.hidden = false;
 
   dessinerGraphique(canvas, points, reg);
 
@@ -559,25 +564,25 @@ function tracerRegressionEnergie(mesures) {
     .map(m => ({ x: m.p * m.t, y: m.e }));
 
   if (points.length < NB_POINTS_MIN) {
-    canvas.style.display = 'none';
-    zoneReg.style.display = 'none';
-    msg.style.display = '';
+    canvas.hidden = true;
+    zoneReg.hidden = true;
+    msg.hidden = false;
     return;
   }
 
   const reg = regressionLineaire(points);
 
   if (!reg) {
-    canvas.style.display = 'none';
-    zoneReg.style.display = 'none';
-    msg.style.display = '';
+    canvas.hidden = true;
+    zoneReg.hidden = true;
+    msg.hidden = false;
     msg.textContent = 'Toutes les valeurs de P×t sont nulles : impossible de tracer la droite. Vérifier les mesures saisies.';
     return;
   }
 
-  msg.style.display = 'none';
-  canvas.style.display = 'block';
-  zoneReg.style.display = '';
+  msg.hidden = true;
+  canvas.hidden = false;
+  zoneReg.hidden = false;
 
   dessinerGraphique(canvas, points, reg, { x: 'P × t (J)', y: 'E lue au joulemètre (J)' });
 

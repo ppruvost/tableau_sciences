@@ -18,6 +18,7 @@ import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu, sectionValeurs } from './compte-rendu-acoustique.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
+import { initNavigationTP } from './nav-tp.js';
 import { initMateriel } from '../../js/materiel.js';
 import laboratoryEquipment from '../../data/equipment.js';
 import { initExaoAcquisition } from './exao01.js';
@@ -165,6 +166,10 @@ export function init() {
     initQuestionsParOnglet();
   });
 
+  etape('initNavigationTP', () => {
+    initNavigationTP();
+  });
+
   etape('initImpressionCompteRendu', () => {
     initImpressionCompteRendu({
       titre: 'Propagation du son',
@@ -189,9 +194,17 @@ function initMilieuMateriel() {
 
   const selectNormal = $('son-air-normal');
   const selectVide = $('son-vide-partiel');
-  const conclusion = $('milieu-materiel-conclusion');
+  const conclusion = $('milieu-materiel-resultat');
 
   if (!selectNormal || !selectVide || !conclusion) return;
+
+  // Conclusion dans un élément <strong> : .resultat-calcul n'est repris dans
+  // le compte rendu que s'il contient au moins un élément enfant.
+  function afficher(texte) {
+    const fort = document.createElement('strong');
+    fort.textContent = texte;
+    conclusion.replaceChildren(fort);
+  }
 
   function mettreAJour() {
 
@@ -204,9 +217,9 @@ function initMilieuMateriel() {
     }
 
     if (vide === 'non' || vide === 'attenue') {
-      conclusion.textContent = 'Conclusion : le son est perçu normalement à pression atmosphérique mais s\'atténue voire disparaît lorsque l\'air est extrait. La propagation du son nécessite donc un milieu matériel.';
+      afficher('Conclusion : le son est perçu normalement à pression atmosphérique mais s\'atténue voire disparaît lorsque l\'air est extrait. La propagation du son nécessite donc un milieu matériel.');
     } else {
-      conclusion.textContent = 'Résultat inattendu : si le son reste perçu à l\'identique sous vide partiel, vérifier l\'étanchéité de la cloche ou refaire l\'essai.';
+      afficher('Résultat inattendu : si le son reste perçu à l\'identique sous vide partiel, vérifier l\'étanchéité de la cloche ou refaire l\'essai.');
     }
   }
 
@@ -293,7 +306,7 @@ function sectionMilieuCompteRendu() {
   return sectionValeurs('Observations : nécessité d\'un milieu matériel', [
     ['Son perçu à pression atmosphérique', 'son-air-normal'],
     ['Son perçu sous vide partiel', 'son-vide-partiel'],
-    ['Conclusion', 'milieu-materiel-conclusion', /^(Conclusion|Résultat)/],
+    ['Conclusion', 'milieu-materiel-resultat', /^(Conclusion|Résultat)/],
   ]);
 }
 

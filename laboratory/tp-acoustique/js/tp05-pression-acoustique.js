@@ -18,6 +18,7 @@ import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu, sectionValeurs, nombreFr, ajouterLigne } from './compte-rendu-acoustique.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
+import { initNavigationTP } from './nav-tp.js';
 import { initMateriel } from '../../js/materiel.js';
 import laboratoryEquipment from '../../data/equipment.js';
 import { dessinerGraphiqueLigne } from '../../js/graphique.js';
@@ -151,6 +152,10 @@ export function init() {
 
   etape('initQuestionsParOnglet', () => {
     initQuestionsParOnglet();
+  });
+
+  etape('initNavigationTP', () => {
+    initNavigationTP();
   });
 
   etape('initImpressionCompteRendu', () => {

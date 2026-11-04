@@ -103,7 +103,7 @@
       Ce TP met en œuvre un accumulateur rechargeable et son chargeur.
     </div>
 
-    <ul style="padding-left:1.5rem;line-height:2">
+    <ul class="liste-aeree">
       <li><strong>Accumulateur :</strong> ne jamais court-circuiter ses bornes ; respecter les tensions et intensités maximales indiquées par le constructeur lors de la charge.</li>
       <li><strong>Fin de manipulation :</strong> décharger et débrancher l'accumulateur avant de ranger le matériel.</li>
     </ul>
@@ -148,7 +148,7 @@
 
   <div class="section-corps">
 
-    <div id="tp05e-message-filiere" class="info" style="display:none;"></div>
+    <div id="tp05e-message-filiere" class="info" hidden></div>
 
     <div class="tabs-container">
 
@@ -177,7 +177,7 @@
           de sa capacité et de sa tension d'utilisation.
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+        <h4 class="espace-haut-lg">Protocole</h4>
 
         <ol class="etapes">
           <li>Charger complètement l'accumulateur en respectant les préconisations du constructeur (tension et intensité maximales).</li>
@@ -187,11 +187,11 @@
         </ol>
 
         <div class="mode-op">
-          <img class="mode-image" src="./assets/illustrations/tp05-charge-decharge-accumulateur.svg" alt="Schémas normalisés : à gauche la charge de l&#x27;accumulateur par un chargeur (générateur continu G), à droite sa décharge dans une résistance R avec un voltmètre V et sa borne COM aux bornes de l&#x27;accumulateur" width="780" height="310" loading="lazy" style="display:block;width:100%;height:auto;">
+          <img class="mode-image" src="./assets/illustrations/tp05-charge-decharge-accumulateur.svg" alt="Schémas normalisés : à gauche la charge de l&#x27;accumulateur par un chargeur (générateur continu G), à droite sa décharge dans une résistance R avec un voltmètre V et sa borne COM aux bornes de l&#x27;accumulateur" width="780" height="310" loading="lazy">
           <p class="mode-legende">Charge (courant imposé par un chargeur) et décharge (dans une résistance) d'un accumulateur.</p>
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Pile ou accumulateur : quelle différence ?</h4>
+        <h4 class="espace-haut-lg">Pile ou accumulateur : quelle différence ?</h4>
 
         <p>
           Une pile et un accumulateur sont tous deux des convertisseurs
@@ -208,24 +208,24 @@
           en toute rigueur, d'un accumulateur.
         </p>
 
-        <div class="info" style="display:flex;flex-direction:column;gap:.6rem;font-family:inherit;">
-          <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;">
-            <strong style="min-width:110px;">Pile</strong>
+        <div class="info chaine-stockage">
+          <div class="chaine-stockage-ligne">
+            <strong class="pile-nom">Pile</strong>
             <span>énergie chimique</span>
-            <span style="color:var(--gris-moyen);">— décharge →</span>
+            <span class="chaine-stockage-fleche">— décharge →</span>
             <span>énergie électrique</span>
           </div>
-          <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;">
-            <strong style="min-width:110px;">Accumulateur</strong>
+          <div class="chaine-stockage-ligne">
+            <strong class="pile-nom">Accumulateur</strong>
             <span>énergie chimique</span>
-            <span style="color:var(--gris-moyen);">⇄ décharge / charge ⇄</span>
+            <span class="chaine-stockage-fleche">⇄ décharge / charge ⇄</span>
             <span>énergie électrique</span>
           </div>
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Caractéristiques d'un accumulateur</h4>
+        <h4 class="espace-haut-lg">Caractéristiques d'un accumulateur</h4>
 
-        <ul style="padding-left:1.5rem;line-height:2">
+        <ul class="liste-aeree">
           <li><strong>Tension nominale</strong> (en V) : tension moyenne observée aux bornes de l'accumulateur sur la plus grande partie de sa courbe de décharge. Elle dépend du couple redox utilisé.</li>
           <li><strong>Capacité nominale</strong> Q (en Ah) : quantité d'électricité que peut restituer l'accumulateur, telle que Q = I × Δt (I en ampère, Δt en seconde pour une capacité exprimée en coulomb ; 1 C = 1/3600 Ah).</li>
           <li><strong>Énergie stockée</strong> E (en Wh) : E = U × Q, où U est la tension d'utilisation (V) et Q la capacité (Ah).</li>
@@ -258,15 +258,15 @@
           pour calculer l'énergie stockée et l'énergie massique.
         </div>
 
-        <div class="form-row" style="margin-top:var(--gap-md);">
+        <div class="form-row espace-haut-md">
 
           <div class="form-group">
             <label for="acc-courant">Courant de charge / décharge (A)</label>
             <input id="acc-courant" type="number" step="0.1">
           </div>
 
-          <div class="form-group" style="justify-content:flex-end;">
-            <span class="tag" style="align-self:flex-start;">Δt = Q / I</span>
+          <div class="form-group champ-bas">
+            <span class="tag tag-formule">Δt = Q / I</span>
           </div>
 
         </div>
@@ -275,7 +275,7 @@
           Saisir également un courant de charge ou de décharge pour calculer le temps correspondant.
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Suivi de la décharge</h4>
+        <h4 class="espace-haut-lg">Suivi de la décharge</h4>
 
         <div class="info">
           Au cours de la décharge, la tension reste d'abord proche de
@@ -324,7 +324,7 @@
         </div>
 
 
-        <h4 style="margin-top:var(--gap-lg);">Exemples d'accumulateurs</h4>
+        <h4 class="espace-haut-lg">Exemples d'accumulateurs</h4>
 
         <div class="table-responsive">
           <table class="tableau-resultats">
@@ -390,7 +390,7 @@
             </tbody>
           </table>
         </div>
-        <p class="tp-source" style="font-size:var(--fs-xs);color:var(--gris-moyen);margin-top:.4rem;">
+        <p class="tp-source tp-source-espace">
           Source des données : Ministère de l'Éducation nationale, de l'Enseignement supérieur et de la Recherche (DGESCO),
           <a href="https://eduscol.education.gouv.fr/sites/default/files/document/ra25-lycee-pro-phychi-essentielstockagepdf-111666.pdf" target="_blank" rel="noopener">« L'essentiel sur le stockage de l'énergie électrique »</a>,
           éduscol, mai 2025.
@@ -416,12 +416,12 @@
 
     <h3>Bonnes pratiques au laboratoire</h3>
 
-    <ul style="padding-left:1.5rem;line-height:2">
+    <ul class="liste-aeree">
       <li>Ne pas jeter un accumulateur usagé avec les déchets ménagers ; utiliser une filière de collecte dédiée.</li>
       <li>Respecter les consignes du fabricant pour la charge, afin de préserver la durée de vie et la sécurité de l'accumulateur.</li>
     </ul>
 
-    <h3 style="margin-top:var(--gap-md);">Stockage de l'énergie et transition énergétique</h3>
+    <h3 class="espace-haut-md">Stockage de l'énergie et transition énergétique</h3>
 
     <p>
       On distingue le <strong>stockage embarqué</strong>, présent au
@@ -457,7 +457,7 @@
       responsabilité élargie des producteurs.
     </p>
 
-    <p class="tp-source" style="font-size:var(--fs-xs);color:var(--gris-moyen);">
+    <p class="tp-source">
       Source : Ministère de l'Éducation nationale, de l'Enseignement supérieur et de la Recherche (DGESCO),
       <a href="https://eduscol.education.gouv.fr/sites/default/files/document/ra25-lycee-pro-phychi-essentielstockagepdf-111666.pdf" target="_blank" rel="noopener">« L'essentiel sur le stockage de l'énergie électrique »</a>,
       éduscol, mai 2025 (<a href="https://eduscol.education.gouv.fr/5898/programmes-et-ressources-en-physique-chimie-voie-professionnelle" target="_blank" rel="noopener">ressources physique-chimie voie professionnelle</a>).
@@ -504,7 +504,7 @@
     </div>
 
 
-    <h3 style="margin-top:var(--gap-md);">Questions</h3>
+    <h3 class="espace-haut-md">Questions</h3>
 
     <p class="info">
       Les quatre premières questions portent sur l'objet du TP, la cinquième
@@ -667,11 +667,11 @@
 
     </div>
 
-    <div class="radar-actions" style="margin-top:var(--gap-lg);">
+    <div class="radar-actions espace-haut-lg">
       <button id="btn-radar" class="btn btn-primaire">
         📊 Générer mon radar de compétences
       </button>
-      <div id="radar-resultat" style="margin-top:var(--gap-md);"></div>
+      <div class="espace-haut-md" id="radar-resultat"></div>
     </div>
 
   </div>
@@ -699,7 +699,7 @@
       </button>
     </div>
 
-    <div class="info" style="margin-top:var(--gap-md);">
+    <div class="info espace-haut-md">
       L'impression récupère automatiquement :
       <ul>
         <li>les réponses aux questions ;</li>
@@ -713,11 +713,11 @@
 
 <div class="nav-tp">
 
-  <button class="btn btn-secondaire" onclick="loadTP('tp04-conversion-moteurs')">
+  <button class="btn btn-secondaire" data-aller-tp="tp04-conversion-moteurs">
     ← TP04
   </button>
 
-  <button class="btn btn-primaire" onclick="location.href='../index.html'">
+  <button class="btn btn-primaire" data-aller-accueil>
     🏠 Fin du module — Accueil
   </button>
 
@@ -725,6 +725,6 @@
 
 </main>
 
-<div id="cr-print-container" style="display:none;"></div>
+<div id="cr-print-container" hidden></div>
 
 </section>

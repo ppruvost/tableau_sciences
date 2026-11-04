@@ -381,6 +381,7 @@
 }
 
 .exao-fill {
+  width: 0;
   height: 100%;
   background: var(--domaine-accent);
   transition: width 0.2s ease-out;
@@ -481,3 +482,11 @@ body > header h1 span {
 }
 
 .problematique-onglet .problematique-rappel { margin: 0; font-weight: 600; }
+
+/* ── Schémas de montage (img.mode-image dans .mode-op) ──────────────
+   Remplace l'ancien style en ligne des fragments. */
+.mode-op .mode-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}

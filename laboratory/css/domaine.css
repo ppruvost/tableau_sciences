@@ -47,6 +47,13 @@ header:where(:not(.cr-entete)) h1 {
   font-weight: 700;
   line-height: 1.15;
   margin-bottom: 10px;
+  /* Titre en blanc sur le dégradé du domaine : reset.css colore les h1 en
+     gris-ardoise (règle h1, h2, h3, h4), ce qui masquait le blanc hérité
+     du header. « header h1 » (0,0,2) l'emporte sur « h1 » (0,0,1). */
+  color: #fff;
+}
+header:where(:not(.cr-entete)) h1 span {
+  color: inherit;
 }
 
 /* ── Barre de progression du bandeau de site ──────────────────
@@ -415,6 +422,22 @@ canvas {
   border-radius: var(--r-md);
   margin-bottom: var(--gap-sm);
 }
+
+/* ── Utilitaires de fragments (remplacent les style="…" en ligne) ──
+   Les fragments HTML des TP ne portent aucun style en ligne : espacements
+   et masquage passent par ces classes et par l'attribut hidden. */
+.espace-haut-lg { margin-top: var(--gap-lg); }
+.espace-haut-md { margin-top: var(--gap-md); }
+.liste-aeree    { padding-left: 1.5rem; line-height: 2; }
+
+/* Graphique sur <canvas> limité à 640 px (TP avec régression). */
+.graphique-canvas { max-width: 640px; height: auto; }
+
+/* Les classes ci-dessous fixent un display : sans ces règles, l'attribut
+   hidden (display:none du navigateur) serait écrasé. */
+.info[hidden],
+.resultat-calcul[hidden],
+canvas[hidden] { display: none; }
 
 /* ── Scrollbar ───────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 8px; }
