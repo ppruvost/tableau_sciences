@@ -13,7 +13,7 @@ import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../..
 import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
-import { initImpressionCompteRendu } from './compte-rendu-electricite.js';
+import { initImpressionCompteRendu, sectionValeurs, RESULTAT_CALCULE } from './compte-rendu-electricite.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initNavigationTP } from './nav-tp.js';
 import { initMateriel } from '../../js/materiel.js';
@@ -196,9 +196,62 @@ export function init() {
     initImpressionCompteRendu({
         titre: "Transport de l'énergie électrique",
         tp: 'TP02',
+        // L'onglet « Réseau de distribution » (schéma interactif) n'a aucune saisie : rien à imprimer.
+        sectionsSupplementaires: () => [
+          sectionJouleCompteRendu(),
+          sectionTransformateurCompteRendu(),
+          sectionManipulationReelleCompteRendu(),
+        ].filter(Boolean),
       });
   });
 
+}
+
+// =================================================================
+// Impression : sections du compte-rendu (lues par id dans le fragment)
+// =================================================================
+
+function sectionJouleCompteRendu() {
+  return sectionValeurs('Manipulation — Effet Joule et pertes en ligne', [
+    ['Puissance transportée P', 'joule-puissance-valeur'],
+    ['Résistance de la ligne R', 'joule-resistance-simu-valeur'],
+    ['Tension basse tension U₁', 'joule-tension-bt-valeur'],
+    ['Tension haute tension U₂', 'joule-tension-ht-valeur'],
+    ['Basse tension — intensité I', 'joule-bt-intensite'],
+    ['Basse tension — pertes Joule', 'joule-bt-pertes'],
+    ['Basse tension — part perdue', 'joule-bt-part'],
+    ['Haute tension — intensité I', 'joule-ht-intensite'],
+    ['Haute tension — pertes Joule', 'joule-ht-pertes'],
+    ['Haute tension — part perdue', 'joule-ht-part'],
+    ['Conclusion', 'joule-resultat', RESULTAT_CALCULE],
+  ]);
+}
+
+function sectionTransformateurCompteRendu() {
+  return sectionValeurs('Manipulation — Transformateur', [
+    ['Simulateur — tension au primaire U₁', 'transfo-u1-simu-valeur'],
+    ['Simulateur — spires au primaire N₁', 'transfo-n1-valeur'],
+    ['Simulateur — spires au secondaire N₂', 'transfo-n2-valeur'],
+    ['Simulateur — résultat', 'transfo-resultat-simu', RESULTAT_CALCULE],
+    ['Tension au primaire U₁ (V)', 'transfo-u1'],
+    ['Tension au secondaire U₂ (V)', 'transfo-u2'],
+    ['Résultat', 'transfo-resultat', RESULTAT_CALCULE],
+  ]);
+}
+
+function sectionManipulationReelleCompteRendu() {
+  return sectionValeurs('Manipulation — Manipulation réelle', [
+    ['Partie A — tension mesurée au primaire U₁ (V)', 'manip-transfo-u1'],
+    ['Partie A — tension mesurée au secondaire U₂ (V)', 'manip-transfo-u2'],
+    ['Partie A — résultat', 'manip-transfo-resultat', RESULTAT_CALCULE],
+    ['Partie B, essai 1 — résistance R (Ω)', 'manip-r1'],
+    ['Partie B, essai 1 — intensité I (A)', 'manip-i1'],
+    ['Partie B, essai 1 — échauffement ressenti', 'manip-ressenti-1'],
+    ['Partie B, essai 2 — résistance R (Ω)', 'manip-r2'],
+    ['Partie B, essai 2 — intensité I (A)', 'manip-i2'],
+    ['Partie B, essai 2 — échauffement ressenti', 'manip-ressenti-2'],
+    ['Partie B — résultat', 'manip-joule-resultat', RESULTAT_CALCULE],
+  ]);
 }
 
 // =================================================================

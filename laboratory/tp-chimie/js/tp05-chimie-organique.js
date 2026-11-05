@@ -12,6 +12,7 @@ import glassware from "../../data/glassware.js";
 import laboratoryEquipment from "../../data/equipment.js";
 import FILIERES_PRO from "../../data/filieres.js";
 import { initQuestionsParOnglet } from "./questions-par-onglet.js";
+import { initNavigationTP } from "./nav-tp.js";
 import { initImpressionCompteRendu } from "./compte-rendu-chimie.js";
 import {
     bouton3D,
@@ -42,6 +43,7 @@ import {
 } from "../../js/radar.js";
 
 import { initContextePro } from "../../js/contexte-pro.js";
+import { initOngletsParFiliere } from "../../js/onglets-filiere.js";
 
 /* ==========================================================
    CONTEXTE PROFESSIONNEL — TP05 (Chimie organique)
@@ -227,12 +229,37 @@ export function init() {
         });
     });
 
+    // Onglets selon le niveau : le TP05 est au programme de Terminale
+    // (TCI, TRPM, MCC) ; les autres niveaux voient le message d'absence.
+    etape("initOngletsParFiliere", () => {
+        const ONGLETS_TLE = [
+            "esterification", "hydrolyse-basique", "oxydation-alcool",
+            "test-fehling", "groupes-caracteristiques"
+        ];
+        initOngletsParFiliere({
+            mapping: {
+                "2nde-remi": [],
+                "2nde-mcc": [],
+                "1ere-tci": [],
+                "1ere-trpm": [],
+                "1ere-mcc": [],
+                "tle-tci": ONGLETS_TLE,
+                "tle-trpm": ONGLETS_TLE,
+                "tle-mcc": ONGLETS_TLE
+            },
+            messageId: "tp05-message-filiere",
+            messageTexte: "Ce TP de chimie organique est destiné à la classe de Terminale : choisissez votre filière de Terminale pour accéder aux manipulations."
+        });
+    });
+
     etape("initSections", () => initSections());
     etape("initTabs", () => initTabs());
     etape("initModesOperatoires", () => initModesOperatoires());
     etape("initRadarCompetences", () => initRadarCompetences());
 
     etape("initQuestionsParOnglet", () => initQuestionsParOnglet());
+
+    etape("initNavigationTP", () => initNavigationTP());
 
     etape("initImpressionCompteRendu", () => {
         initImpressionCompteRendu({

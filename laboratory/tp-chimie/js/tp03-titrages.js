@@ -19,6 +19,7 @@
 
 import { initZoomVisuels } from "../../js/zoom-visuel.js";
 import { initQuestionsParOnglet } from "./questions-par-onglet.js";
+import { initNavigationTP } from "./nav-tp.js";
 import { initImpressionCompteRendu } from "./compte-rendu-chimie.js";
 import { afficherBouton3D, afficherBouton3DProduit, zone3DApres } from "./molecule-3d.js";
 import products
@@ -378,6 +379,8 @@ export function init() {
         });
     });
 
+    etape("initMessageTerminale", () => initMessageTerminale());
+
     etape("initSections", () => initSections());
     etape("initTabs", () => initTabs());
     etape("initModesOperatoires", () => initModesOperatoires());
@@ -391,6 +394,8 @@ export function init() {
 
     etape("initQuestionsParOnglet", () => initQuestionsParOnglet());
 
+    etape("initNavigationTP", () => initNavigationTP());
+
     etape("initImpressionCompteRendu", () => {
         initImpressionCompteRendu({
             titre: "Titrages acido-basiques (pH-métrie)",
@@ -399,6 +404,34 @@ export function init() {
         });
     });
 }
+/* ==========================================================
+   NIVEAU — TP hors programme en Terminale
+   Le TP03 n'a pas d'onglets (initOngletsParFiliere n'a rien à masquer) :
+   quand la filière choisie est de Terminale (clé « tle-… »), le message
+   d'absence est affiché dans la section « Contexte professionnel ».
+   Voir le commentaire de CONTEXTES_PRO : aucune filière de Tle n'a de
+   capacité « titrage » au programme.
+   ========================================================== */
+const MESSAGE_TLE_TP03 =
+    "Ce TP de titrage pH-métrique est destiné aux classes de 2nde et de 1ère : " +
+    "il n'est pas au programme de Terminale. En Terminale, voir les TP « pH et indicateurs » " +
+    "(filière MCC) et « Oxydoréduction » (TCI, TRPM, MCC).";
+
+function initMessageTerminale() {
+    const select = $("select-filiere-pro");
+    const message = $("tp03-message-filiere");
+    if (!select || !message) return;
+
+    const actualiser = () => {
+        const enTerminale = /^tle/i.test(select.value || "");
+        message.textContent = enTerminale ? MESSAGE_TLE_TP03 : "";
+        message.hidden = !enTerminale;
+    };
+
+    select.addEventListener("change", actualiser);
+    actualiser();
+}
+
 /* ==========================================================
    REACTIF + FILTRE SECURITE (identique TP01)
    ========================================================== */
@@ -1091,9 +1124,9 @@ function calculerResultatsAutomatiques() {
 
     if (equivalences.length === 0) {
 
-        if (blocTangentes) blocTangentes.style.display = "none";
-        if (blocDerivee) blocDerivee.style.display = "none";
-        if (blocComparaison) blocComparaison.style.display = "none";
+        if (blocTangentes) blocTangentes.hidden = true;
+        if (blocDerivee) blocDerivee.hidden = true;
+        if (blocComparaison) blocComparaison.hidden = true;
 
         return;
 
@@ -1115,7 +1148,7 @@ function calculerResultatsAutomatiques() {
 
     if (blocTangentes) {
 
-        blocTangentes.style.display = "";
+        blocTangentes.hidden = false;
 
         $("ve-tangentes").textContent = texteVeq;
         $("ca-tangentes").textContent = caCalc.toFixed(4);
@@ -1124,7 +1157,7 @@ function calculerResultatsAutomatiques() {
 
     if (blocDerivee) {
 
-        blocDerivee.style.display = "";
+        blocDerivee.hidden = false;
 
         $("ve-derivee").textContent = texteVeq;
         $("ca-derivee").textContent = caCalc.toFixed(4);
@@ -1144,7 +1177,7 @@ function calculerResultatsAutomatiques() {
             ? (ecart / veqTheo) * 100
             : 0;
 
-        blocComparaison.style.display = "";
+        blocComparaison.hidden = false;
 
         $("ecart-ve").textContent = ecart.toFixed(2);
         $("erreur-relative").textContent = erreurRel.toFixed(1);
@@ -1363,8 +1396,7 @@ function dessinerCourbe() {
 
     if (canvasDerivee) {
 
-        canvasDerivee.style.display =
-            afficherDeriveeBtn ? "" : "none";
+        canvasDerivee.hidden = !afficherDeriveeBtn;
 
         if (afficherDeriveeBtn) {
 
@@ -1749,8 +1781,7 @@ function initCorrection() {
 
             if (!panneau) return;
 
-            panneau.style.display =
-                panneau.style.display === "none" ? "" : "none";
+            panneau.hidden = !panneau.hidden;
 
         });
 

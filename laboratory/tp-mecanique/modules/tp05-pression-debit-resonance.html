@@ -40,7 +40,7 @@
   <div id="bar"></div>
 </div>
 
-<main id="content">
+<div class="contenu-tp">
 
 <div class="section" data-type="objectif">
 
@@ -105,7 +105,7 @@
       fluide et un système en oscillation forcée.
     </div>
 
-    <ul style="padding-left:1.5rem;line-height:2">
+    <ul class="liste-aeree">
       <li><strong>Vérin hydraulique :</strong> ne jamais placer les doigts entre les parties mobiles sous pression.</li>
       <li><strong>Circuit de fluide :</strong> vérifier l'absence de fuite avant chaque mise en circulation.</li>
       <li><strong>Résonance mécanique :</strong> limiter l'amplitude des oscillations forcées pour éviter tout choc ou projection.</li>
@@ -145,7 +145,7 @@
 
   <div class="section-corps">
 
-    <div id="tp05m-message-filiere" class="info" style="display:none;"></div>
+    <div id="tp05m-message-filiere" class="info" hidden></div>
 
     <div class="tabs-container">
 
@@ -178,7 +178,7 @@
           force.
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+        <h4 class="espace-haut-lg">Protocole</h4>
 
         <ol class="etapes">
           <li>Mesurer la pression en différents points d'un fluide au repos à l'aide d'un capteur de pression, à différentes profondeurs.</li>
@@ -187,7 +187,7 @@
         </ol>
 
         <div class="mode-op">
-          <img class="mode-image" src="./assets/illustrations/m5-pression-fluide.svg" alt="Mode opératoire — pression dans un fluide immobile et presse hydraulique" width="640" height="320" loading="lazy" style="display:block;width:100%;height:auto;">
+          <img class="mode-image" src="./assets/illustrations/m5-pression-fluide.svg" alt="Mode opératoire — pression dans un fluide immobile et presse hydraulique" width="640" height="320" loading="lazy">
         </div>
 
         <div class="form-row">
@@ -209,7 +209,7 @@
           d'altitude pour calculer la variation de pression.
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Presse hydraulique</h4>
+        <h4 class="espace-haut-lg">Presse hydraulique</h4>
 
         <div class="form-row">
 
@@ -260,7 +260,7 @@
           section de la canalisation : v = Qᵥ / S.
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+        <h4 class="espace-haut-lg">Protocole</h4>
 
         <ol class="etapes">
           <li>Recueillir le volume de fluide écoulé par une canalisation pendant une durée chronométrée.</li>
@@ -269,7 +269,7 @@
         </ol>
 
         <div class="mode-op">
-          <img class="mode-image" src="./assets/illustrations/m5-debit.svg" alt="Mode opératoire — débit et vitesse d'écoulement d'un fluide" width="640" height="320" loading="lazy" style="display:block;width:100%;height:auto;">
+          <img class="mode-image" src="./assets/illustrations/m5-debit.svg" alt="Mode opératoire — débit et vitesse d'écoulement d'un fluide" width="640" height="320" loading="lazy">
         </div>
 
         <div class="form-row">
@@ -322,7 +322,7 @@
           d'oscillation nettement amplifiée.
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+        <h4 class="espace-haut-lg">Protocole</h4>
 
         <ol class="etapes">
           <li>Écarter légèrement le système de sa position d'équilibre et le laisser osciller librement pour mesurer sa période propre.</li>
@@ -331,7 +331,7 @@
         </ol>
 
         <div class="mode-op">
-          <img class="mode-image" src="./assets/illustrations/m5-resonance.svg" alt="Mode opératoire — période propre et résonance mécanique" width="640" height="320" loading="lazy" style="display:block;width:100%;height:auto;">
+          <img class="mode-image" src="./assets/illustrations/m5-resonance.svg" alt="Mode opératoire — période propre et résonance mécanique" width="640" height="320" loading="lazy">
         </div>
 
         <div class="form-row">
@@ -354,7 +354,7 @@
           fréquence propre du système.
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Amplitude en fonction de la fréquence d'excitation</h4>
+        <h4 class="espace-haut-lg">Amplitude en fonction de la fréquence d'excitation</h4>
 
         <div class="form-row">
 
@@ -420,7 +420,7 @@
           fluide dans les régions où la vitesse d'écoulement augmente.
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+        <h4 class="espace-haut-lg">Protocole</h4>
 
         <ol class="etapes">
           <li>Placer un objet profilé dans un écoulement d'air ou d'eau et observer la force exercée sur un dynamomètre ou un capteur de force.</li>
@@ -429,7 +429,7 @@
         </ol>
 
         <div class="mode-op">
-          <img class="mode-image" src="./assets/illustrations/m5-trainee-portance.svg" alt="Mode opératoire — force de traînée, portance et effet Venturi" width="640" height="320" loading="lazy" style="display:block;width:100%;height:auto;">
+          <img class="mode-image" src="./assets/illustrations/m5-trainee-portance.svg" alt="Mode opératoire — force de traînée, portance et effet Venturi" width="640" height="320" loading="lazy">
         </div>
 
         <div class="form-group">
@@ -468,12 +468,12 @@
 
     <h3>Bonnes pratiques au laboratoire</h3>
 
-    <ul style="padding-left:1.5rem;line-height:2">
+    <ul class="liste-aeree">
       <li>Couper l'alimentation du vérin hydraulique et du système vibrant dès la fin des essais.</li>
       <li>Récupérer et ne pas rejeter le fluide utilisé pour l'étude du débit.</li>
     </ul>
 
-    <h3 style="margin-top:var(--gap-md);">Résonance et sécurité des structures</h3>
+    <h3 class="espace-haut-md">Résonance et sécurité des structures</h3>
 
     <p>
       Un phénomène de résonance mal maîtrisé peut endommager une
@@ -523,7 +523,7 @@
     </div>
 
 
-    <h3 style="margin-top:var(--gap-md);">Questions</h3>
+    <h3 class="espace-haut-md">Questions</h3>
 
     <p class="info">
       Les questions affichées correspondent à l'onglet de manipulation
@@ -576,9 +576,9 @@
       <li>
         <div class="question-entete">
           <strong>
-            Expliquer pourquoi, dans une presse hydraulique, une faible force sur le petit piston permet d'exercer une force importante sur le grand piston.
+            Vérifier la cohérence de ΔP (unité en Pa, ordre de grandeur) et contrôler que le rapport F₂ / F₁ obtenu est égal à S₂ / S₁.
           </strong>
-          <span class="cartouche" data-comp="COM">COM</span>
+          <span class="cartouche" data-comp="VAL">VAL</span>
         </div>
         <div class="zone-eleve">
           <textarea id="question-pression-fluide-4" rows="4" placeholder="Votre réponse..."></textarea>
@@ -588,7 +588,7 @@
       <li class="question-problematique">
         <div class="question-entete">
           <strong>Répondre à la problématique de l'onglet « Pression dans un fluide immobile » :</strong>
-          <span class="cartouche" data-comp="VAL">VAL</span>
+          <span class="cartouche" data-comp="COM">COM</span>
         </div>
         <p class="problematique-rappel" data-activite="pression-fluide"></p>
         <div class="zone-eleve">
@@ -600,7 +600,7 @@
 
     </div>
 
-    <div class="questions-bloc" data-tp="pression-debit-resonance" data-onglet="debit" data-onglet-nom="Débit d'un fluide en mouvement" hidden style="display:none;">
+    <div class="questions-bloc" data-tp="pression-debit-resonance" data-onglet="debit" data-onglet-nom="Débit d'un fluide en mouvement" hidden>
     <h4>Questions de l'onglet « Débit d'un fluide en mouvement »</h4>
 
     <ol class="questions-tp">
@@ -644,9 +644,9 @@
       <li>
         <div class="question-entete">
           <strong>
-            Exprimer le débit obtenu en L/s, en L/min et en m³/s, en précisant les conversions utilisées.
+            Vérifier la cohérence du débit et de la vitesse d'écoulement obtenus : contrôler les conversions (L/s, L/min, m³/s) et l'ordre de grandeur.
           </strong>
-          <span class="cartouche" data-comp="COM">COM</span>
+          <span class="cartouche" data-comp="VAL">VAL</span>
         </div>
         <div class="zone-eleve">
           <textarea id="question-debit-4" rows="4" placeholder="Votre réponse..."></textarea>
@@ -656,7 +656,7 @@
       <li class="question-problematique">
         <div class="question-entete">
           <strong>Répondre à la problématique de l'onglet « Débit d'un fluide en mouvement » :</strong>
-          <span class="cartouche" data-comp="VAL">VAL</span>
+          <span class="cartouche" data-comp="COM">COM</span>
         </div>
         <p class="problematique-rappel" data-activite="debit"></p>
         <div class="zone-eleve">
@@ -668,7 +668,7 @@
 
     </div>
 
-    <div class="questions-bloc" data-tp="pression-debit-resonance" data-onglet="resonance" data-onglet-nom="Résonance mécanique" hidden style="display:none;">
+    <div class="questions-bloc" data-tp="pression-debit-resonance" data-onglet="resonance" data-onglet-nom="Résonance mécanique" hidden>
     <h4>Questions de l'onglet « Résonance mécanique »</h4>
 
     <ol class="questions-tp">
@@ -712,9 +712,9 @@
       <li>
         <div class="question-entete">
           <strong>
-            Expliquer pourquoi la résonance peut être dangereuse pour une machine ou un support, et indiquer un moyen de l'éviter.
+            Vérifier la cohérence des résultats : contrôler que f₀ = 1 / T et que la fréquence d'excitation donnant l'amplitude maximale est proche de f₀, puis indiquer l'écart observé.
           </strong>
-          <span class="cartouche" data-comp="COM">COM</span>
+          <span class="cartouche" data-comp="VAL">VAL</span>
         </div>
         <div class="zone-eleve">
           <textarea id="question-resonance-4" rows="4" placeholder="Votre réponse..."></textarea>
@@ -724,7 +724,7 @@
       <li class="question-problematique">
         <div class="question-entete">
           <strong>Répondre à la problématique de l'onglet « Résonance mécanique » :</strong>
-          <span class="cartouche" data-comp="VAL">VAL</span>
+          <span class="cartouche" data-comp="COM">COM</span>
         </div>
         <p class="problematique-rappel" data-activite="resonance"></p>
         <div class="zone-eleve">
@@ -736,7 +736,7 @@
 
     </div>
 
-    <div class="questions-bloc" data-tp="pression-debit-resonance" data-onglet="trainee-portance" data-onglet-nom="Traînée, portance et effet Venturi" hidden style="display:none;">
+    <div class="questions-bloc" data-tp="pression-debit-resonance" data-onglet="trainee-portance" data-onglet-nom="Traînée, portance et effet Venturi" hidden>
     <h4>Questions de l'onglet « Traînée, portance et effet Venturi »</h4>
 
     <ol class="questions-tp">
@@ -780,9 +780,9 @@
       <li>
         <div class="question-entete">
           <strong>
-            Expliquer le lien entre vitesse d'écoulement et pression dans le cas de l'effet Venturi observé.
+            Vérifier que les observations de l'effet Venturi sont cohérentes avec la relation entre vitesse d'écoulement et pression, et signaler toute observation qui s'en écarte.
           </strong>
-          <span class="cartouche" data-comp="COM">COM</span>
+          <span class="cartouche" data-comp="VAL">VAL</span>
         </div>
         <div class="zone-eleve">
           <textarea id="question-trainee-portance-4" rows="4" placeholder="Votre réponse..."></textarea>
@@ -792,7 +792,7 @@
       <li class="question-problematique">
         <div class="question-entete">
           <strong>Répondre à la problématique de l'onglet « Traînée, portance et effet Venturi » :</strong>
-          <span class="cartouche" data-comp="VAL">VAL</span>
+          <span class="cartouche" data-comp="COM">COM</span>
         </div>
         <p class="problematique-rappel" data-activite="trainee-portance"></p>
         <div class="zone-eleve">
@@ -891,11 +891,11 @@
 
     </div>
 
-    <div class="radar-actions" style="margin-top:var(--gap-lg);">
+    <div class="radar-actions espace-haut-lg">
       <button id="btn-radar" class="btn btn-primaire">
         📊 Générer mon radar de compétences
       </button>
-      <div id="radar-resultat" style="margin-top:var(--gap-md);"></div>
+      <div class="espace-haut-md" id="radar-resultat"></div>
     </div>
 
   </div>
@@ -923,7 +923,7 @@
       </button>
     </div>
 
-    <div class="info" style="margin-top:var(--gap-md);">
+    <div class="info espace-haut-md">
       L'impression récupère automatiquement :
       <ul>
         <li>les valeurs saisies, les résultats calculés, les tableaux de mesures et les graphiques ;</li>
@@ -938,18 +938,18 @@
 
 <div class="nav-tp">
 
-  <button class="btn btn-secondaire" onclick="loadTP('tp04-equilibre-rotation-archimede')">
+  <button class="btn btn-secondaire" data-aller-tp="tp04-equilibre-rotation-archimede">
     ← TP04
   </button>
 
-  <button class="btn btn-primaire" onclick="location.href='../index.html'">
+  <button class="btn btn-primaire" data-aller-accueil>
     🏠 Fin du module — Accueil
   </button>
 
 </div>
 
-</main>
+</div>
 
-<div id="cr-print-container" style="display:none;"></div>
+<div id="cr-print-container" hidden></div>
 
 </section>

@@ -13,7 +13,7 @@ import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../..
 import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
-import { initImpressionCompteRendu } from './compte-rendu-electricite.js';
+import { initImpressionCompteRendu, sectionValeurs, RESULTAT_CALCULE } from './compte-rendu-electricite.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initNavigationTP } from './nav-tp.js';
 import { initMateriel } from '../../js/materiel.js';
@@ -137,6 +137,20 @@ export function init() {
     initImpressionCompteRendu({
         titre: 'Puissance active en régime sinusoïdal',
         tp: 'TP03',
+        sectionsSupplementaires: () => [
+          sectionValeurs('Manipulation — Déphasage tension-intensité', [
+            ['Période T du signal (ms)', 'dep-periode'],
+            ['Décalage temporel Δt entre u(t) et i(t) (ms)', 'dep-decalage'],
+            ['Résultat', 'dep-resultat', RESULTAT_CALCULE],
+          ]),
+          sectionValeurs('Manipulation — Puissance active et facteur de puissance', [
+            ['Tension efficace U (V)', 'pa-tension'],
+            ['Intensité efficace I (A)', 'pa-intensite'],
+            ['Facteur de puissance cos φ', 'pa-cosphi'],
+            ['Puissance lue au wattmètre (W)', 'pa-wattmetre'],
+            ['Résultat', 'pa-resultat', RESULTAT_CALCULE],
+          ]),
+        ].filter(Boolean),
       });
   });
 

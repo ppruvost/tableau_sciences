@@ -651,3 +651,35 @@
 .flex-releves-vide[hidden] {
   display: none;
 }
+
+/* ── Remplacements des styles en ligne des fragments (CLAUDE v4, §2.4) ──
+   espace-haut-md, espace-haut-lg et liste-aeree viennent de css/domaine.css.
+   Les classes ci-dessous n'y figurent pas : définies ici, à migrer vers
+   domaine.css si un autre domaine les réutilise. */
+.espace-haut-sm {
+  margin-top: var(--gap-sm);
+}
+.liste-compacte {
+  margin: .5rem 0 0;
+  padding-left: 1.2rem;
+}
+
+/* Schémas de mode opératoire (img.mode-image) : règle propre à chaque
+   domaine qui affiche des .mode-image (absente de domaine.css). */
+.mode-op .mode-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Pastilles de couleur des légendes de courbes (.legende-courbe) */
+.legende-courbe i.pastille-rouge  { background: #c0392b; }
+.legende-courbe i.pastille-orange { background: #e67e22; }
+.legende-courbe i.pastille-bleue  { background: #1B6CA8; }
+
+/* Message d'avertissement masqué par l'attribut hidden (le JS ne pose
+   plus style.display). */
+.warning[hidden],
+#exaop-message[hidden] {
+  display: none;
+}

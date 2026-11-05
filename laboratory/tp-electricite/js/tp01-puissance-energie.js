@@ -13,7 +13,7 @@ import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../..
 import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
-import { initImpressionCompteRendu } from './compte-rendu-electricite.js';
+import { initImpressionCompteRendu, nombreFr } from './compte-rendu-electricite.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initNavigationTP } from './nav-tp.js';
 import { initMateriel } from '../../js/materiel.js';
@@ -315,11 +315,6 @@ function tracerRegression(mesures) {
 // -----------------------------------------------------------------
 // Impression : section « Mesures » du compte-rendu
 // -----------------------------------------------------------------
-
-/** Nombre au format français (virgule décimale) pour l'impression. */
-function nombreFr(valeur, decimales) {
-  return String(arrondir(valeur, decimales)).replace('.', ',');
-}
 
 /**
  * Section transmise à js/compte-rendu.js : tableau des mesures saisies,

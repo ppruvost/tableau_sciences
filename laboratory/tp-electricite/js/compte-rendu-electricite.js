@@ -11,14 +11,23 @@
  * Contenu du compte rendu (dans l'ordre) :
  *   1. contexte professionnel (filière choisie) ;
  *   2. travail réalisé dans les onglets de manipulation :
- *        - sectionsSupplementaires() si le TP la fournit (TP01 : mesures +
- *          graphiques P = f(U×I) et E = f(P×t)) ;
- *        - sinon capture automatique des onglets : valeurs saisies, résultats
- *          calculés (.resultat-calcul[id*="resultat"]), tableaux de mesures
- *          (tbody[id] ou cellules de saisie) et graphiques (.graphique-conteneur) ;
+ *        - sectionsSupplementaires() : voie utilisée par les 5 TP
+ *          (TP01 : mesures + graphiques ; TP02 à TP05 : valeurs saisies,
+ *          résultats calculés, tableaux et graphiques déclarés par id
+ *          avec les assistants sectionValeurs / sectionTableau ci-dessous) ;
+ *        - à défaut (TP sans sectionsSupplementaires, ou qui n'en renvoie
+ *          aucune) : capture automatique des onglets — valeurs saisies,
+ *          résultats calculés (.resultat-calcul[id*="resultat"]), tableaux
+ *          de mesures (tbody[id] ou cellules de saisie) et graphiques
+ *          (.graphique-conteneur) ;
  *   3. questions et réponses (numérotées) ;
  *   4. auto-évaluation des compétences (+ radar s'il a été généré).
  * L'identité est lue par compte-rendu.js dans la rubrique « Identification » de la page.
+ *
+ * Assistants exportés (nombreFr, ajouterLigne et sectionValeurs : code identique à compte-rendu-acoustique.js) :
+ *   initImpressionCompteRendu, sectionValeurs, nombreFr, ajouterLigne ;
+ *   en plus, propres à l'électricité : sectionTableau (tableau reconstruit dans un tbody[id]
+ *   + graphique éventuel) et RESULTAT_CALCULE (motif d'exclusion des textes d'invite).
  */
 
 import { genererCompteRendu } from '../../js/compte-rendu.js';
@@ -81,6 +90,94 @@ function texteResultat(el) {
   const copie = el.cloneNode(true);
   copie.querySelectorAll('br').forEach(br => br.replaceWith(' · '));
   return nettoyer(copie.textContent);
+}
+
+/* ==========================================================
+   ASSISTANTS POUR sectionsSupplementaires
+   ========================================================== */
+
+/** Nombre au format français (virgule décimale), pour les tableaux imprimés. */
+export function nombreFr(valeur, decimales = 1) {
+  if (valeur === null || valeur === undefined || Number.isNaN(valeur)) return '—';
+  return Number(valeur).toLocaleString('fr-FR', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: decimales,
+  });
+}
+
+/** Ajoute une ligne au tableau : cellules en texte brut (aucune injection HTML). */
+export function ajouterLigne(tbody, cellules) {
+  const tr = document.createElement('tr');
+  cellules.forEach(c => {
+    const td = document.createElement('td');
+    td.textContent = String(c ?? '');
+    tr.appendChild(td);
+  });
+  tbody.appendChild(tr);
+}
+
+/**
+ * Section « items » (libellé / valeur) à partir de champs de la page.
+ * champs : [[libellé, idElement, motifValide?], …] ; <input> et <select> sont lus par leur
+ * valeur (texte de l'option pour un <select>), <output> et autres par leur
+ * texte. Les champs vides (ou « — ») sont ignorés ; null si rien n'est saisi.
+ */
+export function sectionValeurs(titre, champs) {
+  const items = champs.map(champ => {
+    const [label, id] = champ;
+    const el = document.getElementById(id);
+    if (!el) return null;
+    let v;
+    if (el.tagName === 'SELECT') {
+      v = el.value ? (el.options[el.selectedIndex]?.text || '').trim() : '';
+    } else if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+      v = (el.value || '').trim();
+    } else {
+      v = (el.textContent || '').trim();
+    }
+    if (!v || v === '—') return null;
+    // 3ᵉ élément facultatif : motif que la valeur doit respecter (pour ignorer
+    // les textes d'attente du type « Compléter les observations… »).
+    if (champ[2] && !champ[2].test(v)) return null;
+    return { label, valeur: v };
+  }).filter(Boolean);
+  return items.length ? { titre, items } : null;
+}
+
+/**
+ * Motif à passer en 3ᵉ élément d'un champ .resultat-calcul : écarte les textes
+ * d'invite du fragment (« Saisir… », « Compléter… », « Régler… », « Sélectionner… »).
+ */
+export const RESULTAT_CALCULE = /^(?!Saisir|Compléter|Régler|Sélectionner)/;
+
+/**
+ * Section « tableau » reconstruite depuis le DOM : lignes du tbody[id], en-têtes
+ * du thead du même tableau, plus le graphique d'un conteneur .graphique-conteneur
+ * (idGraphique) s'il contient un <canvas> ou un <svg>.
+ * Retourne null si le tbody est vide ou absent.
+ */
+export function sectionTableau(titre, idTbody, { idGraphique, legende } = {}) {
+  const tbody = document.getElementById(idTbody);
+  if (!tbody || !tbody.rows.length) return null;
+
+  const table = tbody.closest('table');
+  const section = {
+    titre,
+    tableau: {
+      entetes: [...(table?.querySelectorAll('thead th') || [])].map(texte),
+      lignes: [...tbody.rows].map(tr => [...tr.cells].map(td => {
+        const champ = td.querySelector(SELECTEUR_CHAMPS);
+        return champ ? (valeurChamp(champ) || '—') : texte(td).replace(/(\d)\.(\d)/g, '$1,$2');
+      })),
+    },
+  };
+
+  const graphique = idGraphique ? document.getElementById(idGraphique) : null;
+  if (graphique && graphique.querySelector('canvas, svg')) {
+    section.canvas = graphique;
+    if (legende) section.legende = legende;
+  }
+  return section;
 }
 
 /* ==========================================================
@@ -318,9 +415,10 @@ function construireSectionAutoEvaluation() {
  * @param {string} params.tp    - Numéro du TP (ex. "TP01")
  * @param {() => Object[]} [params.sectionsSupplementaires]
  *        Fonction appelée au moment de l'impression ; retourne les sections
- *        propres au TP (ex. tableau de mesures + graphique). Si elle ne
- *        retourne rien, les onglets de manipulation sont capturés
- *        automatiquement.
+ *        propres au TP (sectionValeurs, sectionTableau, tableau de mesures + graphique…).
+ *        Dès qu'elle renvoie au moins une section, la capture automatique de
+ *        TOUS les onglets est abandonnée : il faut alors tout déclarer.
+ *        Si elle ne renvoie rien, les onglets sont capturés automatiquement.
  */
 export function initImpressionCompteRendu({ titre, tp, sectionsSupplementaires }) {
 

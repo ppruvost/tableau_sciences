@@ -15,7 +15,7 @@ import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../..
 import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
-import { initImpressionCompteRendu } from './compte-rendu-electricite.js';
+import { initImpressionCompteRendu, sectionValeurs, sectionTableau, RESULTAT_CALCULE } from './compte-rendu-electricite.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initNavigationTP } from './nav-tp.js';
 import { initMateriel } from '../../js/materiel.js';
@@ -136,6 +136,20 @@ export function init() {
     initImpressionCompteRendu({
         titre: "Stockage de l'énergie par un système électrochimique",
         tp: 'TP05',
+        sectionsSupplementaires: () => [
+          sectionValeurs("Manipulation — Charge et décharge d'un accumulateur", [
+            ["Capacité de l'accumulateur (Ah)", 'acc-capacite'],
+            ["Tension d'utilisation (V)", 'acc-tension'],
+            ["Masse de l'accumulateur (g)", 'acc-masse'],
+            ['Énergie stockée', 'acc-resultat', RESULTAT_CALCULE],
+            ['Courant de charge / décharge (A)', 'acc-courant'],
+            ['Temps de charge / décharge', 'acc-temps-resultat', RESULTAT_CALCULE],
+          ]),
+          sectionTableau('Décharge : tableau et graphique U = f(t)', 'tbody-decharge', {
+            idGraphique: 'graphique-decharge',
+            legende: "Tension de l'accumulateur au cours de la décharge",
+          }),
+        ].filter(Boolean),
       });
   });
 

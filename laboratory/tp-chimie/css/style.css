@@ -275,3 +275,42 @@ body.mol3d-ouverte { overflow: hidden; }
   line-height: 0;
   vertical-align: super;
 }
+/* ════════════════════════════════════════════════════════════════
+   Équivalents des anciens styles en ligne des fragments
+   (CLAUDE v4, §2.4 : aucun style="…" dans un fragment)
+   ════════════════════════════════════════════════════════════════ */
+
+/* Images de schéma des .mode-op (§10) */
+.mode-op .mode-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* TP02 — simulateur de pH : textes secondaires et bandeau des concentrations */
+.texte-petit { font-size: .85rem; }
+.texte-gras { font-weight: 600; }
+.texte-discret { color: var(--gris-moyen); }
+.decalage-gauche-sm { margin-left: var(--gap-sm); }
+.bandeau-concentrations {
+  margin-top: var(--gap-md);
+  padding: var(--gap-sm) var(--gap-md);
+  background: var(--blanc-paillasse);
+  border-radius: var(--r-sm);
+}
+
+/* TP03 — pastilles de la légende de la courbe (couleurs identiques au tracé) */
+.legende-courbe .pastille-theorique     { background: #8a8a8a; }
+.legende-courbe .pastille-experimentale { background: #c0392b; }
+.legende-courbe .pastille-tangentes     { background: #111; }
+.legende-courbe .pastille-equivalence   { background: #1B6CA8; }
+.legende-courbe .pastille-derivee       { background: #8e44ad; }
+
+/* TP03 — info-bulle du curseur de la courbe */
+.curseur-info {
+  position: absolute;
+  pointer-events: none;
+}
+
+/* TP03 — blocs affichés / masqués par le JS (attribut hidden) */
+.resultat[hidden] { display: none; }

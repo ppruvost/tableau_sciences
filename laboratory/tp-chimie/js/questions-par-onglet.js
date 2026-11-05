@@ -10,9 +10,8 @@
  *     portant data-activite="<id de l'onglet>", rempli par contexte-pro.js
  *     à partir de `problematiques` dans CONTEXTES_PRO_TPxx).
  *
- * Seul le bloc de l'onglet actif est affiché. L'impression du compte-rendu
- * reprend le bloc affiché, et celui d'un autre onglet seulement s'il
- * contient des réponses (questions alors préfixées du nom de l'onglet).
+ * Seul le bloc de l'onglet actif est affiché et seul ce bloc est repris dans
+ * le compte-rendu imprimé (CLAUDE v4, §6.3 et §8.4).
  */
 
 let prefixer = false;
@@ -50,9 +49,10 @@ export function initQuestionsParOnglet() {
 }
 
 /**
- * Questions à reprendre dans le compte-rendu : celles du bloc affiché,
- * plus celles d'un autre onglet si au moins une réponse y a été saisie.
- * Sans bloc (TP à une seule activité), toutes les questions de la page.
+ * Questions à reprendre dans le compte-rendu : celles du seul bloc affiché
+ * (onglet actif) ; les réponses d'un autre onglet ne sont jamais imprimées
+ * (CLAUDE v4, §8.4). Sans bloc (TP à une seule activité), toutes les
+ * questions de la page.
  */
 export function listerQuestionsCR() {
 
@@ -64,8 +64,7 @@ export function listerQuestionsCR() {
     }
 
     const retenus = blocs.filter(bloc =>
-        !bloc.hidden ||
-        [...bloc.querySelectorAll("textarea")].some(t => (t.value || "").trim() !== "")
+        !bloc.hidden && bloc.style.display !== "none"
     );
 
     prefixer = retenus.length > 1;

@@ -16,6 +16,7 @@ import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu, texte, valeur } from './compte-rendu-mecanique.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
+import { initNavigationTP } from './nav-tp.js';
 import { initMateriel } from '../../js/materiel.js';
 import { initZoomVisuels } from '../../js/zoom-visuel.js';
 import glassware from '../../data/glassware.js';
@@ -160,6 +161,10 @@ export function init() {
 
   etape('initQuestionsParOnglet', () => {
     initQuestionsParOnglet();
+  });
+
+  etape('initNavigationTP', () => {
+    initNavigationTP();
   });
 
   etape('initImpressionCompteRendu', () => {

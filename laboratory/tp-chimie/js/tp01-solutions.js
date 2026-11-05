@@ -11,6 +11,7 @@ import glassware from "../../data/glassware.js";
 import laboratoryEquipment from "../../data/equipment.js";
 import FILIERES_PRO from "../../data/filieres.js";
 import { initQuestionsParOnglet } from "./questions-par-onglet.js";
+import { initNavigationTP } from "./nav-tp.js";
 import { initImpressionCompteRendu } from "./compte-rendu-chimie.js";
 import { afficherBouton3DProduit } from "./molecule-3d.js";
 
@@ -267,6 +268,8 @@ export function init() {
 
     etape("initQuestionsParOnglet", () => initQuestionsParOnglet());
 
+    etape("initNavigationTP", () => initNavigationTP());
+
     etape("initImpressionCompteRendu", () => {
         initImpressionCompteRendu({
             titre: "Préparation de solutions par dissolution et dilution",
@@ -391,7 +394,7 @@ function calculDilution() {
     const c1 = parseFloat($("c1-hcl")?.value) || 0;
     const c2 = parseFloat($("c2-hcl")?.value) || 0;
     const v2 = parseFloat($("v2-hcl")?.value) || 0;
-    const resDilutionDiv = $("res-hcl");
+    const resDilutionDiv = $("resultat-hcl");
 
     if (!resDilutionDiv) return;
 
@@ -402,7 +405,9 @@ function calculDilution() {
 
     // Calculer V1 = (C2 × V2) / C1
     const v1 = (c2 * v2) / c1;
-    resDilutionDiv.textContent = `Volume à prélever : ${v1.toFixed(2)} mL`;
+    const fort = document.createElement("strong");
+    fort.textContent = `Volume à prélever : ${v1.toFixed(2)} mL`;
+    resDilutionDiv.replaceChildren(fort);
 }
 
 /* ==========================================================
@@ -891,8 +896,8 @@ function viderSortiesSC() {
 function actualiserSC() {
     const e = lireEtatSC();
     const r = calculerDilutionCommerciale(e);
-    const details = $("sc-details");
-    const verrerie = $("sc-verrerie");
+    const details = $("sc-resultat-details");
+    const verrerie = $("sc-resultat-verrerie");
     const preset = SOLUTIONS_COMMERCIALES[$("sc-solution")?.value];
 
     // Rappels dans le tableau de résultats de l'onglet
@@ -942,7 +947,7 @@ function calculerEcartsSC() {
     const r = calculerDilutionCommerciale(e);
     const v0Reel = lireNombre($("sc-v0-reel"));
     const cTitrage = lireNombre($("sc-c-titrage"));
-    const zone = $("sc-res-ecart");
+    const zone = $("sc-resultat-ecart");
 
     const razCObtenue = () => {
         remplirChamp("sc-c-obtenue", "");
@@ -1113,69 +1118,24 @@ function initTabSolutionsCommerciales() {
    compte-rendu-chimie.js)
    ========================================================== */
 function sectionsCompteRendu() {
-    const nomReactif = reactifCourant?.nom || "—";
-    const masseMolaire = $("masse-molaire-reactif-selectionne")?.textContent || "—";
-    const cDissolution = $("c-dissolution")?.value || "—";
-    const vDissolution = $("v-dissolution")?.value || "—";
-    const masseTheo = $("res-dissolution")?.value || "—";
+    // Les champs saisis, les champs en lecture seule, les tableaux et les
+    // résultats `.resultat-calcul[id*="resultat"]` sont repris par la capture
+    // automatique des onglets (compte-rendu-chimie.js) : n'est déclaré ici
+    // que le réactif de sécurité consulté (hors onglets), afin d'éviter tout
+    // doublon dans le PDF. Le tableau « Mes résultats » de l'onglet Solutions
+    // commerciales est lu tel quel, écarts relatifs compris.
+    const valeurs = (items) => items.filter(i => i.valeur && i.valeur !== "—");
+    const texte = (id) => $(id)?.textContent?.trim() || "";
 
-    const sections = [
+    const masseMolaire = texte("masse-molaire-reactif-selectionne");
+
+    return [
         {
-            titre: "Paramètres de la dissolution",
-            groupe: "dissolution",
-            items: [
-                { label: "Réactif", valeur: nomReactif },
-                { label: "Masse molaire M", valeur: `${masseMolaire} g/mol` },
-                { label: "Concentration C", valeur: `${cDissolution} mol/L` },
-                { label: "Volume V", valeur: `${vDissolution} mL` },
-                { label: "Masse théorique m", valeur: `${masseTheo} g` }
-            ]
-        },
-        {
-            titre: "Paramètres de la dilution (C₁V₁ = C₂V₂)",
-            groupe: "dilution",
-            items: [
-                { label: "Concentration mère C₁", valeur: `${$("c1-hcl")?.value || "—"} mol/L` },
-                { label: "Concentration fille C₂", valeur: `${$("c2-hcl")?.value || "—"} mol/L` },
-                { label: "Volume final V₂", valeur: `${$("v2-hcl")?.value || "—"} mL` },
-                { label: "Volume à prélever V₁", valeur: `${$("res-hcl")?.textContent?.replace("Volume à prélever : ", "") || "—"}` }
-            ]
-        },
-        {
-            titre: "Série de dilutions par 2 (D0 à D5)",
-            groupe: "dilution",
-            items: IDS_SERIE_DILUTION.map((id, n) => ({
-                label: `Concentration D${n}`,
-                valeur: `${$(id)?.value || "—"} mol/L`
-            }))
-        },
-        {
-            titre: "Dilution d'une solution commerciale",
-            groupe: "solutions-commerciales",
-            items: [
-                { label: "Solution préparée", valeur: $("sc-solution")?.selectedOptions?.[0]?.textContent || "—" },
-                { label: "Concentration massique Cm₁", valeur: `${$("sc-out-cm0")?.value || "—"} g/L` },
-                { label: "Concentration molaire C₁", valeur: `${$("sc-out-c0")?.value || "—"} mol/L` },
-                { label: "Concentration visée C₂", valeur: `${$("sc-c1")?.value || "—"} mol/L` },
-                { label: "Volume final V₂", valeur: `${$("sc-v1")?.value || "—"} mL` },
-                { label: "Volume à prélever V₁", valeur: `${$("sc-out-v0")?.value || "—"} mL` },
-                { label: "Facteur de dilution F", valeur: $("sc-out-f")?.value || "—" },
-                { label: "V₁ réellement prélevé", valeur: `${$("sc-v0-reel")?.value || "—"} mL` },
-                { label: "Concentration obtenue", valeur: `${$("sc-c-obtenue")?.value || "—"} mol/L` },
-                { label: "Écart relatif", valeur: $("sc-ecart-rel")?.textContent?.trim() || "—" },
-                { label: "Concentration mesurée par titrage", valeur: $("sc-c-titrage")?.value ? `${$("sc-c-titrage").value} mol/L` : "—" },
-                { label: "Écart relatif (titrage)", valeur: $("sc-ecart-titrage")?.textContent?.trim() || "—" }
-            ]
-        },
-        {
-            titre: "Test d'identification d'ion",
-            groupe: "identification-ions",
-            items: [
-                { label: "Échantillon testé", valeur: $("select-echantillon-ions")?.selectedOptions?.[0]?.textContent || "—" },
-                { label: "Réactif ajouté", valeur: $("select-reactif-ions")?.selectedOptions?.[0]?.textContent || "—" }
-            ]
+            titre: "Réactif de sécurité consulté",
+            items: valeurs([
+                { label: "Réactif", valeur: reactifCourant?.nom || "" },
+                { label: "Masse molaire M", valeur: masseMolaire && masseMolaire !== "-" ? `${masseMolaire} g/mol` : "" }
+            ])
         }
-    ];
-
-    return sections;
+    ].filter(section => section.items.length);
 }

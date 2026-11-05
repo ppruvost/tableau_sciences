@@ -11,6 +11,7 @@ import glassware from "../../data/glassware.js";
 import laboratoryEquipment from "../../data/equipment.js";
 import FILIERES_PRO from "../../data/filieres.js";
 import { initQuestionsParOnglet } from "./questions-par-onglet.js";
+import { initNavigationTP } from "./nav-tp.js";
 import { initImpressionCompteRendu } from "./compte-rendu-chimie.js";
 import { bouton3D, initBoutons3D, afficherBouton3DProduit, nomSansParentheses } from "./molecule-3d.js";
 
@@ -210,6 +211,7 @@ export function init() {
     etape("initSimulateurPH", () => initSimulateurPH());
     etape("initTabIndicateur", () => initTabIndicateur());
     etape("initTabPapierPH", () => initTabPapierPH());
+    etape("initTabTitrageColorimetrique", () => initTabTitrageColorimetrique());
     etape("initTabAcidoBasique", () => initTabAcidoBasique());
 
     etape("initMateriel", () => {
@@ -231,11 +233,17 @@ export function init() {
     });
 
     etape("initOngletsParFiliere", () => {
+        const TOUS_ONGLETS = ["indicateur", "papier-ph", "titrage-colorimetrique", "acido-basique"];
         initOngletsParFiliere({
             mapping: {
-                "tle-mcc": ["indicateur", "papier-ph", "titrage-colorimetrique", "acido-basique"],
+                "2nde-remi": TOUS_ONGLETS,
+                "2nde-mcc": TOUS_ONGLETS,
+                "1ere-tci": TOUS_ONGLETS,
+                "1ere-trpm": TOUS_ONGLETS,
+                "1ere-mcc": TOUS_ONGLETS,
                 "tle-tci": [],
-                "tle-trpm": []
+                "tle-trpm": [],
+                "tle-mcc": TOUS_ONGLETS
             },
             messageId: "tp02-message-filiere",
             messageTexte: "En Terminale, votre filière approfondit l'oxydoréduction plutôt que la relation pH / concentration en ions H₃O⁺ — voir le TP « Oxydoréduction »."
@@ -248,6 +256,8 @@ export function init() {
     etape("initRadarCompetences", () => initRadarCompetences());
 
     etape("initQuestionsParOnglet", () => initQuestionsParOnglet());
+
+    etape("initNavigationTP", () => initNavigationTP());
 
     etape("initImpressionCompteRendu", () => {
         initImpressionCompteRendu({
@@ -398,6 +408,61 @@ function initTabIndicateur() {
         fiche.innerHTML = rendreFicheIndicateur(ind);
         initBoutons3D(fiche);
     });
+}
+
+/* ==========================================================
+   ONGLET "Titrage colorimétrique"
+   Ca · Va = Cb · Veq (acide et base monofonctionnels, 1 : 1).
+   Le résultat est écrit dans un <strong> : seul un résultat avec un
+   élément enfant est repris dans le compte rendu (CLAUDE v4, §8.3) ;
+   le texte d'invite, lui, n'est volontairement pas capturé.
+   ========================================================== */
+function initTabTitrageColorimetrique() {
+    const select = $("select-indicateur-titrage");
+    const fiche = $("fiche-indicateur-titrage");
+    const va = $("titrage-va");
+    const cb = $("titrage-cb");
+    const veq = $("titrage-veq");
+    const zone = $("resultat-titrage-colorimetrique");
+
+    if (select && fiche) {
+        select.innerHTML = '<option value="">-- Sélectionner --</option>' +
+            INDICATEURS_B27.map(ind => `<option value="${ind.cas}">${ind.nom}</option>`).join("");
+
+        select.addEventListener("change", () => {
+            const ind = INDICATEURS_B27.find(i => i.cas === select.value);
+            fiche.innerHTML = ind
+                ? rendreFicheIndicateur(ind)
+                : "<p>Sélectionner un indicateur adapté au virage attendu (pH ≈ 7 pour un titrage acide fort / base forte).</p>";
+            initBoutons3D(fiche);
+        });
+    }
+
+    if (!va || !cb || !veq || !zone) return;
+
+    const INVITE = "Renseigner Va, Cb et Veq pour calculer la concentration Ca de la solution titrée.";
+
+    const calculer = () => {
+        const vaN = parseFloat(va.value);
+        const cbN = parseFloat(cb.value);
+        const veqN = parseFloat(veq.value);
+
+        if ([vaN, cbN, veqN].some(Number.isNaN)) {
+            zone.textContent = INVITE;
+            return;
+        }
+        if (vaN <= 0) {
+            zone.textContent = "Va doit être strictement positif pour calculer Ca.";
+            return;
+        }
+
+        const ca = (cbN * veqN) / vaN;
+        const fort = document.createElement("strong");
+        fort.textContent = `Ca = Cb × Veq / Va = ${ca.toLocaleString("fr-FR", { maximumSignificantDigits: 3 })} mol/L`;
+        zone.replaceChildren(fort);
+    };
+
+    [va, cb, veq].forEach(champ => champ.addEventListener("input", calculer));
 }
 
 /* ==========================================================

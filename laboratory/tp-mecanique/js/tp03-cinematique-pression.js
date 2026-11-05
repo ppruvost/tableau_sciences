@@ -15,6 +15,7 @@ import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
 import { initImpressionCompteRendu, texte, valeur } from './compte-rendu-mecanique.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
+import { initNavigationTP } from './nav-tp.js';
 import { initMateriel } from '../../js/materiel.js';
 import { initZoomVisuels } from '../../js/zoom-visuel.js';
 import laboratoryEquipment from '../../data/equipment.js';
@@ -154,6 +155,10 @@ export function init() {
 
   etape('initQuestionsParOnglet', () => {
     initQuestionsParOnglet();
+  });
+
+  etape('initNavigationTP', () => {
+    initNavigationTP();
   });
 
   etape('initImpressionCompteRendu', () => {
@@ -506,7 +511,7 @@ function initSimulateurAcceleration() {
     btnToggle.textContent = "▶️ Lancer l'enregistrement";
     btnNoter1.disabled = true;
     btnNoter2.disabled = true;
-    if (zoneMessage) zoneMessage.style.display = 'none';
+    if (zoneMessage) zoneMessage.hidden = true;
 
     [inputT1, inputV1, inputT2, inputV2].forEach(input => {
       if (!input) return;
@@ -525,13 +530,13 @@ function initSimulateurAcceleration() {
       point1 = { t, v };
       if (inputT1) { inputT1.value = arrondir(t, 2); declencherInput(inputT1); }
       if (inputV1) { inputV1.value = arrondir(v, 2); declencherInput(inputV1); }
-      if (zoneMessage) zoneMessage.style.display = 'none';
+      if (zoneMessage) zoneMessage.hidden = true;
     } else {
       if (point1 && t <= point1.t && zoneMessage) {
         zoneMessage.textContent = "L'instant 2 doit être postérieur à l'instant 1 : relancez l'enregistrement et mettez-le en pause plus tard pour le noter à nouveau.";
-        zoneMessage.style.display = 'block';
+        zoneMessage.hidden = false;
       } else if (zoneMessage) {
-        zoneMessage.style.display = 'none';
+        zoneMessage.hidden = true;
       }
       point2 = { t, v };
       if (inputT2) { inputT2.value = arrondir(t, 2); declencherInput(inputT2); }

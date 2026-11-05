@@ -39,6 +39,15 @@ export function initOngletsParFiliere({
 
   if (!select) return;
 
+  // Affiche/masque le message « hors programme » : attribut hidden (fragments
+  // sans style en ligne) ET style.display (fragments des autres domaines qui
+  // portent encore style="display:none;").
+  function afficherMessage(visible) {
+    if (!zoneMessage) return;
+    zoneMessage.hidden = !visible;
+    zoneMessage.style.display = visible ? 'block' : 'none';
+  }
+
   function appliquer() {
 
     const cle = select.value;
@@ -56,14 +65,12 @@ export function initOngletsParFiliere({
       boutons.forEach(btn => { btn.style.display = 'none'; });
       panneaux.forEach(p => p.classList.remove('actif'));
 
-      if (zoneMessage) {
-        zoneMessage.style.display = 'block';
-        zoneMessage.textContent = messageTexte;
-      }
+      if (zoneMessage) zoneMessage.textContent = messageTexte;
+      afficherMessage(true);
       return;
     }
 
-    if (zoneMessage) zoneMessage.style.display = 'none';
+    afficherMessage(false);
 
     // Pas de règle connue pour cette clé (ou aucune filière sélectionnée
     // pour l'instant) : on affiche tout, par défaut.

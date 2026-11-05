@@ -91,10 +91,10 @@ export function initAcquisitionExaoPression() {
 
   function afficherMessage(texte, classe = 'info') {
     if (!texte) {
-      zoneMessage.style.display = 'none';
+      zoneMessage.hidden = true;
       return;
     }
-    zoneMessage.style.display = 'block';
+    zoneMessage.hidden = false;
     zoneMessage.className = classe;
     zoneMessage.textContent = texte;
   }

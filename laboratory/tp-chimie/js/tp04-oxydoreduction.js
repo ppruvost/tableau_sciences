@@ -12,6 +12,7 @@ import glassware from "../../data/glassware.js";
 import laboratoryEquipment from "../../data/equipment.js";
 import FILIERES_PRO from "../../data/filieres.js";
 import { initQuestionsParOnglet } from "./questions-par-onglet.js";
+import { initNavigationTP } from "./nav-tp.js";
 import { initImpressionCompteRendu } from "./compte-rendu-chimie.js";
 import { afficherBouton3DProduit } from "./molecule-3d.js";
 
@@ -190,24 +191,25 @@ export function init() {
     });
 
     etape("initOngletsParFiliere", () => {
+        const ONGLETS_TLE = [
+            "reaction-acide", "classification-qualitative", "pile-electrochimique",
+            "classification", "corrosion-passivation", "anode-sacrificielle"
+        ];
+        // Terminale TCI / TRPM : tous les onglets ; MCC : sans l'accumulateur.
+        // Autres niveaux : TP hors programme (message d'absence).
         initOngletsParFiliere({
             mapping: {
-                "tle-tci": [
-                    "reaction-acide", "classification-qualitative", "pile-electrochimique",
-                    "classification", "corrosion-passivation", "anode-sacrificielle",
-                    "accumulateur"
-                ],
-                "tle-trpm": [
-                    "reaction-acide", "classification-qualitative", "pile-electrochimique",
-                    "classification", "corrosion-passivation", "anode-sacrificielle",
-                    "accumulateur"
-                ],
-                "tle-mcc": [
-                    "reaction-acide", "classification-qualitative", "pile-electrochimique",
-                    "classification", "corrosion-passivation", "anode-sacrificielle"
-                ]
+                "2nde-remi": [],
+                "2nde-mcc": [],
+                "1ere-tci": [],
+                "1ere-trpm": [],
+                "1ere-mcc": [],
+                "tle-tci": [...ONGLETS_TLE, "accumulateur"],
+                "tle-trpm": [...ONGLETS_TLE, "accumulateur"],
+                "tle-mcc": ONGLETS_TLE
             },
-            messageId: "tp04-message-filiere"
+            messageId: "tp04-message-filiere",
+            messageTexte: "Ce TP d'oxydoréduction est destiné à la classe de Terminale : choisissez votre filière de Terminale pour accéder aux manipulations."
         });
     });
 
@@ -217,6 +219,8 @@ export function init() {
     etape("initRadarCompetences", () => initRadarCompetences());
 
     etape("initQuestionsParOnglet", () => initQuestionsParOnglet());
+
+    etape("initNavigationTP", () => initNavigationTP());
 
     etape("initImpressionCompteRendu", () => {
         initImpressionCompteRendu({

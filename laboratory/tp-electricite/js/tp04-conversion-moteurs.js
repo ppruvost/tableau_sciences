@@ -14,7 +14,7 @@ import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../..
 import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
-import { initImpressionCompteRendu } from './compte-rendu-electricite.js';
+import { initImpressionCompteRendu, sectionValeurs, sectionTableau } from './compte-rendu-electricite.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initNavigationTP } from './nav-tp.js';
 import { initMateriel } from '../../js/materiel.js';
@@ -155,6 +155,16 @@ export function init() {
     initImpressionCompteRendu({
         titre: 'Conversion alternatif-continu et moteurs électriques',
         tp: 'TP04',
+        // #redr-info et #moteur-info sont des textes d'aide : volontairement hors du PDF.
+        sectionsSupplementaires: () => [
+          sectionValeurs('Manipulation — Redressement et filtrage', [
+            ['Étape observée', 'redr-etape'],
+          ]),
+          sectionValeurs('Manipulation — Moteurs électriques', [
+            ['Type de moteur identifié', 'moteur-type'],
+          ]),
+          sectionTableau('Tableau — Fréquence de rotation du moteur', 'tbody-moteur'),
+        ].filter(Boolean),
       });
   });
 
