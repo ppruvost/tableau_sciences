@@ -5,31 +5,44 @@
  * Chargé par navigation.js juste après l'injection du fragment
  * tp-optique/modules/tp03-perception-couleurs.html dans #content.
  *
- * Convention SciLab :
+ * Convention SciLab (structure alignée sur tp-electricite, CLAUDE v4) :
  *  - le fragment HTML est la référence fixe, ce fichier s'adapte à lui
  *  - navigation.js exécute module.init() après l'import : le point
  *    d'entrée DOIT donc s'appeler init(), pas initTP03()
  */
 
-import { $, initSections, initTabs, initModesOperatoires } from '../../js/utils.js';
+import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../../js/utils.js';
 import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
-import { initImpressionCompteRendu } from './compte-rendu-optique.js';
+import { initImpressionCompteRendu, sectionValeurs, sectionTableau, ajouterLigne } from './compte-rendu-optique.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
+import { initNavigationTP } from './nav-tp.js';
 import { initMateriel } from '../../js/materiel.js';
+import { initZoomVisuels } from '../../js/zoom-visuel.js';
 import laboratoryEquipment from '../../data/equipment.js';
+import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 
-// Contexte professionnel par filière (clé "niveau-idFiliere")
 const CONTEXTES_PRO = {
 
   '2nde-remi': {
     contexte: "En Réalisation d'Ensembles Mécaniques et Industriels, le contrôle visuel de pièces (repérage de code couleur, contrôle qualité) dépend fortement de la couleur de l'éclairage de l'atelier.",
-    problematique: "Pourquoi la couleur perçue d'une pièce peut-elle changer selon l'éclairage de l'atelier, et comment l'éviter lors d'un contrôle qualité ?",
+    problematiques: {
+      'synthese-additive': "Comment obtenir toutes les couleurs, y compris le blanc, à partir de trois lumières colorées seulement ?",
+      'synthese-soustractive': "Comment des filtres colorés modifient-ils la couleur de la lumière transmise lors d'un contrôle visuel ?",
+      'couleur-objet-eclairage': "Pourquoi la couleur perçue d'une pièce peut-elle changer selon l'éclairage de l'atelier, et comment l'éviter lors d'un contrôle qualité ?",
+      'modele-oeil': "Comment l'œil, modélisé par une lentille et un écran, permet-il de percevoir la couleur d'une pièce observée ?",
+    },
   },
 
   '2nde-mcc': {
     contexte: "En Métiers de la couture et de la confection, l'assortiment des couleurs de tissus doit être vérifié sous un éclairage neutre, car la couleur perçue d'un tissu dépend de la composition spectrale de la lumière qui l'éclaire.",
-    problematique: "Pourquoi deux tissus qui semblent assortis sous un éclairage peuvent-ils sembler différents sous un autre, et comment l'anticiper ?",
+    problematiques: {
+      'synthese-additive': "Comment un écran ou un éclairage coloré reproduit-il toutes les teintes à partir de trois lumières colorées ?",
+      'synthese-soustractive': "Comment la superposition de filtres ou de teintures colorées modifie-t-elle la couleur finale perçue d'un tissu ?",
+      'couleur-objet-eclairage': "Pourquoi deux tissus qui semblent assortis sous un éclairage peuvent-ils sembler différents sous un autre, et comment l'anticiper ?",
+      'modele-oeil': "Comment l'œil perçoit-il la couleur d'un tissu, et pourquoi cette perception dépend-elle de la lumière reçue ?",
+    },
   },
 
 };
@@ -54,36 +67,115 @@ const REPONSES_OEIL = {
   'oeil-element2': 'retine',
 };
 
-// ---------------------------------------------------------------
-// Point d'entrée, appelé automatiquement par navigation.js
-// ---------------------------------------------------------------
+// Exécute une étape d'initialisation ; une erreur dans une étape est
+// journalisée sans empêcher les suivantes de s'exécuter.
+function etape(nom, fn) {
+  try {
+    fn();
+  } catch (err) {
+    console.error(`[tp-optique] étape « ${nom} » en erreur :`, err);
+  }
+}
+
 export function init() {
-  initSyntheseAdditive();
-  initSyntheseSoustractive();
-  initCouleurObjetEclairage();
-  initModeleOeil();
 
-  initMateriel({
-    equipementId: 'materiel-equipements',
-    equipment: laboratoryEquipment,
-    categorie: 'Optique',
+  etape('initZoomVisuels', () => {
+    initZoomVisuels();
   });
 
-  initContextePro({
-    filieres: FILIERES_PRO,
-    contextes: CONTEXTES_PRO,
+  etape('initSyntheseAdditive', () => {
+    initSyntheseAdditive();
   });
 
-  initSections();
-  initTabs();
-  initModesOperatoires();
-
-  initRadarCompetences();
-
-  initImpressionCompteRendu({
-    titre: 'Perception des couleurs',
-    tp: 'TP03',
+  etape('initSyntheseSoustractive', () => {
+    initSyntheseSoustractive();
   });
+
+  etape('initCouleurObjetEclairage', () => {
+    initCouleurObjetEclairage();
+  });
+
+  etape('initModeleOeil', () => {
+    initModeleOeil();
+  });
+
+  etape('initMateriel', () => {
+    initMateriel({
+      equipementId: 'materiel-equipements',
+      equipment: laboratoryEquipment,
+      categorie: 'Optique',
+    });
+  });
+
+  etape('initContextePro', () => {
+    initContextePro({
+      filieres: FILIERES_PRO,
+      contextes: CONTEXTES_PRO,
+      afficherProblematique: false,
+    });
+  });
+
+  // TP destiné aux classes de 2nde (filières REMI et MCC).
+  // Les clés absentes seraient traitées comme « aucune restriction » : les huit
+  // niveaux/filières connus de l'optique sont donc tous déclarés.
+  etape('initOngletsParFiliere', () => {
+    initOngletsParFiliere({
+      mapping: {
+        '2nde-remi':  ['synthese-additive', 'synthese-soustractive', 'couleur-objet-eclairage', 'modele-oeil'],
+        '2nde-mcc':   ['synthese-additive', 'synthese-soustractive', 'couleur-objet-eclairage', 'modele-oeil'],
+        '1ere-tci':   [],
+        '1ere-trpm':  [],
+        '1ere-mcc':   [],
+        'tle-tci':    [],
+        'tle-trpm':   [],
+        'tle-mcc':    [],
+      },
+      messageId: 'tp03-message-filiere',
+      messageTexte: "Ce TP n'est pas au programme de votre niveau ou de votre filière : il est destiné aux classes de 2nde (filières REMI et MCC).",
+    });
+  });
+
+  etape('initSections', () => {
+    initSections();
+  });
+
+  etape('initTabs', () => {
+    initTabs();
+  });
+
+  etape('initModesOperatoires', () => {
+    initModesOperatoires();
+  });
+
+  etape('initRadarCompetences', () => {
+    initRadarCompetences();
+  });
+
+  etape('initQuestionsParOnglet', () => {
+    initQuestionsParOnglet();
+  });
+
+  etape('initNavigationTP', () => {
+    initNavigationTP();
+  });
+
+  etape('initImpressionCompteRendu', () => {
+    initImpressionCompteRendu({
+      titre: "Perception des couleurs",
+      tp: 'TP03',
+      sectionsSupplementaires: () => [
+          sectionTableau('Tableau — Synthèse additive', 'tbody-synthese-additive'),
+          sectionTableau('Tableau — Synthèse soustractive', 'tbody-synthese-soustractive'),
+          sectionTableau("Tableau — Couleur d'un objet et éclairage", 'tbody-couleur-objet'),
+          sectionValeurs("Manipulation — Modèle de l'œil", [
+            ['Élément qui joue le rôle de lentille convergente', 'oeil-element1'],
+            ["Élément qui joue le rôle d'écran", 'oeil-element2'],
+            ['Vérification du schéma', 'oeil-resultat', /^(✓|✗)/],
+          ]),
+      ].filter(Boolean),
+    });
+  });
+
 }
 
 // =================================================================
@@ -123,15 +215,7 @@ function initSyntheseAdditive() {
       checkRouge?.checked, checkVert?.checked, checkBleu?.checked
     );
 
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${checkRouge?.checked ? '✓' : '—'}</td>
-      <td>${checkVert?.checked ? '✓' : '—'}</td>
-      <td>${checkBleu?.checked ? '✓' : '—'}</td>
-      <td>${prevision}</td>
-      <td>${observation}</td>
-    `;
-    tbody.appendChild(tr);
+    ajouterLigne(tbody, [checkRouge?.checked ? '✓' : '—', checkVert?.checked ? '✓' : '—', checkBleu?.checked ? '✓' : '—', prevision, observation]);
 
     inputObservation.value = '';
     inputObservation.focus();
@@ -161,13 +245,7 @@ function initSyntheseSoustractive() {
     const filtre1 = LABELS_FILTRE[selectFiltre1.value] || '(aucun)';
     const filtre2 = LABELS_FILTRE[selectFiltre2.value] || '(aucun)';
 
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${filtre1}</td>
-      <td>${filtre2}</td>
-      <td>${observation}</td>
-    `;
-    tbody.appendChild(tr);
+    ajouterLigne(tbody, [filtre1, filtre2, observation]);
 
     inputObservation.value = '';
     inputObservation.focus();
@@ -196,13 +274,7 @@ function initCouleurObjetEclairage() {
 
     if (!objet || !observation) return;
 
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${objet}</td>
-      <td>${LABELS_ECLAIRAGE[selectEclairage.value] || selectEclairage.value}</td>
-      <td>${observation}</td>
-    `;
-    tbody.appendChild(tr);
+    ajouterLigne(tbody, [objet, LABELS_ECLAIRAGE[selectEclairage.value] || selectEclairage.value, observation]);
 
     inputCouleurObjet.value = '';
     inputObservation.value = '';
@@ -240,11 +312,19 @@ function initModeleOeil() {
     const correct = !doublons && reponses.every(r => r.valeur === r.attendu);
 
     if (correct) {
-      resultat.textContent = '✓ Schéma correct : la cornée/le cristallin joue le rôle de lentille convergente, la rétine celui d\'écran.';
-      resultat.classList.add('succes');
+      afficherVerdict(resultat, '✓ Schéma correct : la cornée/le cristallin joue le rôle de lentille convergente, la rétine celui d\'écran.', 'succes');
     } else {
-      resultat.textContent = '✗ Schéma incorrect : revoir le rôle de chaque élément de l\'œil.';
-      resultat.classList.add('erreur');
+      afficherVerdict(resultat, '✗ Schéma incorrect : revoir le rôle de chaque élément de l\'œil.', 'erreur');
     }
   });
+}
+
+// Verdict de vérification : écrit dans un <strong> (élément enfant) avec une
+// icône ✓ / ✗, l'état n'étant jamais porté par la seule couleur.
+function afficherVerdict(zone, texte, etat) {
+  zone.classList.remove('succes', 'erreur');
+  zone.classList.add(etat);
+  const fort = document.createElement('strong');
+  fort.textContent = texte;
+  zone.replaceChildren(fort);
 }

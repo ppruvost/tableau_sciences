@@ -5,7 +5,7 @@
  * Chargé par navigation.js juste après l'injection du fragment
  * tp-optique/modules/tp06-lentilles.html dans #content.
  *
- * Convention SciLab :
+ * Convention SciLab (structure alignée sur tp-electricite, CLAUDE v4) :
  *  - le fragment HTML est la référence fixe, ce fichier s'adapte à lui
  *  - navigation.js exécute module.init() après l'import : le point
  *    d'entrée DOIT donc s'appeler init(), pas initTP06()
@@ -15,59 +15,159 @@ import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../..
 import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
-import { initImpressionCompteRendu } from './compte-rendu-optique.js';
+import { initImpressionCompteRendu, sectionValeurs, sectionTableau, ajouterLigne, RESULTAT_CALCULE } from './compte-rendu-optique.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
+import { initNavigationTP } from './nav-tp.js';
 import { initMateriel } from '../../js/materiel.js';
+import { initZoomVisuels } from '../../js/zoom-visuel.js';
 import laboratoryEquipment from '../../data/equipment.js';
+import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 
-// Contexte professionnel par filière (clé "niveau-idFiliere")
 const CONTEXTES_PRO = {
 
   '1ere-tci': {
     contexte: "En chaudronnerie industrielle, les loupes et viseurs optiques utilisés pour le contrôle des soudures et des tôles reposent sur des lentilles convergentes dont la distance focale détermine le grossissement.",
-    problematique: "Comment déterminer la distance focale d'une lentille convergente et prévoir la position de l'image qu'elle forme ?",
+    problematiques: {
+      'differencier-lentilles': "Comment reconnaître une lentille convergente d'une lentille divergente avant de choisir la loupe d'un poste de contrôle ?",
+      'distance-focale': "Comment déterminer expérimentalement la distance focale d'une lentille convergente utilisée dans un viseur de contrôle ?",
+      'conjugaison-grandissement': "Comment prévoir la position, la taille et le sens de l'image formée par une lentille convergente ?",
+    },
   },
 
   '1ere-trpm': {
     contexte: "En réalisation de produits mécaniques, le contrôle qualité des pièces usinées s'appuie sur des loupes et viseurs optiques dont les lentilles convergentes déterminent le grossissement observé.",
-    problematique: "Comment déterminer la distance focale d'une lentille convergente et prévoir la position de l'image qu'elle forme ?",
+    problematiques: {
+      'differencier-lentilles': "Comment reconnaître une lentille convergente d'une lentille divergente avant de choisir la loupe d'un poste de contrôle ?",
+      'distance-focale': "Comment déterminer expérimentalement la distance focale d'une lentille convergente utilisée dans une loupe de contrôle ?",
+      'conjugaison-grandissement': "Comment prévoir la position, la taille et le sens de l'image formée par une lentille convergente ?",
+    },
   },
 
   '1ere-mcc': {
     contexte: "En Métiers de la couture et de la confection, les loupes d'établi utilisées pour les travaux de précision (couture fine, contrôle qualité) sont des lentilles convergentes choisies pour leur distance focale.",
-    problematique: "Comment choisir une lentille convergente adaptée à un usage de loupe d'établi, à partir de sa distance focale ?",
+    problematiques: {
+      'differencier-lentilles': "Comment reconnaître une lentille convergente, utilisable comme loupe d'établi ?",
+      'distance-focale': "Comment déterminer expérimentalement la distance focale d'une loupe d'établi ?",
+      'conjugaison-grandissement': "Comment prévoir la position et le grandissement de l'image donnée par une loupe d'établi pour choisir la lentille adaptée ?",
+    },
   },
 
 };
 
-// ---------------------------------------------------------------
-// Point d'entrée, appelé automatiquement par navigation.js
-// ---------------------------------------------------------------
+// Exécute une étape d'initialisation ; une erreur dans une étape est
+// journalisée sans empêcher les suivantes de s'exécuter.
+function etape(nom, fn) {
+  try {
+    fn();
+  } catch (err) {
+    console.error(`[tp-optique] étape « ${nom} » en erreur :`, err);
+  }
+}
+
 export function init() {
-  initDifferencierLentilles();
-  initDistanceFocale();
-  initConjugaisonGrandissement();
 
-  initMateriel({
-    equipementId: 'materiel-equipements',
-    equipment: laboratoryEquipment,
-    categorie: 'Optique',
+  etape('initZoomVisuels', () => {
+    initZoomVisuels();
   });
 
-  initContextePro({
-    filieres: FILIERES_PRO,
-    contextes: CONTEXTES_PRO,
+  etape('initDifferencierLentilles', () => {
+    initDifferencierLentilles();
   });
 
-  initSections();
-  initTabs();
-  initModesOperatoires();
-
-  initRadarCompetences();
-
-  initImpressionCompteRendu({
-    titre: 'Lentilles convergentes et divergentes',
-    tp: 'TP06',
+  etape('initDistanceFocale', () => {
+    initDistanceFocale();
   });
+
+  etape('initConjugaisonGrandissement', () => {
+    initConjugaisonGrandissement();
+  });
+
+  etape('initMateriel', () => {
+    initMateriel({
+      equipementId: 'materiel-equipements',
+      equipment: laboratoryEquipment,
+      categorie: 'Optique',
+    });
+  });
+
+  etape('initContextePro', () => {
+    initContextePro({
+      filieres: FILIERES_PRO,
+      contextes: CONTEXTES_PRO,
+      afficherProblematique: false,
+    });
+  });
+
+  // TP destiné aux classes de 1ère (filières TCI, TRPM et MCC).
+  // Les clés absentes seraient traitées comme « aucune restriction » : les huit
+  // niveaux/filières connus de l'optique sont donc tous déclarés.
+  etape('initOngletsParFiliere', () => {
+    initOngletsParFiliere({
+      mapping: {
+        '2nde-remi':  [],
+        '2nde-mcc':   [],
+        '1ere-tci':   ['differencier-lentilles', 'distance-focale', 'conjugaison-grandissement'],
+        '1ere-trpm':  ['differencier-lentilles', 'distance-focale', 'conjugaison-grandissement'],
+        '1ere-mcc':   ['differencier-lentilles', 'distance-focale', 'conjugaison-grandissement'],
+        'tle-tci':    [],
+        'tle-trpm':   [],
+        'tle-mcc':    [],
+      },
+      messageId: 'tp06-message-filiere',
+      messageTexte: "Ce TP n'est pas au programme de votre niveau ou de votre filière : il est destiné aux classes de 1ère (filières TCI, TRPM et MCC).",
+    });
+  });
+
+  etape('initSections', () => {
+    initSections();
+  });
+
+  etape('initTabs', () => {
+    initTabs();
+  });
+
+  etape('initModesOperatoires', () => {
+    initModesOperatoires();
+  });
+
+  etape('initRadarCompetences', () => {
+    initRadarCompetences();
+  });
+
+  etape('initQuestionsParOnglet', () => {
+    initQuestionsParOnglet();
+  });
+
+  etape('initNavigationTP', () => {
+    initNavigationTP();
+  });
+
+  etape('initImpressionCompteRendu', () => {
+    initImpressionCompteRendu({
+      titre: "Lentilles convergentes et divergentes",
+      tp: 'TP06',
+      sectionsSupplementaires: () => [
+          sectionValeurs('Manipulation — Convergente ou divergente ?', [
+            ['Forme observée', 'lentille-forme'],
+            ['Effet sur un faisceau parallèle', 'lentille-faisceau'],
+            ['Nature de la lentille', 'lentille-nature-out'],
+          ]),
+          sectionTableau('Tableau — Distance focale : essais', 'tbody-distance-focale'),
+          sectionValeurs('Manipulation — Distance focale : moyenne', [
+            ['Résultat', 'focale-moyenne', /^Distance focale moyenne/],
+          ]),
+          sectionValeurs('Manipulation — Conjugaison et grandissement', [
+            ['Position de l\'objet OA (cm)', 'conjugaison-oa'],
+            ["Distance focale f' (cm)", 'conjugaison-f'],
+            ["Position de l'image OA' calculée", 'conjugaison-oa-prime-out'],
+            ['Grandissement γ calculé', 'conjugaison-grandissement-out'],
+            ["Nature de l'image", 'conjugaison-nature', RESULTAT_CALCULE],
+            ["OA' mesuré sur le montage (cm)", 'conjugaison-oa-prime-mesure'],
+          ]),
+      ].filter(Boolean),
+    });
+  });
+
 }
 
 // =================================================================
@@ -128,12 +228,7 @@ function initDistanceFocale() {
 
     mesures.push(distance);
 
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${mesures.length}</td>
-      <td>${arrondir(distance, 1)} cm</td>
-    `;
-    tbody.appendChild(tr);
+    ajouterLigne(tbody, [mesures.length, `${arrondir(distance, 1)} cm`]);
 
     if (moyenne) {
       const m = mesures.reduce((a, b) => a + b, 0) / mesures.length;

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 275" width="720" height="275" font-family="Arial, Helvetica, sans-serif">
+<defs>
+  <marker id="fl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker>
+</defs>
+<rect width="720" height="275" fill="#ffffff"/>
+<rect x="30" y="50" width="660" height="50" fill="#d9dde3"/><rect x="30" y="180" width="660" height="50" fill="#d9dde3"/>
+<rect x="30" y="100" width="660" height="80" fill="#dbeafe"/>
+<line x1="30" y1="100" x2="690" y2="100" stroke="#222" stroke-width="1.5"/><line x1="30" y1="180" x2="690" y2="180" stroke="#222" stroke-width="1.5"/>
+<text x="40" y="82" font-size="14" fill="#222">Gaine : indice n₂ (plus faible)</text>
+<text x="40" y="214" font-size="14" fill="#222">Gaine : indice n₂</text>
+<text x="50" y="172" font-size="14" fill="#222">Cœur : indice n₁ &gt; n₂</text>
+<polyline points="40,150 177.4,100 397.2,180 617.0,100 690,126.6" fill="none" stroke="#dc2626" stroke-width="3" stroke-linejoin="round" marker-end="url(#fl)"/>
+<line x1="397.2" y1="180" x2="397.2" y2="124" stroke="#222" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="405.2" y="130" font-size="13" fill="#222">normale</text>
+<path d="M397.2,135 A45,45 0 0 0 354.9,164.6" fill="none" stroke="#222" stroke-width="2"/>
+<text x="353.3" y="137.1" font-size="17" font-weight="bold" fill="#222">θ</text>
+<text x="40" y="40" font-size="14" fill="#222">Laser</text>
+<text x="360" y="36" text-anchor="middle" font-size="17" font-weight="bold" fill="#222">Réflexion totale si θ ≥ θc, avec sin θc = n₂ / n₁</text>
+<text x="360" y="262" text-anchor="middle" font-size="12.5" fill="#222">Schéma de principe : angles non à l'échelle.</text>
+</svg>

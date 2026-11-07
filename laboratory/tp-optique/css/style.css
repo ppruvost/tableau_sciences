@@ -72,3 +72,29 @@
   vertical-align: middle;
   border: 1px solid rgba(0,0,0,0.15);
 }
+
+
+/* ════════════════════════════════════════════════════════════════
+   RECOLORATIONS ET UTILITAIRES (alignés sur tp-electricite)
+   ════════════════════════════════════════════════════════════════ */
+
+/* Résultats de calcul guidé (.resultat-calcul) : tp.css les colore en
+   vert-acide fixe ; recolorés ici dans la teinte du domaine Optique. */
+.resultat-calcul {
+  color: var(--domaine-accent-fonce);
+}
+
+/* Numéros de question et étapes de protocole : tp.css fixe leur couleur
+   en dur ; recolorés ici dans la teinte du domaine Optique. */
+.questions-tp .question-entete::before,
+.etapes li::before {
+  background: var(--domaine-accent);
+}
+
+/* Schémas de montage (SVG importés par <img>) */
+.mode-op .mode-image { display: block; width: 100%; height: auto; }
+
+/* Pastilles de couleur de la synthèse additive (remplacent les styles en ligne) */
+.pastille-rouge { background: #e53935; }
+.pastille-vert  { background: #43a047; }
+.pastille-bleu  { background: #1e88e5; }

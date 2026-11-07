@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 250" width="680" height="250" font-family="Arial, Helvetica, sans-serif">
+<defs>
+  <marker id="fl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker>
+</defs>
+<rect width="680" height="250" fill="#ffffff"/>
+<rect x="16" y="24" width="200" height="170" rx="10" fill="#eef3fb" stroke="#2563eb" stroke-width="2"/>
+<text x="116" y="52" text-anchor="middle" font-size="16" font-weight="bold" fill="#222">Sources (émetteurs)</text>
+<text x="32" y="84" font-size="14" fill="#222">• Routeur wifi</text>
+<text x="32" y="110" font-size="14" fill="#222">• Télécommande IR</text>
+<text x="32" y="136" font-size="14" fill="#222">• Antenne relais</text>
+<text x="32" y="162" font-size="14" fill="#222">• Lampe, LED</text>
+
+<line x1="226" y1="109" x2="454" y2="109" stroke="#222" stroke-width="2" marker-end="url(#fl)"/>
+<path d="M256,109 q12,-26 24,0 t24,0 t24,0 t24,0 t24,0 t24,0" fill="none" stroke="#2563eb" stroke-width="2.5"/>
+<text x="340" y="70" text-anchor="middle" font-size="14" font-weight="bold" fill="#222">Onde électromagnétique</text>
+<text x="340" y="150" text-anchor="middle" font-size="13" fill="#222">dans un domaine du spectre</text>
+<rect x="464" y="24" width="200" height="170" rx="10" fill="#eef7ee" stroke="#2e7d32" stroke-width="2"/>
+<text x="564" y="52" text-anchor="middle" font-size="16" font-weight="bold" fill="#222">Détecteurs (récepteurs)</text>
+<text x="480" y="84" font-size="14" fill="#222">• Smartphone</text>
+<text x="480" y="110" font-size="14" fill="#222">• Œil, caméra</text>
+<text x="480" y="136" font-size="14" fill="#222">• Récepteur IR du téléviseur</text>
+<text x="480" y="162" font-size="14" fill="#222">• Lecteur de badge RFID</text>
+
+<text x="340" y="226" text-anchor="middle" font-size="14" fill="#222">Certains objets sont à la fois émetteurs et détecteurs (smartphone, badge RFID).</text>
+</svg>

@@ -28,7 +28,17 @@
 /* Tout le reste (header, nav, cartes, formulaires, tableaux, EPI,
    matériel, radar, graphique, histogramme, cartouches, quiz,
    problématique, champ-erreur...) vient de tp.css et css/domaine.css
-   — plus aucune duplication propre à ce domaine. */
+   — plus aucune duplication propre à ce domaine
+   (les utilitaires génériques — espace-haut-*, liste-aeree,
+   graphique-canvas, règles [hidden] — sont dans css/domaine.css). */
+
+/* ── Résultats de calcul guidé (.resultat-calcul) ──────────────────
+   tp.css colore ce bloc en vert-acide fixe (section 14, calcul-guide),
+   sans override par domaine dans domaine.css : recoloré ici dans la
+   teinte du domaine Signaux. */
+.resultat-calcul {
+  color: var(--domaine-accent-fonce);
+}
 
 /* ════════════════════════════════════════════════════════════════
    COMPLÉMENTS PROPRES AUX SIGNAUX
@@ -82,6 +92,10 @@
   transition: left 0.15s ease-out;
 }
 
+.spectre-em-curseur[hidden] {
+  display: none;
+}
+
 /* Feedback des exercices de schéma / vérification (chaîne de
    transmission générale, réflexion totale en fibre optique) */
 .feedback-verification.succes {
@@ -99,7 +113,7 @@
 /* ── Numéros de question et d'étape (médaillons numérotés) ─────────
    tp.css colore ces médaillons en bleu-cuivre fixe (sections 17),
    sans override par domaine dans domaine.css : recolorés ici dans la
-   teinte du domaine Mécanique. */
+   teinte du domaine Signaux. */
 .questions-tp .question-entete::before,
 .etapes li::before {
   background: var(--domaine-accent);
@@ -108,3 +122,8 @@
 h1 {
     color: #ffffff !important;
 }
+
+/* ── Schémas de montage (SVG de assets/illustrations) ──────────────
+   Cette règle n'est pas dans css/domaine.css : elle figure dans le
+   style.css de chaque domaine qui affiche des .mode-image. */
+.mode-op .mode-image { display: block; width: 100%; height: auto; }

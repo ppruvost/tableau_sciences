@@ -5,7 +5,7 @@ const laboratoryEquipment = [
         nom: "Générateur de tension continue (0-30V)",
         description: "Alimentation stabilisée pour circuits électriques",
         lieu: "Salle B27 / étagère A1",
-        categorie: ["Puissance", "Optique"],
+        categorie: ["Puissance", "Photocomposants"],
         image:"",
         noticeUtilisation: "assets/notice/alimentation_continue.pdf"
     },
@@ -30,7 +30,7 @@ const laboratoryEquipment = [
     {
         domaine: "Électricité",
         nom: "Multimètre numérique",
-        categorie: ["Résistance", "Capacité", "Inductance", "Redox", "Puissance", "Transport", "PuissanceActive", "Conversion", "Stockage", "Optique"],
+        categorie: ["Résistance", "Capacité", "Inductance", "Redox", "Puissance", "Transport", "PuissanceActive", "Conversion", "Stockage", "Photocomposants"],
         description: "Mesure de tension, courant, résistance",
         lieu: "Salle B27 / étagère A1",
         image:"assets/img/equipments/multimetre.jpg",
@@ -48,7 +48,7 @@ const laboratoryEquipment = [
     {
         domaine: "Électricité",
         nom: "Wattmètre",
-        categorie: ["Puissance", "PuissanceActive", "Optique"],
+        categorie: ["Puissance", "PuissanceActive", "Sources"],
         description: "Mesure de puissance électrique",
         lieu: "Salle B27 / étagère A1",
         image:"assets/img/equipments/wattmetre.jpg",
@@ -167,7 +167,7 @@ const laboratoryEquipment = [
     {
         domaine: "Optique",
         nom: "Lentilles convergentes et divergentes",
-        categorie: ["Optique"],
+        categorie: ["Spectre", "Lentilles"],
         description: "Étude des systèmes optiques",
         lieu: "Salle B23 / étagère A1",
         image:"",
@@ -176,7 +176,7 @@ const laboratoryEquipment = [
     {
         domaine: "Optique",
         nom: "Banc d'optique",
-        categorie: ["Optique"],
+        categorie: ["Spectre", "Photocomposants", "Lentilles"],
         description: "Support pour expériences optiques",
         lieu: "Salle B27 - ***",
         image:"",
@@ -185,7 +185,7 @@ const laboratoryEquipment = [
     {
         domaine: "Optique",
         nom: "Source lumineuse blanche",
-        categorie: ["Optique"],
+        categorie: ["Spectre", "Couleurs", "Photocomposants", "Sources", "Lentilles"],
         description: "Éclairage pour expériences optiques",
         lieu: "Salle B23 / étagère A2",
         image:"",
@@ -194,7 +194,7 @@ const laboratoryEquipment = [
     {
         domaine: "Optique",
         nom: "Laser (classe II)",
-        categorie: ["Signaux", "Optique"],
+        categorie: ["Signaux", "Reflexion", "Sources"],
         description: "Source de lumière cohérente, utilisée pour tester la réflexion totale dans une fibre optique ou un bloc réfringent",
         lieu: "Salle B23 / étagère A2",
         image:"",
@@ -203,7 +203,7 @@ const laboratoryEquipment = [
     {
         domaine: "Optique",
         nom: "Écran blanc",
-        categorie: ["Optique"],
+        categorie: ["Spectre", "Couleurs", "Lentilles"],
         description: "Visualisation des images",
         lieu: "Salle B27 - ***",
         image:"",
@@ -212,7 +212,7 @@ const laboratoryEquipment = [
     {
         domaine: "Optique",
         nom: "Prismes",
-        categorie: ["Optique"],
+        categorie: ["Spectre"],
         description: "Décomposition de la lumière",
         lieu: "Salle B23 / étagère A2",
         image:"",
@@ -223,14 +223,14 @@ const laboratoryEquipment = [
         nom: "Fibre optique",
         categorie: ["Signaux"],
         description: "Transmission de la lumière par réflexion totale",
-        lieu: "Salle B27 - ***",
+        lieu: "Salle B23 - ***",
         image:"",
         noticeUtilisation: "assets/notice/fibre_optique.pdf"
     },
     {
         domaine: "Optique",
         nom: "Luxmètre",
-        categorie: ["Optique"],
+        categorie: ["Photocomposants", "Sources"],
         description: "Mesure de l'éclairement lumineux",
         lieu: "Salle B27 - ***",
         image:"",
@@ -239,7 +239,7 @@ const laboratoryEquipment = [
     {
         domaine: "Optique",
         nom: "Spectroscope",
-        categorie: ["Optique"],
+        categorie: ["Sources"],
         description: "Analyse spectrale de la lumière",
         lieu: "Salle B27 - ***",
         image:"",
@@ -248,7 +248,7 @@ const laboratoryEquipment = [
     {
         domaine: "Optique",
         nom: "Filtres colorés",
-        categorie: ["Optique"],
+        categorie: ["Couleurs", "Photocomposants"],
         description: "Sélection de longueurs d'onde",
         lieu: "Salle B27 - ***",
         image:"",
@@ -257,7 +257,7 @@ const laboratoryEquipment = [
     {
         domaine: "Optique",
         nom: "Bloc hémicylindrique (plexiglas)",
-        categorie: ["Optique"],
+        categorie: ["Reflexion"],
         description: "Bloc réfringent semi-circulaire permettant de mesurer les angles d'incidence et de réfraction sans déviation parasite à la sortie",
         lieu: "Salle B27 - ***",
         image:"",
@@ -266,7 +266,7 @@ const laboratoryEquipment = [
     {
         domaine: "Optique",
         nom: "Disque optique gradué et rapporteur",
-        categorie: ["Optique"],
+        categorie: ["Reflexion", "Signaux"],
         description: "Support gradué en degrés pour mesurer les angles d'incidence, de réflexion et de réfraction",
         lieu: "Salle B27 - ***",
         image:"",
@@ -275,7 +275,7 @@ const laboratoryEquipment = [
     {
         domaine: "Optique",
         nom: "Kit photocomposants (photorésistance, photodiode, phototransistor, photopile)",
-        categorie: ["Optique"],
+        categorie: ["Photocomposants"],
         description: "Composants à associer à un générateur et un multimètre pour tracer leur caractéristique en fonction de l'éclairement ou de la longueur d'onde",
         lieu: "Salle B27 - ***",
         image:"",
@@ -284,7 +284,7 @@ const laboratoryEquipment = [
     {
         domaine: "Optique",
         nom: "Lampes colorées monochromatiques (rouge, vert, bleu)",
-        categorie: ["Optique"],
+        categorie: ["Couleurs", "Photocomposants"],
         description: "Sources lumineuses pour la synthèse additive des couleurs",
         lieu: "Salle B23 / étagère A2",
         image:"",
@@ -293,7 +293,7 @@ const laboratoryEquipment = [
     {
         domaine: "Optique",
         nom: "Modèle optique simplifié de l'œil",
-        categorie: ["Optique"],
+        categorie: ["Couleurs"],
         description: "Maquette (lentille + écran mobile) illustrant la formation d'une image sur la rétine",
         lieu: "Salle B27 - ***",
         image:"",
@@ -302,7 +302,7 @@ const laboratoryEquipment = [
     {
         domaine: "Optique",
         nom: "Lampe LED (culot standard, avec emballage indicateur)",
-        categorie: ["Optique"],
+        categorie: ["Sources"],
         description: "Source lumineuse à comparer avec la lampe à incandescence pour l'efficacité énergétique (lumens/W indiqués sur l'emballage)",
         lieu: "Salle B27 - ***",
         image:"",
@@ -311,7 +311,7 @@ const laboratoryEquipment = [
     {
         domaine: "Optique",
         nom: "Lampe à incandescence (culot standard)",
-        categorie: ["Optique"],
+        categorie: ["Sources"],
         description: "Source lumineuse de référence à faible efficacité énergétique, pour comparaison avec une lampe LED",
         lieu: "Salle B27 - ***",
         image:"",
@@ -320,7 +320,7 @@ const laboratoryEquipment = [
     {
         domaine: "Optique",
         nom: "Douille et support de lampe",
-        categorie: ["Optique"],
+        categorie: ["Sources"],
         description: "Support permettant d'alimenter et de comparer différentes sources lumineuses",
         lieu: "Salle B27 - ***",
         image:"",
@@ -792,7 +792,7 @@ const laboratoryEquipment = [
     {
         domaine: "Thermique",
         nom: "Caméra thermique",
-        categorie: ["Température", "Optique", "Transferts"],
+        categorie: ["Température", "Transferts"],
         description: "Visualisation des transferts thermiques",
         lieu: "Salle B27 - ***",
         image:"",
@@ -940,7 +940,7 @@ const laboratoryEquipment = [
         nom: "Routeur wifi de test",
         categorie: ["Signaux"],
         description: "Émetteur d'ondes électromagnétiques (2,4 GHz / 5 GHz) pour l'étude du spectre et des systèmes de transmission",
-        lieu: "Salle B27 - ***",
+        lieu: "Salle B23 - ***",
         image:"",
         noticeUtilisation: ""
     },
@@ -949,7 +949,7 @@ const laboratoryEquipment = [
         nom: "Smartphone ou téléphone de test",
         categorie: ["Signaux"],
         description: "Support pour identifier les bandes de fréquences de téléphonie mobile et de wifi utilisées",
-        lieu: "Salle B27 - ***",
+        lieu: "Salle B23 - ***",
         image:"",
         noticeUtilisation: ""
     },
@@ -958,7 +958,7 @@ const laboratoryEquipment = [
         nom: "Télécommande infrarouge et récepteur associé",
         categorie: ["Signaux"],
         description: "Émetteur et détecteur d'ondes infrarouges, pour illustrer une transmission d'informations par propagation libre",
-        lieu: "Salle B27 - ***",
+        lieu: "Salle B23 - ***",
         image:"",
         noticeUtilisation: ""
     },
@@ -967,7 +967,7 @@ const laboratoryEquipment = [
         nom: "Badge et lecteur RFID",
         categorie: ["Signaux"],
         description: "Émetteur passif et lecteur à ondes électromagnétiques, exemple de transmission d'informations de la vie courante",
-        lieu: "Salle B27 - ***",
+        lieu: "Salle B23 - ***",
         image:"",
         noticeUtilisation: "assets/notice/rfid.pdf"
     },
@@ -976,7 +976,7 @@ const laboratoryEquipment = [
         nom: "Lampe UV (classe basse puissance)",
         categorie: ["Signaux"],
         description: "Source de rayonnement ultraviolet, pour situer un domaine spectral sur le spectre électromagnétique",
-        lieu: "Salle B27 - ***",
+        lieu: "Salle B23 - ***",
         image:"",
         noticeUtilisation: "assets/notice/lampe_uv.pdf"
     },
@@ -985,7 +985,7 @@ const laboratoryEquipment = [
         nom: "Documentation du spectre électromagnétique (données fournies)",
         categorie: ["Signaux"],
         description: "Tableau de longueurs d'onde de référence (rayons X médicaux, UV, IR, micro-ondes...) fourni aux élèves, sans source réelle correspondante en salle",
-        lieu: "Salle B27 - ***",
+        lieu: "Salle B23 - ***",
         image:"",
         noticeUtilisation: ""
     },
@@ -994,7 +994,7 @@ const laboratoryEquipment = [
         nom: "Photodétecteur / récepteur pour fibre optique",
         categorie: ["Signaux"],
         description: "Récepteur de lumière associé au laser et à la fibre optique, pour vérifier la transmission du signal en sortie",
-        lieu: "Salle B27 - ***",
+        lieu: "Salle B23 - ***",
         image:"",
         noticeUtilisation: ""
     },
@@ -1003,11 +1003,38 @@ const laboratoryEquipment = [
         nom: "Câble réseau (paire torsadée)",
         categorie: ["Signaux"],
         description: "Exemple de support de propagation guidée par voie électrique, à comparer à la fibre optique et au wifi",
-        lieu: "Salle B27 - ***",
+        lieu: "Salle B23 - ***",
         image:"",
         noticeUtilisation: ""
     },
 
+    {
+        domaine: "Signaux",
+        nom: "Calculatrice scientifique",
+        categorie: ["Signaux"],
+        description: "Calculs de longueurs d'onde (λ = c/f), de fréquences et d'angle critique (arcsin), avec écriture scientifique",
+        lieu: "Salle B23 - ***",
+        image:"",
+        noticeUtilisation: ""
+    },
+    {
+        domaine: "Signaux",
+        nom: "Supports et potence (laser, fibre optique, photodétecteur)",
+        categorie: ["Signaux"],
+        description: "Fixation et alignement du laser, de la fibre optique et du photodétecteur sur la paillasse",
+        lieu: "Salle B23 - ***",
+        image:"",
+        noticeUtilisation: ""
+    },
+    {
+        domaine: "Signaux",
+        nom: "Four à micro-ondes (démonstration) ou fiche technique (2,45 GHz)",
+        categorie: ["Signaux"],
+        description: "Exemple d'objet de la vie courante utilisant les micro-ondes (2,45 GHz, comme le wifi 2,4 GHz) ; à présenter à l'enseignant ou sous forme de fiche technique, sans manipulation par les élèves",
+        lieu: "Salle B23 - ***",
+        image:"",
+        noticeUtilisation: ""
+    },
     // Sécurité
     {
         domaine: "Sécurité",
@@ -1048,7 +1075,7 @@ const laboratoryEquipment = [
     {
         domaine: "Sécurité",
         nom: "Lunettes de protection laser",
-        categorie: ["Optique", "Signaux"],
+        categorie: ["Signaux", "Reflexion", "Sources"],
         description: "Protection oculaire adaptée à la longueur d'onde du laser utilisé",
         lieu: "Salle B27 - Etagère D2",
         image:"",

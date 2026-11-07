@@ -3,58 +3,451 @@
  *
  * Construit la configuration attendue par le module partagé
  * js/compte-rendu.js (genererCompteRendu) à partir du DOM du TP
- * optique actuellement affiché, et câble le bouton #btn-imprimer
- * dessus. Calqué sur tp-signaux/js/compte-rendu-signaux.js.
+ * d'optique actuellement affiché, et câble le bouton #btn-imprimer
+ * dessus. Le matériel (Équipements) est récupéré tout seul par
+ * compte-rendu.js via #materiel-equipements — rien à faire ici.
+ *
+ * Contenu du compte rendu (dans l'ordre) :
+ *   1. contexte professionnel (filière choisie) ;
+ *   2. travail réalisé dans les onglets de manipulation, par
+ *      sectionsSupplementaires() (voie utilisée par les 6 TP : valeurs
+ *      saisies, résultats affichés dans des <output> ou des zones de
+ *      verdict, tableaux et graphiques, déclarés par id) ; à défaut, capture
+ *      automatique des onglets ;
+ *   3. questions et réponses du seul onglet actif (numérotées) ;
+ *   4. auto-évaluation des compétences (+ radar s'il a été généré).
+ *
+ * Assistants exportés : initImpressionCompteRendu, sectionValeurs,
+ * sectionValeursSi, sectionTableau, nombreFr, ajouterLigne, RESULTAT_CALCULE.
+ * Spécificités optique par rapport à compte-rendu-electricite.js :
+ *   - sectionValeurs passe les valeurs en virgule décimale ;
+ *   - sectionValeursSi n'imprime la section que si un champ « déclencheur »
+ *     est renseigné (évite d'imprimer les indices préremplis d'un onglet
+ *     que l'élève n'a pas réalisé).
  */
-import { genererCompteRendu } from '../../js/compte-rendu.js';
-import { getFiliereSelectionnee } from '../../js/contexte-pro.js';
 
-function texte(el) {
-  return (el?.textContent || '').trim();
+import { genererCompteRendu } from '../../js/compte-rendu.js';
+
+/* ==========================================================
+   LECTURE DU DOM
+   ========================================================== */
+
+function nettoyer(chaine) {
+  return String(chaine ?? '').replace(/\u00a0/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
+function texte(el) {
+  return nettoyer(el?.textContent);
+}
+
+// Saisie libre : les retours à la ligne sont conservés (seul le trim est appliqué).
 function valeur(el) {
   return (el?.value || '').trim();
 }
 
+const SELECTEUR_CHAMPS =
+  'input:not([type="radio"]):not([type="checkbox"]):not([type="range"])' +
+  ':not([type="button"]):not([type="submit"]):not([type="hidden"]), select';
+
+function libelleChamp(champ) {
+  const pourId = champ.id
+    ? document.querySelector(`label[for="${CSS.escape(champ.id)}"]`)
+    : null;
+  const label = pourId || champ.closest('.form-group')?.querySelector('label');
+  return texte(label) || champ.getAttribute('aria-label') || champ.placeholder || champ.id || 'Champ';
+}
+
+// Virgule décimale (impression française) ; texte de l'option pour un <select>.
+function valeurChamp(champ) {
+  if (champ.tagName === 'SELECT') {
+    return champ.value ? texte(champ.selectedOptions[0]) : '';
+  }
+  return valeur(champ).replace(/^(-?\d+)\.(\d+)$/, '$1,$2');
+}
+
+// Texte d'un bloc HTML en conservant les paragraphes (un saut de ligne par
+// <p>, <li>, titre ou <div>) ; les rappels de problématique sont exclus.
+function texteBlocs(el) {
+  if (!el) return '';
+  const copie = el.cloneNode(true);
+  copie.querySelectorAll('.problematique-onglet, .problematique-rappel, [class*="problematique"]')
+    .forEach(n => n.remove());
+  copie.querySelectorAll('br').forEach(br => br.replaceWith('\n'));
+  copie.querySelectorAll('p, li, h1, h2, h3, h4, h5, h6, div, tr')
+    .forEach(n => n.append('\n'));
+  return copie.textContent
+    .split('\n').map(nettoyer).filter(Boolean).join('\n');
+}
+
+// Zone de résultat calculé. Le texte d'invite affiché avant la saisie
+// (« Saisir … pour calculer … ») ne contient aucun élément : on l'ignore.
+function texteResultat(el) {
+  if (!el || !el.children.length) return '';
+  const copie = el.cloneNode(true);
+  copie.querySelectorAll('br').forEach(br => br.replaceWith(' · '));
+  return nettoyer(copie.textContent);
+}
+
+/* ==========================================================
+   ASSISTANTS POUR sectionsSupplementaires
+   ========================================================== */
+
+/** Nombre au format français (virgule décimale), pour les tableaux imprimés. */
+export function nombreFr(valeur, decimales = 1) {
+  if (valeur === null || valeur === undefined || Number.isNaN(valeur)) return '—';
+  return Number(valeur).toLocaleString('fr-FR', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: decimales,
+  });
+}
+
+/** Ajoute une ligne au tableau : cellules en texte brut (aucune injection HTML). */
+export function ajouterLigne(tbody, cellules) {
+  const tr = document.createElement('tr');
+  cellules.forEach(c => {
+    const td = document.createElement('td');
+    td.textContent = String(c ?? '');
+    tr.appendChild(td);
+  });
+  tbody.appendChild(tr);
+}
+
+function lireValeur(el) {
+  if (!el) return '';
+  let v;
+  if (el.tagName === 'SELECT') {
+    v = el.value ? (el.options[el.selectedIndex]?.text || '').trim() : '';
+  } else if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+    v = (el.value || '').trim();
+  } else {
+    v = (el.textContent || '').trim();
+  }
+  return v === '—' ? '' : v;
+}
+
+/**
+ * Section « items » (libellé / valeur) à partir de champs de la page.
+ * champs : [[libellé, idElement, motifValide?], …] ; <input>, <textarea> et <select>
+ * sont lus par leur valeur (texte de l'option pour un <select>), <output> et
+ * autres éléments par leur texte. Les champs vides (ou « — ») sont ignorés ; null
+ * si rien n'est saisi. Les nombres sont imprimés avec la virgule décimale.
+ * Option declencheurs : ids dont au moins un doit être renseigné, sinon null.
+ */
+export function sectionValeurs(titre, champs, { declencheurs } = {}) {
+  if (declencheurs && !declencheurs.some(id => lireValeur(document.getElementById(id)))) return null;
+  const items = champs.map(champ => {
+    const [label, id] = champ;
+    const v = lireValeur(document.getElementById(id));
+    if (!v) return null;
+    // 3ᵉ élément facultatif : motif que la valeur doit respecter (pour ignorer
+    // les textes d'attente du type « Compléter les observations… »).
+    if (champ[2] && !champ[2].test(v)) return null;
+    return { label, valeur: v.replace(/(\d)\.(\d)/g, '$1,$2') };
+  }).filter(Boolean);
+  return items.length ? { titre, items } : null;
+}
+
+/** Comme sectionValeurs, mais seulement si l'un des champs `declencheurs` est renseigné. */
+export function sectionValeursSi(titre, declencheurs, champs) {
+  return sectionValeurs(titre, champs, { declencheurs });
+}
+
+/**
+ * Motif à passer en 3ᵉ élément d'un champ .resultat-calcul : écarte les textes
+ * d'invite du fragment (« Saisir… », « Compléter… », « Régler… », « Sélectionner… »).
+ */
+export const RESULTAT_CALCULE = /^(?!Saisir|Compléter|Régler|Sélectionner)/;
+
+/**
+ * Section « tableau » reconstruite depuis le DOM : lignes du tbody[id], en-têtes
+ * du thead du même tableau, plus le graphique d'un conteneur .graphique-conteneur
+ * (idGraphique) s'il contient un <canvas> ou un <svg>.
+ * Retourne null si le tbody est vide ou absent.
+ */
+export function sectionTableau(titre, idTbody, { idGraphique, legende } = {}) {
+  const tbody = document.getElementById(idTbody);
+  if (!tbody || !tbody.rows.length) return null;
+
+  const table = tbody.closest('table');
+  const section = {
+    titre,
+    tableau: {
+      entetes: [...(table?.querySelectorAll('thead th') || [])].map(texte),
+      lignes: [...tbody.rows].map(tr => [...tr.cells].map(td => {
+        const champ = td.querySelector(SELECTEUR_CHAMPS);
+        return champ ? (valeurChamp(champ) || '—') : texte(td).replace(/(\d)\.(\d)/g, '$1,$2');
+      })),
+    },
+  };
+
+  const graphique = idGraphique ? document.getElementById(idGraphique) : null;
+  if (graphique && graphique.querySelector('canvas, svg')) {
+    section.canvas = graphique;
+    if (legende) section.legende = legende;
+  }
+  return section;
+}
+
+/* ==========================================================
+   MANIPULATIONS (capture générique des onglets)
+   ========================================================== */
+
+function nomOnglet(panneau) {
+  const bouton = panneau.id
+    ? document.querySelector(`.tabs-header .tab-btn[data-tab="${CSS.escape(panneau.id)}"]`)
+    : null;
+  return texte(bouton) || panneau.id || 'Manipulation';
+}
+
+function tableauDepuisDom(table) {
+  return {
+    entetes: [...table.querySelectorAll('thead th')].map(texte),
+    lignes: [...table.querySelectorAll('tbody tr')].map(tr =>
+      [...tr.cells].map(td => {
+        const champ = td.querySelector(SELECTEUR_CHAMPS);
+        return champ ? (valeurChamp(champ) || '—') : texte(td);
+      })),
+  };
+}
+
+// Un tableau est repris s'il contient des données de l'élève : cellules de
+// saisie renseignées, ou lignes ajoutées dynamiquement dans un tbody[id].
+// Les tableaux de référence (tbody sans id, sans saisie) sont ignorés.
+function tableauRenseigne(table) {
+  const champs = [...table.querySelectorAll('tbody')]
+    .flatMap(tb => [...tb.querySelectorAll(SELECTEUR_CHAMPS)]);
+  if (champs.length) return champs.some(c => valeurChamp(c) !== '');
+  const tbody = table.querySelector('tbody[id]');
+  return Boolean(tbody) && tbody.rows.length > 0;
+}
+
+function sectionsDepuisOnglet(panneau) {
+
+  const nom = nomOnglet(panneau);
+  const sections = [];
+
+  // Valeurs saisies hors tableau + résultats calculés
+  const items = [];
+
+  panneau.querySelectorAll(SELECTEUR_CHAMPS).forEach(champ => {
+    if (champ.closest('table') || champ.closest('.questions-bloc')) return;
+    const v = valeurChamp(champ);
+    if (v) items.push({ label: libelleChamp(champ), valeur: v });
+  });
+
+  const resultats = [...panneau.querySelectorAll('.resultat-calcul[id*="resultat"]')]
+    .map(texteResultat)
+    .filter(Boolean);
+
+  resultats.forEach((v, i) => items.push({
+    label: resultats.length > 1 ? `Résultat ${i + 1}` : 'Résultat',
+    valeur: v,
+  }));
+
+  if (items.length) sections.push({ titre: `Manipulation — ${nom}`, items });
+
+  // Tableaux de mesures
+  panneau.querySelectorAll('table').forEach(table => {
+    if (tableauRenseigne(table)) {
+      sections.push({ titre: `Tableau — ${nom}`, tableau: tableauDepuisDom(table) });
+    }
+  });
+
+  // Graphiques (conteneur contenant un <canvas> ou un <svg> ; le texte
+  // « Ajouter au moins 2 points… » seul ne produit rien)
+  const graphiques = [
+    ...panneau.querySelectorAll('.graphique-conteneur'),
+    ...[...panneau.querySelectorAll('canvas')].filter(c => !c.closest('.graphique-conteneur') && c.width > 0),
+  ];
+
+  graphiques.forEach(g => {
+    if (g.matches('canvas') || g.querySelector('canvas, svg')) {
+      sections.push({ titre: `Graphique — ${nom}`, canvas: g });
+    }
+  });
+
+  return sections;
+}
+
+function construireSectionsManipulations() {
+
+  let panneaux = [...document.querySelectorAll('[data-type="preparation"] .tab-panel')];
+  if (!panneaux.length) panneaux = [...document.querySelectorAll('.tab-panel')];
+
+  return panneaux
+    .filter(p => !p.closest('.questions-bloc'))
+    .flatMap(sectionsDepuisOnglet);
+}
+
+/* ==========================================================
+   NIVEAU ET FILIÈRE CHOISIS PAR L'ÉLÈVE
+   ========================================================== */
+
+// Lecture de secours dans le DOM (menus de contexte-pro.js).
+function lireFiliereDom() {
+  const selFiliere = document.getElementById('select-filiere-pro');
+  const filiere = selFiliere?.value ? texte(selFiliere.selectedOptions[0]) : '';
+
+  const selNiveau = document.querySelector('select[id*="niveau"]');
+  let niveau = selNiveau?.value ? texte(selNiveau.selectedOptions[0]) : '';
+
+  if (!niveau) {
+    const tags = [...document.querySelectorAll('.tp-meta .tag')].map(texte)
+      .filter(t => /2nde|seconde|1(ère|ere)|premi|tle|term/i.test(t));
+    if (tags.length === 1) niveau = tags[0];
+  }
+  return niveau || filiere ? { niveau, filiere } : null;
+}
+
+// Import DYNAMIQUE de contexte-pro.js : si getFiliereSelectionnee n'y est pas
+// exporté (ou si le module est introuvable), un import statique ferait échouer
+// en silence tout le module d'impression. Ici on retombe sur le DOM.
+async function lireFiliere() {
+  try {
+    const module = await import('../../js/contexte-pro.js');
+    if (typeof module.getFiliereSelectionnee === 'function') {
+      return module.getFiliereSelectionnee() || null;
+    }
+  } catch (err) {
+    console.warn('[compte-rendu] contexte-pro.js indisponible, lecture du DOM :', err);
+  }
+  return lireFiliereDom();
+}
+
+/* ==========================================================
+   QUESTIONS, CONTEXTE PRO, AUTO-ÉVALUATION, IDENTITÉ
+   ========================================================== */
+
 // Une section "notation" (question + compétence + zone de réponse)
 // par <li> de .questions-tp, au format attendu par compte-rendu.js.
+// Seules les questions de l'onglet de manipulation ACTIF (bloc affiché) sont
+// reprises : les jeux de questions des autres onglets sont ignorés, même
+// s'ils contiennent des réponses. Un TP sans bloc [data-onglet] (activité
+// unique) reprend ses questions telles quelles.
+function blocVisible(bloc) {
+  return !bloc.hidden && getComputedStyle(bloc).display !== 'none';
+}
+
 function construireSectionsQuestions() {
-  return [...document.querySelectorAll('.questions-tp > li')].map(li => ({
-    titre: texte(li.querySelector('.question-entete strong')),
-    notation: true,
-    competence: texte(li.querySelector('.cartouche')),
-    texte: valeur(li.querySelector('.zone-eleve textarea')),
-  }));
+
+  const blocs = [...document.querySelectorAll('.questions-bloc')];
+
+  const listes = blocs.length
+    ? blocs.filter(blocVisible).map(bloc => bloc.querySelector('.questions-tp'))
+    : [...document.querySelectorAll('.questions-tp')];
+
+  return listes.filter(Boolean).flatMap(liste =>
+    [...liste.querySelectorAll(':scope > li')].map((li, index) => {
+
+      // La numérotation de l'écran vient d'un compteur CSS : on la reprend ici.
+      const intitule = `Q${index + 1}. ${texte(li.querySelector('.question-entete strong'))}`;
+
+      const question = {
+        titre: intitule,
+        notation: true,
+        competence: texte(li.querySelector('.cartouche')),
+        texte: valeur(li.querySelector('.zone-eleve textarea')),
+      };
+
+      // Question 5 : rappel du texte de la problématique de l'onglet
+      // (rempli à l'écran par contexte-pro.js selon la filière choisie).
+      const rappel = texte(li.querySelector('.problematique-rappel'));
+      if (rappel) {
+        question.rappel = rappel;
+        question.rappelEtiquette = 'Problématique';
+      }
+
+      return question;
+    }));
 }
 
 // Contexte professionnel (filière/niveau choisis par l'élève), pour que le
 // compte-rendu imprimé indique la même chose que ce qui est affiché à l'écran
 // via contexte-pro.js.
-function construireSectionContextePro() {
-  const filiere = getFiliereSelectionnee();
-  if (!filiere) return null;
-  return {
-    titre: 'Contexte professionnel',
-    items: [
-      { label: 'Filière', valeur: `${filiere.niveau} — ${filiere.filiere}` },
-    ],
-  };
+function construireSectionContextePro(filiere) {
+
+  // Texte affiché dans « Contexte professionnel » pour la filière choisie
+  // (jamais le texte d'invite « Sélectionner votre filière… »).
+  const choix = document.getElementById('select-filiere-pro');
+  const contexte = choix?.value ? texteBlocs(document.getElementById('contexte-pro-resultat')) : '';
+
+  if (!filiere && !contexte) return null;
+
+  const section = { titre: 'Contexte professionnel' };
+
+  const libelle = filiere ? [filiere.niveau, filiere.filiere].filter(Boolean).join(' — ') : '';
+  if (libelle) section.items = [{ label: 'Filière', valeur: libelle }];
+  if (contexte) section.texte = contexte;
+
+  return section;
 }
+
+// Tableau d'auto-évaluation (.autoeval-table : une ligne par compétence,
+// boutons radio 0 / 1 / 2) + radar des compétences s'il a été généré.
+// Rien n'est imprimé tant que l'élève n'a coché aucune case.
+function construireSectionAutoEvaluation() {
+
+  const lignes = [...document.querySelectorAll('.autoeval-table tbody tr[data-comp]')];
+
+  if (!lignes.some(tr => tr.querySelector('input[type="radio"]:checked'))) return null;
+
+  const section = {
+    titre: 'Auto-évaluation des compétences',
+    position: 'fin', // après les questions, comme à l'écran
+    tableau: {
+      entetes: ['Domaine', 'Sigle', 'Je suis capable de…', 'Niveau (0 à 2)'],
+      lignes: lignes.map(tr => {
+        const coche = tr.querySelector('input[type="radio"]:checked');
+        return [texte(tr.cells[0]), tr.dataset.comp, texte(tr.cells[2]), coche ? coche.value : '—'];
+      }),
+    },
+  };
+
+  const radar = document.getElementById('radar-resultat');
+  if (radar && radar.querySelector('canvas, svg')) {
+    section.canvas = radar;
+    section.legende = 'Radar des compétences';
+    section.echelle = 0.5; // radar imprimé à 50 % de la largeur
+  }
+
+  return section;
+}
+
+/* ==========================================================
+   POINT D'ENTRÉE
+   ========================================================== */
 
 /**
  * @param {Object} params
  * @param {string} params.titre - Titre du TP (ex. "Réflexion et réfraction")
  * @param {string} params.tp    - Numéro du TP (ex. "TP01")
+ * @param {() => Object[]} [params.sectionsSupplementaires]
+ *        Fonction appelée au moment de l'impression ; retourne les sections
+ *        propres au TP (sectionValeurs, sectionTableau, tableau de mesures + graphique…).
+ *        Dès qu'elle renvoie au moins une section, la capture automatique de
+ *        TOUS les onglets est abandonnée : il faut alors tout déclarer.
+ *        Si elle ne renvoie rien, les onglets sont capturés automatiquement.
  */
-export function initImpressionCompteRendu({ titre, tp }) {
+export function initImpressionCompteRendu({ titre, tp, sectionsSupplementaires }) {
+
   const bouton = document.getElementById('btn-imprimer');
+
   if (!bouton) return;
 
-  bouton.addEventListener('click', () => {
+  bouton.addEventListener('click', async () => {
+
+    const propres = typeof sectionsSupplementaires === 'function'
+      ? (sectionsSupplementaires() || []).filter(Boolean)
+      : [];
+
+    // Niveau et filière choisis par l'élève (contexte-pro.js)
+    const filiere = await lireFiliere();
+
     const sections = [
-      construireSectionContextePro(),
+      construireSectionContextePro(filiere),
+      ...(propres.length ? propres : construireSectionsManipulations()),
       ...construireSectionsQuestions(),
+      construireSectionAutoEvaluation(),
     ].filter(Boolean);
 
     genererCompteRendu({
@@ -63,6 +456,7 @@ export function initImpressionCompteRendu({ titre, tp }) {
       tp,
       sections,
       noteFinale: true,
+      niveau: filiere?.niveau, // pastille « 2nde / 1ère / Tle » de l'en-tête
     });
   });
 }

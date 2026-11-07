@@ -5,7 +5,7 @@
  * Chargé par navigation.js juste après l'injection du fragment
  * tp-optique/modules/tp02-spectre-lumiere-blanche.html dans #content.
  *
- * Convention SciLab :
+ * Convention SciLab (structure alignée sur tp-electricite, CLAUDE v4) :
  *  - le fragment HTML est la référence fixe, ce fichier s'adapte à lui
  *  - navigation.js exécute module.init() après l'import : le point
  *    d'entrée DOIT donc s'appeler init(), pas initTP02()
@@ -15,21 +15,32 @@ import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../..
 import { initContextePro } from '../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
 import { initRadarCompetences } from '../../js/radar.js';
-import { initImpressionCompteRendu } from './compte-rendu-optique.js';
+import { initImpressionCompteRendu, sectionValeurs, sectionTableau, ajouterLigne } from './compte-rendu-optique.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
+import { initNavigationTP } from './nav-tp.js';
 import { initMateriel } from '../../js/materiel.js';
+import { initZoomVisuels } from '../../js/zoom-visuel.js';
 import laboratoryEquipment from '../../data/equipment.js';
+import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 
-// Contexte professionnel par filière (clé "niveau-idFiliere")
 const CONTEXTES_PRO = {
 
   '2nde-remi': {
     contexte: "En Réalisation d'Ensembles Mécaniques et Industriels, certains procédés (marquage laser, contrôle par caméra infrarouge) exploitent des rayonnements situés en dehors du domaine visible.",
-    problematique: "Comment situer un rayonnement sur l'échelle des longueurs d'onde, et pourquoi certains rayonnements utilisés en atelier restent-ils invisibles ?",
+    problematiques: {
+      'decomposition-recomposition': "Comment mettre en évidence que la lumière blanche est composée de plusieurs rayonnements de longueurs d'onde différentes ?",
+      'echelle-longueurs-onde': "Comment situer un rayonnement utilisé en atelier (laser de marquage, caméra infrarouge) sur l'échelle des longueurs d'onde ?",
+      'ir-uv-sante': "Pourquoi certains rayonnements invisibles utilisés en atelier sont-ils dangereux, et comment s'en protéger ?",
+    },
   },
 
   '2nde-mcc': {
     contexte: "En Métiers de la couture et de la confection, le contrôle qualité de certains tissus (détection de taches, de fibres) peut utiliser un éclairage UV, invisible mais actif chimiquement sur certains traitements.",
-    problematique: "Comment situer un rayonnement UV ou IR sur l'échelle des longueurs d'onde, et quels risques présente-t-il pour la santé ?",
+    problematiques: {
+      'decomposition-recomposition': "Comment mettre en évidence que la lumière blanche d'un éclairage d'atelier contient toutes les couleurs du spectre visible ?",
+      'echelle-longueurs-onde': "Comment situer un rayonnement UV ou IR par rapport au domaine visible grâce à sa longueur d'onde ?",
+      'ir-uv-sante': "Quels risques présente pour la santé une exposition excessive aux UV ou aux IR (lampe UV de contrôle des tissus, par exemple) ?",
+    },
   },
 
 };
@@ -59,35 +70,112 @@ const DOMAINES_VISIBLE = [
 const NM_MIN = DOMAINES_VISIBLE[0].min;
 const NM_MAX = DOMAINES_VISIBLE[DOMAINES_VISIBLE.length - 1].max;
 
-// ---------------------------------------------------------------
-// Point d'entrée, appelé automatiquement par navigation.js
-// ---------------------------------------------------------------
+// Exécute une étape d'initialisation ; une erreur dans une étape est
+// journalisée sans empêcher les suivantes de s'exécuter.
+function etape(nom, fn) {
+  try {
+    fn();
+  } catch (err) {
+    console.error(`[tp-optique] étape « ${nom} » en erreur :`, err);
+  }
+}
+
 export function init() {
-  initDecompositionRecomposition();
-  initEchelleLongueursOnde();
-  initIrUvSante();
 
-  initMateriel({
-    equipementId: 'materiel-equipements',
-    equipment: laboratoryEquipment,
-    categorie: 'Optique',
+  etape('initZoomVisuels', () => {
+    initZoomVisuels();
   });
 
-  initContextePro({
-    filieres: FILIERES_PRO,
-    contextes: CONTEXTES_PRO,
+  etape('initDecompositionRecomposition', () => {
+    initDecompositionRecomposition();
   });
 
-  initSections();
-  initTabs();
-  initModesOperatoires();
-
-  initRadarCompetences();
-
-  initImpressionCompteRendu({
-    titre: 'Spectre de la lumière blanche',
-    tp: 'TP02',
+  etape('initEchelleLongueursOnde', () => {
+    initEchelleLongueursOnde();
   });
+
+  etape('initIrUvSante', () => {
+    initIrUvSante();
+  });
+
+  etape('initMateriel', () => {
+    initMateriel({
+      equipementId: 'materiel-equipements',
+      equipment: laboratoryEquipment,
+      categorie: 'Optique',
+    });
+  });
+
+  etape('initContextePro', () => {
+    initContextePro({
+      filieres: FILIERES_PRO,
+      contextes: CONTEXTES_PRO,
+      afficherProblematique: false,
+    });
+  });
+
+  // TP destiné aux classes de 2nde (filières REMI et MCC).
+  // Les clés absentes seraient traitées comme « aucune restriction » : les huit
+  // niveaux/filières connus de l'optique sont donc tous déclarés.
+  etape('initOngletsParFiliere', () => {
+    initOngletsParFiliere({
+      mapping: {
+        '2nde-remi':  ['decomposition-recomposition', 'echelle-longueurs-onde', 'ir-uv-sante'],
+        '2nde-mcc':   ['decomposition-recomposition', 'echelle-longueurs-onde', 'ir-uv-sante'],
+        '1ere-tci':   [],
+        '1ere-trpm':  [],
+        '1ere-mcc':   [],
+        'tle-tci':    [],
+        'tle-trpm':   [],
+        'tle-mcc':    [],
+      },
+      messageId: 'tp02-message-filiere',
+      messageTexte: "Ce TP n'est pas au programme de votre niveau ou de votre filière : il est destiné aux classes de 2nde (filières REMI et MCC).",
+    });
+  });
+
+  etape('initSections', () => {
+    initSections();
+  });
+
+  etape('initTabs', () => {
+    initTabs();
+  });
+
+  etape('initModesOperatoires', () => {
+    initModesOperatoires();
+  });
+
+  etape('initRadarCompetences', () => {
+    initRadarCompetences();
+  });
+
+  etape('initQuestionsParOnglet', () => {
+    initQuestionsParOnglet();
+  });
+
+  etape('initNavigationTP', () => {
+    initNavigationTP();
+  });
+
+  etape('initImpressionCompteRendu', () => {
+    initImpressionCompteRendu({
+      titre: "Spectre de la lumière blanche",
+      tp: 'TP02',
+      sectionsSupplementaires: () => [
+          sectionValeurs('Manipulation — Décomposition / recomposition', [
+            ['Couleurs relevées', 'decomp-liste', /^Ordre relevé : (?!\(aucune)/],
+            ["Vérification de l'ordre", 'decomp-resultat', /^(✓|✗)/],
+          ]),
+          sectionValeurs("Manipulation — Échelle des longueurs d'onde", [
+            ["Longueur d'onde dans le vide (nm)", 'echelle-longueur-onde-nm'],
+            ['Domaine identifié', 'echelle-domaine-out'],
+          ]),
+          sectionTableau('Tableau — IR, UV et santé : associations', 'tbody-sante-associations'),
+      ].filter(Boolean),
+    });
+  });
+
 }
 
 // =================================================================
@@ -137,11 +225,9 @@ function initDecompositionRecomposition() {
       const correct = ORDRE_CORRECT.every((c, i) => ordreReleve[i] === c);
 
       if (correct) {
-        resultat.textContent = '✓ Ordre correct : violet → bleu → vert → jaune → orange → rouge.';
-        resultat.classList.add('succes');
+        afficherVerdict(resultat, '✓ Ordre correct : violet → bleu → vert → jaune → orange → rouge.', 'succes');
       } else {
-        resultat.textContent = '✗ Ordre incorrect : revoir le sens de déviation du prisme selon la longueur d\'onde.';
-        resultat.classList.add('erreur');
+        afficherVerdict(resultat, '✗ Ordre incorrect : revoir le sens de déviation du prisme selon la longueur d\'onde.', 'erreur');
       }
     });
   }
@@ -256,15 +342,19 @@ function initIrUvSante() {
 
     if (!domaine || !selectEffet.value) return;
 
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${LABELS_DOMAINE[domaine] || domaine}</td>
-      <td>${effetLabel}</td>
-    `;
-    tbody.appendChild(tr);
+    ajouterLigne(tbody, [LABELS_DOMAINE[domaine] || domaine, effetLabel]);
 
     selectDomaine.value = '';
     selectEffet.value = '';
   });
 }
 
+// Verdict de vérification : écrit dans un <strong> (élément enfant) avec une
+// icône ✓ / ✗, l'état n'étant jamais porté par la seule couleur.
+function afficherVerdict(zone, texte, etat) {
+  zone.classList.remove('succes', 'erreur');
+  zone.classList.add(etat);
+  const fort = document.createElement('strong');
+  fort.textContent = texte;
+  zone.replaceChildren(fort);
+}

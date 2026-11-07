@@ -62,17 +62,17 @@
 
     <ul>
 
-      <li>Réaliser expérimentalement une synthèse additive des couleurs.</li>
+      <li><strong>2nde</strong> — Réaliser expérimentalement une synthèse additive des couleurs.</li>
 
-      <li>Représenter et exploiter le modèle optique simplifié de l'œil.</li>
+      <li><strong>2nde</strong> — Représenter et exploiter le modèle optique simplifié de l'œil.</li>
 
-      <li>Savoir que trois lumières monochromatiques suffisent pour créer toutes les couleurs.</li>
+      <li><strong>2nde</strong> — Savoir que trois lumières monochromatiques suffisent pour créer toutes les couleurs.</li>
 
-      <li>Savoir que l'œil réalise une synthèse additive.</li>
+      <li><strong>2nde</strong> — Savoir que l'œil réalise une synthèse additive.</li>
 
-      <li>Réaliser une synthèse soustractive des couleurs.</li>
+      <li><strong>2nde</strong> — Réaliser une synthèse soustractive des couleurs.</li>
 
-      <li>Savoir que la couleur d'un objet dépend de la composition spectrale de l'éclairage.</li>
+      <li><strong>2nde</strong> — Savoir que la couleur d'un objet dépend de la composition spectrale de l'éclairage.</li>
 
     </ul>
 
@@ -102,7 +102,7 @@
     </div>
 
     <div id="contexte-pro-resultat" class="contexte-pro-resultat">
-      <p>Sélectionner votre filière professionnelle pour afficher le contexte et la problématique associée.</p>
+      <p>Sélectionner votre filière professionnelle pour afficher le contexte professionnel associé.</p>
     </div>
 
   </div>
@@ -129,7 +129,7 @@
       puissance.
     </div>
 
-    <ul style="padding-left:1.5rem;line-height:2">
+    <ul class="liste-aeree">
       <li><strong>Éclairement direct :</strong> éviter de regarder directement une source lumineuse de forte intensité, même colorée.</li>
     </ul>
 
@@ -151,9 +151,11 @@
 
   <div class="section-corps">
 
-    <h3>Équipements</h3>
-    <div id="materiel-equipements" class="grille-materiel">
-    </div>
+    <details class="accordeon-materiel" name="materiel">
+      <summary>Équipements</summary>
+      <div id="materiel-equipements" class="grille-materiel">
+      </div>
+    </details>
 
   </div>
 
@@ -173,6 +175,8 @@
 
   <div class="section-corps">
 
+    <div id="tp03-message-filiere" class="info" hidden></div>
+
     <div class="tabs-container">
 
       <div class="tabs-header">
@@ -188,6 +192,12 @@
 
       <div class="tab-panel actif" id="synthese-additive">
 
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="synthese-additive"></p>
+        </div>
+
+
         <h3>Synthèse additive des couleurs</h3>
 
         <div class="info">
@@ -197,7 +207,7 @@
           à recréer toutes les couleurs perçues, y compris le blanc.
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+        <h4 class="espace-haut-lg">Protocole</h4>
 
         <ol class="etapes">
           <li>Superposer sur l'écran blanc, une à une puis deux par deux, les trois lumières colorées disponibles.</li>
@@ -206,21 +216,22 @@
         </ol>
 
         <div class="mode-op">
-          <img src="./assets/images/o3-synthese-additive.png" alt="Mode opératoire — synthèse additive des couleurs" class="mode-image">
+          <img class="mode-image" src="./assets/illustrations/tp03-synthese-additive.svg" alt="Schéma de la synthèse additive : trois lumières, rouge, verte et bleue, sont superposées sur un écran ; les zones de recouvrement donnent du jaune (rouge et vert), du magenta (rouge et bleu) et du cyan (vert et bleu), et le centre où les trois lumières se superposent apparaît blanc" width="600" height="270" loading="lazy">
+          <p class="mode-legende">Rouge + vert + bleu = blanc : on additionne des lumières.</p>
         </div>
 
         <div class="form-row">
 
           <div class="form-group">
-            <label><input type="checkbox" id="additive-rouge"> <span class="pastille-couleur" style="background:#e53935"></span>Rouge</label>
+            <label><input type="checkbox" id="additive-rouge"> <span class="pastille-couleur pastille-rouge"></span>Rouge</label>
           </div>
 
           <div class="form-group">
-            <label><input type="checkbox" id="additive-vert"> <span class="pastille-couleur" style="background:#43a047"></span>Vert</label>
+            <label><input type="checkbox" id="additive-vert"> <span class="pastille-couleur pastille-vert"></span>Vert</label>
           </div>
 
           <div class="form-group">
-            <label><input type="checkbox" id="additive-bleu"> <span class="pastille-couleur" style="background:#1e88e5"></span>Bleu</label>
+            <label><input type="checkbox" id="additive-bleu"> <span class="pastille-couleur pastille-bleu"></span>Bleu</label>
           </div>
 
           <div class="form-group">
@@ -272,6 +283,12 @@
 
       <div class="tab-panel" id="synthese-soustractive">
 
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="synthese-soustractive"></p>
+        </div>
+
+
         <h3>Synthèse soustractive des couleurs</h3>
 
         <div class="info">
@@ -281,7 +298,7 @@
           des longueurs d'onde : c'est la synthèse soustractive.
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+        <h4 class="espace-haut-lg">Protocole</h4>
 
         <ol class="etapes">
           <li>Éclairer l'écran en lumière blanche à travers un seul filtre coloré et noter la couleur transmise.</li>
@@ -290,7 +307,8 @@
         </ol>
 
         <div class="mode-op">
-          <img src="./assets/images/o3-synthese-soustractive.png" alt="Mode opératoire — synthèse soustractive des couleurs" class="mode-image">
+          <img class="mode-image" src="./assets/illustrations/tp03-synthese-soustractive.svg" alt="Schéma de la synthèse soustractive : une lampe émet de la lumière blanche qui traverse d'abord un filtre cyan, la lumière transmise est cyan, puis un filtre magenta, la lumière transmise est bleue, et arrive sur un écran bleu ; chaque filtre absorbe une partie des longueurs d'onde" width="640" height="260" loading="lazy">
+          <p class="mode-legende">Chaque filtre supprime des longueurs d'onde : cyan + magenta transmettent le bleu.</p>
         </div>
 
         <div class="form-row">
@@ -351,6 +369,12 @@
 
       <div class="tab-panel" id="couleur-objet-eclairage">
 
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="couleur-objet-eclairage"></p>
+        </div>
+
+
         <h3>La couleur d'un objet dépend de l'éclairage</h3>
 
         <div class="info">
@@ -361,7 +385,7 @@
           bleue peut apparaître noir.
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+        <h4 class="espace-haut-lg">Protocole</h4>
 
         <ol class="etapes">
           <li>Éclairer successivement le même objet coloré avec un éclairage blanc, puis rouge, vert et bleu.</li>
@@ -369,7 +393,8 @@
         </ol>
 
         <div class="mode-op">
-          <img src="./assets/images/o3-couleur-objet-eclairage.png" alt="Mode opératoire — couleur d'un objet selon l'éclairage" class="mode-image">
+          <img class="mode-image" src="./assets/illustrations/tp03-couleur-objet-eclairage.svg" alt="Schéma de la couleur d'un objet selon l'éclairage : un même objet rouge est éclairé successivement en lumière blanche, en lumière rouge et en lumière bleue ; il apparaît rouge sous la lumière blanche, rouge sous la lumière rouge et noir sous la lumière bleue car il ne diffuse pas le bleu" width="640" height="300" loading="lazy">
+          <p class="mode-legende">Un objet rouge diffuse le rouge et absorbe le bleu : sous une lumière bleue, il paraît noir.</p>
         </div>
 
         <div class="form-row">
@@ -425,6 +450,12 @@
 
       <div class="tab-panel" id="modele-oeil">
 
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="modele-oeil"></p>
+        </div>
+
+
         <h3>Modèle optique simplifié de l'œil</h3>
 
         <div class="info">
@@ -434,7 +465,7 @@
           additive des lumières colorées qu'il reçoit.
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Protocole</h4>
+        <h4 class="espace-haut-lg">Protocole</h4>
 
         <ol class="etapes">
           <li>Repérer sur le schéma ci-dessus les éléments jouant respectivement le rôle de lentille convergente et d'écran dans l'œil.</li>
@@ -485,7 +516,7 @@
 
         </div>
 
-        <div id="oeil-resultat" class="feedback-verification" style="margin-top:var(--gap-md);">
+        <div id="oeil-resultat" class="feedback-verification espace-haut-md">
           Compléter le schéma puis cliquer sur « Vérifier ».
         </div>
 
@@ -514,11 +545,11 @@
 
     <h3>Bonnes pratiques au laboratoire</h3>
 
-    <ul style="padding-left:1.5rem;line-height:2">
+    <ul class="liste-aeree">
       <li>Éteindre les lampes colorées en dehors des phases d'observation.</li>
     </ul>
 
-    <h3 style="margin-top:var(--gap-md);">Synthèse des couleurs et écrans numériques</h3>
+    <h3 class="espace-haut-md">Synthèse des couleurs et écrans numériques</h3>
 
     <p>
       Le principe de la synthèse additive (trois couleurs suffisent)
@@ -572,73 +603,77 @@
     </div>
 
 
-    <h3 style="margin-top:var(--gap-md);">Questions</h3>
+    <h3 class="espace-haut-md">Questions</h3>
 
-    <div class="questions-bloc" data-tp="perception-couleurs">
+    <p class="info">
+      Les questions affichées correspondent à l'onglet de manipulation
+      sélectionné. Répondre aux questions de l'onglet que vous avez réalisé :
+      les quatre premières portent sur l'objet du TP de l'onglet, la cinquième
+      répond à sa problématique.
+    </p>
+
+    <div class="questions-bloc" data-tp="perception-couleurs" data-onglet="synthese-additive" data-onglet-nom="Synthèse additive">
+
+    <h4>Questions de l'onglet « Synthèse additive »</h4>
 
     <ol class="questions-tp">
 
       <li>
         <div class="question-entete">
           <strong>
-            Expliquer le principe de la synthèse additive et donner un
-            exemple d'appareil qui l'exploite.
+            Énoncer le principe de la synthèse additive des couleurs et nommer les trois lumières nécessaires.
           </strong>
           <span class="cartouche" data-comp="APP">APP</span>
         </div>
         <div class="zone-eleve">
-          <textarea id="question1" rows="4" placeholder="Votre réponse..."></textarea>
+          <textarea id="question-synthese-additive-1" rows="4" placeholder="Votre réponse..."></textarea>
         </div>
       </li>
 
       <li>
         <div class="question-entete">
           <strong>
-            Décrire le protocole permettant d'observer la synthèse
-            soustractive à l'aide de filtres colorés.
+            Décrire comment vous avez superposé les lumières sur l'écran blanc et relevé les couleurs obtenues.
           </strong>
           <span class="cartouche" data-comp="REA">REA</span>
         </div>
         <div class="zone-eleve">
-          <textarea id="question2" rows="4" placeholder="Votre réponse..."></textarea>
+          <textarea id="question-synthese-additive-2" rows="4" placeholder="Votre réponse..."></textarea>
         </div>
       </li>
 
       <li>
         <div class="question-entete">
           <strong>
-            À partir du tableau « Couleur d'un objet et éclairage »,
-            expliquer pourquoi un même objet peut apparaître de
-            couleurs différentes selon l'éclairage.
+            Analyser votre tableau : indiquer la couleur obtenue pour chaque association de deux lumières et pour les trois lumières superposées.
           </strong>
           <span class="cartouche" data-comp="ANA">ANA</span>
         </div>
         <div class="zone-eleve">
-          <textarea id="question3" rows="5" placeholder="Votre analyse..."></textarea>
+          <textarea id="question-synthese-additive-3" rows="5" placeholder="Votre analyse..."></textarea>
         </div>
       </li>
 
       <li>
         <div class="question-entete">
           <strong>
-            Décrire le modèle optique simplifié de l'œil et expliquer
-            en quoi l'œil réalise une synthèse additive.
+            Comparer vos observations aux prévisions affichées et conclure sur la validité du modèle de synthèse additive.
           </strong>
-          <span class="cartouche" data-comp="COM">COM</span>
+          <span class="cartouche" data-comp="VAL">VAL</span>
         </div>
         <div class="zone-eleve">
-          <textarea id="question4" rows="5" placeholder="Votre réponse..."></textarea>
+          <textarea id="question-synthese-additive-4" rows="5" placeholder="Votre réponse..."></textarea>
         </div>
       </li>
 
       <li class="question-problematique">
         <div class="question-entete">
-          <strong>Répondre à la problématique posée en début de TP :</strong>
-          <span class="cartouche" data-comp="VAL">VAL</span>
+          <strong>Répondre à la problématique de l'onglet :</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
         </div>
-        <p class="problematique-rappel" data-activite="perception-couleurs"></p>
+        <p class="problematique-rappel" data-activite="synthese-additive"></p>
         <div class="zone-eleve">
-          <textarea id="question5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
+          <textarea id="question-synthese-additive-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
         </div>
       </li>
 
@@ -646,6 +681,212 @@
 
     </div>
 
+    <div class="questions-bloc" data-tp="perception-couleurs" data-onglet="synthese-soustractive" data-onglet-nom="Synthèse soustractive" hidden>
+
+    <h4>Questions de l'onglet « Synthèse soustractive »</h4>
+
+    <ol class="questions-tp">
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Définir la synthèse soustractive et expliquer le rôle d'un filtre coloré.
+          </strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-synthese-soustractive-1" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Décrire le montage et la démarche suivis pour tester les différentes combinaisons de filtres.
+          </strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-synthese-soustractive-2" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Expliquer, en termes de longueurs d'onde absorbées et transmises, la couleur obtenue en superposant deux filtres de votre tableau.
+          </strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-synthese-soustractive-3" rows="5" placeholder="Votre analyse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Comparer synthèse additive et synthèse soustractive : que devient la lumière quand on ajoute des lumières, que devient-elle quand on ajoute des filtres ?
+          </strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-synthese-soustractive-4" rows="5" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique de l'onglet :</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
+        </div>
+        <p class="problematique-rappel" data-activite="synthese-soustractive"></p>
+        <div class="zone-eleve">
+          <textarea id="question-synthese-soustractive-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
+        </div>
+      </li>
+
+    </ol>
+
+    </div>
+
+    <div class="questions-bloc" data-tp="perception-couleurs" data-onglet="couleur-objet-eclairage" data-onglet-nom="Couleur d'un objet et éclairage" hidden>
+
+    <h4>Questions de l'onglet « Couleur d'un objet et éclairage »</h4>
+
+    <ol class="questions-tp">
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Expliquer de quoi dépend la couleur perçue d'un objet (l'objet et l'éclairage).
+          </strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-couleur-objet-eclairage-1" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Décrire la manière dont vous avez éclairé l'objet successivement avec les différentes lumières.
+          </strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-couleur-objet-eclairage-2" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Analyser votre tableau : expliquer pourquoi l'objet change d'apparence selon l'éclairage, voire apparaît noir.
+          </strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-couleur-objet-eclairage-3" rows="5" placeholder="Votre analyse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Conclure : quel éclairage faut-il choisir pour juger fidèlement la couleur d'un objet ? Justifier à partir de vos essais.
+          </strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-couleur-objet-eclairage-4" rows="5" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique de l'onglet :</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
+        </div>
+        <p class="problematique-rappel" data-activite="couleur-objet-eclairage"></p>
+        <div class="zone-eleve">
+          <textarea id="question-couleur-objet-eclairage-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
+        </div>
+      </li>
+
+    </ol>
+
+    </div>
+
+    <div class="questions-bloc" data-tp="perception-couleurs" data-onglet="modele-oeil" data-onglet-nom="Modèle de l'œil" hidden>
+
+    <h4>Questions de l'onglet « Modèle de l'œil »</h4>
+
+    <ol class="questions-tp">
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Nommer l'élément de l'œil modélisé par une lentille convergente et celui qui joue le rôle d'écran.
+          </strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-modele-oeil-1" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Décrire le schéma que vous avez complété et les choix effectués dans les deux menus.
+          </strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-modele-oeil-2" rows="4" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Expliquer comment l'œil forme l'image d'un objet sur la rétine et pourquoi on dit que l'œil réalise une synthèse additive.
+          </strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-modele-oeil-3" rows="5" placeholder="Votre analyse..."></textarea>
+        </div>
+      </li>
+
+      <li>
+        <div class="question-entete">
+          <strong>
+            Votre schéma a-t-il été validé ? Si ce n'est pas le cas, corriger et justifier la bonne réponse.
+          </strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <div class="zone-eleve">
+          <textarea id="question-modele-oeil-4" rows="5" placeholder="Votre réponse..."></textarea>
+        </div>
+      </li>
+
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique de l'onglet :</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
+        </div>
+        <p class="problematique-rappel" data-activite="modele-oeil"></p>
+        <div class="zone-eleve">
+          <textarea id="question-modele-oeil-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats expérimentaux..."></textarea>
+        </div>
+      </li>
+
+    </ol>
+
+    </div>
   </div>
 
 </div>
@@ -695,15 +936,6 @@
             <td><input type="radio" name="APP" value="2"></td>
           </tr>
 
-          <tr data-comp="ANA">
-            <td>Analyser / Raisonner</td>
-            <td>ANA</td>
-            <td>Expliquer pourquoi la couleur perçue dépend de l'éclairage.</td>
-            <td><input type="radio" name="ANA" value="0"></td>
-            <td><input type="radio" name="ANA" value="1"></td>
-            <td><input type="radio" name="ANA" value="2"></td>
-          </tr>
-
           <tr data-comp="REA">
             <td>Réaliser</td>
             <td>REA</td>
@@ -711,6 +943,15 @@
             <td><input type="radio" name="REA" value="0"></td>
             <td><input type="radio" name="REA" value="1"></td>
             <td><input type="radio" name="REA" value="2"></td>
+          </tr>
+
+          <tr data-comp="ANA">
+            <td>Analyser / Raisonner</td>
+            <td>ANA</td>
+            <td>Expliquer pourquoi la couleur perçue dépend de l'éclairage.</td>
+            <td><input type="radio" name="ANA" value="0"></td>
+            <td><input type="radio" name="ANA" value="1"></td>
+            <td><input type="radio" name="ANA" value="2"></td>
           </tr>
 
           <tr data-comp="VAL">
@@ -737,13 +978,13 @@
 
     </div>
 
-    <div class="radar-actions" style="margin-top:var(--gap-lg);">
+    <div class="radar-actions espace-haut-lg">
 
       <button id="btn-radar" class="btn btn-primaire">
         📊 Générer mon radar de compétences
       </button>
 
-      <div id="radar-resultat" style="margin-top:var(--gap-md);"></div>
+      <div class="espace-haut-md" id="radar-resultat"></div>
 
     </div>
 
@@ -776,7 +1017,7 @@
       </button>
     </div>
 
-    <div class="info" style="margin-top:var(--gap-md);">
+    <div class="info espace-haut-md">
       L'impression récupère automatiquement :
       <ul>
         <li>les réponses aux questions ;</li>
@@ -794,11 +1035,11 @@
 
 <div class="nav-tp">
 
-  <button class="btn btn-secondaire" onclick="loadTP('tp02-spectre-lumiere-blanche')">
+  <button class="btn btn-secondaire" data-aller-tp="tp02-spectre-lumiere-blanche">
     ← TP02
   </button>
 
-  <button class="btn btn-primaire" onclick="loadTP('tp04-photocomposants')">
+  <button class="btn btn-primaire" data-aller-tp="tp04-photocomposants">
     TP04 →
   </button>
 
@@ -810,6 +1051,6 @@
 <!-- CONTENEUR IMPRESSION COMPTE RENDU                       -->
 <!-- ====================================================== -->
 
-<div id="cr-print-container" style="display:none;"></div>
+<div id="cr-print-container" hidden></div>
 
 </section>
