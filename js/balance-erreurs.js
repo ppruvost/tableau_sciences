@@ -8,7 +8,7 @@
      initBalanceErreurs();          // appelé depuis init() du module TP
 
    Ou intégration directe dans tp01-solutions.js :
-     import { initBalanceErreurs } from "../../js/balance-erreurs.js";
+     import { initBalanceErreurs } from "../../../js/balance-erreurs.js";
    ════════════════════════════════════════════════════════════════ */
 
 /* ── Configuration des deux instruments ────────────────────── */

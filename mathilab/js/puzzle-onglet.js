@@ -29,7 +29,10 @@ export function fmt(v) {
 
 const LETTRES = ['a', 'b', 'c'];
 const INFO_DEFAUT = "Sélectionner votre filière professionnelle dans la section « Contexte professionnel » ci-dessus pour afficher les trois sujets.";
-const INFO_SUJETS = "Organisation en classe puzzle : chaque groupe expert traite un sujet (A, B ou C) avec son propre contexte et sa propre problématique — 4 questions pour progresser, puis une 5e question pour répondre à la problématique. En séance 2, les groupes mélangés confrontent leurs résultats dans la synthèse.";
+const INFO_SUJETS_BASE = "Organisation en classe puzzle : chaque groupe expert traite un sujet (A, B ou C) avec son propre contexte et sa propre problématique — 4 questions pour progresser, puis une 5e question pour répondre à la problématique.";
+const INFO_SYNTHESE = " En séance 2, les groupes mélangés confrontent leurs résultats dans la synthèse.";
+// La phrase sur la synthèse n'apparaît que si le TD possède encore ce sous-onglet.
+const infoSujets = () => INFO_SUJETS_BASE + (document.getElementById('puzzle-synthese-panel') ? INFO_SYNTHESE : '');
 
 function initSousOnglets() {
   const barre = document.querySelector('#activites-puzzle .sous-onglets');
@@ -59,7 +62,7 @@ export function demarrerPuzzle(modele, selectId = 'select-filiere-pro') {
       set('enonce', el => { el.innerHTML = s ? s.questions.map(q => `<li>${q}</li>`).join('') : ''; });
       set('code', el => { if (s && s.code) el.value = s.code; });
     });
-    if (info) info.textContent = sujets ? INFO_SUJETS : INFO_DEFAUT;
+    if (info) info.textContent = sujets ? infoSujets() : INFO_DEFAUT;
   };
   const select = document.getElementById(selectId);
   if (!select) return;

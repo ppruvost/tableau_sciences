@@ -11,18 +11,18 @@
  *    d'entrée DOIT donc s'appeler init(), pas initTP04()
  */
 
-import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../../js/utils.js';
-import { initContextePro } from '../../js/contexte-pro.js';
+import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../../../js/utils.js';
+import { initContextePro } from '../../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
-import { initRadarCompetences } from '../../js/radar.js';
+import { initRadarCompetences } from '../../../js/radar.js';
 import { initImpressionCompteRendu, sectionValeurs, sectionTableau, ajouterLigne } from './compte-rendu-optique.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initNavigationTP } from './nav-tp.js';
-import { initMateriel } from '../../js/materiel.js';
-import { initZoomVisuels } from '../../js/zoom-visuel.js';
+import { initMateriel } from '../../../js/materiel.js';
+import { initZoomVisuels } from '../../../js/zoom-visuel.js';
 import laboratoryEquipment from '../../data/equipment.js';
-import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
-import { dessinerGraphiqueLigne } from '../../js/graphique.js';
+import { initOngletsParFiliere } from '../../../js/onglets-filiere.js';
+import { dessinerGraphiqueLigne } from '../../../js/graphique.js';
 
 const CELERITE = 3.00e8;       // m/s
 const PLANCK = 6.63e-34;       // J·s

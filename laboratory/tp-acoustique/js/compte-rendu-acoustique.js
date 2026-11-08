@@ -1,409 +1,492 @@
-/**
- * tp-acoustique/js/compte-rendu-acoustique.js
- *
- * Construit la configuration attendue par le module partagé
- * js/compte-rendu.js (genererCompteRendu) à partir du DOM du TP
- * acoustique actuellement affiché, et câble le bouton #btn-imprimer
- * dessus. Le matériel (Verrerie/Équipements) est récupéré tout seul
- * par compte-rendu.js via les cases à cocher #materiel-verrerie /
- * #materiel-equipements — rien à faire ici pour cette partie.
- *
- * Contenu du compte rendu (dans l'ordre) :
- *   1. contexte professionnel (filière choisie) ;
- *   2. travail réalisé dans les onglets de manipulation :
- *        - sectionsSupplementaires() si le TP la fournit (valeurs saisies, tableaux de
- *          classement/mesures, graphiques du TP) ;
- *        - sinon capture automatique des onglets : valeurs saisies, résultats
- *          calculés (.resultat-calcul[id*="resultat"]), tableaux de mesures
- *          (tbody[id] ou cellules de saisie) et graphiques (.graphique-conteneur) ;
- *   3. questions et réponses (numérotées) ;
- *   4. auto-évaluation des compétences (+ radar s'il a été généré).
- * L'identité est lue par compte-rendu.js dans la rubrique « Identification » de la page.
- */
+/* ── Tokens globaux, composants TP, impression ────────────────── */
+/* Chaîne CSS complète, dans l'ordre documenté (css/global.css) :
+   global → reset → tp → animations → print. compte-rendu.css est chargé
+   à la demande par js/compte-rendu.js ; les <link> de index.html ont été retirés. */
+@import url("../../../css/global.css");
+@import url("../../../css/reset.css");
+@import url("../../../css/tp.css");
+@import url("../../../css/animations.css");
+@import url("../../../css/print.css");
 
-import { genererCompteRendu } from '../../js/compte-rendu.js';
+/* ── Overrides communs à tous les domaines (header, nav, cartes,
+   tableaux, EPI, radar, graphique...) — paramétrés par les variables
+   de couleur ci-dessous ── */
+@import url("../../../css/domaine.css");
 
-// ---------------------------------------------------------------
-// Utilitaires partagés par les contrôleurs des TP d'acoustique,
-// pour construire les sections « mesures » du compte rendu.
-// ---------------------------------------------------------------
-
-/** Nombre au format français (virgule décimale), pour les tableaux imprimés. */
-export function nombreFr(valeur, decimales = 1) {
-  if (valeur === null || valeur === undefined || Number.isNaN(valeur)) return '—';
-  return Number(valeur).toLocaleString('fr-FR', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: decimales,
-  });
+/* ════════════════════════════════════════════════════════════════
+   IDENTITÉ DU DOMAINE ACOUSTIQUE
+   L'ordre d'écriture n'a pas d'importance pour la résolution des
+   var() : ces valeurs s'appliquent à css/domaine.css même si celui-ci
+   est importé plus haut dans ce fichier.
+   ════════════════════════════════════════════════════════════════ */
+:root {
+  --domaine-accent:       #1B6CA8;
+  --domaine-accent-fonce: #114A75;
+  --domaine-accent-rgb:   27, 108, 168;
 }
 
-/** Ajoute une ligne au tableau : cellules en texte brut (aucune injection HTML). */
-export function ajouterLigne(tbody, cellules) {
-  const tr = document.createElement('tr');
-  cellules.forEach(c => {
-    const td = document.createElement('td');
-    td.textContent = String(c ?? '');
-    tr.appendChild(td);
-  });
-  tbody.appendChild(tr);
+/* Tout le reste (header, nav, cartes, formulaires, tableaux, EPI,
+   matériel, radar, graphique, histogramme, cartouches, quiz,
+   problématique, champ-erreur...) vient de tp.css et css/domaine.css
+   — plus aucune duplication propre à ce domaine. */
+
+/* ── Résultats de calcul guidé (.resultat-calcul) ──────────────────
+   tp.css colore ce bloc en vert-acide fixe (section 14, calcul-guide),
+   sans override par domaine dans domaine.css : recoloré ici dans la
+   teinte du domaine Acoustique pour rester cohérent avec le reste
+   de la charte (bandeau, onglets, boutons, cartouches...). */
+.resultat-calcul {
+  color: var(--domaine-accent-fonce);
 }
 
-/**
- * Section « items » (libellé / valeur) à partir de champs de la page.
- * champs : [[libellé, idElement, motifValide?], …] ; <input> et <select> sont lus par leur
- * valeur (texte de l'option pour un <select>), <output> et autres par leur
- * texte. Les champs vides (ou « — ») sont ignorés ; null si rien n'est saisi.
- */
-export function sectionValeurs(titre, champs) {
-  const items = champs.map(champ => {
-    const [label, id] = champ;
-    const el = document.getElementById(id);
-    if (!el) return null;
-    let v;
-    if (el.tagName === 'SELECT') {
-      v = el.value ? (el.options[el.selectedIndex]?.text || '').trim() : '';
-    } else if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-      v = (el.value || '').trim();
-    } else {
-      v = (el.textContent || '').trim();
-    }
-    if (!v || v === '—') return null;
-    // 3ᵉ élément facultatif : motif que la valeur doit respecter (pour ignorer
-    // les textes d'attente du type « Compléter les observations… »).
-    if (champ[2] && !champ[2].test(v)) return null;
-    return { label, valeur: v };
-  }).filter(Boolean);
-  return items.length ? { titre, items } : null;
+/* ── Numéros de question (.questions-tp .question-entete::before) ──
+   tp.css colore ce médaillon en bleu-cuivre fixe (section 17),
+   sans override par domaine dans domaine.css : recoloré ici dans la
+   teinte du domaine Acoustique. Même chose pour les étapes de
+   protocole numérotées (.etapes li::before), soumises au même
+   codage en dur. */
+.questions-tp .question-entete::before,
+.etapes li::before {
+  background: var(--domaine-accent);
 }
 
-/* ==========================================================
-   LECTURE DU DOM
-   ========================================================== */
+/* ════════════════════════════════════════════════════════════════
+   COMPLÉMENTS PROPRES À L'ACOUSTIQUE
+   Ces deux composants n'existent pas en thermique et ne sont donc
+   pas déjà couverts par css/domaine.css. Si d'autres domaines (ex.
+   tp-signaux) venaient à réutiliser une échelle graduée ou un
+   feedback de schéma, il serait préférable de les faire migrer dans
+   css/domaine.css plutôt que de les dupliquer ici.
+   ════════════════════════════════════════════════════════════════ */
 
-function nettoyer(chaine) {
-  return String(chaine ?? '').replace(/\u00a0/g, ' ').replace(/\s+/g, ' ').trim();
+/* Échelle de niveau d'intensité acoustique (TP01) */
+.echelle-db-conteneur {
+  position: relative;
+  margin-top: var(--gap-md, 1rem);
 }
 
-function texte(el) {
-  return nettoyer(el?.textContent);
+.echelle-db-barre {
+  display: flex;
+  width: 100%;
+  height: 2.5rem;
+  border-radius: 6px;
+  overflow: hidden;
+  font-size: 0.7rem;
+  color: #fff;
 }
 
-// Saisie libre : les retours à la ligne sont conservés (seul le trim est appliqué).
-function valeur(el) {
-  return (el?.value || '').trim();
+.echelle-db-segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-const SELECTEUR_CHAMPS =
-  'input:not([type="radio"]):not([type="checkbox"]):not([type="range"])' +
-  ':not([type="button"]):not([type="submit"]):not([type="hidden"]), select';
+/* Dégradé du silence (vert) au danger immédiat (rouge), un segment
+   par repère défini dans ECHELLE_DB (tp01-caracteriser-un-son.js) */
+.echelle-db-segment:nth-child(1) { background: #2e7d32; }
+.echelle-db-segment:nth-child(2) { background: #66bb6a; }
+.echelle-db-segment:nth-child(3) { background: #9ccc65; }
+.echelle-db-segment:nth-child(4) { background: #e0a800; }
+.echelle-db-segment:nth-child(5) { background: #e8730f; }
+.echelle-db-segment:nth-child(6) { background: #c0392b; }
+.echelle-db-segment:nth-child(7) { background: #7a1f14; }
 
-function libelleChamp(champ) {
-  const pourId = champ.id
-    ? document.querySelector(`label[for="${CSS.escape(champ.id)}"]`)
-    : null;
-  const label = pourId || champ.closest('.form-group')?.querySelector('label');
-  return texte(label) || champ.getAttribute('aria-label') || champ.placeholder || champ.id || 'Champ';
+.echelle-db-curseur {
+  position: absolute;
+  top: -0.4rem;
+  width: 0;
+  height: 0;
+  border-left: 0.5rem solid transparent;
+  border-right: 0.5rem solid transparent;
+  border-top: 0.6rem solid #222;
+  transform: translateX(-50%);
+  transition: left 0.15s ease-out;
 }
 
-// Virgule décimale (impression française) ; texte de l'option pour un <select>.
-function valeurChamp(champ) {
-  if (champ.tagName === 'SELECT') {
-    return champ.value ? texte(champ.selectedOptions[0]) : '';
+/* Feedback du schéma de la chaîne de transmission (TP03) */
+#chaine-resultat.succes {
+  border-left: 4px solid #2e7d32;
+  background: #eaf6ea;
+  color: #1b4d1e;
+}
+
+#chaine-resultat.erreur {
+  border-left: 4px solid #c0392b;
+  background: #fbeceb;
+  color: #5c1912;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   ACQUISITION EXAO — TEMPS RÉEL (TP04, onglet « Acquisition ExAO »)
+   Widget autonome : l'écran d'oscilloscope garde un habillage sombre
+   type instrument de mesure (vert/ambre = CH1/CH2, cohérent avec les
+   couleurs tracées par exao01.js) ; tout le reste (barre de statut,
+   panneau de résultats, cartes de conseils) suit la charte claire du
+   domaine acoustique via var(--domaine-accent).
+   ════════════════════════════════════════════════════════════════ */
+
+.exao-status-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  background: #f4f8fb;
+  border: 1px solid #dde3ea;
+  margin: var(--gap-md, 1rem) 0;
+  font-size: 0.9rem;
+}
+
+.exao-status-dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: #b0b8bf;
+  flex-shrink: 0;
+}
+
+.exao-status-dot.connecte { background: #2e7d32; }
+.exao-status-dot.erreur   { background: #c0392b; }
+
+.exao-connect-grid {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(260px, 1fr);
+  gap: var(--gap-lg, 1.5rem);
+  align-items: start;
+  margin: var(--gap-md, 1rem) 0;
+}
+
+.exao-connect-schema {
+  border: 1px solid #dde3ea;
+  border-radius: 8px;
+  background: #fff;
+  padding: 0.5rem;
+}
+
+.exao-connect-schema svg { width: 100%; height: auto; }
+
+.exao-gain-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.exao-gain-row input[type="range"] { flex: 1; }
+
+.exao-scope-corr-grid {
+  display: grid;
+  grid-template-columns: minmax(320px, 1.1fr) minmax(280px, 1fr);
+  gap: var(--gap-lg, 1.5rem);
+  margin: var(--gap-md, 1rem) 0;
+}
+
+.exao-scope-bezel {
+  background: #12261b;
+  border-radius: 10px;
+  padding: 0.75rem;
+  border: 1px solid #1c3d2e;
+}
+
+.exao-scope-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #9fe6bd;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.5rem;
+}
+
+.exao-scope-badge {
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  background: #1c3d2e;
+  color: #9fe6bd;
+  font-size: 0.7rem;
+}
+
+.exao-scope-badge.exao-running {
+  background: #39ff8f;
+  color: #0d1f16;
+}
+
+.exao-scope-screen {
+  border-radius: 6px;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.exao-scope-screen canvas {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.exao-scope-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #cfe8da;
+  margin-top: 0.5rem;
+}
+
+.exao-dot {
+  display: inline-block;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  margin-right: 0.3rem;
+}
+
+.exao-dot-p { background: #39ff8f; }
+.exao-dot-a { background: #e0a800; }
+
+.exao-scope-readouts {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.exao-readout-box {
+  flex: 1;
+  min-width: 90px;
+  text-align: center;
+  padding: 0.4rem;
+  border-radius: 6px;
+  background: #0d1f16;
+  border: 1px solid #1c3d2e;
+  color: #9fe6bd;
+  font-size: 0.85rem;
+}
+
+.exao-corr-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md, 1rem);
+}
+
+.exao-corr-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #e0c98a;
+  margin-top: 0.5rem;
+}
+
+.exao-corr-stats {
+  border: 1px solid #dde3ea;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  background: #fff;
+}
+
+.exao-stat-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid #eef1f4;
+  font-size: 0.85rem;
+}
+
+.exao-stat-row:last-child { border-bottom: none; }
+.exao-stat-row span:last-child { font-weight: 700; color: var(--domaine-accent-fonce); }
+
+.exao-source-tag {
+  font-size: 0.7rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: var(--domaine-accent);
+  color: #fff;
+}
+
+.exao-computed { font-weight: 700; }
+
+.exao-quality-badge {
+  font-size: 0.7rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+}
+
+.exao-quality-auto   { background: #e8f2fb; color: var(--domaine-accent-fonce); }
+.exao-quality-demo   { background: #fdf6e3; color: #a97400; }
+.exao-quality-manual { background: #eef1f4; color: #555; }
+
+.exao-btn-del {
+  border: none;
+  background: transparent;
+  color: #c0392b;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.exao-results-panel {
+  display: none;
+  margin-top: var(--gap-lg, 1.5rem);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #dde3ea;
+  background: #f4f8fb;
+}
+
+.exao-results-panel.exao-visible { display: block; }
+
+.exao-results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--gap-md, 1rem);
+  margin: 0.75rem 0;
+}
+
+.exao-result-card {
+  background: #fff;
+  border: 1px solid #dde3ea;
+  border-radius: 8px;
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.exao-result-card-alerte { border-color: #e0a800; }
+
+.exao-result-label {
+  font-size: 0.75rem;
+  color: #5a6b78;
+  margin-bottom: 0.3rem;
+}
+
+.exao-result-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--domaine-accent-fonce);
+}
+
+.exao-compare-bar {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+}
+
+.exao-track {
+  width: 100%;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: #e0e6eb;
+  margin-top: 0.4rem;
+  overflow: hidden;
+}
+
+.exao-fill {
+  width: 0;
+  height: 100%;
+  background: var(--domaine-accent);
+  transition: width 0.2s ease-out;
+}
+
+.exao-tip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--gap-md, 1rem);
+  margin-top: var(--gap-md, 1rem);
+}
+
+.exao-tip-card {
+  border: 1px solid #dde3ea;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  background: #fff;
+}
+
+.exao-tip-head {
+  font-weight: 700;
+  color: var(--domaine-accent-fonce);
+  margin-bottom: 0.3rem;
+}
+
+@media (max-width: 720px) {
+  .exao-connect-grid,
+  .exao-scope-corr-grid {
+    grid-template-columns: 1fr;
   }
-  return valeur(champ).replace(/^(-?\d+)\.(\d+)$/, '$1,$2');
 }
 
-// Texte d'un bloc HTML en conservant les paragraphes (un saut de ligne par
-// <p>, <li>, titre ou <div>) ; les rappels de problématique sont exclus.
-function texteBlocs(el) {
-  if (!el) return '';
-  const copie = el.cloneNode(true);
-  copie.querySelectorAll('.problematique-onglet, .problematique-rappel, [class*="problematique"]')
-    .forEach(n => n.remove());
-  copie.querySelectorAll('br').forEach(br => br.replaceWith('\n'));
-  copie.querySelectorAll('p, li, h1, h2, h3, h4, h5, h6, div, tr')
-    .forEach(n => n.append('\n'));
-  return copie.textContent
-    .split('\n').map(nettoyer).filter(Boolean).join('\n');
+/* (ancien « h1 { color:#fff !important } » global supprimé : il rendait
+   blanc sur blanc le titre du compte rendu imprimé. Le bandeau est déjà
+   couvert par « body > header h1 » ci-dessous.) */
+
+/* ══════════════════════════════════════════════════════════════
+   Ajustements d'interface (tp-acoustique)
+   ══════════════════════════════════════════════════════════════ */
+
+/* Titre du bandeau (« TP Acoustique : … ») en blanc */
+body > header h1,
+body > header h1 span {
+  color: #ffffff;
 }
 
-// Zone de résultat calculé. Le texte d'invite affiché avant la saisie
-// (« Saisir … pour calculer … ») ne contient aucun élément : on l'ignore.
-function texteResultat(el) {
-  if (!el || !el.children.length) return '';
-  const copie = el.cloneNode(true);
-  copie.querySelectorAll('br').forEach(br => br.replaceWith(' · '));
-  return nettoyer(copie.textContent);
+/* Matériel nécessaire : menu accordéon Équipements / Verrerie */
+.accordeon-materiel {
+  border: 1px solid var(--gris-clair, #E7E9EC);
+  border-radius: var(--r-md, 12px);
+  background: var(--blanc, #ffffff);
+  margin: 0 0 var(--gap-md, 1rem);
+  overflow: hidden;
 }
 
-/* ==========================================================
-   MANIPULATIONS (capture générique des onglets)
-   ========================================================== */
-
-function nomOnglet(panneau) {
-  const bouton = panneau.id
-    ? document.querySelector(`.tabs-header .tab-btn[data-tab="${CSS.escape(panneau.id)}"]`)
-    : null;
-  return texte(bouton) || panneau.id || 'Manipulation';
+.accordeon-materiel > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .75rem 1rem;
+  cursor: pointer;
+  list-style: none;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--domaine-accent-fonce, #114A75);
+  background: rgba(var(--domaine-accent-rgb, 27, 108, 168), .10);
 }
 
-function tableauDepuisDom(table) {
-  return {
-    entetes: [...table.querySelectorAll('thead th')].map(texte),
-    lignes: [...table.querySelectorAll('tbody tr')].map(tr =>
-      [...tr.cells].map(td => {
-        const champ = td.querySelector(SELECTEUR_CHAMPS);
-        return champ ? (valeurChamp(champ) || '—') : texte(td);
-      })),
-  };
+.accordeon-materiel > summary::-webkit-details-marker { display: none; }
+
+.accordeon-materiel > summary::after {
+  content: "▼";
+  font-size: .8rem;
+  transition: transform .2s ease;
 }
 
-// Un tableau est repris s'il contient des données de l'élève : cellules de
-// saisie renseignées, ou lignes ajoutées dynamiquement dans un tbody[id].
-// Les tableaux de référence (tbody sans id, sans saisie) sont ignorés.
-function tableauRenseigne(table) {
-  const champs = [...table.querySelectorAll('tbody')]
-    .flatMap(tb => [...tb.querySelectorAll(SELECTEUR_CHAMPS)]);
-  if (champs.length) return champs.some(c => valeurChamp(c) !== '');
-  const tbody = table.querySelector('tbody[id]');
-  return Boolean(tbody) && tbody.rows.length > 0;
+.accordeon-materiel[open] > summary::after { transform: rotate(180deg); }
+
+.accordeon-materiel > summary:focus-visible {
+  outline: 3px solid var(--domaine-accent, #1B6CA8);
+  outline-offset: -3px;
 }
 
-function sectionsDepuisOnglet(panneau) {
+.accordeon-materiel > .grille-materiel { padding: var(--gap-md, 1rem); }
 
-  const nom = nomOnglet(panneau);
-  const sections = [];
+/* Manipulations : problématique de l'onglet, en tête du bloc */
+.problematique-onglet { margin: 0 0 var(--gap-md, 1rem); }
 
-  // Valeurs saisies hors tableau + résultats calculés
-  const items = [];
-
-  panneau.querySelectorAll(SELECTEUR_CHAMPS).forEach(champ => {
-    if (champ.closest('table') || champ.closest('.questions-bloc')) return;
-    const v = valeurChamp(champ);
-    if (v) items.push({ label: libelleChamp(champ), valeur: v });
-  });
-
-  const resultats = [...panneau.querySelectorAll('.resultat-calcul[id*="resultat"]')]
-    .map(texteResultat)
-    .filter(Boolean);
-
-  resultats.forEach((v, i) => items.push({
-    label: resultats.length > 1 ? `Résultat ${i + 1}` : 'Résultat',
-    valeur: v,
-  }));
-
-  if (items.length) sections.push({ titre: `Manipulation — ${nom}`, items });
-
-  // Tableaux de mesures
-  panneau.querySelectorAll('table').forEach(table => {
-    if (tableauRenseigne(table)) {
-      sections.push({ titre: `Tableau — ${nom}`, tableau: tableauDepuisDom(table) });
-    }
-  });
-
-  // Graphiques (conteneur contenant un <canvas> ou un <svg> ; le texte
-  // « Ajouter au moins 2 points… » seul ne produit rien)
-  const graphiques = [
-    ...panneau.querySelectorAll('.graphique-conteneur'),
-    ...[...panneau.querySelectorAll('canvas')].filter(c => !c.closest('.graphique-conteneur') && c.width > 0),
-  ];
-
-  graphiques.forEach(g => {
-    if (g.matches('canvas') || g.querySelector('canvas, svg')) {
-      sections.push({ titre: `Graphique — ${nom}`, canvas: g });
-    }
-  });
-
-  return sections;
+.problematique-onglet-etiquette {
+  display: block;
+  margin-bottom: .2rem;
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--domaine-accent-fonce, #114A75);
 }
 
-function construireSectionsManipulations() {
+.problematique-onglet .problematique-rappel { margin: 0; font-weight: 600; }
 
-  let panneaux = [...document.querySelectorAll('[data-type="preparation"] .tab-panel')];
-  if (!panneaux.length) panneaux = [...document.querySelectorAll('.tab-panel')];
-
-  return panneaux
-    .filter(p => !p.closest('.questions-bloc'))
-    .flatMap(sectionsDepuisOnglet);
-}
-
-/* ==========================================================
-   NIVEAU ET FILIÈRE CHOISIS PAR L'ÉLÈVE
-   ========================================================== */
-
-// Lecture de secours dans le DOM (menus de contexte-pro.js).
-function lireFiliereDom() {
-  const selFiliere = document.getElementById('select-filiere-pro');
-  const filiere = selFiliere?.value ? texte(selFiliere.selectedOptions[0]) : '';
-
-  const selNiveau = document.querySelector('select[id*="niveau"]');
-  let niveau = selNiveau?.value ? texte(selNiveau.selectedOptions[0]) : '';
-
-  if (!niveau) {
-    const tags = [...document.querySelectorAll('.tp-meta .tag')].map(texte)
-      .filter(t => /2nde|seconde|1(ère|ere)|premi|tle|term/i.test(t));
-    if (tags.length === 1) niveau = tags[0];
-  }
-  return niveau || filiere ? { niveau, filiere } : null;
-}
-
-// Import DYNAMIQUE de contexte-pro.js : si getFiliereSelectionnee n'y est pas
-// exporté (ou si le module est introuvable), un import statique ferait échouer
-// en silence tout le module d'impression. Ici on retombe sur le DOM.
-async function lireFiliere() {
-  try {
-    const module = await import('../../js/contexte-pro.js');
-    if (typeof module.getFiliereSelectionnee === 'function') {
-      return module.getFiliereSelectionnee() || null;
-    }
-  } catch (err) {
-    console.warn('[compte-rendu] contexte-pro.js indisponible, lecture du DOM :', err);
-  }
-  return lireFiliereDom();
-}
-
-/* ==========================================================
-   QUESTIONS, CONTEXTE PRO, AUTO-ÉVALUATION, IDENTITÉ
-   ========================================================== */
-
-// Une section "notation" (question + compétence + zone de réponse)
-// par <li> de .questions-tp, au format attendu par compte-rendu.js.
-// Seules les questions de l'onglet de manipulation ACTIF (bloc affiché) sont
-// reprises : les jeux de questions des autres onglets sont ignorés, même
-// s'ils contiennent des réponses. Un TP sans bloc [data-onglet] (activité
-// unique) reprend ses questions telles quelles.
-function blocVisible(bloc) {
-  return !bloc.hidden && getComputedStyle(bloc).display !== 'none';
-}
-
-function construireSectionsQuestions() {
-
-  const blocs = [...document.querySelectorAll('.questions-bloc')];
-
-  const listes = blocs.length
-    ? blocs.filter(blocVisible).map(bloc => bloc.querySelector('.questions-tp'))
-    : [...document.querySelectorAll('.questions-tp')];
-
-  return listes.filter(Boolean).flatMap(liste =>
-    [...liste.querySelectorAll(':scope > li')].map((li, index) => {
-
-      // La numérotation de l'écran vient d'un compteur CSS : on la reprend ici.
-      const intitule = `Q${index + 1}. ${texte(li.querySelector('.question-entete strong'))}`;
-
-      const question = {
-        titre: intitule,
-        notation: true,
-        competence: texte(li.querySelector('.cartouche')),
-        texte: valeur(li.querySelector('.zone-eleve textarea')),
-      };
-
-      // Question 5 : rappel du texte de la problématique de l'onglet
-      // (rempli à l'écran par contexte-pro.js selon la filière choisie).
-      const rappel = texte(li.querySelector('.problematique-rappel'));
-      if (rappel) {
-        question.rappel = rappel;
-        question.rappelEtiquette = 'Problématique';
-      }
-
-      return question;
-    }));
-}
-
-// Contexte professionnel (filière/niveau choisis par l'élève), pour que le
-// compte-rendu imprimé indique la même chose que ce qui est affiché à l'écran
-// via contexte-pro.js.
-function construireSectionContextePro(filiere) {
-
-  // Texte affiché dans « Contexte professionnel » pour la filière choisie
-  // (jamais le texte d'invite « Sélectionner votre filière… »).
-  const choix = document.getElementById('select-filiere-pro');
-  const contexte = choix?.value ? texteBlocs(document.getElementById('contexte-pro-resultat')) : '';
-
-  if (!filiere && !contexte) return null;
-
-  const section = { titre: 'Contexte professionnel' };
-
-  const libelle = filiere ? [filiere.niveau, filiere.filiere].filter(Boolean).join(' — ') : '';
-  if (libelle) section.items = [{ label: 'Filière', valeur: libelle }];
-  if (contexte) section.texte = contexte;
-
-  return section;
-}
-
-// Tableau d'auto-évaluation (.autoeval-table : une ligne par compétence,
-// boutons radio 0 / 1 / 2) + radar des compétences s'il a été généré.
-// Rien n'est imprimé tant que l'élève n'a coché aucune case.
-function construireSectionAutoEvaluation() {
-
-  const lignes = [...document.querySelectorAll('.autoeval-table tbody tr[data-comp]')];
-
-  if (!lignes.some(tr => tr.querySelector('input[type="radio"]:checked'))) return null;
-
-  const section = {
-    titre: 'Auto-évaluation des compétences',
-    position: 'fin', // après les questions, comme à l'écran
-    tableau: {
-      entetes: ['Domaine', 'Sigle', 'Je suis capable de…', 'Niveau (0 à 2)'],
-      lignes: lignes.map(tr => {
-        const coche = tr.querySelector('input[type="radio"]:checked');
-        return [texte(tr.cells[0]), tr.dataset.comp, texte(tr.cells[2]), coche ? coche.value : '—'];
-      }),
-    },
-  };
-
-  const radar = document.getElementById('radar-resultat');
-  if (radar && radar.querySelector('canvas, svg')) {
-    section.canvas = radar;
-    section.legende = 'Radar des compétences';
-    section.echelle = 0.5; // radar imprimé à 50 % de la largeur
-  }
-
-  return section;
-}
-
-/* ==========================================================
-   POINT D'ENTRÉE
-   ========================================================== */
-
-/**
- * @param {Object} params
- * @param {string} params.titre - Titre du TP (ex. "Caractériser un son")
- * @param {string} params.tp    - Numéro du TP (ex. "TP01")
- * @param {() => Object[]} [params.sectionsSupplementaires]
- *        Fonction appelée au moment de l'impression ; retourne les sections
- *        propres au TP (ex. tableau de mesures + graphique). Si elle ne
- *        retourne rien, les onglets de manipulation sont capturés
- *        automatiquement.
- */
-export function initImpressionCompteRendu({ titre, tp, sectionsSupplementaires }) {
-
-  const bouton = document.getElementById('btn-imprimer');
-
-  if (!bouton) return;
-
-  bouton.addEventListener('click', async () => {
-
-    const propres = typeof sectionsSupplementaires === 'function'
-      ? (sectionsSupplementaires() || []).filter(Boolean)
-      : [];
-
-    // Niveau et filière choisis par l'élève (contexte-pro.js)
-    const filiere = await lireFiliere();
-
-    const sections = [
-      construireSectionContextePro(filiere),
-      ...(propres.length ? propres : construireSectionsManipulations()),
-      ...construireSectionsQuestions(),
-      construireSectionAutoEvaluation(),
-    ].filter(Boolean);
-
-    genererCompteRendu({
-      titre,
-      domaine: 'Acoustique',
-      tp,
-      sections,
-      noteFinale: true,
-      niveau: filiere?.niveau, // pastille « 2nde / 1ère / Tle » de l'en-tête
-    });
-  });
+/* ── Schémas de montage (img.mode-image dans .mode-op) ──────────────
+   Remplace l'ancien style en ligne des fragments. */
+.mode-op .mode-image {
+  display: block;
+  width: 100%;
+  height: auto;
 }

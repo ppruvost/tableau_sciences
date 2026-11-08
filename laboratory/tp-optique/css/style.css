@@ -2,16 +2,16 @@
 /* Chaîne CSS complète, dans l'ordre documenté (css/global.css) :
    global → reset → tp → animations → print. compte-rendu.css est chargé
    à la demande par js/compte-rendu.js ; les <link> de index.html ont été retirés. */
-@import url("../../css/global.css");
+@import url("../../../css/global.css");
 @import url("../../../css/reset.css");
-@import url("../../css/tp.css");
-@import url("../../css/animations.css");
+@import url("../../../css/tp.css");
+@import url("../../../css/animations.css");
 @import url("../../../css/print.css");
 
 /* ── Overrides communs à tous les domaines (header, nav, cartes,
    tableaux, EPI, radar, graphique...) — paramétrés par les variables
    de couleur ci-dessous ── */
-@import url("../../css/domaine.css");
+@import url("../../../css/domaine.css");
 
 /* ════════════════════════════════════════════════════════════════
    IDENTITÉ DU DOMAINE OPTIQUE

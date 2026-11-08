@@ -41,7 +41,7 @@ function initSousOngletsAtelier() {
 function calculerPoids() {
   const m = num('at-masse');
   const g = num('at-g');
-  const zone = document.getElementById('at-poids-res');
+  const zone = document.getElementById('at-poids-resultat');
   if (!zone) return;
   if ([m, g].some(Number.isNaN) || m < 0 || g <= 0) {
     zone.textContent = 'Saisir une masse positive et une valeur de g strictement positive.';
@@ -82,7 +82,7 @@ function appliquerPresetEquilibre(cle) {
 }
 
 function calculerEquilibre() {
-  const zone = document.getElementById('at-eq-res');
+  const zone = document.getElementById('at-eq-resultat');
   if (!zone) return;
   const xa = num('at-xa');
   const xb = num('at-xb');
@@ -140,7 +140,7 @@ function appliquerPresetSoudure(cle) {
 }
 
 function calculerSoudure() {
-  const zone = document.getElementById('at-sd-res');
+  const zone = document.getElementById('at-sd-resultat');
   if (!zone) return;
   const T = num('at-T');
   const Re = num('at-Re');

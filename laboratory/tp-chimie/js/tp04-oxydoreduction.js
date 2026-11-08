@@ -4,7 +4,7 @@
  * (+ notions complémentaires "Accumulateur", TCI/TRPM uniquement)
  */
 
-import { initZoomVisuels } from "../../js/zoom-visuel.js";
+import { initZoomVisuels } from "../../../js/zoom-visuel.js";
 import products from "../../data/products.js";
 import dangerDB from "../../data/dangerDB.js";
 import pictogrammes from "../../data/pictogrammes.js";
@@ -22,26 +22,26 @@ import {
     initModesOperatoires,
     appliquerFiltresCategorie,
     $
-} from "../../js/utils.js";
+} from "../../../js/utils.js";
 
 import {
     afficherSecuriteProduit,
     trouverProduit
-} from "../../js/securite.js";
+} from "../../../js/securite.js";
 
 import {
     initMateriel
-} from "../../js/materiel.js";
+} from "../../../js/materiel.js";
 
 import {
     initRadarCompetences
-} from "../../js/radar.js";
+} from "../../../js/radar.js";
 
-import { initContextePro } from "../../js/contexte-pro.js";
+import { initContextePro } from "../../../js/contexte-pro.js";
 
 import {
     initOngletsParFiliere
-} from "../../js/onglets-filiere.js";
+} from "../../../js/onglets-filiere.js";
 
 
 /* ==========================================================

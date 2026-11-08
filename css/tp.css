@@ -1,12 +1,14 @@
 /* ════════════════════════════════════════════════════════════════
    tp.css
-   Cœur du framework SciLab — TOUS les composants communs sont
-   définis UNE SEULE FOIS ici (nav, en-tête de TP, sections, cartes,
-   boutons, formulaires, tableaux, badges, capsules, widgets de
-   chimie). Dépend exclusivement des variables de global.css.
+   Cœur du framework SciLab / MathiLab — TOUS les composants communs
+   sont définis UNE SEULE FOIS ici (nav, en-tête de TP, sections,
+   cartes, boutons, formulaires, tableaux, badges, capsules, widgets
+   de chimie, sous-onglets, cadre GéoGébra...). Dépend exclusivement
+   des variables de global.css (et, pour l'accent par domaine, de
+   --domaine-accent* fournies par css/domaine.css).
 
    Sommaire :
-     1.  Structure de page
+     1.  Structure de page (+ utilitaires d'espacement)
      2.  Navigation globale (site-header)
      3.  En-tête de TP (.tp-header)
      4.  Sections repliables / accordéon
@@ -18,20 +20,24 @@
      10. Badges (compétences, EPI, CLP/GHS)
      11. Capsules
      12. Sécurité (alerte, produit, danger/prévention)
-     13. Bande de pH
+     13. Bande de pH, graphe de titrage, légende de courbe
+     13b. Cadre GéoGébra intégré
      14. Équation chimique & bilan redox
      15. Virage d'indicateur
      15b. Simulateur pH & échantillons (TP02)
      16. Filtre réactifs & grille matériel
-     17. Étapes numérotées & mode opératoire
+     17. Étapes numérotées, questions notées & mode opératoire
+     17b. Activités atelier (TD G03)
      18. Onglets
-     19. Progression pédagogique & sidebar
-     20. Chronomètre, capsule concentration/arrondi, tooltip
-     21. Auto-évaluation (écran)
-     22. Animations
+     18b. Sous-onglets (puzzle Sujet A/B/C, ateliers)
+     18c. Attribut hidden
+     19. Sidebar résumé
+     20. Chronomètre & tooltip
+     21. Navigation inter-TP
+     22. Animations (voir animations.css)
      23. RESPONSIVE (centralisé — aucun @media ailleurs)
-     24. IMPRESSION (layout général, hors compte-rendu)
-     25. Préférences de mouvement réduit
+     24. Problématique (par filière / en tête d'onglet), radar,
+         garde-fou compte rendu, mouvement réduit
    ════════════════════════════════════════════════════════════════ */
 
 /* ──────────────────────────────────────────────────────────────
@@ -49,6 +55,11 @@
   gap: var(--gap-md);
   align-items: start;
 }
+
+/* Utilitaires d'espacement (§4.1 / §5.1) */
+.espace-haut-md { margin-top: var(--gap-md); }
+.espace-haut-lg { margin-top: var(--gap-lg); }
+.espace-bas-lg  { margin-bottom: var(--gap-lg); }
 
 /* ──────────────────────────────────────────────────────────────
    2. NAVIGATION GLOBALE
@@ -842,6 +853,34 @@ textarea { font-family: var(--font-corps); resize: vertical; min-height: 80px; }
 .legende-courbe i { display: inline-block; width: 14px; height: 4px; border-radius: 2px; }
 
 /* ──────────────────────────────────────────────────────────────
+   13b. CADRE GÉOGÉBRA INTÉGRÉ (js/outils-geogebra.js)
+   ────────────────────────────────────────────────────────────── */
+.cadre-geogebra {
+  margin: 12px 0 18px;
+  border: 1px solid var(--gris-clair);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--blanc);
+}
+.cadre-geogebra-entete {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 10px;
+  background: var(--blanc-paillasse);
+  font-size: .9rem;
+}
+.cadre-geogebra iframe { display: block; width: 100%; height: 560px; border: 0; }
+.ggb-conteneur {
+  display: block;
+  width: 100%;
+  min-height: 480px;
+  background: var(--blanc);
+  overflow: auto;
+}
+
+/* ──────────────────────────────────────────────────────────────
    14. ÉQUATION CHIMIQUE & BILAN REDOX
    ────────────────────────────────────────────────────────────── */
 .equation {
@@ -1066,7 +1105,7 @@ textarea { font-family: var(--font-corps); resize: vertical; min-height: 80px; }
 .echantillon .infos strong { display: block; }
 
 /* ──────────────────────────────────────────────────────────────
-   16. FILTRE RÉACTIFS
+   16. FILTRE RÉACTIFS & GRILLE MATÉRIEL
    ────────────────────────────────────────────────────────────── */
 .filtre-reactifs {
   display: flex;
@@ -1115,6 +1154,9 @@ textarea { font-family: var(--font-corps); resize: vertical; min-height: 80px; }
 
 /* ──────────────────────────────────────────────────────────────
    17. ÉTAPES NUMÉROTÉES & MODE OPÉRATOIRE
+   La pastille numérotée prend l'accent du domaine (--domaine-accent,
+   fourni par css/domaine.css) ; repli sur le bleu cuivre de SciLab si
+   le domaine n'en définit pas.
    ────────────────────────────────────────────────────────────── */
 .etapes { list-style: none; counter-reset: etape; padding: 0; margin: 0; width: 100%; }
 .etapes li {
@@ -1135,7 +1177,7 @@ textarea { font-family: var(--font-corps); resize: vertical; min-height: 80px; }
   width: 40px; height: 40px; min-width: 40px;
   display: flex; align-items: center; justify-content: center;
   border-radius: 50%;
-  background: var(--bleu-cuivre);
+  background: var(--domaine-accent, var(--bleu-cuivre));
   color: var(--blanc);
   font-family: var(--font-titre);
   font-weight: 700;
@@ -1150,8 +1192,8 @@ textarea { font-family: var(--font-corps); resize: vertical; min-height: 80px; }
 /* ── Liste de questions notées (bloc "Compte rendu" de chaque TP) ──
    Utilisée par tous les TP (tp00, tp01, tp03...) pour les questions
    à réponse libre notées par compétence. Numérotation en médaillon
-   bleu, dans le même esprit visuel que .etapes, avec un conteneur
-   explicitement borné pour empêcher tout débordement du cadre. */
+   (accent du domaine), dans le même esprit visuel que .etapes, avec
+   un conteneur explicitement borné pour empêcher tout débordement. */
 .questions-tp {
   list-style: none;
   counter-reset: question;
@@ -1193,7 +1235,7 @@ textarea { font-family: var(--font-corps); resize: vertical; min-height: 80px; }
   height: 28px;
   min-width: 28px;
   border-radius: 50%;
-  background: var(--bleu-cuivre);
+  background: var(--domaine-accent, var(--bleu-cuivre));
   color: var(--blanc);
   display: flex;
   align-items: center;
@@ -1235,7 +1277,21 @@ textarea { font-family: var(--font-corps); resize: vertical; min-height: 80px; }
   height: 560px;
   object-fit: contain;
 }
+.mode-legende {
+  max-width: 1450px;
+  margin: 10px auto 0;
+  font-size: 0.85rem;
+  color: var(--gris-moyen, #5B6470);
+  font-style: italic;
+}
 .hidden { display: none; }
+
+/* ──────────────────────────────────────────────────────────────
+   17b. ACTIVITÉS ATELIER (TD G03)
+   ────────────────────────────────────────────────────────────── */
+#activites-atelier .tableau-resultats input[type="text"],
+#activites-atelier .tableau-resultats input[type="number"] { width: 100%; min-width: 6rem; }
+#activites-atelier .resultat-calcul { line-height: 1.8; }
 
 /* ──────────────────────────────────────────────────────────────
    18. ONGLETS
@@ -1264,6 +1320,37 @@ textarea { font-family: var(--font-corps); resize: vertical; min-height: 80px; }
 .tab-btn:hover:not(.actif) { color: var(--gris-ardoise); }
 .tab-panel { display: none; }
 .tab-panel.actif { display: block; }
+
+/* ──────────────────────────────────────────────────────────────
+   18b. SOUS-ONGLETS (puzzle Sujet A/B/C, ateliers) — js/puzzle-onglet.js
+   ────────────────────────────────────────────────────────────── */
+.sous-onglets { display: flex; gap: .4rem; flex-wrap: wrap; margin: var(--gap-md) 0; }
+.sous-btn {
+  padding: .4rem .9rem;
+  border: 1px solid var(--domaine-accent, var(--bleu-cuivre));
+  border-radius: 999px;
+  background: var(--blanc);
+  color: var(--domaine-accent-fonce, var(--bleu-fonce));
+  cursor: pointer;
+  font: inherit;
+}
+.sous-btn.actif { background: var(--domaine-accent, var(--bleu-cuivre)); color: var(--blanc); }
+.sous-panel { display: none; }
+.sous-panel.actif { display: block; }
+.puzzle-problematique { font-weight: 600; color: var(--domaine-accent-fonce, var(--bleu-fonce)); }
+
+/* ──────────────────────────────────────────────────────────────
+   18c. ATTRIBUT hidden — doit l'emporter sur les display ci-dessus
+   (placé APRÈS les composants concernés : à spécificité égale, par
+   exemple .tab-panel.actif, c'est l'ordre dans la feuille qui tranche)
+   ────────────────────────────────────────────────────────────── */
+.form-group[hidden],
+.tab-btn[hidden],
+.tab-panel[hidden],
+.tabs-container[hidden],
+.warning[hidden],
+.questions-bloc[hidden],
+#cr-print-container[hidden] { display: none; }
 
 /* ──────────────────────────────────────────────────────────────
    19. SIDEBAR RÉSUMÉ
@@ -1343,7 +1430,7 @@ textarea { font-family: var(--font-corps); resize: vertical; min-height: 80px; }
   border-top: 2px solid var(--gris-clair);
 }
 
-/* Les keyframes et délais d'animation vivent désormais dans animations.css */
+/* 22. Les keyframes et délais d'animation vivent dans animations.css */
 
 /* ════════════════════════════════════════════════════════════════
    23. RESPONSIVE — CENTRALISÉ (aucun @media dans les autres fichiers
@@ -1378,9 +1465,10 @@ textarea { font-family: var(--font-corps); resize: vertical; min-height: 80px; }
   .tp-header-numero { display: none; }
 }
 
-/* ── ≤ 760px : grilles balance / matériel ── */
+/* ── ≤ 760px : grilles balance / matériel, cadre GéoGébra ── */
 @media (max-width: 760px) {
   .grid-2, .grille-materiel { grid-template-columns: 1fr; }
+  .cadre-geogebra iframe { height: 420px; }
 }
 
 /* ── ≤ 600px : en-tête TP empilé (logo | numéro / titre pleine largeur) ── */
@@ -1413,8 +1501,10 @@ textarea { font-family: var(--font-corps); resize: vertical; min-height: 80px; }
 }
 
 /* ════════════════════════════════════════════════════════════════
-   Problématique par filière métier.
+   24. PROBLÉMATIQUE, RADAR, GARDE-FOU COMPTE RENDU
    ════════════════════════════════════════════════════════════════ */
+
+/* ── Problématique par filière métier ────────────────────────── */
 .problematique-rappel{
   font-style:italic;
   background:var(--bleu-cuivre-clair,#eef4fa);
@@ -1423,18 +1513,52 @@ textarea { font-family: var(--font-corps); resize: vertical; min-height: 80px; }
   margin:var(--gap-sm) 0;
 }
 
+.filiere-restriction-note {
+  font-size: 0.9em;
+  font-style: italic;
+  color: var(--gris-texte, #555);
+  margin-top: 0.5em;
+}
+
+/* ── Problématique en tête de chaque onglet (§5.1) ────────────
+   Distinguée par l'étiquette « Problématique », pas par la couleur seule.
+   Placée après .problematique-rappel, dont elle neutralise le cadre. */
+.problematique-onglet {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .4rem .75rem;
+  margin: 0 0 var(--gap-md);
+  padding: .6rem .9rem;
+  border-left: 4px solid var(--domaine-accent, var(--bleu-cuivre));
+  border-radius: var(--r-sm);
+  background: rgba(var(--domaine-accent-rgb, 27, 108, 168), .08);
+}
+.problematique-onglet-etiquette {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--domaine-accent-fonce, var(--bleu-fonce));
+}
+.problematique-onglet .problematique-rappel {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;   /* le cadre est porté par .problematique-onglet */
+  font-weight: 600;
+}
+
 /* ── RADAR DE COMPÉTENCES (js/radar.js) ─────────────────────── */
 .radar-graduation { fill: none; stroke: var(--gris-clair); stroke-width: 1; }
 .radar-axe-ligne   { stroke: var(--gris-clair); stroke-width: 1; }
 .radar-axe-texte   { font-size: 12px; font-weight: 700; fill: var(--gris-moyen); }
 .radar-polygone    { fill: var(--bleu-cuivre); fill-opacity: .35; stroke: var(--bleu-cuivre); stroke-width: 2; }
 
-/* ════════════════════════════════════════════════════════════════
-   GARDE-FOU COMPTE RENDU — l'en-tête imprimé (#cr-print-container)
+/* ── GARDE-FOU COMPTE RENDU — l'en-tête imprimé (#cr-print-container)
    ne doit hériter d'aucun composant d'écran : .logo (fond noir),
    .tag (pilule translucide), .tp-header (dégradé) et h1 blanc.
-   Le détail de la mise en page vit dans css/compte-rendu.css.
-   ════════════════════════════════════════════════════════════════ */
+   Le détail de la mise en page vit dans css/compte-rendu.css. ──── */
 #cr-print-container .logo {
   background: none;
   padding: 0;
@@ -1455,4 +1579,14 @@ textarea { font-family: var(--font-corps); resize: vertical; min-height: 80px; }
 #cr-print-container h2,
 #cr-print-container h3 {
   color: inherit;
+}
+
+/* ── Préférences de mouvement réduit ─────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

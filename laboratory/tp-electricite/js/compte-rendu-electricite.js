@@ -30,7 +30,7 @@
  *   + graphique éventuel) et RESULTAT_CALCULE (motif d'exclusion des textes d'invite).
  */
 
-import { genererCompteRendu } from '../../js/compte-rendu.js';
+import { genererCompteRendu } from '../../../js/compte-rendu.js';
 
 /* ==========================================================
    LECTURE DU DOM
@@ -296,7 +296,7 @@ function lireFiliereDom() {
 // en silence tout le module d'impression. Ici on retombe sur le DOM.
 async function lireFiliere() {
   try {
-    const module = await import('../../js/contexte-pro.js');
+    const module = await import('../../../js/contexte-pro.js');
     if (typeof module.getFiliereSelectionnee === 'function') {
       return module.getFiliereSelectionnee() || null;
     }

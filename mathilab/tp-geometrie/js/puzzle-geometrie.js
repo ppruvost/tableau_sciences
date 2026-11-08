@@ -2,7 +2,7 @@
  * MATHILAB — GÉOMÉTRIE : modèles de l'activité Puzzle (TD01 à TD04)
  * mathilab/tp-geometrie/js/puzzle-geometrie.js
  */
-import { fmt, R5 } from '../../js/puzzle-onglet.js';
+import { fmt, R5 } from '../../../js/puzzle-onglet.js';
 
 /* ---------- TD01 : solides, aires, volumes, Pythagore, Thalès (2nde) ---------- */
 const G1_LIB = {

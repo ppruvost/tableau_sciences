@@ -1,34 +1,54 @@
 /**
- * ============================================================
- * MATHILAB — GÉOMÉTRIE
- * TD04 : Trigonométrie — cercle trigonométrique et fonctions
- * sinus/cosinus (1ère, groupement B : TRPM, TCI, MCC uniquement)
  * mathilab/tp-geometrie/js/td04-trigonometrie.js
- * ============================================================
+ *
+ * Contrôleur du TD04 « Trigonométrie : cercle trigonométrique et fonctions sinus/cosinus ».
+ * Chargé par navigation.js juste après l'injection du fragment
+ * tp-geometrie/modules/td04-trigonometrie.html dans #content.
+ *
+ * Convention SciLab / MathiLab (claude_v6.md) :
+ *  - le fragment HTML est la référence fixe, ce fichier s'adapte à lui
+ *  - navigation.js exécute module.init() après l'import : le point
+ *    d'entrée DOIT donc s'appeler init()
  */
 
-import { exposerOutils } from './outils-geogebra.js';
+// 1. Imports partagés (../../../js/…), puis données (../../data/…), puis locaux (./…)
+import { initZoomVisuels } from '../../../js/zoom-visuel.js';
+import { initSections, initTabs, initModesOperatoires } from '../../../js/utils.js';
+import { initContextePro } from '../../../js/contexte-pro.js';
+import { garantirMenuFiliere } from './filiere-select.js';
 import FILIERES_PRO from '../../data/filieres.js';
-import { initContextePro } from '../../js/contexte-pro.js';
-import { initRadarCompetences } from '../../js/radar.js';
+import { initRadarCompetences } from '../../../js/radar.js';
+import { initOngletsParFiliere } from '../../../js/onglets-filiere.js';
+import { demarrerPuzzle } from '../../../js/puzzle-onglet.js';
 import { initImpressionCompteRendu } from './compte-rendu-geometrie.js';
-import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
-
-import { demarrerPuzzle } from '../../js/puzzle-onglet.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
+import { initNavigationTP } from './nav-tp.js';
+import { initOutilsGeoGebra } from './outils-geogebra.js';
 import { G4 } from './puzzle-geometrie.js';
-const CONTEXTES_TD04 = {
-  '1ere-trpm': {
-    contexte: "En usinage, un angle de coupe ou une rotation de pièce sur un tour se décrivent à l'aide du cercle trigonométrique.",
-    problematique: "Comment convertir un angle de rotation et en déterminer le cosinus et le sinus ?",
+
+// 2. Données propres au TD (contextes professionnels, constantes)
+const CONTEXTES_PRO = {
+  "1ere-trpm": {
+    "contexte": "En usinage, un angle de coupe ou une rotation de pièce sur un tour se décrivent à l'aide du cercle trigonométrique.",
+    "problematiques": {
+      "cercle-trigo": "Comment convertir un angle de rotation et en déterminer le cosinus et le sinus ?",
+      "fonctions-sin-cos": "Comment décrire par une courbe sinus ou cosinus le mouvement périodique d'une pièce en rotation, en indiquant sa période ?"
+    }
   },
-  '1ere-tci': {
-    contexte: "En chaudronnerie, un angle de pliage ou de cintrage se décrit à l'aide du cercle trigonométrique.",
-    problematique: "Comment convertir un angle de pliage et en déterminer le cosinus et le sinus ?",
+  "1ere-tci": {
+    "contexte": "En chaudronnerie, un angle de pliage ou de cintrage se décrit à l'aide du cercle trigonométrique.",
+    "problematiques": {
+      "cercle-trigo": "Comment convertir un angle de pliage et en déterminer le cosinus et le sinus ?",
+      "fonctions-sin-cos": "Comment décrire par une courbe sinus ou cosinus un phénomène périodique lié à un angle de pliage ou de cintrage, en indiquant sa période ?"
+    }
   },
-  '1ere-mcc': {
-    contexte: "En confection, un angle de coupe de tissu ou une rotation de patron se décrivent à l'aide du cercle trigonométrique.",
-    problematique: "Comment convertir un angle de coupe et en déterminer le cosinus et le sinus ?",
-  },
+  "1ere-mcc": {
+    "contexte": "En confection, un angle de coupe de tissu ou une rotation de patron se décrivent à l'aide du cercle trigonométrique.",
+    "problematiques": {
+      "cercle-trigo": "Comment convertir un angle de coupe et en déterminer le cosinus et le sinus ?",
+      "fonctions-sin-cos": "Comment décrire par une courbe sinus ou cosinus le mouvement périodique d'une aiguille de machine à coudre, en indiquant sa période ?"
+    }
+  }
 };
 
 function formater(v) {
@@ -66,6 +86,12 @@ function initCercleTrigo() {
    Logistique, faute de filière "groupement A" dans le référentiel)
    ============================================================ */
 
+/** Affiche/masque un élément : attribut hidden (+ style.display pour rester compatible avec onglets-filiere.js). */
+function afficher(element, visible) {
+  element.hidden = !visible;
+  element.style.display = visible ? '' : 'none';
+}
+
 function filtrerOngletsParFiliere() {
   const select = document.getElementById('select-filiere-pro');
   const zoneMessage = document.getElementById('td04-message-filiere');
@@ -85,7 +111,7 @@ function filtrerOngletsParFiliere() {
       const restriction = bouton.dataset.filieres;
       const visible = !restriction || !filiere || restriction.split(',').includes(filiere);
 
-      bouton.style.display = visible ? '' : 'none';
+      afficher(bouton, visible);
 
       const panneau = document.getElementById(bouton.dataset.tab);
       if (!visible) {
@@ -106,12 +132,12 @@ function filtrerOngletsParFiliere() {
 
     if (zoneMessage) {
       if (toutCache && filiere) {
-        zoneMessage.style.display = 'block';
+        afficher(zoneMessage, true);
         zoneMessage.textContent = "Ce TD (Trigonométrie) est réservé au groupement B (TRPM, TCI, MCC) : il ne concerne pas votre filière.";
-        if (zoneActivites) zoneActivites.style.display = 'none';
+        if (zoneActivites) afficher(zoneActivites, false);
       } else {
-        zoneMessage.style.display = 'none';
-        if (zoneActivites) zoneActivites.style.display = '';
+        afficher(zoneMessage, false);
+        if (zoneActivites) afficher(zoneActivites, true);
       }
     }
   }
@@ -120,30 +146,38 @@ function filtrerOngletsParFiliere() {
   appliquerFiltre();
 }
 
-/* ============================================================
-   INITIALISATION
-   ============================================================ */
+// ============================================================
+// Initialisation
+// ============================================================
 
-function initialiserTD04() {
-  exposerOutils();
-  initOngletsParFiliere();
-
-  initContextePro({
-    filieres: FILIERES_PRO,
-    contextes: CONTEXTES_TD04
-  });
-
-  demarrerPuzzle(G4);
-
-  initCercleTrigo();
-  filtrerOngletsParFiliere();
-
-  initRadarCompetences();
-
-  initImpressionCompteRendu({
-    titre: 'Trigonométrie : cercle trigonométrique et fonctions sinus/cosinus',
-    tp: 'TD04'
-  });
+/** Une étape en erreur n'empêche jamais les suivantes. */
+function etape(nom, fn) {
+  try { fn(); }
+  catch (err) { console.error(`[tp-geometrie] étape « ${nom} » en erreur :`, err); }
 }
 
-initialiserTD04();
+/**
+ * Point d'entrée du TD (appelé par navigation.js).
+ * Ordre : zoom → outils → onglets du TD → contexte pro → puzzle →
+ * filtrage par filière → sections → onglets → modes opératoires → radar →
+ * questions par onglet → navigation TD → impression.
+ */
+export function init() {
+  etape('initZoomVisuels', () => { initZoomVisuels(); });
+  etape('initOutilsGeoGebra', () => { initOutilsGeoGebra(); });
+  etape('initCercleTrigo', () => { initCercleTrigo(); });
+  etape('initContextePro', () => { initContextePro({ afficherProblematique: false, filieres: FILIERES_PRO, contextes: CONTEXTES_PRO }); });
+  etape('garantirMenuFiliere', () => { garantirMenuFiliere(CONTEXTES_PRO); });
+  etape('demarrerPuzzle', () => { demarrerPuzzle(G4); });
+  etape('initOngletsParFiliere', () => { initOngletsParFiliere(); });
+  etape('filtrageOngletsParFiliere', () => { filtrerOngletsParFiliere(); });
+  etape('initSections', () => { initSections(); });
+  etape('initTabs', () => { initTabs(); });
+  etape('initModesOperatoires', () => { initModesOperatoires(); });
+  etape('initRadarCompetences', () => { initRadarCompetences(); });
+  etape('initQuestionsParOnglet', () => { initQuestionsParOnglet(); });
+  etape('initNavigationTP', () => { initNavigationTP(); });
+  etape('initImpressionCompteRendu', () => {
+    initImpressionCompteRendu({ titre: 'Trigonométrie : cercle trigonométrique et fonctions sinus/cosinus', tp: 'TD04' });
+  });
+}

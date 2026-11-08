@@ -1,99 +1,25 @@
-/* ── Tokens globaux, composants TP, impression ────────────────── */
-@import url("../../css/global.css");
-@import url("../../css/tp.css");
+/* ── Tokens globaux, composants TP, impression ───────────────── */
+@import url("../../../css/global.css");
+@import url("../../../css/reset.css");
+@import url("../../../css/tp.css");
+@import url("../../../css/animations.css");
 @import url("../../../css/print.css");
+@import url("../../../css/domaine.css");
 
-/* ── Overrides communs à tous les domaines (header, nav, cartes,
-   tableaux, EPI, radar, graphique...) — paramétrés par les variables
-   de couleur ci-dessous ── */
-@import url("../../css/domaine.css");
-
-/* ════════════════════════════════════════════════════════════════
-   IDENTITÉ DU DOMAINE GÉOMÉTRIE
-   L'ordre d'écriture n'a pas d'importance pour la résolution des
-   var() : ces valeurs s'appliquent à css/domaine.css même si celui-ci
-   est importé plus haut dans ce fichier.
-   ════════════════════════════════════════════════════════════════ */
+/* IDENTITÉ DU DOMAINE GÉOMÉTRIE — charte couleur MathiLab (hub index.html)
+   Géométrie = vert (dégradé de la carte du hub : #10B981 → #059669).
+   Le fond plein des boutons et médaillons (texte blanc) utilise le vert
+   foncé : le vert clair n'atteint pas un contraste suffisant.
+   Un domaine = un jeu de 3 variables (claude_v6.md §10.2). */
 :root {
-  --domaine-accent:       #6B3FA0;
-  --domaine-accent-fonce: #482A6E;
-  --domaine-accent-rgb:   107, 63, 160;
+  --domaine-accent:       #059669;
+  --domaine-accent-fonce: #047857;
+  --domaine-accent-rgb:   5, 150, 105;
 }
 
-/* ── Médaillon numéroté des questions ─────────────────────────────
-   Voir remarque équivalente dans tp-algorithme/css/style.css : tp.css
-   fixe ce médaillon en bleu sans jamais le laisser à la charge du
-   domaine. Redéfini ici explicitement. */
-.questions-tp .question-entete::before {
-  background: var(--domaine-accent);
-  color: #fff;
-}
-
-/* ── Puces numérotées des étapes de méthodologie (".etapes li::before",
-   utilisées dans les onglets d'activités) ────────────────────────
-   Même bug que ci-dessus : tp.css les fixe en bleu (var(--bleu-cuivre))
-   sans jamais les laisser à la charge du domaine. */
-.etapes li::before {
-  background: var(--domaine-accent);
-  color: #fff;
-}
-
-/* Aucun autre ajustement propre à la géométrie au-delà de son
-   identité de couleur pour l'instant : toute la structure (header,
-   nav, cartes, formulaires, tableaux, EPI, matériel, radar,
-   graphique, histogramme, cartouches, auto-évaluation...) vient de
-   tp.css et css/domaine.css. */
-
-/* Puzzle — sous-onglets Sujet A / B / C / Synthèse */
-.sous-onglets { display:flex; gap:.4rem; flex-wrap:wrap; margin:1rem 0; }
-.sous-btn { padding:.4rem .9rem; border:1px solid var(--domaine-accent, #1b6ca8); border-radius:999px; background:#fff; color:var(--domaine-accent-fonce, #0d4f8a); cursor:pointer; font:inherit; }
-.sous-btn.actif { background:var(--domaine-accent, #1b6ca8); color:#fff; }
-.sous-panel { display:none; }
-.sous-panel.actif { display:block; }
-.puzzle-problematique { font-weight:600; color:var(--domaine-accent-fonce, #0d4f8a); }
-
-
-/* Trace écrite : blocs de questions masqués selon l'activité réalisée */
-.questions-bloc[hidden] { display:none !important; }
-#activite-realisee { width:100%; max-width:34rem; }
-
-/* Activités atelier */
-#activites-atelier .tableau-resultats input[type="text"],
-#activites-atelier .tableau-resultats input[type="number"] { width:100%; min-width:6rem; }
-#activites-atelier .resultat-calcul { line-height:1.8; }
-
-/* ---------- Cadre GéoGébra intégré (outils-geogebra.js) ---------- */
-.cadre-geogebra {
-  margin: 12px 0 18px;
-  border: 1px solid #cfd8e3;
-  border-radius: 10px;
-  overflow: hidden;
-  background: #fff;
-}
-.cadre-geogebra-entete {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  padding: 6px 10px;
-  background: #f3f6fa;
-  font-size: .9rem;
-}
-.cadre-geogebra iframe {
-  display: block;
-  width: 100%;
-  height: 560px;
-  border: 0;
-}
-@media (max-width: 700px) {
-  .cadre-geogebra iframe { height: 420px; }
-}
-
-/* GéoGébra 3D direct (sans iframe) injecté par outils-geogebra.js */
-.ggb-conteneur {
-  display: block;
-  width: 100%;
-  min-height: 480px;
-  background: #fff;
-  overflow: auto;
-}
+/* Aucun autre style propre à la géométrie : les composants communs
+   (médaillons de questions, puces d'étapes, onglets, problématique,
+   sous-onglets du puzzle et des ateliers, cadre GéoGébra, utilitaires
+   d'espacement…) sont définis une seule fois dans css/tp.css
+   (voir css-a-fusionner-dans-tp.css), recolorés par les 3 variables
+   d'accent ci-dessus. */

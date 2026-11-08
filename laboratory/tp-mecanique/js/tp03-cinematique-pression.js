@@ -9,17 +9,17 @@
  * d'entrée doit s'appeler init().
  */
 
-import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../../js/utils.js';
-import { initContextePro, getFiliereSelectionnee } from '../../js/contexte-pro.js';
+import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../../../js/utils.js';
+import { initContextePro, getFiliereSelectionnee } from '../../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
-import { initRadarCompetences } from '../../js/radar.js';
+import { initRadarCompetences } from '../../../js/radar.js';
 import { initImpressionCompteRendu, texte, valeur } from './compte-rendu-mecanique.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initNavigationTP } from './nav-tp.js';
-import { initMateriel } from '../../js/materiel.js';
-import { initZoomVisuels } from '../../js/zoom-visuel.js';
+import { initMateriel } from '../../../js/materiel.js';
+import { initZoomVisuels } from '../../../js/zoom-visuel.js';
 import laboratoryEquipment from '../../data/equipment.js';
-import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
+import { initOngletsParFiliere } from '../../../js/onglets-filiere.js';
 import { initAcquisitionExaoPression } from './exao-pression.js';
 
 const CONTEXTES_PRO = {

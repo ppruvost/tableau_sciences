@@ -9,7 +9,7 @@
  * #materiel-equipements — rien à faire ici pour cette partie.
  */
 
-import { genererCompteRendu } from '../../js/compte-rendu.js';
+import { genererCompteRendu } from '../../../js/compte-rendu.js';
 import { getBlocQuestionsActif } from './questions-par-onglet.js';
 
 function texte(el) {
@@ -48,7 +48,7 @@ function construireSectionsQuestions() {
 // (le contexte pro imprimé doit refléter ce qui est affiché à l'écran).
 async function lireFiliere() {
   try {
-    const module = await import('../../js/contexte-pro.js');
+    const module = await import('../../../js/contexte-pro.js');
     const filiere = module.getFiliereSelectionnee?.();
     if (filiere) return filiere;
   } catch (erreur) {

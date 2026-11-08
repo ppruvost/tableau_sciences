@@ -83,22 +83,7 @@
       </div>
     </div>
 
-    <!-- ====== VERRERIE ====== -->
-    <div id="glassware" class="section">
-      <h2>Verrerie</h2>
-
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>Nom</th><th>Contenance</th><th>Lieu</th><th>Image</th>
-            </tr>
-          </thead>
-          <tbody id="glassware-body"></tbody>
-        </table>
-      </div>
-    </div>
-
+    
     <!-- ====== EXTERNE ====== -->
     <div id="external-content" class="section">
       <iframe id="external-frame" title="Contenu externe"></iframe>
@@ -147,6 +132,58 @@
     </div>
     <iframe id="tpFrame" title="Travaux dirigés"></iframe>
   </div>
+
+  <!-- ====== VISIONNEUSE D'OUTIL (GéoGébra, calculatrice NumWorks…) ======
+       Ouverte par les TD affichés dans #tpViewer (message « mathilab:ouvrir-outil »).
+       Placée après #tpViewer pour s'afficher au-dessus du TD. -->
+  <div id="outilViewer" class="tp-viewer hidden" role="dialog" aria-modal="true" aria-labelledby="outilTitre">
+    <div class="viewer-topbar">
+      <h2 id="outilTitre">Outil</h2>
+      <button id="closeOutil" type="button">✖ Fermer l'outil</button>
+    </div>
+    <iframe id="outilFrame" title="Outil" allow="fullscreen"></iframe>
+  </div>
+
+  <script>
+    (function () {
+      const viewer = document.getElementById("outilViewer");
+      const frame = document.getElementById("outilFrame");
+      const titre = document.getElementById("outilTitre");
+      const fermer = document.getElementById("closeOutil");
+      if (!viewer || !frame) return;
+
+      // Sources autorisées : ce site et GéoGébra.
+      const AUTORISES = [window.location.origin, "https://www.geogebra.org"];
+
+      function ouvrirOutil(url, nom) {
+        titre.textContent = nom || "Outil";
+        frame.title = nom || "Outil";
+        frame.src = url;
+        viewer.classList.remove("hidden");
+        fermer.focus();
+      }
+
+      function fermerOutil() {
+        viewer.classList.add("hidden");
+        frame.src = "about:blank";
+      }
+
+      window.addEventListener("message", (e) => {
+        if (e.origin !== window.location.origin) return;
+        const d = e.data;
+        if (!d || d.type !== "mathilab:ouvrir-outil" || typeof d.url !== "string") return;
+        let cible;
+        try { cible = new URL(d.url, window.location.href); } catch { return; }
+        if (!AUTORISES.includes(cible.origin)) return;
+        ouvrirOutil(cible.href, typeof d.titre === "string" ? d.titre : "");
+      });
+
+      fermer.addEventListener("click", fermerOutil);
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !viewer.classList.contains("hidden")) fermerOutil();
+      });
+    })();
+  </script>
 
 
 </body>

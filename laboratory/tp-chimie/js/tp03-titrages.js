@@ -17,7 +17,7 @@
    IMPORTS
    ========================================================== */
 
-import { initZoomVisuels } from "../../js/zoom-visuel.js";
+import { initZoomVisuels } from "../../../js/zoom-visuel.js";
 import { initQuestionsParOnglet } from "./questions-par-onglet.js";
 import { initNavigationTP } from "./nav-tp.js";
 import { initImpressionCompteRendu } from "./compte-rendu-chimie.js";
@@ -48,35 +48,35 @@ import {
     appliquerFiltresCategorie,
     appartientCategorie
 }
-from "../../js/utils.js";
+from "../../../js/utils.js";
 
 
 import {
     afficherSecuriteProduit,
     trouverProduit
 }
-from "../../js/securite.js";
+from "../../../js/securite.js";
 
 
 import {
     initMateriel
 }
-from "../../js/materiel.js";
+from "../../../js/materiel.js";
 
 
 import {
     initRadarCompetences
 }
-from "../../js/radar.js";
+from "../../../js/radar.js";
 
 
 import {
     initBalanceErreurs
 }
-from "../../js/balance-erreurs.js";
+from "../../../js/balance-erreurs.js";
 
 
-import { initContextePro } from "../../js/contexte-pro.js";
+import { initContextePro } from "../../../js/contexte-pro.js";
 
 
 /* ==========================================================

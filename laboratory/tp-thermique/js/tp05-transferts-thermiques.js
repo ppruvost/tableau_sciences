@@ -9,19 +9,19 @@
  * d'entrée doit s'appeler init().
  */
 
-import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../../js/utils.js';
-import { initContextePro } from '../../js/contexte-pro.js';
+import { $, arrondir, initSections, initTabs, initModesOperatoires } from '../../../js/utils.js';
+import { initContextePro } from '../../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
-import { initRadarCompetences } from '../../js/radar.js';
+import { initRadarCompetences } from '../../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-thermique.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { etape } from './etape.js';
 import { initZoomIllustrations } from './zoom-illustrations.js';
-import { initMateriel } from '../../js/materiel.js';
+import { initMateriel } from '../../../js/materiel.js';
 import glassware from '../../data/glassware.js';
 import laboratoryEquipment from '../../data/equipment.js';
-import { dessinerGraphiqueLigne } from '../../js/graphique.js';
-import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
+import { dessinerGraphiqueLigne } from '../../../js/graphique.js';
+import { initOngletsParFiliere } from '../../../js/onglets-filiere.js';
 
 const CONTEXTES_PRO = {
 

@@ -36,7 +36,7 @@ export function initRadarCompetences({
   bouton.addEventListener('click', () => {
 
     const valeurs = COMPETENCES.map(comp => {
-      const coche = document.querySelector(`input[name="${comp}"]:checked`);
+      const coche = trouverCoche(comp);
       return coche ? parseInt(coche.value, 10) : null;
     });
 
@@ -47,6 +47,14 @@ export function initRadarCompetences({
 
     zone.innerHTML = construireRadarSVG(valeurs) + construireResume(valeurs);
   });
+}
+
+// Bouton radio coché pour une compétence. Le name est celui du sigle
+// (« APP », « REA »...) ou, quand une ligne regroupe deux sigles, le
+// sigle suivi d'un autre (« ANA RAI » pour Analyser / Raisonner).
+function trouverCoche(comp) {
+  const cochees = document.querySelectorAll('input[type="radio"]:checked');
+  return [...cochees].find(input => input.name.split(/\s+/).includes(comp)) || null;
 }
 
 function construireResume(valeurs) {

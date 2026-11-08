@@ -26,7 +26,7 @@
  * Les boutons « Voir en 3D » (.molecule-3d-zone) sont exclus de la capture.
  */
 
-import { genererCompteRendu } from '../../js/compte-rendu.js';
+import { genererCompteRendu } from '../../../js/compte-rendu.js';
 import { listerQuestionsCR } from './questions-par-onglet.js';
 
 /* ==========================================================
@@ -212,7 +212,7 @@ function lireFiliereDom() {
 // en silence tout le module d'impression. Ici on retombe sur le DOM.
 async function lireFiliere() {
   try {
-    const module = await import('../../js/contexte-pro.js');
+    const module = await import('../../../js/contexte-pro.js');
     if (typeof module.getFiliereSelectionnee === 'function') {
       return module.getFiliereSelectionnee() || null;
     }

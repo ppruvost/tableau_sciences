@@ -1,6 +1,7 @@
 <!--
   Fragment SPA chargé dynamiquement par navigation.js.
-  Tous les chemins sont relatifs à la racine du site.
+  Les chemins (./assets/…) sont relatifs à la page du domaine
+  (tp-geometrie/index.html), pas à la racine du site.
   Aucun <script> dans ce fragment.
 -->
 
@@ -23,7 +24,9 @@
       <div class="tp-row">
         <span class="tag">1ère</span>
         <span class="tag">Géométrie</span>
-        <span class="tag">Solides usuels - </span><span class="tag">Section par un plan - </span><span class="tag">Géométrie dynamique</span>
+        <span class="tag">Solides usuels</span>
+        <span class="tag">Section par un plan</span>
+        <span class="tag">Géométrie dynamique</span>
       </div>
 
     </div>
@@ -53,10 +56,11 @@
   <div class="section-corps">
 
     <ul>
-      <li>Représenter un solide usuel (cube, pavé droit, pyramide, cylindre droit, cône, boule) à l'aide d'un logiciel de géométrie dynamique.</li>
-      <li>Exploiter une représentation d'un solide usuel ou d'un assemblage de solides usuels.</li>
-      <li>Réaliser la section d'un solide usuel par un plan à l'aide d'un logiciel de géométrie dynamique.</li>
-      <li>Construire la section plane d'un solide passant par des points donnés.</li>
+      <li><strong>1ère</strong> — représenter un solide usuel (cube, pavé droit, pyramide, cylindre droit, cône, boule) à l'aide d'un logiciel de géométrie dynamique.</li>
+      <li><strong>1ère</strong> — exploiter une représentation d'un solide usuel ou d'un assemblage de solides usuels.</li>
+      <li><strong>1ère</strong> — réaliser la section d'un solide usuel par un plan à l'aide d'un logiciel de géométrie dynamique.</li>
+      <li><strong>1ère</strong> — construire la section plane d'un solide passant par des points donnés.</li>
+      <li><em>Domaine transversal — Capacités mathématiques : chercher, modéliser, représenter, calculer, raisonner et communiquer.</em></li>
     </ul>
 
   </div>
@@ -87,7 +91,7 @@
     </div>
 
     <div id="contexte-pro-resultat" class="contexte-pro-resultat">
-      <p>Sélectionner votre filière professionnelle pour afficher le contexte et la problématique associée.</p>
+      <p>Sélectionner votre filière professionnelle pour afficher le contexte professionnel associé.</p>
     </div>
 
   </div>
@@ -104,11 +108,13 @@
 
   <div class="section-corps">
 
+    <div id="td02-message-filiere" class="info" hidden></div>
+
     <div class="toolbar">
-      <button type="button" class="btn btn-secondaire" onclick="loadGeoGebra3D()">
+      <button type="button" class="btn btn-secondaire" data-ggb="3d">
         📐 Ouvrir GéoGébra 3D
       </button>
-      <a class="btn btn-secondaire" href="../../numworks/emulator.html" target="_blank" rel="noopener">
+      <a class="btn btn-secondaire" href="../../numworks/emulator.html" data-outil-index="Calculatrice NumWorks" target="_blank" rel="noopener">
         🧮 Ouvrir la calculatrice NumWorks
       </a>
     </div>
@@ -129,6 +135,11 @@
       <!-- ---------- REPRÉSENTER UN SOLIDE ---------- -->
       <div class="tab-panel actif" id="representer-solide">
 
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="representer-solide"></p>
+        </div>
+
         <h3>Représenter un solide usuel en 3D</h3>
 
         <div class="info">
@@ -138,7 +149,7 @@
           renfort...).
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
+        <h4 class="espace-haut-lg">Méthodologie</h4>
 
         <ol class="etapes">
           <li>Dans la barre de saisie, taper : <code>Prisme((0,0,0),(6,0,0),(6,4,0),(0,4,0),(0,0,3))</code> pour construire un pavé droit 6×4×3.</li>
@@ -148,13 +159,18 @@
         </ol>
 
         <div class="zone-eleve">
-          <textarea rows="5" placeholder="Volume du pavé, volume de la pyramide, volume total du solide composé..."></textarea>
+          <textarea id="notes-representer-solide" rows="5" placeholder="Volume du pavé, volume de la pyramide, volume total du solide composé..."></textarea>
         </div>
 
       </div>
 
       <!-- ---------- SECTION PAR UN PLAN ---------- -->
       <div class="tab-panel" id="section-plan">
+
+        <div class="problematique-onglet">
+          <span class="problematique-onglet-etiquette">Problématique</span>
+          <p class="problematique-rappel" data-activite="section-plan"></p>
+        </div>
 
         <h3>Construire la section d'un solide par un plan</h3>
 
@@ -164,7 +180,7 @@
           retrouve dans la lecture de plans en coupe.
         </div>
 
-        <h4 style="margin-top:var(--gap-lg);">Méthodologie</h4>
+        <h4 class="espace-haut-lg">Méthodologie</h4>
 
         <ol class="etapes">
           <li>Construire un cube : taper <code>Cube=Cube((0,0,0),(5,0,0),(0,5,0))</code>.</li>
@@ -175,7 +191,7 @@
         </ol>
 
         <div class="zone-eleve">
-          <textarea rows="5" placeholder="Nature du polygone de section obtenu, observations en déplaçant les points..."></textarea>
+          <textarea id="notes-section-plan" rows="5" placeholder="Nature du polygone de section obtenu, observations en déplaçant les points..."></textarea>
         </div>
 
       </div>
@@ -200,7 +216,6 @@
         <button class="sous-btn actif" data-sous="puzzle-sujet-a">Sujet A</button>
         <button class="sous-btn" data-sous="puzzle-sujet-b">Sujet B</button>
         <button class="sous-btn" data-sous="puzzle-sujet-c">Sujet C</button>
-        <button class="sous-btn" data-sous="puzzle-synthese-panel">Synthèse</button>
       </div>
       <div class="sous-panel actif" id="puzzle-sujet-a">
         <div class="fiche-puzzle" data-titre="Section d’un cube">
@@ -244,17 +259,6 @@
           </div>
         </div>
       </div>
-      <div class="sous-panel" id="puzzle-synthese-panel">
-        <div class="info">En groupe mélangé, comparer les trois constructions : quelle stratégie utiliser pour anticiper la forme d’une section avant de la construire ?</div>
-        <div class="questions-bloc" data-tp="puzzle-synthese">
-        <ol class="questions-tp"><li>
-          <div class="question-entete"><strong>Synthèse — Réponse commune à la problématique</strong>
-            <span class="cartouche" data-comp="COM">COM</span></div>
-          <p class="problematique-rappel"></p>
-          <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs et différences entre les sujets, réponse argumentée..."></textarea></div>
-        </li></ol>
-        </div>
-      </div>
 
       </div>
 
@@ -265,6 +269,30 @@
 </div>
 
 
+
+<div class="section" data-type="environnement">
+
+  <div class="section-titre">
+    <div class="picto-section">🌱</div>
+    <h2>Géométrie et environnement / citoyenneté</h2>
+    <span class="chevron">▼</span>
+  </div>
+
+  <div class="section-corps">
+
+    <h3>Bonnes pratiques au laboratoire</h3>
+    <ul class="liste-aeree">
+      <li>Éteindre l'écran et le poste informatique en fin de séance.</li>
+      <li>Enregistrer le compte-rendu au format PDF plutôt que de l'imprimer sur papier.</li>
+      <li>Ranger le matériel (calculatrice, instruments de tracé) à sa place.</li>
+    </ul>
+
+    <h3 class="espace-haut-md">Enjeu professionnel : éviter les pièces rebutées</h3>
+    <p>Représenter et sectionner un solide avant de le réaliser permet de prévoir une découpe ou une coupe sur plan technique et de limiter les erreurs et les rebuts.</p>
+
+  </div>
+
+</div>
 
 <div class="section" data-type="bilan">
 
@@ -286,108 +314,135 @@
     </div>
 
 
-    <h3 style="margin-top:var(--gap-md);">Questions</h3>
+    <h3 class="espace-haut-md">Questions</h3>
 
-    <div class="form-row">
-      <div class="form-group">
-        <label for="activite-realisee">Activité réalisée</label>
-        <select id="activite-realisee">
-          <option value="">-- Choisir l'activité réalisée --</option>
-          <option value="solide" data-tabs="representer-solide">Représenter un solide</option>
-          <option value="section" data-tabs="section-plan">Section d'un solide par un plan</option>
-          <option value="puzzle" data-tabs="activites-puzzle">🧩 Activités Puzzle</option>
-        </select>
-      </div>
-    </div>
+    <p class="info">Les questions affichées suivent l'onglet sélectionné dans « Activités » : quatre portent sur l'objet de l'onglet, la cinquième sur sa problématique. Seules les questions de l'onglet actif sont imprimées.</p>
 
-    <p id="activite-vide" class="info">Choisir l'activité réalisée : seules les questions correspondantes s'affichent.</p>
-    <p id="activite-avertissement" class="warning" hidden>Choisir d'abord l'activité réalisée avant d'imprimer le compte-rendu.</p>
-
-    <!-- ===== Représenter un solide ===== -->
-    <div class="questions-bloc" data-tp="geometrie-espace-solide" data-activite="solide" hidden>
+    <div class="questions-bloc" data-tp="geometrie-espace-representer-solide" data-onglet="representer-solide" data-onglet-nom="Représenter un solide">
+    <h4>Questions de l'onglet « Représenter un solide »</h4>
     <ol class="questions-tp">
       <li>
         <div class="question-entete">
-          <strong>Nommer les solides usuels rencontrés lors des constructions et rappeler leurs formules de volume.</strong>
+          <strong>Nommer les solides usuels rencontrés lors de la construction et rappeler leurs formules de volume.</strong>
           <span class="cartouche" data-comp="APP">APP</span>
         </div>
-        <div class="zone-eleve"><textarea id="question-solide-1" rows="4" placeholder="Votre réponse..."></textarea></div>
+        <div class="zone-eleve"><textarea id="question-representer-solide-1" rows="4" placeholder="Votre réponse..."></textarea></div>
       </li>
       <li>
         <div class="question-entete">
-          <strong>Donner le volume du solide composé construit, avec l'unité.</strong>
+          <strong>Donner le volume du pavé, celui de la pyramide et le volume total du solide composé, avec l'unité.</strong>
           <span class="cartouche" data-comp="REA">REA</span>
         </div>
-        <div class="zone-eleve"><textarea id="question-solide-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
+        <div class="zone-eleve"><textarea id="question-representer-solide-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Expliquer comment un solide composé se décompose en solides usuels et pourquoi son volume est la somme des volumes de ses parties.</strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-representer-solide-3" rows="5" placeholder="Votre analyse..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Vérifier le volume obtenu en le recalculant avec les formules (pavé : L × l × h ; pyramide : B × h ÷ 3) et le comparer au résultat de GéoGébra.</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-representer-solide-4" rows="5" placeholder="Votre vérification..."></textarea></div>
       </li>
       <li class="question-problematique">
         <div class="question-entete">
-          <strong>Répondre à la problématique posée en début de TD :</strong>
-          <span class="cartouche" data-comp="VAL">VAL</span>
+          <strong>Répondre à la problématique de l'onglet :</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
         </div>
-        <p class="problematique-rappel" data-activite="geometrie-espace"></p>
-        <div class="zone-eleve"><textarea id="question-solide-3" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+        <p class="problematique-rappel" data-activite="representer-solide"></p>
+        <div class="zone-eleve"><textarea id="question-representer-solide-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
       </li>
     </ol>
     </div>
 
-    <!-- ===== Section d'un solide par un plan ===== -->
-    <div class="questions-bloc" data-tp="geometrie-espace-section" data-activite="section" hidden>
+    <div class="questions-bloc" data-tp="geometrie-espace-section-plan" data-onglet="section-plan" data-onglet-nom="Section d&#x27;un solide par un plan" hidden>
+    <h4>Questions de l'onglet « Section d&#x27;un solide par un plan »</h4>
     <ol class="questions-tp">
       <li>
         <div class="question-entete">
           <strong>Définir la section d'un solide par un plan et citer les natures de section observées.</strong>
           <span class="cartouche" data-comp="APP">APP</span>
         </div>
-        <div class="zone-eleve"><textarea id="question-section-1" rows="4" placeholder="Votre réponse..."></textarea></div>
+        <div class="zone-eleve"><textarea id="question-section-plan-1" rows="4" placeholder="Votre réponse..."></textarea></div>
       </li>
       <li>
         <div class="question-entete">
           <strong>Donner la nature de la section obtenue dans la construction réalisée.</strong>
           <span class="cartouche" data-comp="REA">REA</span>
         </div>
-        <div class="zone-eleve"><textarea id="question-section-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
+        <div class="zone-eleve"><textarea id="question-section-plan-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
       </li>
       <li>
         <div class="question-entete">
           <strong>Expliquer pourquoi la nature du polygone de section peut changer selon la position du plan de coupe.</strong>
           <span class="cartouche" data-comp="ANA">ANA</span>
         </div>
-        <div class="zone-eleve"><textarea id="question-section-3" rows="5" placeholder="Votre analyse..."></textarea></div>
+        <div class="zone-eleve"><textarea id="question-section-plan-3" rows="5" placeholder="Votre analyse..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Vérifier, en déplaçant les trois points sur les arêtes du cube, que la nature de la section reste cohérente avec la position du plan (tester au moins deux positions).</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-section-plan-4" rows="5" placeholder="Votre vérification..."></textarea></div>
       </li>
       <li class="question-problematique">
         <div class="question-entete">
-          <strong>Répondre à la problématique posée en début de TD :</strong>
-          <span class="cartouche" data-comp="VAL">VAL</span>
+          <strong>Répondre à la problématique de l'onglet :</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
         </div>
-        <p class="problematique-rappel" data-activite="geometrie-espace"></p>
-        <div class="zone-eleve"><textarea id="question-section-4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+        <p class="problematique-rappel" data-activite="section-plan"></p>
+        <div class="zone-eleve"><textarea id="question-section-plan-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
       </li>
     </ol>
     </div>
 
-    <!-- ===== Activités puzzle ===== -->
-    <div class="questions-bloc" data-tp="geometrie-espace-puzzle" data-activite="puzzle" hidden>
+    <div class="questions-bloc" data-tp="geometrie-espace-activites-puzzle" data-onglet="activites-puzzle" data-onglet-nom="Activités Puzzle" hidden>
+    <h4>Questions de l'onglet « Activités Puzzle »</h4>
     <ol class="questions-tp">
       <li>
         <div class="question-entete">
-          <strong>Indiquer le sujet traité par votre groupe (A, B ou C) et résumer la démarche suivie.</strong>
-          <span class="cartouche" data-comp="COM">COM</span>
+          <strong>Indiquer le sujet traité par votre groupe (A, B ou C) et nommer la propriété ou la formule utilisée.</strong>
+          <span class="cartouche" data-comp="APP">APP</span>
         </div>
-        <div class="zone-eleve"><textarea id="question-puzzle-1" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+        <div class="zone-eleve"><textarea id="question-activites-puzzle-1" rows="4" placeholder="Sujet traité, propriété ou formule..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Donner les résultats chiffrés obtenus pour votre sujet, avec les unités.</strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-activites-puzzle-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Expliquer la démarche suivie et justifier le choix de la méthode.</strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-activites-puzzle-3" rows="5" placeholder="Démarche et justification..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Vérifier la cohérence d'un résultat de votre sujet (unité, ordre de grandeur, second calcul).</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-activites-puzzle-4" rows="5" placeholder="Votre vérification..."></textarea></div>
       </li>
       <li class="question-problematique">
         <div class="question-entete">
           <strong>Répondre à la problématique de votre sujet en vous appuyant sur vos résultats :</strong>
-          <span class="cartouche" data-comp="VAL">VAL</span>
+          <span class="cartouche" data-comp="COM">COM</span>
         </div>
-        <p class="problematique-rappel" data-activite="geometrie-espace"></p>
-        <div class="zone-eleve"><textarea id="question-puzzle-2" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+        <div class="zone-eleve"><textarea id="question-activites-puzzle-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
       </li>
     </ol>
-    <p class="info">Les fiches Sujet A, B, C et la synthèse remplies dans l'onglet « Activités Puzzle » sont jointes automatiquement au compte-rendu.</p>
     </div>
-
+    <p class="info">Les fiches Sujet A, B, C remplies dans l'onglet « Activités Puzzle » sont jointes automatiquement au compte-rendu lorsque l'onglet « Activités Puzzle » est actif.</p>
   </div>
 
 </div>
@@ -422,9 +477,9 @@
       </table>
     </div>
 
-    <div class="radar-actions" style="margin-top:var(--gap-lg);">
+    <div class="radar-actions espace-haut-lg">
       <button id="btn-radar" class="btn btn-primaire">📊 Générer mon radar de compétences</button>
-      <div id="radar-resultat" style="margin-top:var(--gap-md);"></div>
+      <div class="espace-haut-md" id="radar-resultat"></div>
     </div>
 
   </div>
@@ -450,7 +505,7 @@
       <button id="btn-imprimer" class="btn btn-primaire">🖨 Imprimer le compte-rendu</button>
     </div>
 
-    <div class="info" style="margin-top:var(--gap-md);">
+    <div class="info espace-haut-md">
       L'impression récupère automatiquement :
       <ul>
         <li>les réponses aux questions et les observations GéoGébra ;</li>
@@ -464,22 +519,14 @@
 
 <div class="nav-tp">
 
-  <button class="btn btn-secondaire" onclick="loadTP('td01-solides-aires-volumes')">
-    ← G01
-  </button>
+  <button class="btn btn-secondaire" data-aller-accueil>🏠 Accueil</button>
 
-  <button class="btn btn-secondaire" onclick="location.href='../index.html'">
-    🏠 Accueil
-  </button>
-
-  <button class="btn btn-primaire" onclick="loadTP('td03-vecteurs')">
-    G03 →
-  </button>
+  <button class="btn btn-primaire" data-aller-tp="td03-vecteurs">TD03 →</button>
 
 </div>
 
 </main>
 
-<div id="cr-print-container" style="display:none;"></div>
+<div id="cr-print-container" hidden></div>
 
 </section>

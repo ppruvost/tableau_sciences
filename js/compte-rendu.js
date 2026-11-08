@@ -1,8 +1,8 @@
 /**
- * laboratory/js/compte-rendu.js
+ * js/compte-rendu.js  (RACINE du site, point unique SciLab + MathiLab)
  *
- * Module partagé de génération et d'impression du compte rendu de TP
- * (tp-electricite, tp-mecanique, …). Le style provient de css/compte-rendu.css,
+ * Module partagé de génération et d'impression du compte rendu de TP / TD
+ * (tous les domaines des plateformes laboratory et mathilab). Le style provient de css/compte-rendu.css,
  * situé à la racine du site (trame @media print du document imprimé).
  *
  *   genererCompteRendu({ titre, domaine, tp, sections, noteFinale, canvases })
@@ -47,7 +47,7 @@
  *
  * Identifiant unique : chaque génération reçoit un identifiant aléatoire
  * (id=a3f9c2e1), imprimé en pied de chaque page et repris dans le titre du PDF.
- * Il est produit par ../../id-pdf.js (fichier unique à la racine du dépôt,
+ * Il est produit par ./id-pdf.js (fichier unique dans js/ à la racine du site,
  * partagé par tous les comptes rendus).
  *
  * Pourquoi une iframe plutôt que body.cr-printing : si `afterprint` n'est pas
@@ -55,17 +55,17 @@
  * entièrement masquée ; l'iframe n'affecte jamais la page de l'élève.
  */
 
-import { marquerPdf } from '../../id-pdf.js';
+import { marquerPdf } from './id-pdf.js';
 
 /* ==========================================================
    FEUILLE DE STYLE DU DOCUMENT
    ========================================================== */
 
-// css/compte-rendu.css est à la RACINE du site (/sciences/css/), au-dessus de
-// laboratory/ : depuis laboratory/js/compte-rendu.js → ../../css/. Elle est
+// css/compte-rendu.css est à la RACINE du site (/sciences/css/), comme ce module
+// (/sciences/js/) : depuis js/compte-rendu.js → ../css/. Elle est
 // liée directement dans l'iframe d'impression (voir imprimer()), jamais dans
 // la page de l'élève.
-const URL_CSS = new URL('../../css/compte-rendu.css', import.meta.url).href;
+const URL_CSS = new URL('../css/compte-rendu.css', import.meta.url).href;
 
 /* ==========================================================
    UTILITAIRES
@@ -549,7 +549,7 @@ ${feuilles.map(h => `<link rel="stylesheet" href="${e(h)}">`).join('\n')}
       } catch (err) {
         console.error('[compte-rendu] impression impossible :', err);
         restaurer();
-        window.alert("Impossible d'ouvrir la fenêtre d'impression. Essaie avec un autre navigateur.");
+        window.alert("Impossible d'ouvrir la fenêtre d'impression. Essayer avec un autre navigateur.");
       }
 
       resolve();
@@ -581,7 +581,7 @@ function identiteIncomplete() {
     const champ = document.getElementById(id);
     if (!champ || champ.value.trim()) continue;
 
-    const message = 'Renseigne ton nom et ton prénom dans la rubrique « Identification » avant de générer le compte rendu.';
+    const message = 'Renseigner le nom et le prénom dans la rubrique « Identification » avant de générer le compte rendu.';
 
     if (champ.offsetParent === null) { // rubrique repliée : champ invisible
       window.alert(message);

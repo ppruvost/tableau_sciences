@@ -11,17 +11,17 @@
  *    d'entrée DOIT donc s'appeler init()
  */
 
-import { $, initSections, initTabs, initModesOperatoires } from '../../js/utils.js';
-import { initContextePro } from '../../js/contexte-pro.js';
+import { $, initSections, initTabs, initModesOperatoires } from '../../../js/utils.js';
+import { initContextePro } from '../../../js/contexte-pro.js';
 import FILIERES_PRO from '../../data/filieres.js';
-import { initRadarCompetences } from '../../js/radar.js';
+import { initRadarCompetences } from '../../../js/radar.js';
 import { initImpressionCompteRendu, sectionValeurs, sectionTableau, nombreFr } from './compte-rendu-signaux.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initNavigationTP } from './nav-tp.js';
-import { initMateriel } from '../../js/materiel.js';
-import { initZoomVisuels } from '../../js/zoom-visuel.js';
+import { initMateriel } from '../../../js/materiel.js';
+import { initZoomVisuels } from '../../../js/zoom-visuel.js';
 import laboratoryEquipment from '../../data/equipment.js';
-import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
+import { initOngletsParFiliere } from '../../../js/onglets-filiere.js';
 
 // Contexte professionnel par filière (clé "niveau-idFiliere") ;
 // une problématique par onglet (clé = data-tab).

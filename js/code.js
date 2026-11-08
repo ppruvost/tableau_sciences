@@ -1,0 +1,212 @@
+let mainFrame, leftFrame, noiseFrame, timerFrame;
+
+/* ============================== */
+/* INITIALISATION */
+/* ============================== */
+window.onload = () => {
+    modeFull();
+    updateClock();
+};
+
+/* ============================== */
+/* CHARGEMENT IFRAME */
+/* ============================== */
+function loadInFrame(url) {
+    const home = document.getElementById("home-message");
+    const mainFrame = document.getElementById("main-frame");
+    const leftFrame = document.getElementById("left-frame");
+
+    if (home) home.style.display = "none";
+
+    const isFullscreen =
+        document.querySelector(".fullscreen-mode").style.display !== "none";
+
+    if (isFullscreen) {
+
+        mainFrame.style.display = "block";
+
+        mainFrame.innerHTML = `
+            <iframe
+                src="${url}"
+                allow="microphone *; camera *"
+                permissionspolicy="microphone=*, camera=*"
+                style="width:100%; height:100%; border:none;">
+            </iframe>
+        `;
+
+    } else {
+
+        leftFrame.src = url;
+
+        leftFrame.setAttribute(
+            "allow",
+            "microphone *; camera *"
+        );
+
+        leftFrame.setAttribute(
+            "permissionspolicy",
+            "microphone=*, camera=*"
+        );
+    }
+}
+
+/* =============================== */
+/* HORLOGE */
+/* =============================== */
+function updateClock() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2, '0');
+    const m = String(now.getMinutes()).padStart(2, '0');
+    const date = now.toLocaleDateString('fr-FR');
+
+    document.getElementById("clock").innerHTML =
+        `<div>${h}:${m}</div><div>${date}</div>`;
+}
+
+setInterval(updateClock, 1000);
+
+/* =============================== */
+/* MENU ACTIF */
+/* =============================== */
+function setActiveButton(btn) {
+    document.querySelectorAll(".menu-item").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    // Si on clique sur un bouton de sous-menu → activer le parent
+    const parentItem = btn.closest(".menu-item");
+
+    if (parentItem) {
+        parentItem.classList.add("active");
+    }
+}
+
+/* =============================== */
+/* MENU TOGGLE */
+/* =============================== */
+function toggleMenu(menuId, btn) {
+    const menu = document.getElementById(menuId);
+    const isOpen = menu.classList.contains("show");
+
+    // Ferme tous les autres menus
+    document.querySelectorAll(".submenu").forEach(m => {
+        if (m.id !== menuId) m.classList.remove("show");
+    });
+
+    document.querySelectorAll(".menu-item").forEach(item => {
+        if (item !== btn) item.classList.remove("active");
+    });
+
+    // toggle propre
+    if (isOpen) {
+        menu.classList.remove("show");
+        btn.classList.remove("active");
+    } else {
+        menu.classList.add("show");
+        btn.classList.add("active");
+    }
+}
+/* fermer si clic extérieur */
+document.addEventListener("click", (e) => {
+    const isInsideMenu = e.target.closest(".menu");
+    const isSubmenu = e.target.closest(".submenu");
+
+    if (!isInsideMenu && !isSubmenu) {
+        document.querySelectorAll(".submenu").forEach(m => m.classList.remove("show"));
+        document.querySelectorAll(".menu-item").forEach(item => item.classList.remove("active"));
+    }
+});
+
+/* =============================== */
+/* MODE PLEIN ÉCRAN */
+/* =============================== */
+function modeFull() {
+    document.querySelector(".fullscreen-mode").style.display = "flex";
+    document.querySelector(".split-mode").style.display = "none";
+
+    const home = document.getElementById("home-message");
+    const frame = document.getElementById("main-frame");
+
+    home.style.display = "block";
+    frame.style.display = "none";
+    frame.innerHTML = "";
+}
+/* =============================== */
+/* MODE SPLIT */
+/* =============================== */
+function modeSplit() {
+    document.querySelector(".fullscreen-mode").style.display = "none";
+    document.querySelector(".split-mode").style.display = "flex";
+
+    document.getElementById("left-frame").src = "";
+}
+
+/* =============================== */
+/* (OPTION) RESET HOME */
+/* =============================== */
+function showHome() {
+    const home = document.getElementById("home-message");
+    const frame = document.getElementById("main-frame");
+
+    home.style.display = "block";
+    frame.style.display = "none";
+    frame.src = "";
+}
+
+/* =============================== */
+/* GEOGEBRA DIRECT (SANS IFRAME) */
+/* =============================== */
+
+function loadGeoGebraClassic() {
+    const home = document.getElementById("home-message");
+    const container = document.getElementById("main-frame");
+
+    home.style.display = "none";
+    container.style.display = "block";
+    container.innerHTML = "";
+
+    const params = {
+        appName: "classic",
+        width: window.innerWidth - 120,
+        height: window.innerHeight - 20,
+        showToolBar: true,
+        showAlgebraInput: true,
+        showMenuBar: true,
+        enableRightClick: true,
+        enableShiftDragZoom: true,
+        showResetIcon: true,
+        useBrowserForJS: true,
+        language: "fr"
+    };
+
+    const applet = new GGBApplet(params, true);
+    applet.inject("main-frame");
+}
+
+function loadGeoGebra3D() {
+    const home = document.getElementById("home-message");
+    const container = document.getElementById("main-frame");
+
+    home.style.display = "none";
+    container.style.display = "block";
+    container.innerHTML = "";
+
+    const params = {
+        appName: "classic",
+        perspective: "5", // Vue "3D Graphiques" de Classic (et non l'app allégée "3d",
+                           // dont le menu ne propose pas Ouvrir / Enregistrer sur l'ordinateur)
+        width: window.innerWidth - 120,
+        height: window.innerHeight - 20,
+        showToolBar: true,
+        showAlgebraInput: true,
+        showMenuBar: true,
+        enableRightClick: true,
+        enableShiftDragZoom: true,
+        showResetIcon: true,
+        useBrowserForJS: true,
+        language: "fr"
+    };
+
+    const applet = new GGBApplet(params, true);
+    applet.inject("main-frame");
+}

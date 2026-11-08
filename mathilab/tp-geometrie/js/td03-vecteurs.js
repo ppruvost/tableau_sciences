@@ -1,55 +1,101 @@
 /**
- * ============================================================
- * MATHILAB — GÉOMÉTRIE
- * TD03 : Vecteurs du plan (1ère, toutes filières) et de l'espace
- * (Tle, groupement B : TRPM, TCI, MCC uniquement)
  * mathilab/tp-geometrie/js/td03-vecteurs.js
- * ============================================================
+ *
+ * Contrôleur du TD03 « Vecteurs du plan et de l'espace ».
+ * Chargé par navigation.js juste après l'injection du fragment
+ * tp-geometrie/modules/td03-vecteurs.html dans #content.
+ *
+ * Convention SciLab / MathiLab (claude_v6.md) :
+ *  - le fragment HTML est la référence fixe, ce fichier s'adapte à lui
+ *  - navigation.js exécute module.init() après l'import : le point
+ *    d'entrée DOIT donc s'appeler init()
  */
 
-import { exposerOutils } from './outils-geogebra.js';
+// 1. Imports partagés (../../../js/…), puis données (../../data/…), puis locaux (./…)
+import { initZoomVisuels } from '../../../js/zoom-visuel.js';
+import { initSections, initTabs, initModesOperatoires } from '../../../js/utils.js';
+import { initContextePro } from '../../../js/contexte-pro.js';
+import { garantirMenuFiliere } from './filiere-select.js';
 import FILIERES_PRO from '../../data/filieres.js';
-import { initContextePro } from '../../js/contexte-pro.js';
-import { initRadarCompetences } from '../../js/radar.js';
+import { initRadarCompetences } from '../../../js/radar.js';
+import { initOngletsParFiliere } from '../../../js/onglets-filiere.js';
+import { demarrerPuzzle } from '../../../js/puzzle-onglet.js';
 import { initImpressionCompteRendu } from './compte-rendu-geometrie.js';
-import { initAtelierStatique } from './atelier-statique.js';
-import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
-
-import { demarrerPuzzle } from '../../js/puzzle-onglet.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
+import { initNavigationTP } from './nav-tp.js';
+import { initOutilsGeoGebra } from './outils-geogebra.js';
 import { G3 } from './puzzle-geometrie.js';
-const CONTEXTES_TD03 = {
-  '1ere-trpm': {
-    contexte: "En usinage, une force de coupe ou un déplacement d'outil se modélisent par un vecteur : direction, sens et intensité.",
-    problematique: "Comment représenter et calculer une force ou un déplacement à l'aide d'un vecteur ?",
+import { initAtelierStatique } from './atelier-statique.js';
+
+// 2. Données propres au TD (contextes professionnels, constantes)
+const CONTEXTES_PRO = {
+  "1ere-trpm": {
+    "contexte": "En usinage, une force de coupe ou un déplacement d'outil se modélisent par un vecteur : direction, sens et intensité.",
+    "problematiques": {
+      "construire-vecteurs": "Comment représenter une force de coupe ou un déplacement d'outil par un vecteur et construire la somme de deux vecteurs ?",
+      "coordonnees-plan": "Comment calculer les coordonnées, la somme et la norme de vecteurs du plan pour déterminer un déplacement d'outil ou une force ?",
+      "vecteurs-espace": "Comment calculer la norme et tester la colinéarité de deux forces ou déplacements dans l'espace ?",
+      "activites-atelier": "Comment déterminer les efforts sur un support et vérifier la résistance d'une soudure à l'aide des vecteurs ?"
+    }
   },
-  '1ere-tci': {
-    contexte: "En chaudronnerie, un effort de cintrage ou un déplacement de tôle se modélisent par un vecteur : direction, sens et intensité.",
-    problematique: "Comment représenter et calculer un effort ou un déplacement à l'aide d'un vecteur ?",
+  "1ere-tci": {
+    "contexte": "En chaudronnerie, un effort de cintrage ou un déplacement de tôle se modélisent par un vecteur : direction, sens et intensité.",
+    "problematiques": {
+      "construire-vecteurs": "Comment représenter un effort de cintrage ou un déplacement par un vecteur et construire la somme de deux efforts ?",
+      "coordonnees-plan": "Comment calculer les coordonnées, la somme et la norme de vecteurs du plan pour déterminer un effort ou un déplacement ?",
+      "vecteurs-espace": "Comment calculer la norme et tester la colinéarité de deux efforts ou déplacements dans l'espace ?",
+      "activites-atelier": "Comment déterminer les efforts sur une pièce chaudronnée (oreille de levage, support) et vérifier la résistance de ses soudures ?"
+    }
   },
-  '1ere-mcc': {
-    contexte: "En confection, un déplacement d'aiguille ou une tension de fil se modélisent par un vecteur : direction, sens et intensité.",
-    problematique: "Comment représenter et calculer un déplacement ou une tension à l'aide d'un vecteur ?",
+  "1ere-mcc": {
+    "contexte": "En confection, un déplacement d'aiguille ou une tension de fil se modélisent par un vecteur : direction, sens et intensité.",
+    "problematiques": {
+      "construire-vecteurs": "Comment représenter un déplacement d'aiguille ou une tension de fil par un vecteur et construire leur somme ?",
+      "coordonnees-plan": "Comment calculer les coordonnées, la somme et la norme de vecteurs du plan pour déterminer un déplacement d'aiguille ou une tension ?",
+      "vecteurs-espace": "Comment calculer la norme et tester la colinéarité de deux vecteurs de l'espace ?"
+    }
   },
-  '1ere-log': {
-    contexte: "En logistique, un déplacement de marchandise ou un trajet se modélisent par un vecteur : direction, sens et distance.",
-    problematique: "Comment représenter et calculer un déplacement ou un trajet à l'aide d'un vecteur ?",
+  "1ere-log": {
+    "contexte": "En logistique, un déplacement de marchandise ou un trajet se modélisent par un vecteur : direction, sens et distance.",
+    "problematiques": {
+      "construire-vecteurs": "Comment représenter un déplacement de marchandise ou un trajet par un vecteur et construire la somme de deux déplacements ?",
+      "coordonnees-plan": "Comment calculer les coordonnées, la somme et la norme de vecteurs du plan pour déterminer la longueur d'un trajet ?",
+      "activites-atelier": "Comment déterminer les efforts sur un support de charge et vérifier qu'il résiste, à l'aide des vecteurs ?"
+    }
   },
-  '1ere-agora': {
-    contexte: "Dans une structure administrative, un déplacement de dossier entre deux services peut se modéliser par un vecteur reliant deux positions.",
-    problematique: "Comment représenter et calculer un déplacement à l'aide d'un vecteur ?",
+  "1ere-agora": {
+    "contexte": "Dans une structure administrative, un déplacement de dossier entre deux services peut se modéliser par un vecteur reliant deux positions.",
+    "problematiques": {
+      "construire-vecteurs": "Comment représenter un déplacement par un vecteur et construire la somme de deux déplacements ?",
+      "coordonnees-plan": "Comment calculer les coordonnées, la somme et la norme de vecteurs du plan pour déterminer un déplacement ?"
+    }
   },
-  'tle-trpm': {
-    contexte: "En usinage, une force ou un déplacement d'outil dans l'espace (trois dimensions) se modélisent par un vecteur de l'espace.",
-    problematique: "Comment calculer la norme et tester la colinéarité de deux forces ou déplacements dans l'espace ?",
+  "tle-trpm": {
+    "contexte": "En usinage, une force ou un déplacement d'outil dans l'espace (trois dimensions) se modélisent par un vecteur de l'espace.",
+    "problematiques": {
+      "construire-vecteurs": "Comment représenter une force de coupe ou un déplacement d'outil par un vecteur et construire la somme de deux vecteurs ?",
+      "coordonnees-plan": "Comment calculer les coordonnées, la somme et la norme de vecteurs du plan pour déterminer un déplacement d'outil ou une force ?",
+      "vecteurs-espace": "Comment calculer la norme et tester la colinéarité de deux forces ou déplacements dans l'espace ?",
+      "activites-atelier": "Comment déterminer les efforts sur un support et vérifier la résistance d'une soudure à l'aide des vecteurs ?"
+    }
   },
-  'tle-tci': {
-    contexte: "En chaudronnerie, une pièce travaillée dans les trois dimensions nécessite de modéliser des efforts ou déplacements par des vecteurs de l'espace.",
-    problematique: "Comment calculer la norme et tester la colinéarité de deux efforts ou déplacements dans l'espace ?",
+  "tle-tci": {
+    "contexte": "En chaudronnerie, une pièce travaillée dans les trois dimensions nécessite de modéliser des efforts ou déplacements par des vecteurs de l'espace.",
+    "problematiques": {
+      "construire-vecteurs": "Comment représenter un effort de cintrage ou un déplacement par un vecteur et construire la somme de deux efforts ?",
+      "coordonnees-plan": "Comment calculer les coordonnées, la somme et la norme de vecteurs du plan pour déterminer un effort ou un déplacement ?",
+      "vecteurs-espace": "Comment calculer la norme et tester la colinéarité de deux efforts ou déplacements dans l'espace ?",
+      "activites-atelier": "Comment déterminer les efforts sur une pièce chaudronnée (oreille de levage, support) et vérifier la résistance de ses soudures ?"
+    }
   },
-  'tle-mcc': {
-    contexte: "En confection, un gabarit ou un mouvement dans les trois dimensions peut se modéliser par des vecteurs de l'espace.",
-    problematique: "Comment calculer la norme et tester la colinéarité de deux vecteurs de l'espace ?",
-  },
+  "tle-mcc": {
+    "contexte": "En confection, un gabarit ou un mouvement dans les trois dimensions peut se modéliser par des vecteurs de l'espace.",
+    "problematiques": {
+      "construire-vecteurs": "Comment représenter un déplacement d'aiguille ou une tension de fil par un vecteur et construire leur somme ?",
+      "coordonnees-plan": "Comment calculer les coordonnées, la somme et la norme de vecteurs du plan pour déterminer un déplacement d'aiguille ou une tension ?",
+      "vecteurs-espace": "Comment calculer la norme et tester la colinéarité de deux vecteurs de l'espace ?"
+    }
+  }
 };
 
 function formater(v) {
@@ -162,6 +208,12 @@ function initVecteursEspace() {
    - Activités atelier : TRPM, TCI, logistique
    ============================================================ */
 
+/** Affiche/masque un élément : attribut hidden (+ style.display pour rester compatible avec onglets-filiere.js). */
+function afficher(element, visible) {
+  element.hidden = !visible;
+  element.style.display = visible ? '' : 'none';
+}
+
 function filtrerOngletsParFiliere() {
   const select = document.getElementById('select-filiere-pro');
   const zoneMessage = document.getElementById('td03-message-filiere');
@@ -183,7 +235,7 @@ function filtrerOngletsParFiliere() {
       const restriction = bouton.dataset.filieres;
       const visible = !restriction || !filiere || restriction.split(',').includes(filiere);
 
-      bouton.style.display = visible ? '' : 'none';
+      afficher(bouton, visible);
 
       const panneau = document.getElementById(bouton.dataset.tab);
       if (!visible) {
@@ -207,12 +259,12 @@ function filtrerOngletsParFiliere() {
     if (zoneMessage) {
       if (unOngletCache && filiere) {
         const noms = [...document.querySelectorAll('.tabs-header .tab-btn')]
-          .filter((bouton) => bouton.style.display === 'none')
+          .filter((bouton) => bouton.hidden)
           .map((bouton) => `« ${bouton.textContent.trim()} »`);
-        zoneMessage.style.display = 'block';
+        afficher(zoneMessage, true);
         zoneMessage.textContent = `${noms.length > 1 ? 'Les onglets' : "L'onglet"} ${noms.join(', ')} ${noms.length > 1 ? 'ne sont pas proposés' : "n'est pas proposé"} pour votre filière.`;
       } else {
-        zoneMessage.style.display = 'none';
+        afficher(zoneMessage, false);
       }
     }
   }
@@ -221,32 +273,40 @@ function filtrerOngletsParFiliere() {
   appliquerFiltre();
 }
 
-/* ============================================================
-   INITIALISATION
-   ============================================================ */
+// ============================================================
+// Initialisation
+// ============================================================
 
-function initialiserTD03() {
-  exposerOutils();
-  initOngletsParFiliere();
-
-  initContextePro({
-    filieres: FILIERES_PRO,
-    contextes: CONTEXTES_TD03
-  });
-
-  demarrerPuzzle(G3);
-
-  initVecteursPlan();
-  initVecteursEspace();
-  initAtelierStatique();
-  filtrerOngletsParFiliere();
-
-  initRadarCompetences();
-
-  initImpressionCompteRendu({
-    titre: 'Vecteurs du plan et de l\'espace',
-    tp: 'TD03'
-  });
+/** Une étape en erreur n'empêche jamais les suivantes. */
+function etape(nom, fn) {
+  try { fn(); }
+  catch (err) { console.error(`[tp-geometrie] étape « ${nom} » en erreur :`, err); }
 }
 
-initialiserTD03();
+/**
+ * Point d'entrée du TD (appelé par navigation.js).
+ * Ordre : zoom → outils → onglets du TD → contexte pro → puzzle →
+ * filtrage par filière → sections → onglets → modes opératoires → radar →
+ * questions par onglet → navigation TD → impression.
+ */
+export function init() {
+  etape('initZoomVisuels', () => { initZoomVisuels(); });
+  etape('initOutilsGeoGebra', () => { initOutilsGeoGebra(); });
+  etape('initVecteursPlan', () => { initVecteursPlan(); });
+  etape('initVecteursEspace', () => { initVecteursEspace(); });
+  etape('initAtelierStatique', () => { initAtelierStatique(); });
+  etape('initContextePro', () => { initContextePro({ afficherProblematique: false, filieres: FILIERES_PRO, contextes: CONTEXTES_PRO }); });
+  etape('garantirMenuFiliere', () => { garantirMenuFiliere(CONTEXTES_PRO); });
+  etape('demarrerPuzzle', () => { demarrerPuzzle(G3); });
+  etape('initOngletsParFiliere', () => { initOngletsParFiliere(); });
+  etape('filtrageOngletsParFiliere', () => { filtrerOngletsParFiliere(); });
+  etape('initSections', () => { initSections(); });
+  etape('initTabs', () => { initTabs(); });
+  etape('initModesOperatoires', () => { initModesOperatoires(); });
+  etape('initRadarCompetences', () => { initRadarCompetences(); });
+  etape('initQuestionsParOnglet', () => { initQuestionsParOnglet(); });
+  etape('initNavigationTP', () => { initNavigationTP(); });
+  etape('initImpressionCompteRendu', () => {
+    initImpressionCompteRendu({ titre: 'Vecteurs du plan et de l\'espace', tp: 'TD03' });
+  });
+}

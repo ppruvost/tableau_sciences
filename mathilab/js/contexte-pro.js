@@ -42,14 +42,18 @@ const LIBELLES_ACTIVITE = {
     "identification-ions": "Identification d'ions"
 };
 
-function rendreContexte(data) {
+function rendreContexte(data, afficherProblematique = true) {
     if (!data) {
         return "<p>Sélectionner votre filière professionnelle pour afficher le contexte et la problématique associée.</p>";
     }
 
-    let blocProblematiques;
+    let blocProblematiques = "";
 
-    if (data.problematiques && typeof data.problematiques === "object") {
+    if (!afficherProblematique) {
+        // Le bloc « Contexte professionnel » n'affiche que le contexte : les
+        // problématiques apparaissent en tête de chaque onglet et en Q5
+        // (rappels .problematique-rappel, voir rendreRappelsProblematique).
+    } else if (data.problematiques && typeof data.problematiques === "object") {
         const entrees = Object.entries(data.problematiques);
         const plusieurs = entrees.length > 1;
         blocProblematiques = entrees.map(([activite, texte]) => `
@@ -111,12 +115,14 @@ function rendreRappelsProblematique(data) {
  * @param {Object} params.contextes - Dictionnaire { "niveau-filiereId": {contexte, problematique} } propre au TP
  * @param {string} [params.selectId]
  * @param {string} [params.resultatId]
+ * @param {boolean} [params.afficherProblematique=true] - false : le bloc ne montre que le contexte
  */
 export function initContextePro({
     filieres,
     contextes,
     selectId = "select-filiere-pro",
-    resultatId = "contexte-pro-resultat"
+    resultatId = "contexte-pro-resultat",
+    afficherProblematique = true
 } = {}) {
     const select = document.getElementById(selectId);
     const resultat = document.getElementById(resultatId);
@@ -146,11 +152,11 @@ export function initContextePro({
 
     select.addEventListener("change", () => {
         const data = contextes[select.value];
-        resultat.innerHTML = rendreContexte(data);
+        resultat.innerHTML = rendreContexte(data, afficherProblematique);
         rendreRappelsProblematique(data);
     });
 
-    resultat.innerHTML = rendreContexte(null);
+    resultat.innerHTML = rendreContexte(null, afficherProblematique);
     rendreRappelsProblematique(null);
 }
 

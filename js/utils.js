@@ -49,11 +49,11 @@ export function message(id, texte, classe = "info") {
    RESOLUTION DES CHEMINS D'IMAGES   
    ============================================================ */
 
-// Déduit le préfixe du site depuis l'URL réelle de la page, en
-// repérant le dossier "laboratory/" dans le chemin. Fonctionne quel
+// Déduit le préfixe de la plateforme depuis l'URL réelle de la page, en
+// repérant le dossier "laboratory/" ou "mathilab/" dans le chemin. Fonctionne quel
 // que soit le nom du dépôt GitHub Pages (ex. /tableau_sciences/laboratory/...),
 // un domaine personnalisé, ou un serveur local — sans valeur codée en dur.
-const _match = window.location.pathname.match(/^(.*\/laboratory\/)/);
+const _match = window.location.pathname.match(/^(.*\/(?:laboratory|mathilab)\/)/);
 const BASE = _match ? _match[1] : "/";
 
 export function imgSrc(
@@ -82,7 +82,11 @@ export function imgSrc(
         chemin.startsWith("tp-electricite/") ||
         chemin.startsWith("tp-mecanique/") ||
        chemin.startsWith("tp-thermique/") ||
-        chemin.startsWith("tp-signaux/")
+        chemin.startsWith("tp-signaux/") ||
+        chemin.startsWith("tp-statistiques/") ||
+        chemin.startsWith("tp-algebre/") ||
+        chemin.startsWith("tp-geometrie/") ||
+        chemin.startsWith("tp-algorithme/")
     ) {
         return BASE + chemin;
     }
@@ -619,6 +623,11 @@ export function initTabs() {
     .querySelectorAll(".tabs-container")
     .forEach(container=>{
 
+
+        // Conteneur déjà câblé (par onglets-filiere.js ou par un appel précédent) :
+        // un seul jeu d'écouteurs par conteneur.
+        if (container.dataset.ongletsInitialises === "true") return;
+        container.dataset.ongletsInitialises = "true";
 
         // :scope > ... : ne prend que les onglets/panneaux de CE conteneur,
         // pas ceux d'un .tabs-container imbriqué (ex. TP02 « acido-basique »).

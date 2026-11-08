@@ -1,33 +1,63 @@
 /**
- * ============================================================
- * MATHILAB — GÉOMÉTRIE
- * TD01 : Solides, aires, volumes, Pythagore et Thalès
  * mathilab/tp-geometrie/js/td01-solides-aires-volumes.js
- * ============================================================
+ *
+ * Contrôleur du TD01 « Solides, aires, volumes, Pythagore et Thalès ».
+ * Chargé par navigation.js juste après l'injection du fragment
+ * tp-geometrie/modules/td01-solides-aires-volumes.html dans #content.
+ *
+ * Convention SciLab / MathiLab (claude_v6.md) :
+ *  - le fragment HTML est la référence fixe, ce fichier s'adapte à lui
+ *  - navigation.js exécute module.init() après l'import : le point
+ *    d'entrée DOIT donc s'appeler init()
  */
 
-import { exposerOutils } from './outils-geogebra.js';
+// 1. Imports partagés (../../../js/…), puis données (../../data/…), puis locaux (./…)
+import { initZoomVisuels } from '../../../js/zoom-visuel.js';
+import { initSections, initTabs, initModesOperatoires } from '../../../js/utils.js';
+import { initContextePro } from '../../../js/contexte-pro.js';
+import { garantirMenuFiliere } from './filiere-select.js';
 import FILIERES_PRO from '../../data/filieres.js';
-import { initContextePro } from '../../js/contexte-pro.js';
-import { initRadarCompetences } from '../../js/radar.js';
+import { initRadarCompetences } from '../../../js/radar.js';
+import { initOngletsParFiliere } from '../../../js/onglets-filiere.js';
+import { demarrerPuzzle } from '../../../js/puzzle-onglet.js';
 import { initImpressionCompteRendu } from './compte-rendu-geometrie.js';
-import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
-
-import { demarrerPuzzle } from '../../js/puzzle-onglet.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
+import { initNavigationTP } from './nav-tp.js';
+import { initOutilsGeoGebra } from './outils-geogebra.js';
 import { G1 } from './puzzle-geometrie.js';
-const CONTEXTES_TD01 = {
-  '2nde-remi': {
-    contexte: "En atelier de réalisation mécanique, contrôler qu'une pièce est d'équerre, calculer le volume de matière d'une pièce cylindrique, ou changer d'échelle un plan sont des gestes courants.",
-    problematique: "Comment vérifier, par le calcul, qu'une pièce respecte les dimensions et l'angle attendus, et comment un changement d'échelle affecte-t-il ses dimensions ?",
+
+// 2. Données propres au TD (contextes professionnels, constantes)
+const CONTEXTES_PRO = {
+  "2nde-remi": {
+    "contexte": "En atelier de réalisation mécanique, contrôler qu'une pièce est d'équerre, calculer le volume de matière d'une pièce cylindrique, ou changer d'échelle un plan sont des gestes courants.",
+    "problematiques": {
+      "aires-perimetres": "Comment calculer l'aire et le périmètre d'une pièce plane (plaque, flasque) pour déterminer la matière à prévoir et la longueur à usiner ?",
+      "volumes": "Comment calculer le volume d'une pièce cylindrique ou d'un bloc de matière pour prévoir la quantité de matière à approvisionner ?",
+      "pythagore": "Comment vérifier, par le calcul, qu'une pièce est d'équerre et déterminer la longueur d'une diagonale ?",
+      "thales": "Comment déterminer une longueur inaccessible ou intermédiaire sur une pièce ou un plan à l'aide de droites parallèles ?",
+      "agrandissement": "Comment un changement d'échelle affecte-t-il les longueurs, l'aire et le volume d'une pièce ?"
+    }
   },
-  '2nde-mcc': {
-    contexte: "En atelier de confection, construire un patron à une autre échelle, ou vérifier l'équerrage d'une pièce de tissu découpée, font appel à la géométrie et au théorème de Pythagore.",
-    problematique: "Comment vérifier qu'une pièce découpée respecte les dimensions et l'angle attendus, et comment un changement d'échelle affecte-t-il un patron ?",
+  "2nde-mcc": {
+    "contexte": "En atelier de confection, construire un patron à une autre échelle, ou vérifier l'équerrage d'une pièce de tissu découpée, font appel à la géométrie et au théorème de Pythagore.",
+    "problematiques": {
+      "aires-perimetres": "Comment calculer l'aire et le périmètre d'une pièce de tissu pour déterminer la quantité de tissu et la longueur de bordure à prévoir ?",
+      "volumes": "Comment calculer le volume d'un rouleau ou d'un colis de tissu pour prévoir son stockage et son transport ?",
+      "pythagore": "Comment vérifier qu'une pièce découpée est d'équerre et déterminer la longueur d'une diagonale de tissu ?",
+      "thales": "Comment déterminer une longueur sur un patron en utilisant des droites parallèles et des proportions ?",
+      "agrandissement": "Comment un changement d'échelle affecte-t-il les longueurs et l'aire d'un patron, donc la quantité de tissu nécessaire ?"
+    }
   },
-  '2nde-gatl': {
-    contexte: "En logistique, calculer le volume d'un colis ou d'un espace de stockage, ou vérifier l'agencement d'un entrepôt, font appel à des calculs d'aires et de volumes.",
-    problematique: "Comment calculer les dimensions et le volume disponibles pour optimiser le rangement d'un espace de stockage ?",
-  },
+  "2nde-gatl": {
+    "contexte": "En logistique, calculer le volume d'un colis ou d'un espace de stockage, ou vérifier l'agencement d'un entrepôt, font appel à des calculs d'aires et de volumes.",
+    "problematiques": {
+      "aires-perimetres": "Comment calculer l'aire et le périmètre d'une zone de stockage pour déterminer la surface au sol disponible et la longueur à baliser ?",
+      "volumes": "Comment calculer le volume d'un colis ou d'un espace de stockage pour optimiser le rangement ?",
+      "pythagore": "Comment contrôler qu'un emplacement de stockage est d'équerre et déterminer la longueur d'une diagonale pour y ranger un objet long ?",
+      "thales": "Comment déterminer une hauteur ou une distance dans un entrepôt à l'aide de droites parallèles et de proportions ?",
+      "agrandissement": "Comment un changement de dimensions d'un colis affecte-t-il sa surface et son volume de stockage ?"
+    }
+  }
 };
 
 function formater(v) {
@@ -51,10 +81,10 @@ function actualiserChampsFigure() {
   document.getElementById('fig-dim1-label').textContent = config.label1;
   const groupe2 = document.getElementById('fig-dim2-groupe');
   if (config.label2) {
-    groupe2.style.display = '';
+    groupe2.hidden = false;
     document.getElementById('fig-dim2-label').textContent = config.label2;
   } else {
-    groupe2.style.display = 'none';
+    groupe2.hidden = true;
   }
 }
 
@@ -123,17 +153,17 @@ function actualiserChampsSolide() {
   const g3 = document.getElementById('sol-dim3-groupe');
 
   if (config.label2) {
-    g2.style.display = '';
+    g2.hidden = false;
     document.getElementById('sol-dim2-label').textContent = config.label2;
   } else {
-    g2.style.display = 'none';
+    g2.hidden = true;
   }
 
   if (config.label3) {
-    g3.style.display = '';
+    g3.hidden = false;
     document.getElementById('sol-dim3-label').textContent = config.label3;
   } else {
-    g3.style.display = 'none';
+    g3.hidden = true;
   }
 }
 
@@ -286,33 +316,41 @@ function initAgrandissement() {
   calculerAgrandissement();
 }
 
-/* ============================================================
-   INITIALISATION
-   ============================================================ */
+// ============================================================
+// Initialisation
+// ============================================================
 
-function initialiserTD01() {
-  exposerOutils();
-  initOngletsParFiliere();
-
-  initContextePro({
-    filieres: FILIERES_PRO,
-    contextes: CONTEXTES_TD01
-  });
-
-  demarrerPuzzle(G1);
-
-  initAiresPerimetres();
-  initVolumes();
-  initPythagore();
-  initThales();
-  initAgrandissement();
-
-  initRadarCompetences();
-
-  initImpressionCompteRendu({
-    titre: 'Solides, aires, volumes, Pythagore et Thalès',
-    tp: 'TD01'
-  });
+/** Une étape en erreur n'empêche jamais les suivantes. */
+function etape(nom, fn) {
+  try { fn(); }
+  catch (err) { console.error(`[tp-geometrie] étape « ${nom} » en erreur :`, err); }
 }
 
-initialiserTD01();
+/**
+ * Point d'entrée du TD (appelé par navigation.js).
+ * Ordre : zoom → outils → onglets du TD → contexte pro → puzzle →
+ * filtrage par filière → sections → onglets → modes opératoires → radar →
+ * questions par onglet → navigation TD → impression.
+ */
+export function init() {
+  etape('initZoomVisuels', () => { initZoomVisuels(); });
+  etape('initOutilsGeoGebra', () => { initOutilsGeoGebra(); });
+  etape('initAiresPerimetres', () => { initAiresPerimetres(); });
+  etape('initVolumes', () => { initVolumes(); });
+  etape('initPythagore', () => { initPythagore(); });
+  etape('initThales', () => { initThales(); });
+  etape('initAgrandissement', () => { initAgrandissement(); });
+  etape('initContextePro', () => { initContextePro({ afficherProblematique: false, filieres: FILIERES_PRO, contextes: CONTEXTES_PRO }); });
+  etape('garantirMenuFiliere', () => { garantirMenuFiliere(CONTEXTES_PRO); });
+  etape('demarrerPuzzle', () => { demarrerPuzzle(G1); });
+  etape('initOngletsParFiliere', () => { initOngletsParFiliere(); });
+  etape('initSections', () => { initSections(); });
+  etape('initTabs', () => { initTabs(); });
+  etape('initModesOperatoires', () => { initModesOperatoires(); });
+  etape('initRadarCompetences', () => { initRadarCompetences(); });
+  etape('initQuestionsParOnglet', () => { initQuestionsParOnglet(); });
+  etape('initNavigationTP', () => { initNavigationTP(); });
+  etape('initImpressionCompteRendu', () => {
+    initImpressionCompteRendu({ titre: 'Solides, aires, volumes, Pythagore et Thalès', tp: 'TD01' });
+  });
+}

@@ -36,7 +36,7 @@
  * tp03-cinematique-pression.js (import { initAcquisitionExaoPression }).
  */
 
-import { $, arrondir } from '../../js/utils.js';
+import { $, arrondir } from '../../../js/utils.js';
 
 // Volumes imposés par la seringue graduée (60 mL → 0 mL, pas de 5 mL).
 const VOLUMES_FIXES = [60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5, 0];

@@ -1,8 +1,8 @@
-import products     from "../data/products.js";
-import dangerDB     from "../data/dangerDB.js";
-import pictogrammes from "../data/pictogrammes.js";
+import products     from "../laboratory/data/products.js";
+import dangerDB     from "../laboratory/data/dangerDB.js";
+import pictogrammes from "../laboratory/data/pictogrammes.js";
 
-import { initPrintLabels } from "../data/print-labels.js";
+import { initPrintLabels } from "../laboratory/data/print-labels.js";
 
 // equipment.js et glassware.js ne sont plus importés ici :
 // ils sont chargés à la demande (import() dynamique) au premier clic sur l'onglet.
@@ -10,10 +10,12 @@ import { initPrintLabels } from "../data/print-labels.js";
 // =====================================================
 // CONFIG
 // =====================================================
-// Passer à true APRÈS avoir généré les miniatures avec make-thumbs.mjs
-// (assets/img/thumbs/... en WebP). Si une miniature manque, l'image
-// d'origine est utilisée automatiquement.
-const USE_THUMBS = false;
+// Les images de assets/img sont servies telles quelles (volumineuses pour
+// l'instant) : elles ne sont téléchargées que lorsqu'elles deviennent visibles.
+// Préchargement en arrière-plan des images des onglets : à passer à true
+// seulement une fois les images allégées, sinon on télécharge tout pour rien
+// (et on pénalise les connexions lentes).
+const PRELOAD_IMAGES = false;
 
 // =====================================================
 // GLOBAL ACCESS (UI uniquement)
@@ -31,34 +33,19 @@ initPrintLabels(dangerDB, products);
 const esc = s => String(s ?? "").replace(/&/g, "&amp;").replace(/"/g, "&quot;")
                                  .replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-// assets/img/xxx/yyy.jpg -> assets/img/thumbs/xxx/yyy.webp
-function thumbOf(full) {
-    if (!USE_THUMBS || !full.startsWith("assets/img/")) return null;
-    return full.replace("assets/img/", "assets/img/thumbs/")
-               .replace(/\.[a-z0-9]+$/i, ".webp");
-}
-
-// <img> avec chargement différé, décodage asynchrone et dimensions réservées
+// <img> avec chargement différé, décodage asynchrone, priorité basse
+// et dimensions réservées (évite les sauts de mise en page)
 function imgTag(full, alt, style, width, height) {
     if (!full) return "";
-    const thumb = thumbOf(full);
     const dims = (width ? ` width="${width}"` : "") + (height ? ` height="${height}"` : "");
-    return `<img src="${esc(thumb || full)}" data-full="${esc(full)}" alt="${esc(alt)}"
-                 loading="lazy" decoding="async"${dims} style="${style}">`;
+    return `<img src="${esc(full)}" alt="${esc(alt)}"
+                 loading="lazy" decoding="async" fetchpriority="low"${dims} style="${style}">`;
 }
 
-// Erreur de chargement : 1) retour à l'image d'origine, 2) sinon masquer
+// Image introuvable : on la masque
 // (l'événement "error" ne remonte pas : écoute en phase de capture sur le tbody)
 function onImgError(e) {
-    const img = e.target;
-    if (!img || img.tagName !== "IMG") return;
-    const full = img.dataset.full;
-    if (full && !img.dataset.fallback) {
-        img.dataset.fallback = "1";
-        img.src = full;
-    } else {
-        img.style.display = "none";
-    }
+    if (e.target?.tagName === "IMG") e.target.style.display = "none";
 }
 
 ["table-body", "equipment-body", "glassware-body"].forEach(id => {
@@ -230,11 +217,11 @@ function renderGlasswareTable(data) {
 const renderers = {
     products: async () => renderProductTable(products),
     equipment: async () => {
-        const { default: data } = await import("../data/equipment.js");
+        const { default: data } = await import("../laboratory/data/equipment.js");
         renderEquipmentTable(data);
     },
     glassware: async () => {
-        const { default: data } = await import("../data/glassware.js");
+        const { default: data } = await import("../laboratory/data/glassware.js");
         renderGlasswareTable(data);
     }
 };
@@ -256,9 +243,9 @@ window.showSection = function (sectionId, element = null) {
 
 // =====================================================
 // PRÉCHARGEMENT EN TÂCHE DE FOND
-// Une fois la page affichée et le navigateur inactif :
-// construction des tableaux puis téléchargement des images par petits lots,
-// pour que les onglets s'ouvrent instantanément.
+// Une fois la page affichée et le navigateur inactif : construction des
+// tableaux (léger : le texte seulement, les images restent différées).
+// Si PRELOAD_IMAGES = true, téléchargement en plus des images par petits lots.
 // =====================================================
 function preloadImages(urls) {
     const queue = [...new Set(urls)];
@@ -281,6 +268,7 @@ window.addEventListener("load", () => {
 
     idle(async () => {
         await Promise.all(Object.keys(renderers).map(ensureRendered));
+        if (!PRELOAD_IMAGES) return;
         const urls = [...document.querySelectorAll(
             "#table-body img, #equipment-body img, #glassware-body img"
         )].map(img => img.getAttribute("src")).filter(Boolean);
