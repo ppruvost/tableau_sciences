@@ -100,11 +100,18 @@ function rendreContexte(data, avecProblematique = true) {
  * questions « identification-ions » porte `data-activite="identification-ions"`).
  * Un rappel sans cet attribut reçoit la problématique unique `data.problematique`
  * (comportement historique, inchangé pour les TP à une seule activité).
+ *
+ * Exception : un rappel portant l'attribut `data-puzzle-rappel` est ignoré ici.
+ * Il est géré par demarrerPuzzle() (js/puzzle-onglet.js), qui y reporte la
+ * problématique du sujet A, B ou C actif (« Activités Puzzle »).
  */
 function rendreRappelsProblematique(data) {
     const placeholder = "Sélectionner votre filière professionnelle dans la section « Contexte professionnel » ci-dessus pour afficher ici la problématique.";
 
     document.querySelectorAll(".problematique-rappel").forEach(el => {
+        // Rappel piloté par le module puzzle : ne pas l'écraser.
+        if (el.hasAttribute("data-puzzle-rappel")) return;
+
         if (!data) {
             el.textContent = placeholder;
             return;
