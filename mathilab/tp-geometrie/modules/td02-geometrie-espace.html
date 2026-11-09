@@ -120,7 +120,7 @@
     </div>
 
     <div class="info">
-      Les deux activités de ce TD s'explorent dans <strong>GéoGébra 3D</strong>,
+      Les activités de ce TD s'explorent dans <strong>GéoGébra 3D</strong>,
       ouvert directement dans le site.
     </div>
 
@@ -188,7 +188,10 @@
 
       </div>
 
-      <!-- ---------- ACTIVITÉS PUZZLE (onglet indépendant) ---------- -->
+      <!-- ---------- ACTIVITÉS PUZZLE (onglet indépendant) ----------
+           Même structure que les onglets ci-dessus : problématique + méthodologie.
+           Contexte et problématique sont remplis par demarrerPuzzle() selon la filière ;
+           les 5 questions et leur report de problématique sont gérés par demarrerPuzzle(G2, { questionsEcrites }) dans js/puzzle-onglet.js. -->
       <div class="tab-panel" id="activites-puzzle">
 
         <h3>Activités Puzzle</h3>
@@ -198,50 +201,89 @@
           ci-dessus pour afficher les sujets.
         </div>
 
-      <div class="sous-onglets" role="tablist">
-        <button class="sous-btn actif" data-sous="puzzle-sujet-a">Sujet A</button>
-        <button class="sous-btn" data-sous="puzzle-sujet-b">Sujet B</button>
-        <button class="sous-btn" data-sous="puzzle-sujet-c">Sujet C</button>
-      </div>
-      <div class="sous-panel actif" id="puzzle-sujet-a">
-        <div class="fiche-puzzle" data-titre="Section d’un cube">
-          <div class="questions-bloc" data-tp="puzzle-a">
-            <ol class="questions-tp"><li>
-              <div class="question-entete"><strong>Sujet A — Section d’un cube</strong>
+        <div class="sous-onglets" role="tablist">
+          <button class="sous-btn actif" data-sous="puzzle-sujet-a">Sujet A</button>
+          <button class="sous-btn" data-sous="puzzle-sujet-b">Sujet B</button>
+          <button class="sous-btn" data-sous="puzzle-sujet-c">Sujet C</button>
+        </div>
+
+        <!-- ===== SUJET A ===== -->
+        <div class="sous-panel actif" id="puzzle-sujet-a">
+          <div class="fiche-puzzle" data-titre="Section d’un cube">
+            <div class="puzzle-sujet">
+              <div class="puzzle-entete"><strong>Sujet A — Section d’un cube</strong>
                 <span class="cartouche" data-comp="REA">REA</span></div>
+
               <p class="info puzzle-contexte" id="puzzle-a-contexte"></p>
-              <p class="puzzle-problematique" id="puzzle-a-problematique"></p>
-              <ol id="puzzle-a-enonce" class="puzzle-questions"></ol>
-            </li></ol>
+
+              <div class="problematique-onglet">
+                <span class="problematique-onglet-etiquette">Problématique</span>
+                <p class="puzzle-problematique" id="puzzle-a-problematique"></p>
+              </div>
+
+              <h4 class="espace-haut-lg">Méthodologie</h4>
+
+              <ol class="etapes">
+                <li>Construire un cube d’arête 5 : taper <code>cube1=Cube((0,0,0),(5,0,0),(0,5,0))</code>.</li>
+                <li>Placer trois points aux milieux de trois arêtes : <code>P=(5,2.5,0)</code>, <code>Q=(0,5,2.5)</code> et <code>R=(2.5,0,5)</code>.</li>
+                <li>Définir le plan passant par ces trois points avec <code>plan1=Plan(P,Q,R)</code>, puis faire apparaître la section avec <code>section1=Intersection(plan1,cube1)</code>.</li>
+                <li>Faire pivoter la vue, relever le nombre de côtés de la section, mesurer un côté avec l’outil Distance et l’aire avec <code>Aire(section1)</code>. Pour tester une autre position du plan, redéfinir les points (par exemple <code>P=(5,1,0)</code>) en restant sur les arêtes.</li>
+              </ol>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="sous-panel" id="puzzle-sujet-b">
-        <div class="fiche-puzzle" data-titre="Section d’un cylindre">
-          <div class="questions-bloc" data-tp="puzzle-b">
-            <ol class="questions-tp"><li>
-              <div class="question-entete"><strong>Sujet B — Section d’un cylindre</strong>
+
+        <!-- ===== SUJET B ===== -->
+        <div class="sous-panel" id="puzzle-sujet-b">
+          <div class="fiche-puzzle" data-titre="Section d’un cylindre">
+            <div class="puzzle-sujet">
+              <div class="puzzle-entete"><strong>Sujet B — Section d’un cylindre</strong>
                 <span class="cartouche" data-comp="ANA">ANA</span></div>
+
               <p class="info puzzle-contexte" id="puzzle-b-contexte"></p>
-              <p class="puzzle-problematique" id="puzzle-b-problematique"></p>
-              <ol id="puzzle-b-enonce" class="puzzle-questions"></ol>
-            </li></ol>
+
+              <div class="problematique-onglet">
+                <span class="problematique-onglet-etiquette">Problématique</span>
+                <p class="puzzle-problematique" id="puzzle-b-problematique"></p>
+              </div>
+
+              <h4 class="espace-haut-lg">Méthodologie</h4>
+
+              <ol class="etapes">
+                <li>Construire un cylindre d’axe vertical, de rayon 2 et de hauteur 6 : <code>cyl1=Cylindre((0,0,0),(0,0,6),2)</code>.</li>
+                <li>Section perpendiculaire à l’axe : définir le plan <code>plan1: z=3</code>, puis <code>Intersection(plan1,cyl1)</code>. Relever la nature de la section et son rayon (<code>Rayon(...)</code>).</li>
+                <li>Section parallèle à l’axe : tracer le cercle de base <code>base=Cercle((0,0,0),2,zAxis)</code> (ou l’outil Cercle défini par centre, rayon et axe), définir le plan <code>plan2: x=1</code>, puis <code>Intersection(plan2,base)</code>. Mesurer la distance entre les deux points obtenus avec l’outil Distance : c’est la largeur du rectangle de section.</li>
+                <li>Modifier le plan (<code>plan2: x=0</code>, puis <code>plan2: x=1.5</code>) et observer comment la largeur de la section évolue.</li>
+              </ol>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="sous-panel" id="puzzle-sujet-c">
-        <div class="fiche-puzzle" data-titre="Solide composé">
-          <div class="questions-bloc" data-tp="puzzle-c">
-            <ol class="questions-tp"><li>
-              <div class="question-entete"><strong>Sujet C — Solide composé</strong>
+
+        <!-- ===== SUJET C ===== -->
+        <div class="sous-panel" id="puzzle-sujet-c">
+          <div class="fiche-puzzle" data-titre="Solide composé">
+            <div class="puzzle-sujet">
+              <div class="puzzle-entete"><strong>Sujet C — Solide composé</strong>
                 <span class="cartouche" data-comp="VAL">VAL</span></div>
+
               <p class="info puzzle-contexte" id="puzzle-c-contexte"></p>
-              <p class="puzzle-problematique" id="puzzle-c-problematique"></p>
-              <ol id="puzzle-c-enonce" class="puzzle-questions"></ol>
-            </li></ol>
+
+              <div class="problematique-onglet">
+                <span class="problematique-onglet-etiquette">Problématique</span>
+                <p class="puzzle-problematique" id="puzzle-c-problematique"></p>
+              </div>
+
+              <h4 class="espace-haut-lg">Méthodologie</h4>
+
+              <ol class="etapes">
+                <li>Construire un cylindre de rayon 2 et de hauteur 4 : <code>cyl1=Cylindre((0,0,0),(0,0,4),2)</code>.</li>
+                <li>Construire un cône de même rayon, posé sur le cylindre, de hauteur 3 : <code>cone1=Cône((0,0,4),(0,0,7),2)</code>.</li>
+                <li>Faire pivoter la vue pour vérifier que le cône repose exactement sur la face supérieure du cylindre.</li>
+                <li>Faire calculer les volumes avec <code>Volume(cyl1)</code> et <code>Volume(cone1)</code>, puis sommer les deux résultats pour obtenir le volume du solide composé.</li>
+              </ol>
+            </div>
           </div>
         </div>
-      </div>
 
       </div>
 
@@ -361,48 +403,51 @@
     </ol>
     </div>
 
+    <!-- Onglet « Activités Puzzle » : un seul bloc de 5 questions dont le texte suit
+         le sujet actif (A, B ou C) — voir puzzle-sujets.js. Les textes ci-dessous sont
+         ceux du sujet A (affichés avant l'initialisation du script). -->
     <div class="questions-bloc" data-tp="geometrie-espace-activites-puzzle" data-onglet="activites-puzzle" data-onglet-nom="Activités Puzzle" hidden>
-    <h4>Questions de l'onglet « Activités Puzzle »</h4>
+    <h4>Questions de l'onglet « Activités Puzzle » — Sujet A : Section d’un cube</h4>
     <ol class="questions-tp">
       <li>
         <div class="question-entete">
-          <strong>Indiquer le sujet traité par votre groupe (A, B ou C) et nommer la propriété ou la formule utilisée.</strong>
+          <strong>Rappeler la définition de la section d’un solide par un plan et nommer le polygone obtenu en coupant le cube par le plan (PQR).</strong>
           <span class="cartouche" data-comp="APP">APP</span>
         </div>
-        <div class="zone-eleve"><textarea id="question-activites-puzzle-1" rows="4" placeholder="Sujet traité, propriété ou formule..."></textarea></div>
+        <div class="zone-eleve"><textarea id="question-activites-puzzle-1" rows="4" placeholder="Votre réponse..."></textarea></div>
       </li>
       <li>
         <div class="question-entete">
-          <strong>Donner les résultats chiffrés obtenus pour votre sujet, avec les unités.</strong>
+          <strong>Relever le nombre de côtés de la section, la longueur d’un côté et l’aire de la section (outils Distance et Aire de GéoGébra), avec les unités.</strong>
           <span class="cartouche" data-comp="REA">REA</span>
         </div>
         <div class="zone-eleve"><textarea id="question-activites-puzzle-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
       </li>
       <li>
         <div class="question-entete">
-          <strong>Expliquer la démarche suivie et justifier le choix de la méthode.</strong>
+          <strong>Expliquer pourquoi la section d’un cube par un plan peut avoir de 3 à 6 côtés selon la position des points P, Q et R.</strong>
           <span class="cartouche" data-comp="ANA">ANA</span>
         </div>
-        <div class="zone-eleve"><textarea id="question-activites-puzzle-3" rows="5" placeholder="Démarche et justification..."></textarea></div>
+        <div class="zone-eleve"><textarea id="question-activites-puzzle-3" rows="5" placeholder="Votre analyse..."></textarea></div>
       </li>
       <li>
         <div class="question-entete">
-          <strong>Vérifier la cohérence d'un résultat de votre sujet (unité, ordre de grandeur, second calcul).</strong>
+          <strong>Vérifier la longueur d’un côté de la section par le théorème de Pythagore dans une face du cube et la comparer à la mesure de GéoGébra.</strong>
           <span class="cartouche" data-comp="VAL">VAL</span>
         </div>
         <div class="zone-eleve"><textarea id="question-activites-puzzle-4" rows="5" placeholder="Votre vérification..."></textarea></div>
       </li>
       <li class="question-problematique">
         <div class="question-entete">
-          <strong>Répondre à la problématique de votre sujet (rappelée ci-dessous) en vous appuyant sur vos résultats :</strong>
+          <strong>Répondre à la problématique du sujet A (rappelée ci-dessous) en vous appuyant sur vos résultats :</strong>
           <span class="cartouche" data-comp="COM">COM</span>
         </div>
-        <div class="puzzle-rappel" id="puzzle-rappel" aria-live="polite"></div>
+        <div class="puzzle-rappel" id="puzzle-rappel-ecrit"><p class="problematique-rappel" data-puzzle-rappel>Sélectionner votre filière professionnelle dans « Contexte professionnel » pour afficher ici la problématique du sujet.</p></div>
         <div class="zone-eleve"><textarea id="question-activites-puzzle-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
       </li>
     </ol>
     </div>
-    <p class="info">Onglet « Activités Puzzle » : traiter un sujet (A, B ou C), puis rédiger ici vos réponses. La problématique rappelée en question 5 est celle du sujet actif ; elle dépend de la classe et de la filière choisies dans « Contexte professionnel ».</p>
+    <p class="info">Onglet « Activités Puzzle » : traiter un sujet (A, B ou C), puis rédiger ici vos réponses. Les questions et la problématique rappelée en question 5 suivent le sujet choisi, la classe et la filière sélectionnées dans « Contexte professionnel ».</p>
   </div>
 
 </div>
@@ -469,7 +514,7 @@
       L'impression récupère automatiquement :
       <ul>
         <li>les réponses aux questions et les observations GéoGébra ;</li>
-        <li>les fiches puzzle et l'auto-évaluation des compétences.</li>
+        <li>l'auto-évaluation des compétences.</li>
       </ul>
     </div>
 
