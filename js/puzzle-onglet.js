@@ -25,8 +25,19 @@
  *   #puzzle-sujet-x  .fiche-puzzle[data-titre]  #puzzle-x-contexte
  *   #puzzle-x-problematique  #puzzle-x-enonce (<ol>)
  * ainsi que #puzzle-info (message tant qu'aucune filière n'est choisie).
- * Les cinq questions sont écrites dans #puzzle-x-enonce avec une zone de
- * réponse pour l'élève (textarea) : elles sont reprises dans le compte rendu.
+ *
+ * Deux modes pour les questions :
+ *  - MODE HISTORIQUE (sans option) : les cinq questions sont écrites dans
+ *    #puzzle-x-enonce avec une zone de réponse (textarea) ; elles sont reprises
+ *    dans le compte rendu.
+ *  - MODE « QUESTIONS ÉCRITES » (TD qui suivent le modèle des onglets 1 et 2 :
+ *    méthodologie dans l'onglet, 5 questions dans « Trace écrite ») :
+ *        demarrerPuzzle(G2, { questionsEcrites: { a: {titre, questions:[5]}, b:…, c:… } });
+ *    #puzzle-x-enonce devient facultatif (laissé vide s'il est présent). Le bloc
+ *    .questions-bloc[data-onglet="activites-puzzle"] reçoit les 5 questions du
+ *    sujet actif, et le <p data-puzzle-rappel> de #puzzle-rappel-ecrit (question 5)
+ *    reçoit la problématique du sujet actif, selon niveau et filière.
+ *    Options : blocEcrit (sélecteur du bloc), rappelEcrit (sélecteur du rappel).
  * ============================================================
  */
 
@@ -47,6 +58,8 @@ const MSG_ATTENTE =
   'Sélectionner votre filière professionnelle dans la section « Contexte professionnel » ci-dessus pour afficher les sujets.';
 const MSG_ABSENT =
   'Aucun sujet n\'est défini pour cette filière à ce niveau dans ce TD. Choisir une autre filière.';
+const MSG_RAPPEL =
+  'Sélectionner votre filière professionnelle dans « Contexte professionnel » pour afficher ici la problématique du sujet.';
 
 function decouper(cle) {
   const i = cle.indexOf('-');
@@ -63,7 +76,7 @@ function viderSujet(lettre) {
   if (ol) ol.replaceChildren();
 }
 
-function remplirSujet(lettre, sujet) {
+function remplirSujet(lettre, sujet, avecQuestions = true) {
   const l = lettre.toLowerCase();
   const ctx = document.getElementById(`puzzle-${l}-contexte`);
   const pb = document.getElementById(`puzzle-${l}-problematique`);
@@ -72,9 +85,15 @@ function remplirSujet(lettre, sujet) {
   if (pb) {
     pb.textContent = '';
     if (sujet.problematique) {
-      const fort = document.createElement('strong');
-      fort.textContent = 'Problématique : ';
-      pb.append(fort, document.createTextNode(sujet.problematique));
+      // Dans l'encadré « Problématique » des TD au modèle des onglets 1 et 2,
+      // l'étiquette est déjà fournie par le HTML : texte seul.
+      if (pb.closest('.problematique-onglet')) {
+        pb.textContent = sujet.problematique;
+      } else {
+        const fort = document.createElement('strong');
+        fort.textContent = 'Problématique : ';
+        pb.append(fort, document.createTextNode(sujet.problematique));
+      }
     }
   }
 
@@ -88,6 +107,7 @@ function remplirSujet(lettre, sujet) {
 
   if (!ol) return;
   ol.replaceChildren();
+  if (!avecQuestions) return;
   const questions = Array.isArray(sujet.questions) ? sujet.questions : [];
   questions.forEach((texte, i) => {
     const dernier = i === questions.length - 1;
@@ -120,8 +140,50 @@ function remplirSujet(lettre, sujet) {
   });
 }
 
+/** Lettre (a, b ou c) du sous-onglet actif. */
+function lettreActive(racine) {
+  const btn = racine && racine.querySelector('.sous-btn.actif[data-sous]');
+  const m = btn && /-([abc])$/.exec(btn.dataset.sous);
+  return m ? m[1] : 'a';
+}
+
+/**
+ * Mode « questions écrites » : adapte les 5 questions de « Trace écrite » au
+ * sujet actif et y reporte (question 5) la problématique du sujet actif.
+ * Sans option questionsEcrites, ne fait rien (comportement historique).
+ */
+function synchroniserEcrit(racine, options, sujets) {
+  const defs = options && options.questionsEcrites;
+  if (!defs) return;
+
+  const lettre = lettreActive(racine);
+  const def = defs[lettre];
+  const bloc = document.querySelector(
+    options.blocEcrit || '.questions-bloc[data-onglet="activites-puzzle"]'
+  );
+  if (!def || !bloc) return;
+
+  const titre = bloc.querySelector('h4');
+  if (titre) {
+    titre.textContent =
+      `Questions de l'onglet « Activités Puzzle » — Sujet ${lettre.toUpperCase()} : ${def.titre}`;
+  }
+
+  const items = bloc.querySelectorAll(':scope > .questions-tp > li');
+  (def.questions || []).forEach((texte, i) => {
+    const fort = items[i] && items[i].querySelector('.question-entete strong');
+    if (fort && fort.textContent !== texte) fort.textContent = texte;
+  });
+
+  const rappel = document.querySelector(options.rappelEcrit || '#puzzle-rappel-ecrit [data-puzzle-rappel]');
+  if (rappel) {
+    const sujet = sujets && sujets[lettre.toUpperCase()];
+    rappel.textContent = (sujet && sujet.problematique) || MSG_RAPPEL;
+  }
+}
+
 /** Sous-onglets Sujet A / B / C : un clic affiche le panneau correspondant. */
-function brancherSousOnglets(racine) {
+function brancherSousOnglets(racine, apres) {
   if (!racine || racine.dataset.sousPuzzleModule === '1') return;
   racine.dataset.sousPuzzleModule = '1';
   racine.addEventListener('click', (e) => {
@@ -135,14 +197,17 @@ function brancherSousOnglets(racine) {
       p.classList.toggle('actif', actif);
       p.style.display = actif ? '' : 'none';
     });
+    if (typeof apres === 'function') apres();
   });
 }
 
 /**
  * Démarre l'activité puzzle d'un TD à partir de son modèle.
  * Réagit au changement du menu « Votre filière professionnelle ».
+ * @param {Object} modele  { params, build }
+ * @param {Object} [options]  { questionsEcrites, blocEcrit, rappelEcrit } (voir en-tête)
  */
-export function demarrerPuzzle(modele) {
+export function demarrerPuzzle(modele, options = {}) {
   const select = document.getElementById('select-filiere-pro');
   const info = document.getElementById('puzzle-info');
   const racine = document.getElementById('activites-puzzle');
@@ -151,10 +216,17 @@ export function demarrerPuzzle(modele) {
     return;
   }
 
-  brancherSousOnglets(racine);
+  const modeEcrit = Boolean(options && options.questionsEcrites);
+  let sujetsCourants = {};
+  const majEcrit = () => synchroniserEcrit(racine, options, sujetsCourants);
+
+  brancherSousOnglets(racine, majEcrit);
 
   const lettresPresentes = () =>
-    ['A', 'B', 'C'].filter((L) => document.getElementById(`puzzle-${L.toLowerCase()}-enonce`));
+    ['A', 'B', 'C'].filter((L) => {
+      const l = L.toLowerCase();
+      return document.getElementById(`puzzle-${l}-enonce`) || document.getElementById(`puzzle-sujet-${l}`);
+    });
 
   const message = (texte) => {
     if (!info) return;
@@ -169,10 +241,12 @@ export function demarrerPuzzle(modele) {
     const cle = select ? select.value : '';
     if (cle === derniereCle) return;
     derniereCle = cle;
+    sujetsCourants = {};
 
     if (!cle) {
       lettresPresentes().forEach(viderSujet);
       message(MSG_ATTENTE);
+      majEcrit();
       return;
     }
 
@@ -181,21 +255,25 @@ export function demarrerPuzzle(modele) {
     if (!P) {
       lettresPresentes().forEach(viderSujet);
       message(MSG_ABSENT);
+      majEcrit();
       return;
     }
 
     try {
       const cad = `En ${NIVEAUX[niveau] || niveau} ${FILIERES[filiere] || filiere.toUpperCase()}`;
       const sujets = modele.build(P, niveau, cad, filiere) || {};
+      sujetsCourants = sujets;
       lettresPresentes().forEach((L) => {
-        if (sujets[L]) remplirSujet(L, sujets[L]); else viderSujet(L);
+        if (sujets[L]) remplirSujet(L, sujets[L], !modeEcrit); else viderSujet(L);
       });
       message('');
     } catch (err) {
       console.error('[puzzle-onglet] construction des sujets impossible :', err);
+      sujetsCourants = {};
       lettresPresentes().forEach(viderSujet);
       message('Les sujets n\'ont pas pu être affichés pour cette filière.');
     }
+    majEcrit();
   }
 
   if (select) {
@@ -205,4 +283,7 @@ export function demarrerPuzzle(modele) {
   } else {
     message(MSG_ATTENTE);
   }
+
+  // Textes des questions du sujet actif dès le chargement (avant tout choix de filière).
+  majEcrit();
 }
