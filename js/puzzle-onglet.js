@@ -37,7 +37,8 @@
  *    .questions-bloc[data-onglet="activites-puzzle"] reçoit les 5 questions du
  *    sujet actif, et le <p data-puzzle-rappel> de #puzzle-rappel-ecrit (question 5)
  *    reçoit la problématique du sujet actif, selon niveau et filière.
- *    Options : blocEcrit (sélecteur du bloc), rappelEcrit (sélecteur du rappel).
+ *    Options : blocEcrit (sélecteur du bloc), rappelEcrit (sélecteur du conteneur du rappel, #puzzle-rappel-ecrit par défaut :
+ *    il est reconstruit avec la seule problématique du sujet actif).
  * ============================================================
  */
 
@@ -175,10 +176,17 @@ function synchroniserEcrit(racine, options, sujets) {
     if (fort && fort.textContent !== texte) fort.textContent = texte;
   });
 
-  const rappel = document.querySelector(options.rappelEcrit || '#puzzle-rappel-ecrit [data-puzzle-rappel]');
-  if (rappel) {
+  // Rappel de la question 5 : UNE seule problématique, celle du sujet actif.
+  // Le conteneur est reconstruit à chaque synchronisation : tout autre contenu
+  // (ex. rappel historique listant les sujets A, B et C) est ainsi remplacé.
+  const conteneur = document.querySelector(options.rappelEcrit || '#puzzle-rappel-ecrit');
+  if (conteneur) {
     const sujet = sujets && sujets[lettre.toUpperCase()];
-    rappel.textContent = (sujet && sujet.problematique) || MSG_RAPPEL;
+    const p = document.createElement('p');
+    p.className = 'problematique-rappel';
+    p.setAttribute('data-puzzle-rappel', '');
+    p.textContent = (sujet && sujet.problematique) || MSG_RAPPEL;
+    conteneur.replaceChildren(p);
   }
 }
 
@@ -221,6 +229,21 @@ export function demarrerPuzzle(modele, options = {}) {
   const majEcrit = () => synchroniserEcrit(racine, options, sujetsCourants);
 
   brancherSousOnglets(racine, majEcrit);
+
+  // Garde-fou : si un autre code réécrit le rappel de la question 5 (par exemple
+  // en y listant les trois sujets), on rétablit aussitôt la seule problématique
+  // du sujet actif. Pas de boucle : l'état rétabli est déjà conforme.
+  if (modeEcrit) {
+    const conteneur = document.querySelector(options.rappelEcrit || '#puzzle-rappel-ecrit');
+    if (conteneur && conteneur.dataset.gardePuzzle !== '1') {
+      conteneur.dataset.gardePuzzle = '1';
+      new MutationObserver(() => {
+        const conforme = conteneur.children.length === 1
+          && conteneur.firstElementChild.hasAttribute('data-puzzle-rappel');
+        if (!conforme) majEcrit();
+      }).observe(conteneur, { childList: true, subtree: true, characterData: true });
+    }
+  }
 
   const lettresPresentes = () =>
     ['A', 'B', 'C'].filter((L) => {
