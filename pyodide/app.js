@@ -767,16 +767,53 @@ json.dumps(_images)
        Génère un document A4 avec le contenu de l'éditeur
        Python et le résultat de la console (texte + graphiques
        Matplotlib), sur le modèle d'en-tête et de pied de page
-       de laboratory/js/compte-rendu.js (marque PyLab).
+       de js/compte-rendu.js (racine du site, marque PyLab).
 
        Le module est chargé à la demande (import dynamique) :
        si son chemin est incorrect, seul ce bouton est touché,
        le reste de PyLab continue de fonctionner.
-       Chemin relatif à CE fichier (app.js) : à adapter si
+       Chemin relatif à CE fichier (app.js, dans /pyodide/) : ../js/ = racine /js. À adapter si
        PyLab n'est pas dans un sous-dossier de sciences/.
     ================================================= */
 
-    const COMPTE_RENDU_MODULE = "../laboratory/js/compte-rendu.js";
+    // Chemins essayés dans l'ordre (relatifs à app.js) : le premier qui répond
+    // est mémorisé. Ajouter ici un chemin si compte-rendu.js est ailleurs.
+    const COMPTE_RENDU_CANDIDATS = [
+        "../js/compte-rendu.js",
+        "./js/compte-rendu.js",
+        "../../js/compte-rendu.js",
+        "/js/compte-rendu.js",
+        "./compte-rendu.js",
+        "../laboratory/js/compte-rendu.js"
+    ];
+
+    let compteRenduModule = null;
+
+    async function chargerCompteRendu() {
+        if (compteRenduModule) return compteRenduModule;
+
+        // Base = URL réelle d'app.js (et non celle de la page)
+        const scriptEl = Array.from(document.scripts)
+            .find(s => /(^|\/)app\.js(\?|#|$)/.test(s.getAttribute("src") || ""));
+        const base = scriptEl ? scriptEl.src : document.baseURI;
+
+        const essais = [];
+        for (const chemin of COMPTE_RENDU_CANDIDATS) {
+            const url = new URL(chemin, base).href;
+            try {
+                const mod = await import(url);
+                if (typeof mod.genererCompteRendu !== "function") {
+                    essais.push(url + " (chargé, mais sans export genererCompteRendu)");
+                    continue;
+                }
+                compteRenduModule = mod;
+                return mod;
+            } catch (e) {
+                essais.push(url + " → " + (e && e.message ? e.message : e));
+            }
+        }
+        throw new Error("module compte-rendu.js introuvable. Chemins essayés :\n" + essais.join("\n"));
+    }
 
     // Rubrique « Identification » (#nom-eleve, #prenom-eleve, #classe-eleve,
     // #date-eleve) : lue par compte-rendu.js et reportée dans l'en-tête du PDF.
@@ -793,7 +830,7 @@ json.dumps(_images)
     }
 
     async function printPdf() {
-        if (!editor || !output || !printPdfButton) return;
+        if (!editor || !output) return;
 
         // Nom et prénom sont obligatoires : si la rubrique est repliée et
         // incomplète, on la rouvre pour que le champ vide soit signalé.
@@ -809,10 +846,11 @@ json.dumps(_images)
             editor.value = zoomContent.value;
         }
 
-        printPdfButton.disabled = true;
+        printButtons.forEach(b => { b.disabled = true; });
+        console.log("PyLab : génération du PDF…");
 
         try {
-            const { genererCompteRendu } = await import(COMPTE_RENDU_MODULE);
+            const { genererCompteRendu } = await chargerCompteRendu();
 
             const code = editor.value.replace(/\s+$/, "");
             const resultat = output.textContent.replace(/\s+$/, "");
@@ -851,16 +889,29 @@ json.dumps(_images)
 
         } catch (e) {
             console.error("Impression PDF impossible :", e);
-            window.alert("Impossible de générer le PDF : " + e.message);
+
+            // Message visible dans la console de PyLab (l'alert seule peut
+            // être bloquée par le navigateur et le bouton semble alors « muet »).
+            if (output) {
+                const err = document.createElement("div");
+                err.className = "pdf-error";
+                err.style.cssText = "color:#c62828;font-weight:bold;white-space:pre-wrap;margin-top:8px;";
+                err.textContent = "Impossible de générer le PDF : " + e.message;
+                output.appendChild(err);
+            }
+            try { window.alert("Impossible de générer le PDF : " + e.message); } catch (_) {}
 
         } finally {
-            printPdfButton.disabled = false;
+            printButtons.forEach(b => { b.disabled = false; });
         }
     }
 
-    if (printPdfButton) {
-        printPdfButton.addEventListener("click", printPdf);
-    }
+    // « Imprimer en PDF » (barre de l'éditeur) et « Valider l'impression »
+    // (rubrique Trace écrite) déclenchent la même impression.
+    const validerImpressionButton = document.getElementById("validerImpression");
+    const printButtons = [printPdfButton, validerImpressionButton].filter(Boolean);
+
+    printButtons.forEach(b => b.addEventListener("click", printPdf));
 
     /* =================================================
        BIBLIOTHÈQUE DE PROGRAMMES (.py) — LISTE DYNAMIQUE

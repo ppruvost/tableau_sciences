@@ -1,492 +1,412 @@
-/* ── Tokens globaux, composants TP, impression ────────────────── */
-/* Chaîne CSS complète, dans l'ordre documenté (css/global.css) :
-   global → reset → tp → animations → print. compte-rendu.css est chargé
-   à la demande par js/compte-rendu.js ; les <link> de index.html ont été retirés. */
-@import url("../../../css/global.css");
-@import url("../../../css/reset.css");
-@import url("../../../css/tp.css");
-@import url("../../../css/animations.css");
-@import url("../../../css/print.css");
+/**
+ * tp-acoustique/js/compte-rendu-acoustique.js
+ *
+ * Impression du compte rendu (PDF via la boîte d'impression du navigateur)
+ * pour les TP d'acoustique A1 à A5.
+ *
+ * Ce fichier est un MODULE JAVASCRIPT. La feuille de style du domaine
+ * (chaîne global → reset → tp → animations → print → domaine, couleurs
+ * acoustique, ExAO...) est css/style.css, déjà chargée par index.html.
+ *
+ * API utilisée par tp01 à tp05 :
+ *   initImpressionCompteRendu({ titre, tp, sectionsSupplementaires })
+ *   sectionValeurs(titre, [[libellé, idÉlément, filtreRegExp?], ...])
+ *   nombreFr(valeur, décimales)
+ *   ajouterLigne(tbody, [cellules])
+ *
+ * Format d'une section (renvoyée à initImpressionCompteRendu) :
+ *   { titre, valeurs: [[libellé, valeur], ...] }
+ *   { titre, tableau: { entetes: [...], lignes: [[...], ...] },
+ *     canvas?: <élément contenant un <svg> ou un <canvas>>, legende?: string }
+ */
 
-/* ── Overrides communs à tous les domaines (header, nav, cartes,
-   tableaux, EPI, radar, graphique...) — paramétrés par les variables
-   de couleur ci-dessous ── */
-@import url("../../../css/domaine.css");
+/* ==========================================================
+   OUTILS
+   ========================================================== */
 
-/* ════════════════════════════════════════════════════════════════
-   IDENTITÉ DU DOMAINE ACOUSTIQUE
-   L'ordre d'écriture n'a pas d'importance pour la résolution des
-   var() : ces valeurs s'appliquent à css/domaine.css même si celui-ci
-   est importé plus haut dans ce fichier.
-   ════════════════════════════════════════════════════════════════ */
-:root {
-  --domaine-accent:       #1B6CA8;
-  --domaine-accent-fonce: #114A75;
-  --domaine-accent-rgb:   27, 108, 168;
+const VALEURS_VIDES = new Set(['', '—', '-', '–']);
+
+function echapper(texte) {
+  return String(texte ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }
 
-/* Tout le reste (header, nav, cartes, formulaires, tableaux, EPI,
-   matériel, radar, graphique, histogramme, cartouches, quiz,
-   problématique, champ-erreur...) vient de tp.css et css/domaine.css
-   — plus aucune duplication propre à ce domaine. */
+/** Texte d'un champ ou d'une sortie : valeur saisie, option choisie ou contenu. */
+function lireElement(el) {
+  if (!el) return '';
 
-/* ── Résultats de calcul guidé (.resultat-calcul) ──────────────────
-   tp.css colore ce bloc en vert-acide fixe (section 14, calcul-guide),
-   sans override par domaine dans domaine.css : recoloré ici dans la
-   teinte du domaine Acoustique pour rester cohérent avec le reste
-   de la charte (bandeau, onglets, boutons, cartouches...). */
-.resultat-calcul {
-  color: var(--domaine-accent-fonce);
-}
-
-/* ── Numéros de question (.questions-tp .question-entete::before) ──
-   tp.css colore ce médaillon en bleu-cuivre fixe (section 17),
-   sans override par domaine dans domaine.css : recoloré ici dans la
-   teinte du domaine Acoustique. Même chose pour les étapes de
-   protocole numérotées (.etapes li::before), soumises au même
-   codage en dur. */
-.questions-tp .question-entete::before,
-.etapes li::before {
-  background: var(--domaine-accent);
-}
-
-/* ════════════════════════════════════════════════════════════════
-   COMPLÉMENTS PROPRES À L'ACOUSTIQUE
-   Ces deux composants n'existent pas en thermique et ne sont donc
-   pas déjà couverts par css/domaine.css. Si d'autres domaines (ex.
-   tp-signaux) venaient à réutiliser une échelle graduée ou un
-   feedback de schéma, il serait préférable de les faire migrer dans
-   css/domaine.css plutôt que de les dupliquer ici.
-   ════════════════════════════════════════════════════════════════ */
-
-/* Échelle de niveau d'intensité acoustique (TP01) */
-.echelle-db-conteneur {
-  position: relative;
-  margin-top: var(--gap-md, 1rem);
-}
-
-.echelle-db-barre {
-  display: flex;
-  width: 100%;
-  height: 2.5rem;
-  border-radius: 6px;
-  overflow: hidden;
-  font-size: 0.7rem;
-  color: #fff;
-}
-
-.echelle-db-segment {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 0 0.25rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Dégradé du silence (vert) au danger immédiat (rouge), un segment
-   par repère défini dans ECHELLE_DB (tp01-caracteriser-un-son.js) */
-.echelle-db-segment:nth-child(1) { background: #2e7d32; }
-.echelle-db-segment:nth-child(2) { background: #66bb6a; }
-.echelle-db-segment:nth-child(3) { background: #9ccc65; }
-.echelle-db-segment:nth-child(4) { background: #e0a800; }
-.echelle-db-segment:nth-child(5) { background: #e8730f; }
-.echelle-db-segment:nth-child(6) { background: #c0392b; }
-.echelle-db-segment:nth-child(7) { background: #7a1f14; }
-
-.echelle-db-curseur {
-  position: absolute;
-  top: -0.4rem;
-  width: 0;
-  height: 0;
-  border-left: 0.5rem solid transparent;
-  border-right: 0.5rem solid transparent;
-  border-top: 0.6rem solid #222;
-  transform: translateX(-50%);
-  transition: left 0.15s ease-out;
-}
-
-/* Feedback du schéma de la chaîne de transmission (TP03) */
-#chaine-resultat.succes {
-  border-left: 4px solid #2e7d32;
-  background: #eaf6ea;
-  color: #1b4d1e;
-}
-
-#chaine-resultat.erreur {
-  border-left: 4px solid #c0392b;
-  background: #fbeceb;
-  color: #5c1912;
-}
-
-/* ════════════════════════════════════════════════════════════════
-   ACQUISITION EXAO — TEMPS RÉEL (TP04, onglet « Acquisition ExAO »)
-   Widget autonome : l'écran d'oscilloscope garde un habillage sombre
-   type instrument de mesure (vert/ambre = CH1/CH2, cohérent avec les
-   couleurs tracées par exao01.js) ; tout le reste (barre de statut,
-   panneau de résultats, cartes de conseils) suit la charte claire du
-   domaine acoustique via var(--domaine-accent).
-   ════════════════════════════════════════════════════════════════ */
-
-.exao-status-bar {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.6rem 1rem;
-  border-radius: 8px;
-  background: #f4f8fb;
-  border: 1px solid #dde3ea;
-  margin: var(--gap-md, 1rem) 0;
-  font-size: 0.9rem;
-}
-
-.exao-status-dot {
-  width: 0.7rem;
-  height: 0.7rem;
-  border-radius: 50%;
-  background: #b0b8bf;
-  flex-shrink: 0;
-}
-
-.exao-status-dot.connecte { background: #2e7d32; }
-.exao-status-dot.erreur   { background: #c0392b; }
-
-.exao-connect-grid {
-  display: grid;
-  grid-template-columns: minmax(260px, 1fr) minmax(260px, 1fr);
-  gap: var(--gap-lg, 1.5rem);
-  align-items: start;
-  margin: var(--gap-md, 1rem) 0;
-}
-
-.exao-connect-schema {
-  border: 1px solid #dde3ea;
-  border-radius: 8px;
-  background: #fff;
-  padding: 0.5rem;
-}
-
-.exao-connect-schema svg { width: 100%; height: auto; }
-
-.exao-gain-row {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-.exao-gain-row input[type="range"] { flex: 1; }
-
-.exao-scope-corr-grid {
-  display: grid;
-  grid-template-columns: minmax(320px, 1.1fr) minmax(280px, 1fr);
-  gap: var(--gap-lg, 1.5rem);
-  margin: var(--gap-md, 1rem) 0;
-}
-
-.exao-scope-bezel {
-  background: #12261b;
-  border-radius: 10px;
-  padding: 0.75rem;
-  border: 1px solid #1c3d2e;
-}
-
-.exao-scope-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #9fe6bd;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  margin-bottom: 0.5rem;
-}
-
-.exao-scope-badge {
-  padding: 0.15rem 0.6rem;
-  border-radius: 999px;
-  background: #1c3d2e;
-  color: #9fe6bd;
-  font-size: 0.7rem;
-}
-
-.exao-scope-badge.exao-running {
-  background: #39ff8f;
-  color: #0d1f16;
-}
-
-.exao-scope-screen {
-  border-radius: 6px;
-  overflow: hidden;
-  line-height: 0;
-}
-
-.exao-scope-screen canvas {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.exao-scope-label-row {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.75rem;
-  color: #cfe8da;
-  margin-top: 0.5rem;
-}
-
-.exao-dot {
-  display: inline-block;
-  width: 0.55rem;
-  height: 0.55rem;
-  border-radius: 50%;
-  margin-right: 0.3rem;
-}
-
-.exao-dot-p { background: #39ff8f; }
-.exao-dot-a { background: #e0a800; }
-
-.exao-scope-readouts {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 0.6rem;
-  flex-wrap: wrap;
-}
-
-.exao-readout-box {
-  flex: 1;
-  min-width: 90px;
-  text-align: center;
-  padding: 0.4rem;
-  border-radius: 6px;
-  background: #0d1f16;
-  border: 1px solid #1c3d2e;
-  color: #9fe6bd;
-  font-size: 0.85rem;
-}
-
-.exao-corr-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap-md, 1rem);
-}
-
-.exao-corr-labels {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.75rem;
-  color: #e0c98a;
-  margin-top: 0.5rem;
-}
-
-.exao-corr-stats {
-  border: 1px solid #dde3ea;
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-  background: #fff;
-}
-
-.exao-stat-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.35rem 0;
-  border-bottom: 1px solid #eef1f4;
-  font-size: 0.85rem;
-}
-
-.exao-stat-row:last-child { border-bottom: none; }
-.exao-stat-row span:last-child { font-weight: 700; color: var(--domaine-accent-fonce); }
-
-.exao-source-tag {
-  font-size: 0.7rem;
-  padding: 0.1rem 0.5rem;
-  border-radius: 999px;
-  background: var(--domaine-accent);
-  color: #fff;
-}
-
-.exao-computed { font-weight: 700; }
-
-.exao-quality-badge {
-  font-size: 0.7rem;
-  padding: 0.1rem 0.5rem;
-  border-radius: 999px;
-}
-
-.exao-quality-auto   { background: #e8f2fb; color: var(--domaine-accent-fonce); }
-.exao-quality-demo   { background: #fdf6e3; color: #a97400; }
-.exao-quality-manual { background: #eef1f4; color: #555; }
-
-.exao-btn-del {
-  border: none;
-  background: transparent;
-  color: #c0392b;
-  cursor: pointer;
-  font-size: 0.9rem;
-}
-
-.exao-results-panel {
-  display: none;
-  margin-top: var(--gap-lg, 1.5rem);
-  padding: 1rem;
-  border-radius: 8px;
-  border: 1px solid #dde3ea;
-  background: #f4f8fb;
-}
-
-.exao-results-panel.exao-visible { display: block; }
-
-.exao-results-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: var(--gap-md, 1rem);
-  margin: 0.75rem 0;
-}
-
-.exao-result-card {
-  background: #fff;
-  border: 1px solid #dde3ea;
-  border-radius: 8px;
-  padding: 0.75rem;
-  text-align: center;
-}
-
-.exao-result-card-alerte { border-color: #e0a800; }
-
-.exao-result-label {
-  font-size: 0.75rem;
-  color: #5a6b78;
-  margin-bottom: 0.3rem;
-}
-
-.exao-result-value {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--domaine-accent-fonce);
-}
-
-.exao-compare-bar {
-  margin-top: 0.75rem;
-  font-size: 0.85rem;
-}
-
-.exao-track {
-  width: 100%;
-  height: 0.5rem;
-  border-radius: 999px;
-  background: #e0e6eb;
-  margin-top: 0.4rem;
-  overflow: hidden;
-}
-
-.exao-fill {
-  width: 0;
-  height: 100%;
-  background: var(--domaine-accent);
-  transition: width 0.2s ease-out;
-}
-
-.exao-tip-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: var(--gap-md, 1rem);
-  margin-top: var(--gap-md, 1rem);
-}
-
-.exao-tip-card {
-  border: 1px solid #dde3ea;
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-  background: #fff;
-}
-
-.exao-tip-head {
-  font-weight: 700;
-  color: var(--domaine-accent-fonce);
-  margin-bottom: 0.3rem;
-}
-
-@media (max-width: 720px) {
-  .exao-connect-grid,
-  .exao-scope-corr-grid {
-    grid-template-columns: 1fr;
+  if (el.tagName === 'SELECT') {
+    const option = el.options[el.selectedIndex];
+    // Une option sans valeur (« Choisir... ») compte comme non renseignée.
+    return option && option.value !== '' ? option.textContent.trim() : '';
   }
+
+  if ('value' in el && el.tagName !== 'OUTPUT' && el.tagName !== 'LI') {
+    return String(el.value ?? '').trim();
+  }
+
+  return (el.textContent || '').replace(/\s+/g, ' ').trim();
 }
 
-/* (ancien « h1 { color:#fff !important } » global supprimé : il rendait
-   blanc sur blanc le titre du compte rendu imprimé. Le bandeau est déjà
-   couvert par « body > header h1 » ci-dessous.) */
+/* ==========================================================
+   FONCTIONS EXPORTÉES POUR LES TP
+   ========================================================== */
 
-/* ══════════════════════════════════════════════════════════════
-   Ajustements d'interface (tp-acoustique)
-   ══════════════════════════════════════════════════════════════ */
-
-/* Titre du bandeau (« TP Acoustique : … ») en blanc */
-body > header h1,
-body > header h1 span {
-  color: #ffffff;
+/** Nombre au format français : nombreFr(2.5, 1) → « 2,5 ». */
+export function nombreFr(valeur, decimales = 0) {
+  const n = Number(valeur);
+  if (!Number.isFinite(n)) return '—';
+  return n.toLocaleString('fr-FR', {
+    minimumFractionDigits: decimales,
+    maximumFractionDigits: decimales,
+  });
 }
 
-/* Matériel nécessaire : menu accordéon Équipements / Verrerie */
-.accordeon-materiel {
-  border: 1px solid var(--gris-clair, #E7E9EC);
-  border-radius: var(--r-md, 12px);
-  background: var(--blanc, #ffffff);
-  margin: 0 0 var(--gap-md, 1rem);
-  overflow: hidden;
+/** Ajoute une ligne <tr> (cellules en texte brut) à un <tbody>. */
+export function ajouterLigne(tbody, cellules) {
+  const tr = document.createElement('tr');
+  cellules.forEach(contenu => {
+    const td = document.createElement('td');
+    td.textContent = String(contenu ?? '');
+    tr.appendChild(td);
+  });
+  tbody.appendChild(tr);
+  return tr;
 }
 
-.accordeon-materiel > summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: .75rem 1rem;
-  cursor: pointer;
-  list-style: none;
-  font-weight: 700;
-  font-size: 1.05rem;
-  color: var(--domaine-accent-fonce, #114A75);
-  background: rgba(var(--domaine-accent-rgb, 27, 108, 168), .10);
+/**
+ * Section « libellé : valeur » lue dans le DOM au moment de l'impression.
+ * Un 3e élément facultatif (RegExp) ne retient la valeur que si elle
+ * correspond (évite d'imprimer un texte d'attente).
+ * Renvoie null si aucune valeur n'est renseignée.
+ */
+export function sectionValeurs(titre, champs) {
+  const valeurs = [];
+
+  champs.forEach(([libelle, id, filtre]) => {
+    const texte = lireElement(document.getElementById(id));
+    if (VALEURS_VIDES.has(texte)) return;
+    if (filtre instanceof RegExp && !filtre.test(texte)) return;
+    valeurs.push([libelle, texte]);
+  });
+
+  return valeurs.length ? { titre, valeurs } : null;
 }
 
-.accordeon-materiel > summary::-webkit-details-marker { display: none; }
+/* ==========================================================
+   COLLECTE DES DONNÉES DE LA PAGE
+   ========================================================== */
 
-.accordeon-materiel > summary::after {
-  content: "▼";
-  font-size: .8rem;
-  transition: transform .2s ease;
+function lireIdentite() {
+  const champ = id => lireElement(document.getElementById(id));
+
+  const nom = [champ('prenom-eleve'), champ('nom-eleve')].filter(Boolean).join(' ');
+  const classe = champ('classe-eleve');
+  const dateBrute = champ('date-eleve');
+
+  let date = dateBrute;
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateBrute)) {
+    const [a, m, j] = dateBrute.split('-');
+    date = `${j}/${m}/${a}`;
+  }
+
+  return { nom, classe, date };
 }
 
-.accordeon-materiel[open] > summary::after { transform: rotate(180deg); }
-
-.accordeon-materiel > summary:focus-visible {
-  outline: 3px solid var(--domaine-accent, #1B6CA8);
-  outline-offset: -3px;
+function blocContientReponse(bloc) {
+  return [...bloc.querySelectorAll('textarea')].some(t => t.value.trim() !== '');
 }
 
-.accordeon-materiel > .grille-materiel { padding: var(--gap-md, 1rem); }
+/** Questions : bloc affiché + blocs des autres onglets s'ils contiennent des réponses. */
+function collecterQuestions() {
+  const blocs = [...document.querySelectorAll('.questions-bloc')];
 
-/* Manipulations : problématique de l'onglet, en tête du bloc */
-.problematique-onglet { margin: 0 0 var(--gap-md, 1rem); }
+  return blocs
+    .filter(bloc => (!bloc.hidden && bloc.style.display !== 'none') || blocContientReponse(bloc))
+    .map(bloc => {
+      const items = [...bloc.querySelectorAll('.questions-tp > li')].map((li, i) => ({
+        numero: i + 1,
+        enonce: (li.querySelector('.question-entete strong')?.textContent || '')
+          .replace(/\s+/g, ' ').trim(),
+        competence: li.querySelector('.cartouche')?.textContent.trim() || '',
+        rappel: (li.querySelector('.problematique-rappel')?.textContent || '')
+          .replace(/\s+/g, ' ').trim(),
+        reponse: li.querySelector('textarea')?.value.trim() || '',
+      }));
 
-.problematique-onglet-etiquette {
-  display: block;
-  margin-bottom: .2rem;
-  font-size: .8rem;
-  font-weight: 700;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  color: var(--domaine-accent-fonce, #114A75);
+      return {
+        titre: bloc.dataset.ongletNom || bloc.querySelector('h4')?.textContent.trim() || 'Questions',
+        items,
+      };
+    });
 }
 
-.problematique-onglet .problematique-rappel { margin: 0; font-weight: 600; }
+/** Auto-évaluation : une ligne par compétence, niveau coché (0, 1, 2). */
+function collecterAutoEvaluation() {
+  const lignes = [...document.querySelectorAll('.autoeval-table tbody tr[data-comp]')];
 
-/* ── Schémas de montage (img.mode-image dans .mode-op) ──────────────
-   Remplace l'ancien style en ligne des fragments. */
-.mode-op .mode-image {
-  display: block;
-  width: 100%;
-  height: auto;
+  return lignes.map(tr => {
+    const sigle = tr.dataset.comp;
+    const coche = tr.querySelector('input[type="radio"]:checked');
+    return {
+      domaine: tr.children[0]?.textContent.trim() || '',
+      sigle,
+      capacite: tr.children[2]?.textContent.trim() || '',
+      niveau: coche ? coche.value : null,
+    };
+  });
+}
+
+/** Image du radar (svg ou canvas) si l'élève l'a généré. */
+function collecterRadar() {
+  const conteneur = document.getElementById('radar-resultat');
+  return conteneur ? extraireVisuel(conteneur) : '';
+}
+
+/** HTML d'un graphique : <svg> cloné, ou <canvas> converti en image. */
+function extraireVisuel(conteneur) {
+  const svg = conteneur.querySelector('svg');
+  if (svg) {
+    const clone = svg.cloneNode(true);
+    if (!clone.getAttribute('xmlns')) clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    clone.removeAttribute('width');
+    clone.removeAttribute('height');
+    clone.style.maxWidth = '100%';
+    clone.style.height = 'auto';
+    return clone.outerHTML;
+  }
+
+  const canvas = conteneur.querySelector('canvas');
+  if (canvas) {
+    try {
+      return `<img alt="" src="${canvas.toDataURL('image/png')}" style="max-width:100%;height:auto">`;
+    } catch (e) {
+      console.warn('Canvas non exportable :', e);
+    }
+  }
+
+  return '';
+}
+
+/* ==========================================================
+   CONSTRUCTION DU DOCUMENT IMPRIMABLE
+   ========================================================== */
+
+const STYLE_IMPRESSION = `
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+    font-size: 11pt; line-height: 1.4; color: #1a1a1a; margin: 0;
+  }
+  header.cr-entete {
+    border-bottom: 3px solid #1B6CA8; padding-bottom: 6pt; margin-bottom: 10pt;
+  }
+  header.cr-entete h1 { font-size: 17pt; margin: 0; color: #114A75; }
+  header.cr-entete .cr-tp { font-size: 10pt; color: #5a6b78; margin: 2pt 0 0; }
+  .cr-identite { display: flex; flex-wrap: wrap; gap: 4pt 18pt; margin: 6pt 0 10pt; font-size: 10.5pt; }
+  .cr-identite span strong { color: #114A75; }
+  h2 {
+    font-size: 13pt; color: #114A75; margin: 14pt 0 5pt;
+    padding-bottom: 2pt; border-bottom: 1px solid #c9d6e2; break-after: avoid;
+  }
+  h3 { font-size: 11.5pt; color: #114A75; margin: 10pt 0 4pt; break-after: avoid; }
+  table { width: 100%; border-collapse: collapse; margin: 4pt 0 8pt; break-inside: avoid; }
+  th, td { border: 1px solid #b8c4cf; padding: 3pt 6pt; text-align: left; vertical-align: top; }
+  th { background: #e8f2fb; color: #114A75; }
+  table.cr-valeurs th { width: 55%; font-weight: 600; }
+  .cr-question { margin: 0 0 9pt; break-inside: avoid; }
+  .cr-enonce { font-weight: 600; }
+  .cr-comp {
+    display: inline-block; margin-left: 6pt; padding: 0 5pt; border-radius: 8pt;
+    background: #1B6CA8; color: #fff; font-size: 8pt; font-weight: 700; vertical-align: 1pt;
+  }
+  .cr-rappel { font-style: italic; color: #5a6b78; margin: 2pt 0; }
+  .cr-reponse {
+    margin-top: 3pt; padding: 4pt 7pt; min-height: 18pt;
+    border-left: 3px solid #1B6CA8; background: #f4f8fb; white-space: pre-wrap;
+  }
+  .cr-reponse.cr-vide { color: #8a97a3; font-style: italic; }
+  .cr-figure { margin: 6pt 0 10pt; text-align: center; break-inside: avoid; }
+  .cr-figure svg, .cr-figure img { max-width: 100%; height: auto; }
+  .cr-figure figcaption { font-size: 9.5pt; color: #5a6b78; margin-top: 2pt; }
+  .cr-niveau { text-align: center; white-space: nowrap; }
+  footer.cr-pied { margin-top: 14pt; font-size: 8.5pt; color: #8a97a3; text-align: right; }
+`;
+
+function htmlSection(section) {
+  let html = `<h2>${echapper(section.titre)}</h2>`;
+
+  if (section.valeurs?.length) {
+    html += '<table class="cr-valeurs"><tbody>';
+    section.valeurs.forEach(([libelle, valeur]) => {
+      html += `<tr><th>${echapper(libelle)}</th><td>${echapper(valeur)}</td></tr>`;
+    });
+    html += '</tbody></table>';
+  }
+
+  if (section.tableau) {
+    const { entetes = [], lignes = [] } = section.tableau;
+    html += '<table><thead><tr>'
+      + entetes.map(e => `<th>${echapper(e)}</th>`).join('')
+      + '</tr></thead><tbody>'
+      + lignes.map(l => `<tr>${l.map(c => `<td>${echapper(c)}</td>`).join('')}</tr>`).join('')
+      + '</tbody></table>';
+  }
+
+  if (section.canvas) {
+    const visuel = extraireVisuel(section.canvas);
+    if (visuel) {
+      html += `<figure class="cr-figure">${visuel}`
+        + (section.legende ? `<figcaption>${echapper(section.legende)}</figcaption>` : '')
+        + '</figure>';
+    }
+  }
+
+  return html;
+}
+
+function htmlQuestions(blocs) {
+  return blocs.map(bloc => {
+    let html = `<h2>Questions : ${echapper(bloc.titre)}</h2>`;
+
+    bloc.items.forEach(q => {
+      html += '<div class="cr-question">'
+        + `<div class="cr-enonce">${q.numero}. ${echapper(q.enonce)}`
+        + (q.competence ? `<span class="cr-comp">${echapper(q.competence)}</span>` : '')
+        + '</div>'
+        + (q.rappel ? `<div class="cr-rappel">${echapper(q.rappel)}</div>` : '')
+        + (q.reponse
+          ? `<div class="cr-reponse">${echapper(q.reponse)}</div>`
+          : '<div class="cr-reponse cr-vide">Pas de réponse.</div>')
+        + '</div>';
+    });
+
+    return html;
+  }).join('');
+}
+
+function htmlAutoEvaluation(lignes, radar) {
+  if (!lignes.length) return '';
+  // Rien à imprimer si l'élève n'a rien coché et n'a pas généré de radar.
+  if (!radar && lignes.every(l => l.niveau === null)) return '';
+
+  let html = '<h2>Auto-évaluation des compétences</h2>'
+    + '<table><thead><tr><th>Domaine</th><th>Sigle</th><th>Je suis capable de...</th>'
+    + '<th>Niveau (0 à 2)</th></tr></thead><tbody>';
+
+  lignes.forEach(l => {
+    html += `<tr><td>${echapper(l.domaine)}</td><td>${echapper(l.sigle)}</td>`
+      + `<td>${echapper(l.capacite)}</td>`
+      + `<td class="cr-niveau">${l.niveau === null ? '—' : echapper(l.niveau)}</td></tr>`;
+  });
+
+  html += '</tbody></table>';
+
+  if (radar) {
+    html += `<figure class="cr-figure">${radar}<figcaption>Radar de compétences</figcaption></figure>`;
+  }
+
+  return html;
+}
+
+function construireDocument({ titre, tp, sections }) {
+  const identite = lireIdentite();
+  const dateImpression = new Date().toLocaleDateString('fr-FR');
+
+  const identiteHtml = [
+    ['Nom', identite.nom],
+    ['Classe', identite.classe],
+    ['Date', identite.date || dateImpression],
+  ].map(([lib, val]) =>
+    `<span><strong>${lib} :</strong> ${val ? echapper(val) : '………………………'}</span>`
+  ).join('');
+
+  const corps = sections.map(htmlSection).join('')
+    + htmlQuestions(collecterQuestions())
+    + htmlAutoEvaluation(collecterAutoEvaluation(), collecterRadar());
+
+  const titreComplet = `Compte rendu${tp ? ` ${tp}` : ''} : ${titre}`;
+
+  return `<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>${echapper(titreComplet)}</title>
+<style>${STYLE_IMPRESSION}</style>
+</head>
+<body>
+<header class="cr-entete">
+  <h1>${echapper(titre)}</h1>
+  <p class="cr-tp">TP Acoustique${tp ? ` · ${echapper(tp)}` : ''} · Compte rendu</p>
+</header>
+<div class="cr-identite">${identiteHtml}</div>
+${corps}
+<footer class="cr-pied">Imprimé le ${echapper(dateImpression)}</footer>
+</body>
+</html>`;
+}
+
+/* ==========================================================
+   IMPRESSION (iframe invisible : pas de fenêtre pop-up bloquée)
+   ========================================================== */
+
+function imprimer(documentHtml) {
+  const ancien = document.getElementById('cr-iframe-impression');
+  if (ancien) ancien.remove();
+
+  const iframe = document.createElement('iframe');
+  iframe.id = 'cr-iframe-impression';
+  iframe.setAttribute('aria-hidden', 'true');
+  iframe.style.cssText =
+    'position:fixed;right:0;bottom:0;width:0;height:0;border:0;visibility:hidden;';
+
+  iframe.addEventListener('load', () => {
+    const fenetre = iframe.contentWindow;
+    if (!fenetre) return;
+
+    // Un court délai laisse le moteur de rendu finir la mise en page.
+    setTimeout(() => {
+      fenetre.focus();
+      fenetre.print();
+      // Nettoyage : afterprint n'est pas fiable partout, d'où le délai.
+      setTimeout(() => iframe.remove(), 60000);
+    }, 150);
+  }, { once: true });
+
+  document.body.appendChild(iframe);
+  iframe.srcdoc = documentHtml;
+}
+
+/* ==========================================================
+   POINT D'ENTRÉE
+   ========================================================== */
+
+/**
+ * Câble le bouton « Imprimer le compte-rendu » (#btn-imprimer).
+ *
+ * @param {object}   options
+ * @param {string}   options.titre                  Titre du TP.
+ * @param {string}   options.tp                     Repère (ex. « TP01 »).
+ * @param {Function} options.sectionsSupplementaires  Renvoie les sections de
+ *        mesures, évaluées au moment du clic (valeurs saisies à jour).
+ */
+export function initImpressionCompteRendu({ titre, tp, sectionsSupplementaires } = {}) {
+  const bouton = document.getElementById('btn-imprimer');
+  if (!bouton) return;
+
+  bouton.addEventListener('click', () => {
+    let sections = [];
+
+    try {
+      sections = (sectionsSupplementaires ? sectionsSupplementaires() : []).filter(Boolean);
+    } catch (erreur) {
+      console.error('Compte rendu : erreur dans les sections de mesures', erreur);
+    }
+
+    imprimer(construireDocument({ titre: titre || 'TP Acoustique', tp, sections }));
+  });
 }

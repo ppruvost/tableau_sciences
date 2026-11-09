@@ -1,71 +1,208 @@
 /**
  * ============================================================
- * MATHILAB — Activité Puzzle en onglet (statistiques, géométrie, algorithme)
- * mathilab/js/puzzle-onglet.js
+ * MATHILAB — Module commun « Activités Puzzle »
+ * js/puzzle-onglet.js  (racine du site, partagé par les tp-<domaine>)
+ * ============================================================
+ * Affiche, dans l'onglet « Activités Puzzle » d'un TD, les sujets A, B et C
+ * correspondant à la filière et au niveau choisis dans le menu
+ * « Votre filière professionnelle » (#select-filiere-pro, valeurs « niveau-filiere »,
+ * ex. « 2nde-remi », « 1ere-trpm », « tle-mcc »).
  *
- * Un modèle de TD = { params, build }
- *   params : { 'filiere' | 'niveau-filiere' : {...} }
- *   build(P, niveau, cadre, filiere) →
- *     { A: {contexte, problematique, questions[5], code?}, B: {...}, C: {...} }
- * Les 4 premières questions font progresser ; la 5e répond à la problématique.
+ * Utilisation (dans le JS du TD) :
+ *     import { demarrerPuzzle } from '../../../js/puzzle-onglet.js';
+ *     import { G1 } from './puzzle-geometrie.js';
+ *     demarrerPuzzle(G1);
+ *
+ * Un modèle est un objet { params, build } :
+ *   - params : { <filiere>: ... } données propres à chaque filière ;
+ *   - build(P, N, cad, fil) : renvoie { A, B, C } où chaque sujet est
+ *       { contexte, problematique, questions: [q1, q2, q3, q4, R5], titre? }
+ *     P = params[filière], N = niveau ('2nde' | '1ere' | 'tle'),
+ *     cad = début de phrase « En 2nde REMI », fil = clé de la filière.
+ *   Si une filière n'a pas d'entrée dans params, aucun sujet n'est affiché.
+ *
+ * Le HTML du TD fournit, pour chaque lettre x (a, b, c) :
+ *   #puzzle-sujet-x  .fiche-puzzle[data-titre]  #puzzle-x-contexte
+ *   #puzzle-x-problematique  #puzzle-x-enonce (<ol>)
+ * ainsi que #puzzle-info (message tant qu'aucune filière n'est choisie).
+ * Les cinq questions sont écrites dans #puzzle-x-enonce avec une zone de
+ * réponse pour l'élève (textarea) : elles sont reprises dans le compte rendu.
  * ============================================================
  */
 
-export const CADRES = {
-  remi: "Dans un atelier de maintenance industrielle",
-  gatl: "Dans une entreprise de transport et de logistique",
-  trpm: "Dans un atelier d'usinage",
-  tci: "Dans un atelier de chaudronnerie",
-  mcc: "Dans un atelier de confection",
-  log: "Dans une plateforme logistique",
-  agora: "Dans un service administratif",
+/** Cinquième question de chaque sujet : réponse à la problématique. */
+export const R5 = 'Répondre à la problématique en vous appuyant sur vos résultats.';
+
+/** Formate un nombre à la française (2 décimales au plus par défaut). */
+export const fmt = (n, decimales = 2) =>
+  Number(n).toLocaleString('fr-FR', { maximumFractionDigits: decimales });
+
+const NIVEAUX = { '2nde': '2nde', '1ere': '1ère', 'tle': 'Terminale' };
+const FILIERES = {
+  remi: 'REMI', mcc: 'MCC', gatl: 'GATL', trpm: 'TRPM', tci: 'TCI',
+  log: 'Logistique', agora: 'AGorA',
 };
 
-export const R5 = "Répondre à la problématique par une phrase argumentée, avec l'unité.";
+const MSG_ATTENTE =
+  'Sélectionner votre filière professionnelle dans la section « Contexte professionnel » ci-dessus pour afficher les sujets.';
+const MSG_ABSENT =
+  'Aucun sujet n\'est défini pour cette filière à ce niveau dans ce TD. Choisir une autre filière.';
 
-export function fmt(v) {
-  return (Math.round(v * 100) / 100).toLocaleString('fr-FR', { maximumFractionDigits: 2 });
+function decouper(cle) {
+  const i = cle.indexOf('-');
+  return i < 0 ? { niveau: cle, filiere: '' } : { niveau: cle.slice(0, i), filiere: cle.slice(i + 1) };
 }
 
-const LETTRES = ['a', 'b', 'c'];
-const INFO_DEFAUT = "Sélectionner votre filière professionnelle dans la section « Contexte professionnel » ci-dessus pour afficher les trois sujets.";
-const INFO_SUJETS_BASE = "Organisation en classe puzzle : chaque groupe expert traite un sujet (A, B ou C) avec son propre contexte et sa propre problématique — 4 questions pour progresser, puis une 5e question pour répondre à la problématique.";
-const INFO_SYNTHESE = " En séance 2, les groupes mélangés confrontent leurs résultats dans la synthèse.";
-// La phrase sur la synthèse n'apparaît que si le TD possède encore ce sous-onglet.
-const infoSujets = () => INFO_SUJETS_BASE + (document.getElementById('puzzle-synthese-panel') ? INFO_SYNTHESE : '');
-
-function initSousOnglets() {
-  const barre = document.querySelector('#activites-puzzle .sous-onglets');
-  const panneau = document.getElementById('activites-puzzle');
-  if (!barre || !panneau) return;
-  barre.querySelectorAll('.sous-btn').forEach(btn => btn.addEventListener('click', () => {
-    barre.querySelectorAll('.sous-btn').forEach(x => x.classList.toggle('actif', x === btn));
-    panneau.querySelectorAll('.sous-panel').forEach(p => p.classList.toggle('actif', p.id === btn.dataset.sous));
-  }));
+function viderSujet(lettre) {
+  const l = lettre.toLowerCase();
+  const ctx = document.getElementById(`puzzle-${l}-contexte`);
+  const pb = document.getElementById(`puzzle-${l}-problematique`);
+  const ol = document.getElementById(`puzzle-${l}-enonce`);
+  if (ctx) ctx.textContent = '';
+  if (pb) pb.textContent = '';
+  if (ol) ol.replaceChildren();
 }
 
-export function demarrerPuzzle(modele, selectId = 'select-filiere-pro') {
-  initSousOnglets();
-  const construire = cle => {
-    const [niv, fil] = cle.split('-');
-    const P = modele.params[cle] || modele.params[fil];
-    return P ? modele.build(P, niv, CADRES[fil], fil) : null;
-  };
-  const rendre = cle => {
-    const info = document.getElementById('puzzle-info');
-    const sujets = cle ? construire(cle) : null;
-    LETTRES.forEach(l => {
-      const s = sujets ? sujets[l.toUpperCase()] : null;
-      const set = (id, fn) => { const el = document.getElementById(`puzzle-${l}-${id}`); if (el) fn(el); };
-      set('contexte', el => { el.textContent = s ? s.contexte : ''; });
-      set('problematique', el => { el.innerHTML = s ? `<strong>Problématique :</strong> ${s.problematique}` : ''; });
-      set('enonce', el => { el.innerHTML = s ? s.questions.map(q => `<li>${q}</li>`).join('') : ''; });
-      set('code', el => { if (s && s.code) el.value = s.code; });
+function remplirSujet(lettre, sujet) {
+  const l = lettre.toLowerCase();
+  const ctx = document.getElementById(`puzzle-${l}-contexte`);
+  const pb = document.getElementById(`puzzle-${l}-problematique`);
+  const ol = document.getElementById(`puzzle-${l}-enonce`);
+  if (ctx) ctx.textContent = sujet.contexte || '';
+  if (pb) {
+    pb.textContent = '';
+    if (sujet.problematique) {
+      const fort = document.createElement('strong');
+      fort.textContent = 'Problématique : ';
+      pb.append(fort, document.createTextNode(sujet.problematique));
+    }
+  }
+
+  // Titre fourni par le modèle (facultatif) : fiche, en-tête du sujet
+  if (sujet.titre) {
+    const fiche = document.querySelector(`#puzzle-sujet-${l} .fiche-puzzle`);
+    if (fiche) fiche.dataset.titre = sujet.titre;
+    const entete = document.querySelector(`#puzzle-sujet-${l} .question-entete > strong`);
+    if (entete) entete.textContent = `Sujet ${lettre.toUpperCase()} — ${sujet.titre}`;
+  }
+
+  if (!ol) return;
+  ol.replaceChildren();
+  const questions = Array.isArray(sujet.questions) ? sujet.questions : [];
+  questions.forEach((texte, i) => {
+    const dernier = i === questions.length - 1;
+    const li = document.createElement('li');
+    if (dernier) li.className = 'question-problematique';
+
+    const entete = document.createElement('div');
+    entete.className = 'question-entete';
+    const fort = document.createElement('strong');
+    fort.textContent = texte;
+    entete.appendChild(fort);
+    if (dernier) {
+      const cartouche = document.createElement('span');
+      cartouche.className = 'cartouche';
+      cartouche.dataset.comp = 'COM';
+      cartouche.textContent = 'COM';
+      entete.appendChild(cartouche);
+    }
+
+    const zone = document.createElement('div');
+    zone.className = 'zone-eleve';
+    const champ = document.createElement('textarea');
+    champ.id = `puzzle-${l}-reponse-${i + 1}`;
+    champ.rows = dernier ? 4 : 3;
+    champ.placeholder = dernier ? 'Votre réponse à la problématique...' : 'Votre réponse...';
+    zone.appendChild(champ);
+
+    li.append(entete, zone);
+    ol.appendChild(li);
+  });
+}
+
+/** Sous-onglets Sujet A / B / C : un clic affiche le panneau correspondant. */
+function brancherSousOnglets(racine) {
+  if (!racine || racine.dataset.sousPuzzleModule === '1') return;
+  racine.dataset.sousPuzzleModule = '1';
+  racine.addEventListener('click', (e) => {
+    const btn = e.target.closest('.sous-btn[data-sous]');
+    if (!btn || !racine.contains(btn)) return;
+    racine.querySelectorAll('.sous-btn[data-sous]').forEach((b) => {
+      b.classList.toggle('actif', b === btn);
     });
-    if (info) info.textContent = sujets ? infoSujets() : INFO_DEFAUT;
+    racine.querySelectorAll('.sous-panel').forEach((p) => {
+      const actif = p.id === btn.dataset.sous;
+      p.classList.toggle('actif', actif);
+      p.style.display = actif ? '' : 'none';
+    });
+  });
+}
+
+/**
+ * Démarre l'activité puzzle d'un TD à partir de son modèle.
+ * Réagit au changement du menu « Votre filière professionnelle ».
+ */
+export function demarrerPuzzle(modele) {
+  const select = document.getElementById('select-filiere-pro');
+  const info = document.getElementById('puzzle-info');
+  const racine = document.getElementById('activites-puzzle');
+  if (!modele || typeof modele.build !== 'function') {
+    console.error('[puzzle-onglet] modèle de puzzle invalide');
+    return;
+  }
+
+  brancherSousOnglets(racine);
+
+  const lettresPresentes = () =>
+    ['A', 'B', 'C'].filter((L) => document.getElementById(`puzzle-${L.toLowerCase()}-enonce`));
+
+  const message = (texte) => {
+    if (!info) return;
+    info.textContent = texte;
+    info.hidden = !texte;
+    info.style.display = texte ? '' : 'none';
   };
-  const select = document.getElementById(selectId);
-  if (!select) return;
-  select.addEventListener('change', () => rendre(select.value || null));
-  rendre(select.value || null);
+
+  let derniereCle = null;
+
+  function rafraichir() {
+    const cle = select ? select.value : '';
+    if (cle === derniereCle) return;
+    derniereCle = cle;
+
+    if (!cle) {
+      lettresPresentes().forEach(viderSujet);
+      message(MSG_ATTENTE);
+      return;
+    }
+
+    const { niveau, filiere } = decouper(cle);
+    const P = modele.params ? modele.params[filiere] : undefined;
+    if (!P) {
+      lettresPresentes().forEach(viderSujet);
+      message(MSG_ABSENT);
+      return;
+    }
+
+    try {
+      const cad = `En ${NIVEAUX[niveau] || niveau} ${FILIERES[filiere] || filiere.toUpperCase()}`;
+      const sujets = modele.build(P, niveau, cad, filiere) || {};
+      lettresPresentes().forEach((L) => {
+        if (sujets[L]) remplirSujet(L, sujets[L]); else viderSujet(L);
+      });
+      message('');
+    } catch (err) {
+      console.error('[puzzle-onglet] construction des sujets impossible :', err);
+      lettresPresentes().forEach(viderSujet);
+      message('Les sujets n\'ont pas pu être affichés pour cette filière.');
+    }
+  }
+
+  if (select) {
+    select.addEventListener('change', rafraichir);
+    // Valeur déjà sélectionnée au chargement (retour sur le TD, navigateur qui restaure le choix)
+    rafraichir();
+  } else {
+    message(MSG_ATTENTE);
+  }
 }

@@ -23,3 +23,73 @@
    d'espacement…) sont définis une seule fois dans css/tp.css
    (voir css-a-fusionner-dans-tp.css), recolorés par les 3 variables
    d'accent ci-dessus. */
+
+/* ── Activités Puzzle : sujets A/B/C en lecture seule ─────────────
+   Aucune zone de saisie : les réponses se rédigent dans « Trace écrite -
+   Compte rendu ». Les questions sont numérotées 1 à 5 (compteur CSS),
+   la 5ᵉ répond à la problématique. Couleurs : variables d'accent ci-dessus. */
+.puzzle-sujet {
+  background: #fff;
+  border: 1px solid rgba(var(--domaine-accent-rgb), .25);
+  border-left: 4px solid var(--domaine-accent);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+}
+.puzzle-entete {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  margin-bottom: .75rem;
+}
+.puzzle-problematique {
+  margin: .75rem 0;
+  font-weight: 700;
+  color: var(--domaine-accent-fonce);
+}
+.puzzle-problematique:empty { display: none; }
+.puzzle-questions {
+  list-style: none;
+  counter-reset: puzzle-q;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: .6rem;
+}
+.puzzle-questions > li {
+  counter-increment: puzzle-q;
+  display: flex;
+  align-items: flex-start;
+  gap: .7rem;
+  padding: .6rem .8rem;
+  background: rgba(var(--domaine-accent-rgb), .06);
+  border-radius: 8px;
+  font-weight: 600;
+}
+.puzzle-questions > li::before {
+  content: counter(puzzle-q);
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: var(--domaine-accent-fonce);
+  color: #fff;
+  font-size: .8rem;
+  font-weight: 700;
+}
+.puzzle-questions > li.puzzle-question-finale {
+  border: 1px dashed var(--domaine-accent);
+}
+
+/* Rappel de la problématique sous la question 5 (trace écrite, onglet Puzzle) */
+.puzzle-rappel {
+  margin: .5rem 0 .75rem;
+  padding: .6rem .9rem;
+  border-left: 4px solid var(--domaine-accent);
+  border-radius: 6px;
+  background: rgba(var(--domaine-accent-rgb), .08);
+}
+.puzzle-rappel p { margin: .25rem 0; }
+.puzzle-rappel .puzzle-rappel-vide { font-style: italic; opacity: .85; }

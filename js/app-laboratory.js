@@ -173,7 +173,7 @@ function renderEquipmentTable(data) {
             <td>${eq.nom || "—"}</td>
             <td>${eq.description || "—"}</td>
             <td>${eq.lieu || "—"}</td>
-            <td>${imgTag(full, eq.nom || "equipments", "height:48px;object-fit:contain;", null, 48)}</td>
+            <td>${imgTag(full, eq.nom || "equipments", "width:48px;height:48px;object-fit:contain;", 48, 48)}</td>
         `;
 
         rows.appendChild(tr);
@@ -202,7 +202,7 @@ function renderGlasswareTable(data) {
             <td>${g.nom || "—"}</td>
             <td>${g.contenance_ml ? g.contenance_ml + " mL" : "—"}</td>
             <td>${g.lieu || "—"}</td>
-            <td>${imgTag(full, g.nom || "verrerie", "height:48px;object-fit:contain;", null, 48)}</td>
+            <td>${imgTag(full, g.nom || "verrerie", "width:48px;height:48px;object-fit:contain;", 48, 48)}</td>
         `;
 
         rows.appendChild(tr);

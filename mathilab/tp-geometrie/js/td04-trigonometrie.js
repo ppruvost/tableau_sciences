@@ -16,15 +16,22 @@ import { initZoomVisuels } from '../../../js/zoom-visuel.js';
 import { initSections, initTabs, initModesOperatoires } from '../../../js/utils.js';
 import { initContextePro } from '../../../js/contexte-pro.js';
 import { garantirMenuFiliere } from './filiere-select.js';
-import FILIERES_PRO from '../../data/filieres.js';
+import FILIERES_PRO from '../../../js/filieres.js';
 import { initRadarCompetences } from '../../../js/radar.js';
 import { initOngletsParFiliere } from '../../../js/onglets-filiere.js';
-import { demarrerPuzzle } from '../../../js/puzzle-onglet.js';
 import { initImpressionCompteRendu } from './compte-rendu-geometrie.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
 import { initNavigationTP } from './nav-tp.js';
 import { initOutilsGeoGebra } from './outils-geogebra.js';
 import { G4 } from './puzzle-geometrie.js';
+
+// puzzle-onglet.js : plusieurs emplacements essayés ; s'il est introuvable,
+// seul le puzzle est désactivé (le reste du TD, dont le menu de filière, fonctionne).
+let demarrerPuzzle = () => { console.error('[tp-geometrie] puzzle-onglet.js introuvable : puzzle désactivé'); };
+for (const chemin of ['../../../js/puzzle-onglet.js', '../../js/puzzle-onglet.js']) {
+  try { ({ demarrerPuzzle } = await import(chemin)); break; }
+  catch (err) { console.warn('[tp-geometrie] import impossible :', chemin); }
+}
 
 // 2. Données propres au TD (contextes professionnels, constantes)
 const CONTEXTES_PRO = {
@@ -150,6 +157,38 @@ function filtrerOngletsParFiliere() {
 // Initialisation
 // ============================================================
 
+// ------------------------------------------------------------
+// Sous-onglets Sujet A / B / C de l'onglet « Activités Puzzle ».
+// Fonction locale (aucun import) : ne peut pas empêcher le chargement du module.
+// ------------------------------------------------------------
+function initSousOngletsPuzzle() {
+  const racine = document.getElementById('activites-puzzle');
+  if (!racine || racine.dataset.sousPuzzleInit === '1') return;
+  racine.dataset.sousPuzzleInit = '1';
+
+  const afficher = (id) => {
+    racine.querySelectorAll('.sous-btn[data-sous]').forEach((b) => {
+      const actif = b.dataset.sous === id;
+      b.classList.toggle('actif', actif);
+      b.setAttribute('aria-selected', actif ? 'true' : 'false');
+    });
+    racine.querySelectorAll('.sous-panel').forEach((p) => {
+      const actif = p.id === id;
+      p.classList.toggle('actif', actif);
+      p.style.display = actif ? '' : 'none';
+    });
+  };
+
+  racine.addEventListener('click', (e) => {
+    const btn = e.target.closest('.sous-btn[data-sous]');
+    if (!btn || !racine.contains(btn)) return;
+    afficher(btn.dataset.sous);
+  });
+
+  const initial = racine.querySelector('.sous-btn.actif[data-sous]') || racine.querySelector('.sous-btn[data-sous]');
+  if (initial) afficher(initial.dataset.sous);
+}
+
 /** Une étape en erreur n'empêche jamais les suivantes. */
 function etape(nom, fn) {
   try { fn(); }
@@ -169,6 +208,7 @@ export function init() {
   etape('initContextePro', () => { initContextePro({ afficherProblematique: false, filieres: FILIERES_PRO, contextes: CONTEXTES_PRO }); });
   etape('garantirMenuFiliere', () => { garantirMenuFiliere(CONTEXTES_PRO); });
   etape('demarrerPuzzle', () => { demarrerPuzzle(G4); });
+  etape('initSousOngletsPuzzle', () => { initSousOngletsPuzzle(); });
   etape('initOngletsParFiliere', () => { initOngletsParFiliere(); });
   etape('filtrageOngletsParFiliere', () => { filtrerOngletsParFiliere(); });
   etape('initSections', () => { initSections(); });

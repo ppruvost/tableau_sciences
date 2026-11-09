@@ -1,50 +1,50 @@
 /**
- * ============================================================
- * MATHILAB — GÉOMÉTRIE
- * Questions affichées selon l'onglet actif
  * mathilab/tp-geometrie/js/questions-par-onglet.js
- * ============================================================
- * Convention HTML (section « Trace écrite ») :
- *   <div class="questions-bloc" data-onglet="<id du data-tab>" hidden>
- *     <ol class="questions-tp"> 5 <li> </ol>
- *   </div>
- * Seul le bloc de l'onglet actif est affiché ; si aucun bloc ne
- * correspond, le premier reste visible. La synchronisation se fait au
- * clic ET par observation de la classe « actif » des boutons
- * (changement d'onglet par programme, filtrage par filière).
+ *
+ * Module partagé des TP de géométrie : « Trace écrite et compte rendu ».
+ *
+ * Chaque onglet de manipulation possède son propre bloc de 5 questions
+ * (.questions-bloc[data-onglet="<id de l'onglet>"]) :
+ *   - questions 1 à 4 : objet du TP de l'onglet ;
+ *   - question 5 : problématique de l'onglet (rappel .problematique-rappel
+ *     portant data-activite="<id de l'onglet>", rempli par contexte-pro.js
+ *     à partir de `problematiques` dans CONTEXTES_PRO).
+ *
+ * Ce module n'affiche que le bloc de l'onglet actif. L'impression du
+ * compte-rendu (compte-rendu-geometrie.js) reprend le bloc affiché, et
+ * celui d'un autre onglet seulement s'il contient des réponses.
  */
 
-const SELECTEUR_BOUTONS = '.tabs-header .tab-btn';
-
-/** Identifiant (data-tab) de l'onglet actif, ou null. */
-export function ongletActif() {
-  const bouton = document.querySelector(`${SELECTEUR_BOUTONS}.actif`);
-  return bouton ? bouton.dataset.tab : null;
-}
-
-function blocs() {
-  return [...document.querySelectorAll('.questions-bloc[data-onglet]')];
-}
-
-/** Bloc de questions de l'onglet actif (repli : premier bloc). */
-export function blocOngletActif() {
-  const liste = blocs();
-  const id = ongletActif();
-  return liste.find((bloc) => bloc.dataset.onglet === id) || liste[0] || null;
-}
-
-function synchroniser() {
-  const actif = blocOngletActif();
-  blocs().forEach((bloc) => { bloc.hidden = bloc !== actif; });
-}
-
 export function initQuestionsParOnglet() {
-  const boutons = [...document.querySelectorAll(SELECTEUR_BOUTONS)];
-  boutons.forEach((bouton) => {
-    if (bouton.dataset.questionsLie) return;
-    bouton.dataset.questionsLie = '1';
-    bouton.addEventListener('click', () => setTimeout(synchroniser, 0));
-    new MutationObserver(synchroniser).observe(bouton, { attributes: true, attributeFilter: ['class'] });
-  });
+
+  const blocs = [...document.querySelectorAll('.questions-bloc[data-onglet]')];
+  const boutons = [...document.querySelectorAll('.tabs-header .tab-btn')];
+
+  if (!blocs.length) return;
+
+  const synchroniser = () => {
+
+    const actif = boutons.find(b => b.classList.contains('actif'));
+    const onglet = actif ? actif.dataset.tab : blocs[0].dataset.onglet;
+
+    // Onglet sans jeu de questions propre : on garde le premier bloc.
+    const cible = blocs.some(b => b.dataset.onglet === onglet)
+      ? onglet
+      : blocs[0].dataset.onglet;
+
+    blocs.forEach(bloc => {
+      const visible = bloc.dataset.onglet === cible;
+      bloc.hidden = !visible;
+      bloc.style.display = visible ? '' : 'none';
+    });
+  };
+
+  // initTabs() peut changer d'onglet par clic ou programmatiquement
+  // (initOngletsParFiliere) : on suit les deux.
+  boutons.forEach(b => b.addEventListener('click', () => setTimeout(synchroniser, 0)));
+
+  const observateur = new MutationObserver(synchroniser);
+  boutons.forEach(b => observateur.observe(b, { attributes: true, attributeFilter: ['class'] }));
+
   synchroniser();
 }
