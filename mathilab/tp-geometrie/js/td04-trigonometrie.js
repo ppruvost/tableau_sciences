@@ -21,6 +21,7 @@ import { initRadarCompetences } from '../../../js/radar.js';
 import { initOngletsParFiliere } from '../../../js/onglets-filiere.js';
 import { initImpressionCompteRendu } from './compte-rendu-geometrie.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
+import { initPuzzleAffichage } from './puzzle-affichage.js';
 import { initNavigationTP } from './nav-tp.js';
 import { initOutilsGeoGebra } from './outils-geogebra.js';
 import { G4 } from './puzzle-geometrie.js';
@@ -208,6 +209,7 @@ export function init() {
   etape('initContextePro', () => { initContextePro({ afficherProblematique: false, filieres: FILIERES_PRO, contextes: CONTEXTES_PRO }); });
   etape('garantirMenuFiliere', () => { garantirMenuFiliere(CONTEXTES_PRO); });
   etape('demarrerPuzzle', () => { demarrerPuzzle(G4); });
+  etape('initPuzzleAffichage', () => { initPuzzleAffichage(); });
   etape('initSousOngletsPuzzle', () => { initSousOngletsPuzzle(); });
   etape('initOngletsParFiliere', () => { initOngletsParFiliere(); });
   etape('filtrageOngletsParFiliere', () => { filtrerOngletsParFiliere(); });
