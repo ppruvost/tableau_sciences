@@ -21,18 +21,10 @@ import { initRadarCompetences } from '../../../js/radar.js';
 import { initOngletsParFiliere } from '../../../js/onglets-filiere.js';
 import { initImpressionCompteRendu } from './compte-rendu-geometrie.js';
 import { initQuestionsParOnglet } from './questions-par-onglet.js';
-import { initPuzzleAffichage } from './puzzle-affichage.js';
 import { initNavigationTP } from './nav-tp.js';
 import { initOutilsGeoGebra } from './outils-geogebra.js';
 import { G2 } from './puzzle-geometrie.js';
-
-// puzzle-onglet.js : plusieurs emplacements essayés ; s'il est introuvable,
-// seul le puzzle est désactivé (le reste du TD, dont le menu de filière, fonctionne).
-let demarrerPuzzle = () => { console.error('[tp-geometrie] puzzle-onglet.js introuvable : puzzle désactivé'); };
-for (const chemin of ['../../../js/puzzle-onglet.js', '../../js/puzzle-onglet.js']) {
-  try { ({ demarrerPuzzle } = await import(chemin)); break; }
-  catch (err) { console.warn('[tp-geometrie] import impossible :', chemin); }
-}
+import { demarrerPuzzle } from '../../../js/puzzle-onglet.js';
 
 // 2. Données propres au TD (contextes professionnels, constantes)
 const CONTEXTES_PRO = {
@@ -73,41 +65,47 @@ const CONTEXTES_PRO = {
   }
 };
 
+// Questions de « Trace écrite » pour l'onglet « Activités Puzzle », par sujet.
+// Même structure que les onglets 1 et 2 : 4 questions de progression
+// (APP, REA, ANA, VAL) + la 5e (COM) qui reprend la problématique du sujet.
+// La problématique n'est pas dupliquée ici : demarrerPuzzle() la prend dans le
+// sujet du modèle G2 (niveau + filière) et la reporte à la question 5.
+const QUESTIONS_PUZZLE = {
+  a: {
+    titre: 'Section d’un cube',
+    questions: [
+      "Rappeler la définition de la section d’un solide par un plan et nommer le polygone obtenu en coupant le cube par le plan (PQR).",
+      "Relever le nombre de côtés de la section, la longueur d’un côté et l’aire de la section (outils Distance et Aire de GéoGébra), avec les unités.",
+      "Expliquer pourquoi la section d’un cube par un plan peut avoir de 3 à 6 côtés selon la position des points P, Q et R.",
+      "Vérifier la longueur d’un côté de la section par le théorème de Pythagore dans une face du cube et la comparer à la mesure de GéoGébra.",
+      "Répondre à la problématique du sujet A (rappelée ci-dessous) en vous appuyant sur vos résultats :"
+    ]
+  },
+  b: {
+    titre: 'Section d’un cylindre',
+    questions: [
+      "Nommer la nature de la section d’un cylindre par un plan perpendiculaire à l’axe, puis par un plan parallèle à l’axe.",
+      "Donner le rayon de la section horizontale, puis la largeur et la hauteur du rectangle de la section verticale (plan x = 1), avec les unités.",
+      "Expliquer pourquoi la section horizontale ne dépend pas de la hauteur du plan, alors que la largeur du rectangle dépend de la distance du plan à l’axe.",
+      "Vérifier la largeur du rectangle par le théorème de Pythagore dans le disque de base (demi-largeur = √(r² − d²), avec d = 1) et la comparer à la mesure de GéoGébra.",
+      "Répondre à la problématique du sujet B (rappelée ci-dessous) en vous appuyant sur vos résultats :"
+    ]
+  },
+  c: {
+    titre: 'Solide composé',
+    questions: [
+      "Nommer les solides usuels qui composent le solide construit et rappeler leurs formules de volume.",
+      "Donner le volume du cylindre, celui du cône et le volume total du solide composé, avec l’unité.",
+      "Expliquer comment le solide se décompose en solides usuels et pourquoi son volume est la somme des volumes de ses parties.",
+      "Vérifier chaque volume en le recalculant avec les formules (cylindre : π × r² × h ; cône : π × r² × h ÷ 3) et le comparer au résultat de GéoGébra.",
+      "Répondre à la problématique du sujet C (rappelée ci-dessous) en vous appuyant sur vos résultats :"
+    ]
+  }
+};
+
 // ============================================================
 // Initialisation
 // ============================================================
-
-// ------------------------------------------------------------
-// Sous-onglets Sujet A / B / C de l'onglet « Activités Puzzle ».
-// Fonction locale (aucun import) : ne peut pas empêcher le chargement du module.
-// ------------------------------------------------------------
-function initSousOngletsPuzzle() {
-  const racine = document.getElementById('activites-puzzle');
-  if (!racine || racine.dataset.sousPuzzleInit === '1') return;
-  racine.dataset.sousPuzzleInit = '1';
-
-  const afficher = (id) => {
-    racine.querySelectorAll('.sous-btn[data-sous]').forEach((b) => {
-      const actif = b.dataset.sous === id;
-      b.classList.toggle('actif', actif);
-      b.setAttribute('aria-selected', actif ? 'true' : 'false');
-    });
-    racine.querySelectorAll('.sous-panel').forEach((p) => {
-      const actif = p.id === id;
-      p.classList.toggle('actif', actif);
-      p.style.display = actif ? '' : 'none';
-    });
-  };
-
-  racine.addEventListener('click', (e) => {
-    const btn = e.target.closest('.sous-btn[data-sous]');
-    if (!btn || !racine.contains(btn)) return;
-    afficher(btn.dataset.sous);
-  });
-
-  const initial = racine.querySelector('.sous-btn.actif[data-sous]') || racine.querySelector('.sous-btn[data-sous]');
-  if (initial) afficher(initial.dataset.sous);
-}
 
 /** Une étape en erreur n'empêche jamais les suivantes. */
 function etape(nom, fn) {
@@ -117,18 +115,16 @@ function etape(nom, fn) {
 
 /**
  * Point d'entrée du TD (appelé par navigation.js).
- * Ordre : zoom → outils → onglets du TD → contexte pro → puzzle →
- * filtrage par filière → sections → onglets → modes opératoires → radar →
- * questions par onglet → navigation TD → impression.
+ * Ordre : zoom → outils → contexte pro → menu filière → puzzle (contextes et
+ * problématiques) → filtrage par filière → sections → onglets → modes opératoires →
+ * radar → questions par onglet → navigation TD → impression.
  */
 export function init() {
   etape('initZoomVisuels', () => { initZoomVisuels(); });
   etape('initOutilsGeoGebra', () => { initOutilsGeoGebra(); });
   etape('initContextePro', () => { initContextePro({ afficherProblematique: false, filieres: FILIERES_PRO, contextes: CONTEXTES_PRO }); });
   etape('garantirMenuFiliere', () => { garantirMenuFiliere(CONTEXTES_PRO); });
-  etape('demarrerPuzzle', () => { demarrerPuzzle(G2); });
-  etape('initPuzzleAffichage', () => { initPuzzleAffichage(); });
-  etape('initSousOngletsPuzzle', () => { initSousOngletsPuzzle(); });
+  etape('demarrerPuzzle', () => { demarrerPuzzle(G2, { questionsEcrites: QUESTIONS_PUZZLE }); });
   etape('initOngletsParFiliere', () => { initOngletsParFiliere(); });
   etape('initSections', () => { initSections(); });
   etape('initTabs', () => { initTabs(); });
