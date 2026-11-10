@@ -8,60 +8,101 @@
  * ============================================================
  */
 
-import FILIERES_PRO from '../../data/filieres.js';
-import { initContextePro } from '../../js/contexte-pro.js';
+import FILIERES_PRO from '../../../js/filieres.js';
+import { initContextePro } from '../../../js/contexte-pro.js';
 import {
   dessinerCourbe, trouverIntersections, intervallesInequation,
   fonctionPolynomeFactorisee, caracteristiquesParabole, deuxiemeRacine, evaluerPolynomeDegre2,
   deriveePolynomeDegre2, equationTangente, fonctionInverse,
   evaluerPolynomeDegre3, deriveePolynomeDegre3, resoudreTrinome, tableauVariationsDegre3,
-} from '../../js/algebre.js';
-import { initRadarCompetences } from '../../js/radar.js';
+} from '../../../js/algebre.js';
+import { initRadarCompetences } from '../../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-algebre.js';
-import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
+import { initOngletsParFiliere } from '../../../js/onglets-filiere.js';
+import { initZoomVisuels } from '../../../js/zoom-visuel.js';
+import { initSections, initTabs, initModesOperatoires } from '../../../js/utils.js';
+import { garantirMenuFiliere } from './filiere-select.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
+import { initPuzzleAffichage } from './puzzle-affichage.js';
+import { initNavigationTP } from './nav-tp.js';
 
 import { initPuzzle, CADRES, fmt, polynome } from './puzzle-algebre.js';
 
 const CONTEXTES_TD03 = {
   '1ere-trpm': {
     contexte: "Lors d'une opération d'usinage sur tour ou fraiseuse, le volume de matière enlevée sur une pièce mécanique évolue en fonction d'une dimension de passe selon une fonction polynôme de degré 2 ou 3.",
-    problematique: "Pour quelles dimensions le volume de matière enlevée (ou le coût de production associé) reste-t-il dans une plage acceptable ?",
+    problematiques: {
+      'resolution-graphique': "Pour quelles dimensions de passe le volume de matière enlevée est-il égal à une valeur de référence ?",
+      'polynomes-degre2': "Pour quelle dimension de passe le volume de matière enlevée est-il extrémal, et pour quelles valeurs s'annule-t-il ?",
+      'derivation-variations': "Comment varie le volume de matière enlevée selon la dimension de passe, et où atteint-il son extremum ?",
+    },
   },
   '1ere-tci': {
     contexte: "Lors du façonnage d'une pièce chaudronnée, la surface de tôle développée nécessaire évolue en fonction d'une dimension de la pièce selon une fonction polynôme de degré 2 ; l'effort de cintrage évolue avec l'angle de pliage.",
-    problematique: "Pour quelles dimensions la surface de tôle nécessaire reste-t-elle dans une plage acceptable, et pour quel angle l'effort de cintrage est-il minimal ?",
+    problematiques: {
+      'resolution-graphique': "Pour quelles dimensions la surface de tôle nécessaire est-elle égale à la surface disponible ?",
+      'polynomes-degre2': "Pour quelle dimension la surface de tôle est-elle extrémale, et où la courbe coupe-t-elle l'axe des abscisses ?",
+      'derivation-variations': "Comment varie l'effort de cintrage selon l'angle, et pour quel angle est-il minimal ?",
+    },
   },
   '1ere-mcc': {
     contexte: "Le coût de production d'une petite série de vêtements évolue en fonction du nombre de pièces confectionnées selon une fonction polynôme de degré 2 ou 3.",
-    problematique: "Pour quelle quantité de pièces produites le coût de production est-il minimal, et reste-t-il dans une plage acceptable pour la rentabilité de l'atelier ?",
+    problematiques: {
+      'resolution-graphique': "Pour quelle quantité de pièces le coût de production est-il égal à la recette de la série ?",
+      'polynomes-degre2': "Pour quelle quantité de pièces le coût de production est-il minimal ?",
+      'derivation-variations': "Comment varie le coût de production avec la quantité de pièces, et pour quelle quantité est-il minimal ?",
+    },
   },
   '1ere-log': {
     contexte: "Le coût global d'une tournée de livraison évolue en fonction du nombre de points de livraison desservis selon une fonction polynôme de degré 2 ou 3.",
-    problematique: "Pour quel nombre de points de livraison le coût global de la tournée est-il minimal ?",
+    problematiques: {
+      'resolution-graphique': "Pour quel nombre de points de livraison le coût de la tournée est-il égal au budget prévu ?",
+      'polynomes-degre2': "Pour quel nombre de points le coût global de la tournée est-il minimal ?",
+      'derivation-variations': "Comment varie le coût global de la tournée selon le nombre de points, et où est-il minimal ?",
+    },
   },
   '1ere-agora': {
     contexte: "Le résultat financier d'une structure administrative évolue en fonction du nombre de dossiers traités selon une fonction polynôme de degré 2 ou 3.",
-    problematique: "Pour quel nombre de dossiers traités le résultat financier est-il optimal, tout en restant dans une plage acceptable pour l'équilibre budgétaire ?",
+    problematiques: {
+      'resolution-graphique': "Pour quel nombre de dossiers traités le résultat financier est-il égal au seuil d'équilibre ?",
+      'polynomes-degre2': "Pour quel nombre de dossiers traités le résultat financier est-il optimal ?",
+      'derivation-variations': "Comment varie le résultat financier selon le nombre de dossiers, et où est-il optimal ?",
+    },
   },
   'tle-trpm': {
     contexte: "Lors d'une opération d'usinage, le coût de fabrication d'une série de pièces évolue avec la quantité produite selon une fonction polynôme de degré 3, avec un minimum local à identifier.",
-    problematique: "Pour quelle quantité de pièces produites le coût de fabrication est-il minimal ?",
+    problematiques: {
+      'fonction-cube': "Comment évolue le coût de fabrication lorsque la quantité de pièces produites augmente, et que nous apprend la fonction cube sur ce comportement ?",
+      'polynome-degre3': "Pour quelle quantité de pièces produites le coût de fabrication est-il minimal ?",
+    },
   },
   'tle-tci': {
     contexte: "En chaudronnerie, le coût de fabrication d'une série de pièces évolue avec la quantité produite selon une fonction polynôme de degré 3, avec un minimum local à identifier.",
-    problematique: "Pour quelle quantité de pièces produites le coût de fabrication est-il minimal ?",
+    problematiques: {
+      'fonction-cube': "Comment évolue le coût de fabrication lorsque la quantité de pièces produites augmente, et que nous apprend la fonction cube sur ce comportement ?",
+      'polynome-degre3': "Pour quelle quantité de pièces produites le coût de fabrication est-il minimal ?",
+    },
   },
   'tle-mcc': {
     contexte: "En confection, le coût de fabrication d'une série de pièces évolue avec la quantité produite selon une fonction polynôme de degré 3, avec un minimum local à identifier.",
-    problematique: "Pour quelle quantité de pièces produites le coût de fabrication est-il minimal ?",
+    problematiques: {
+      'fonction-cube': "Comment évolue le coût de fabrication lorsque la quantité de pièces produites augmente, et que nous apprend la fonction cube sur ce comportement ?",
+      'polynome-degre3': "Pour quelle quantité de pièces produites le coût de fabrication est-il minimal ?",
+    },
   },
   'tle-log': {
     contexte: "En logistique, le coût global d'une tournée évolue avec le nombre de points desservis selon une fonction polynôme de degré 3, avec un minimum local à identifier.",
-    problematique: "Pour quel nombre de points desservis le coût de la tournée est-il minimal ?",
+    problematiques: {
+      'fonction-cube': "Comment évolue le coût de la tournée lorsque le nombre de points desservis augmente, et que nous apprend la fonction cube sur ce comportement ?",
+      'polynome-degre3': "Pour quel nombre de points desservis le coût de la tournée est-il minimal ?",
+    },
   },
   'tle-agora': {
     contexte: "Dans une structure administrative, le coût de gestion évolue avec le nombre de dossiers traités selon une fonction polynôme de degré 3, avec un minimum local à identifier.",
-    problematique: "Pour quel nombre de dossiers traités le coût de gestion est-il minimal ?",
+    problematiques: {
+      'fonction-cube': "Comment évolue le coût de gestion lorsque le nombre de dossiers traités augmente, et que nous apprend la fonction cube sur ce comportement ?",
+      'polynome-degre3': "Pour quel nombre de dossiers traités le coût de gestion est-il minimal ?",
+    },
   },
 };
 
@@ -436,20 +477,34 @@ function initPolynomeDegre3() {
 }
 
 /* ============================================================
-   INITIALISATION
+   INITIALISATION — point d'entrée appelé par navigation.js
    ============================================================ */
 
-initOngletsParFiliere();
-initContextePro({ filieres: FILIERES_PRO, contextes: CONTEXTES_TD03 });
+/** Une étape en erreur n'empêche jamais les suivantes. */
+function etape(nom, fn) {
+  try { fn(); }
+  catch (err) { console.error(`[tp-algebre] étape « ${nom} » en erreur :`, err); }
+}
 
-initResolutionGraphique();
-initPolynomesDegre2();
-initDerivationVariations();
-
-initFonctionCube();
-initPolynomeDegre3();
-
-initPuzzle(construirePuzzleTD03);
-
-initRadarCompetences();
-initImpressionCompteRendu({ titre: 'Étudier des fonctions', tp: 'TD03' });
+export function init() {
+  etape('initZoomVisuels', () => { initZoomVisuels(); });
+  etape('initContextePro', () => { initContextePro({ afficherProblematique: false, filieres: FILIERES_PRO, contextes: CONTEXTES_TD03 }); });
+  etape('garantirMenuFiliere', () => { garantirMenuFiliere(CONTEXTES_TD03); });
+  etape('initPuzzle', () => { initPuzzle(construirePuzzleTD03); });
+  etape('initPuzzleAffichage', () => { initPuzzleAffichage(); });
+  etape('initOngletsParFiliere', () => { initOngletsParFiliere(); });
+  etape('initSections', () => { initSections(); });
+  etape('initTabs', () => { initTabs(); });
+  etape('initModesOperatoires', () => { initModesOperatoires(); });
+  etape('initResolutionGraphique', () => { initResolutionGraphique(); });
+  etape('initPolynomesDegre2', () => { initPolynomesDegre2(); });
+  etape('initDerivationVariations', () => { initDerivationVariations(); });
+  etape('initFonctionCube', () => { initFonctionCube(); });
+  etape('initPolynomeDegre3', () => { initPolynomeDegre3(); });
+  etape('initRadarCompetences', () => { initRadarCompetences(); });
+  etape('initQuestionsParOnglet', () => { initQuestionsParOnglet(); });
+  etape('initNavigationTP', () => { initNavigationTP(); });
+  etape('initImpressionCompteRendu', () => {
+    initImpressionCompteRendu({ titre: "Étudier des fonctions", tp: 'TD03' });
+  });
+}
