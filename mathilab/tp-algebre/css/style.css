@@ -1,12 +1,14 @@
-/* ── Tokens globaux, composants TP, impression ────────────────── */
-@import url("../../css/global.css");
-@import url("../../css/tp.css");
+/* ── Tokens globaux, composants TP, impression ───────────────── */
+@import url("../../../css/global.css");
+@import url("../../../css/reset.css");
+@import url("../../../css/tp.css");
+@import url("../../../css/animations.css");
 @import url("../../../css/print.css");
 
 /* ── Overrides communs à tous les domaines (header, nav, cartes,
    tableaux, EPI, radar, graphique...) — paramétrés par les variables
    de couleur ci-dessous ── */
-@import url("../../css/domaine.css");
+@import url("../../../css/domaine.css");
 
 /* ════════════════════════════════════════════════════════════════
    IDENTITÉ DU DOMAINE ALGÈBRE – ANALYSE (MathiLab)
@@ -17,7 +19,7 @@
 :root {
   --domaine-accent:       #1B6CA8;
   --domaine-accent-fonce: #0D4F8A;
-  --domaine-accent-rgb:   57, 73, 171;
+  --domaine-accent-rgb:   27, 108, 168;
 }
 
 /* Tout le reste (header, nav, cartes, formulaires, tableaux, EPI,
@@ -239,3 +241,73 @@
 /* Trace écrite : blocs de questions masqués selon l'activité réalisée */
 .questions-bloc[hidden] { display:none !important; }
 #activite-realisee { width:100%; max-width:34rem; }
+
+/* ── Activités Puzzle : sujets A/B/C en lecture seule ─────────────
+   Aucune zone de saisie : les réponses se rédigent dans « Trace écrite -
+   Compte rendu ». Les questions sont numérotées 1 à 5 (compteur CSS),
+   la 5ᵉ répond à la problématique. Couleurs : variables d'accent ci-dessus. */
+.puzzle-sujet {
+  background: #fff;
+  border: 1px solid rgba(var(--domaine-accent-rgb), .25);
+  border-left: 4px solid var(--domaine-accent);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+}
+.puzzle-entete {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  margin-bottom: .75rem;
+}
+.puzzle-problematique {
+  margin: .75rem 0;
+  font-weight: 700;
+  color: var(--domaine-accent-fonce);
+}
+.puzzle-problematique:empty { display: none; }
+.puzzle-questions {
+  list-style: none;
+  counter-reset: puzzle-q;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: .6rem;
+}
+.puzzle-questions > li {
+  counter-increment: puzzle-q;
+  display: flex;
+  align-items: flex-start;
+  gap: .7rem;
+  padding: .6rem .8rem;
+  background: rgba(var(--domaine-accent-rgb), .06);
+  border-radius: 8px;
+  font-weight: 600;
+}
+.puzzle-questions > li::before {
+  content: counter(puzzle-q);
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: var(--domaine-accent-fonce);
+  color: #fff;
+  font-size: .8rem;
+  font-weight: 700;
+}
+.puzzle-questions > li.puzzle-question-finale {
+  border: 1px dashed var(--domaine-accent);
+}
+
+/* Rappel de la problématique sous la question 5 (trace écrite, onglet Puzzle) */
+.puzzle-rappel {
+  margin: .5rem 0 .75rem;
+  padding: .6rem .9rem;
+  border-left: 4px solid var(--domaine-accent);
+  border-radius: 6px;
+  background: rgba(var(--domaine-accent-rgb), .08);
+}
+.puzzle-rappel p { margin: .25rem 0; }
+.puzzle-rappel .puzzle-rappel-vide { font-style: italic; opacity: .85; }
