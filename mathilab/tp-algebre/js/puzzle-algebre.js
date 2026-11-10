@@ -1,13 +1,16 @@
 /**
  * ============================================================
  * MATHILAB — ALGÈBRE / ANALYSE
- * Activité Puzzle : rendu commun (sous-onglets Sujet A / B / C / Synthèse)
+ * Activité Puzzle : rendu commun (sous-onglets Sujet A / B / C, lecture seule)
  * mathilab/tp-algebre/js/puzzle-algebre.js
  *
  * Chaque TD fournit une fonction construire(cle) qui renvoie
  *   { A: {contexte, problematique, questions[5]}, B: {...}, C: {...} }
  * (clé = « niveau-filière », ex. '1ere-trpm') ou null.
  * Les 4 premières questions font progresser, la 5e répond à la problématique.
+ * Aucune zone de saisie dans les sujets : les réponses se rédigent dans
+ * « Trace écrite - Compte rendu » (question 5 de l'onglet « Activités Puzzle »,
+ * rappel de la problématique du sujet actif par puzzle-affichage.js).
  * ============================================================
  */
 
@@ -39,35 +42,97 @@ export function polynome(coefs) {
 }
 
 const LETTRES = ['a', 'b', 'c'];
-const INFO_DEFAUT = "Sélectionner votre filière professionnelle dans la section « Contexte professionnel » ci-dessus pour afficher les trois sujets.";
-const INFO_SUJETS = "Chaque sujet (A, B, C) a son propre contexte et sa propre problématique : 4 questions pour progresser, puis une 5e question pour répondre à la problématique.";
+const MSG_ATTENTE = "Sélectionner votre filière professionnelle dans la section « Contexte professionnel » ci-dessus pour afficher les sujets.";
+const MSG_ABSENT = "Aucun sujet n'est défini pour cette filière à ce niveau dans ce TD. Choisir une autre filière.";
 
+/**
+ * Sous-onglets Sujet A / B / C : un seul écouteur délégué, affichage explicite
+ * des panneaux (classe « actif » + display), indépendant du reste du TD.
+ */
 function initSousOnglets() {
-  const barre = document.querySelector('#activites-puzzle .sous-onglets');
-  const panneau = document.getElementById('activites-puzzle');
-  if (!barre || !panneau) return;
-  barre.querySelectorAll('.sous-btn').forEach(btn => btn.addEventListener('click', () => {
-    barre.querySelectorAll('.sous-btn').forEach(x => x.classList.toggle('actif', x === btn));
-    panneau.querySelectorAll('.sous-panel').forEach(p => p.classList.toggle('actif', p.id === btn.dataset.sous));
-  }));
+  const racine = document.getElementById('activites-puzzle');
+  if (!racine || racine.dataset.sousPuzzleInit === '1') return;
+  racine.dataset.sousPuzzleInit = '1';
+
+  const afficher = (id) => {
+    racine.querySelectorAll('.sous-btn[data-sous]').forEach((b) => {
+      const actif = b.dataset.sous === id;
+      b.classList.toggle('actif', actif);
+      b.setAttribute('aria-selected', actif ? 'true' : 'false');
+    });
+    racine.querySelectorAll('.sous-panel').forEach((p) => {
+      const actif = p.id === id;
+      p.classList.toggle('actif', actif);
+      p.style.display = actif ? '' : 'none';
+    });
+  };
+
+  racine.addEventListener('click', (e) => {
+    const btn = e.target.closest('.sous-btn[data-sous]');
+    if (!btn || !racine.contains(btn)) return;
+    afficher(btn.dataset.sous);
+  });
+
+  const initial = racine.querySelector('.sous-btn.actif[data-sous]') || racine.querySelector('.sous-btn[data-sous]');
+  if (initial) afficher(initial.dataset.sous);
+}
+
+function message(texte) {
+  const info = document.getElementById('puzzle-info');
+  if (!info) return;
+  info.textContent = texte;
+  info.hidden = !texte;
+  info.style.display = texte ? '' : 'none';
+}
+
+function remplirSujet(lettre, sujet) {
+  const ctx = document.getElementById(`puzzle-${lettre}-contexte`);
+  const prb = document.getElementById(`puzzle-${lettre}-problematique`);
+  const ol = document.getElementById(`puzzle-${lettre}-enonce`);
+
+  if (ctx) ctx.textContent = sujet ? sujet.contexte : '';
+
+  if (prb) {
+    prb.textContent = '';
+    if (sujet && sujet.problematique) {
+      const fort = document.createElement('strong');
+      fort.textContent = 'Problématique : ';
+      prb.append(fort, document.createTextNode(sujet.problematique));
+    }
+  }
+
+  if (!ol) return;
+  ol.replaceChildren();
+  const questions = sujet && Array.isArray(sujet.questions) ? sujet.questions : [];
+  questions.forEach((texte, i) => {
+    const li = document.createElement('li');
+    li.textContent = texte;
+    if (i === questions.length - 1) li.className = 'puzzle-question-finale';
+    ol.appendChild(li);
+  });
 }
 
 export function initPuzzle(construire, selectId = 'select-filiere-pro') {
   initSousOnglets();
-  const rendre = cle => {
-    const info = document.getElementById('puzzle-info');
-    const sujets = cle ? construire(cle) : null;
-    LETTRES.forEach(l => {
-      const s = sujets ? sujets[l.toUpperCase()] : null;
-      const ctx = document.getElementById(`puzzle-${l}-contexte`);
-      const prb = document.getElementById(`puzzle-${l}-problematique`);
-      const qs = document.getElementById(`puzzle-${l}-enonce`);
-      if (ctx) ctx.textContent = s ? s.contexte : '';
-      if (prb) prb.innerHTML = s ? `<strong>Problématique :</strong> ${s.problematique}` : '';
-      if (qs) qs.innerHTML = s ? s.questions.map(q => `<li>${q}</li>`).join('') : '';
-    });
-    if (info) info.textContent = sujets ? INFO_SUJETS : INFO_DEFAUT;
+
+  const rendre = (cle) => {
+    if (!cle) {
+      LETTRES.forEach((l) => remplirSujet(l, null));
+      message(MSG_ATTENTE);
+      return;
+    }
+    let sujets = null;
+    try { sujets = construire(cle); }
+    catch (err) { console.error('[tp-algebre] construction des sujets impossible :', err); }
+    if (!sujets) {
+      LETTRES.forEach((l) => remplirSujet(l, null));
+      message(MSG_ABSENT);
+      return;
+    }
+    LETTRES.forEach((l) => remplirSujet(l, sujets[l.toUpperCase()] || null));
+    message('');
   };
+
   const select = document.getElementById(selectId);
   if (!select) return;
   select.addEventListener('change', () => rendre(select.value || null));
