@@ -6,15 +6,15 @@
  * ============================================================
  */
 
-import FILIERES_PRO from '../../data/filieres.js';
+import FILIERES_PRO from '../../../js/filieres.js';
 
 import {
   initContextePro
-} from '../../js/contexte-pro.js';
+} from '../../../js/contexte-pro.js';
 
 import {
   initRadarCompetences
-} from '../../js/radar.js';
+} from '../../../js/radar.js';
 
 import {
   initImpressionCompteRendu
@@ -22,53 +22,47 @@ import {
 
 import {
   initOngletsParFiliere
-} from '../../js/onglets-filiere.js';
+} from '../../../js/onglets-filiere.js';
+import { initZoomVisuels } from '../../../js/zoom-visuel.js';
+import { initSections, initTabs, initModesOperatoires } from '../../../js/utils.js';
+import { garantirMenuFiliere } from './filiere-select.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
+import { initPuzzleAffichage } from './puzzle-affichage.js';
+import { initNavigationTP } from './nav-tp.js';
+import { initPuzzle } from './puzzle-algebre.js';
 
 /* ============================================================
    CONTEXTES PROFESSIONNELS — TD01 (2nde)
    ============================================================ */
 
 const CONTEXTES_TD01 = {
-
   '2nde-remi': {
-
-    contexte:
-      "Dans un atelier de maintenance industrielle, une intervention " +
-      "sur une machine est facturée avec des frais de déplacement " +
-      "fixes, auxquels s'ajoute un tarif horaire.",
-
-    problematique:
-      "Comment déterminer la durée d'une intervention à partir du " +
-      "montant total d'une facture ?"
-
+    contexte: "Dans un atelier de maintenance industrielle, une intervention sur une machine est facturée avec des frais de déplacement fixes, auxquels s'ajoute un tarif horaire.",
+    problematiques: {
+      'tab-equation': "Quelle valeur de la durée d'une intervention correspond exactement à le montant de la facture donné ?",
+      'tab-inequation': "Quelle valeur maximale de la durée d'une intervention ne dépasse pas le budget de maintenance fixé ?",
+      'tab-intervalles': "Comment exprimer par un intervalle l'ensemble des valeurs de la durée d'une intervention compatibles avec le budget de maintenance ?",
+      'tab-probleme': "Comment traduire par une équation le montant de la facture pour retrouver la durée d'une intervention ?",
+    },
   },
-
   '2nde-mcc': {
-
-    contexte:
-      "Dans un atelier de confection, un contrôle qualité est facturé " +
-      "avec un forfait de mise en route auquel s'ajoute un tarif par " +
-      "pièce contrôlée.",
-
-    problematique:
-      "Comment déterminer le nombre de pièces contrôlées à partir du " +
-      "montant total d'une facture ?"
-
+    contexte: "Dans un atelier de confection, un contrôle qualité est facturé avec un forfait de mise en route auquel s'ajoute un tarif par pièce contrôlée.",
+    problematiques: {
+      'tab-equation': "Quelle valeur de le nombre de pièces contrôlées correspond exactement à le montant de la facture donné ?",
+      'tab-inequation': "Quelle valeur maximale de le nombre de pièces contrôlées ne dépasse pas le budget du contrôle qualité fixé ?",
+      'tab-intervalles': "Comment exprimer par un intervalle l'ensemble des valeurs de le nombre de pièces contrôlées compatibles avec le budget du contrôle qualité ?",
+      'tab-probleme': "Comment traduire par une équation le montant de la facture pour retrouver le nombre de pièces contrôlées ?",
+    },
   },
-
   '2nde-gatl': {
-
-    contexte:
-      "Dans le domaine du transport et de la logistique, un trajet est " +
-      "facturé avec des frais de prise en charge fixes, auxquels " +
-      "s'ajoute un tarif kilométrique.",
-
-    problematique:
-      "Comment déterminer la distance parcourue à partir du montant " +
-      "total d'une facture de transport ?"
-
-  }
-
+    contexte: "Dans le domaine du transport et de la logistique, un trajet est facturé avec des frais de prise en charge fixes, auxquels s'ajoute un tarif kilométrique.",
+    problematiques: {
+      'tab-equation': "Quelle valeur de la distance parcourue correspond exactement à le montant de la facture de transport donné ?",
+      'tab-inequation': "Quelle valeur maximale de la distance parcourue ne dépasse pas le budget de transport fixé ?",
+      'tab-intervalles': "Comment exprimer par un intervalle l'ensemble des valeurs de la distance parcourue compatibles avec le budget de transport ?",
+      'tab-probleme': "Comment traduire par une équation le montant de la facture de transport pour retrouver la distance parcourue ?",
+    },
+  },
 };
 
 /* ============================================================
@@ -675,93 +669,64 @@ function initOngletProbleme() {
    ACTIVITÉS PUZZLE — rendu dynamique selon la filière choisie
    ============================================================ */
 
-function rendreActivitesPuzzleTD01(cle) {
-  const sujet = cle ? PUZZLE_TD01[cle] : null;
-  const info = document.getElementById('puzzle-info');
+function construirePuzzleTD01(cle) {
+  const sujet = PUZZLE_TD01[cle];
+  if (!sujet) return null;
   const cote = (a, b) => `${texteCoefficient(a)}${texteConstanteSignee(b)}`;
   const f = formaterNombre;
-
-  ['a', 'b', 'c'].forEach(l => {
-    ['contexte', 'problematique', 'enonce'].forEach(k => {
-      const el = document.getElementById(`puzzle-${l}-${k}`);
-      if (el) el.innerHTML = '';
-    });
-  });
-  if (!sujet) { if (info) info.hidden = false; return; }
-  if (info) info.textContent = "Chaque sujet (A, B, C) a son propre contexte et sa propre problématique : 4 questions pour progresser, puis une 5e question pour répondre à la problématique.";
-
   const { unite } = sujet;
   const A = sujet.ficheA, B = sujet.ficheB, C = sujet.ficheC;
-  const defs = {
-    a: [A, [
+  return {
+    A: { contexte: A.contexte, problematique: A.problematique, questions: [
       `Définir l'inconnue x (${unite}) et écrire l'expression du coût total en fonction de x.`,
       `Traduire la situation par l'équation ${cote(A.a, A.b)} = ${f(A.cible)}.`,
       `Résoudre cette équation en détaillant chaque étape.`,
       `Vérifier la solution en calculant le coût total pour cette valeur de x.`,
-      `Répondre à la problématique par une phrase, avec l'unité.`]],
-    b: [B, [
+      `Répondre à la problématique par une phrase, avec l'unité.`] },
+    B: { contexte: B.contexte, problematique: B.problematique, questions: [
       `Définir l'inconnue x (${unite}) et écrire l'expression du coût total en fonction de x.`,
       `Traduire la contrainte de budget par l'inéquation ${cote(B.a, B.b)} ⩽ ${f(B.budget)}.`,
       `Résoudre cette inéquation en détaillant chaque étape.`,
       `Exprimer l'ensemble des solutions sous forme d'intervalle de ℝ, sachant que x ≥ 0.`,
-      `Répondre à la problématique par une phrase, avec l'unité.`]],
-    c: [C, [
+      `Répondre à la problématique par une phrase, avec l'unité.`] },
+    C: { contexte: C.contexte, problematique: C.problematique, questions: [
       `Écrire le coût de chaque offre en fonction de x (${unite}) : ${cote(C.a1, C.b1)} et ${cote(C.a2, C.b2)}.`,
       `Écrire puis résoudre l'équation traduisant l'égalité des deux coûts.`,
       `Calculer les deux coûts pour une valeur de x inférieure, puis supérieure à la solution trouvée.`,
       `En déduire, selon la valeur de x, l'offre la moins chère.`,
-      `Répondre à la problématique par une recommandation argumentée.`]],
+      `Répondre à la problématique par une recommandation argumentée.`] },
   };
-  Object.entries(defs).forEach(([l, [fiche, qs]]) => {
-    document.getElementById(`puzzle-${l}-contexte`).textContent = fiche.contexte;
-    document.getElementById(`puzzle-${l}-problematique`).innerHTML = `<strong>Problématique :</strong> ${fiche.problematique}`;
-    document.getElementById(`puzzle-${l}-enonce`).innerHTML = qs.map(q => `<li>${q}</li>`).join('');
-  });
-}
-
-function initSousOngletsPuzzleTD01() {
-  const barre = document.querySelector('#activites-puzzle .sous-onglets');
-  if (!barre) return;
-  const panneau = document.getElementById('activites-puzzle');
-  barre.querySelectorAll('.sous-btn').forEach(btn => btn.addEventListener('click', () => {
-    barre.querySelectorAll('.sous-btn').forEach(x => x.classList.toggle('actif', x === btn));
-    panneau.querySelectorAll('.sous-panel').forEach(p => p.classList.toggle('actif', p.id === btn.dataset.sous));
-  }));
-}
-
-function initActivitesPuzzleTD01() {
-  initSousOngletsPuzzleTD01();
-  const select = document.getElementById('select-filiere-pro');
-  if (!select) return;
-  select.addEventListener('change', () => rendreActivitesPuzzleTD01(select.value || null));
-  rendreActivitesPuzzleTD01(select.value || null);
 }
 
 /* ============================================================
-   INITIALISATION
+   INITIALISATION — point d'entrée appelé par navigation.js
    ============================================================ */
 
-function initialiserTD01() {
-  initOngletsParFiliere();
-
-  initContextePro({
-    filieres: FILIERES_PRO,
-    contextes: CONTEXTES_TD01
-  });
-
-  initOngletEquation();
-  initOngletInequation();
-  initGenerateurIntervalle();
-  initQuizIntervalles();
-  initOngletProbleme();
-  initActivitesPuzzleTD01();
-
-  initRadarCompetences();
-
-  initImpressionCompteRendu({
-    titre: 'Résoudre un problème du premier degré',
-    tp: 'TD01'
-  });
+/** Une étape en erreur n'empêche jamais les suivantes. */
+function etape(nom, fn) {
+  try { fn(); }
+  catch (err) { console.error(`[tp-algebre] étape « ${nom} » en erreur :`, err); }
 }
 
-initialiserTD01();
+export function init() {
+  etape('initZoomVisuels', () => { initZoomVisuels(); });
+  etape('initContextePro', () => { initContextePro({ afficherProblematique: false, filieres: FILIERES_PRO, contextes: CONTEXTES_TD01 }); });
+  etape('garantirMenuFiliere', () => { garantirMenuFiliere(CONTEXTES_TD01); });
+  etape('initPuzzle', () => { initPuzzle(construirePuzzleTD01); });
+  etape('initPuzzleAffichage', () => { initPuzzleAffichage(); });
+  etape('initOngletsParFiliere', () => { initOngletsParFiliere(); });
+  etape('initSections', () => { initSections(); });
+  etape('initTabs', () => { initTabs(); });
+  etape('initModesOperatoires', () => { initModesOperatoires(); });
+  etape('initOngletEquation', () => { initOngletEquation(); });
+  etape('initOngletInequation', () => { initOngletInequation(); });
+  etape('initGenerateurIntervalle', () => { initGenerateurIntervalle(); });
+  etape('initQuizIntervalles', () => { initQuizIntervalles(); });
+  etape('initOngletProbleme', () => { initOngletProbleme(); });
+  etape('initRadarCompetences', () => { initRadarCompetences(); });
+  etape('initQuestionsParOnglet', () => { initQuestionsParOnglet(); });
+  etape('initNavigationTP', () => { initNavigationTP(); });
+  etape('initImpressionCompteRendu', () => {
+    initImpressionCompteRendu({ titre: "Résoudre un problème du premier degré", tp: 'TD01' });
+  });
+}
