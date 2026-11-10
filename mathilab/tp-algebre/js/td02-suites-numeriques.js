@@ -7,59 +7,95 @@
  * ============================================================
  */
 
-import FILIERES_PRO from '../../data/filieres.js';
-import { initContextePro } from '../../js/contexte-pro.js';
+import FILIERES_PRO from '../../../js/filieres.js';
+import { initContextePro } from '../../../js/contexte-pro.js';
 import {
   calculerTermesSuiteArithmetique, calculerTermesSuiteGeometrique,
   sommeTermes, sensVariationArithmetique, sensVariationGeometrique,
   dessinerNuagePoints
-} from '../../js/algebre.js';
-import { initRadarCompetences } from '../../js/radar.js';
+} from '../../../js/algebre.js';
+import { initRadarCompetences } from '../../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-algebre.js';
-import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
+import { initOngletsParFiliere } from '../../../js/onglets-filiere.js';
+import { initZoomVisuels } from '../../../js/zoom-visuel.js';
+import { initSections, initTabs, initModesOperatoires } from '../../../js/utils.js';
+import { garantirMenuFiliere } from './filiere-select.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
+import { initPuzzleAffichage } from './puzzle-affichage.js';
+import { initNavigationTP } from './nav-tp.js';
 
 import { initPuzzle, CADRES, fmt, polynome } from './puzzle-algebre.js';
 
 const CONTEXTES_TD02 = {
   '1ere-trpm': {
     contexte: "Le coût d'une intervention de maintenance comprend des frais fixes, puis un tarif horaire constant (variation constante) ; la valeur d'un équipement se déprécie d'un pourcentage fixe chaque année (taux fixe).",
-    problematique: "Quel est le coût facturé pour n heures d'intervention, et comment évolue la valeur d'un équipement au fil des années ?",
+    problematiques: {
+      'ar-etudier': "Quel est le coût facturé pour n heures d'intervention, et quel est le coût cumulé sur ces n heures ?",
+      'ar-comparer': "Entre deux formules de facturation de la maintenance, laquelle est la moins chère selon le nombre d'heures d'intervention ?",
+    },
   },
   '1ere-tci': {
     contexte: "La production d'un atelier de chaudronnerie augmente d'un nombre fixe de pièces chaque semaine (variation constante) ; la valeur d'un équipement se déprécie d'un pourcentage fixe chaque année (taux fixe).",
-    problematique: "Combien de pièces l'atelier produira-t-il à la semaine n, et comment évolue la valeur de l'équipement au fil du temps ?",
+    problematiques: {
+      'ar-etudier': "Combien de pièces l'atelier de chaudronnerie produira-t-il à la semaine n, et quelle sera la production totale cumulée ?",
+      'ar-comparer': "Entre deux plans de montée en cadence de l'atelier, lequel produit le plus de pièces au bout de n semaines ?",
+    },
   },
   '1ere-mcc': {
     contexte: "Un atelier de confection augmente sa production d'un nombre fixe de pièces chaque semaine (variation constante) ; la valeur d'une machine à coudre se déprécie d'un pourcentage fixe chaque année (taux fixe).",
-    problematique: "Combien de pièces l'atelier produira-t-il à la semaine n, et comment évolue la valeur de l'équipement au fil du temps ?",
+    problematiques: {
+      'ar-etudier': "Combien de pièces l'atelier de confection produira-t-il à la semaine n, et quelle sera la production totale cumulée ?",
+      'ar-comparer': "Entre deux plans de montée en cadence de l'atelier, lequel produit le plus de pièces au bout de n semaines ?",
+    },
   },
   '1ere-log': {
     contexte: "Le tarif d'un transporteur comprend des frais fixes, puis un montant constant par kilomètre (variation constante) ; le volume de colis traité par un entrepôt augmente d'un pourcentage fixe chaque mois (taux fixe).",
-    problematique: "Quel est le coût facturé pour n kilomètres, et quel volume de colis l'entrepôt devra-t-il traiter dans n mois ?",
+    problematiques: {
+      'ar-etudier': "Quel est le tarif facturé par le transporteur pour n kilomètres parcourus ?",
+      'ar-comparer': "Entre deux transporteurs, lequel est le moins cher selon le nombre de kilomètres ?",
+    },
   },
   '1ere-agora': {
     contexte: "Le nombre de dossiers traités par une structure administrative augmente d'un nombre fixe chaque semaine (variation constante) ; un budget de fonctionnement évolue d'un pourcentage fixe chaque année (taux fixe).",
-    problematique: "Combien de dossiers seront traités à la semaine n, et comment évolue le budget au fil des années ?",
+    problematiques: {
+      'ar-etudier': "Combien de dossiers la structure aura-t-elle traités à la semaine n, et combien depuis le début ?",
+      'ar-comparer': "Entre deux organisations du travail, laquelle traite le plus de dossiers au bout de n semaines ?",
+    },
   },
   'tle-trpm': {
     contexte: "La cadence d'une machine de production augmente d'un pourcentage fixe chaque jour (suite géométrique) ; ce même modèle décrit la dépréciation d'un équipement.",
-    problematique: "Quelle sera la production de la machine après n jours, et quelle est la production totale cumulée ?",
+    problematiques: {
+      'geo-etudier': "Quelle sera la production de la machine après n jours, et quelle est la production totale cumulée ?",
+      'geo-comparer': "Entre deux machines dont la cadence progresse à des taux différents, laquelle produit le plus au bout de n jours ?",
+    },
   },
   'tle-tci': {
     contexte: "La production d'un atelier de chaudronnerie augmente d'un pourcentage fixe chaque jour (suite géométrique) ; ce même modèle décrit la dépréciation d'un équipement.",
-    problematique: "Quelle sera la production de l'atelier après n jours, et quelle est la production totale cumulée ?",
+    problematiques: {
+      'geo-etudier': "Quelle sera la production de l'atelier après n jours, et quelle est la production totale cumulée ?",
+      'geo-comparer': "Entre deux ateliers dont la cadence progresse à des taux différents, lequel produit le plus au bout de n jours ?",
+    },
   },
   'tle-mcc': {
     contexte: "La valeur d'un équipement de confection se déprécie d'un même pourcentage chaque année (suite géométrique).",
-    problematique: "Comment évolue la valeur de l'équipement au fil des années, et à partir de quand faut-il le remplacer ?",
+    problematiques: {
+      'geo-etudier': "Comment évolue la valeur de l'équipement de confection au fil des années ?",
+      'geo-comparer': "Entre deux équipements qui se déprécient à des taux différents, lequel conserve le mieux sa valeur après n années ?",
+    },
   },
   'tle-log': {
     contexte: "Le volume de colis traité par un entrepôt augmente d'un pourcentage fixe chaque mois (suite géométrique).",
-    problematique: "Quel volume de colis l'entrepôt devra-t-il traiter dans n mois, et quel volume cumulé sur la période ?",
+    problematiques: {
+      'geo-etudier': "Quel volume de colis l'entrepôt devra-t-il traiter dans n mois, et quel volume cumulé sur la période ?",
+      'geo-comparer': "Entre deux entrepôts dont le volume progresse à des taux différents, lequel traitera le plus de colis dans n mois ?",
+    },
   },
   'tle-agora': {
     contexte: "Le nombre de dossiers traités par une structure administrative augmente d'un pourcentage fixe chaque mois (suite géométrique).",
-    problematique: "Quel nombre de dossiers la structure devra-t-elle traiter dans n mois, et quel nombre cumulé sur la période ?",
+    problematiques: {
+      'geo-etudier': "Quel nombre de dossiers la structure devra-t-elle traiter dans n mois, et quel nombre cumulé sur la période ?",
+      'geo-comparer': "Entre deux services dont la charge progresse à des taux différents, lequel traitera le plus de dossiers dans n mois ?",
+    },
   },
 };
 
@@ -360,24 +396,34 @@ function construirePuzzleTD02(cle) {
   return { A, B, C };
 }
 
-function initActivitesPuzzleTD02() {
-  initPuzzle(construirePuzzleTD02);
-}
-
 /* ============================================================
-   INITIALISATION
+   INITIALISATION — point d'entrée appelé par navigation.js
    ============================================================ */
 
-initOngletsParFiliere();
-initContextePro({ filieres: FILIERES_PRO, contextes: CONTEXTES_TD02 });
+/** Une étape en erreur n'empêche jamais les suivantes. */
+function etape(nom, fn) {
+  try { fn(); }
+  catch (err) { console.error(`[tp-algebre] étape « ${nom} » en erreur :`, err); }
+}
 
-initEtudierSuiteArithmetique();
-initComparerSuitesArithmetiques();
-
-initEtudierSuiteGeometrique();
-initComparerSuitesGeometriques();
-
-initActivitesPuzzleTD02();
-
-initRadarCompetences();
-initImpressionCompteRendu({ titre: 'Étudier et comparer des suites numériques', tp: 'TD02' });
+export function init() {
+  etape('initZoomVisuels', () => { initZoomVisuels(); });
+  etape('initContextePro', () => { initContextePro({ afficherProblematique: false, filieres: FILIERES_PRO, contextes: CONTEXTES_TD02 }); });
+  etape('garantirMenuFiliere', () => { garantirMenuFiliere(CONTEXTES_TD02); });
+  etape('initPuzzle', () => { initPuzzle(construirePuzzleTD02); });
+  etape('initPuzzleAffichage', () => { initPuzzleAffichage(); });
+  etape('initOngletsParFiliere', () => { initOngletsParFiliere(); });
+  etape('initSections', () => { initSections(); });
+  etape('initTabs', () => { initTabs(); });
+  etape('initModesOperatoires', () => { initModesOperatoires(); });
+  etape('initEtudierSuiteArithmetique', () => { initEtudierSuiteArithmetique(); });
+  etape('initComparerSuitesArithmetiques', () => { initComparerSuitesArithmetiques(); });
+  etape('initEtudierSuiteGeometrique', () => { initEtudierSuiteGeometrique(); });
+  etape('initComparerSuitesGeometriques', () => { initComparerSuitesGeometriques(); });
+  etape('initRadarCompetences', () => { initRadarCompetences(); });
+  etape('initQuestionsParOnglet', () => { initQuestionsParOnglet(); });
+  etape('initNavigationTP', () => { initNavigationTP(); });
+  etape('initImpressionCompteRendu', () => {
+    initImpressionCompteRendu({ titre: "Étudier et comparer des suites numériques", tp: 'TD02' });
+  });
+}
