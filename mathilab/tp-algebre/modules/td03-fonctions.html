@@ -1,6 +1,7 @@
 <!--
   Fragment SPA chargé dynamiquement par navigation.js.
-  Tous les chemins sont relatifs à la racine du site.
+  Les chemins (./assets/…) sont relatifs à la page du domaine
+  (tp-algebre/index.html), pas à la racine du site.
   Aucun <script> dans ce fragment.
 -->
 
@@ -80,8 +81,7 @@
   <div class="section-corps">
 
     <div class="info">
-      Sélectionner votre filière professionnelle pour afficher un contexte et une
-      problématique adaptés à votre spécialité.
+      Sélectionner votre filière professionnelle pour afficher un contexte adapté à votre spécialité ; la problématique de chaque onglet s'affiche dans l'onglet.
     </div>
 
     <div class="filiere-select-bloc">
@@ -92,7 +92,7 @@
     </div>
 
     <div id="contexte-pro-resultat" class="contexte-pro-resultat">
-      <p>Sélectionner votre filière professionnelle pour afficher le contexte et la problématique associée.</p>
+      <p>Sélectionner votre filière professionnelle pour afficher le contexte associé.</p>
     </div>
 
   </div>
@@ -135,6 +135,11 @@
 
           <!-- ---------- RÉSOLUTION GRAPHIQUE (1ère) ---------- -->
           <div class="tab-panel actif" id="resolution-graphique">
+            <div class="problematique-onglet">
+              <span class="problematique-onglet-etiquette">Problématique</span>
+              <p class="problematique-rappel" data-activite="resolution-graphique"></p>
+            </div>
+
 
             <h3>Résoudre graphiquement f(x) = g(x) et f(x) ⩾ g(x)</h3>
 
@@ -207,6 +212,11 @@
 
           <!-- ---------- POLYNÔMES DEGRÉ 2 ---------- -->
           <div class="tab-panel" id="polynomes-degre2">
+            <div class="problematique-onglet">
+              <span class="problematique-onglet-etiquette">Problématique</span>
+              <p class="problematique-rappel" data-activite="polynomes-degre2"></p>
+            </div>
+
 
             <h3>Étudier une parabole sous forme factorisée f(x) = a(x − x1)(x − x2)</h3>
 
@@ -259,6 +269,11 @@
 
           <!-- ---------- DÉRIVATION ET VARIATIONS ---------- -->
           <div class="tab-panel" id="derivation-variations">
+            <div class="problematique-onglet">
+              <span class="problematique-onglet-etiquette">Problématique</span>
+              <p class="problematique-rappel" data-activite="derivation-variations"></p>
+            </div>
+
 
             <h3>Nombre dérivé, tangente et tableau de variations</h3>
 
@@ -310,6 +325,11 @@
 
           <!-- ---------- FONCTION CUBE (Tle) ---------- -->
           <div class="tab-panel" id="fonction-cube">
+            <div class="problematique-onglet">
+              <span class="problematique-onglet-etiquette">Problématique</span>
+              <p class="problematique-rappel" data-activite="fonction-cube"></p>
+            </div>
+
 
             <h3>Dérivée, variations et représentation graphique de f(x) = x³</h3>
 
@@ -343,6 +363,11 @@
 
           <!-- ---------- POLYNÔME DE DEGRÉ 3 ---------- -->
           <div class="tab-panel" id="polynome-degre3">
+            <div class="problematique-onglet">
+              <span class="problematique-onglet-etiquette">Problématique</span>
+              <p class="problematique-rappel" data-activite="polynome-degre3"></p>
+            </div>
+
 
             <h3>Étudier f(x) = a x³ + b x² + c x + d</h3>
 
@@ -428,7 +453,6 @@
           <button class="sous-btn actif" data-sous="puzzle-sujet-a">Sujet A</button>
           <button class="sous-btn" data-sous="puzzle-sujet-b">Sujet B</button>
           <button class="sous-btn" data-sous="puzzle-sujet-c">Sujet C</button>
-          <button class="sous-btn" data-sous="puzzle-synthese-panel">Synthèse</button>
         </div>
         <div class="sous-panel actif" id="puzzle-sujet-a">
           <div class="fiche-puzzle" data-titre="Dérivée et variations">
@@ -439,7 +463,6 @@
                 <p class="info puzzle-contexte" id="puzzle-a-contexte"></p>
                 <p class="puzzle-problematique" id="puzzle-a-problematique"></p>
                 <ol id="puzzle-a-enonce" class="puzzle-questions"></ol>
-                <div class="zone-eleve"><textarea id="puzzle-a-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
               </li></ol>
             </div>
           </div>
@@ -453,7 +476,6 @@
                 <p class="info puzzle-contexte" id="puzzle-b-contexte"></p>
                 <p class="puzzle-problematique" id="puzzle-b-problematique"></p>
                 <ol id="puzzle-b-enonce" class="puzzle-questions"></ol>
-                <div class="zone-eleve"><textarea id="puzzle-b-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
               </li></ol>
             </div>
           </div>
@@ -467,20 +489,8 @@
                 <p class="info puzzle-contexte" id="puzzle-c-contexte"></p>
                 <p class="puzzle-problematique" id="puzzle-c-problematique"></p>
                 <ol id="puzzle-c-enonce" class="puzzle-questions"></ol>
-                <div class="zone-eleve"><textarea id="puzzle-c-reponse" rows="8" placeholder="Réponses aux questions 1 à 4, puis réponse rédigée à la problématique (question 5)..."></textarea></div>
               </li></ol>
             </div>
-          </div>
-        </div>
-        <div class="sous-panel" id="puzzle-synthese-panel">
-          <div class="info">En groupe mélangé, chaque expert présente son sujet aux autres. Comparer les trois situations et rédiger une réponse commune.</div>
-          <div class="questions-bloc" data-tp="puzzle-synthese">
-          <ol class="questions-tp"><li>
-            <div class="question-entete"><strong>Synthèse — Réponse commune à la problématique</strong>
-              <span class="cartouche" data-comp="COM">COM</span></div>
-            <p class="problematique-rappel"></p>
-            <div class="zone-eleve"><textarea id="puzzle-synthese" rows="6" placeholder="Ce que chaque expert a apporté au groupe, points communs et différences entre les sujets, réponse argumentée..."></textarea></div>
-          </li></ol>
           </div>
         </div>
       </div>
@@ -513,173 +523,262 @@
     </div>
 
 
-    <h3 style="margin-top:var(--gap-md);">Questions</h3>
+    <h3 class="espace-haut-md">Questions</h3>
 
-    <div class="form-row">
-      <div class="form-group">
-        <label for="activite-realisee">Activité réalisée</label>
-        <select id="activite-realisee">
-          <option value="">-- Choisir l'activité réalisée --</option>
-          <option value="resolution" data-tabs="resolution-graphique">1ère · Résolution graphique</option>
-          <option value="degre2" data-tabs="polynomes-degre2">1ère · Polynômes de degré 2</option>
-          <option value="derivation" data-tabs="derivation-variations">1ère · Dérivation et variations</option>
-          <option value="tle-fonctions" data-tabs="fonction-cube polynome-degre3">Tle · Fonction cube et polynôme de degré 3</option>
-          <option value="puzzle" data-tabs="activites-puzzle">🧩 Activités Puzzle</option>
-        </select>
-      </div>
-    </div>
+    <p class="info">Les questions affichées suivent l'onglet sélectionné dans « Activités » : quatre portent sur l'objet de l'onglet, la cinquième sur sa problématique. Seules les questions de l'onglet actif sont imprimées.</p>
 
-    <p id="activite-vide" class="info">Choisir l'activité réalisée : seules les questions correspondantes s'affichent.</p>
-    <p id="activite-avertissement" class="warning" hidden>Choisir d'abord l'activité réalisée avant d'imprimer le compte-rendu.</p>
-
-    <!-- ===== 1ère · Résolution graphique ===== -->
-    <div class="questions-bloc" data-tp="fonctions-resolution" data-activite="resolution" hidden>
+    <div class="questions-bloc" data-tp="fonctions-resolution-graphique" data-onglet="resolution-graphique" data-onglet-nom="1ère · Résolution graphique">
+    <h4>Questions de l'onglet « 1ère · Résolution graphique »</h4>
     <ol class="questions-tp">
       <li>
         <div class="question-entete">
-          <strong>Expliquer comment résoudre graphiquement une équation du type f(x) = g(x).</strong>
+          <strong>Expliquer comment résoudre graphiquement f(x) = g(x), puis f(x) ⩾ g(x), à partir des deux courbes.</strong>
           <span class="cartouche" data-comp="APP">APP</span>
         </div>
-        <div class="zone-eleve"><textarea id="question-resolution-1" rows="4" placeholder="Votre réponse..."></textarea></div>
+        <div class="zone-eleve"><textarea id="question-resolution-graphique-1" rows="4" placeholder="Votre réponse..."></textarea></div>
       </li>
       <li>
         <div class="question-entete">
-          <strong>Donner les solutions lues sur le graphique et les vérifier par le calcul.</strong>
+          <strong>Donner les solutions de f(x) = g(x) lues sur le graphique pour les fonctions choisies.</strong>
           <span class="cartouche" data-comp="REA">REA</span>
         </div>
-        <div class="zone-eleve"><textarea id="question-resolution-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
+        <div class="zone-eleve"><textarea id="question-resolution-graphique-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Donner l'ensemble des solutions de f(x) ⩾ g(x) sous forme d'intervalle et le justifier avec les positions relatives des courbes.</strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-resolution-graphique-3" rows="5" placeholder="Votre analyse..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Vérifier par le calcul les solutions lues sur le graphique.</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-resolution-graphique-4" rows="5" placeholder="Votre vérification..."></textarea></div>
       </li>
       <li class="question-problematique">
         <div class="question-entete">
-          <strong>Répondre à la problématique posée en début de TD :</strong>
-          <span class="cartouche" data-comp="VAL">VAL</span>
+          <strong>Répondre à la problématique de l'onglet :</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
         </div>
-        <p class="problematique-rappel" data-activite="fonctions"></p>
-        <div class="zone-eleve"><textarea id="question-resolution-3" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+        <p class="problematique-rappel" data-activite="resolution-graphique"></p>
+        <div class="zone-eleve"><textarea id="question-resolution-graphique-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
       </li>
     </ol>
     </div>
 
-    <!-- ===== 1ère · Polynômes de degré 2 ===== -->
-    <div class="questions-bloc" data-tp="fonctions-degre2" data-activite="degre2" hidden>
+    <div class="questions-bloc" data-tp="fonctions-polynomes-degre2" data-onglet="polynomes-degre2" data-onglet-nom="1ère · Polynômes de degré 2" hidden>
+    <h4>Questions de l'onglet « 1ère · Polynômes de degré 2 »</h4>
     <ol class="questions-tp">
       <li>
         <div class="question-entete">
           <strong>Donner la forme d'un polynôme de degré 2 et décrire l'allure de sa courbe selon le signe de a.</strong>
           <span class="cartouche" data-comp="APP">APP</span>
         </div>
-        <div class="zone-eleve"><textarea id="question-degre2-1" rows="4" placeholder="Votre réponse..."></textarea></div>
+        <div class="zone-eleve"><textarea id="question-polynomes-degre2-1" rows="4" placeholder="Votre réponse..."></textarea></div>
       </li>
       <li>
         <div class="question-entete">
           <strong>Relever sur le graphique les racines éventuelles et le sommet de la parabole étudiée.</strong>
           <span class="cartouche" data-comp="REA">REA</span>
         </div>
-        <div class="zone-eleve"><textarea id="question-degre2-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
+        <div class="zone-eleve"><textarea id="question-polynomes-degre2-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Expliquer comment le signe de a et la position du sommet déterminent le nombre de racines.</strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-polynomes-degre2-3" rows="5" placeholder="Votre analyse..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Vérifier par le calcul qu'une racine relevée annule bien le polynôme.</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-polynomes-degre2-4" rows="5" placeholder="Votre vérification..."></textarea></div>
       </li>
       <li class="question-problematique">
         <div class="question-entete">
-          <strong>Répondre à la problématique posée en début de TD :</strong>
-          <span class="cartouche" data-comp="VAL">VAL</span>
+          <strong>Répondre à la problématique de l'onglet :</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
         </div>
-        <p class="problematique-rappel" data-activite="fonctions"></p>
-        <div class="zone-eleve"><textarea id="question-degre2-3" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+        <p class="problematique-rappel" data-activite="polynomes-degre2"></p>
+        <div class="zone-eleve"><textarea id="question-polynomes-degre2-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
       </li>
     </ol>
     </div>
 
-    <!-- ===== 1ère · Dérivation et variations ===== -->
-    <div class="questions-bloc" data-tp="fonctions-derivation" data-activite="derivation" hidden>
+    <div class="questions-bloc" data-tp="fonctions-derivation-variations" data-onglet="derivation-variations" data-onglet-nom="1ère · Dérivation et variations" hidden>
+    <h4>Questions de l'onglet « 1ère · Dérivation et variations »</h4>
     <ol class="questions-tp">
       <li>
         <div class="question-entete">
           <strong>Donner la dérivée d'une fonction polynôme de degré inférieur ou égal à 3 et le lien entre le signe de f′ et les variations de f.</strong>
           <span class="cartouche" data-comp="APP">APP</span>
         </div>
-        <div class="zone-eleve"><textarea id="question-derivation-1" rows="4" placeholder="Votre réponse..."></textarea></div>
+        <div class="zone-eleve"><textarea id="question-derivation-variations-1" rows="4" placeholder="Votre réponse..."></textarea></div>
       </li>
       <li>
         <div class="question-entete">
-          <strong>Calculer la dérivée du polynôme étudié, résoudre f'(x) = 0 et dresser le tableau de variations correspondant.</strong>
+          <strong>Calculer la dérivée du polynôme étudié, résoudre f′(x) = 0 et dresser le tableau de variations.</strong>
           <span class="cartouche" data-comp="REA">REA</span>
         </div>
-        <div class="zone-eleve"><textarea id="question-derivation-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
+        <div class="zone-eleve"><textarea id="question-derivation-variations-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
       </li>
       <li>
         <div class="question-entete">
           <strong>À partir du tableau de variations, expliquer combien l'équation f(x) = c admet de solutions selon la valeur de c.</strong>
           <span class="cartouche" data-comp="ANA">ANA</span>
         </div>
-        <div class="zone-eleve"><textarea id="question-derivation-3" rows="5" placeholder="Votre analyse..."></textarea></div>
+        <div class="zone-eleve"><textarea id="question-derivation-variations-3" rows="5" placeholder="Votre analyse..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Vérifier le tableau de variations en le comparant à la courbe tracée.</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-derivation-variations-4" rows="5" placeholder="Votre vérification..."></textarea></div>
       </li>
       <li class="question-problematique">
         <div class="question-entete">
-          <strong>Répondre à la problématique posée en début de TD :</strong>
-          <span class="cartouche" data-comp="VAL">VAL</span>
-        </div>
-        <p class="problematique-rappel" data-activite="fonctions"></p>
-        <div class="zone-eleve"><textarea id="question-derivation-4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
-      </li>
-    </ol>
-    </div>
-
-    <!-- ===== Tle · Fonction cube et polynôme de degré 3 ===== -->
-    <div class="questions-bloc" data-tp="fonctions-tle-fonctions" data-activite="tle-fonctions" hidden>
-    <ol class="questions-tp">
-      <li>
-        <div class="question-entete">
-          <strong>Donner les variations de la fonction cube et la dérivée d'un polynôme de degré 3.</strong>
-          <span class="cartouche" data-comp="APP">APP</span>
-        </div>
-        <div class="zone-eleve"><textarea id="question-tle-fonctions-1" rows="4" placeholder="Votre réponse..."></textarea></div>
-      </li>
-      <li>
-        <div class="question-entete">
-          <strong>Calculer la dérivée du polynôme étudié, résoudre f'(x) = 0 et dresser le tableau de variations correspondant.</strong>
-          <span class="cartouche" data-comp="REA">REA</span>
-        </div>
-        <div class="zone-eleve"><textarea id="question-tle-fonctions-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
-      </li>
-      <li>
-        <div class="question-entete">
-          <strong>À partir du tableau de variations, expliquer combien l'équation f(x) = c admet de solutions selon la valeur de c.</strong>
-          <span class="cartouche" data-comp="ANA">ANA</span>
-        </div>
-        <div class="zone-eleve"><textarea id="question-tle-fonctions-3" rows="5" placeholder="Votre analyse..."></textarea></div>
-      </li>
-      <li class="question-problematique">
-        <div class="question-entete">
-          <strong>Répondre à la problématique posée en début de TD :</strong>
-          <span class="cartouche" data-comp="VAL">VAL</span>
-        </div>
-        <p class="problematique-rappel" data-activite="fonctions"></p>
-        <div class="zone-eleve"><textarea id="question-tle-fonctions-4" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
-      </li>
-    </ol>
-    </div>
-
-    <!-- ===== Activités puzzle ===== -->
-    <div class="questions-bloc" data-tp="fonctions-puzzle" data-activite="puzzle" hidden>
-    <ol class="questions-tp">
-      <li>
-        <div class="question-entete">
-          <strong>Indiquer le sujet traité par votre groupe (A, B ou C) et résumer la démarche suivie.</strong>
+          <strong>Répondre à la problématique de l'onglet :</strong>
           <span class="cartouche" data-comp="COM">COM</span>
         </div>
-        <div class="zone-eleve"><textarea id="question-puzzle-1" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+        <p class="problematique-rappel" data-activite="derivation-variations"></p>
+        <div class="zone-eleve"><textarea id="question-derivation-variations-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+    </ol>
+    </div>
+
+    <div class="questions-bloc" data-tp="fonctions-fonction-cube" data-onglet="fonction-cube" data-onglet-nom="Tle · La fonction cube" hidden>
+    <h4>Questions de l'onglet « Tle · La fonction cube »</h4>
+    <ol class="questions-tp">
+      <li>
+        <div class="question-entete">
+          <strong>Donner les variations de la fonction cube x ↦ x³ et décrire l'allure de sa courbe.</strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-fonction-cube-1" rows="4" placeholder="Votre réponse..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Relever, avec l'onglet, les valeurs de x³ pour plusieurs valeurs de x, dont des valeurs négatives.</strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-fonction-cube-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Expliquer pourquoi la fonction cube est strictement croissante sur ℝ et comment le signe de x détermine celui de x³.</strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-fonction-cube-3" rows="5" placeholder="Votre analyse..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Vérifier par le calcul deux valeurs relevées sur la courbe, par exemple 2³ et (−2)³.</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-fonction-cube-4" rows="5" placeholder="Votre vérification..."></textarea></div>
       </li>
       <li class="question-problematique">
         <div class="question-entete">
-          <strong>Répondre à la problématique de votre sujet en vous appuyant sur vos résultats :</strong>
-          <span class="cartouche" data-comp="VAL">VAL</span>
+          <strong>Répondre à la problématique de l'onglet :</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
         </div>
-        <p class="problematique-rappel" data-activite="fonctions"></p>
-        <div class="zone-eleve"><textarea id="question-puzzle-2" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+        <p class="problematique-rappel" data-activite="fonction-cube"></p>
+        <div class="zone-eleve"><textarea id="question-fonction-cube-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
       </li>
     </ol>
-    <p class="info">Les fiches Sujet A, B, C et la synthèse remplies dans l'onglet « Activités Puzzle » sont jointes automatiquement au compte-rendu.</p>
     </div>
 
+    <div class="questions-bloc" data-tp="fonctions-polynome-degre3" data-onglet="polynome-degre3" data-onglet-nom="Tle · Polynôme de degré 3" hidden>
+    <h4>Questions de l'onglet « Tle · Polynôme de degré 3 »</h4>
+    <ol class="questions-tp">
+      <li>
+        <div class="question-entete">
+          <strong>Donner la dérivée d'un polynôme de degré 3 et la méthode pour en déduire ses variations.</strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-polynome-degre3-1" rows="4" placeholder="Votre réponse..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Calculer la dérivée du polynôme étudié, résoudre f′(x) = 0 et dresser le tableau de variations.</strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-polynome-degre3-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>À partir du tableau de variations, expliquer combien l'équation f(x) = c admet de solutions selon la valeur de c.</strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-polynome-degre3-3" rows="5" placeholder="Votre analyse..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Vérifier le minimum local trouvé en calculant f pour des valeurs de x voisines.</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-polynome-degre3-4" rows="5" placeholder="Votre vérification..."></textarea></div>
+      </li>
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique de l'onglet :</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
+        </div>
+        <p class="problematique-rappel" data-activite="polynome-degre3"></p>
+        <div class="zone-eleve"><textarea id="question-polynome-degre3-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+    </ol>
+    </div>
+
+    <div class="questions-bloc" data-tp="fonctions-activites-puzzle" data-onglet="activites-puzzle" data-onglet-nom="Activités Puzzle" hidden>
+    <h4>Questions de l'onglet « Activités Puzzle »</h4>
+    <ol class="questions-tp">
+      <li>
+        <div class="question-entete">
+          <strong>Indiquer le sujet traité par votre groupe (A, B ou C) et nommer la propriété, la formule ou la méthode utilisée.</strong>
+          <span class="cartouche" data-comp="APP">APP</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-activites-puzzle-1" rows="4" placeholder="Sujet traité, propriété, formule ou méthode..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Donner les résultats chiffrés obtenus pour votre sujet, avec les unités.</strong>
+          <span class="cartouche" data-comp="REA">REA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-activites-puzzle-2" rows="4" placeholder="Votre réponse (calculs et résultats avec les unités)..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Expliquer la démarche suivie et justifier le choix de la méthode.</strong>
+          <span class="cartouche" data-comp="ANA">ANA</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-activites-puzzle-3" rows="5" placeholder="Démarche et justification..."></textarea></div>
+      </li>
+      <li>
+        <div class="question-entete">
+          <strong>Vérifier la cohérence d'un résultat de votre sujet (unité, ordre de grandeur, second calcul).</strong>
+          <span class="cartouche" data-comp="VAL">VAL</span>
+        </div>
+        <div class="zone-eleve"><textarea id="question-activites-puzzle-4" rows="5" placeholder="Votre vérification..."></textarea></div>
+      </li>
+      <li class="question-problematique">
+        <div class="question-entete">
+          <strong>Répondre à la problématique de votre sujet (rappelée ci-dessous) en vous appuyant sur vos résultats :</strong>
+          <span class="cartouche" data-comp="COM">COM</span>
+        </div>
+        <div class="puzzle-rappel" id="puzzle-rappel" aria-live="polite"></div>
+        <div class="zone-eleve"><textarea id="question-activites-puzzle-5" rows="5" placeholder="Répondre à la problématique en vous appuyant sur vos résultats..."></textarea></div>
+      </li>
+    </ol>
+    </div>
+    <p class="info">Onglet « Activités Puzzle » : traiter un sujet (A, B ou C), puis rédiger ici vos réponses. La problématique rappelée en question 5 est celle du sujet actif ; elle dépend de la classe et de la filière choisies dans « Contexte professionnel ».</p>
   </div>
 
 </div>
@@ -756,15 +855,15 @@
 
 <div class="nav-tp">
 
-  <button class="btn btn-secondaire" onclick="loadTP('td02-suites-numeriques')">
+  <button class="btn btn-secondaire" data-aller-tp="td02-suites-numeriques">
     ← TD02
   </button>
 
-  <button class="btn btn-secondaire" onclick="location.href='../index.html'">
+  <button class="btn btn-secondaire" data-aller-accueil>
     🏠 Accueil
   </button>
 
-  <button class="btn btn-primaire" onclick="loadTP('td04-fonctions-exponentielles-logarithme')">
+  <button class="btn btn-primaire" data-aller-tp="td04-fonctions-exponentielles-logarithme">
     TD04 →
   </button>
 
@@ -772,6 +871,6 @@
 
 </main>
 
-<div id="cr-print-container" style="display:none;"></div>
+<div id="cr-print-container" hidden></div>
 
 </section>
