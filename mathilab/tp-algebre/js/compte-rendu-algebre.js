@@ -21,7 +21,7 @@
  * L'identité est lue par compte-rendu.js dans la rubrique « Identification » de la page.
  */
 
-import { genererCompteRendu } from '../../js/compte-rendu.js';
+import { genererCompteRendu } from '../../../js/compte-rendu.js';';
 
 // ---------------------------------------------------------------
 // Utilitaires partagés par les contrôleurs des TP d'algèbre,
