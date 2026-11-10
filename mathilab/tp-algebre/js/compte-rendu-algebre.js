@@ -21,7 +21,7 @@
  * L'identité est lue par compte-rendu.js dans la rubrique « Identification » de la page.
  */
 
-import { genererCompteRendu } from '../../../js/compte-rendu.js';';
+import { genererCompteRendu } from '../../../js/compte-rendu.js';
 
 // ---------------------------------------------------------------
 // Utilitaires partagés par les contrôleurs des TP d'algèbre,
@@ -252,7 +252,7 @@ function lireFiliereDom() {
 // en silence tout le module d'impression. Ici on retombe sur le DOM.
 async function lireFiliere() {
   try {
-    const module = await import('../../js/contexte-pro.js');
+    const module = await import('../../../js/contexte-pro.js');
     if (typeof module.getFiliereSelectionnee === 'function') {
       return module.getFiliereSelectionnee() || null;
     }
@@ -276,9 +276,20 @@ function blocVisible(bloc) {
   return !bloc.hidden && getComputedStyle(bloc).display !== 'none';
 }
 
+// Texte d'un rappel de problématique : un paragraphe par ligne quand il y en a plusieurs
+// (rappel des trois sujets de l'onglet « Activités Puzzle »). Vide tant que la classe et
+// la filière ne sont pas choisies.
+function texteRappel(el) {
+  if (!el || el.querySelector('.puzzle-rappel-vide')) return '';
+  const paragraphes = [...el.querySelectorAll(':scope > p')].map(texte).filter(Boolean);
+  return paragraphes.length > 1 ? paragraphes.join('\n') : texte(el);
+}
+
 function construireSectionsQuestions() {
 
-  const blocs = [...document.querySelectorAll('.questions-bloc')];
+  // Seuls les blocs de « Trace écrite - Compte rendu » (un par onglet, data-onglet) portent
+  // des questions : les sujets de l'onglet « Activités Puzzle » n'ont pas de zone de saisie.
+  const blocs = [...document.querySelectorAll('.questions-bloc[data-onglet]')];
 
   const listes = blocs.length
     ? blocs.filter(blocVisible).map(bloc => bloc.querySelector('.questions-tp'))
@@ -297,12 +308,13 @@ function construireSectionsQuestions() {
         texte: valeur(li.querySelector('.zone-eleve textarea')),
       };
 
-      // Question 5 : rappel du texte de la problématique de l'onglet
-      // (rempli à l'écran par contexte-pro.js selon la filière choisie).
-      const rappel = texte(li.querySelector('.problematique-rappel'));
+      // Question 5 : rappel de la problématique selon la classe et la filière choisies
+      // (rempli à l'écran par contexte-pro.js / filiere-select.js pour les onglets de
+      // manipulation, par puzzle-affichage.js pour l'onglet « Activités Puzzle »).
+      const rappel = texteRappel(li.querySelector('.problematique-rappel, .puzzle-rappel'));
       if (rappel) {
         question.rappel = rappel;
-        question.rappelEtiquette = 'Problématique';
+        question.rappelEtiquette = rappel.includes('\n') ? 'Problématiques' : 'Problématique';
       }
 
       return question;
