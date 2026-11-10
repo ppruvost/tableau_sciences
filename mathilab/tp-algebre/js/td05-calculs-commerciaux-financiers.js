@@ -8,60 +8,96 @@
  * ============================================================
  */
 
-import FILIERES_PRO from '../../data/filieres.js';
-import { initContextePro } from '../../js/contexte-pro.js';
+import FILIERES_PRO from '../../../js/filieres.js';
+import { initContextePro } from '../../../js/contexte-pro.js';
 import {
   capitalInteretsSimples, tauxProportionnel, coutMarginalExact, coutMarginalApproche, coutMoyen,
   capitalInteretsComposes, dureePourCapital, tableauAmortissementAnnuitesConstantes,
   tableauAmortissementConstant, coutEmprunt, tauxMensuelEquivalent,
-} from '../../js/finance.js';
-import { evaluerPolynomeDegre2, deriveePolynomeDegre2 } from '../../js/algebre.js';
-import { initRadarCompetences } from '../../js/radar.js';
+} from '../../../js/finance.js';
+import { evaluerPolynomeDegre2, deriveePolynomeDegre2 } from '../../../js/algebre.js';
+import { initRadarCompetences } from '../../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-algebre.js';
-import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
+import { initOngletsParFiliere } from '../../../js/onglets-filiere.js';
+import { initZoomVisuels } from '../../../js/zoom-visuel.js';
+import { initSections, initTabs, initModesOperatoires } from '../../../js/utils.js';
+import { garantirMenuFiliere } from './filiere-select.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
+import { initPuzzleAffichage } from './puzzle-affichage.js';
+import { initNavigationTP } from './nav-tp.js';
 
 import { initPuzzle, CADRES, fmt, polynome } from './puzzle-algebre.js';
 
 const CONTEXTES_TD05 = {
   '1ere-trpm': {
     contexte: "L'achat d'une nouvelle machine-outil peut être financé sur trésorerie placée à intérêts simples ; le coût de fonctionnement se suit via un coût marginal/moyen.",
-    problematique: "Quel capital obtient-on en plaçant une trésorerie à intérêts simples, et pour quelle quantité produite le coût moyen unitaire est-il le plus favorable ?",
+    problematiques: {
+      'interets-simples': "Quel capital obtient-on en plaçant à intérêts simples la trésorerie destinée à l'achat de la machine-outil ?",
+      'couts-marginal-moyen': "Pour quelle quantité produite le coût moyen unitaire de la machine-outil est-il le plus favorable ?",
+    },
   },
   '1ere-tci': {
     contexte: "L'achat d'un nouvel équipement de chaudronnerie peut être financé sur trésorerie placée à intérêts simples ; le coût de production d'une série de pièces dépend de la quantité fabriquée.",
-    problematique: "Quel capital obtient-on en plaçant une trésorerie à intérêts simples, et pour quelle quantité produite le coût moyen unitaire est-il le plus favorable ?",
+    problematiques: {
+      'interets-simples': "Quel capital obtient-on en plaçant à intérêts simples la trésorerie destinée à l'achat de l'équipement ?",
+      'couts-marginal-moyen': "Pour quelle quantité produite le coût moyen unitaire de la série de pièces est-il le plus favorable ?",
+    },
   },
   '1ere-mcc': {
     contexte: "L'achat de nouvelles machines à coudre peut être financé sur trésorerie placée à intérêts simples ; le coût de production d'une série de vêtements dépend de la quantité fabriquée.",
-    problematique: "Quel capital obtient-on en plaçant une trésorerie à intérêts simples, et pour quelle quantité produite le coût moyen unitaire est-il le plus favorable ?",
+    problematiques: {
+      'interets-simples': "Quel capital obtient-on en plaçant à intérêts simples la trésorerie destinée à l'achat des machines à coudre ?",
+      'couts-marginal-moyen': "Pour quelle quantité produite le coût moyen unitaire de la série de vêtements est-il le plus favorable ?",
+    },
   },
   '1ere-log': {
     contexte: "Le prix d'achat d'un lot de marchandises fait l'objet de remises et de frais avant d'être intégré au coût de revient logistique ; une trésorerie disponible peut être placée à intérêts simples.",
-    problematique: "Quel est le coût de revient réel d'un lot de marchandises, et quel capital obtient-on en plaçant une trésorerie à intérêts simples ?",
+    problematiques: {
+      'interets-simples': "Quel capital obtient-on en plaçant à intérêts simples la trésorerie disponible de l'entrepôt ?",
+      'couts-marginal-moyen': "Pour quelle quantité de marchandises le coût moyen de revient unitaire est-il le plus favorable ?",
+    },
   },
   '1ere-agora': {
     contexte: "La facturation d'une prestation implique le calcul de remises et d'intérêts ; une trésorerie disponible peut être placée à intérêts simples en attendant un investissement.",
-    problematique: "Quel est le montant net à payer par le client, et quel capital obtient-on en plaçant une trésorerie à intérêts simples ?",
+    problematiques: {
+      'interets-simples': "Quel capital obtient-on en plaçant à intérêts simples la trésorerie disponible en attendant l'investissement ?",
+      'couts-marginal-moyen': "Pour quel volume de prestations le coût moyen unitaire est-il le plus favorable ?",
+    },
   },
   'tle-trpm': {
     contexte: "L'achat d'une nouvelle machine-outil peut être financé par un emprunt, dont le mode de remboursement influe sur son coût total.",
-    problematique: "Quel mode de remboursement choisir pour financer la machine-outil au meilleur coût ?",
+    problematiques: {
+      'interets-composes': "Au bout de combien d'années un placement à intérêts composés atteint-il le capital nécessaire à l'achat de la machine-outil ?",
+      'amortissement': "Quel mode de remboursement choisir pour financer la machine-outil au meilleur coût ?",
+    },
   },
   'tle-tci': {
     contexte: "L'achat d'un nouvel équipement de chaudronnerie peut être financé par un emprunt, dont le mode de remboursement influe sur son coût total.",
-    problematique: "Quel mode de remboursement choisir pour financer l'équipement au meilleur coût ?",
+    problematiques: {
+      'interets-composes': "Au bout de combien d'années un placement à intérêts composés atteint-il le capital nécessaire à l'achat de l'équipement de chaudronnerie ?",
+      'amortissement': "Quel mode de remboursement choisir pour financer l'équipement au meilleur coût ?",
+    },
   },
   'tle-mcc': {
     contexte: "L'achat de nouvelles machines à coudre peut être financé par un emprunt, dont le coût dépend du mode de remboursement.",
-    problematique: "Quel mode de remboursement minimise le coût total de l'emprunt pour l'atelier ?",
+    problematiques: {
+      'interets-composes': "Au bout de combien d'années un placement à intérêts composés atteint-il le capital nécessaire à l'achat des machines à coudre ?",
+      'amortissement': "Quel mode de remboursement minimise le coût total de l'emprunt pour l'atelier ?",
+    },
   },
   'tle-log': {
     contexte: "L'achat d'un nouveau véhicule de livraison peut être financé par un emprunt, dont le coût dépend du mode de remboursement.",
-    problematique: "Quel mode de remboursement choisir pour financer le véhicule au meilleur coût ?",
+    problematiques: {
+      'interets-composes': "Au bout de combien d'années un placement à intérêts composés atteint-il le capital nécessaire à l'achat du véhicule de livraison ?",
+      'amortissement': "Quel mode de remboursement choisir pour financer le véhicule au meilleur coût ?",
+    },
   },
   'tle-agora': {
     contexte: "Un investissement administratif (matériel de bureau, logiciel) peut être financé par un emprunt dont le coût dépend du mode de remboursement.",
-    problematique: "Quel mode de remboursement minimise le coût total de l'emprunt pour la structure ?",
+    problematiques: {
+      'interets-composes': "Au bout de combien d'années un placement à intérêts composés atteint-il le capital nécessaire à l'achat du matériel ou du logiciel ?",
+      'amortissement': "Quel mode de remboursement minimise le coût total de l'emprunt pour la structure ?",
+    },
   },
 };
 
@@ -152,10 +188,6 @@ function construirePuzzleTD05(cle) {
         `Discuter : quel mode pèse le moins sur la trésorerie les premières années ?`,
         `Répondre à la problématique par une recommandation argumentée.`] },
   };
-}
-
-function initActivitesPuzzleTD05() {
-  initPuzzle(construirePuzzleTD05);
 }
 
 function formater(v) {
@@ -304,19 +336,33 @@ function initAmortissement() {
 }
 
 /* ============================================================
-   INITIALISATION
+   INITIALISATION — point d'entrée appelé par navigation.js
    ============================================================ */
 
-initOngletsParFiliere();
-initContextePro({ filieres: FILIERES_PRO, contextes: CONTEXTES_TD05 });
+/** Une étape en erreur n'empêche jamais les suivantes. */
+function etape(nom, fn) {
+  try { fn(); }
+  catch (err) { console.error(`[tp-algebre] étape « ${nom} » en erreur :`, err); }
+}
 
-initInteretsSimples();
-initCouts();
-
-initInteretsComposes();
-initAmortissement();
-
-initActivitesPuzzleTD05();
-
-initRadarCompetences();
-initImpressionCompteRendu({ titre: 'Calculs commerciaux et financiers', tp: 'TD05' });
+export function init() {
+  etape('initZoomVisuels', () => { initZoomVisuels(); });
+  etape('initContextePro', () => { initContextePro({ afficherProblematique: false, filieres: FILIERES_PRO, contextes: CONTEXTES_TD05 }); });
+  etape('garantirMenuFiliere', () => { garantirMenuFiliere(CONTEXTES_TD05); });
+  etape('initPuzzle', () => { initPuzzle(construirePuzzleTD05); });
+  etape('initPuzzleAffichage', () => { initPuzzleAffichage(); });
+  etape('initOngletsParFiliere', () => { initOngletsParFiliere(); });
+  etape('initSections', () => { initSections(); });
+  etape('initTabs', () => { initTabs(); });
+  etape('initModesOperatoires', () => { initModesOperatoires(); });
+  etape('initInteretsSimples', () => { initInteretsSimples(); });
+  etape('initCouts', () => { initCouts(); });
+  etape('initInteretsComposes', () => { initInteretsComposes(); });
+  etape('initAmortissement', () => { initAmortissement(); });
+  etape('initRadarCompetences', () => { initRadarCompetences(); });
+  etape('initQuestionsParOnglet', () => { initQuestionsParOnglet(); });
+  etape('initNavigationTP', () => { initNavigationTP(); });
+  etape('initImpressionCompteRendu', () => {
+    initImpressionCompteRendu({ titre: "Calculs commerciaux et financiers", tp: 'TD05' });
+  });
+}
