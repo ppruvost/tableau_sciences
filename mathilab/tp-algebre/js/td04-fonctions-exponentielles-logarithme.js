@@ -6,38 +6,59 @@
  * ============================================================
  */
 
-import FILIERES_PRO from '../../data/filieres.js';
-import { initContextePro } from '../../js/contexte-pro.js';
+import FILIERES_PRO from '../../../js/filieres.js';
+import { initContextePro } from '../../../js/contexte-pro.js';
 import {
   fonctionExponentielle, fonctionLogDecimal, resoudreExponentielle,
   resoudreLogDecimal, dessinerCourbe,
-} from '../../js/algebre.js';
-import { initRadarCompetences } from '../../js/radar.js';
+} from '../../../js/algebre.js';
+import { initRadarCompetences } from '../../../js/radar.js';
 import { initImpressionCompteRendu } from './compte-rendu-algebre.js';
-import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
+import { initOngletsParFiliere } from '../../../js/onglets-filiere.js';
+import { initZoomVisuels } from '../../../js/zoom-visuel.js';
+import { initSections, initTabs, initModesOperatoires } from '../../../js/utils.js';
+import { garantirMenuFiliere } from './filiere-select.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
+import { initPuzzleAffichage } from './puzzle-affichage.js';
+import { initNavigationTP } from './nav-tp.js';
 
 import { initPuzzle, CADRES, fmt, polynome } from './puzzle-algebre.js';
 
 const CONTEXTES_TD04 = {
   'tle-trpm': {
     contexte: "La température d'une pièce en refroidissement, ou l'usure d'un outil de coupe, suit une évolution exponentielle en fonction du temps.",
-    problematique: "Au bout de combien de temps la pièce atteint-elle une température ou un seuil d'usure donné ?",
+    problematiques: {
+      'fonction-exponentielle': "Au bout de combien de temps la pièce atteint-elle une température ou un seuil d'usure donné ?",
+      'fonction-log': "Comment le logarithme décimal permet-il de retrouver le temps nécessaire pour atteindre une température ou un seuil d'usure donné ?",
+    },
   },
   'tle-tci': {
     contexte: "La température d'une pièce chaudronnée en refroidissement après soudure suit une évolution exponentielle en fonction du temps.",
-    problematique: "Au bout de combien de temps la pièce atteint-elle une température donnée ?",
+    problematiques: {
+      'fonction-exponentielle': "Au bout de combien de temps la pièce atteint-elle une température donnée ?",
+      'fonction-log': "Comment le logarithme décimal permet-il de retrouver le temps nécessaire pour atteindre une température donnée ?",
+    },
   },
   'tle-mcc': {
     contexte: "La proportion de teinture absorbée par un tissu évolue de façon exponentielle avec le temps de trempage.",
-    problematique: "Quel temps de trempage permet d'atteindre un taux d'absorption donné ?",
+    problematiques: {
+      'fonction-exponentielle': "Quel temps de trempage permet d'atteindre un taux d'absorption donné ?",
+      'fonction-log': "Comment le logarithme décimal permet-il de retrouver le temps de trempage nécessaire pour atteindre un taux d'absorption donné ?",
+    },
   },
   'tle-log': {
     contexte: "Le taux de charge d'une batterie de chariot élévateur évolue de façon exponentielle avec le temps de charge.",
-    problematique: "Quel temps de charge est nécessaire pour atteindre un seuil de charge donné ?",
+    problematiques: {
+      'fonction-exponentielle': "Quel temps de charge est nécessaire pour atteindre un seuil de charge donné ?",
+      'fonction-log': "Comment le logarithme décimal permet-il de retrouver le temps de charge nécessaire pour atteindre un seuil de charge donné ?",
+    },
   },
   'tle-agora': {
     contexte: "Le taux de traitement d'un stock de dossiers en attente évolue de façon exponentielle avec le temps, à mesure que la charge de travail diminue.",
-    problematique: "Au bout de combien de temps le stock de dossiers atteint-il un seuil donné ?",
+    problematiques: {
+      'fonction-exponentielle': "Au bout de combien de temps le stock de dossiers atteint-il un seuil donné ?",
+      'fonction-log': "Comment le logarithme décimal permet-il de retrouver le temps nécessaire pour atteindre un seuil de dossiers donné ?",
+    },
   },
 };
 
@@ -109,10 +130,6 @@ function construirePuzzleTD04(cle) {
   return { A, B, C };
 }
 
-function initActivitesPuzzleTD04() {
-  initPuzzle(construirePuzzleTD04);
-}
-
 function formater(v) {
   return typeof v === 'number' ? v.toFixed(3) : v;
 }
@@ -172,10 +189,32 @@ function initFonctionLog() {
   tracerLog();
 }
 
-initOngletsParFiliere();
-initContextePro({ filieres: FILIERES_PRO, contextes: CONTEXTES_TD04 });
-initFonctionExponentielle();
-initFonctionLog();
-initActivitesPuzzleTD04();
-initRadarCompetences();
-initImpressionCompteRendu({ titre: 'Fonctions exponentielles et logarithme décimal', tp: 'TD04' });
+/* ============================================================
+   INITIALISATION — point d'entrée appelé par navigation.js
+   ============================================================ */
+
+/** Une étape en erreur n'empêche jamais les suivantes. */
+function etape(nom, fn) {
+  try { fn(); }
+  catch (err) { console.error(`[tp-algebre] étape « ${nom} » en erreur :`, err); }
+}
+
+export function init() {
+  etape('initZoomVisuels', () => { initZoomVisuels(); });
+  etape('initContextePro', () => { initContextePro({ afficherProblematique: false, filieres: FILIERES_PRO, contextes: CONTEXTES_TD04 }); });
+  etape('garantirMenuFiliere', () => { garantirMenuFiliere(CONTEXTES_TD04); });
+  etape('initPuzzle', () => { initPuzzle(construirePuzzleTD04); });
+  etape('initPuzzleAffichage', () => { initPuzzleAffichage(); });
+  etape('initOngletsParFiliere', () => { initOngletsParFiliere(); });
+  etape('initSections', () => { initSections(); });
+  etape('initTabs', () => { initTabs(); });
+  etape('initModesOperatoires', () => { initModesOperatoires(); });
+  etape('initFonctionExponentielle', () => { initFonctionExponentielle(); });
+  etape('initFonctionLog', () => { initFonctionLog(); });
+  etape('initRadarCompetences', () => { initRadarCompetences(); });
+  etape('initQuestionsParOnglet', () => { initQuestionsParOnglet(); });
+  etape('initNavigationTP', () => { initNavigationTP(); });
+  etape('initImpressionCompteRendu', () => {
+    initImpressionCompteRendu({ titre: "Fonctions exponentielles et logarithme décimal", tp: 'TD04' });
+  });
+}
