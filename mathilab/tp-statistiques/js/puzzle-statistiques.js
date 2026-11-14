@@ -1,15 +1,15 @@
 /**
- * MATHILAB — STATISTIQUES : modèles de l'activité Puzzle (TP01 à TP05)
+ * MATHILAB — STATISTIQUES : modèles de l'activité Puzzle (TD S01 à S05)
  * mathilab/tp-statistiques/js/puzzle-statistiques.js
  */
-import { fmt, R5 } from '../../js/puzzle-onglet.js';
+import { fmt, R5 } from '../../../js/puzzle-onglet.js';
 
 const L1 = '0, 1, 0, 2, 1, 3, 0, 2, 1, 0, 2, 0, 1, 0, 2, 3, 1, 0, 1, 2';
 const H = [173, 169, 174, 179, 169, 166, 179, 172, 166, 172, 170, 170, 175, 162, 169, 169, 162, 175, 164, 171];
 const rot = (s, k) => { const a = s.split(', '); return [...a.slice(k), ...a.slice(0, k)].join(', '); };
 const dec = k => H.map(v => v - k).join(', ');
 
-/* ---------- TP01 : organiser une série (2nde) ---------- */
+/* ---------- TD S01 : organiser une série (2nde) ---------- */
 export const S1 = {
   params: {
     remi: { dA: "le nombre de pannes de machine par semaine (5 semaines)", sA: "2, 0, 3, 1, 4",
@@ -50,7 +50,7 @@ export const S1 = {
   }),
 };
 
-/* ---------- TP02 : comparer des séries (2nde) ---------- */
+/* ---------- TD S02 : comparer des séries (2nde) ---------- */
 export const S2 = {
   params: {
     remi: { d: "la durée d'une intervention de maintenance", u: 'minutes', k: 110,
@@ -88,7 +88,7 @@ export const S2 = {
   },
 };
 
-/* ---------- TP03 : fluctuation d'échantillonnage (2nde) ---------- */
+/* ---------- TD S03 : fluctuation d'échantillonnage (2nde) ---------- */
 export const S3 = {
   params: {
     remi: { obj: 'pièces non conformes', u: 'pièces', p: 8, n: 50, k: 4, n2: 500, k2: 43 },
@@ -117,7 +117,7 @@ export const S3 = {
   }),
 };
 
-/* ---------- TP04 : nuage de points et ajustement (1ère / Tle) ---------- */
+/* ---------- TD S04 : nuage de points et ajustement (1ère / Tle) ---------- */
 const NUAGES = {
   trpm: { xn: "le nombre de pièces usinées", yn: "le temps d'usinage total (en min)", x: "1 ; 2 ; 3 ; 4 ; 5 ; 6 ; 7 ; 8", y: "6 ; 10 ; 13 ; 18 ; 21 ; 25 ; 29 ; 32", xi: 5, xe: 12 },
   tci: { xn: "l'épaisseur de tôle soudée (en mm)", yn: "le temps de soudage (en min)", x: "2 ; 3 ; 4 ; 5 ; 6 ; 7 ; 8 ; 9", y: "3 ; 5 ; 6 ; 8 ; 9 ; 11 ; 12 ; 14", xi: 6, xe: 12 },
@@ -153,7 +153,7 @@ export const S4 = {
   },
 };
 
-/* ---------- TP05 : tableau croisé et arbre pondéré (1ère / Tle) ---------- */
+/* ---------- TD S05 : tableau croisé et arbre pondéré (1ère / Tle) ---------- */
 export const S5 = {
   params: {
     trpm: { N: 200, u: 'pièces', nE: 80, nD: 30, nED: 18, e: 'usinées sur la machine 1', d: 'non conformes', es: 'usiné sur la machine 1', ds: 'non conforme' },
