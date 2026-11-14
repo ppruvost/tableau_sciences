@@ -4,9 +4,7 @@
  * Construit la configuration attendue par le module partagé
  * js/compte-rendu.js (genererCompteRendu) à partir du DOM du TP
  * statistiques actuellement affiché, et câble le bouton #btn-imprimer
- * dessus. Le matériel (Verrerie/Équipements) est récupéré tout seul
- * par compte-rendu.js via les cases à cocher #materiel-verrerie /
- * #materiel-equipements — rien à faire ici pour cette partie.
+ * dessus. (Plus de section « Matériel » dans les TD : claude_v7.md §3.2.)
  *
  * Contenu du compte rendu (dans l'ordre) :
  *   1. contexte professionnel (filière choisie) ;
@@ -21,7 +19,7 @@
  * L'identité est lue par compte-rendu.js dans la rubrique « Identification » de la page.
  */
 
-import { genererCompteRendu } from '../../js/compte-rendu.js';
+import { genererCompteRendu } from '../../../js/compte-rendu.js';
 
 // ---------------------------------------------------------------
 // Utilitaires partagés par les contrôleurs des TP de statistiques,
@@ -127,13 +125,25 @@ function texteBlocs(el) {
     .split('\n').map(nettoyer).filter(Boolean).join('\n');
 }
 
-// Zone de résultat calculé. Le texte d'invite affiché avant la saisie
-// (« Saisir … pour calculer … ») ne contient aucun élément : on l'ignore.
+// Zone de résultat calculé. Un résultat n'est imprimé que s'il a été réécrit
+// APRÈS l'initialisation (calcul lancé par l'élève, cf. suivreResultats) :
+// les calculs automatiques au chargement et les textes d'invite sont ignorés.
 function texteResultat(el) {
-  if (!el || !el.children.length) return '';
+  if (!el || el.dataset.calcule !== '1') return '';
   const copie = el.cloneNode(true);
   copie.querySelectorAll('br').forEach(br => br.replaceWith(' · '));
   return nettoyer(copie.textContent);
+}
+
+// Marque (data-calcule="1") chaque .resultat-calcul[id*="resultat"] dès qu'il est
+// modifié. À appeler une fois l'initialisation du TD terminée.
+function suivreResultats() {
+  document.querySelectorAll('.resultat-calcul[id*="resultat"]').forEach(el => {
+    if (el.dataset.suivi === '1') return;
+    el.dataset.suivi = '1';
+    new MutationObserver(() => { el.dataset.calcule = '1'; })
+      .observe(el, { childList: true, characterData: true, subtree: true });
+  });
 }
 
 /* ==========================================================
@@ -166,7 +176,10 @@ function tableauRenseigne(table) {
     .flatMap(tb => [...tb.querySelectorAll(SELECTEUR_CHAMPS)]);
   if (champs.length) return champs.some(c => valeurChamp(c) !== '');
   const tbody = table.querySelector('tbody[id]');
-  return Boolean(tbody) && tbody.rows.length > 0;
+  if (!tbody) return false;
+  // Les lignes d'invite (« Aucune valeur saisie. », une seule cellule fusionnée) ne comptent pas
+  const lignesDonnees = [...tbody.rows].filter(tr => !(tr.cells.length === 1 && tr.cells[0].colSpan > 1));
+  return lignesDonnees.length > 0;
 }
 
 function sectionsDepuisOnglet(panneau) {
@@ -252,7 +265,7 @@ function lireFiliereDom() {
 // en silence tout le module d'impression. Ici on retombe sur le DOM.
 async function lireFiliere() {
   try {
-    const module = await import('../../js/contexte-pro.js');
+    const module = await import('../../../js/contexte-pro.js');
     if (typeof module.getFiliereSelectionnee === 'function') {
       return module.getFiliereSelectionnee() || null;
     }
@@ -278,11 +291,12 @@ function blocVisible(bloc) {
 
 function construireSectionsQuestions() {
 
-  const blocs = [...document.querySelectorAll('.questions-bloc')];
+  // Uniquement la trace écrite : les fiches Puzzle (sans zone de saisie) n'y figurent pas.
+  const blocs = [...document.querySelectorAll('[data-type="bilan"] .questions-bloc')];
 
   const listes = blocs.length
     ? blocs.filter(blocVisible).map(bloc => bloc.querySelector('.questions-tp'))
-    : [...document.querySelectorAll('.questions-tp')];
+    : [...document.querySelectorAll('[data-type="bilan"] .questions-tp')];
 
   return listes.filter(Boolean).flatMap(liste =>
     [...liste.querySelectorAll(':scope > li')].map((li, index) => {
@@ -368,7 +382,7 @@ function construireSectionAutoEvaluation() {
 /**
  * @param {Object} params
  * @param {string} params.titre - Titre du TP (ex. "Caractériser un son")
- * @param {string} params.tp    - Numéro du TP (ex. "TP01")
+ * @param {string} params.tp    - Numéro du TD (ex. "TD01")
  * @param {() => Object[]} [params.sectionsSupplementaires]
  *        Fonction appelée au moment de l'impression ; retourne les sections
  *        propres au TP (ex. tableau de mesures + graphique). Si elle ne
@@ -378,6 +392,9 @@ function construireSectionAutoEvaluation() {
 export function initImpressionCompteRendu({ titre, tp, sectionsSupplementaires }) {
 
   const bouton = document.getElementById('btn-imprimer');
+
+  // Dernière étape de init() : à partir d'ici, tout résultat réécrit est un calcul de l'élève
+  suivreResultats();
 
   if (!bouton) return;
 
