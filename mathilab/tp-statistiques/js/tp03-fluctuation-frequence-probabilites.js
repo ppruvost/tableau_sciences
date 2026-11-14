@@ -1,28 +1,52 @@
 /**
- * tp-statistiques/js/tp03-fluctuation-frequence-probabilites.js
+ * MATHILAB — STATISTIQUE ET PROBABILITÉS
+ * TD S03 : Fluctuation d'une fréquence, probabilités
+ * mathilab/tp-statistiques/js/td03-fluctuation-frequence-probabilites.js
  */
-import FILIERES_PRO from '../../data/filieres.js';
-import { demarrerPuzzle } from '../../js/puzzle-onglet.js';
-import { S3 as MODELE_PUZZLE } from './puzzle-statistiques.js';
-import { initContextePro } from '../../js/contexte-pro.js';
-import {regrouperEnClasses, classeModale, dessinerDiagrammeBarres, dessinerDiagrammeSecteurs } from '../../js/statistiques.js';
-import { initRadarCompetences } from '../../js/radar.js';
-import { initImpressionCompteRendu } from './compte-rendu-statistiques.js';
-import { initOngletsParFiliere } from '../../js/onglets-filiere.js';
 
-const CONTEXTES_S3 = {
+import { initZoomVisuels } from '../../../js/zoom-visuel.js';
+import { initSections, initTabs, initModesOperatoires } from '../../../js/utils.js';
+import { initContextePro } from '../../../js/contexte-pro.js';
+import { garantirMenuFiliere } from './filiere-select.js';
+import FILIERES_PRO from '../../data/filieres.js';
+import { initRadarCompetences } from '../../../js/radar.js';
+import { initOngletsParFiliere } from '../../../js/onglets-filiere.js';
+import { demarrerPuzzle } from '../../../js/puzzle-onglet.js';
+import { initImpressionCompteRendu } from './compte-rendu-statistiques.js';
+import { initQuestionsParOnglet } from './questions-par-onglet.js';
+import { initNavigationTP } from './nav-tp.js';
+import { S3 as MODELE_PUZZLE } from './puzzle-statistiques.js';
+import { dessinerDiagrammeBarres } from '../../js/statistiques.js';
+
+/* ============================================================
+   CONTEXTES PROFESSIONNELS — une problématique par onglet
+   ============================================================ */
+
+const CONTEXTES_PRO = {
   '2nde-remi': {
     contexte: "L'atelier annonce un taux de pièces non conformes p. Chaque contrôle qualité réalisé sur un échantillon donne une fréquence qui fluctue autour de p.",
-    problematique: "Un contrôle qualité qui s'écarte du taux annoncé signale-t-il forcément un problème de production ?",
+    problematiques: {
+      'fluctuation-echantillons': "Un contrôle qualité qui s'écarte du taux annoncé signale-t-il forcément un problème de production ?",
+      'stabilisation-n': "Combien de pièces faut-il contrôler pour que la fréquence de pièces non conformes observée soit fiable ?",
+      'arbre-denombrement': "Quelle est la probabilité d'obtenir exactement une pièce non conforme sur deux pièces contrôlées successivement ?"
+    }
   },
   '2nde-mcc': {
     contexte: "Un atelier annonce un taux de retouche p. Chaque contrôle sur un lot de pièces confectionnées donne une fréquence de retouche différente d'un lot à l'autre.",
-    problematique: "Un taux de retouche observé plus élevé que d'habitude signale-t-il forcément une dérive de qualité ?",
+    problematiques: {
+      'fluctuation-echantillons': "Un taux de retouche observé plus élevé que d'habitude signale-t-il forcément une dérive de qualité ?",
+      'stabilisation-n': "Sur combien de pièces faut-il contrôler un lot pour que le taux de retouche observé soit fiable ?",
+      'arbre-denombrement': "Quelle est la probabilité qu'exactement une pièce sur deux contrôlées successivement soit à retoucher ?"
+    }
   },
   '2nde-gatl': {
     contexte: "Un transporteur annonce un taux de retard p. Chaque suivi de livraisons sur une période donne une fréquence de retard qui varie.",
-    problematique: "Un taux de retard observé sur une semaine permet-il de juger la fiabilité réelle d'un transporteur ?",
-  },
+    problematiques: {
+      'fluctuation-echantillons': "Un taux de retard observé sur une semaine permet-il de juger la fiabilité réelle d'un transporteur ?",
+      'stabilisation-n': "Sur combien de livraisons faut-il suivre un transporteur pour que son taux de retard observé soit fiable ?",
+      'arbre-denombrement': "Quelle est la probabilité qu'exactement une livraison sur deux suivies soit en retard ?"
+    }
+  }
 };
 
 function tirerEchantillon(p, n) {
@@ -31,7 +55,10 @@ function tirerEchantillon(p, n) {
   return succes;
 }
 
-/* ---------- Onglet 1 : fluctuation sur échantillons de même taille ---------- */
+/* ============================================================
+   ONGLET 1 — FLUCTUATION SUR ÉCHANTILLONS DE MÊME TAILLE
+   ============================================================ */
+
 const essaisFluctuation = [];
 
 function actualiserFluctuation() {
@@ -45,7 +72,7 @@ function actualiserFluctuation() {
     { yLabel: 'Fréquence' }
   );
 
-  const div = document.getElementById('fl-etendue');
+  const div = document.getElementById('fl-resultat');
   if (essaisFluctuation.length >= 2) {
     const freqs = essaisFluctuation.map(e => e.frequence);
     const etendue = Math.max(...freqs) - Math.min(...freqs);
@@ -70,7 +97,10 @@ function initFluctuation() {
   actualiserFluctuation();
 }
 
-/* ---------- Onglet 2 : stabilisation quand n augmente ---------- */
+/* ============================================================
+   ONGLET 2 — STABILISATION QUAND n AUGMENTE
+   ============================================================ */
+
 const etapesStabilisation = [];
 let tailleCourante = 10;
 
@@ -112,9 +142,13 @@ function initStabilisation() {
     tailleCourante = 10;
     dessinerStabilisation();
   });
+  dessinerStabilisation();
 }
 
-/* ---------- Onglet 3 : arbre de dénombrement à 2 niveaux ---------- */
+/* ============================================================
+   ONGLET 3 — ARBRE DE DÉNOMBREMENT À 2 NIVEAUX
+   ============================================================ */
+
 function initArbreDenombrement() {
   document.getElementById('ar-calculer')?.addEventListener('click', () => {
     const p = (parseFloat(document.getElementById('ar-p').value) || 0) / 100;
@@ -128,16 +162,49 @@ function initArbreDenombrement() {
     document.getElementById('ar-tbody').innerHTML = chemins
       .map(([a, b, proba]) => `<tr><td>${a}</td><td>${b}</td><td>${a} puis ${b}</td><td>${proba.toFixed(4)}</td></tr>`).join('');
     const somme = chemins.reduce((s, c) => s + c[2], 0);
-    document.getElementById('ar-verification').textContent = `Somme des 4 probabilités : ${somme.toFixed(4)} (doit valoir 1)`;
+    document.getElementById('ar-resultat').textContent =
+      `Somme des 4 probabilités : ${somme.toFixed(4)} (doit valoir 1) — P(exactement un succès) = 2p(1 − p) = ${(2 * p * q).toFixed(4)}`;
   });
 }
 
-initOngletsParFiliere();
-initContextePro({ filieres: FILIERES_PRO, contextes: CONTEXTES_S3 });
+/* ============================================================
+   INITIALISATION (appelée par navigation.js après chargement du fragment)
+   ============================================================ */
 
-  demarrerPuzzle(MODELE_PUZZLE);
-initFluctuation();
-initStabilisation();
-initArbreDenombrement();
-initRadarCompetences();
-initImpressionCompteRendu({ titre: "Fluctuation d'une fréquence, probabilités", tp: 'S3' });
+function etape(nom, fn) {
+  try {
+    fn();
+  } catch (err) {
+    console.error(`[tp-statistiques] étape « ${nom} » en erreur :`, err);
+  }
+}
+
+export function init() {
+
+  essaisFluctuation.length = 0;
+  etapesStabilisation.length = 0;
+  tailleCourante = 10;
+
+  etape('zoom', () => initZoomVisuels());
+  etape('onglet 1 : fluctuation', initFluctuation);
+  etape('onglet 2 : stabilisation', initStabilisation);
+  etape('onglet 3 : arbre de dénombrement', initArbreDenombrement);
+  etape('contexte pro', () => initContextePro({
+    afficherProblematique: false,
+    filieres: FILIERES_PRO,
+    contextes: CONTEXTES_PRO
+  }));
+  etape('menu filière', () => garantirMenuFiliere(CONTEXTES_PRO));
+  etape('puzzle', () => demarrerPuzzle(MODELE_PUZZLE));
+  etape('onglets par filière', () => initOngletsParFiliere());
+  etape('sections', () => initSections());
+  etape('onglets', () => initTabs());
+  etape('modes opératoires', () => initModesOperatoires());
+  etape('radar', () => initRadarCompetences());
+  etape('questions par onglet', () => initQuestionsParOnglet());
+  etape('navigation TD', () => initNavigationTP());
+  etape('impression', () => initImpressionCompteRendu({
+    titre: "Fluctuation d'une fréquence, probabilités",
+    tp: 'TD03'
+  }));
+}
