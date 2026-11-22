@@ -38,7 +38,7 @@ async function afficherSelonSession() {
   $("#vue-connexion").hidden = connecte;
   $("#vue-app").hidden = !connecte;
   $("#btn-deco").hidden = !connecte;
-  if (connecte) chargerBase();
+  if (connecte) { chargerBase(); afficherCompteur(); }
 }
 
 $("#form-connexion").addEventListener("submit", async e => {
@@ -185,7 +185,51 @@ function preAnalyse(c) {
 
 /* ============================ Analyse IA ============================ */
 
-async function analyserCopie(c) {
+const PAUSE_ENTRE_APPELS_MS = 2500;      // espacement mini entre deux copies (quotas par minute)
+const ATTENTE_QUOTA_MAX_S = 120;         // au-delà, on considère le quota épuisé (journalier)
+const TENTATIVES_QUOTA = 3;
+const attendre = ms => new Promise(r => setTimeout(r, ms));
+const jourCourt = () => new Date().toISOString().slice(0, 10);
+
+/* Compteur du jour (stocké dans ce navigateur seulement : simple repère, pas une limite). */
+function lireCompteur() {
+  try {
+    const v = JSON.parse(localStorage.getItem("notation-ia-compteur") || "null");
+    if (v && v.jour === jourCourt()) return v;
+  } catch { /* stockage indisponible */ }
+  return { jour: jourCourt(), total: 0, par: {} };
+}
+function compterAnalyse(fournisseur) {
+  const v = lireCompteur();
+  v.total++; v.par[fournisseur || "?"] = (v.par[fournisseur || "?"] || 0) + 1;
+  try { localStorage.setItem("notation-ia-compteur", JSON.stringify(v)); } catch { /* ignoré */ }
+  afficherCompteur();
+}
+function afficherCompteur() {
+  const v = lireCompteur();
+  const el = $("#compteur-ia"); if (!el) return;
+  const detail = Object.entries(v.par).map(([k, n]) => `${k} : ${n}`).join(", ");
+  el.textContent = v.total ? `Aujourd’hui : ${v.total} copie(s) analysée(s) par IA (${detail}).` : "";
+}
+
+/** Appelle la Edge Function ; en cas d’erreur, lit le message renvoyé par le serveur. */
+async function appelerIA(charge) {
+  const { data, error } = await sb.functions.invoke("analyser-copie", { body: { copie: charge } });
+  if (!error && data && !data.erreur) return data;
+  let detail = data?.erreur || "", statut = 0, delai = 0;
+  try {
+    statut = error?.context?.status || 0;
+    const j = await error?.context?.json?.();
+    if (j?.erreur) detail = j.erreur;
+    delai = Number(j?.reessayer_dans_s) || 0;
+  } catch { /* corps non JSON */ }
+  const e = new Error(detail || error?.message || "réponse vide");
+  e.quota = statut === 429; e.delai = delai;
+  throw e;
+}
+
+/** Une copie → IA. Retourne "ia" | "locale" | "quota" (quota seulement en mode lot). */
+async function analyserCopie(c, { lot = false, attenteQuota = false } = {}) {
   const msg = $("#msg-depot");
   c.occupe = true; afficherCarte(c);
   const charge = {
@@ -194,8 +238,22 @@ async function analyserCopie(c) {
     questions: c.questions.map(q => ({ code: q.code, competence: q.competence, enonce: q.enonce, reponse: q.reponse }))
   };
   try {
-    const { data, error } = await sb.functions.invoke("analyser-copie", { body: { copie: charge } });
-    if (error || !data || data.erreur) throw new Error(data?.erreur || error?.message || "réponse vide");
+    let data;
+    for (let essai = 1; ; essai++) {
+      try { data = await appelerIA(charge); break; }
+      catch (err) {
+        if (err.quota) {
+          // Quota « par minute » : on patiente puis on réessaie ; quota journalier : on s’arrête.
+          if (attenteQuota && err.delai && err.delai <= ATTENTE_QUOTA_MAX_S && essai < TENTATIVES_QUOTA) {
+            message(msg, `Quota gratuit atteint : reprise automatique dans ${err.delai + 2} s…`, "info");
+            await attendre((err.delai + 2) * 1000); continue;
+          }
+          throw err;
+        }
+        if (essai >= 2) throw err;
+        await attendre(3000);                      // erreur passagère : un seul nouvel essai
+      }
+    }
     const parCode = new Map(data.questions.map(x => [x.code, x]));
     c.questions.forEach(q => {
       const x = parCode.get(q.code);
@@ -205,23 +263,64 @@ async function analyserCopie(c) {
     c.analysePar = data.modele || "IA";
     c.commentaireNote = data.commentaire_note || commentaireLocal(c);
     if (c.questions.some(q => q.cotation === null)) throw new Error("cotation incomplète");
-    message(msg, `Analyse IA terminée pour ${c.prenom} ${c.nom}.`, "ok");
+    compterAnalyse(data.fournisseur);
+    if (!lot) message(msg, `Analyse IA terminée pour ${c.prenom} ${c.nom} (${c.analysePar}).`, "ok");
+    c.etat = "analysée"; c.valide = false; c.occupe = false; afficherCarte(c);
+    return "ia";
   } catch (err) {
+    if (err.quota && lot) {                         // lot : on laisse la copie « à analyser » pour plus tard
+      c.occupe = false; afficherCarte(c);
+      return "quota";
+    }
     preAnalyse(c);
     c.commentaireNote = commentaireLocal(c);
-    message(msg, `Module IA indisponible (${err.message}) : pré-analyse locale appliquée à ${c.prenom} ${c.nom}, à vérifier question par question.`, "erreur");
+    if (!lot) message(msg, `Module IA indisponible (${err.message}) : pré-analyse locale appliquée à ${c.prenom} ${c.nom}, à vérifier question par question.`, "erreur");
+    c.etat = "analysée"; c.valide = false; c.occupe = false; afficherCarte(c);
+    return "locale";
   }
-  c.etat = "analysée"; c.valide = false; c.occupe = false;
-  afficherCarte(c);
 }
 
+/* Analyse en lot : une copie à la fois, espacées, avec reprise sur quota, arrêt possible. */
+let lotEnCours = false, lotStop = false;
+$("#btn-stop").addEventListener("click", () => { lotStop = true; $("#btn-stop").disabled = true; });
+
 $("#btn-tout-analyser").addEventListener("click", async () => {
-  for (const c of copies) if (c.etat === "lue") await analyserCopie(c);
+  if (lotEnCours) return;
+  const msg = $("#msg-depot");
+  const aFaire = copies.filter(c => c.etat === "lue");
+  if (!aFaire.length) { message(msg, "Aucune copie à analyser (toutes sont déjà analysées).", "info"); return; }
+  const auto = $("#auto-enreg").checked;
+  lotEnCours = true; lotStop = false;
+  const bouton = $("#btn-tout-analyser"), stop = $("#btn-stop"), prog = $("#progression");
+  bouton.disabled = true; stop.hidden = false; stop.disabled = false;
+  prog.hidden = false; prog.max = aFaire.length; prog.value = 0;
+  let ia = 0, locales = 0, enreg = 0, echecEnreg = 0, arret = "";
+  for (const [i, c] of aFaire.entries()) {
+    if (lotStop) { arret = "Arrêt demandé."; break; }
+    message(msg, `Analyse ${i + 1} / ${aFaire.length} : ${c.prenom} ${c.nom}…`, "info");
+    const r = await analyserCopie(c, { lot: true, attenteQuota: true });
+    if (r === "quota") { arret = "Quotas gratuits épuisés : les copies restantes sont conservées, relancez plus tard."; break; }
+    if (r === "ia") {
+      ia++;
+      if (auto) { if (await enregistrerCopie(c, { silencieux: true })) enreg++; else echecEnreg++; }
+    } else locales++;
+    prog.value = i + 1;
+    if (i < aFaire.length - 1 && !lotStop) await attendre(PAUSE_ENTRE_APPELS_MS);
+  }
+  lotEnCours = false; bouton.disabled = false; stop.hidden = true; prog.hidden = true;
+  const restantes = copies.filter(c => c.etat === "lue").length;
+  let t = `${ia} copie(s) analysée(s) par IA`;
+  if (locales) t += `, ${locales} en pré-analyse locale (à vérifier de près)`;
+  if (auto) t += `, ${enreg} enregistrée(s)` + (echecEnreg ? ` (${echecEnreg} échec(s) : vérifiez nom et prénom)` : "");
+  t += ".";
+  if (restantes) t += ` ${restantes} restante(s).`;
+  if (arret) t += " " + arret;
+  message(msg, t, arret.startsWith("Quotas") || locales || echecEnreg ? "erreur" : "ok");
 });
 
 /* ============================ Enregistrement Supabase ============================ */
 
-async function enregistrerCopie(c) {
+async function enregistrerCopie(c, { silencieux = false } = {}) {
   const msg = $("#msg-depot");
   const note = noteCopie(c);
   if (!c.nom.trim() || !c.prenom.trim()) { message(msg, "Renseignez le nom et le prénom avant d’enregistrer.", "erreur"); return false; }
@@ -257,7 +356,7 @@ async function enregistrerCopie(c) {
     const { error: e2 } = await sb.from("notation_reponses").insert(reps);
     if (e2) throw e2;
     c.dbId = id; c.etat = "enregistrée";
-    message(msg, `${c.prenom} ${c.nom} : copie enregistrée (${fmt(note.sur10)} / 10).`, "ok");
+    if (!silencieux) message(msg, `${c.prenom} ${c.nom} : copie enregistrée (${fmt(note.sur10)} / 10).`, "ok");
     c.occupe = false; afficherCarte(c);
     return true;
   } catch (err) {
