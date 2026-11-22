@@ -50,8 +50,12 @@
     <div id="barre-globale" class="barre" hidden>
       <button type="button" id="btn-tout-analyser" class="btn btn-principal">Analyser toutes les copies</button>
       <button type="button" id="btn-tout-enregistrer" class="btn">Enregistrer toutes les copies</button>
+      <button type="button" id="btn-stop" class="btn btn-danger" hidden>Arrêter après la copie en cours</button>
       <button type="button" id="btn-vider" class="btn btn-discret">Vider la liste</button>
+      <label class="suspect"><input type="checkbox" id="auto-enreg"> Enregistrer automatiquement après l’analyse IA</label>
     </div>
+    <progress id="progression" max="1" value="0" hidden aria-label="Progression de l’analyse"></progress>
+    <p id="compteur-ia" class="aide" aria-live="polite"></p>
 
     <div id="liste-copies"></div>
   </section>
