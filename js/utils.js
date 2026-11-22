@@ -81,7 +81,7 @@ export function imgSrc(
         chemin.startsWith("tp-acoustique/") ||
         chemin.startsWith("tp-electricite/") ||
         chemin.startsWith("tp-mecanique/") ||
-       chemin.startsWith("tp-thermique/") ||
+        chemin.startsWith("tp-thermique/") ||
         chemin.startsWith("tp-signaux/") ||
         chemin.startsWith("tp-statistiques/") ||
         chemin.startsWith("tp-algebre/") ||
@@ -1453,6 +1453,8 @@ export function initSymboles(racine = document) {
         const car = m && SYMBOLES_PAR_ALIAS.get(m[1].toLowerCase());
         if (!car) return;
         champ.setRangeText(car, pos - 1 - m[0].length, pos, 'end');
+        // prévient les autres modules (sauvegarde auto, compte rendu PDF…)
+        champ.dispatchEvent(new Event('input', { bubbles: true }));
     });
 }
 
@@ -1460,4 +1462,57 @@ export function initSymboles(racine = document) {
 // utilisé par les TP de laboratoire, où elle n'a pas lieu d'être).
 if (typeof document !== 'undefined' && /\/mathilab\//.test(location.pathname)) {
     initSymboles(document);
+}
+
+/* ============================================================
+   SAISIE DES NORMES : ||AB|| → « norme vecteur AB » (MathiLab)
+   ------------------------------------------------------------
+   Conversion à la saisie dans toutes les zones de texte (textarea et
+   input text), y compris celles créées dynamiquement. Les éditeurs de
+   code Python sont ignorés. Activation sur les pages /mathilab/ uniquement.
+   ============================================================ */
+
+export function convertirNormes(texte) {
+    return texte
+        // ||AB||, ‖AB‖, avec flèche facultative après la lettre (→ ou U+20D7)
+        .replace(/(?:\|\||‖)\s*([A-Za-z]{1,3})[\u20D7→]?\s*(?:\|\||‖)/g,
+                 'norme vecteur $1')
+        // ||→AB|| ou ||vec AB||
+        .replace(/(?:\|\||‖)\s*(?:→|vec\s+)\s*([A-Za-z]{1,3})\s*(?:\|\||‖)/gi,
+                 'norme vecteur $1');
+}
+
+export function initNormes(racine = document) {
+    if (racine.__normesInit) return;
+    racine.__normesInit = true;
+
+    let enCours = false;
+    racine.addEventListener('input', (e) => {
+        if (enCours) return;
+        const champ = e.target;
+        const estChampTexte =
+            champ instanceof HTMLTextAreaElement ||
+            (champ instanceof HTMLInputElement && champ.type === 'text');
+        if (!estChampTexte || champ.readOnly || champ.disabled) return;
+        if (champ.classList.contains('code-editeur-python')
+            || champ.closest('.code-exercice')) return;
+
+        // On ne convertit que ce qui précède le curseur : le curseur reste juste.
+        const pos = champ.selectionStart ?? champ.value.length;
+        const avantCurseur = champ.value.slice(0, pos);
+        const converti = convertirNormes(avantCurseur);
+        if (converti === avantCurseur) return;
+
+        champ.value = converti + champ.value.slice(pos);
+        champ.setSelectionRange(converti.length, converti.length);
+
+        // prévient les autres modules (sauvegarde auto, compte rendu PDF…)
+        enCours = true;
+        champ.dispatchEvent(new Event('input', { bubbles: true }));
+        enCours = false;
+    });
+}
+
+if (typeof document !== 'undefined' && /\/mathilab\//.test(location.pathname)) {
+    initNormes(document);
 }
