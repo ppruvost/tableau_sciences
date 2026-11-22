@@ -110,3 +110,7 @@ th { background: #f2f2f2; }
   th, td { font-size: .85rem; padding: 4px; }
 }
 @media print { .bandeau nav, .depot, .barre, .actions, .onglets { display: none !important; } }
+
+/* ---- Analyse en lot (≈ 100 copies / jour) ---- */
+#progression { width: 100%; height: 14px; margin: 4px 0 0; accent-color: var(--bleu); }
+#barre-globale .suspect { margin: 0 0 0 auto; align-self: center; }
