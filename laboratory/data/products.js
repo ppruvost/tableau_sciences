@@ -1,4 +1,4 @@
-   const products = [
+const products = [
   {
     cas: "98-86-2",
     nom: "acétophénone (1-phényléthanone, méthylphénylcétone)",
@@ -39,6 +39,19 @@
     prevention: ["P260", "P303+P351+P363", "P305+P351+P338", "P310", "P405", "P501"]
   },
     {
+    cas: "77-92-9",
+    nom: "acide citrique anhydre (poudre cristal)",
+    formule: "C₆H₈O₇",
+    categorie: "Solide",
+    localisation: "Salle B27 / étagère E1",
+    pictogramme: ["SGH07_PointExclamation.jpg"],
+    obligation: ["LUNETTES", "GANTS", "BLOUSE"],
+    image: "acide_citrique.jpg",
+    fds: "FicheTox_XXX.pdf",
+    dangers: ["H319"],
+    prevention: ["P264", "P280", "P305+P351+P338", "P337+P313"]
+  },
+  {
   cas: "60-00-4",
   nom: "acide EDTA (éthylène diamine tétra acétique)",
   formule: "C₁₀H₁₆N₂O₈",
