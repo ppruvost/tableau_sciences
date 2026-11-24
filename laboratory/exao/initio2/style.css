@@ -1,22 +1,4 @@
-@font-face {
-  font-family: "Atkinson Hyperlegible";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: local("Atkinson Hyperlegible"), local("AtkinsonHyperlegible-Regular"),
-       url("/fonts/AtkinsonHyperlegible-Regular.woff2") format("woff2"),
-       url("/fonts/AtkinsonHyperlegible-Regular.ttf") format("truetype");
-}
-@font-face {
-  font-family: "Atkinson Hyperlegible";
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: local("Atkinson Hyperlegible Bold"), local("AtkinsonHyperlegible-Bold"),
-       url("/fonts/AtkinsonHyperlegible-Bold.woff2") format("woff2"),
-       url("/fonts/AtkinsonHyperlegible-Bold.ttf") format("truetype");
-}
-
+@import url("../../../fonts/fonts.css");   /* police Atkinson : source unique à la racine du projet */
 :root {
   --fond: #f4f6f9;
   --carte: #ffffff;
@@ -192,7 +174,7 @@ thead th { position: sticky; top: 0; background: var(--carte); border-bottom: 1p
 .diag-corps, .aide { margin-top: .75rem; }
 .ligne-trame { display: flex; gap: .5rem; align-items: end; flex-wrap: wrap; margin-bottom: .6rem; }
 .ligne-trame label { display: grid; gap: .15rem; font-size: .8rem; color: var(--texte-doux); flex: 1 1 280px; }
-.ligne-trame input { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; }
+.ligne-trame input { font-family: "Atkinson Hyperlegible Mono", ui-monospace, "SFMono-Regular", Consolas, monospace; }
 #journal {
   margin: 0;
   max-height: 260px;
@@ -200,12 +182,12 @@ thead th { position: sticky; top: 0; background: var(--carte); border-bottom: 1p
   padding: .6rem;
   border: 1px solid var(--bord);
   border-radius: 6px;
-  font: .8rem/1.4 ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font: .8rem/1.4 "Atkinson Hyperlegible Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
   white-space: pre-wrap;
   word-break: break-all;
 }
 .aide ul { margin: 0; padding-left: 1.2rem; display: grid; gap: .4rem; }
-code { font: .88em ui-monospace, "SFMono-Regular", Consolas, monospace; background: var(--fond); padding: .05rem .3rem; border-radius: 4px; }
+code { font: .88em "Atkinson Hyperlegible Mono", ui-monospace, "SFMono-Regular", Consolas, monospace; background: var(--fond); padding: .05rem .3rem; border-radius: 4px; }
 
 @media (max-width: 600px) {
   .actions button { flex: 1 1 auto; }
