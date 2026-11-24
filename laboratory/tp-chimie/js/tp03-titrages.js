@@ -132,19 +132,18 @@ const CONTEXTES_PRO = {
    ========================================================== */
 
 // Acides faibles (mono ou polyacides), pKa croissants
+/* ADAPTATION AU STOCK (data/products.js) : seuls les couples réalisables avec
+   des produits présents au labo sont proposés.
+   Retirés car absents : acide méthanoïque, HF, HNO₂, H₂S, acide borique,
+   acide oxalique, acide carbonique, acide phosphorique, méthylamine, éthylamine, aniline.
+   Substituts en stock : acide citrique (polyacide, remplace H₃PO₄ / H₂C₂O₄),
+   éthanoate de sodium (base faible, remplace les amines). */
 const ACIDES_DB = {
 
     CH3COOH: { nom: "CH₃COOH / CH₃COO⁻ (acide acétique)",   pka: [4.76] },
-    HCOOH:   { nom: "HCOOH / HCOO⁻ (acide méthanoïque)",     pka: [3.75] },
-    HF:      { nom: "HF / F⁻ (acide fluorhydrique)",          pka: [3.17] },
-    HNO2:    { nom: "HNO₂ / NO₂⁻ (acide nitreux)",            pka: [3.34] },
     H2O2:    { nom: "H₂O₂ / HO₂⁻ (eau oxygénée)",             pka: [11.6] },
-    H3BO3:   { nom: "H₃BO₃ / H₂BO₃⁻ (acide borique)",         pka: [9.24] },
 
-    H2C2O4:  { nom: "H₂C₂O₄ — acide oxalique (diacide)",      pka: [1.25, 4.14] },
-    H2CO3:   { nom: "H₂CO₃ — acide carbonique (diacide)",     pka: [6.35, 10.33] },
-    H2S:     { nom: "H₂S — sulfure d'hydrogène (diacide)",    pka: [7.0, 13.0] },
-    H3PO4:   { nom: "H₃PO₄ — acide phosphorique (triacide)",  pka: [2.15, 7.20, 12.35] },
+    H3Cit:   { nom: "H₃C₆H₅O₇ — acide citrique (triacide)",   pka: [3.13, 4.76, 6.40] },
     H4EDTA:  { nom: "H₄EDTA — EDTA (tétraacide)",             pka: [2.0, 2.67, 6.16, 10.26] }
 
 };
@@ -152,10 +151,8 @@ const ACIDES_DB = {
 // Bases faibles monoacides : pKa donné = pKa du couple (BH+/B), conjugué
 const BASES_DB = {
 
-    NH3:     { nom: "NH₄⁺ / NH₃ (ammonium / ammoniac)",              pka: [9.25] },
-    CH3NH2:  { nom: "CH₃NH₃⁺ / CH₃NH₂ (méthylamine)",                pka: [10.62] },
-    C2H5NH2: { nom: "CH₃CH₂NH₃⁺ / CH₃CH₂NH₂ (éthylamine)",           pka: [10.8] },
-    C6H5NH2: { nom: "C₆H₅NH₃⁺ / C₆H₅NH₂ (aniline)",                  pka: [4.6] }
+    NH3:      { nom: "NH₄⁺ / NH₃ (ammonium / ammoniac)",              pka: [9.25] },
+    CH3COONa: { nom: "CH₃COOH / CH₃COO⁻ (éthanoate de sodium)",       pka: [4.76] }
 
 };
 
@@ -515,20 +512,11 @@ function afficherSecurite() {
 
 const MOLECULES_COUPLES = {
     CH3COOH: "acide éthanoïque",
-    HCOOH: "acide méthanoïque",
-    HF: "fluorure d'hydrogène",
-    HNO2: "acide nitreux",
     H2O2: "peroxyde d'hydrogène",
-    H3BO3: "acide borique",
-    H2C2O4: "acide oxalique",
-    H2CO3: "acide carbonique",
-    H2S: "sulfure d'hydrogène",
-    H3PO4: "acide phosphorique",
+    H3Cit: "acide citrique",
     H4EDTA: "EDTA",
     NH3: "ammoniac",
-    CH3NH2: "méthylamine",
-    C2H5NH2: "éthylamine",
-    C6H5NH2: "aniline"
+    CH3COONa: "acétate de sodium"
 };
 
 function majBoutons3DCouples() {
