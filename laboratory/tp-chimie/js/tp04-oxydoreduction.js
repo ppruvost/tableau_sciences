@@ -97,7 +97,8 @@ const METAUX_DB = {
     Al: { nom: "Aluminium (Al)", couple: "Al³⁺/Al", reactifAcide: true },
     Zn: { nom: "Zinc (Zn)",      couple: "Zn²⁺/Zn", reactifAcide: true },
     Fe: { nom: "Fer (Fe)",       couple: "Fe²⁺/Fe", reactifAcide: true },
-    Pb: { nom: "Plomb (Pb)",     couple: "Pb²⁺/Pb", reactifAcide: false },
+    // Substitution : le couple Pb²⁺/Pb est remplacé par Sn²⁺/Sn (le nitrate de plomb(II) est un produit CMR)
+    Sn: { nom: "Étain (Sn)",      couple: "Sn²⁺/Sn", reactifAcide: false },
     Cu: { nom: "Cuivre (Cu)",    couple: "Cu²⁺/Cu", reactifAcide: false }
 
 };
@@ -106,7 +107,7 @@ const COUPLES_DB = {
     "Al3+/Al": { nom: "Al³⁺ / Al", rang: 1 },
     "Zn2+/Zn": { nom: "Zn²⁺ / Zn", rang: 2 },
     "Fe2+/Fe": { nom: "Fe²⁺ / Fe", rang: 3 },
-    "Pb2+/Pb": { nom: "Pb²⁺ / Pb", rang: 4 },
+    "Sn2+/Sn": { nom: "Sn²⁺ / Sn", rang: 4 },
     "Cu2+/Cu": { nom: "Cu²⁺ / Cu", rang: 5 }
 };
 
