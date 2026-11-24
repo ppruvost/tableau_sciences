@@ -60,7 +60,7 @@ function carte(d) {
   const corps = el("details", {}, el("summary", { textContent: "Lire le contenu" }), el("pre", { textContent: d.contenu || "(vide)" }));
   const actions = el("div", { className: "actions" });
   if (!lecture) actions.append(el("button", { className: "btn secondaire", type: "button", onclick: () => formulaire(d) }, icone("fa-pen"), " Modifier"));
-  actions.append(el("button", { className: "btn secondaire", type: "button", onclick: (e) => imprimer(e.target.closest(".doc")) }, icone("fa-print"), " Imprimer"));
+  actions.append(el("button", { className: "btn secondaire", type: "button", onclick: (e) => imprimer(e.target.closest(".doc"), d) }, icone("fa-print"), " Imprimer"));
   if (!lecture) actions.append(el("button", { className: "btn danger", type: "button", onclick: () => supprimer(d) }, icone("fa-trash"), " Supprimer"));
   if (d.lien) actions.prepend(el("a", { className: "btn", href: d.lien, target: "_blank", rel: "noopener" }, icone("fa-up-right-from-square"), " Ouvrir le lien"));
   return el("article", { className: "doc" },
@@ -76,10 +76,23 @@ function afficherListe() {
   liste.replaceChildren(...(filtres.length ? filtres.map(carte) : [el("p", { className: "vide", textContent: docs.length ? "Aucun résultat pour cette recherche." : (lecture ? "Rien ici pour l’instant." : "Rien ici pour l’instant. Utilisez « Ajouter » pour créer le premier document.") })]));
 }
 
-function imprimer(article) {
+// Nom du PDF = titre de l’onglet au moment de l’impression : « TechLab_titre », titre condensé à 10 caractères max
+// (accents retirés, mots vides ignorés, initiales en majuscule). Ex. « Bain à ultrasons : solution de nettoyage » → TechLab_BainUltras
+const TITRE_PAGE = document.title;
+const MOTS_VIDES = new Set(["de", "du", "des", "la", "le", "les", "un", "une", "a", "au", "aux", "et", "en", "pour", "sur", "d", "l"]);
+function nomFichier(titre) {
+  const mots = titre.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(/[^A-Za-z0-9]+/)
+    .filter((m) => m && !MOTS_VIDES.has(m.toLowerCase()));
+  const court = mots.map((m) => m[0].toUpperCase() + m.slice(1)).join("").slice(0, 10);
+  return "TechLab_" + (court || "Document");
+}
+
+function imprimer(article, d) {
   article.querySelector("details").open = true;
   document.body.classList.add("impression-unique");
   article.classList.add("cible");
+  document.title = nomFichier(d.titre);
+  window.addEventListener("afterprint", () => { document.title = TITRE_PAGE; }, { once: true });
   window.print();
   article.classList.remove("cible");
   document.body.classList.remove("impression-unique");
