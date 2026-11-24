@@ -53,6 +53,7 @@
       <button type="button" id="btn-stop" class="btn btn-danger" hidden>Arrêter après la copie en cours</button>
       <button type="button" id="btn-vider" class="btn btn-discret">Vider la liste</button>
       <label class="suspect"><input type="checkbox" id="auto-enreg"> Enregistrer automatiquement après l’analyse IA</label>
+      <label class="suspect"><input type="checkbox" id="integrer-auto" checked> Compter l’auto-évaluation dans la note (maths et sciences)</label>
     </div>
     <progress id="progression" max="1" value="0" hidden aria-label="Progression de l’analyse"></progress>
     <p id="compteur-ia" class="aide" aria-live="polite"></p>
@@ -87,7 +88,14 @@
       <li><strong>1</strong> — une bonne idée, mais trop imprécise ou incomplète.</li>
       <li><strong>2</strong> — bonne réponse, bonne maîtrise.</li>
     </ul>
-    <p class="aide">L’orthographe et la qualité de la rédaction ne sont pas pénalisées : on évalue l’idée. La note sur 10 est la somme des cotations des questions, ramenée sur 10. La cotation proposée par l’IA reste modifiable : l’enseignant a le dernier mot.</p>
+    <p class="aide">L’orthographe et la qualité de la rédaction ne sont pas pénalisées : on évalue l’idée. La note sur 10 est la somme des cotations (0, 1 ou 2) de tous les éléments cotés, ramenée sur 10 : les questions, plus les rubriques ci-dessous. Chaque cotation proposée reste modifiable : l’enseignant a le dernier mot.</p>
+    <h3>Rubriques cotées en plus des questions</h3>
+    <ul>
+      <li><strong>MAT — Choix du matériel</strong> (physique) : 2 = matériel essentiel complet et sans matériel inutile ; 1 = un élément essentiel manquant (ou un seul inutile) ; 0 = choix inadapté ou aucun matériel. Grille disponible pour les TP référencés (ÉLECTRICITÉ TP02) ; sinon la rubrique reste à coter et n’entre pas dans la note tant qu’elle est vide.</li>
+      <li><strong>MANIP — Pertinence des valeurs saisies</strong> (physique) : contrôle des valeurs de « Manipulation » (renseignées, plausibles, cohérentes entre elles) : 2 = toutes pertinentes ; 1 = quelques valeurs douteuses ; 0 = valeurs absentes ou incohérentes.</li>
+      <li><strong>Q1 à Qn</strong> (physique) : cotation de l’IA ou de la grille du TP, plafonnée à 1 en cas d’erreur certaine (calcul faux, résultat différent de celui de la manipulation).</li>
+      <li><strong>AUTO — Auto-évaluation</strong> (maths et sciences) : lucidité de l’élève. On compare, compétence par compétence (APP, ANA, REA, VAL, COM), son niveau déclaré (0 à 2) à la moyenne des cotations de ses questions : écart moyen ≤ 0,5 → 2 ; ≤ 1 → 1 ; sinon 0. La case « Compter l’auto-évaluation » permet de l’exclure de la note.</li>
+    </ul>
   </aside>
 </main>
 
