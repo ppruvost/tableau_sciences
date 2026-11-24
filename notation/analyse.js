@@ -1,11 +1,13 @@
 /* ==========================================================================
    notation/analyse.js — Analyse des comptes rendus PDF (Mermoz Lab)
    Dépôt de PDF → lecture → analyse IA (Edge Function « analyser-copie »)
-   → cotation 0/1/2 par question → note /10 → enregistrement Supabase.
+   → cotation 0/1/2 par question et par rubrique (matériel, valeurs de la manipulation, auto-évaluation)
+   → note /10 → enregistrement Supabase.
    Accès protégé : connexion Supabase Auth + règles RLS (supabase/notation.sql).
    ========================================================================== */
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/+esm";
 import { lignesDepuisPdf, analyserLignes } from "./analyse-parser.js";
+import { ajouterRubriques, appliquerControles, recalculerAuto, evaluerRubriquesPhysique, questionsReelles, estRubrique } from "./analyse-rubriques.js";
 
 const SUPABASE_URL = "https://obsqakmhtvfuwnoxoksr.supabase.co";
 const SUPABASE_CLE = "sb_publishable_6FzuHhDBYOOSiAR9J-CiCA_KBfcyfhu"; // clé publique : la sécurité repose sur la RLS
@@ -23,6 +25,8 @@ const NOM_COMP = { APP: "S’approprier", ANA: "Analyser / Raisonner", REA: "Ré
 
 let copies = [];
 let uidCompteur = 0;
+let integrerAuto = true;       // l'auto-évaluation compte dans la note (maths comme sciences)
+try { if (localStorage.getItem("notation-integrer-auto") === "0") integrerAuto = false; } catch { /* stockage indisponible */ }
 let derniereBase = [];
 
 function message(el, texte, type = "info") {
@@ -117,23 +121,34 @@ async function traiterFichiers(fichiers) {
 }
 
 function nouvelleCopie(r, nomFichier, emp) {
-  return {
+  const c = {
     uid: ++uidCompteur, dbId: null, fichier: nomFichier, empreinte: emp,
     matiere: r.matiere, domaine: r.domaine, codeTd: r.codeTd, titre: r.titre, niveau: r.niveau, classe: r.classe,
     filiere: r.filiere, nom: r.nom, prenom: r.prenom, dateCopie: r.dateCopie, pdfId: r.pdfId,
     contexte: r.contexte, manipulation: r.manipulation, problematique: r.problematique,
     autoevaluation: r.autoevaluation, avertissements: r.avertissements,
+    materiel: r.materiel, manipulationValeurs: r.manipulationValeurs, manipulationResultats: r.manipulationResultats,
     questions: r.questions.map(q => ({ ...q, cotation: null, cotationIA: null, signal: false, justification: "" })),
     commentaireProf: "", commentaireNote: "", analysePar: "", valide: false, etat: "lue", occupe: false
   };
+  ajouterRubriques(c);        // matériel, valeurs de la manipulation (physique) et auto-évaluation (toutes matières)
+  return c;
 }
 
 /* ============================ Note et commentaires ============================ */
 
+/** Éléments qui comptent dans la note : questions + rubriques cotées. L'auto-évaluation peut être exclue (case à cocher) ;
+ *  une rubrique facultative restée vide (pas de grille pour ce TP) n'est pas comptée. */
+function elementsNotes(c) {
+  const vide = q => q.cotation === null || q.cotation === undefined;
+  return c.questions.filter(q => !(q.code === "AUTO" && !integrerAuto) && !(q.rubrique && q.facultatif && vide(q)));
+}
+
 function noteCopie(c) {
-  const n = c.questions.length;
-  if (!n || c.questions.some(q => q.cotation === null || q.cotation === undefined)) return null;
-  const total = c.questions.reduce((s, q) => s + Number(q.cotation), 0);
+  const items = elementsNotes(c);
+  const n = items.length;
+  if (!n || items.some(q => q.cotation === null || q.cotation === undefined)) return null;
+  const total = items.reduce((s, q) => s + Number(q.cotation), 0);
   const sur10 = Math.round((total / (2 * n)) * 10 * 4) / 4;     // arrondi au quart de point, comme la grille
   return { total, max: 2 * n, sur10 };
 }
@@ -143,9 +158,10 @@ function commentaireLocal(c) {
   const note = noteCopie(c);
   if (!note) return "";
   const ratio = note.total / note.max;
-  const bien = c.questions.filter(q => q.cotation === 2).map(q => NOM_COMP[q.competence]).filter(Boolean);
-  const aTravailler = c.questions.filter(q => q.cotation < 2).map(q => NOM_COMP[q.competence]).filter(Boolean);
-  const vides = c.questions.filter(q => !String(q.reponse).trim()).length;
+  const reelles = questionsReelles(c);
+  const bien = reelles.filter(q => q.cotation === 2).map(q => NOM_COMP[q.competence]).filter(Boolean);
+  const aTravailler = reelles.filter(q => q.cotation < 2).map(q => NOM_COMP[q.competence]).filter(Boolean);
+  const vides = reelles.filter(q => !String(q.reponse).trim()).length;
   const parts = [];
   if (ratio >= 0.8) parts.push("Très bon travail : tu as bien compris ce qui était demandé.");
   else if (ratio >= 0.5) parts.push("Tu as de bonnes idées et tu as compris l’essentiel.");
@@ -164,7 +180,7 @@ const racines = s => new Set((s.toLowerCase().normalize("NFD").replace(/[\u0300-
 
 function preAnalyse(c) {
   const ref = racines([c.contexte, c.problematique, c.manipulation].join(" "));
-  c.questions.forEach(q => {
+  questionsReelles(c).forEach(q => {
     const rep = String(q.reponse || "").trim();
     const mots = rep ? rep.split(/\s+/).length : 0;
     const refQ = new Set([...ref, ...racines(q.enonce)]);
@@ -181,6 +197,7 @@ function preAnalyse(c) {
     q.cotationIA = q.cotation;
   });
   c.analysePar = "pré-analyse locale (sans IA)";
+  appliquerControles(c, "locale");     // grille du TP (physique), matériel, valeurs de la manipulation, auto-évaluation
 }
 
 /* ============================ Analyse IA ============================ */
@@ -235,7 +252,7 @@ async function analyserCopie(c, { lot = false, attenteQuota = false } = {}) {
   const charge = {
     domaine: c.domaine, titre: c.titre, niveau: c.niveau, filiere: c.filiere, contexte: c.contexte,
     problematique: c.problematique, manipulation: c.manipulation,
-    questions: c.questions.map(q => ({ code: q.code, competence: q.competence, enonce: q.enonce, reponse: q.reponse }))
+    questions: questionsReelles(c).map(q => ({ code: q.code, competence: q.competence, enonce: q.enonce, reponse: q.reponse }))
   };
   try {
     let data;
@@ -255,14 +272,15 @@ async function analyserCopie(c, { lot = false, attenteQuota = false } = {}) {
       }
     }
     const parCode = new Map(data.questions.map(x => [x.code, x]));
-    c.questions.forEach(q => {
+    questionsReelles(c).forEach(q => {
       const x = parCode.get(q.code);
       if (!x) return;
       q.cotation = q.cotationIA = x.cotation; q.signal = !!x.signal_ia; q.justification = x.justification || "";
     });
     c.analysePar = data.modele || "IA";
+    if (questionsReelles(c).some(q => q.cotation === null)) throw new Error("cotation incomplète");
+    appliquerControles(c, "ia");         // plafonne à 1 les réponses avec erreur certaine ; cote matériel, valeurs, auto-évaluation
     c.commentaireNote = data.commentaire_note || commentaireLocal(c);
-    if (c.questions.some(q => q.cotation === null)) throw new Error("cotation incomplète");
     compterAnalyse(data.fournisseur);
     if (!lot) message(msg, `Analyse IA terminée pour ${c.prenom} ${c.nom} (${c.analysePar}).`, "ok");
     c.etat = "analysée"; c.valide = false; c.occupe = false; afficherCarte(c);
@@ -348,7 +366,7 @@ async function enregistrerCopie(c, { silencieux = false } = {}) {
     }
     const { error: e1 } = await sb.from("notation_reponses").delete().eq("copie_id", id);
     if (e1) throw e1;
-    const reps = c.questions.map((q, i) => ({
+    const reps = c.questions.filter(q => !(q.rubrique && (q.cotation === null || q.cotation === undefined))).map((q, i) => ({
       copie_id: id, code: q.code, ordre: i + 1, competence: q.competence || null, enonce: q.enonce, reponse: q.reponse,
       cotation_ia: q.cotationIA ?? q.cotation, cotation_prof: q.cotationIA !== null && q.cotationIA !== undefined && q.cotation !== q.cotationIA ? q.cotation : null,
       signal_ia: !!q.signal, justification: q.justification || null
@@ -371,6 +389,16 @@ $("#btn-tout-enregistrer").addEventListener("click", async () => {
   for (const c of copies) if (c.etat !== "enregistrée" && await enregistrerCopie(c)) ok++;
   if (ok) message($("#msg-depot"), `${ok} copie(s) enregistrée(s).`, "ok");
 });
+const caseAuto = $("#integrer-auto");
+if (caseAuto) {
+  caseAuto.checked = integrerAuto;
+  caseAuto.addEventListener("change", () => {
+    integrerAuto = caseAuto.checked;
+    try { localStorage.setItem("notation-integrer-auto", integrerAuto ? "1" : "0"); } catch { /* ignoré */ }
+    copies.forEach(c => { if (c.etat === "enregistrée") c.etat = "analysée"; });   // la note change : à ré-enregistrer
+    afficher();
+  });
+}
 $("#btn-vider").addEventListener("click", () => { copies = []; afficher(); message($("#msg-depot"), ""); });
 
 /* ============================ Affichage des copies ============================ */
@@ -380,7 +408,31 @@ function champ(c, cle, etiquette, type = "text") {
   return `<div><label for="${id}">${etiquette}</label><input id="${id}" type="${type}" data-champ="${cle}" value="${esc(c[cle])}"></div>`;
 }
 
+const LIBELLE_RUBRIQUE = { MAT: "Matériel", MANIP: "Valeurs saisies", AUTO: "Auto-évaluation" };
+
+function ligneRubrique(c, q, i) {
+  const idq = `c${c.uid}-q${i}`;
+  const nonEvalue = q.cotation === null || q.cotation === undefined;
+  const peutRecalculer = q.code === "AUTO" || !c.rubriquesGelees;
+  const opts = [
+    `<option value="" ${nonEvalue ? "selected" : ""}>${q.facultatif ? "— non évalué —" : "— à coter —"}</option>`,
+    ...[0, 1, 2].map(v => `<option value="${v}" ${String(q.cotation ?? "") === String(v) ? "selected" : ""}>${LIBELLE_COT[v]}</option>`),
+    peutRecalculer ? `<option value="auto">↺ Cotation automatique</option>` : ""
+  ].join("");
+  const exclue = q.code === "AUTO" && !integrerAuto;
+  return `<tr data-i="${i}" class="rubrique${exclue ? " exclue" : ""}">
+    <td><span class="q-code">${esc(q.code)}</span><br><small>${esc(LIBELLE_RUBRIQUE[q.code] || "")}</small></td>
+    <td><span class="q-enonce"><strong>${esc(q.enonce)}</strong>${exclue ? " — <em>non comptée dans la note (case décochée)</em>" : ""}</span>
+        <pre class="q-lecture">${esc(q.reponse) || "—"}</pre></td>
+    <td><label class="sr-only" for="${idq}-cot">Cotation ${esc(q.code)}</label>
+        <select id="${idq}-cot" class="cot" data-qchamp="cotation">${opts}</select></td>
+    <td><label class="sr-only" for="${idq}-j">Justification ${esc(q.code)}</label>
+        <textarea id="${idq}-j" class="q-justif" data-qchamp="justification">${esc(q.justification)}</textarea></td>
+  </tr>`;
+}
+
 function ligneQuestion(c, q, i) {
+  if (q.rubrique) return ligneRubrique(c, q, i);
   const idq = `c${c.uid}-q${i}`;
   const opts = ["", 0, 1, 2].map(v => `<option value="${v}" ${String(q.cotation ?? "") === String(v) ? "selected" : ""}>${v === "" ? "— à coter —" : LIBELLE_COT[v]}</option>`).join("");
   return `<tr data-i="${i}">
@@ -415,7 +467,7 @@ function carteHTML(c, ouverte) {
       <p><strong>Problématique :</strong> ${esc(c.problematique) || "<em>non détectée</em>"}</p>
     </div>
     <div class="table-wrapper"><table>
-      <thead><tr><th>Question</th><th>Énoncé et réponse de l’élève</th><th>Cotation</th><th>Justification</th></tr></thead>
+      <thead><tr><th>Question / rubrique</th><th>Énoncé et réponse de l’élève</th><th>Cotation</th><th>Justification</th></tr></thead>
       <tbody>${c.questions.map((q, i) => ligneQuestion(c, q, i)).join("")}</tbody>
     </table></div>
     <div class="resultat">
@@ -459,6 +511,19 @@ function majNote(c, el) {
   el.querySelector('[data-role="detail"]').textContent = note ? `(${note.total} point(s) sur ${note.max})` : "Cotez toutes les questions pour obtenir la note.";
 }
 
+/** Rafraîchit la ligne « Auto-évaluation » (cotation et justification calculées) sans refaire toute la carte. */
+function majLigneAuto(c, el) {
+  const i = c.questions.findIndex(x => x.code === "AUTO");
+  if (i < 0) return;
+  const q = c.questions[i];
+  const tr = el.querySelector(`tr[data-i="${i}"]`);
+  if (!tr) return;
+  const sel = tr.querySelector("select");
+  if (sel) sel.value = q.cotation === null || q.cotation === undefined ? "" : String(q.cotation);
+  const ta = tr.querySelector("textarea");
+  if (ta) ta.value = q.justification || "";
+}
+
 const liste = $("#liste-copies");
 const copieDe = el => copies.find(c => String(c.uid) === el.closest("details")?.dataset.uid);
 
@@ -471,8 +536,19 @@ liste.addEventListener("input", e => {
   } else if (e.target.dataset.qchamp) {
     const q = c.questions[+e.target.closest("tr").dataset.i];
     const k = e.target.dataset.qchamp;
+    if (q.rubrique && k === "cotation" && e.target.value === "auto") {       // retour à la cotation automatique
+      q.manuel = false;
+      if (q.code === "AUTO") recalculerAuto(c); else evaluerRubriquesPhysique(c);
+      if (c.etat === "enregistrée") c.etat = "analysée";
+      afficherCarte(c);
+      return;
+    }
     q[k] = k === "cotation" ? (e.target.value === "" ? null : +e.target.value) : k === "signal" ? e.target.checked : e.target.value;
-    if (k === "cotation") majNote(c, el);
+    if (q.rubrique && k === "cotation") q.manuel = true;                      // l'enseignant a le dernier mot
+    if (k === "cotation") {
+      if (!q.rubrique) { recalculerAuto(c); majLigneAuto(c, el); }            // l'auto-évaluation suit les cotations
+      majNote(c, el);
+    }
     if (c.etat === "enregistrée") c.etat = "analysée";
   }
 });
@@ -540,8 +616,10 @@ async function ouvrirEnregistree(id) {
       filiere: r.filiere || "", nom: r.nom, prenom: r.prenom, dateCopie: r.date_copie || "", pdfId: r.pdf_id || "",
       contexte: r.contexte_pro || "", manipulation: "", problematique: r.problematique || "",
       autoevaluation: r.autoevaluation || [], avertissements: [],
+      materiel: null, manipulationValeurs: [], manipulationResultats: [], rubriquesGelees: true,
       questions: reps.map(x => ({ code: x.code, competence: x.competence || "", enonce: x.enonce || "", reponse: x.reponse || "",
-        cotation: x.cotation_prof ?? x.cotation_ia, cotationIA: x.cotation_ia, signal: x.signal_ia, justification: x.justification || "" })),
+        cotation: x.cotation_prof ?? x.cotation_ia, cotationIA: x.cotation_ia, signal: x.signal_ia, justification: x.justification || "",
+        ...(estRubrique(x) ? { rubrique: true, facultatif: false, manuel: x.cotation_prof !== null && x.cotation_prof !== undefined } : {}) })),
       commentaireProf: r.commentaire_prof || "", commentaireNote: r.commentaire_note || "", analysePar: r.analyse_par || "",
       valide: r.statut === "valide", etat: "enregistrée", occupe: false
     });
