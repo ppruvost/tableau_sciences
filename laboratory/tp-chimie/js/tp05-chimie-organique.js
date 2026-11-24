@@ -133,7 +133,6 @@ const ALCOOLS_OXYDATION = [
         produitExces: { nom: "acide 3-méthylbutanoïque", formule: "(CH₃)₂CHCH₂COOH", famille: "acide carboxylique" }
     },
     {
-        // À COMMANDER : propan-2-ol absent du stock (aucun alcool secondaire disponible)
         id: "propan-2-ol",
         nom: "propan-2-ol",
         formule: "CH₃CHOHCH₃",
@@ -142,7 +141,6 @@ const ALCOOLS_OXYDATION = [
         produitExces: { nom: "propanone (acétone)", formule: "CH₃COCH₃", famille: "cétone" }
     },
     {
-        // À COMMANDER : 2-méthylpropan-2-ol absent du stock (aucun alcool tertiaire disponible)
         id: "methylpropan-2-ol",
         nom: "2-méthylpropan-2-ol (alcool tertiobutylique)",
         classe: "tertiaire",
@@ -158,7 +156,6 @@ const ALCOOLS_OXYDATION = [
    ========================================================== */
 
 const COMPOSES_FEHLING = [
-    // À COMMANDER : aucun aldéhyde en stock (éthanal, propanal) ; alternative : glucose
     { id: "ethanal",    nom: "éthanal",              famille: "aldéhyde", positif: true },
     { id: "propanal",   nom: "propanal",              famille: "aldéhyde", positif: true },
     { id: "propanone",  nom: "propanone (acétone)",   famille: "cétone",   positif: false },
