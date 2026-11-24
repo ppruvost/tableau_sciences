@@ -87,17 +87,17 @@ const CONTEXTES_PRO = {
    (chapitre "estérification / hydrolyse basique")
    ========================================================== */
 
+/* ADAPTATION AU STOCK (data/products.js) : seuls les produits présents au labo
+   sont proposés. Retirés car absents : acide méthanoïque, méthanol, propan-1-ol.
+   Disponibles : acides éthanoïque, propanoïque, butanoïque ; éthanol, alcool isoamylique. */
 const ACIDES = [
-    { id: "methanoique",  nom: "acide méthanoïque (formique)",  formule: "HCOOH",          radical: "méthanoate" },
     { id: "ethanoique",   nom: "acide éthanoïque (acétique)",   formule: "CH₃COOH",        radical: "éthanoate" },
     { id: "propanoique",  nom: "acide propanoïque (propionique)", formule: "CH₃CH₂COOH",   radical: "propanoate" },
     { id: "butanoique",   nom: "acide butanoïque (butyrique)",  formule: "CH₃CH₂CH₂COOH",  radical: "butanoate" }
 ];
 
 const ALCOOLS = [
-    { id: "methanol",     nom: "méthanol",                          formule: "CH₃OH",     radical: "méthyle" },
     { id: "ethanol",      nom: "éthanol",                           formule: "C₂H₅OH",    radical: "éthyle" },
-    { id: "propanol",     nom: "propan-1-ol",                       formule: "C₃H₇OH",    radical: "propyle" },
     { id: "isoamylique",  nom: "alcool isoamylique (3-méthylbutan-1-ol)", formule: "C₅H₁₁OH", radical: "isoamyle" }
 ];
 
@@ -105,11 +105,8 @@ const ALCOOLS = [
 const ODEURS_ESTERS = {
     "ethanoique-isoamylique": "banane",
     "ethanoique-ethanol": "solvant (type dissolvant à ongles)",
-    "ethanoique-propanol": "poire",
-    "butanoique-methanol": "pomme",
     "butanoique-ethanol": "ananas",
-    "propanoique-isoamylique": "pomme verte",
-    "methanoique-ethanol": "rhum"
+    "propanoique-isoamylique": "pomme verte"
 };
 
 /* ==========================================================
@@ -127,14 +124,16 @@ const ALCOOLS_OXYDATION = [
         produitExces: { nom: "acide éthanoïque", formule: "CH₃COOH", famille: "acide carboxylique" }
     },
     {
-        id: "propan-1-ol",
-        nom: "propan-1-ol",
-        formule: "CH₃CH₂CH₂OH",
+        // Substitution : propan-1-ol absent du stock -> alcool isoamylique (alcool primaire en stock)
+        id: "alcool-isoamylique",
+        nom: "alcool isoamylique (3-méthylbutan-1-ol)",
+        formule: "(CH₃)₂CHCH₂CH₂OH",
         classe: "primaire",
-        produitDefaut: { nom: "propanal", formule: "CH₃CH₂CHO", famille: "aldéhyde" },
-        produitExces: { nom: "acide propanoïque", formule: "CH₃CH₂COOH", famille: "acide carboxylique" }
+        produitDefaut: { nom: "3-méthylbutanal", formule: "(CH₃)₂CHCH₂CHO", famille: "aldéhyde" },
+        produitExces: { nom: "acide 3-méthylbutanoïque", formule: "(CH₃)₂CHCH₂COOH", famille: "acide carboxylique" }
     },
     {
+        // À COMMANDER : propan-2-ol absent du stock (aucun alcool secondaire disponible)
         id: "propan-2-ol",
         nom: "propan-2-ol",
         formule: "CH₃CHOHCH₃",
@@ -143,6 +142,7 @@ const ALCOOLS_OXYDATION = [
         produitExces: { nom: "propanone (acétone)", formule: "CH₃COCH₃", famille: "cétone" }
     },
     {
+        // À COMMANDER : 2-méthylpropan-2-ol absent du stock (aucun alcool tertiaire disponible)
         id: "methylpropan-2-ol",
         nom: "2-méthylpropan-2-ol (alcool tertiobutylique)",
         classe: "tertiaire",
@@ -158,10 +158,12 @@ const ALCOOLS_OXYDATION = [
    ========================================================== */
 
 const COMPOSES_FEHLING = [
+    // À COMMANDER : aucun aldéhyde en stock (éthanal, propanal) ; alternative : glucose
     { id: "ethanal",    nom: "éthanal",              famille: "aldéhyde", positif: true },
     { id: "propanal",   nom: "propanal",              famille: "aldéhyde", positif: true },
     { id: "propanone",  nom: "propanone (acétone)",   famille: "cétone",   positif: false },
-    { id: "butanone",   nom: "butanone",              famille: "cétone",   positif: false }
+    // Substitution : butanone absente du stock -> acétophénone (cétone en stock, test négatif)
+    { id: "acetophenone", nom: "acétophénone (1-phényléthanone)", famille: "cétone", positif: false }
 ];
 
 /* ==========================================================
