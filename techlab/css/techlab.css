@@ -29,6 +29,7 @@ a{color:var(--domaine-accent-fonce)}
 
 main{max-width:1100px;margin:0 auto;padding:2rem clamp(1rem,4vw,2rem) 3rem}
 h1{font-size:clamp(1.6rem,3.5vw,2.2rem);line-height:1.2;margin:0 0 .4rem;color:var(--domaine-accent-fonce)}
+h1+#app{margin-top:1.5rem}
 .sous-titre{margin:0 0 2rem;color:var(--texte-doux);max-width:62ch}
 
 .chimie{--domaine-accent:#1B6CA8;--domaine-accent-fonce:#0D4F8A}
@@ -83,21 +84,23 @@ th{background:#eaf3fb;color:var(--domaine-accent-fonce)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 @media print{
   @page{size:A4;margin:14mm 15mm}
+  html,body{height:auto!important;min-height:0!important;overflow:visible!important;margin:0!important;padding:0!important}
   body{background:#fff;font-size:11pt;line-height:1.45;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   /* En-tête normalisé TechLab (logo) conservé à l'impression ; seul le lien de retour disparaît */
   .entete{display:flex!important;padding:0 0 .6rem;margin:0 0 1rem;border-bottom:2px solid #1b6ca8;background:#fff}
-  .entete .retour,.barre,.actions,.panneau,.onglets{display:none!important}
+  .entete .retour,.barre,.actions,.panneau,.onglets,.message,.vide,.sous-titre,#zone-form{display:none!important}
   .logo-icone{width:38px;height:38px;font-size:1.1rem;background:#1b6ca8!important;color:#fff!important}
   .logo-texte{font-size:1.4rem}
-  .sous-titre{display:none}
-  main{max-width:none;padding:0}
-  h1{font-size:1.4rem;margin:0 0 .8rem}
-  body.impression-unique .doc:not(.cible){display:none}
-  /* La fiche peut se couper entre deux pages : plus de page blanche quand elle est longue */
-  .doc{border:1px solid #000;border-left:6px solid var(--domaine-accent);break-inside:auto;page-break-inside:auto;padding:.8rem 1rem}
+  main{max-width:none;margin:0;padding:0}
+  h1{font-size:1.4rem;margin:0 0 .8rem;break-after:avoid;page-break-after:avoid}
+  h1+#app{margin-top:0}
+  /* Seule la fiche imprimée occupe de la place : les autres sont retirées du flux (aucune page blanche) */
+  body.impression-unique .doc:not(.cible){display:none!important}
+  /* La fiche peut se couper entre deux pages ; aucune marge ni hauteur résiduelle après elle */
+  .doc{border:1px solid #000;border-left:6px solid var(--domaine-accent);break-inside:auto;page-break-inside:auto;padding:.8rem 1rem;margin:0;box-shadow:none}
   .doc h3{break-after:avoid;page-break-after:avoid}
-  .doc details{display:block}.doc details>summary{display:none}
-  .doc pre{font-size:10.5pt;line-height:1.45;orphans:3;widows:3}
+  .doc details{display:block;margin:.4rem 0 0}.doc details>summary{display:none}
+  .doc pre{font-size:10.5pt;line-height:1.45;orphans:3;widows:3;margin:.4rem 0 0}
 }
 
 /* ===== Accueil : mêmes cartes que l'index de MathiLab (.tp-title, .tp-grid, .tp-card, outil rond) ===== */
