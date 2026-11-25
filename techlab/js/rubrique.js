@@ -76,26 +76,38 @@ function afficherListe() {
   liste.replaceChildren(...(filtres.length ? filtres.map(carte) : [el("p", { className: "vide", textContent: docs.length ? "Aucun résultat pour cette recherche." : (lecture ? "Rien ici pour l’instant." : "Rien ici pour l’instant. Utilisez « Ajouter » pour créer le premier document.") })]));
 }
 
-// Nom du PDF = titre de l’onglet au moment de l’impression : « TechLab_titre », titre condensé à 10 caractères max
-// (accents retirés, mots vides ignorés, initiales en majuscule). Ex. « Bain à ultrasons : solution de nettoyage » → TechLab_BainUltras
+// Nom du PDF = titre de l’onglet au moment de l’impression : « TechLab_titre_idXXXXX ».
+// titre = titre condensé à 10 caractères max (accents retirés, mots vides ignorés, initiales en majuscule) ;
+// XXXXX = 5 caractères de l’identifiant du document dans Supabase (uuid : 5 premiers caractères ; nombre : 5 derniers chiffres).
+// Ex. « Bain à ultrasons : solution de nettoyage » (id 42) → TechLab_BainUltras_id00042
 const TITRE_PAGE = document.title;
 const MOTS_VIDES = new Set(["de", "du", "des", "la", "le", "les", "un", "une", "a", "au", "aux", "et", "en", "pour", "sur", "d", "l"]);
-function nomFichier(titre) {
-  const mots = titre.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(/[^A-Za-z0-9]+/)
+function titreCourt(titre) {
+  const mots = String(titre).normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(/[^A-Za-z0-9]+/)
     .filter((m) => m && !MOTS_VIDES.has(m.toLowerCase()));
-  const court = mots.map((m) => m[0].toUpperCase() + m.slice(1)).join("").slice(0, 10);
-  return "TechLab_" + (court || "Document");
+  return mots.map((m) => m[0].toUpperCase() + m.slice(1)).join("").slice(0, 10) || "Document";
+}
+function codeId(id) {
+  const brut = String(id ?? "").replace(/[^A-Za-z0-9]/g, "");
+  if (!brut) return "00000";
+  return /^\d+$/.test(brut) ? brut.padStart(5, "0").slice(-5) : brut.slice(0, 5);
+}
+function nomFichier(d) {
+  return "TechLab_" + titreCourt(d.titre) + "_id" + codeId(d.id);
 }
 
 function imprimer(article, d) {
   article.querySelector("details").open = true;
   document.body.classList.add("impression-unique");
   article.classList.add("cible");
-  document.title = nomFichier(d.titre);
-  window.addEventListener("afterprint", () => { document.title = TITRE_PAGE; }, { once: true });
+  document.title = nomFichier(d);
+  const nettoyer = () => {
+    document.title = TITRE_PAGE;
+    article.classList.remove("cible");
+    document.body.classList.remove("impression-unique");
+  };
+  window.addEventListener("afterprint", nettoyer, { once: true });
   window.print();
-  article.classList.remove("cible");
-  document.body.classList.remove("impression-unique");
 }
 
 async function supprimer(d) {
