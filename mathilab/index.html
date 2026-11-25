@@ -17,6 +17,7 @@
   <style>
     .tp-card.mlds.dys:not(:hover):not(:focus-visible) { background: #1D6F7A; }
   </style>
+
 </head>
 
 <body>
@@ -26,6 +27,19 @@
 
     <!-- ====== PAGE ACCUEIL ====== -->
     <div id="tp-home" class="section active">
+
+      <!-- Logo d'accueil MathiLab -->
+      <header class="lab-welcome" aria-label="Bienvenue dans MathiLab">
+        <div class="lab-welcome__icone" aria-hidden="true">
+          <!-- Pictogramme : symbole somme Σ -->
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="M18 4H6v2l6.5 6L6 18v2h12v-3h-7.5l5-5-5-5H18V4z"/>
+          </svg>
+        </div>
+        <p class="lab-welcome__texte">Bienvenue dans</p>
+        <p class="lab-welcome__logo">Mathi<span>Lab</span></p>
+      </header>
+
       <h1 class="tp-title">Choisir un domaine</h1>
 
       <div class="tp-grid">
