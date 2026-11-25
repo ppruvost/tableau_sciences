@@ -11,6 +11,54 @@
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+
+  <!-- Écran d'accueil : pastille + « Bienvenue dans » + logo sur plaque noire
+       (même style que PyLab). Peut être déplacé dans style.css. -->
+  <style>
+    .lab-welcome {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      margin: 24px auto 28px;
+      text-align: center;
+    }
+    .lab-welcome__icone {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: #4169e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 22px rgba(65, 105, 225, 0.35);
+    }
+    .lab-welcome__icone svg {
+      width: 52px;
+      height: 52px;
+      fill: #fff;
+    }
+    .lab-welcome__texte {
+      margin: 0;
+      font-size: 1.35rem;
+      color: #3d5a80;
+    }
+    .lab-welcome__logo {
+      margin: 0;
+      padding: 10px 28px 14px;
+      background: #060606;
+      border-radius: 8px;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+      font-family: "Arial Black", "Inter", "Segoe UI", Arial, sans-serif;
+      font-weight: 900;
+      font-size: clamp(2.6rem, 8vw, 4.2rem);
+      line-height: 1;
+      letter-spacing: -0.045em;
+      color: #fff;
+    }
+    .lab-welcome__logo span { color: #e31b2d; }
+    @media print { .lab-welcome { display: none; } }
+  </style>
 </head>
 
 <body>
@@ -56,6 +104,19 @@
 
     <!-- ====== PAGE ACCUEIL ====== -->
     <div id="tp-home" class="section active">
+
+      <!-- Logo d'accueil SciLab -->
+      <header class="lab-welcome" aria-label="Bienvenue dans SciLab">
+        <div class="lab-welcome__icone" aria-hidden="true">
+          <!-- Pictogramme : fiole d'Erlenmeyer -->
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="M9 2h6v2h-1v5.2l5.6 9.3A2 2 0 0 1 17.9 21H6.1a2 2 0 0 1-1.7-2.5L10 9.2V4H9V2zm2.5 7.6L8.3 15h7.4l-3.2-5.4V4h-1v5.6z"/>
+          </svg>
+        </div>
+        <p class="lab-welcome__texte">Bienvenue dans</p>
+        <p class="lab-welcome__logo">Sci<span>Lab</span></p>
+      </header>
+
       <h1 class="tp-title">Choisir un domaine de TP</h1>
 
       <div class="tp-grid">
